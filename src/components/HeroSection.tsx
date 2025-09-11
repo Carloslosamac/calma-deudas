@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUp } from "lucide-react";
 
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
+  const [typewriterText, setTypewriterText] = useState("");
+  
+  const fullTypewriterText = "Gratis, rápido y sin compromiso.";
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const timer = setInterval(() => {
+      if (currentIndex <= fullTypewriterText.length) {
+        setTypewriterText(fullTypewriterText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const suggestions = [
     "Panel de Reportes",
@@ -23,9 +40,15 @@ const HeroSection = () => {
             <div className="-mt-2">Ahora mismo.</div>
           </h1>
           
-          <p className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
-            Calma analiza tu situación financiera y te propone una solución adaptada en minutos. Gratis, rápido y sin compromiso.
-          </p>
+          <div className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
+            <p className="mb-2">
+              Calma analiza tu situación financiera y te propone una solución adaptada en minutos.
+            </p>
+            <p className="text-accent font-medium">
+              {typewriterText}
+              <span className="animate-pulse">|</span>
+            </p>
+          </div>
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl border border-white/20">
             <div className="flex items-center gap-4 mb-6">
