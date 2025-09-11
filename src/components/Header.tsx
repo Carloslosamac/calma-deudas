@@ -6,7 +6,7 @@ const Header = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between bg-background/80 backdrop-blur-md border border-border rounded-full px-6 py-4 shadow-lg">
         <div className="flex items-center">
           <img 
-            src="/lovable-uploads/c0e6ae2e-3d7c-4e29-b6d1-3f6bfea7841c.png" 
+            src="/lovable-uploads/51c821dd-bacb-426f-8855-2ad262521efc.png" 
             alt="Calma Logo" 
             className="h-8"
           />
