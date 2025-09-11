@@ -32,7 +32,7 @@ All colors MUST be HSL.
     --orange: 25 95% 60%;
     --orange-foreground: 0 0% 100%;
 
-    --gradient-hero: linear-gradient(45deg, hsl(210 60% 88%), hsl(220 50% 82%), hsl(200 40% 85%), hsl(210 60% 90%));
+    --gradient-hero: linear-gradient(45deg, hsl(210 80% 70%), hsl(220 70% 65%), hsl(200 60% 68%), hsl(210 80% 72%));
     --gradient-card: linear-gradient(180deg, hsla(0 0% 100% / 0.5), hsla(0 0% 100% / 0.3));
 
     --destructive: 0 84% 60%;
