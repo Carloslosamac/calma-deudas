@@ -53,14 +53,6 @@ const HeroSection = () => {
     "Perdonar mis deudas"
   ];
 
-  const suggestionColors = [
-    "bg-blue-100/70 text-blue-800 border-blue-200/50 hover:bg-blue-200/70",
-    "bg-green-100/70 text-green-800 border-green-200/50 hover:bg-green-200/70", 
-    "bg-purple-100/70 text-purple-800 border-purple-200/50 hover:bg-purple-200/70",
-    "bg-orange-100/70 text-orange-800 border-orange-200/50 hover:bg-orange-200/70",
-    "bg-rose-100/70 text-rose-800 border-rose-200/50 hover:bg-rose-200/70"
-  ];
-
   return (
     <section className="relative min-h-screen bg-gradient-hero pt-24">
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
@@ -106,7 +98,7 @@ const HeroSection = () => {
                   <button
                     key={index}
                     onClick={() => setPrompt(suggestion)}
-                    className={`px-4 py-2 rounded-full text-sm transition-colors border ${suggestionColors[index]}`}
+                    className="px-4 py-2 rounded-full bg-white/50 text-sm text-foreground/80 hover:bg-white/70 transition-colors border border-white/30"
                   >
                     {suggestion}
                   </button>
