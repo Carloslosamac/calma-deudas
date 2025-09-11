@@ -24,9 +24,7 @@ const HeroSection = () => {
           </h1>
           
           <p className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
-            Base44 te permite crear aplicaciones completamente funcionales en minutos con solo tus palabras.{" "}
-            <br />
-            Sin necesidad de programar.
+            Calma analiza tu situación financiera y te propone una solución adaptada en minutos. Gratis, rápido y sin compromiso.
           </p>
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl border border-white/20">
