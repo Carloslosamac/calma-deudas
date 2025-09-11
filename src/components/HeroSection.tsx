@@ -93,7 +93,7 @@ const HeroSection = () => {
               <p className="text-sm text-foreground/70 mb-3">
                 ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 justify-between">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
