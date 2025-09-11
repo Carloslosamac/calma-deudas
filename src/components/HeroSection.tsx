@@ -75,7 +75,7 @@ const HeroSection = () => {
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl border border-white/20">
             <div className="flex items-center gap-4 mb-6">
               <Input
-                placeholder="¿Qué quieres crear?"
+                placeholder="¿Cómo puedo ayudarte con las deudas?"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 className="flex-1 h-14 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange"
