@@ -98,7 +98,7 @@ const HeroSection = () => {
                   <button
                     key={index}
                     onClick={() => setPrompt(suggestion)}
-                    className="px-4 py-2 rounded-full bg-white/50 text-sm text-foreground/80 hover:bg-white/70 transition-colors border border-white/30"
+                    className="px-4 py-2 rounded-full bg-white/50 text-xs text-foreground/80 hover:bg-white/70 transition-colors border border-white/30"
                   >
                     {suggestion}
                   </button>
