@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 const Header = () => {
   return (
     <header className="fixed top-4 left-4 right-4 z-50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between bg-background/80 backdrop-blur-md border border-border rounded-full px-6 py-4 shadow-lg">
+      <div className="mx-auto flex max-w-7xl items-center justify-between bg-card backdrop-blur-md border border-border rounded-full px-6 py-4 shadow-lg">
         <div className="flex items-center">
           <img 
             src="/lovable-uploads/51c821dd-bacb-426f-8855-2ad262521efc.png" 
