@@ -19,10 +19,8 @@ const HeroSection = () => {
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
           <h1 className="mb-8 text-5xl md:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
-            Hagamos tu sueño una{" "}
-            <span className="text-accent">realidad.</span>
-            <br />
-            Ahora mismo.
+            Te ayudamos a vivir{" "}
+            <span className="text-accent">"sin deudas"</span>
           </h1>
           
           <p className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
