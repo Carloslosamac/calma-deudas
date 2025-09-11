@@ -70,7 +70,15 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-24" style={{ backgroundSize: '200% 200%' }}>
+    <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-24 overflow-hidden" style={{ backgroundSize: '200% 200%' }}>
+      {/* Floating Clouds */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="cloud cloud-1"></div>
+        <div className="cloud cloud-2"></div>
+        <div className="cloud cloud-3"></div>
+        <div className="cloud cloud-4"></div>
+        <div className="cloud cloud-5"></div>
+      </div>
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
           <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
