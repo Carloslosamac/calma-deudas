@@ -12,23 +12,26 @@ const Header = () => {
           />
         </div>
         
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Producto
+        <nav className="hidden md:flex items-center gap-6">
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+            Ley de Segunda Oportunidad
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Recursos
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+            Renegociación de Deudas
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Precios
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+            Refinanciación de Préstamos
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Empresa
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+            Asesoramiento Personalizado
+          </a>
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+            Recursos y Guías
           </a>
         </nav>
 
         <Button variant="orange" className="rounded-full px-6">
-          Empezar a Crear
+          Encuentra tu solución
         </Button>
       </div>
     </header>
