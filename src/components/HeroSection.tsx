@@ -15,7 +15,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen bg-gradient-hero">
+    <section className="relative min-h-screen bg-gradient-hero pt-24">
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
           <h1 className="mb-8 text-5xl md:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
