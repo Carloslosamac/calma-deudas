@@ -20,7 +20,7 @@ const HeroSection = () => {
         <div className="text-center">
           <h1 className="mb-8 text-5xl md:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
             Te ayudamos a vivir{" "}
-            <span className="text-accent">sin deudas</span>
+            <span className="text-accent">sin deudas.</span>
             <br />
             Ahora mismo.
           </h1>
