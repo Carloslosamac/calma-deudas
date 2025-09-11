@@ -93,12 +93,12 @@ const HeroSection = () => {
               <p className="text-sm text-foreground/70 mb-3">
                 ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-2">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => setPrompt(suggestion)}
-                    className="px-4 py-2 rounded-full bg-white/50 text-sm text-foreground/80 hover:bg-white/70 transition-colors border border-white/30"
+                    className="px-4 py-2 rounded-full bg-white/50 text-sm text-foreground/80 hover:bg-white/70 transition-colors border border-white/30 whitespace-nowrap flex-shrink-0"
                   >
                     {suggestion}
                   </button>
