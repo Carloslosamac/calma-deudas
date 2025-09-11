@@ -32,8 +32,7 @@ All colors MUST be HSL.
     --orange: 25 95% 60%;
     --orange-foreground: 0 0% 100%;
 
-    --gradient-hero: linear-gradient(-45deg, hsl(0 0% 98%), hsl(25 95% 92%), hsl(0 0% 96%), hsl(25 95% 88%));
-    --gradient-hero-animated: linear-gradient(-45deg, hsl(0 0% 98%) 0%, hsl(25 95% 92%) 25%, hsl(0 0% 96%) 50%, hsl(25 95% 88%) 75%, hsl(0 0% 98%) 100%);
+    --gradient-hero: linear-gradient(-45deg, hsl(0 0% 98%), hsl(84 100% 65% / 0.3), hsl(0 0% 100%), hsl(84 100% 65% / 0.2));
     --gradient-card: linear-gradient(180deg, hsla(0 0% 100% / 0.5), hsla(0 0% 100% / 0.3));
 
     --destructive: 0 84% 60%;
@@ -112,30 +111,13 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  .gradient-hero-moving {
-    background: var(--gradient-hero-animated);
+  .bg-gradient-hero {
+    background: linear-gradient(-45deg, hsl(0 0% 98%), hsl(84 100% 65% / 0.3), hsl(0 0% 100%), hsl(84 100% 65% / 0.2));
     background-size: 400% 400%;
-    animation: gradient-move 8s ease infinite;
-    position: relative;
+    animation: gradient 15s ease infinite;
   }
-  
-  .gradient-hero-moving::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.8) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.6) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(25,95,60,0.1) 0%, transparent 50%);
-    background-size: 100px 100px, 150px 150px, 200px 200px;
-    opacity: 0.3;
-    pointer-events: none;
-  }
-  
-  @keyframes gradient-move {
+
+  @keyframes gradient {
     0% {
       background-position: 0% 50%;
     }
