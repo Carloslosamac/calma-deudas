@@ -79,7 +79,7 @@ const HeroSection = () => {
         <div className="cloud cloud-4"></div>
         <div className="cloud cloud-5"></div>
       </div>
-      <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
+      <div className="mx-auto max-w-4xl px-6 pt-20 pb-32 relative z-10">
         <div className="text-center">
           <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
             <div className="whitespace-nowrap">Te ayudamos a vivir <span className="text-accent">sin deudas.</span></div>

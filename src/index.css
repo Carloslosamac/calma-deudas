@@ -114,8 +114,9 @@ All colors MUST be HSL.
     position: absolute;
     background: white;
     border-radius: 50px;
-    opacity: 0.8;
-    animation: float-clouds 20s infinite linear;
+    opacity: 0.4;
+    z-index: 1;
+    animation: float-clouds 45s infinite linear;
   }
 
   .cloud:before,
@@ -153,8 +154,8 @@ All colors MUST be HSL.
     height: 30px;
     top: 10%;
     left: -100px;
-    animation-delay: -8s;
-    opacity: 0.6;
+    animation-delay: -18s;
+    opacity: 0.3;
   }
 
   .cloud-2:before {
@@ -176,8 +177,8 @@ All colors MUST be HSL.
     height: 50px;
     top: 30%;
     left: -140px;
-    animation-delay: -15s;
-    opacity: 0.7;
+    animation-delay: -33s;
+    opacity: 0.35;
   }
 
   .cloud-3:before {
@@ -199,8 +200,8 @@ All colors MUST be HSL.
     height: 35px;
     top: 40%;
     left: -110px;
-    animation-delay: -5s;
-    opacity: 0.5;
+    animation-delay: -12s;
+    opacity: 0.25;
   }
 
   .cloud-4:before {
@@ -222,8 +223,8 @@ All colors MUST be HSL.
     height: 45px;
     top: 15%;
     left: -130px;
-    animation-delay: -12s;
-    opacity: 0.6;
+    animation-delay: -27s;
+    opacity: 0.3;
   }
 
   .cloud-5:before {
