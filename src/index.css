@@ -32,7 +32,7 @@ All colors MUST be HSL.
     --orange: 25 95% 60%;
     --orange-foreground: 0 0% 100%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(270 50% 80%), hsl(320 40% 85%), hsl(25 80% 70%));
+    --gradient-hero: linear-gradient(-45deg, hsl(0 0% 98%), hsl(84 100% 65% / 0.3), hsl(0 0% 100%), hsl(84 100% 65% / 0.2));
     --gradient-card: linear-gradient(180deg, hsla(0 0% 100% / 0.5), hsla(0 0% 100% / 0.3));
 
     --destructive: 0 84% 60%;
@@ -107,5 +107,25 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-hero {
+    background: linear-gradient(-45deg, hsl(0 0% 98%), hsl(84 100% 65% / 0.3), hsl(0 0% 100%), hsl(84 100% 65% / 0.2));
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }
