@@ -6,10 +6,10 @@ const FeatureSection = () => {
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            Consider yourself limitless.
+            Considérate sin límites.
           </h2>
           <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
-            If you can describe it, you can build it.
+            Si puedes describirlo, puedes crearlo.
           </p>
         </div>
 
@@ -21,13 +21,13 @@ const FeatureSection = () => {
               </div>
             </div>
             <h3 className="text-xl font-semibold mb-3 text-foreground">
-              Create at the speed of thought
+              Crea a la velocidad del pensamiento
             </h3>
             <p className="text-foreground/70 mb-4">
-              Tell Base44 your idea, and watch it transform into a working app—complete with all the necessary components, pages, flows and features.
+              Cuéntale tu idea a Base44 y observa cómo se transforma en una aplicación funcional—completa con todos los componentes, páginas, flujos y características necesarias.
             </p>
             <Button variant="outline" className="rounded-full">
-              Start building
+              Empezar a crear
             </Button>
           </div>
 
@@ -38,13 +38,13 @@ const FeatureSection = () => {
               </div>
             </div>
             <h3 className="text-xl font-semibold mb-3 text-foreground">
-              Beautiful by design
+              Hermoso por diseño
             </h3>
             <p className="text-foreground/70 mb-4">
-              Every app comes with polished UI components and responsive design that looks great on any device.
+              Cada aplicación viene con componentes de interfaz pulidos y diseño responsivo que se ve genial en cualquier dispositivo.
             </p>
             <Button variant="outline" className="rounded-full">
-              Explore designs
+              Explorar diseños
             </Button>
           </div>
 
@@ -55,13 +55,13 @@ const FeatureSection = () => {
               </div>
             </div>
             <h3 className="text-xl font-semibold mb-3 text-foreground">
-              Deploy instantly
+              Despliega al instante
             </h3>
             <p className="text-foreground/70 mb-4">
-              Your app is production-ready from day one. Deploy with a single click to share with the world.
+              Tu aplicación está lista para producción desde el primer día. Despliega con un solo clic para compartir con el mundo.
             </p>
             <Button variant="outline" className="rounded-full">
-              Learn more
+              Saber más
             </Button>
           </div>
         </div>

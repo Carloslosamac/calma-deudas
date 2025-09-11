@@ -13,21 +13,21 @@ const Header = () => {
         
         <nav className="hidden md:flex items-center gap-8">
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Product
+            Producto
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Resources
+            Recursos
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Pricing
+            Precios
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">
-            Enterprise
+            Empresa
           </a>
         </nav>
 
         <Button variant="orange" className="rounded-full px-6">
-          Start Building
+          Empezar a Crear
         </Button>
       </div>
     </header>

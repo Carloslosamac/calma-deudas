@@ -7,11 +7,11 @@ const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
 
   const suggestions = [
-    "Reporting Dashboard",
-    "Gaming Platform", 
-    "Onboarding Portal",
-    "Networking App",
-    "Room Visualizer"
+    "Panel de Reportes",
+    "Plataforma de Juegos", 
+    "Portal de Integración",
+    "App de Networking",
+    "Visualizador de Habitaciones"
   ];
 
   return (
@@ -19,22 +19,22 @@ const HeroSection = () => {
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
           <h1 className="mb-8 text-5xl md:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
-            Let's make your dream a{" "}
-            <span className="text-accent">reality.</span>
+            Hagamos tu sueño una{" "}
+            <span className="text-accent">realidad.</span>
             <br />
-            Right now.
+            Ahora mismo.
           </h1>
           
           <p className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
-            Base44 lets you build fully-functional apps in minutes with just your words.{" "}
+            Base44 te permite crear aplicaciones completamente funcionales en minutos con solo tus palabras.{" "}
             <br />
-            No coding necessary.
+            Sin necesidad de programar.
           </p>
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl border border-white/20">
             <div className="flex items-center gap-4 mb-6">
               <Input
-                placeholder="What do you want to build?"
+                placeholder="¿Qué quieres crear?"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 className="flex-1 h-14 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange"
@@ -50,7 +50,7 @@ const HeroSection = () => {
 
             <div className="text-left">
               <p className="text-sm text-foreground/70 mb-3">
-                Not sure where to start? Try one of these:
+                ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
               <div className="flex flex-wrap gap-2">
                 {suggestions.map((suggestion, index) => (
@@ -72,7 +72,7 @@ const HeroSection = () => {
               <div className="h-8 w-8 rounded-full bg-accent border-2 border-white"></div>
               <div className="h-8 w-8 rounded-full bg-primary border-2 border-white"></div>
             </div>
-            <span className="text-sm">Trusted by 400K+ users</span>
+            <span className="text-sm">Confiado por más de 400K usuarios</span>
           </div>
         </div>
       </div>
