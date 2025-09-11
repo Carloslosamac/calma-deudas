@@ -14,19 +14,16 @@ const Header = () => {
         
         <nav className="hidden md:flex items-center gap-6">
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
-            Ley de Segunda Oportunidad
+            Segunda Oportunidad
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
-            Renegociación de Deudas
+            Renegociación
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
-            Refinanciación de Préstamos
+            Refinanciación
           </a>
           <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
-            Asesoramiento Personalizado
-          </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
-            Recursos y Guías
+            Guías
           </a>
         </nav>
 
