@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUp } from "lucide-react";
@@ -6,10 +6,12 @@ import { ArrowUp } from "lucide-react";
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
   const [typewriterText, setTypewriterText] = useState("");
+  const typewriterRef = useRef<HTMLParagraphElement>(null);
   
   const fullTypewriterText = "Gratis, rápido y sin compromiso.";
 
-  useEffect(() => {
+  const startTypewriter = () => {
+    setTypewriterText("");
     let currentIndex = 0;
     const timer = setInterval(() => {
       if (currentIndex <= fullTypewriterText.length) {
@@ -19,8 +21,28 @@ const HeroSection = () => {
         clearInterval(timer);
       }
     }, 100);
+    return timer;
+  };
 
-    return () => clearInterval(timer);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startTypewriter();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (typewriterRef.current) {
+      observer.observe(typewriterRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const suggestions = [
@@ -44,7 +66,7 @@ const HeroSection = () => {
             <p className="mb-2">
               Calma analiza tu situación financiera y te propone una solución adaptada en minutos.
             </p>
-            <p className="text-accent font-medium">
+            <p ref={typewriterRef} className="text-foreground/80">
               {typewriterText}
               <span className="animate-pulse">|</span>
             </p>
