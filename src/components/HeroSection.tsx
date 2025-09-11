@@ -20,8 +20,7 @@ const HeroSection = () => {
         <div className="text-center">
           <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
             <div className="whitespace-nowrap">Te ayudamos a vivir <span className="text-accent">sin deudas.</span></div>
-            <br />
-            Ahora mismo.
+            <div className="-mt-2">Ahora mismo.</div>
           </h1>
           
           <p className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
