@@ -18,8 +18,8 @@ const HeroSection = () => {
     <section className="relative min-h-screen bg-gradient-hero pt-24">
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
-          <h1 className="mb-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide text-center">
-            <span className="whitespace-nowrap">Te ayudamos a vivir <span className="text-accent">sin deudas.</span></span>
+          <h1 className="mb-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
+            Te ayudamos a vivir <span className="text-accent">sin deudas.</span>
             <br />
             Ahora mismo.
           </h1>
