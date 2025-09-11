@@ -6,22 +6,34 @@ import { ArrowUp } from "lucide-react";
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
   const [typewriterText, setTypewriterText] = useState("");
+  const [hasAnimated, setHasAnimated] = useState(false);
   const typewriterRef = useRef<HTMLParagraphElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   
   const fullTypewriterText = "Gratis, rápido y sin compromiso.";
 
   const startTypewriter = () => {
+    if (hasAnimated) return;
+    
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    
     setTypewriterText("");
     let currentIndex = 0;
-    const timer = setInterval(() => {
+    timerRef.current = setInterval(() => {
       if (currentIndex <= fullTypewriterText.length) {
         setTypewriterText(fullTypewriterText.slice(0, currentIndex));
         currentIndex++;
       } else {
-        clearInterval(timer);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+        setHasAnimated(true);
       }
     }, 100);
-    return timer;
   };
 
   useEffect(() => {
@@ -42,6 +54,10 @@ const HeroSection = () => {
 
     return () => {
       observer.disconnect();
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
   }, []);
 
