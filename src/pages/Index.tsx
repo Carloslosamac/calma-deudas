@@ -4,7 +4,7 @@ import FeatureSection from "@/components/FeatureSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen ml-80">
+    <div className="min-h-screen">
       <Header />
       <HeroSection />
       <FeatureSection />
