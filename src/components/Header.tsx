@@ -12,17 +12,17 @@ const Header = () => {
           />
         </div>
         
-        <nav className="hidden md:flex items-center gap-6">
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+        <nav className="hidden md:flex items-center gap-8">
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-base">
             Segunda Oportunidad
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-base">
             Renegociación
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-base">
             Refinanciación
           </a>
-          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-sm">
+          <a href="#" className="text-foreground/80 hover:text-foreground transition-colors text-base">
             Guías
           </a>
         </nav>
