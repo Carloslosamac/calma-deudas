@@ -18,7 +18,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen bg-gradient-hero">
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32">
         <div className="text-center">
-          <h1 className="mb-8 text-5xl md:text-7xl font-black leading-[0.9] text-foreground font-inter tracking-tight">
+          <h1 className="mb-8 text-5xl md:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
             Let's make your dream a{" "}
             <span className="text-accent">reality.</span>
             <br />

@@ -62,8 +62,8 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
       },
       fontFamily: {
-        'inter': ['Inter', 'sans-serif'],
-        'sans': ['Inter', 'sans-serif'],
+        'poppins': ['Poppins', 'sans-serif'],
+        'sans': ['Poppins', 'sans-serif'],
       },
       },
       backgroundImage: {
