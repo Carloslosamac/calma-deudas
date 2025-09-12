@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUp } from "lucide-react";
+import avatar1 from "@/assets/avatar-1.jpg";
+import avatar2 from "@/assets/avatar-2.jpg";
+import avatar3 from "@/assets/avatar-3.jpg";
 
 const HeroSection = () => {
   const [prompt, setPrompt] = useState("");
@@ -125,9 +128,9 @@ const HeroSection = () => {
 
           <div className="flex items-center justify-center gap-3 text-foreground/70">
             <div className="flex -space-x-2">
-              <div className="h-8 w-8 rounded-full bg-orange border-2 border-white"></div>
-              <div className="h-8 w-8 rounded-full bg-accent border-2 border-white"></div>
-              <div className="h-8 w-8 rounded-full bg-primary border-2 border-white"></div>
+              <img src={avatar1} alt="User avatar" className="h-8 w-8 rounded-full border-2 border-white object-cover" />
+              <img src={avatar2} alt="User avatar" className="h-8 w-8 rounded-full border-2 border-white object-cover" />
+              <img src={avatar3} alt="User avatar" className="h-8 w-8 rounded-full border-2 border-white object-cover" />
             </div>
             <span className="text-sm">Confiado por más de 400K usuarios</span>
           </div>
