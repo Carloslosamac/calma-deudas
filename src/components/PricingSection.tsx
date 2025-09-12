@@ -10,7 +10,7 @@ const PricingSection = () => {
           <div className="text-white">
             <h2 className="text-4xl md:text-5xl font-medium mb-6" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Consulta gratuita para{" "}
-              <span className="text-orange-500">toda necesidad</span>
+              <span className="text-green-500">toda necesidad</span>
             </h2>
             <p className="text-lg text-white/80 leading-relaxed">
               Comienza tu camino hacia la libertad financiera sin ningún costo inicial. 
@@ -32,31 +32,31 @@ const PricingSection = () => {
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Análisis completo de tu situación financiera</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Identificación de estrategias legales aplicables</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Plan personalizado de liberación de deudas</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Acompañamiento durante todo el proceso</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Sin costos ocultos ni sorpresas</span>
@@ -69,7 +69,7 @@ const PricingSection = () => {
 
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-500">
-                  ✨ Solo cobramos cuando recuperas tu dinero
+                  ✨ No te cobraremos nada
                 </p>
               </div>
             </div>
