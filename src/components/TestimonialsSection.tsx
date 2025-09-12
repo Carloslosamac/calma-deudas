@@ -89,7 +89,7 @@ const TestimonialsSection = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-yellow-50 overflow-hidden">
       <div className="text-center mb-16 px-6">
-        <h2 className="text-4xl md:text-5xl font-medium mb-4 text-foreground">
+        <h2 className="text-4xl md:text-5xl font-medium mb-4 text-foreground font-poppins">
           "Okay, @base_44 has <span className="text-orange-500">blown my mind</span>."
         </h2>
         <p className="text-lg text-foreground/70 mb-8">
