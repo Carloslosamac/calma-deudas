@@ -3,58 +3,58 @@ import { Button } from "@/components/ui/button";
 const testimonials = [
   {
     id: 1,
-    name: "Bast of Philosophy",
-    handle: "@BofPhilosophyQ",
-    text: "Base44 looks perfect for founders who want to build fast without...",
+    name: "María González",
+    handle: "@mariag_libre",
+    text: "Calma me ayudó a salir de una deuda de €35,000. En 8 meses estaba completamente libre de deudas.",
     avatar: "/src/assets/avatar-1.jpg"
   },
   {
     id: 2,
-    name: "Hasan Toor",
-    handle: "@hasantowr",
-    text: "You can now build a full AI app without writing any code. This to...",
+    name: "Carlos Ruiz",
+    handle: "@carlosruiz",
+    text: "Pensé que nunca saldría del agujero financiero. Gracias a Calma pude renegociar todas mis deudas.",
     avatar: "/src/assets/avatar-2.jpg"
   },
   {
     id: 3,
-    name: "Maria Martin",
-    handle: "@marias_martin",
-    text: "Okay, Base44 has blown my mind 🤯. No iterations, no changes,...",
+    name: "Laura Martín",
+    handle: "@laura_martin",
+    text: "La Ley de Segunda Oportunidad me devolvió la esperanza. Calma me guió en cada paso del proceso.",
     avatar: "/src/assets/avatar-3.jpg"
   },
   {
     id: 4,
-    name: "John Developer",
-    handle: "@johndev",
-    text: "Just built my first app in minutes! The AI understands exactly what I want.",
+    name: "Roberto Silva",
+    handle: "@robertosilva",
+    text: "Logré cancelar el 70% de mis deudas siguiendo el plan personalizado que me creó Calma.",
     avatar: "/src/assets/avatar-1.jpg"
   },
   {
     id: 5,
-    name: "Ariel MI",
-    handle: "@arielmi",
-    text: "Amazing understanding of the user needs and thorough handli...",
+    name: "Ana Jiménez",
+    handle: "@anajimenez",
+    text: "Increíble cómo analizaron mi situación y encontraron deudas prescritas que ni sabía que tenía.",
     avatar: "/src/assets/avatar-2.jpg"
   },
   {
     id: 6,
-    name: "Thatweb3guy",
-    handle: "@myfootyfantasy",
-    text: "@MS_BASE44 @base_44 I gave it a try and I must to be truthful, it...",
+    name: "Miguel Torres",
+    handle: "@migueltorres",
+    text: "En solo 3 meses pasé de deber €28,000 a tener un plan claro para mi libertad financiera.",
     avatar: "/src/assets/avatar-3.jpg"
   },
   {
     id: 7,
-    name: "Roy Kotzer",
-    handle: "@roykotzer",
-    text: "Start building in minutes. See results immediately. Great!",
+    name: "Patricia Vega",
+    handle: "@patriciavega",
+    text: "El acompañamiento es excepcional. Nunca me sentí sola durante todo el proceso de liberación.",
     avatar: "/src/assets/avatar-1.jpg"
   },
   {
     id: 8,
-    name: "FastBuilder",
-    handle: "@fastbuild",
-    text: "Faster than I ever imagined. The backend is automatically generated!",
+    name: "Javier López",
+    handle: "@javierlopez",
+    text: "Rápido, eficaz y sin sorpresas. Calma cumplió todo lo que me prometió desde el primer día.",
     avatar: "/src/assets/avatar-2.jpg"
   }
 ];
@@ -90,13 +90,13 @@ const TestimonialsSection = () => {
     <section className="py-20 bg-gradient-to-b from-green-50 to-yellow-50 overflow-hidden">
       <div className="text-center mb-16 px-6">
         <h2 className="text-4xl md:text-5xl font-medium mb-4 text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-          "Okay, @base_44 has <span className="text-orange-500">blown my mind</span>."
+          "Calma me <span className="text-orange-500">cambió la vida</span>."
         </h2>
         <p className="text-lg text-foreground/70 mb-8">
-          And other great things our users say about us.
+          Historias reales de personas que recuperaron su libertad financiera.
         </p>
         <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
-          Start building
+          Comenzar mi liberación
         </Button>
       </div>
 
