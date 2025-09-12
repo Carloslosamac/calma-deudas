@@ -17,7 +17,7 @@ const FeatureSection = () => {
           {/* First Feature - Create at the speed of thought */}
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
+              <div className="lg:order-1 order-2 space-y-6">
                 <h3 className="text-4xl font-medium text-foreground">
                   Crea a la velocidad del pensamiento
                 </h3>
@@ -28,7 +28,7 @@ const FeatureSection = () => {
                   Empezar a crear
                 </Button>
               </div>
-              <div className="relative">
+              <div className="lg:order-2 order-1 relative">
                 <div className="bg-gradient-to-br from-blue-100 to-purple-200 rounded-3xl p-8 shadow-2xl">
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center gap-3 mb-4">
@@ -59,7 +59,7 @@ const FeatureSection = () => {
           {/* Second Feature - Backend built-in automatically */}
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="lg:order-2 space-y-6">
+              <div className="lg:order-2 order-2 space-y-6">
                 <h3 className="text-4xl font-medium text-foreground">
                   El backend se construye automáticamente
                 </h3>
@@ -70,7 +70,7 @@ const FeatureSection = () => {
                   Empezar a crear
                 </Button>
               </div>
-              <div className="lg:order-1 relative">
+              <div className="lg:order-1 order-1 relative">
                 <div className="bg-gradient-to-br from-orange-100 to-pink-200 rounded-3xl p-8 shadow-2xl">
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <h4 className="font-semibold mb-4">Building your Subscription Tracker app</h4>
@@ -111,7 +111,7 @@ const FeatureSection = () => {
           {/* Third Feature - Ready to use instantly */}
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
+              <div className="lg:order-1 order-2 space-y-6">
                 <h3 className="text-4xl font-medium text-foreground">
                   Listo para usar al instante
                 </h3>
@@ -122,7 +122,7 @@ const FeatureSection = () => {
                   Empezar a crear
                 </Button>
               </div>
-              <div className="relative">
+              <div className="lg:order-2 order-1 relative">
                 <div className="bg-gradient-to-br from-green-100 to-blue-200 rounded-3xl p-8 shadow-2xl">
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center justify-between mb-4">
