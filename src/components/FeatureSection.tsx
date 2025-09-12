@@ -5,7 +5,7 @@ const FeatureSection = () => {
     <section className="py-24 px-6 bg-white">
       <div className="mx-auto max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-medium mb-6 text-foreground font-poppins">
+          <h2 className="text-5xl md:text-6xl font-medium mb-6 text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Considérate sin límites.
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
@@ -18,7 +18,7 @@ const FeatureSection = () => {
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <h3 className="text-4xl font-medium text-foreground font-poppins">
+                <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   Crea a la velocidad del pensamiento
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
@@ -60,7 +60,7 @@ const FeatureSection = () => {
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="lg:order-2 space-y-6">
-                <h3 className="text-4xl font-medium text-foreground font-poppins">
+                <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   El backend se construye automáticamente
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
@@ -112,7 +112,7 @@ const FeatureSection = () => {
           <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <h3 className="text-4xl font-medium text-foreground font-poppins">
+                <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   Listo para usar al instante
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
