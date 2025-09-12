@@ -62,6 +62,8 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
       },
       fontFamily: {
+        'anton': ['Anton', 'sans-serif'],
+        'noto-sans': ['Noto Sans', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
         'sans': ['Poppins', 'sans-serif'],
       },
