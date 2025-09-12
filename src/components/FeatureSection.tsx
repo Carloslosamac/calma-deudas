@@ -6,10 +6,10 @@ const FeatureSection = () => {
       <div className="mx-auto max-w-7xl">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-medium mb-6 text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-            Considérate sin límites.
+            Tu asesor financiero personal.
           </h2>
           <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-            Si puedes describirlo, puedes crearlo.
+            Especializado en ayudarte a salir de cualquier endeudamiento.
           </p>
         </div>
 
@@ -19,13 +19,13 @@ const FeatureSection = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Crea a la velocidad del pensamiento
+                  Análisis instantáneo de tu situación
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
-                  Cuéntale tu idea a Base44 y observa cómo se transforma en una aplicación funcional—completa con todos los componentes, páginas, flujos y características necesarias.
+                  Cuéntanos tu situación financiera y nuestro software analizará automáticamente todas tus deudas, ingresos y gastos para crear un plan personalizado de liberación de deudas.
                 </p>
                 <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
-                  Empezar a crear
+                  Analizar mi situación
                 </Button>
               </div>
               <div className="relative">
@@ -61,13 +61,13 @@ const FeatureSection = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="lg:order-2 space-y-6">
                 <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  El backend se construye automáticamente
+                  Estrategias legales automatizadas
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
-                  Todo lo que tu idea necesita para funcionar, como permitir que los usuarios se registren, guardar sus datos o crear permisos basados en roles, se maneja automáticamente detrás de escena.
+                  Nuestro sistema identifica automáticamente las mejores opciones legales para tu caso: Ley de Segunda Oportunidad, renegociación de deudas, refinanciación o prescripción de deudas.
                 </p>
                 <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
-                  Empezar a crear
+                  Ver mis opciones
                 </Button>
               </div>
               <div className="lg:order-1 relative">
@@ -113,13 +113,13 @@ const FeatureSection = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <h3 className="text-4xl font-medium text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Listo para usar al instante
+                  Acompañamiento hasta tu libertad financiera
                 </h3>
                 <p className="text-lg text-foreground/70 leading-relaxed">
-                  Nuestra plataforma viene con alojamiento integrado, así que cuando tu aplicación esté lista, lo único que tienes que hacer es publicarla, ponerla en uso y compartirla con tus amigos o comunidad.
+                  Te guiamos paso a paso durante todo el proceso. Desde la documentación necesaria hasta el seguimiento de cada gestión, nunca estarás solo en tu camino hacia la libertad financiera.
                 </p>
                 <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
-                  Empezar a crear
+                  Comenzar ahora
                 </Button>
               </div>
               <div className="relative">
