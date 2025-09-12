@@ -78,8 +78,9 @@ const HeroSection = () => {
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 relative z-10">
         <div className="text-center max-w-sm sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-8">
           <h1 className="mb-6 text-4xl sm:text-5xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
-            <div>Te ayudamos a vivir</div>
-            <div><span className="text-accent">sin deudas.</span></div>
+            <div>
+              Te ayudamos a vivir<span className="sm:inline block"> <span className="text-accent">sin deudas.</span></span>
+            </div>
             <div className="text-3xl sm:text-4xl mt-1">Ahora mismo.</div>
           </h1>
           
