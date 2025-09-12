@@ -125,7 +125,6 @@ export default {
         "sky-drift": "sky-drift 12s ease-in-out infinite",
         "scroll-right": "scroll-right 30s linear infinite",
         "scroll-left": "scroll-left 30s linear infinite",
-        "pause": "none",
       },
     },
   },

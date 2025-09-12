@@ -101,8 +101,8 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Upper row - scrolls right */}
-      <div className="relative mb-8">
-        <div className="flex animate-scroll-right hover:animate-pause">
+      <div className="relative mb-8 group">
+        <div className="flex animate-scroll-right group-hover:[animation-play-state:paused]">
           {[...testimonials, ...testimonials].map((testimonial, index) => (
             <TestimonialCard key={`top-${index}`} testimonial={testimonial} />
           ))}
@@ -110,8 +110,8 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Lower row - scrolls left */}
-      <div className="relative">
-        <div className="flex animate-scroll-left hover:animate-pause">
+      <div className="relative group">
+        <div className="flex animate-scroll-left group-hover:[animation-play-state:paused]">
           {[...testimonials.slice().reverse(), ...testimonials.slice().reverse()].map((testimonial, index) => (
             <TestimonialCard key={`bottom-${index}`} testimonial={testimonial} />
           ))}
