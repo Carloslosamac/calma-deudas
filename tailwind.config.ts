@@ -86,6 +86,22 @@ export default {
             "background-position": "100% 50%"
           }
         },
+        "scroll-right": {
+          "0%": {
+            transform: "translateX(-50%)"
+          },
+          "100%": {
+            transform: "translateX(0%)"
+          }
+        },
+        "scroll-left": {
+          "0%": {
+            transform: "translateX(0%)"
+          },
+          "100%": {
+            transform: "translateX(-50%)"
+          }
+        },
         "accordion-down": {
           from: {
             height: "0",
@@ -107,6 +123,9 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "sky-drift": "sky-drift 12s ease-in-out infinite",
+        "scroll-right": "scroll-right 30s linear infinite",
+        "scroll-left": "scroll-left 30s linear infinite",
+        "pause": "none",
       },
     },
   },
