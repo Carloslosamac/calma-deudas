@@ -112,10 +112,10 @@ All colors MUST be HSL.
   /* Abstract cloud animations and styles */
   .cloud {
     position: absolute;
-    z-index: 1;
+    z-index: 5;
     animation: float-clouds 60s infinite linear;
-    filter: blur(3px);
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
+    filter: blur(1px);
+    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 50%, transparent 80%);
   }
 
   .cloud-1 {
@@ -126,7 +126,7 @@ All colors MUST be HSL.
     animation-delay: 0s;
     border-radius: 60% 40% 70% 30%;
     transform: rotate(-5deg);
-    opacity: 0.15;
+    opacity: 0.4;
   }
 
   .cloud-2 {
@@ -137,8 +137,7 @@ All colors MUST be HSL.
     animation-delay: -20s;
     border-radius: 70% 30% 60% 40%;
     transform: rotate(8deg);
-    opacity: 0.12;
-    filter: blur(4px);
+    opacity: 0.35;
   }
 
   .cloud-3 {
@@ -149,8 +148,7 @@ All colors MUST be HSL.
     animation-delay: -35s;
     border-radius: 80% 20% 50% 50%;
     transform: rotate(-3deg);
-    opacity: 0.18;
-    filter: blur(5px);
+    opacity: 0.45;
   }
 
   .cloud-4 {
@@ -161,8 +159,7 @@ All colors MUST be HSL.
     animation-delay: -15s;
     border-radius: 50% 50% 80% 20%;
     transform: rotate(12deg);
-    opacity: 0.10;
-    filter: blur(2px);
+    opacity: 0.3;
   }
 
   .cloud-5 {
@@ -173,8 +170,7 @@ All colors MUST be HSL.
     animation-delay: -28s;
     border-radius: 40% 60% 70% 30%;
     transform: rotate(-8deg);
-    opacity: 0.14;
-    filter: blur(6px);
+    opacity: 0.38;
   }
 
   .cloud-6 {
@@ -185,8 +181,7 @@ All colors MUST be HSL.
     animation-delay: -42s;
     border-radius: 90% 10% 60% 40%;
     transform: rotate(5deg);
-    opacity: 0.08;
-    filter: blur(7px);
+    opacity: 0.25;
   }
 
   @keyframes float-clouds {
