@@ -115,7 +115,7 @@ y te ayudo."
               <p className="text-sm text-foreground/70 mb-3 text-center">
                 ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-2">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
