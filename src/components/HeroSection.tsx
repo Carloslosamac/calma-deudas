@@ -98,7 +98,7 @@ const HeroSection = () => {
                 placeholder="¿Cómo puedo ayudarte con las deudas?"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="w-full h-18 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-16"
+                className="w-full h-20 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-16 py-4"
               />
               <Button 
                 variant="orange" 
