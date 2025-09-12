@@ -33,21 +33,21 @@ const FeatureSection = () => {
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-medium">S</span>
+                        <span className="text-white text-sm font-medium">C</span>
                       </div>
-                      <span className="font-medium">SubTracker</span>
+                      <span className="font-medium">Calma - Análisis Financiero</span>
                     </div>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Active Subscriptions</span>
-                        <span className="text-sm text-gray-600">Next Payment</span>
+                        <span className="text-sm text-gray-600">Deudas Totales</span>
+                        <span className="text-sm text-gray-600">Ahorro Potencial</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-2xl font-bold">$110.36</span>
-                        <span className="text-lg">$1324.27</span>
+                        <span className="text-2xl font-bold text-red-600">€45,680</span>
+                        <span className="text-lg text-green-600">€22,340</span>
                       </div>
                       <div className="bg-gray-50 rounded-xl p-4">
-                        <p className="text-sm text-gray-600">Create an app that helps people keep track of their subscriptions and alerts them to upcoming renewals</p>
+                        <p className="text-sm text-gray-600">Tengo deudas con 3 bancos, tarjetas de crédito y un préstamo personal. No puedo hacer frente a los pagos mensuales.</p>
                       </div>
                     </div>
                   </div>
@@ -73,33 +73,33 @@ const FeatureSection = () => {
               <div className="lg:order-1 relative">
                 <div className="bg-gradient-to-br from-orange-100 to-pink-200 rounded-3xl p-8 shadow-2xl">
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
-                    <h4 className="font-semibold mb-4">Building your Subscription Tracker app</h4>
+                    <h4 className="font-semibold mb-4">Estrategias Legales Disponibles</h4>
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                           <span className="text-white text-xs">✓</span>
                         </div>
-                        <span className="text-sm">Setting up user authentication</span>
+                        <span className="text-sm">Ley de Segunda Oportunidad - Aplicable</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                           <span className="text-white text-xs">✓</span>
                         </div>
-                        <span className="text-sm">Building subscription database</span>
+                        <span className="text-sm">Renegociación con acreedores - Recomendada</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                           <span className="text-white text-xs">✓</span>
                         </div>
-                        <span className="text-sm">Configuring email notifications</span>
+                        <span className="text-sm">Prescripción de deudas - 2 casos detectados</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 bg-yellow-500 rounded-full"></div>
-                        <span className="text-sm">Configuring SMS notifications</span>
+                        <span className="text-sm">Refinanciación bancaria - En evaluación</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
-                        <span className="text-sm text-gray-400">Designing subscription cards</span>
+                        <span className="text-sm text-gray-400">Documentación legal - Pendiente</span>
                       </div>
                     </div>
                   </div>
@@ -128,43 +128,45 @@ const FeatureSection = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-sm font-medium">S</span>
+                          <span className="text-white text-sm font-medium">C</span>
                         </div>
-                        <span className="font-medium">SubTracker</span>
+                        <span className="font-medium">Mi Progreso - Libertad Financiera</span>
                       </div>
                       <div className="flex gap-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                         <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-                        <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-                        <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
                       </div>
                     </div>
-                    <h4 className="font-semibold mb-4">My Subscriptions</h4>
+                    <h4 className="font-semibold mb-4">Estado de Mis Gestiones</h4>
                     <div className="grid grid-cols-3 gap-4 mb-4">
                       <div className="text-center">
-                        <div className="text-2xl font-bold">10</div>
-                        <div className="text-xs text-gray-500">Active Subscriptions</div>
+                        <div className="text-2xl font-bold text-green-600">3</div>
+                        <div className="text-xs text-gray-500">Deudas Canceladas</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold">$110.36</div>
-                        <div className="text-xs text-gray-500">Next This Month</div>
+                        <div className="text-2xl font-bold text-blue-600">€18,240</div>
+                        <div className="text-xs text-gray-500">Ahorrado Este Mes</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold">$1324.27</div>
-                        <div className="text-xs text-gray-500">Average Last 12 Months</div>
+                        <div className="text-2xl font-bold text-orange-600">45%</div>
+                        <div className="text-xs text-gray-500">Progreso Completado</div>
                       </div>
                     </div>
                     <div className="flex justify-between">
                       <div>
-                        <h5 className="font-medium text-sm mb-2">Recent Activity</h5>
+                        <h5 className="font-medium text-sm mb-2">Últimas Gestiones</h5>
                         <div className="space-y-1 text-xs text-gray-600">
-                          <div>Daily Posts - $10.99</div>
-                          <div>The Plaid - $16.99</div>
-                          <div>SecondMind - $49.99</div>
+                          <div>Banco Santander - Renegociado</div>
+                          <div>BBVA Tarjeta - Condonado 60%</div>
+                          <div>Préstamo Personal - En trámite</div>
                         </div>
                       </div>
                       <div>
-                        <h5 className="font-medium text-sm mb-2">Overview</h5>
-                        <div className="w-20 h-20 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full"></div>
+                        <h5 className="font-medium text-sm mb-2">Estado General</h5>
+                        <div className="w-20 h-20 bg-gradient-to-br from-green-200 to-blue-300 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-bold text-green-700">45%</span>
+                        </div>
                       </div>
                     </div>
                   </div>
