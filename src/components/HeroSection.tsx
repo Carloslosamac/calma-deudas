@@ -73,16 +73,17 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-24 overflow-hidden" style={{ backgroundSize: '200% 200%' }}>
-      <div className="mx-auto max-w-4xl px-6 pt-20 pb-32 relative z-10">
-        <div className="text-center">
-          <h1 className="mb-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
-            <div className="whitespace-nowrap">Te ayudamos a vivir <span className="text-accent">sin deudas.</span></div>
-            <div className="-mt-2">Ahora mismo.</div>
+    <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-20 overflow-hidden flex flex-col" style={{ backgroundSize: '200% 200%' }}>
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 relative z-10">
+        <div className="text-center max-w-sm mx-auto">
+          <h1 className="mb-6 text-4xl sm:text-5xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
+            <div>Te ayudamos a vivir</div>
+            <div><span className="text-accent">sin deudas.</span></div>
+            <div className="text-3xl sm:text-4xl mt-1">Ahora mismo.</div>
           </h1>
           
-          <div className="mb-12 text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
-            <p className="mb-2">
+          <div className="mb-8 text-base sm:text-lg text-foreground/80">
+            <p className="mb-3">
               Calma analiza tu situación financiera y te propone una solución adaptada en minutos.
             </p>
             <p ref={typewriterRef} className="text-foreground/80">
@@ -91,33 +92,33 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-8 mb-8 shadow-2xl border border-white/20">
-            <div className="flex items-center gap-4 mb-6">
+          <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
+            <div className="flex flex-col gap-4">
               <Input
                 placeholder="¿Cómo puedo ayudarte con las deudas?"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="flex-1 h-14 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange"
+                className="w-full h-14 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-16"
               />
               <Button 
                 variant="orange" 
-                size="icon"
-                className="h-14 w-14 rounded-2xl shadow-lg"
+                className="w-full h-12 rounded-2xl shadow-lg font-medium"
               >
-                <ArrowUp className="h-6 w-6" />
+                <ArrowUp className="h-5 w-5 mr-2" />
+                Analizar mi situación
               </Button>
             </div>
 
-            <div className="text-left">
-              <p className="text-sm text-foreground/70 mb-3">
+            <div className="mt-6">
+              <p className="text-sm text-foreground/70 mb-3 text-center">
                 ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
-              <div className="flex gap-2 justify-between">
+              <div className="grid grid-cols-1 gap-2">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => setPrompt(suggestion)}
-                    className="px-4 py-2 rounded-full bg-white/50 text-xs text-foreground/80 hover:bg-white/70 transition-colors border border-white/30"
+                    className="w-full px-4 py-3 rounded-full bg-white/30 text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center"
                   >
                     {suggestion}
                   </button>
