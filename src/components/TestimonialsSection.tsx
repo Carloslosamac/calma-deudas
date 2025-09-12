@@ -90,7 +90,7 @@ const TestimonialsSection = () => {
     <section className="py-20 bg-gradient-to-b from-green-50 to-yellow-50 overflow-hidden">
       <div className="text-center mb-16 px-6">
         <h2 className="text-4xl md:text-5xl font-medium mb-4 text-foreground" style={{ fontFamily: 'Poppins, sans-serif' }}>
-          "Calma me <span className="text-orange-500">cambió la vida</span>."
+          "Calma me <span className="text-orange-500">cambió la vida</span><span className="text-orange-500">.</span>"
         </h2>
         <p className="text-lg text-foreground/70 mb-8">
           Historias reales de personas que recuperaron su libertad financiera.
