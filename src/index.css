@@ -109,65 +109,136 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 
-  /* Abstract floating shapes */
+  /* Cloud animations and styles */
   .cloud {
     position: absolute;
     background: white;
+    border-radius: 50px;
     opacity: 0.4;
     z-index: 1;
     animation: float-clouds 45s infinite linear;
   }
 
+  .cloud:before,
+  .cloud:after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+  }
+
   .cloud-1 {
-    width: 120px;
-    height: 30px;
+    width: 100px;
+    height: 40px;
     top: 20%;
-    left: -140px;
+    left: -120px;
     animation-delay: 0s;
-    border-radius: 15px;
-    transform: rotate(-5deg);
+  }
+
+  .cloud-1:before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+  }
+
+  .cloud-1:after {
+    width: 60px;
+    height: 20px;
+    top: -10px;
+    left: 70px;
   }
 
   .cloud-2 {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 30px;
     top: 10%;
-    left: -80px;
+    left: -100px;
     animation-delay: -18s;
     opacity: 0.3;
-    border-radius: 50%;
+  }
+
+  .cloud-2:before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 15px;
+  }
+
+  .cloud-2:after {
+    width: 50px;
+    height: 25px;
+    top: -8px;
+    left: 50px;
   }
 
   .cloud-3 {
-    width: 80px;
-    height: 25px;
+    width: 120px;
+    height: 50px;
     top: 30%;
-    left: -100px;
+    left: -140px;
     animation-delay: -33s;
     opacity: 0.35;
-    border-radius: 0;
-    transform: rotate(15deg);
+  }
+
+  .cloud-3:before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 20px;
+  }
+
+  .cloud-3:after {
+    width: 70px;
+    height: 30px;
+    top: -15px;
+    left: 80px;
   }
 
   .cloud-4 {
-    width: 40px;
-    height: 80px;
+    width: 90px;
+    height: 35px;
     top: 40%;
-    left: -60px;
+    left: -110px;
     animation-delay: -12s;
     opacity: 0.25;
-    border-radius: 20px;
+  }
+
+  .cloud-4:before {
+    width: 45px;
+    height: 45px;
+    top: -22px;
+    left: 12px;
+  }
+
+  .cloud-4:after {
+    width: 55px;
+    height: 22px;
+    top: -10px;
+    left: 60px;
   }
 
   .cloud-5 {
-    width: 100px;
-    height: 40px;
+    width: 110px;
+    height: 45px;
     top: 15%;
-    left: -120px;
+    left: -130px;
     animation-delay: -27s;
     opacity: 0.3;
-    border-radius: 20px 5px;
-    transform: rotate(-10deg);
+  }
+
+  .cloud-5:before {
+    width: 55px;
+    height: 55px;
+    top: -27px;
+    left: 18px;
+  }
+
+  .cloud-5:after {
+    width: 65px;
+    height: 25px;
+    top: -12px;
+    left: 75px;
   }
 
   @keyframes float-clouds {
