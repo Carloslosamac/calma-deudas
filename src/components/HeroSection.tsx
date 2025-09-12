@@ -116,12 +116,12 @@ y te ayudo."
               <p className="text-sm text-foreground/70 mb-3 text-center">
                 ¿No sabes por dónde empezar? Prueba una de estas:
               </p>
-              <div className="flex gap-1 sm:flex-wrap sm:justify-center sm:gap-2">
+              <div className="flex flex-wrap justify-center gap-2">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => setPrompt(suggestion)}
-                    className="flex-1 sm:flex-none px-2 py-2 sm:px-3 rounded-full bg-white/30 text-xs sm:text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center whitespace-nowrap"
+                    className="px-3 py-2 rounded-full bg-white/30 text-xs sm:text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center whitespace-nowrap"
                   >
                     {suggestion}
                   </button>
