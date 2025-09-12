@@ -3,14 +3,14 @@ import { Check } from "lucide-react";
 
 const PricingSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 overflow-hidden">
+    <section className="py-20 bg-gradient-hero animate-sky-drift overflow-hidden" style={{ backgroundSize: '200% 200%' }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Title and description */}
           <div className="text-white">
             <h2 className="text-4xl md:text-5xl font-medium mb-6" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Consulta gratuita para{" "}
-              <span className="text-green-500">toda necesidad</span>
+              <span className="text-accent">toda necesidad</span>
             </h2>
             <p className="text-lg text-white/80 leading-relaxed">
               Comienza tu camino hacia la libertad financiera sin ningún costo inicial. 
@@ -32,38 +32,38 @@ const PricingSection = () => {
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Análisis completo de tu situación financiera</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Identificación de estrategias legales aplicables</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Plan personalizado de liberación de deudas</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Acompañamiento durante todo el proceso</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-gray-700">Sin costos ocultos ni sorpresas</span>
                 </div>
               </div>
 
-              <Button className="w-full bg-gray-900 text-white hover:bg-gray-800 rounded-2xl py-4 text-lg font-medium">
+              <Button variant="orange" className="w-full rounded-2xl py-4 text-lg font-medium">
                 Comenzar gratis
               </Button>
 
