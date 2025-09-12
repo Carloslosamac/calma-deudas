@@ -92,38 +92,38 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
-            <div className="flex flex-col gap-4">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-4 mb-8 shadow-2xl border border-white/30">
+            <div className="relative">
               <Input
                 placeholder="¿Cómo puedo ayudarte con las deudas?"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="w-full h-14 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-16"
+                className="w-full h-16 rounded-3xl border-0 bg-transparent text-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0 pr-16 pl-6"
               />
               <Button 
                 variant="orange" 
-                className="w-full h-12 rounded-2xl shadow-lg font-medium"
+                size="icon"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-2xl shadow-lg hover:scale-105 transition-transform"
               >
-                <ArrowUp className="h-5 w-5 mr-2" />
-                Analizar mi situación
+                <ArrowUp className="h-5 w-5" />
               </Button>
             </div>
+          </div>
 
-            <div className="mt-6">
-              <p className="text-sm text-foreground/70 mb-3 text-center">
-                ¿No sabes por dónde empezar? Prueba una de estas:
-              </p>
-              <div className="grid grid-cols-1 gap-2">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setPrompt(suggestion)}
-                    className="w-full px-4 py-3 rounded-full bg-white/30 text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
+          <div className="mb-6">
+            <p className="text-sm text-foreground/70 mb-3 text-center">
+              ¿No sabes por dónde empezar? Prueba una de estas:
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => setPrompt(suggestion)}
+                  className="w-full px-4 py-3 rounded-full bg-white/30 text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center"
+                >
+                  {suggestion}
+                </button>
+              ))}
             </div>
           </div>
 
