@@ -76,14 +76,14 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-32 overflow-hidden flex flex-col" style={{ backgroundSize: '200% 200%' }}>
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 relative z-10">
-        <div className="text-center max-w-sm mx-auto">
-          <h1 className="mb-6 text-4xl sm:text-5xl font-light leading-[1.1] text-foreground font-poppins tracking-wide">
+        <div className="max-w-sm mx-auto">
+          <h1 className="mb-6 text-4xl sm:text-5xl font-light leading-[1.1] text-foreground font-poppins tracking-wide text-justify">
             <div>Te ayudamos a vivir</div>
             <div><span className="text-accent">sin deudas.</span></div>
             <div className="text-3xl sm:text-4xl mt-1">Ahora mismo.</div>
           </h1>
           
-          <div className="mb-8 text-base sm:text-lg text-foreground/80">
+          <div className="mb-8 text-base sm:text-lg text-foreground/80 text-justify">
             <p className="mb-3">
               Calma analiza tu situación financiera y te propone una solución adaptada en minutos.
             </p>
