@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ArrowUp } from "lucide-react";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
@@ -94,11 +95,12 @@ const HeroSection = () => {
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
             <div className="flex flex-col gap-4">
-              <Input
-                placeholder="Descríbeme tu situación con las deudas y te ayudo."
+              <Textarea
+                placeholder="Descríbeme tu situación con las deudas
+y te ayudo."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="w-full h-20 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-6 py-4"
+                className="w-full min-h-20 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-6 py-4 resize-none"
               />
               <Button 
                 variant="orange" 
