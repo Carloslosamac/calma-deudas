@@ -78,6 +78,7 @@ const HeroSection = () => {
         <div className="cloud cloud-3"></div>
         <div className="cloud cloud-4"></div>
         <div className="cloud cloud-5"></div>
+        <div className="cloud cloud-6"></div>
       </div>
       <div className="mx-auto max-w-4xl px-6 pt-20 pb-32 relative z-10">
         <div className="text-center">
