@@ -33,31 +33,31 @@ const PricingSection = () => {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-white" />
+                    <Check className="w-3 h-3 text-orange-foreground" />
                   </div>
                   <span className="text-gray-700">Análisis completo de tu situación financiera</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-white" />
+                    <Check className="w-3 h-3 text-orange-foreground" />
                   </div>
                   <span className="text-gray-700">Identificación de estrategias legales aplicables</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-white" />
+                    <Check className="w-3 h-3 text-orange-foreground" />
                   </div>
                   <span className="text-gray-700">Plan personalizado de liberación de deudas</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-white" />
+                    <Check className="w-3 h-3 text-orange-foreground" />
                   </div>
                   <span className="text-gray-700">Acompañamiento durante todo el proceso</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-white" />
+                    <Check className="w-3 h-3 text-orange-foreground" />
                   </div>
                   <span className="text-gray-700">Sin costos ocultos ni sorpresas</span>
                 </div>
