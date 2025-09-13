@@ -103,8 +103,7 @@ const HeroSection = () => {
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
             <div className="flex flex-col gap-4">
               <Textarea
-                placeholder="Descríbeme tu situación con las deudas
-y te ayudo."
+                placeholder="Descríbeme tu situación con las deudas y te ayudo."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 className="w-full min-h-20 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-6 py-4 resize-none"
