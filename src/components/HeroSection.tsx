@@ -205,7 +205,7 @@ const HeroSection = () => {
                 <Button 
                   type="submit"
                   variant="orange" 
-                  className="w-full h-12 rounded-2xl shadow-lg font-medium mt-6"
+                  className="w-full h-12 rounded-2xl shadow-lg font-medium mt-8"
                 >
                   <ArrowUp className="h-5 w-5 mr-2" />
                   Analizar mi situación
