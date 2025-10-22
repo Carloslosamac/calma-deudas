@@ -48,20 +48,14 @@ const HeroSection = () => {
     console.log(data);
   };
 
-  const handleNext = async () => {
-    let isValid = false;
-    
-    if (currentStep === 1) {
-      isValid = await form.trigger("debt_amount");
-    } else if (currentStep === 2) {
-      isValid = await form.trigger("loan_number");
-    } else if (currentStep === 3) {
-      isValid = await form.trigger("default");
-    }
-    
-    if (isValid && currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    }
+  const handleStepChange = (value: string, fieldName: string) => {
+    form.setValue(fieldName as any, value);
+    // Auto-advance to next step after a short delay for visual feedback
+    setTimeout(() => {
+      if (currentStep < 4) {
+        setCurrentStep(currentStep + 1);
+      }
+    }, 300);
   };
 
   const handleBack = () => {
@@ -163,31 +157,34 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => handleStepChange(value, "debt_amount")}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "7500" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="7500" className="sr-only" />
                               <span className="font-medium">Entre 5.000€ y 10.000€</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "15000" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="15000" className="sr-only" />
                               <span className="font-medium">Entre 10.000€ y 20.000€</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "30000" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="30000" className="sr-only" />
                               <span className="font-medium">Más de 20.000€</span>
                             </label>
@@ -210,31 +207,34 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => handleStepChange(value, "loan_number")}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "1" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="1" className="sr-only" />
                               <span className="font-medium">Solo 1</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "3" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="3" className="sr-only" />
                               <span className="font-medium">Entre 2 y 4</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "6" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="6" className="sr-only" />
                               <span className="font-medium">Más de 5</span>
                             </label>
@@ -257,23 +257,25 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => handleStepChange(value, "default")}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "si" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="si" className="sr-only" />
                               <span className="font-medium">Sí</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "no" 
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}>
+                            }`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}>
                               <RadioGroupItem value="no" className="sr-only" />
                               <span className="font-medium">No</span>
                             </label>
@@ -343,8 +345,8 @@ const HeroSection = () => {
                   </div>
                 )}
 
-                <div className="flex gap-3 mt-8">
-                  {currentStep > 1 && (
+                {currentStep === 4 && (
+                  <div className="flex gap-3 mt-8">
                     <Button 
                       type="button"
                       onClick={handleBack}
@@ -354,19 +356,7 @@ const HeroSection = () => {
                       <ArrowLeft className="h-5 w-5 mr-2" />
                       Atrás
                     </Button>
-                  )}
-                  
-                  {currentStep < 4 ? (
-                    <Button 
-                      type="button"
-                      onClick={handleNext}
-                      variant="orange"
-                      className="flex-1 h-12 rounded-2xl shadow-lg font-medium"
-                    >
-                      Siguiente
-                      <ArrowRight className="h-5 w-5 ml-2" />
-                    </Button>
-                  ) : (
+                    
                     <Button 
                       type="submit"
                       variant="orange" 
@@ -375,8 +365,22 @@ const HeroSection = () => {
                       Analizar mi situación
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </Button>
-                  )}
-                </div>
+                  </div>
+                )}
+
+                {currentStep < 4 && (
+                  <div className="flex justify-center mt-8">
+                    <Button 
+                      type="button"
+                      onClick={handleBack}
+                      variant="ghost"
+                      className="text-foreground/60 hover:text-foreground"
+                    >
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Atrás
+                    </Button>
+                  </div>
+                )}
 
                 <div className="flex justify-center gap-2 mt-4">
                   {[1, 2, 3, 4].map((step) => (
