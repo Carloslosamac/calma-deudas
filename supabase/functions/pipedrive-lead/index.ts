@@ -126,26 +126,10 @@ serve(async (req) => {
     console.log(`Debt amount field type: ${debtAmountField.field_type}`);
     console.log(`Debt amount field details:`, JSON.stringify(debtAmountField, null, 2));
 
-    // Format debt_amount based on field type
-    let formattedDebtAmount: any;
-    const debtValue = parseInt(formData.debt_amount) || 0;
-    
-    if (debtAmountField.field_type === 'monetary') {
-      // Monetary fields expect { amount: number, currency: string }
-      formattedDebtAmount = {
-        amount: debtValue,
-        currency: 'EUR',
-      };
-      console.log(`Formatted debt_amount as monetary:`, formattedDebtAmount);
-    } else if (debtAmountField.field_type === 'double' || debtAmountField.field_type === 'int') {
-      // Numeric fields expect just the number
-      formattedDebtAmount = debtValue;
-      console.log(`Formatted debt_amount as numeric: ${formattedDebtAmount}`);
-    } else {
-      // Fallback to string for other field types
-      formattedDebtAmount = formData.debt_amount;
-      console.log(`Formatted debt_amount as string: ${formattedDebtAmount}`);
-    }
+    // Format debt_amount - custom monetary fields in Pipedrive expect just a number
+    // (the currency is configured at the field level, not sent with each value)
+    const formattedDebtAmount = parseInt(formData.debt_amount) || 0;
+    console.log(`Formatted debt_amount as numeric: ${formattedDebtAmount} (field type in Pipedrive: ${debtAmountField.field_type})`);
 
     // Step 3: Create Lead in Pipedrive with custom fields
     console.log('Creating Lead in Pipedrive');
