@@ -50,7 +50,7 @@ serve(async (req) => {
 
     console.log('Creating Person in Pipedrive');
     
-    // Step 1: Create Person in Pipedrive with additional data in visible_to field
+    // Step 1: Create Person in Pipedrive
     const personResponse = await fetch(`https://api.pipedrive.com/v1/persons?api_token=${apiToken}`, {
       method: 'POST',
       headers: {
@@ -60,8 +60,6 @@ serve(async (req) => {
         name: sanitizedName,
         email: [{ value: sanitizedEmail, primary: true }],
         phone: [{ value: sanitizedPhone, primary: true }],
-        // Add additional info that will be searchable
-        org_name: `Deuda: ${formData.debt_amount}€ | Préstamos: ${formData.loan_number} | Mora: ${defaultStatus}`,
       }),
     });
 
@@ -84,7 +82,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: `Deuda ${formData.debt_amount}€ - ${formData.loan_number} préstamos - Mora: ${defaultStatus} - ${sanitizedName}`,
+        title: sanitizedName,
         person_id: personId,
         value: {
           amount: parseInt(formData.debt_amount) || 0,
