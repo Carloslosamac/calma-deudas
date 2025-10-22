@@ -4,34 +4,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowUp } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
 import avatar3 from "@/assets/avatar-3.jpg";
 
 const formSchema = z.object({
+  debt_amount: z.string().min(1, "Selecciona una opción"),
+  loan_number: z.string().min(1, "Selecciona una opción"),
+  default: z.string().min(1, "Selecciona una opción"),
   fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   phone: z.string().min(9, "El teléfono debe tener al menos 9 dígitos"),
   mobile: z.string().min(9, "El móvil debe tener al menos 9 dígitos"),
-  debtAmount: z.number().min(0).max(100000),
 });
 
 const HeroSection = () => {
   const [typewriterText, setTypewriterText] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const typewriterRef = useRef<HTMLParagraphElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      debt_amount: "",
+      loan_number: "",
+      default: "",
       fullName: "",
       phone: "",
       mobile: "",
-      debtAmount: 5000,
     },
   });
 
@@ -41,6 +46,28 @@ const HeroSection = () => {
       description: "Analizaremos tu situación y te contactaremos pronto.",
     });
     console.log(data);
+  };
+
+  const handleNext = async () => {
+    let isValid = false;
+    
+    if (currentStep === 1) {
+      isValid = await form.trigger("debt_amount");
+    } else if (currentStep === 2) {
+      isValid = await form.trigger("loan_number");
+    } else if (currentStep === 3) {
+      isValid = await form.trigger("default");
+    }
+    
+    if (isValid && currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
   };
   
   const fullTypewriterText = "Gratis, rápido y sin compromiso.";
@@ -124,92 +151,243 @@ const HeroSection = () => {
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground/80">Nombre completo</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Tu nombre completo" 
-                          {...field}
-                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground/80">Teléfono</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Tu teléfono" 
-                          {...field}
-                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="mobile"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground/80">Móvil</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Tu móvil" 
-                          {...field}
-                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="debtAmount"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground/80">
-                        Cantidad de deuda: {field.value.toLocaleString('es-ES')}€
-                      </FormLabel>
-                      <FormControl>
-                        <Slider
-                          min={0}
-                          max={100000}
-                          step={1000}
-                          value={[field.value]}
-                          onValueChange={(value) => field.onChange(value[0])}
-                          className="mt-2"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {currentStep === 1 && (
+                  <FormField
+                    control={form.control}
+                    name="debt_amount"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel className="text-foreground text-xl font-medium block text-center">
+                          ¿Cuánto debes?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            className="space-y-3"
+                          >
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "7500" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="7500" className="sr-only" />
+                              <span className="font-medium">Entre 5.000€ y 10.000€</span>
+                            </label>
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "15000" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="15000" className="sr-only" />
+                              <span className="font-medium">Entre 10.000€ y 20.000€</span>
+                            </label>
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "30000" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="30000" className="sr-only" />
+                              <span className="font-medium">Más de 20.000€</span>
+                            </label>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
-                <Button 
-                  type="submit"
-                  variant="orange" 
-                  className="w-full h-12 rounded-2xl shadow-lg font-medium mt-8"
-                >
-                  <ArrowUp className="h-5 w-5 mr-2" />
-                  Analizar mi situación
-                </Button>
+                {currentStep === 2 && (
+                  <FormField
+                    control={form.control}
+                    name="loan_number"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel className="text-foreground text-xl font-medium block text-center">
+                          ¿Con cuántas entidades?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            className="space-y-3"
+                          >
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "1" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="1" className="sr-only" />
+                              <span className="font-medium">Solo 1</span>
+                            </label>
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "3" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="3" className="sr-only" />
+                              <span className="font-medium">Entre 2 y 4</span>
+                            </label>
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "6" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="6" className="sr-only" />
+                              <span className="font-medium">Más de 5</span>
+                            </label>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                {currentStep === 3 && (
+                  <FormField
+                    control={form.control}
+                    name="default"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel className="text-foreground text-xl font-medium block text-center">
+                          ¿Estás en impago ya con alguna?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            className="space-y-3"
+                          >
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "si" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="si" className="sr-only" />
+                              <span className="font-medium">Sí</span>
+                            </label>
+                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 ${
+                              field.value === "no" 
+                                ? "bg-accent text-white border-accent" 
+                                : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
+                            }`}>
+                              <RadioGroupItem value="no" className="sr-only" />
+                              <span className="font-medium">No</span>
+                            </label>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                {currentStep === 4 && (
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground/80">Nombre completo</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Tu nombre completo" 
+                              {...field}
+                              className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground/80">Teléfono</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Tu teléfono" 
+                              {...field}
+                              className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="mobile"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground/80">Móvil</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Tu móvil" 
+                              {...field}
+                              className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+
+                <div className="flex gap-3 mt-8">
+                  {currentStep > 1 && (
+                    <Button 
+                      type="button"
+                      onClick={handleBack}
+                      variant="outline"
+                      className="h-12 rounded-2xl font-medium bg-white/50 border-white/20"
+                    >
+                      <ArrowLeft className="h-5 w-5 mr-2" />
+                      Atrás
+                    </Button>
+                  )}
+                  
+                  {currentStep < 4 ? (
+                    <Button 
+                      type="button"
+                      onClick={handleNext}
+                      variant="orange"
+                      className="flex-1 h-12 rounded-2xl shadow-lg font-medium"
+                    >
+                      Siguiente
+                      <ArrowRight className="h-5 w-5 ml-2" />
+                    </Button>
+                  ) : (
+                    <Button 
+                      type="submit"
+                      variant="orange" 
+                      className="flex-1 h-12 rounded-2xl shadow-lg font-medium"
+                    >
+                      Analizar mi situación
+                      <ArrowRight className="h-5 w-5 ml-2" />
+                    </Button>
+                  )}
+                </div>
+
+                <div className="flex justify-center gap-2 mt-4">
+                  {[1, 2, 3, 4].map((step) => (
+                    <div
+                      key={step}
+                      className={`h-2 w-2 rounded-full transition-all ${
+                        step === currentStep ? "bg-accent w-8" : "bg-white/30"
+                      }`}
+                    />
+                  ))}
+                </div>
               </form>
             </Form>
           </div>
