@@ -163,28 +163,25 @@ const HeroSection = () => {
                           >
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "7500" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="7500" className="sr-only" />
                               <span className="font-medium">Entre 5.000€ y 10.000€</span>
                             </label>
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "15000" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="15000" className="sr-only" />
                               <span className="font-medium">Entre 10.000€ y 20.000€</span>
                             </label>
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "30000" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="30000" className="sr-only" />
                               <span className="font-medium">Más de 20.000€</span>
                             </label>
@@ -213,28 +210,25 @@ const HeroSection = () => {
                           >
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "1" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="1" className="sr-only" />
                               <span className="font-medium">Solo 1</span>
                             </label>
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "3" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="3" className="sr-only" />
                               <span className="font-medium">Entre 2 y 4</span>
                             </label>
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "6" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="6" className="sr-only" />
                               <span className="font-medium">Más de 5</span>
                             </label>
@@ -263,19 +257,17 @@ const HeroSection = () => {
                           >
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "si" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="si" className="sr-only" />
                               <span className="font-medium">Sí</span>
                             </label>
                             <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "no" 
-                                ? "bg-accent text-white border-accent" 
+                                ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
-                            }`}
-                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
+                            }`}>
                               <RadioGroupItem value="no" className="sr-only" />
                               <span className="font-medium">No</span>
                             </label>
