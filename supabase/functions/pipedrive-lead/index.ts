@@ -73,7 +73,47 @@ serve(async (req) => {
     const personId = personData.data.id;
     console.log('Person created with ID:', personId);
 
-    // Step 2: Create Lead in Pipedrive with custom fields
+    // Step 2: Fetch lead field definitions to get option IDs for single-option fields
+    console.log('Fetching lead field definitions');
+    
+    const fieldsResponse = await fetch(`https://api.pipedrive.com/v1/leadFields?api_token=${apiToken}`);
+    
+    if (!fieldsResponse.ok) {
+      const errorText = await fieldsResponse.text();
+      console.error('Pipedrive Fields API error:', errorText);
+      throw new Error(`Failed to fetch field definitions: ${fieldsResponse.status}`);
+    }
+
+    const fieldsData = await fieldsResponse.json();
+    
+    // Find the "Default" field and extract option IDs
+    const defaultField = fieldsData.data.find(
+      (field: any) => field.key === 'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e'
+    );
+    
+    if (!defaultField || !defaultField.options) {
+      console.error('Default field not found or has no options');
+      throw new Error('Could not find Default field configuration in Pipedrive');
+    }
+
+    const yesOption = defaultField.options.find((opt: any) => 
+      opt.label?.toLowerCase() === 'yes' || opt.label?.toLowerCase() === 'sí'
+    );
+    
+    const noOption = defaultField.options.find((opt: any) => 
+      opt.label?.toLowerCase() === 'no'
+    );
+
+    if (!yesOption || !noOption) {
+      console.error('Could not find Yes/No options for Default field');
+      throw new Error('Default field options not properly configured');
+    }
+
+    // Map form value to the correct option ID
+    const defaultOptionId = formData.default === 'si' ? yesOption.id : noOption.id;
+    console.log(`Mapped default value "${formData.default}" to option ID: ${defaultOptionId}`);
+
+    // Step 3: Create Lead in Pipedrive with custom fields
     console.log('Creating Lead in Pipedrive');
     
     const leadResponse = await fetch(`https://api.pipedrive.com/v1/leads?api_token=${apiToken}`, {
@@ -90,7 +130,7 @@ serve(async (req) => {
         },
         label_ids: [], // Can be configured later with specific lead labels
         // Only include non-monetary custom fields
-        'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e': defaultStatus,               // default (yes/no)
+        'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e': defaultOptionId,             // default (numeric option ID)
         '19fe4cbbd5b81d574d1a0e1eae0889dd81f15797': formData.loan_number,        // loan_number
       }),
     });
