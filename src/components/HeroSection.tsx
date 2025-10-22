@@ -157,11 +157,13 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={(value) => handleStepChange(value, "debt_amount")}
+                            onValueChange={(value) => form.setValue("debt_amount", value)}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("7500", "debt_amount")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "7500" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -169,7 +171,9 @@ const HeroSection = () => {
                               <RadioGroupItem value="7500" className="sr-only" />
                               <span className="font-medium">Entre 5.000€ y 10.000€</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("15000", "debt_amount")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "15000" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -177,7 +181,9 @@ const HeroSection = () => {
                               <RadioGroupItem value="15000" className="sr-only" />
                               <span className="font-medium">Entre 10.000€ y 20.000€</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("30000", "debt_amount")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "30000" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -204,11 +210,13 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={(value) => handleStepChange(value, "loan_number")}
+                            onValueChange={(value) => form.setValue("loan_number", value)}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("1", "loan_number")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "1" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -216,7 +224,9 @@ const HeroSection = () => {
                               <RadioGroupItem value="1" className="sr-only" />
                               <span className="font-medium">Solo 1</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("3", "loan_number")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "3" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -224,7 +234,9 @@ const HeroSection = () => {
                               <RadioGroupItem value="3" className="sr-only" />
                               <span className="font-medium">Entre 2 y 4</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("6", "loan_number")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "6" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -251,11 +263,13 @@ const HeroSection = () => {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            onValueChange={(value) => handleStepChange(value, "default")}
+                            onValueChange={(value) => form.setValue("default", value)}
                             value={field.value}
                             className="space-y-3"
                           >
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("si", "default")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "si" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
@@ -263,7 +277,9 @@ const HeroSection = () => {
                               <RadioGroupItem value="si" className="sr-only" />
                               <span className="font-medium">Sí</span>
                             </label>
-                            <label className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
+                            <label 
+                              onClick={() => handleStepChange("no", "default")}
+                              className={`flex items-center justify-center p-4 rounded-2xl cursor-pointer transition-all border-2 active:scale-95 ${
                               field.value === "no" 
                                 ? "bg-[#d6f2ad] text-black border-[#d6f2ad]" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
