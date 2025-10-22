@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
@@ -56,12 +56,6 @@ const HeroSection = () => {
         setCurrentStep(currentStep + 1);
       }
     }, 300);
-  };
-
-  const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
   };
   
   const fullTypewriterText = "Gratis, rápido y sin compromiso.";
@@ -356,36 +350,12 @@ const HeroSection = () => {
                 {currentStep === 4 && (
                   <div className="flex gap-3 mt-8">
                     <Button 
-                      type="button"
-                      onClick={handleBack}
-                      variant="outline"
-                      className="h-12 rounded-2xl font-medium bg-white/50 border-white/20"
-                    >
-                      <ArrowLeft className="h-5 w-5 mr-2" />
-                      Atrás
-                    </Button>
-                    
-                    <Button 
                       type="submit"
                       variant="orange" 
-                      className="flex-1 h-12 rounded-2xl shadow-lg font-medium"
+                      className="w-full h-12 rounded-2xl shadow-lg font-medium"
                     >
                       Analizar mi situación
                       <ArrowRight className="h-5 w-5 ml-2" />
-                    </Button>
-                  </div>
-                )}
-
-                {currentStep < 4 && currentStep > 1 && (
-                  <div className="flex justify-center mt-8">
-                    <Button 
-                      type="button"
-                      onClick={handleBack}
-                      variant="ghost"
-                      className="text-foreground/60 hover:text-foreground"
-                    >
-                      <ArrowLeft className="h-4 w-4 mr-2" />
-                      Atrás
                     </Button>
                   </div>
                 )}
