@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
 import avatar3 from "@/assets/avatar-3.jpg";
@@ -25,6 +26,7 @@ const HeroSection = () => {
   const [typewriterText, setTypewriterText] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const typewriterRef = useRef<HTMLParagraphElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   
@@ -40,12 +42,48 @@ const HeroSection = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    toast({
-      title: "Solicitud enviada",
-      description: "Analizaremos tu situación y te contactaremos pronto.",
-    });
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    
+    try {
+      console.log('Submitting form to Pipedrive');
+      
+      const { data: result, error } = await supabase.functions.invoke('pipedrive-lead', {
+        body: {
+          debt_amount: data.debt_amount,
+          loan_number: data.loan_number,
+          default: data.default,
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone
+        }
+      });
+
+      if (error) {
+        console.error('Edge function error:', error);
+        throw error;
+      }
+
+      console.log('Lead created successfully:', result);
+
+      toast({
+        title: "¡Solicitud enviada!",
+        description: "Nos pondremos en contacto contigo pronto para analizar tu situación.",
+      });
+      
+      form.reset();
+      setCurrentStep(1);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "Hubo un problema al enviar tu solicitud. Por favor, inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleStepChange = (value: string, fieldName: string) => {
@@ -358,8 +396,9 @@ const HeroSection = () => {
                       type="submit"
                       variant="orange" 
                       className="w-full h-12 rounded-2xl shadow-lg font-medium"
+                      disabled={isSubmitting}
                     >
-                      Analizar mi situación
+                      {isSubmitting ? "Enviando..." : "Analizar mi situación"}
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </Button>
                   </div>
