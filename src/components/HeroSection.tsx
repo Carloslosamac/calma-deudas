@@ -1,18 +1,47 @@
 import { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Slider } from "@/components/ui/slider";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowUp } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
 import avatar3 from "@/assets/avatar-3.jpg";
 
+const formSchema = z.object({
+  fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  phone: z.string().min(9, "El teléfono debe tener al menos 9 dígitos"),
+  mobile: z.string().min(9, "El móvil debe tener al menos 9 dígitos"),
+  debtAmount: z.number().min(0).max(100000),
+});
+
 const HeroSection = () => {
-  const [prompt, setPrompt] = useState("");
   const [typewriterText, setTypewriterText] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
   const typewriterRef = useRef<HTMLParagraphElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+      phone: "",
+      mobile: "",
+      debtAmount: 5000,
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    toast({
+      title: "Solicitud enviada",
+      description: "Analizaremos tu situación y te contactaremos pronto.",
+    });
+    console.log(data);
+  };
   
   const fullTypewriterText = "Gratis, rápido y sin compromiso.";
 
@@ -65,13 +94,6 @@ const HeroSection = () => {
     };
   }, []);
 
-  const suggestions = [
-    "Pagar una sola cuota",
-    "Salir de ASNEF", 
-    "Acabar con el acoso",
-    "Reclamar intereses",
-    "Perdonar mis deudas"
-  ];
 
   return (
     <section className="relative min-h-screen bg-gradient-hero animate-sky-drift pt-32 overflow-hidden flex flex-col" style={{ backgroundSize: '200% 200%' }}>
@@ -101,38 +123,95 @@ const HeroSection = () => {
           </div>
 
           <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
-            <div className="flex flex-col gap-4">
-              <Textarea
-                placeholder="Descríbeme tu situación con las deudas y te ayudo."
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                className="w-full min-h-20 rounded-2xl border-0 bg-white/50 text-lg placeholder:text-sm placeholder:text-foreground/60 focus-visible:ring-2 focus-visible:ring-orange pr-6 py-4 resize-none"
-              />
-              <Button 
-                variant="orange" 
-                className="w-full h-12 rounded-2xl shadow-lg font-medium"
-              >
-                <ArrowUp className="h-5 w-5 mr-2" />
-                Analizar mi situación
-              </Button>
-            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground/80">Nombre completo</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Tu nombre completo" 
+                          {...field}
+                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground/80">Teléfono</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Tu teléfono" 
+                          {...field}
+                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="mobile"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground/80">Móvil</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Tu móvil" 
+                          {...field}
+                          className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-orange"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="debtAmount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-foreground/80">
+                        Cantidad de deuda: {field.value.toLocaleString('es-ES')}€
+                      </FormLabel>
+                      <FormControl>
+                        <Slider
+                          min={0}
+                          max={100000}
+                          step={1000}
+                          value={[field.value]}
+                          onValueChange={(value) => field.onChange(value[0])}
+                          className="mt-2"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="mt-6">
-              <p className="text-sm text-foreground/70 mb-3 text-center">
-                ¿No sabes por dónde empezar? Prueba una de estas:
-              </p>
-              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-2">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setPrompt(suggestion)}
-                    className="w-full sm:w-auto px-3 py-2 rounded-full bg-white/30 text-xs sm:text-sm text-foreground/80 hover:bg-white/50 transition-colors border border-white/20 text-center whitespace-nowrap"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
+                <Button 
+                  type="submit"
+                  variant="orange" 
+                  className="w-full h-12 rounded-2xl shadow-lg font-medium mt-6"
+                >
+                  <ArrowUp className="h-5 w-5 mr-2" />
+                  Analizar mi situación
+                </Button>
+              </form>
+            </Form>
           </div>
 
           <div className="flex items-center justify-center gap-3 text-foreground/70">
