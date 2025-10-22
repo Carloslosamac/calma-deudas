@@ -113,6 +113,40 @@ serve(async (req) => {
     const defaultOptionId = formData.default === 'si' ? yesOption.id : noOption.id;
     console.log(`Mapped default value "${formData.default}" to option ID: ${defaultOptionId}`);
 
+    // Find the "debt_amount" field and determine its type
+    const debtAmountField = fieldsData.data.find(
+      (field: any) => field.key === '6daddd06a280f80804900a1a2985151fdf8af769'
+    );
+    
+    if (!debtAmountField) {
+      console.error('Debt amount field not found');
+      throw new Error('Could not find debt_amount field configuration in Pipedrive');
+    }
+
+    console.log(`Debt amount field type: ${debtAmountField.field_type}`);
+    console.log(`Debt amount field details:`, JSON.stringify(debtAmountField, null, 2));
+
+    // Format debt_amount based on field type
+    let formattedDebtAmount: any;
+    const debtValue = parseInt(formData.debt_amount) || 0;
+    
+    if (debtAmountField.field_type === 'monetary') {
+      // Monetary fields expect { amount: number, currency: string }
+      formattedDebtAmount = {
+        amount: debtValue,
+        currency: 'EUR',
+      };
+      console.log(`Formatted debt_amount as monetary:`, formattedDebtAmount);
+    } else if (debtAmountField.field_type === 'double' || debtAmountField.field_type === 'int') {
+      // Numeric fields expect just the number
+      formattedDebtAmount = debtValue;
+      console.log(`Formatted debt_amount as numeric: ${formattedDebtAmount}`);
+    } else {
+      // Fallback to string for other field types
+      formattedDebtAmount = formData.debt_amount;
+      console.log(`Formatted debt_amount as string: ${formattedDebtAmount}`);
+    }
+
     // Step 3: Create Lead in Pipedrive with custom fields
     console.log('Creating Lead in Pipedrive');
     
@@ -132,7 +166,7 @@ serve(async (req) => {
         // Custom fields
         'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e': defaultOptionId,             // default (numeric option ID)
         '19fe4cbbd5b81d574d1a0e1eae0889dd81f15797': formData.loan_number,        // loan_number
-        '6daddd06a280f80804900a1a2985151fdf8af769': parseInt(formData.debt_amount) || 0,  // debt_amount (monetary custom field)
+        '6daddd06a280f80804900a1a2985151fdf8af769': formattedDebtAmount,         // debt_amount (dynamically formatted)
       }),
     });
 
