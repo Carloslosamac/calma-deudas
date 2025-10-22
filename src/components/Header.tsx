@@ -27,7 +27,13 @@ const Header = () => {
           </a>
         </nav>
 
-        <Button variant="orange" className="rounded-full px-6">
+        <Button 
+          variant="orange" 
+          className="rounded-full px-6"
+          onClick={() => {
+            document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }}
+        >
           Encuentra tu solución
         </Button>
       </div>

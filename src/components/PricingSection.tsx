@@ -63,7 +63,13 @@ const PricingSection = () => {
                 </div>
               </div>
 
-              <Button variant="orange" className="w-full rounded-2xl py-4 text-lg font-medium">
+              <Button 
+                variant="orange" 
+                className="w-full rounded-2xl py-4 text-lg font-medium"
+                onClick={() => {
+                  document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+              >
                 Comenzar gratis
               </Button>
 

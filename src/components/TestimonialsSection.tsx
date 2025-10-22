@@ -95,7 +95,12 @@ const TestimonialsSection = () => {
         <p className="text-lg text-foreground/70 mb-8">
           Historias reales de personas que recuperaron su libertad financiera.
         </p>
-        <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
+        <Button 
+          className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3"
+          onClick={() => {
+            document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }}
+        >
           Comenzar mi liberación
         </Button>
       </div>

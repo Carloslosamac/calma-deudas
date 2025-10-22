@@ -175,7 +175,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
+          <div id="hero-form" className="bg-gradient-card backdrop-blur-sm rounded-3xl p-6 mb-8 shadow-2xl border border-white/20">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {currentStep === 1 && (

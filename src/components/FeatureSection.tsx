@@ -24,7 +24,12 @@ const FeatureSection = () => {
                 <p className="text-lg text-foreground/70 leading-relaxed">
                   Cuéntanos tu situación financiera y nuestro software analizará automáticamente todas tus deudas, ingresos y gastos para crear un plan personalizado de liberación de deudas.
                 </p>
-                <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
+                <Button 
+                  className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3"
+                  onClick={() => {
+                    document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                >
                   Analizar mi situación
                 </Button>
               </div>
@@ -66,7 +71,12 @@ const FeatureSection = () => {
                 <p className="text-lg text-foreground/70 leading-relaxed">
                   Nuestro sistema identifica automáticamente las mejores opciones legales para tu caso: Ley de Segunda Oportunidad, renegociación de deudas, refinanciación o prescripción de deudas.
                 </p>
-                <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
+                <Button 
+                  className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3"
+                  onClick={() => {
+                    document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                >
                   Ver mis opciones
                 </Button>
               </div>
@@ -118,7 +128,12 @@ const FeatureSection = () => {
                 <p className="text-lg text-foreground/70 leading-relaxed">
                   Te guiamos paso a paso durante todo el proceso. Desde la documentación necesaria hasta el seguimiento de cada gestión, nunca estarás solo en tu camino hacia la libertad financiera.
                 </p>
-                <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3">
+                <Button 
+                  className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 py-3"
+                  onClick={() => {
+                    document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                >
                   Comenzar ahora
                 </Button>
               </div>
