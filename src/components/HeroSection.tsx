@@ -16,9 +16,9 @@ const formSchema = z.object({
   debt_amount: z.string().min(1, "Selecciona una opción"),
   loan_number: z.string().min(1, "Selecciona una opción"),
   default: z.string().min(1, "Selecciona una opción"),
-  fullName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  phone: z.string().min(9, "El teléfono debe tener al menos 9 dígitos"),
-  mobile: z.string().min(9, "El móvil debe tener al menos 9 dígitos"),
+  fullName: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres").max(100, "El nombre debe tener menos de 100 caracteres"),
+  email: z.string().trim().email("Email inválido").max(255, "El email debe tener menos de 255 caracteres"),
+  phone: z.string().trim().min(9, "El teléfono debe tener al menos 9 dígitos").max(20, "El teléfono debe tener menos de 20 dígitos"),
 });
 
 const HeroSection = () => {
@@ -35,8 +35,8 @@ const HeroSection = () => {
       loan_number: "",
       default: "",
       fullName: "",
+      email: "",
       phone: "",
-      mobile: "",
     },
   });
 
@@ -296,12 +296,33 @@ const HeroSection = () => {
                       name="fullName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-foreground/80">Nombre completo</FormLabel>
+                          <FormLabel className="text-foreground/80">Nombre</FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="Tu nombre completo" 
+                              placeholder="Tu nombre" 
                               {...field}
                               className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                              maxLength={100}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground/80">Email</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="email"
+                              placeholder="tu@email.com" 
+                              {...field}
+                              className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                              maxLength={255}
                             />
                           </FormControl>
                           <FormMessage />
@@ -317,27 +338,11 @@ const HeroSection = () => {
                           <FormLabel className="text-foreground/80">Teléfono</FormLabel>
                           <FormControl>
                             <Input 
+                              type="tel"
                               placeholder="Tu teléfono" 
                               {...field}
                               className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="mobile"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-foreground/80">Móvil</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Tu móvil" 
-                              {...field}
-                              className="rounded-2xl border-0 bg-white/50 text-base focus-visible:ring-2 focus-visible:ring-accent"
+                              maxLength={20}
                             />
                           </FormControl>
                           <FormMessage />
