@@ -90,12 +90,9 @@ serve(async (req) => {
         },
         label_ids: [], // Can be configured later with specific lead labels
         // Custom fields with their Pipedrive API keys
-        '6daddd06a280f80804900a1a2985151fdf8af769': {  // debt_amount (monetary field)
-          amount: parseInt(formData.debt_amount) || 0,
-          currency: 'EUR'
-        },
-        'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e': defaultStatus,               // default (yes/no)
-        '19fe4cbbd5b81d574d1a0e1eae0889dd81f15797': formData.loan_number,        // loan_number
+        '6daddd06a280f80804900a1a2985151fdf8af769': parseInt(formData.debt_amount) || 0,  // debt_amount
+        'caa93aefcc2aa65f8b9d70df8be1104b134d1a8e': defaultStatus,                        // default (yes/no)
+        '19fe4cbbd5b81d574d1a0e1eae0889dd81f15797': formData.loan_number,                 // loan_number
       }),
     });
 
