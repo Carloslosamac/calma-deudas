@@ -50,7 +50,7 @@ serve(async (req) => {
 
     console.log('Creating Person in Pipedrive');
     
-    // Step 1: Create Person in Pipedrive
+    // Step 1: Create Person in Pipedrive with additional data in visible_to field
     const personResponse = await fetch(`https://api.pipedrive.com/v1/persons?api_token=${apiToken}`, {
       method: 'POST',
       headers: {
@@ -60,6 +60,8 @@ serve(async (req) => {
         name: sanitizedName,
         email: [{ value: sanitizedEmail, primary: true }],
         phone: [{ value: sanitizedPhone, primary: true }],
+        // Add additional info that will be searchable
+        org_name: `Deuda: ${formData.debt_amount}€ | Préstamos: ${formData.loan_number} | Mora: ${defaultStatus}`,
       }),
     });
 
@@ -82,17 +84,13 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: `Análisis de deuda - ${sanitizedName}`,
+        title: `Deuda ${formData.debt_amount}€ - ${formData.loan_number} préstamos - Mora: ${defaultStatus} - ${sanitizedName}`,
         person_id: personId,
-        // Store additional data in notes since we don't know the custom field IDs
-        // Users can create custom fields in Pipedrive and map these later
         value: {
           amount: parseInt(formData.debt_amount) || 0,
           currency: 'EUR',
         },
-        // Include all form data in the lead's custom fields area
-        // Note: You'll need to configure custom field mappings in Pipedrive dashboard
-        // For now, we'll include this data in visible_to and add_time will be automatic
+        label_ids: [], // Can be configured later with specific lead labels
       }),
     });
 
@@ -114,15 +112,21 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content: `Detalles del formulario:
-- Monto de deuda: ${formData.debt_amount}
-- Número de préstamos: ${formData.loan_number}
-- En mora: ${defaultStatus}
-- Nombre: ${sanitizedName}
+        content: `📋 DETALLES DEL ANÁLISIS DE DEUDA
+
+💰 Monto total de deuda: ${formData.debt_amount}€
+🏦 Número de préstamos/entidades: ${formData.loan_number}
+⚠️ Estado de mora: ${defaultStatus === 'yes' ? '✅ SÍ - En impago' : '❌ NO - Al corriente'}
+
+👤 Datos de contacto:
+- Nombre completo: ${sanitizedName}
 - Email: ${sanitizedEmail}
-- Teléfono: ${sanitizedPhone}`,
+- Teléfono: ${sanitizedPhone}
+
+🎯 Próximos pasos: Contactar para análisis detallado de la situación financiera`,
         lead_id: leadData.data.id,
         person_id: personId,
+        pinned_to_lead_flag: 1, // Pin the note so it's always visible
       }),
     });
 
