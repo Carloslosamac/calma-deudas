@@ -166,7 +166,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="7500" className="sr-only" />
                               <span className="font-medium">Entre 5.000€ y 10.000€</span>
                             </label>
@@ -175,7 +175,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="15000" className="sr-only" />
                               <span className="font-medium">Entre 10.000€ y 20.000€</span>
                             </label>
@@ -184,7 +184,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="30000" className="sr-only" />
                               <span className="font-medium">Más de 20.000€</span>
                             </label>
@@ -216,7 +216,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="1" className="sr-only" />
                               <span className="font-medium">Solo 1</span>
                             </label>
@@ -225,7 +225,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="3" className="sr-only" />
                               <span className="font-medium">Entre 2 y 4</span>
                             </label>
@@ -234,7 +234,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="6" className="sr-only" />
                               <span className="font-medium">Más de 5</span>
                             </label>
@@ -266,7 +266,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="si" className="sr-only" />
                               <span className="font-medium">Sí</span>
                             </label>
@@ -275,7 +275,7 @@ const HeroSection = () => {
                                 ? "bg-accent text-white border-accent" 
                                 : "bg-white/50 text-foreground border-white/20 hover:border-accent/50"
                             }`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}>
+                            style={{ WebkitTapHighlightColor: '#d6f2ad' }}>
                               <RadioGroupItem value="no" className="sr-only" />
                               <span className="font-medium">No</span>
                             </label>
@@ -368,7 +368,7 @@ const HeroSection = () => {
                   </div>
                 )}
 
-                {currentStep < 4 && (
+                {currentStep < 4 && currentStep > 1 && (
                   <div className="flex justify-center mt-8">
                     <Button 
                       type="button"
