@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import CallRedirect from "./pages/CallRedirect";
+import CallRedirectRH from "./pages/CallRedirectRH";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
           <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
           <Route path="/call/smd" element={<CallRedirect />} />
+          <Route path="/call/rh" element={<CallRedirectRH />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
