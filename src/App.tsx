@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/call/rh" element={<CallRedirectRH />} />
           <Route path="/call/altaley" element={<CallRedirectAltaley />} />
           <Route path="/call/quitadeudas" element={<CallRedirectQuitaDeudas />} />
+          <Route path="/call/lexitia" element={<CallRedirectLexitia />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
