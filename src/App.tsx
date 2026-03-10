@@ -10,6 +10,7 @@ import CallRedirect from "./pages/CallRedirect";
 import CallRedirectRH from "./pages/CallRedirectRH";
 import CallRedirectAltaley from "./pages/CallRedirectAltaley";
 import CallRedirectQuitaDeudas from "./pages/CallRedirectQuitaDeudas";
+import CallRedirectLexitia from "./pages/CallRedirectLexitia";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/call/rh" element={<CallRedirectRH />} />
           <Route path="/call/altaley" element={<CallRedirectAltaley />} />
           <Route path="/call/quitadeudas" element={<CallRedirectQuitaDeudas />} />
+          <Route path="/call/lexitia" element={<CallRedirectLexitia />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
