@@ -3,7 +3,7 @@ import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CallRedirectQuitaDeudas = () => {
-  const phoneNumber = "900877827";
+  const phoneNumber = "+34856647010";
 
   useEffect(() => {
     const timer = setTimeout(() => {
