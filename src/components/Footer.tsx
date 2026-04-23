@@ -3,79 +3,47 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-background border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-foreground">Calma</h3>
-            <p className="text-muted-foreground text-sm">
-              Especialistas en cancelación de deuda. Te ayudamos a recuperar tu libertad financiera.
+    <footer className="bg-surface border-t border-border">
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="col-span-2 md:col-span-1 space-y-4">
+            <img src="/lovable-uploads/8698ae24-c99d-402f-ba9e-a4bb74712c31.png" alt="Calma" className="h-7" />
+            <p className="text-sm text-muted-foreground max-w-xs">
+              Especialistas en cancelación de deuda al amparo de la Ley
+              de Segunda Oportunidad.
             </p>
-            <div className="space-y-2 text-sm text-foreground">
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <span>info@calma.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>+34 900 123 456</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>Madrid, España</span>
-              </div>
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-foreground">Enlaces</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Características
-                </a>
-              </li>
-              <li>
-                <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Testimonios
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Precios
-                </a>
-              </li>
+          <div>
+            <h4 className="font-poppins font-semibold text-foreground mb-4 text-sm">Producto</h4>
+            <ul className="space-y-3 text-sm">
+              <li><a href="#como-funciona" className="text-muted-foreground hover:text-foreground transition-colors">Cómo funciona</a></li>
+              <li><a href="#soluciones" className="text-muted-foreground hover:text-foreground transition-colors">Soluciones</a></li>
+              <li><a href="#testimonios" className="text-muted-foreground hover:text-foreground transition-colors">Casos reales</a></li>
             </ul>
           </div>
 
-          {/* Legal */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-foreground">Legal</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/politica-de-privacidad" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Política de Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link to="/terminos-y-condiciones" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Términos y Condiciones
-                </Link>
-              </li>
+          <div>
+            <h4 className="font-poppins font-semibold text-foreground mb-4 text-sm">Legal</h4>
+            <ul className="space-y-3 text-sm">
+              <li><Link to="/politica-de-privacidad" className="text-muted-foreground hover:text-foreground transition-colors">Privacidad</Link></li>
+              <li><Link to="/terminos-y-condiciones" className="text-muted-foreground hover:text-foreground transition-colors">Términos</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-poppins font-semibold text-foreground mb-4 text-sm">Contacto</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@calma.com</li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +34 900 123 456</li>
+              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Madrid, España</li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Calma. Todos los derechos reservados.</p>
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+          <p>&copy; {new Date().getFullYear()} Calma. Vive sin deudas.</p>
+          <p>Hecho con calma en España 🇪🇸</p>
         </div>
       </div>
     </footer>
