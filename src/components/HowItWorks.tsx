@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ClipboardList, Scale, Sparkles } from "lucide-react";
-import womanWindow from "@/assets/person-woman-window.jpg";
-import couple from "@/assets/person-couple-sofa.jpg";
-import womanWalking from "@/assets/person-woman-walking.jpg";
+import stepForm from "@/assets/step-form.jpg";
+import stepStrategy from "@/assets/step-strategy.jpg";
+import stepFreedom from "@/assets/step-freedom.jpg";
 
 const steps = [
   {
@@ -10,24 +10,24 @@ const steps = [
     number: "01",
     title: "Cuéntanos tu situación",
     desc: "Responde un breve cuestionario sobre tus deudas. Sin papeleo, sin DNI, sin compromiso.",
-    image: womanWindow,
-    imageAlt: "Mujer reflexionando junto a la ventana con un café",
+    image: stepForm,
+    imageAlt: "Mujer rellenando el cuestionario en su móvil desde casa",
   },
   {
     icon: Scale,
     number: "02",
     title: "Diseñamos tu estrategia legal",
     desc: "Nuestros abogados analizan tu caso y eligen la vía óptima: Segunda Oportunidad, renegociación o prescripción.",
-    image: couple,
-    imageAlt: "Pareja revisando documentos legales en su salón",
+    image: stepStrategy,
+    imageAlt: "Abogados analizando el caso en el despacho",
   },
   {
     icon: Sparkles,
     number: "03",
     title: "Recuperas tu calma",
     desc: "Ejecutamos el plan y te acompañamos hasta que vives, oficialmente, sin deudas.",
-    image: womanWalking,
-    imageAlt: "Mujer caminando libre por una plaza al atardecer",
+    image: stepFreedom,
+    imageAlt: "Pareja en calma en casa después de cancelar sus deudas",
   },
 ];
 
