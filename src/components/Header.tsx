@@ -17,7 +17,7 @@ const Header = () => {
         className={`mx-auto flex w-full max-w-6xl items-center justify-between rounded-full px-6 py-3 transition-all duration-300 ${
           scrolled
             ? "bg-white/80 backdrop-blur-xl border border-border/60 shadow-medium"
-            : "bg-transparent border border-transparent shadow-none"
+            : "bg-white/60 backdrop-blur-md border border-white/40 shadow-soft"
         }`}
       >
         <div className="flex items-center gap-2">
@@ -26,15 +26,13 @@ const Header = () => {
             alt="Calma Logo" 
             className="h-8"
           />
-          {scrolled && (
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground ml-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
-              </span>
-              Asesores online
+          <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground ml-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
             </span>
-          )}
+            Asesores online
+          </span>
         </div>
         
         <nav className="hidden lg:flex items-center gap-8 text-sm">
@@ -52,11 +50,9 @@ const Header = () => {
           </a>
         </nav>
 
-        <Button
-          variant={scrolled ? "orange" : "ghost"}
-          className={`rounded-full px-5 h-10 text-sm transition-all ${
-            scrolled ? "shadow-soft" : "text-foreground/80 hover:bg-foreground/5"
-          }`}
+        <Button 
+          variant="orange" 
+          className="rounded-full px-5 h-10 text-sm shadow-soft"
           onClick={() => {
             document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }}

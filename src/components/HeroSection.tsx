@@ -37,12 +37,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-muted-foreground mb-8"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-foreground/80 mb-8 shadow-soft"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
-          </span>
+          <ShieldCheck className="h-3.5 w-3.5 text-accent-deep" />
           Amparado por la Ley de Segunda Oportunidad
         </motion.div>
 
