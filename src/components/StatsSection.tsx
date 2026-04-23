@@ -1,13 +1,29 @@
 import { motion } from "framer-motion";
+import { useLiveCounter, formatEuro, formatNumber } from "@/hooks/useLiveCounter";
 
-const stats = [
-  { value: "12.400+", label: "Familias liberadas", sub: "desde 2019" },
-  { value: "8 M €", label: "Deuda cancelada", sub: "gestionados legalmente" },
-  { value: "97 %", label: "Casos con éxito", sub: "tras la valoración inicial" },
-  { value: "2 min", label: "Análisis inicial", sub: "100% gratuito y online" },
-];
+const START = new Date("2026-04-01T00:00:00Z");
 
 const StatsSection = () => {
+  const families = useLiveCounter({ base: 12_412, startDate: START, perDay: 7, tickMs: 4000 });
+  const debt = useLiveCounter({ base: 8_240_000, startDate: START, perDay: 6500, tickMs: 3500 });
+
+  const stats = [
+    {
+      value: formatNumber(families),
+      label: "Familias liberadas",
+      sub: "y subiendo cada día",
+      live: true,
+    },
+    {
+      value: formatEuro(debt),
+      label: "Deuda cancelada",
+      sub: "gestionados legalmente",
+      live: true,
+    },
+    { value: "97 %", label: "Casos con éxito", sub: "tras la valoración inicial" },
+    { value: "2 min", label: "Análisis inicial", sub: "100% gratuito y online" },
+  ];
+
   return (
     <section className="py-20 md:py-28 bg-background">
       <div className="mx-auto max-w-6xl px-6">
@@ -21,10 +37,18 @@ const StatsSection = () => {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="bg-background p-6 md:p-10 text-center md:text-left"
             >
-              <div className="font-poppins text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-2">
+              <div className="font-poppins text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-2 tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-sm font-medium text-foreground/80">{stat.label}</div>
+              <div className="text-sm font-medium text-foreground/80 flex items-center gap-2 justify-center md:justify-start">
+                {stat.live && (
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+                  </span>
+                )}
+                {stat.label}
+              </div>
               <div className="text-xs text-muted-foreground mt-1">{stat.sub}</div>
             </motion.div>
           ))}

@@ -1,9 +1,24 @@
 import { motion } from "framer-motion";
+import { useLiveCounter, formatEuro } from "@/hooks/useLiveCounter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import avatar1 from "@/assets/avatar-1.jpg";
 import avatar2 from "@/assets/avatar-2.jpg";
 import avatar3 from "@/assets/avatar-3.jpg";
+
+const HeroDebtNumber = () => {
+  const debt = useLiveCounter({
+    base: 8_240_000,
+    startDate: new Date("2026-04-01T00:00:00Z"),
+    perDay: 6500,
+    tickMs: 3500,
+  });
+  return (
+    <div className="font-poppins font-bold tracking-tighter text-[clamp(3rem,11vw,8.5rem)] leading-none bg-gradient-to-br from-foreground via-accent-deep to-foreground bg-clip-text text-transparent tabular-nums">
+      {formatEuro(debt)}
+    </div>
+  );
+};
 
 const HeroSection = () => {
   const scrollToForm = () => {
@@ -53,9 +68,7 @@ const HeroSection = () => {
           <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
             Deuda cancelada a nuestros clientes
           </div>
-          <div className="font-poppins font-bold tracking-tighter text-[clamp(4rem,14vw,11rem)] leading-none bg-gradient-to-br from-foreground via-accent-deep to-foreground bg-clip-text text-transparent">
-            8M €
-          </div>
+          <HeroDebtNumber />
           <div className="text-sm text-muted-foreground mt-2">
             y sumando, gestionados con éxito desde 2019
           </div>
