@@ -37,7 +37,7 @@ const StatsSection = () => {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="bg-background p-6 md:p-10 text-center md:text-left"
             >
-              <div className="font-poppins text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-2 tabular-nums">
+              <div className="font-poppins text-2xl md:text-4xl xl:text-5xl font-bold text-foreground tracking-tight mb-2 tabular-nums whitespace-nowrap">
                 {stat.value}
               </div>
               <div className="text-sm font-medium text-foreground/80 flex items-center gap-2 justify-center md:justify-start">
