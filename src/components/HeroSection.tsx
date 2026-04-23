@@ -7,17 +7,15 @@ import personMan from "@/assets/person-man-portrait.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 
 const HeroDebtNumber = () => {
-  // Deuda media cancelada por familia. Crece muy poco (~3 €/día) para
-  // mantener la sensación viva sin sentirse artificial.
-  const avgDebt = useLiveCounter({
-    base: 34_200,
+  const debt = useLiveCounter({
+    base: 8_240_000,
     startDate: new Date("2026-04-01T00:00:00Z"),
-    perDay: 3,
-    tickMs: 5000,
+    perDay: 6500,
+    tickMs: 3500,
   });
   return (
-    <div className="font-poppins font-bold tracking-tighter text-[clamp(3rem,11vw,8.5rem)] leading-none tabular-nums bg-gradient-to-r from-accent-deep via-accent-deep to-[hsl(160_45%_18%)] bg-clip-text text-transparent">
-      {formatEuro(avgDebt)}
+    <div className="font-poppins font-bold tracking-tighter text-[clamp(3rem,11vw,8.5rem)] leading-none bg-gradient-to-br from-foreground via-accent-deep to-foreground bg-clip-text text-transparent tabular-nums">
+      {formatEuro(debt)}
     </div>
   );
 };
@@ -68,11 +66,11 @@ const HeroSection = () => {
           className="my-12"
         >
           <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            Deuda media cancelada por familia
+            Deuda cancelada a nuestros clientes
           </div>
           <HeroDebtNumber />
           <div className="text-sm text-muted-foreground mt-2">
-            promedio real de nuestros clientes desde 2019
+            y sumando, gestionados con éxito desde 2019
           </div>
         </motion.div>
 
