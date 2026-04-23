@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useLiveCounter, formatEuro, formatNumber } from "@/hooks/useLiveCounter";
+import { useLiveCounter, formatNumber } from "@/hooks/useLiveCounter";
 
 const START = new Date("2026-04-01T00:00:00Z");
 
@@ -15,7 +15,7 @@ const StatsSection = () => {
       live: true,
     },
     {
-      value: formatEuro(debt),
+      value: formatNumber(debt) + " €",
       label: "Deuda cancelada",
       sub: "gestionados legalmente",
       live: true,
@@ -37,7 +37,7 @@ const StatsSection = () => {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="bg-background p-6 md:p-10 text-center md:text-left"
             >
-              <div className="font-poppins text-2xl md:text-4xl xl:text-5xl font-bold text-foreground tracking-tight mb-2 tabular-nums whitespace-nowrap">
+              <div className="font-poppins text-2xl md:text-3xl xl:text-4xl font-bold text-foreground tracking-tight mb-2 tabular-nums whitespace-nowrap">
                 {stat.value}
               </div>
               <div className="text-sm font-medium text-foreground/80 flex items-center gap-2 justify-center md:justify-start">
