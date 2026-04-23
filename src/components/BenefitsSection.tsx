@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
@@ -81,7 +81,22 @@ const benefits = [
 
 const BenefitsSection = () => {
   const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const Active = benefits[active].icon;
+
+  useEffect(() => {
+    if (isPaused) return;
+    const id = setInterval(() => {
+      setActive((prev) => (prev + 1) % benefits.length);
+    }, 3500);
+    return () => clearInterval(id);
+  }, [isPaused]);
+
+  const handleSelect = (i: number) => {
+    setActive(i);
+    setIsPaused(true);
+  };
 
   const scrollToForm = () => {
     document.getElementById("hero-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -103,7 +118,12 @@ const BenefitsSection = () => {
         </div>
 
         {/* Interactive layout */}
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-10 items-stretch">
+        <div
+          ref={containerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="grid lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-10 items-stretch"
+        >
           {/* Left: clickable list */}
           <div className="flex flex-col gap-2">
             {benefits.map((b, i) => {
@@ -112,14 +132,23 @@ const BenefitsSection = () => {
               return (
                 <button
                   key={b.title}
-                  onClick={() => setActive(i)}
+                  onClick={() => handleSelect(i)}
                   onMouseEnter={() => setActive(i)}
-                  className={`group text-left rounded-2xl border transition-all duration-300 px-5 py-4 flex items-center gap-4 ${
+                  className={`group relative overflow-hidden text-left rounded-2xl border transition-all duration-300 px-5 py-4 flex items-center gap-4 ${
                     isActive
                       ? "bg-foreground text-background border-foreground shadow-lg"
                       : "bg-surface border-border hover:border-accent/60 hover:bg-surface-elevated"
                   }`}
                 >
+                  {isActive && !isPaused && (
+                    <motion.div
+                      key={`progress-${i}-${active}`}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 3.5, ease: "linear" }}
+                      className="absolute bottom-0 left-0 h-0.5 bg-accent"
+                    />
+                  )}
                   <div
                     className={`shrink-0 h-11 w-11 rounded-xl flex items-center justify-center transition-colors ${
                       isActive
@@ -199,7 +228,7 @@ const BenefitsSection = () => {
               {benefits.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setActive(i)}
+                  onClick={() => handleSelect(i)}
                   aria-label={`Ver beneficio ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all ${
                     i === active ? "w-6 bg-foreground" : "w-1.5 bg-foreground/20 hover:bg-foreground/40"
