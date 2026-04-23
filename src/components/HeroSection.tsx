@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useLiveCounter, formatEuro } from "@/hooks/useLiveCounter";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, Sparkles, Clock, Gift, Lock } from "lucide-react";
 import personWoman from "@/assets/person-woman-walking.jpg";
 import personMan from "@/assets/person-man-portrait.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
@@ -32,23 +32,12 @@ const HeroSection = () => {
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-accent-soft/40 blur-3xl pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 text-center">
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-foreground/80 mb-8 shadow-soft"
-        >
-          <ShieldCheck className="h-3.5 w-3.5 text-accent-deep" />
-          Amparado por la Ley de Segunda Oportunidad
-        </motion.div>
-
         {/* Massive headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-poppins font-semibold tracking-tight text-foreground text-[clamp(2.75rem,7vw,5.5rem)] leading-[1.02] mb-8"
+          className="font-poppins font-semibold tracking-tight text-foreground text-[clamp(2.75rem,7vw,5.5rem)] leading-[1.02] mb-8 mt-4"
         >
           Vive sin deudas.
           <br />
@@ -74,16 +63,27 @@ const HeroSection = () => {
           </div>
         </motion.div>
 
-        {/* Subtitle */}
-        <motion.p
+        {/* Benefit badges */}
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+          className="flex flex-wrap items-center justify-center gap-2.5 mb-10"
         >
-          Analizamos tu situación en minutos y te proponemos una solución legal a medida.
-          Sin compromiso, sin costes ocultos.
-        </motion.p>
+          {[
+            { icon: Clock, text: "Resultado en 2 minutos" },
+            { icon: Gift, text: "100% gratis y sin compromiso" },
+            { icon: Lock, text: "Sin pedir DNI ni datos bancarios" },
+          ].map((b) => (
+            <div
+              key={b.text}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur-sm px-4 py-1.5 text-xs md:text-sm font-medium text-foreground/80 shadow-soft"
+            >
+              <b.icon className="h-3.5 w-3.5 text-accent-deep" />
+              {b.text}
+            </div>
+          ))}
+        </motion.div>
 
         {/* CTA */}
         <motion.div
