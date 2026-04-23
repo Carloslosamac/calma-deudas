@@ -5,6 +5,7 @@ import MediaLogos from "@/components/MediaLogos";
 import HowItWorks from "@/components/HowItWorks";
 import FormSection from "@/components/FormSection";
 import FeatureSection from "@/components/FeatureSection";
+import BenefitsSection from "@/components/BenefitsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import TrustBadges from "@/components/TrustBadges";
 import PricingSection from "@/components/PricingSection";
@@ -20,6 +21,7 @@ const Index = () => {
       <HowItWorks />
       <FormSection />
       <FeatureSection />
+      <BenefitsSection />
       <TestimonialsSection />
       <TrustBadges />
       <PricingSection />
