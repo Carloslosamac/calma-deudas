@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { ClipboardList, Scale, Sparkles } from "lucide-react";
+import womanWindow from "@/assets/person-woman-window.jpg";
+import couple from "@/assets/person-couple-sofa.jpg";
+import womanWalking from "@/assets/person-woman-walking.jpg";
 
 const steps = [
   {
@@ -7,18 +10,24 @@ const steps = [
     number: "01",
     title: "Cuéntanos tu situación",
     desc: "Responde un breve cuestionario sobre tus deudas. Sin papeleo, sin DNI, sin compromiso.",
+    image: womanWindow,
+    imageAlt: "Mujer reflexionando junto a la ventana con un café",
   },
   {
     icon: Scale,
     number: "02",
     title: "Diseñamos tu estrategia legal",
     desc: "Nuestros abogados analizan tu caso y eligen la vía óptima: Segunda Oportunidad, renegociación o prescripción.",
+    image: couple,
+    imageAlt: "Pareja revisando documentos legales en su salón",
   },
   {
     icon: Sparkles,
     number: "03",
     title: "Recuperas tu calma",
     desc: "Ejecutamos el plan y te acompañamos hasta que vives, oficialmente, sin deudas.",
+    image: womanWalking,
+    imageAlt: "Mujer caminando libre por una plaza al atardecer",
   },
 ];
 
@@ -45,20 +54,29 @@ const HowItWorks = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative bg-surface rounded-3xl p-8 border border-border hover:border-accent/50 hover:shadow-medium transition-all group"
+              className="relative bg-surface rounded-3xl border border-border hover:border-accent/50 hover:shadow-medium transition-all group overflow-hidden flex flex-col"
             >
-              <div className="flex items-start justify-between mb-12">
-                <div className="h-12 w-12 rounded-2xl bg-accent/20 flex items-center justify-center group-hover:bg-accent transition-colors">
-                  <step.icon className="h-6 w-6 text-accent-deep" />
-                </div>
-                <span className="font-poppins text-5xl font-bold text-foreground/10 group-hover:text-accent/40 transition-colors">
+              <div className="relative h-56 overflow-hidden bg-muted">
+                <img
+                  src={step.image}
+                  alt={step.imageAlt}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/40 via-transparent to-transparent" />
+                <span className="absolute top-4 right-5 font-poppins text-5xl font-bold text-background/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
                   {step.number}
                 </span>
+                <div className="absolute bottom-4 left-4 h-12 w-12 rounded-2xl bg-background/95 backdrop-blur-sm flex items-center justify-center shadow-medium">
+                  <step.icon className="h-6 w-6 text-accent-deep" />
+                </div>
               </div>
-              <h3 className="font-poppins text-xl font-semibold text-foreground mb-3">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
+              <div className="p-7 flex-1 flex flex-col">
+                <h3 className="font-poppins text-xl font-semibold text-foreground mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>

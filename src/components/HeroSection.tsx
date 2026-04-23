@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useLiveCounter, formatEuro } from "@/hooks/useLiveCounter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import avatar1 from "@/assets/avatar-1.jpg";
-import avatar2 from "@/assets/avatar-2.jpg";
-import avatar3 from "@/assets/avatar-3.jpg";
+import personWoman from "@/assets/person-woman-walking.jpg";
+import personMan from "@/assets/person-man-portrait.jpg";
+import personCouple from "@/assets/person-couple-sofa.jpg";
 
 const HeroDebtNumber = () => {
   const debt = useLiveCounter({
@@ -114,9 +114,9 @@ const HeroSection = () => {
           className="flex items-center justify-center gap-3 text-foreground/70"
         >
           <div className="flex -space-x-2">
-            <img src={avatar1} alt="Cliente Calma" className="h-9 w-9 rounded-full border-2 border-background object-cover shadow-soft" />
-            <img src={avatar2} alt="Cliente Calma" className="h-9 w-9 rounded-full border-2 border-background object-cover shadow-soft" />
-            <img src={avatar3} alt="Cliente Calma" className="h-9 w-9 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personWoman} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personCouple} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personMan} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
           </div>
           <div className="text-left">
             <div className="flex items-center gap-1 text-amber-500 text-sm">

@@ -1,29 +1,32 @@
 import { motion } from "framer-motion";
-import avatar1 from "@/assets/avatar-1.jpg";
-import avatar2 from "@/assets/avatar-2.jpg";
-import avatar3 from "@/assets/avatar-3.jpg";
+import womanWalking from "@/assets/person-woman-walking.jpg";
+import couple from "@/assets/person-couple-sofa.jpg";
+import manPortrait from "@/assets/person-man-portrait.jpg";
 
 const testimonials = [
   {
     name: "María González",
+    age: 38,
     location: "Madrid",
     saved: "32.500 €",
     text: "Pensé que no había salida. En 8 meses estaba completamente libre de deudas gracias a la Ley de Segunda Oportunidad.",
-    avatar: avatar1,
+    photo: womanWalking,
   },
   {
-    name: "Carlos Ruiz",
+    name: "Carlos y Marta",
+    age: 47,
     location: "Valencia",
     saved: "18.200 €",
-    text: "Renegociaron todas mis tarjetas y préstamos. Ahora pago una cuota que sí puedo asumir.",
-    avatar: avatar2,
+    text: "Renegociaron todas nuestras tarjetas y préstamos. Ahora pagamos una cuota que sí podemos asumir, juntos.",
+    photo: couple,
   },
   {
-    name: "Laura Martín",
+    name: "Javier Ruiz",
+    age: 52,
     location: "Sevilla",
     saved: "45.000 €",
     text: "Profesionales, cercanos y rápidos. Me devolvieron la tranquilidad que llevaba años sin tener.",
-    avatar: avatar3,
+    photo: manPortrait,
   },
 ];
 
@@ -50,28 +53,40 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-surface border border-border rounded-3xl p-7 flex flex-col hover:shadow-large hover:border-accent/40 transition-all"
+              className="group bg-surface border border-border rounded-3xl overflow-hidden flex flex-col hover:shadow-large hover:border-accent/40 transition-all"
             >
-              <div className="mb-6">
-                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
-                  Deuda eliminada
-                </div>
-                <div className="font-poppins text-4xl font-bold text-accent-deep tracking-tight">
-                  {t.saved}
+              <div className="relative h-64 overflow-hidden bg-muted">
+                <img
+                  src={t.photo}
+                  alt={`${t.name}, cliente de Calma en ${t.location}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-background">
+                  <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-0.5">
+                    Deuda eliminada
+                  </div>
+                  <div className="font-poppins text-3xl font-bold tracking-tight">
+                    {t.saved}
+                  </div>
                 </div>
               </div>
 
-              <p className="text-foreground/80 leading-relaxed mb-6 flex-1">
-                "{t.text}"
-              </p>
+              <div className="p-7 flex flex-col flex-1">
+                <p className="text-foreground/80 leading-relaxed mb-6 flex-1">
+                  "{t.text}"
+                </p>
 
-              <div className="flex items-center gap-3 pt-5 border-t border-border">
-                <img src={t.avatar} alt={t.name} className="h-11 w-11 rounded-full object-cover" />
-                <div>
-                  <div className="font-medium text-foreground text-sm">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.location}</div>
+                <div className="flex items-center justify-between pt-5 border-t border-border">
+                  <div>
+                    <div className="font-medium text-foreground text-sm">{t.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {t.age} años · {t.location}
+                    </div>
+                  </div>
+                  <div className="flex text-amber-500 text-sm">★★★★★</div>
                 </div>
-                <div className="ml-auto flex text-amber-500 text-sm">★★★★★</div>
               </div>
             </motion.article>
           ))}
