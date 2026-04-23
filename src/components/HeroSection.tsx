@@ -1,24 +1,9 @@
 import { motion } from "framer-motion";
-import { useLiveCounter, formatEuro } from "@/hooks/useLiveCounter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import personWoman from "@/assets/person-woman-walking.jpg";
 import personMan from "@/assets/person-man-portrait.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
-
-const HeroDebtNumber = () => {
-  const debt = useLiveCounter({
-    base: 8_240_000,
-    startDate: new Date("2026-04-01T00:00:00Z"),
-    perDay: 6500,
-    tickMs: 3500,
-  });
-  return (
-    <div className="font-poppins font-bold tracking-tighter text-[clamp(3rem,11vw,8.5rem)] leading-none bg-gradient-to-br from-foreground via-accent-deep to-foreground bg-clip-text text-transparent tabular-nums">
-      {formatEuro(debt)}
-    </div>
-  );
-};
 
 const HeroSection = () => {
   const scrollToForm = () => {
@@ -58,28 +43,12 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Number hero */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.25 }}
-          className="my-12"
-        >
-          <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            Deuda cancelada a nuestros clientes
-          </div>
-          <HeroDebtNumber />
-          <div className="text-sm text-muted-foreground mt-2">
-            y sumando, gestionados con éxito desde 2019
-          </div>
-        </motion.div>
-
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mt-8 mb-10"
         >
           Analizamos tu situación en minutos y te proponemos una solución legal a medida.
           Sin compromiso, sin costes ocultos.
