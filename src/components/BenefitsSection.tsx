@@ -199,7 +199,12 @@ const BenefitsSection = () => {
           </div>
 
           {/* Right: dynamic visual card */}
-          <div className="relative rounded-3xl bg-gradient-to-br from-accent-soft via-background to-surface border border-border overflow-hidden min-h-[480px] flex items-center justify-center p-10">
+          <div
+            id="benefit-panel"
+            role="tabpanel"
+            aria-labelledby={`benefit-tab-${active}`}
+            className="relative rounded-3xl bg-gradient-to-br from-accent-soft via-background to-surface border border-border overflow-hidden min-h-[480px] flex items-center justify-center p-10"
+          >
             {/* Decorative orbs */}
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-accent/30 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-accent-soft/60 blur-3xl pointer-events-none" />
