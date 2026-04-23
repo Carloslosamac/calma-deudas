@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLiveCounter } from "@/hooks/useLiveCounter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import avatar1 from "@/assets/avatar-1.jpg";
@@ -53,9 +54,7 @@ const HeroSection = () => {
           <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
             Deuda cancelada a nuestros clientes
           </div>
-          <div className="font-poppins font-bold tracking-tighter text-[clamp(4rem,14vw,11rem)] leading-none bg-gradient-to-br from-foreground via-accent-deep to-foreground bg-clip-text text-transparent">
-            8M €
-          </div>
+          <HeroDebtNumber />
           <div className="text-sm text-muted-foreground mt-2">
             y sumando, gestionados con éxito desde 2019
           </div>
