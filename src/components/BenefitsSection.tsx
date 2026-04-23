@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
@@ -82,10 +82,46 @@ const benefits = [
 const BenefitsSection = () => {
   const [active, setActive] = useState(0);
   const Active = benefits[active].icon;
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToForm = () => {
     document.getElementById("hero-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const focusTab = (idx: number) => {
+    const next = (idx + benefits.length) % benefits.length;
+    setActive(next);
+    tabRefs.current[next]?.focus();
+    tabRefs.current[next]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  const handleKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        focusTab(active + 1);
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        focusTab(active - 1);
+        break;
+      case "Home":
+        e.preventDefault();
+        focusTab(0);
+        break;
+      case "End":
+        e.preventDefault();
+        focusTab(benefits.length - 1);
+        break;
+    }
+  };
+
+  useEffect(() => {
+    tabRefs.current[active]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [active]);
 
   return (
     <section id="beneficios" className="py-24 md:py-32 bg-background">
@@ -105,16 +141,29 @@ const BenefitsSection = () => {
         {/* Interactive layout */}
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-10 items-stretch">
           {/* Left: clickable list */}
-          <div className="flex flex-col gap-2">
+          <div
+            ref={listRef}
+            role="tablist"
+            aria-label="Beneficios de la Ley de Segunda Oportunidad"
+            aria-orientation="vertical"
+            onKeyDown={handleKey}
+            className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory lg:snap-none scrollbar-none"
+          >
             {benefits.map((b, i) => {
               const Icon = b.icon;
               const isActive = i === active;
               return (
                 <button
                   key={b.title}
+                  ref={(el) => (tabRefs.current[i] = el)}
+                  role="tab"
+                  id={`benefit-tab-${i}`}
+                  aria-selected={isActive}
+                  aria-controls="benefit-panel"
+                  tabIndex={isActive ? 0 : -1}
                   onClick={() => setActive(i)}
-                  onMouseEnter={() => setActive(i)}
-                  className={`group text-left rounded-2xl border transition-all duration-300 px-5 py-4 flex items-center gap-4 ${
+                  onFocus={() => setActive(i)}
+                  className={`group text-left rounded-2xl border transition-all duration-300 px-5 py-4 flex items-center gap-4 shrink-0 w-[260px] lg:w-auto snap-center lg:snap-align-none focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     isActive
                       ? "bg-foreground text-background border-foreground shadow-lg"
                       : "bg-surface border-border hover:border-accent/60 hover:bg-surface-elevated"
@@ -150,7 +199,12 @@ const BenefitsSection = () => {
           </div>
 
           {/* Right: dynamic visual card */}
-          <div className="relative rounded-3xl bg-gradient-to-br from-accent-soft via-background to-surface border border-border overflow-hidden min-h-[480px] flex items-center justify-center p-10">
+          <div
+            id="benefit-panel"
+            role="tabpanel"
+            aria-labelledby={`benefit-tab-${active}`}
+            className="relative rounded-3xl bg-gradient-to-br from-accent-soft via-background to-surface border border-border overflow-hidden min-h-[480px] flex items-center justify-center p-10"
+          >
             {/* Decorative orbs */}
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-accent/30 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-accent-soft/60 blur-3xl pointer-events-none" />
