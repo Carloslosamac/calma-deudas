@@ -40,14 +40,14 @@ const StatsSection = () => {
               <div className="font-poppins text-xl sm:text-2xl md:text-3xl xl:text-4xl font-bold text-foreground tracking-tight mb-2 tabular-nums break-words leading-tight">
                 {stat.value}
               </div>
-              <div className="text-sm font-medium text-foreground/80 flex items-center gap-2 justify-center md:justify-start">
+              <div className="text-sm font-medium text-foreground/80 inline-flex items-center gap-2">
                 {stat.live && (
-                  <span className="relative flex h-2 w-2">
+                  <span className="relative flex h-2 w-2 flex-shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
                   </span>
                 )}
-                {stat.label}
+                <span>{stat.label}</span>
               </div>
               <div className="text-xs text-muted-foreground mt-1">{stat.sub}</div>
             </motion.div>
