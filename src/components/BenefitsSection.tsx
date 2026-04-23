@@ -136,7 +136,7 @@ const BenefitsSection = () => {
                   onMouseEnter={() => setActive(i)}
                   className={`group relative overflow-hidden text-left rounded-2xl border transition-all duration-300 px-5 py-4 flex items-center gap-4 ${
                     isActive
-                      ? "bg-foreground text-background border-foreground shadow-lg"
+                      ? "bg-[hsl(160_45%_8%)] text-background border-[hsl(160_45%_8%)] shadow-lg"
                       : "bg-surface border-border hover:border-accent/60 hover:bg-surface-elevated"
                   }`}
                 >
