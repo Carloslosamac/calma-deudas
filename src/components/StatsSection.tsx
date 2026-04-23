@@ -35,9 +35,9 @@ const StatsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="bg-background p-6 md:p-10 text-center md:text-left"
+              className="bg-background p-4 md:p-10 text-center md:text-left"
             >
-              <div className="font-poppins text-2xl md:text-3xl xl:text-4xl font-bold text-foreground tracking-tight mb-2 tabular-nums whitespace-nowrap">
+              <div className="font-poppins text-xl sm:text-2xl md:text-3xl xl:text-4xl font-bold text-foreground tracking-tight mb-2 tabular-nums break-words leading-tight">
                 {stat.value}
               </div>
               <div className="text-sm font-medium text-foreground/80 flex items-center gap-2 justify-center md:justify-start">
