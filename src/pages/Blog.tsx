@@ -62,10 +62,12 @@ const categories: { name: string; icon: LucideIcon }[] = [
 ];
 
 const featuredArticle = {
+  slug: "guia-ley-segunda-oportunidad",
   category: "Guía completa",
-  title: "Ley de Segunda Oportunidad: qué es, requisitos y cómo empezar sin miedo",
+  title:
+    "Ley de Segunda Oportunidad 2026: la guía más completa y actualizada para cancelar tus deudas",
   excerpt:
-    "Todo lo que necesitas saber para cancelar deudas legalmente, frenar llamadas de cobro y recuperar una vida financiera estable.",
+    "Qué es, requisitos, proceso, costes, embargos, vivienda, deuda pública y vida después. Todo lo que necesitas saber sobre la Ley de Segunda Oportunidad en un solo sitio.",
   tags: ["Requisitos", "Proceso", "Embargos", "ASNEF", "Deuda pública"],
   image: stepStrategy,
   imageAlt: "Equipo legal revisando documentación para cancelar deudas",
@@ -250,12 +252,16 @@ const Blog = () => {
             />
           </label>
 
-          <article className="mx-auto mt-9 grid max-w-5xl overflow-hidden rounded-[2rem] border border-border bg-[hsl(160_45%_8%)] shadow-large md:grid-cols-[0.95fr_1.35fr]">
+          <Link
+            to={`/blog/${featuredArticle.slug}`}
+            aria-label={`Leer la guía: ${featuredArticle.title}`}
+            className="group mx-auto mt-9 grid max-w-5xl overflow-hidden rounded-[2rem] border border-border bg-[hsl(160_45%_8%)] shadow-large transition-shadow hover:shadow-[0_18px_60px_-12px_hsl(145_60%_30%/0.45)] md:grid-cols-[0.95fr_1.35fr]"
+          >
             <div className="relative min-h-[270px] overflow-hidden bg-muted md:min-h-full">
               <img
                 src={featuredArticle.image}
                 alt={featuredArticle.imageAlt}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[hsl(160_45%_8%)]/20" />
             </div>
@@ -283,15 +289,12 @@ const Blog = () => {
                 ))}
               </div>
 
-              <Link
-                to="/blog/guia-ley-segunda-oportunidad"
-                className="mt-8 inline-flex w-fit items-center gap-2 font-semibold text-accent transition-colors hover:text-background"
-              >
+              <span className="mt-8 inline-flex w-fit items-center gap-2 font-semibold text-accent transition-colors group-hover:text-background">
                 Leer la guía
-                <ArrowRight className="h-5 w-5" />
-              </Link>
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
             </div>
-          </article>
+          </Link>
 
           <div className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-3">
             {categories.map(({ name, icon: Icon }) => {
