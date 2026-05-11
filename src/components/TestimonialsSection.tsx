@@ -7,88 +7,34 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import womanWalking from "@/assets/person-woman-walking.jpg";
-import manPortrait from "@/assets/person-man-portrait.jpg";
-import womanWindow from "@/assets/person-woman-window.jpg";
-import closeupWoman1 from "@/assets/person-closeup-woman-1.jpg";
-import closeupMan1 from "@/assets/person-closeup-man-1.jpg";
-import closeupWoman2 from "@/assets/person-closeup-woman-2.jpg";
-import closeupMan2 from "@/assets/person-closeup-man-2.jpg";
-import closeupWoman3 from "@/assets/person-closeup-woman-3.jpg";
-import closeupMan3 from "@/assets/person-closeup-man-3.jpg";
+import testimonial1 from "@/assets/testimonial-1.jpg";
+import testimonial2 from "@/assets/testimonial-2.jpg";
+import testimonial3 from "@/assets/testimonial-3.jpg";
 
 const testimonials = [
   {
-    name: "María González",
-    age: 38,
+    name: "Rosa Medina",
+    age: 46,
     location: "Madrid",
-    saved: "32.500 €",
-    text: "Pensé que no había salida. En 8 meses estaba completamente libre de deudas gracias a la Ley de Segunda Oportunidad.",
-    photo: closeupWoman1,
+    saved: "28.700 €",
+    text: "Después de separarme me quedé sola con dos hijos y cuatro tarjetas que ya no podía pagar. En Calma me escucharon sin juzgarme y acogieron mi caso a la Ley de Segunda Oportunidad. Hoy duermo del tirón por primera vez en años.",
+    photo: testimonial1,
   },
   {
-    name: "Carlos Jiménez",
-    age: 47,
-    location: "Valencia",
-    saved: "18.200 €",
-    text: "Renegociaron todas mis tarjetas y préstamos. Ahora pago una cuota que sí puedo asumir cada mes.",
-    photo: closeupMan1,
+    name: "Javier Ortega",
+    age: 49,
+    location: "Getafe",
+    saved: "41.300 €",
+    text: "Soy autónomo y con la subida de costes acabé pidiendo préstamos para tapar otros préstamos. Llegué con miedo y me fui con un plan. En 10 meses cancelaron toda mi deuda y he podido seguir trabajando sin embargos.",
+    photo: testimonial2,
   },
   {
-    name: "Javier Ruiz",
-    age: 52,
-    location: "Sevilla",
-    saved: "45.000 €",
-    text: "Profesionales, cercanos y rápidos. Me devolvieron la tranquilidad que llevaba años sin tener.",
-    photo: manPortrait,
-  },
-  {
-    name: "Ana Martínez",
-    age: 44,
-    location: "Barcelona",
-    saved: "27.800 €",
-    text: "Tras el cierre de mi negocio quedé con una deuda enorme. Hoy he vuelto a empezar, sin miedo y sin cargas.",
-    photo: closeupWoman2,
-  },
-  {
-    name: "David Fernández",
-    age: 35,
-    location: "Bilbao",
-    saved: "21.400 €",
-    text: "Pensaba que era el único en esta situación. Su equipo me trató con mucho respeto desde la primera llamada.",
-    photo: closeupMan2,
-  },
-  {
-    name: "Lucía Romero",
-    age: 41,
-    location: "Málaga",
-    saved: "39.600 €",
-    text: "Me explicaron paso a paso qué iba a pasar. Cero sorpresas, cero letra pequeña. Recomendable al 100%.",
-    photo: womanWalking,
-  },
-  {
-    name: "Elena Vargas",
-    age: 36,
-    location: "Zaragoza",
-    saved: "16.900 €",
-    text: "En menos de una semana ya tenía un plan claro. Es la mejor decisión que he tomado en años.",
-    photo: closeupWoman3,
-  },
-  {
-    name: "Miguel Ángel Castro",
-    age: 54,
-    location: "Murcia",
-    saved: "52.100 €",
-    text: "Llevaba años pagando intereses sin reducir capital. Ahora por fin he cerrado esa etapa de mi vida.",
-    photo: closeupMan3,
-  },
-  {
-    name: "Patricia López",
-    age: 48,
-    location: "Granada",
-    saved: "34.300 €",
-    text: "Siempre disponibles para resolver mis dudas. Sentí que había alguien de mi lado en todo momento.",
-    photo: womanWindow,
+    name: "Antonio Hernández",
+    age: 74,
+    location: "Alcalá de Henares",
+    saved: "19.800 €",
+    text: "Avalé a mi hijo y, cuando él no pudo pagar, los bancos vinieron a por mi pensión. A mi edad pensaba que ya no había nada que hacer. Los abogados de Calma frenaron los embargos y cancelaron la deuda. Recuperé mi pensión y mi tranquilidad.",
+    photo: testimonial3,
   },
 ];
 
