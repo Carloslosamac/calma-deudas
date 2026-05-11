@@ -80,8 +80,8 @@ const articles = [
       "Las claves para entender si cumples los requisitos, qué documentación conviene preparar y qué señales indican que puedes acogerte al procedimiento.",
     date: "8 mayo 2026",
     readTime: "6 min",
-    image: personWoman,
-    imageAlt: "Mujer caminando tranquila después de ordenar sus deudas",
+    image: blogRequisitos,
+    imageAlt: "Mujer revisando documentación de su deuda con un abogado",
   },
   {
     slug: "embargos-segunda-oportunidad",
@@ -91,8 +91,8 @@ const articles = [
       "Te explicamos cuándo pueden frenarse los embargos, qué pasa con la nómina y cómo se protege tu cuenta durante el expediente.",
     date: "7 mayo 2026",
     readTime: "5 min",
-    image: stepForm,
-    imageAlt: "Persona revisando un formulario de análisis de deuda",
+    image: blogEmbargos,
+    imageAlt: "Hombre revisando una notificación de embargo en la cocina de su casa",
   },
   {
     slug: "salir-asnef",
@@ -102,8 +102,8 @@ const articles = [
       "Estar en un fichero puede bloquearte durante años. Estos son los pasos para pedir la baja y recuperar acceso a financiación básica.",
     date: "5 mayo 2026",
     readTime: "4 min",
-    image: personMan,
-    imageAlt: "Hombre mirando a cámara en una situación de recuperación financiera",
+    image: blogAsnef,
+    imageAlt: "Mujer comprobando su situación financiera en el portátil tras salir de ASNEF",
   },
   {
     slug: "autonomos-con-deudas",
@@ -113,8 +113,8 @@ const articles = [
       "Si trabajas por cuenta propia, hay formas de ordenar deudas sin cerrar la persiana. Repasamos opciones legales y errores frecuentes.",
     date: "30 abril 2026",
     readTime: "7 min",
-    image: testimonial2,
-    imageAlt: "Autónomo que ha recuperado la estabilidad tras cancelar deuda",
+    image: blogAutonomos,
+    imageAlt: "Autónomo revisando facturas y cuentas en su pequeño negocio",
   },
   {
     slug: "renegociar-acreedores",
@@ -124,8 +124,8 @@ const articles = [
       "No todos los casos necesitan el mismo camino. Aprende a distinguir entre una renegociación viable y una deuda que ya exige protección legal.",
     date: "24 abril 2026",
     readTime: "5 min",
-    image: personCouple,
-    imageAlt: "Pareja revisando opciones para ordenar sus finanzas familiares",
+    image: blogRenegociar,
+    imageAlt: "Mujer negociando con un acreedor por teléfono mientras toma notas",
   },
   {
     slug: "vida-despues-deuda",
@@ -135,8 +135,8 @@ const articles = [
       "Una segunda oportunidad también necesita un plan tranquilo. Presupuesto, ahorro mínimo y decisiones prácticas para mantener la calma.",
     date: "18 abril 2026",
     readTime: "4 min",
-    image: stepFreedom,
-    imageAlt: "Persona disfrutando de una etapa de tranquilidad financiera",
+    image: blogVidaDespues,
+    imageAlt: "Pareja planificando su presupuesto familiar después de cancelar la deuda",
   },
 ];
 
