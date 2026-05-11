@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, ExternalLink, Share2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
@@ -23,6 +23,25 @@ import {
 import stepStrategy from "@/assets/step-strategy.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 import personWoman from "@/assets/person-woman-walking.jpg";
+
+// Helpers for SEO interlinking
+const InternalLink: React.FC<React.PropsWithChildren<{ to: string }>> = ({ to, children }) => (
+  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
+    {children}
+  </Link>
+);
+
+const ExtLink: React.FC<React.PropsWithChildren<{ href: string }>> = ({ href, children }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-medium text-accent-deep underline-offset-4 hover:underline"
+  >
+    {children}
+    <ExternalLink className="ml-0.5 inline-block h-3 w-3 align-baseline" />
+  </a>
+);
 
 type Section = {
   id: string;
