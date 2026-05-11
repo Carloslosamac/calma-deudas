@@ -151,9 +151,10 @@ const normalize = (value: string) =>
 const BlogCard = ({ article }: { article: BlogArticle }) => {
   const CategoryIcon = categoryIcons[article.category] ?? Star;
   return (
-  <article
+  <Link
+    to={`/blog/${article.slug}`}
     id={article.slug}
-    className="group overflow-hidden rounded-[2rem] border border-border bg-surface-elevated shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-large"
+    className="group block overflow-hidden rounded-[2rem] border border-border bg-surface-elevated shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-large focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-deep focus-visible:ring-offset-2"
   >
     <div className="relative aspect-[16/10] overflow-hidden bg-muted">
       <img
@@ -190,16 +191,13 @@ const BlogCard = ({ article }: { article: BlogArticle }) => {
             {article.readTime}
           </span>
         </div>
-        <a
-          href={`/blog/${article.slug}`}
-          className="inline-flex items-center gap-1.5 font-medium text-accent-deep transition-colors hover:text-foreground"
-        >
+        <span className="inline-flex items-center gap-1.5 font-medium text-accent-deep transition-colors group-hover:text-foreground">
           Leer más
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </a>
+        </span>
       </div>
     </div>
-  </article>
+  </Link>
   );
 };
 
