@@ -82,41 +82,6 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             abogadas y reúne, en un solo lugar, todo lo que necesitas saber sobre la
             Ley de Segunda Oportunidad antes de tomar una decisión.
           </p>
-          <p>
-            Toda la información proviene de fuentes oficiales e institucionales: el{" "}
-            <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-8469">
-              texto oficial de la Ley 25/2015 publicado en el BOE
-            </ExtLink>
-            , el{" "}
-            <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2020-4859">
-              Texto Refundido de la Ley Concursal
-            </ExtLink>{" "}
-            tras la reforma de la Ley 16/2022, la{" "}
-            <ExtLink href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1023">
-              Directiva (UE) 2019/1023
-            </ExtLink>
-            , la jurisprudencia reciente del Tribunal Supremo recogida por el{" "}
-            <ExtLink href="https://www.abogacia.es/publicaciones/blogs/blog-de-derecho-de-los-los-consumidores/el-alcance-de-la-segunda-oportunidad-innovaciones-del-tribunal-supremo-sobre-exoneracion-y-buena-fe/">
-              Consejo General de la Abogacía Española
-            </ExtLink>
-            , análisis legal especializado como el de{" "}
-            <ExtLink href="https://www.lawandtrends.com/noticias/mercantil/la-revolucion-silenciosa-de-la-ley-de-la-segunda-oportunidad-2026-la-exoneracion-del-credito-publico-ya-es-una-1.html">
-              Law&amp;Trends sobre la exoneración del crédito público en 2026
-            </ExtLink>
-            , y datos de{" "}
-            <ExtLink href="https://sede.agenciatributaria.gob.es/">
-              Agencia Tributaria
-            </ExtLink>
-            ,{" "}
-            <ExtLink href="https://sede.seg-social.gob.es/">Seguridad Social</ExtLink>{" "}
-            y{" "}
-            <ExtLink href="https://www.bde.es/">Banco de España</ExtLink>. También
-            cubrimos la cobertura en prensa generalista, como{" "}
-            <ExtLink href="https://www.larazon.es/sociedad/ley-segunda-oportunidad-permite-cancelar-deudas-cumplen-requisitos-asi-funciona-mecanismo-que-protege-personas-vulnerables-b50m_2026042669ee3fee20f31556905a7d36.html">
-              La Razón
-            </ExtLink>
-            .
-          </p>
           <StatHighlights
             title="La Ley de Segunda Oportunidad en cifras"
             subtitle="Datos consolidados a partir de resoluciones judiciales y memorias de despachos especializados"
@@ -1029,6 +994,81 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             description="Cuéntanoslo: te decimos qué guía leer y, si encaja, cómo aplicarte la Ley de Segunda Oportunidad."
             buttonLabel="Analizar mi caso"
           />
+        </>
+      ),
+    },
+    {
+      id: "fuentes",
+      title: "Fuentes y referencias utilizadas en esta guía",
+      body: (
+        <>
+          <p>
+            Esta guía está elaborada por el equipo legal de Calma a partir de nuestra
+            experiencia tramitando expedientes de Ley de Segunda Oportunidad. Para
+            contrastar criterios y mantenerla actualizada, también nos apoyamos en las
+            siguientes fuentes oficiales y especializadas:
+          </p>
+          <ul>
+            <li>
+              <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-8469">
+                Ley 25/2015 publicada en el BOE
+              </ExtLink>{" "}
+              (texto original de la Ley de Segunda Oportunidad).
+            </li>
+            <li>
+              <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2020-4859">
+                Texto Refundido de la Ley Concursal
+              </ExtLink>{" "}
+              tras la reforma operada por la Ley 16/2022.
+            </li>
+            <li>
+              <ExtLink href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1023">
+                Directiva (UE) 2019/1023
+              </ExtLink>{" "}
+              sobre marcos de reestructuración y exoneración.
+            </li>
+            <li>
+              <ExtLink href="https://www.abogacia.es/publicaciones/blogs/blog-de-derecho-de-los-los-consumidores/el-alcance-de-la-segunda-oportunidad-innovaciones-del-tribunal-supremo-sobre-exoneracion-y-buena-fe/">
+                Consejo General de la Abogacía Española
+              </ExtLink>
+              : análisis de la jurisprudencia reciente del Tribunal Supremo sobre
+              exoneración y buena fe.
+            </li>
+            <li>
+              <ExtLink href="https://www.lawandtrends.com/noticias/mercantil/la-revolucion-silenciosa-de-la-ley-de-la-segunda-oportunidad-2026-la-exoneracion-del-credito-publico-ya-es-una-1.html">
+                Law&amp;Trends
+              </ExtLink>
+              : análisis especializado sobre la exoneración del crédito público en
+              2026.
+            </li>
+            <li>
+              Datos institucionales de{" "}
+              <ExtLink href="https://sede.agenciatributaria.gob.es/">
+                Agencia Tributaria
+              </ExtLink>
+              ,{" "}
+              <ExtLink href="https://sede.seg-social.gob.es/">
+                Seguridad Social
+              </ExtLink>{" "}
+              y{" "}
+              <ExtLink href="https://www.bde.es/">Banco de España</ExtLink>.
+            </li>
+            <li>
+              Cobertura en prensa generalista, como{" "}
+              <ExtLink href="https://www.larazon.es/sociedad/ley-segunda-oportunidad-permite-cancelar-deudas-cumplen-requisitos-asi-funciona-mecanismo-que-protege-personas-vulnerables-b50m_2026042669ee3fee20f31556905a7d36.html">
+                La Razón
+              </ExtLink>
+              .
+            </li>
+          </ul>
+          <p>
+            <em>
+              Aviso: esta guía tiene fines informativos y no sustituye el
+              asesoramiento legal personalizado. Cada caso de Ley de Segunda
+              Oportunidad debe analizarse de forma individual antes de tomar cualquier
+              decisión.
+            </em>
+          </p>
         </>
       ),
     },
