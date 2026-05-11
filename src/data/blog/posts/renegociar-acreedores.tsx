@@ -35,7 +35,8 @@ export const renegociarAcreedores: BlogPost = {
           </p>
           <p>
             Funciona bien cuando la deuda es asumible con cambios razonables. Cuando ya no lo es, fuerza acuerdos
-            que solo retrasan el problema. Por eso conviene saber distinguir.
+            que solo retrasan el problema. Por eso conviene saber distinguir antes de levantar el teléfono al
+            acreedor o aceptar la primera oferta que llegue por carta.
           </p>
         </>
       ),
@@ -48,11 +49,12 @@ export const renegociarAcreedores: BlogPost = {
           <p>
             Renegociar es razonable si tu nómina o ingresos cubren los gastos fijos y la deuda representa un ahogo
             puntual; si el número de acreedores es bajo (uno o dos); si tu objetivo es conservar un bien concreto
-            (vivienda, vehículo) y si todavía no han iniciado procedimientos judiciales.
+            (vivienda, vehículo) y si todavía no han iniciado procedimientos judiciales contra ti.
           </p>
           <p>
-            En esos casos, una propuesta bien preparada puede traducirse en una rebaja real, sobre todo con
-            financieras de microcrédito y fondos que han comprado carteras de deuda morosa.
+            En esos escenarios, una propuesta bien preparada puede traducirse en una rebaja real, sobre todo con
+            financieras de microcrédito y fondos que han comprado carteras de deuda morosa con grandes descuentos.
+            Para ellos, cobrar el 40% hoy suele ser más rentable que pelear un 100% incierto durante años.
           </p>
         </>
       ),
@@ -68,11 +70,21 @@ export const renegociarAcreedores: BlogPost = {
             Seguridad Social, la renegociación privada se queda corta. En ese caso el camino sensato es la{" "}
             <InternalLink to="/blog/cancelar-deudas-requisitos">Ley de Segunda Oportunidad</InternalLink>.
           </p>
-          <CostVsDebtBars />
+          <CostVsDebtBars
+            title="Renegociar vs. cancelar judicialmente"
+            subtitle="Lo que se suele conseguir en cada vía"
+            costLabel="Quita media renegociando"
+            costValue="20-40%"
+            costWidthPct={30}
+            debtLabel="Cancelación con Segunda Oportunidad"
+            debtValue="hasta 100%"
+            footnote="La renegociación reduce parte de la deuda; la vía judicial puede eliminar el grueso restante cuando ya no es asumible."
+          />
           <p>
             Si ya estás con embargo, prioriza leer{" "}
             <InternalLink to="/blog/embargos-segunda-oportunidad">cómo parar un embargo</InternalLink> antes de
-            ofrecer ningún pago, porque pagar mal puede empeorar tu posición legal.
+            ofrecer ningún pago, porque pagar mal puede empeorar tu posición legal y consumir margen que
+            necesitarás para el resto de acreedores.
           </p>
         </>
       ),
@@ -82,6 +94,12 @@ export const renegociarAcreedores: BlogPost = {
       title: "Cómo preparar una renegociación realista",
       body: (
         <>
+          <p>
+            Una renegociación creíble no se improvisa en una llamada. Se prepara con un inventario claro de
+            acreedores, un cálculo honesto de tu capacidad de pago y una propuesta por escrito que el acreedor
+            pueda aceptar sin tener que decidirlo todo en caliente. Antes de descolgar el teléfono, conviene
+            tener estos cuatro pasos resueltos.
+          </p>
           <ProcessTimeline
             steps={[
               { title: "Inventario", desc: "Lista de acreedores, importes y estado" },
@@ -90,13 +108,21 @@ export const renegociarAcreedores: BlogPost = {
               { title: "Acuerdo", desc: "Firma con calendario y novación documentada" },
             ]}
           />
+          <p>
+            La novación documentada (artículos 1203 y siguientes del{" "}
+            <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-1889-4763">Código Civil</ExtLink>) es lo que
+            evita que el acreedor vuelva a reclamarte la deuda original meses después. Sin ese documento,
+            cualquier acuerdo verbal queda en el aire y puede reactivar intereses, comisiones y reclamaciones.
+          </p>
           <DocumentsChecklist
+            title="Qué llevar a la mesa de negociación"
+            subtitle="Cuanta más información aportes, más seria parecerá tu propuesta"
             items={[
-              "Contratos originales",
-              "Últimos extractos bancarios",
-              "Notificaciones recibidas",
-              "Justificante de ingresos",
-              "Propuesta de pago por escrito",
+              "Contratos originales del préstamo o tarjeta",
+              "Extractos bancarios de los últimos 3 meses",
+              "Notificaciones y cartas del acreedor",
+              "Justificante de ingresos actualizado",
+              "Propuesta de pago redactada por escrito",
             ]}
           />
         </>
@@ -107,6 +133,11 @@ export const renegociarAcreedores: BlogPost = {
       title: "Mitos sobre la renegociación",
       body: (
         <>
+          <p>
+            La renegociación arrastra mitos que vienen de foros, vídeos virales y consejos de barra de bar. Casi
+            todos parten de una intuición razonable, pero terminan empeorando el caso. Antes de tomar decisiones
+            con tu acreedor, conviene separar lo que la práctica real desmiente cada día.
+          </p>
           <MythVsReality
             rows={[
               {
@@ -123,6 +154,12 @@ export const renegociarAcreedores: BlogPost = {
               },
             ]}
           />
+          <p>
+            La regla práctica es sencilla: renegociar tiene sentido cuando la deuda sigue siendo manejable y la
+            relación con el acreedor está abierta. Cuando ya hay embargos, cesión a fondos o varios procedimientos
+            en marcha, lo razonable es valorar la{" "}
+            <InternalLink to="/blog/cancelar-deudas-requisitos">vía legal completa</InternalLink>.
+          </p>
           <InlineCTA
             title="¿Renegociar o ir por la vía legal?"
             description="Te decimos cuál encaja con tu situación antes de mover ficha."
