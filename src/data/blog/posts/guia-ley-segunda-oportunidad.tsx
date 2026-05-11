@@ -583,7 +583,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "presupuesto",
-      title: "Cómo afecta a tu economía mientras dura el proceso",
+      title: "Cómo afecta la Ley de Segunda Oportunidad a tu economía mensual",
       body: (
         <>
           <p>
@@ -611,37 +611,41 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "coste",
-      title: "Cuánto cuesta y cómo se paga",
+      title: "Cuánto cuesta acogerse a la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            No existe un “precio único”. El coste del procedimiento depende de variables
-            objetivas que conviene transparentar desde el primer minuto, en lugar de
-            ofrecer cifras genéricas que después no se sostienen.
+            No existe un “precio único”. El coste de un procedimiento de Ley de
+            Segunda Oportunidad depende de variables objetivas que conviene
+            transparentar desde el primer minuto, en lugar de ofrecer cifras genéricas
+            que después no se sostienen.
           </p>
           <CostFactorsGrid />
           <p>
-            Lo verdaderamente relevante es la comparación entre coste y deuda cancelada.
-            En la inmensa mayoría de casos, el coste total del expediente representa una
-            fracción muy pequeña frente al volumen de deuda exonerada.
+            Lo verdaderamente relevante es la comparación entre coste y deuda cancelada
+            mediante la Ley de Segunda Oportunidad. En la inmensa mayoría de casos, el
+            coste total del expediente representa una fracción muy pequeña frente al
+            volumen de deuda exonerada.
           </p>
           <CostVsDebtBars />
           <p>
-            En Calma estructuramos los honorarios en cuotas mensuales razonables y
-            adaptadas a tu capacidad real, precisamente porque no tendría sentido
-            ofrecer una salida a las deudas creando una nueva.
+            En Calma estructuramos los honorarios de la Ley de Segunda Oportunidad en
+            cuotas mensuales razonables y adaptadas a tu capacidad real, precisamente
+            porque no tendría sentido ofrecer una vía para cancelar deudas creando una
+            nueva.
           </p>
         </>
       ),
     },
     {
       id: "duracion",
-      title: "Cuánto tarda el proceso completo",
+      title: "Cuánto tarda el proceso completo de la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            La duración varía según el juzgado, el número de acreedores y la
-            complejidad patrimonial. Como horquilla realista, entre{" "}
+            La duración del procedimiento de Ley de Segunda Oportunidad varía según el
+            juzgado, el número de acreedores y la complejidad patrimonial. Como
+            horquilla realista, entre{" "}
             <strong>6 y 18 meses</strong> desde la presentación de la solicitud hasta
             la resolución firme en la vía de liquidación. En la vía con plan de pagos,
             el plan en sí dura entre 3 y 5 años, aunque la cancelación se decreta al
@@ -666,14 +670,15 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "documentacion",
-      title: "Qué documentación vas a necesitar",
+      title: "Documentación necesaria para la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            La documentación inicial es razonable. Trabajamos con tu DNI, las últimas
-            declaraciones de la renta, vida laboral, justificantes de ingresos
-            (nóminas o, en autónomos, modelos trimestrales), un listado de acreedores
-            y documentación de los bienes relevantes.
+            La documentación inicial para acogerse a la Ley de Segunda Oportunidad es
+            razonable. Trabajamos con tu DNI, las últimas declaraciones de la renta,
+            vida laboral, justificantes de ingresos (nóminas o, en autónomos, modelos
+            trimestrales), un listado de acreedores y documentación de los bienes
+            relevantes.
           </p>
           <DocumentsChecklist />
           <p>
@@ -694,13 +699,14 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "mitos",
-      title: "Mitos que están frenando a muchas personas",
+      title: "Mitos sobre la Ley de Segunda Oportunidad que frenan a muchas personas",
       body: (
         <>
           <p>
-            La mayoría de personas que finalmente se acogen a la Segunda Oportunidad
-            reconocen lo mismo: podrían haberlo hecho antes. Los años de bloqueo casi
-            siempre vienen de mitos que no se sostienen.
+            La mayoría de personas que finalmente se acogen a la Ley de Segunda
+            Oportunidad reconocen lo mismo: podrían haberlo hecho antes. Los años de
+            bloqueo casi siempre vienen de mitos sobre la Ley Segunda Oportunidad que
+            no se sostienen.
           </p>
           <MythVsReality />
           <p>
@@ -718,15 +724,15 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "tasas-exito",
-      title: "Tasas de éxito reales del procedimiento",
+      title: "Tasas de éxito reales de la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Cuando el expediente está bien preparado, el porcentaje de resoluciones
-            favorables es muy alto. Los casos en los que se deniega la exoneración
-            están casi siempre vinculados a problemas de buena fe (ocultación de
-            bienes, datos falsos en la solicitud) o a expedientes presentados sin
-            análisis previo.
+            Cuando el expediente de Ley de Segunda Oportunidad está bien preparado, el
+            porcentaje de resoluciones favorables es muy alto. Los casos en los que se
+            deniega la exoneración están casi siempre vinculados a problemas de buena
+            fe (ocultación de bienes, datos falsos en la solicitud) o a expedientes
+            presentados sin análisis previo.
           </p>
           <SuccessRateBar
             title="Distribución de resoluciones"
@@ -741,7 +747,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "alternativas",
-      title: "¿Hay alternativas antes de acogerse?",
+      title: "Alternativas antes de acogerse a la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
@@ -754,24 +760,26 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             la situación, aunque no la resuelva de raíz.
           </p>
           <p>
-            La Segunda Oportunidad es la herramienta más potente, pero no siempre es la
-            primera. Lo correcto es analizar tu caso concreto y proponerte la vía que
-            mejor encaje, no “venderte” el procedimiento por defecto.
+            La Ley de Segunda Oportunidad es la herramienta más potente para cancelar
+            deudas, pero no siempre es la primera. Lo correcto es analizar tu caso
+            concreto y proponerte la vía que mejor encaje, no “venderte” el
+            procedimiento por defecto.
           </p>
         </>
       ),
     },
     {
       id: "despues",
-      title: "Y después… ¿qué pasa con mi vida financiera?",
+      title: "Vida después de la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Una vez dictada la EPI, las deudas exoneradas dejan de ser exigibles. Las
-            entradas en ficheros como ASNEF asociadas a esas deudas deben cancelarse.
-            Y, con el tiempo, se puede volver a contratar productos financieros básicos
-            (cuentas, tarjetas de débito y, más adelante, crédito) reconstruyendo el
-            historial poco a poco.
+            Una vez dictada la EPI/BEPI al amparo de la Ley de Segunda Oportunidad,
+            las deudas exoneradas dejan de ser exigibles. Las entradas en ficheros
+            como ASNEF asociadas a esas deudas deben cancelarse. Y, con el tiempo, se
+            puede volver a contratar productos financieros básicos (cuentas, tarjetas
+            de débito y, más adelante, crédito) reconstruyendo el historial poco a
+            poco.
           </p>
           <p>
             La clave para no recaer es reorganizar el presupuesto familiar con hábitos
