@@ -284,7 +284,7 @@ const Blog = () => {
               </div>
 
               <Link
-                to="/blog/cancelar-deudas-requisitos"
+                to="/blog/guia-ley-segunda-oportunidad"
                 className="mt-8 inline-flex w-fit items-center gap-2 font-semibold text-accent transition-colors hover:text-background"
               >
                 Leer la guía
