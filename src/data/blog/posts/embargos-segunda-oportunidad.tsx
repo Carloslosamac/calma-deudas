@@ -22,6 +22,16 @@ export const embargosSegundaOportunidad: BlogPost = {
   author: "Equipo legal Calma",
   heroImage: blogEmbargos,
   heroAlt: "Hombre revisando en su cocina una notificación de embargo",
+  keywords: [
+    "embargo de nómina",
+    "embargo de cuenta",
+    "parar embargo",
+    "salario mínimo",
+    "art. 607 LEC",
+    "medidas cautelares",
+    "agencia tributaria",
+    "seguridad social",
+  ],
   sections: [
     {
       id: "que-es-embargo",

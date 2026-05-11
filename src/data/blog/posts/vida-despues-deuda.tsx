@@ -15,6 +15,16 @@ export const vidaDespuesDeuda: BlogPost = {
   author: "Equipo legal Calma",
   heroImage: blogVidaDespues,
   heroAlt: "Pareja planificando su presupuesto familiar después de cancelar la deuda",
+  keywords: [
+    "vida después de la deuda",
+    "presupuesto familiar",
+    "ahorro",
+    "colchón de seguridad",
+    "historial crediticio",
+    "CIRBE",
+    "finanzas personales",
+    "hábitos financieros",
+  ],
   sections: [
     {
       id: "primeros-meses",

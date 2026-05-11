@@ -20,6 +20,16 @@ export const salirAsnef: BlogPost = {
   author: "Equipo legal Calma",
   heroImage: blogAsnef,
   heroAlt: "Mujer comprobando en el portátil su situación financiera tras salir de ASNEF",
+  keywords: [
+    "ASNEF",
+    "fichero de morosidad",
+    "baja ASNEF",
+    "RGPD",
+    "LOPDGDD",
+    "AEPD",
+    "derecho de acceso",
+    "historial crediticio",
+  ],
   sections: [
     {
       id: "que-es-asnef",

@@ -20,6 +20,16 @@ export const renegociarAcreedores: BlogPost = {
   author: "Equipo legal Calma",
   heroImage: blogRenegociar,
   heroAlt: "Mujer negociando con un acreedor por teléfono mientras toma notas",
+  keywords: [
+    "renegociar deuda",
+    "quita",
+    "novación",
+    "acreedores",
+    "plan de pagos",
+    "fondo buitre",
+    "código civil",
+    "vía amistosa",
+  ],
   sections: [
     {
       id: "que-es-renegociar",

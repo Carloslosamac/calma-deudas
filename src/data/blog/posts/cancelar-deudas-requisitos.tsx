@@ -30,6 +30,17 @@ export const cancelarDeudasRequisitos: BlogPost = {
   heroImage: blogRequisitos,
   heroAlt:
     "Mujer revisando con un abogado la documentación para cancelar sus deudas mediante la Ley de Segunda Oportunidad",
+  keywords: [
+    "segunda oportunidad",
+    "cancelar deudas",
+    "requisitos",
+    "exoneración del pasivo",
+    "EPI",
+    "ley concursal",
+    "insolvencia",
+    "buena fe",
+    "deudor",
+  ],
   sections: [
     {
       id: "que-es",
