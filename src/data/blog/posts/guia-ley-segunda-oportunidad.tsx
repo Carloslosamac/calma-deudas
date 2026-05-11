@@ -18,6 +18,8 @@ import {
   WarningSignsList,
 } from "@/components/blog/diagrams";
 import InlineCTA from "@/components/blog/InlineCTA";
+import FaqList from "@/components/blog/FaqList";
+import ContentHub from "@/components/blog/ContentHub";
 import { ExtLink, InternalLink } from "../shared";
 import type { BlogPost } from "../types";
 import heroImage from "@/assets/blog-guia-segunda-oportunidad.jpg";
@@ -746,6 +748,236 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             title="Empieza por saber dónde estás"
             description="En una llamada de 15 minutos te decimos si tu caso encaja, qué vía sería la tuya y qué pasos seguir."
             buttonLabel="Empezar de cero"
+          />
+        </>
+      ),
+    },
+    {
+      id: "faq",
+      title: "Preguntas frecuentes sobre la Ley de Segunda Oportunidad",
+      body: (
+        <>
+          <p>
+            Estas son las 20 dudas que más nos llegan al equipo legal de Calma. Si la
+            tuya no está, escríbenos: la añadimos y te respondemos personalmente.
+          </p>
+          <FaqList
+            items={[
+              {
+                q: "1. ¿La Ley de Segunda Oportunidad cancela realmente las deudas o solo las aplaza?",
+                a: "Las cancela. La resolución judicial (EPI) extingue las deudas exoneradas, que dejan de ser exigibles legalmente. No es un aplazamiento ni una refinanciación.",
+              },
+              {
+                q: "2. ¿Cuánta deuda mínima hace falta tener para acogerse?",
+                a: "La ley no fija un mínimo, pero por coherencia económica el procedimiento tiene sentido a partir de unos 5.000 €. Por debajo, suele ser más eficaz una renegociación directa con los acreedores.",
+              },
+              {
+                q: "3. ¿Puedo acogerme si solo tengo un acreedor?",
+                a: "Como norma general se exigen al menos dos acreedores. Si solo tienes uno, conviene analizar otras vías como la negociación individual o las nulidades por intereses abusivos.",
+              },
+              {
+                q: "4. ¿Aparecerá publicado mi nombre en algún sitio?",
+                a: "El procedimiento se publica en el Registro Público Concursal a efectos legales, pero no es una lista pública de morosos ni se difunde en medios. Tu entorno no se entera salvo que tú lo cuentes.",
+              },
+              {
+                q: "5. ¿Mi empresa o mi jefe se van a enterar?",
+                a: "No. No se notifica al empleador. Solo lo sabría si tu nómina estuviese ya embargada (en cuyo caso, justamente, la suspensión del embargo se notifica a la empresa para devolverte el dinero).",
+              },
+              {
+                q: "6. ¿Puedo seguir cobrando mi nómina o pensión durante el proceso?",
+                a: "Sí. La nómina y la pensión se cobran con normalidad. Si estaban embargadas, con la admisión del expediente vuelven íntegras.",
+              },
+              {
+                q: "7. ¿Y si tengo bienes a mi nombre? ¿Me los quitan todos?",
+                a: "No automáticamente. Si vas por la vía de plan de pagos, conservas el patrimonio. En la vía de liquidación se vende lo no esencial, pero los bienes inembargables (mínimo vital, enseres) están protegidos por ley.",
+              },
+              {
+                q: "8. ¿Pierdo siempre mi vivienda habitual?",
+                a: "No. En la vía con plan de pagos suele ser posible conservarla si la hipoteca está al corriente. Solo en escenarios concretos (cuotas inasumibles, ejecución avanzada) entra en juego la venta.",
+              },
+              {
+                q: "9. ¿Se cancela la hipoteca?",
+                a: "Si decides no conservar la vivienda, la deuda hipotecaria entra en el expediente: tras la venta, lo que no se cubra queda exonerado. Si la conservas, sigues pagando la hipoteca como hasta ahora.",
+              },
+              {
+                q: "10. ¿Se puede cancelar la deuda con Hacienda o la Seguridad Social?",
+                a: "Sí, con límites: hasta 10.000 € con cada uno pueden exonerarse (los primeros 5.000 al 100% y el siguiente tramo al 50%). El resto se reestructura en un plan de pagos a plazos asumibles.",
+              },
+              {
+                q: "11. ¿Y las pensiones de alimentos? ¿También se cancelan?",
+                a: "No. Las pensiones de alimentos, las multas penales y las responsabilidades civiles derivadas de delito están expresamente excluidas. Se cancela deuda económica ordinaria, no responsabilidades personales.",
+              },
+              {
+                q: "12. ¿Cuánto tarda todo el procedimiento?",
+                a: "Entre 6 y 18 meses en la vía de liquidación, hasta la resolución firme. En la vía con plan de pagos, el plan dura entre 3 y 5 años y la exoneración llega al cumplirlo.",
+              },
+              {
+                q: "13. ¿Cuándo dejan de llamarme las empresas de recobro?",
+                a: "En la práctica, desde las primeras semanas. Una vez admitido el expediente, los recobros pierden su base legal para insistir por las deudas incluidas en el procedimiento.",
+              },
+              {
+                q: "14. ¿Tengo que ir al juzgado a declarar?",
+                a: "En la gran mayoría de casos no. El procedimiento es documental. Si en algún momento se requiere comparecencia, vas acompañado de tu abogado y se prepara con antelación.",
+              },
+              {
+                q: "15. ¿Necesito abogado y procurador obligatoriamente?",
+                a: "Sí. Es un procedimiento judicial y requiere representación letrada. En Calma te asignamos un equipo legal especializado en Segunda Oportunidad que lleva todo el expediente.",
+              },
+              {
+                q: "16. ¿Y si no tengo dinero para pagar al abogado?",
+                a: "Estructuramos los honorarios en cuotas mensuales razonables y proporcionales a tus ingresos. No tendría sentido sacarte de las deudas creándote otra.",
+              },
+              {
+                q: "17. ¿Puedo volver a pedir un crédito después?",
+                a: "Sí. Una vez exonerado y, con el tiempo, fuera de los ficheros de morosos, se puede reconstruir el historial crediticio paso a paso. Muchos clientes vuelven a contratar productos en 1-2 años.",
+              },
+              {
+                q: "18. ¿Puedo acogerme dos veces a la Ley de Segunda Oportunidad?",
+                a: "Sí, pero hay que respetar un plazo mínimo entre exoneraciones (actualmente entre 2 y 5 años según el tipo). La ley no impide volver a usarla si las circunstancias lo justifican.",
+              },
+              {
+                q: "19. Si soy autónomo en activo, ¿tengo que cerrar mi negocio?",
+                a: "No necesariamente. Puedes seguir desarrollando tu actividad mientras dure el procedimiento. Lo desarrollamos en la guía para autónomos con deudas.",
+              },
+              {
+                q: "20. ¿Qué pasa si mi pareja tiene también deudas? ¿Hace un solo expediente o dos?",
+                a: "Se puede presentar un expediente conjunto si las deudas están entrelazadas y comparten economía. En otros casos, se hace por separado. Lo decidimos tras el análisis previo de ambos.",
+              },
+            ]}
+          />
+        </>
+      ),
+    },
+    {
+      id: "hub",
+      title: "Mapa de contenidos: 50 artículos para profundizar por ángulo",
+      body: (
+        <>
+          <p>
+            Esta guía funciona como <strong>hub</strong>: cubre todo lo esencial y, a
+            partir de aquí, enlaza con artículos más específicos según el ángulo que te
+            interese (requisitos, embargos, vivienda, deuda pública, autónomos, ASNEF,
+            casos concretos…). Estos son los 50 ángulos que iremos publicando y
+            actualizando.
+          </p>
+          <ContentHub
+            groups={[
+              {
+                angle: "Requisitos y elegibilidad",
+                description: "Cómo saber si encajas y qué condiciones se exigen.",
+                items: [
+                  { title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad", to: "/blog/cancelar-deudas-requisitos" },
+                  { title: "Qué se entiende por “deudor de buena fe” en la práctica" },
+                  { title: "Insolvencia actual vs. insolvencia inminente: diferencias" },
+                  { title: "Acogerse con antecedentes: qué delitos lo impiden y cuáles no" },
+                  { title: "¿Puedo acogerme si ya me exoneraron hace años?" },
+                ],
+              },
+              {
+                angle: "Tipos de deuda que entran en el expediente",
+                description: "Qué se cancela, qué no, y matices por tipo de deuda.",
+                items: [
+                  { title: "Cancelar microcréditos y préstamos rápidos con la Segunda Oportunidad" },
+                  { title: "Tarjetas revolving: cómo se incluyen en el expediente" },
+                  { title: "Cancelar avales personales firmados por un familiar" },
+                  { title: "Deudas con proveedores: cómo se ordenan en el procedimiento" },
+                  { title: "Préstamos entre particulares y deudas con familia: ¿se cancelan?" },
+                ],
+              },
+              {
+                angle: "Procedimiento paso a paso",
+                description: "Cómo se desarrolla el expediente desde dentro.",
+                items: [
+                  { title: "Qué documentos pide el juzgado y cómo prepararlos" },
+                  { title: "Cómo se elige juzgado competente en Segunda Oportunidad" },
+                  { title: "Diferencias entre exoneración con liquidación y con plan de pagos" },
+                  { title: "Qué es el administrador concursal y cuándo aparece" },
+                  { title: "Oposición de un acreedor: qué pasa y cómo se resuelve" },
+                ],
+              },
+              {
+                angle: "Embargos y cuentas bloqueadas",
+                description: "Cómo se frena la presión legal en curso.",
+                items: [
+                  { title: "Qué ocurre con los embargos cuando inicias el proceso legal", to: "/blog/embargos-segunda-oportunidad" },
+                  { title: "Cómo desbloquear una cuenta bancaria embargada" },
+                  { title: "Embargo de nómina: en qué momento vuelve íntegra" },
+                  { title: "Embargo del vehículo: cuándo se puede evitar la subasta" },
+                  { title: "Embargos por varias deudas a la vez: cómo se unifican" },
+                ],
+              },
+              {
+                angle: "Vivienda habitual e hipotecas",
+                description: "El miedo a perder la casa, despejado caso por caso.",
+                items: [
+                  { title: "¿Pierdo mi vivienda habitual con la Segunda Oportunidad?" },
+                  { title: "Cómo conservar la vivienda mediante plan de pagos" },
+                  { title: "Ejecución hipotecaria en marcha: ¿se puede parar?" },
+                  { title: "Dación en pago vs. Segunda Oportunidad: cuándo conviene cada una" },
+                  { title: "Segunda vivienda y casas heredadas: cómo se tratan en el expediente" },
+                ],
+              },
+              {
+                angle: "Autónomos y exempresarios",
+                description: "Casuísticas profesionales y societarias.",
+                items: [
+                  { title: "Autónomos con deudas: proteger tu actividad y empezar de nuevo", to: "/blog/autonomos-con-deudas" },
+                  { title: "Cancelar deudas siendo autónomo en activo" },
+                  { title: "Avales personales de administrador: cómo se incluyen" },
+                  { title: "Tras cerrar la SL: qué deudas siguen siendo tuyas" },
+                  { title: "Autónomos con deuda de IVA acumulada: vías reales de salida" },
+                ],
+              },
+              {
+                angle: "Deuda pública (Hacienda y Seguridad Social)",
+                description: "El cambio más importante de la reforma de 2022.",
+                items: [
+                  { title: "Cancelar deuda con Hacienda: hasta dónde llega la exoneración" },
+                  { title: "Cancelar deuda con la Seguridad Social: límites y plan de pagos" },
+                  { title: "Apremios, recargos y intereses: cómo se calculan en el expediente" },
+                  { title: "Embargo de la AEAT sobre la cuenta: cómo se levanta" },
+                  { title: "Aplazamientos con Hacienda fracasados: qué pasa ahora" },
+                ],
+              },
+              {
+                angle: "ASNEF y ficheros de morosidad",
+                description: "Salir de las listas y recuperar acceso al sistema financiero.",
+                items: [
+                  { title: "ASNEF: cómo salir tras cancelar deuda", to: "/blog/salir-asnef" },
+                  { title: "Diferencias entre ASNEF, Badexcug, RAI y CIRBE" },
+                  { title: "Cómo pedir formalmente la baja de un fichero" },
+                  { title: "Estar en ASNEF y alquilar piso: qué dice la ley" },
+                  { title: "Cuánto tarda en limpiarse el historial financiero" },
+                ],
+              },
+              {
+                angle: "Después de la cancelación",
+                description: "Reconstruir economía, ahorro y vida financiera.",
+                items: [
+                  { title: "Después de cancelar deuda: hábitos para no volver al bloqueo", to: "/blog/vida-despues-deuda" },
+                  { title: "Cómo reconstruir tu historial crediticio paso a paso" },
+                  { title: "Volver a abrir una cuenta bancaria sin restricciones" },
+                  { title: "Primer crédito tras una Segunda Oportunidad: cuándo y cómo" },
+                  { title: "Plan de ahorro mínimo viable tras salir de las deudas" },
+                ],
+              },
+              {
+                angle: "Casos especiales y comparativas",
+                description: "Dudas frecuentes y comparativas con otras vías.",
+                items: [
+                  { title: "Cuándo conviene renegociar deudas y cuándo iniciar una vía legal", to: "/blog/renegociar-acreedores" },
+                  { title: "Reunificación de deudas vs. Segunda Oportunidad" },
+                  { title: "Concurso de acreedores tradicional vs. Segunda Oportunidad" },
+                  { title: "Acogerse en pareja: expediente conjunto o separado" },
+                  { title: "Herencia con deudas: aceptarla a beneficio de inventario o repudiar" },
+                ],
+              },
+            ]}
+          />
+          <InlineCTA
+            title="¿No encuentras tu caso?"
+            description="Cuéntanoslo: te decimos qué guía leer y, si encaja, cómo aplicarte la Segunda Oportunidad."
+            buttonLabel="Analizar mi caso"
           />
         </>
       ),
