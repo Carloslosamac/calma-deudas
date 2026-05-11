@@ -15,6 +15,7 @@ import {
   Wallet,
   X,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
   className = "",
@@ -42,8 +43,16 @@ const DiagramTitle: React.FC<React.PropsWithChildren<{ subtitle?: string }>> = (
 );
 
 /* 1. Factores que influyen en el coste */
-export const CostFactorsGrid = () => {
-  const factors = [
+export const CostFactorsGrid = ({
+  title,
+  subtitle,
+  factors,
+}: {
+  title?: string;
+  subtitle?: string;
+  factors?: { icon: LucideIcon; title: string; desc: string }[];
+}) => {
+  const data = factors ?? [
     { icon: Wallet, title: "Volumen de la deuda", desc: "Cuanto más alta y compleja, más trabajo requiere el caso" },
     { icon: Users, title: "Número de acreedores", desc: "Más acreedores implica más notificaciones y trámites" },
     { icon: Briefcase, title: "Perfil personal", desc: "Asalariado, autónomo o ex-empresario cambia la documentación" },
@@ -51,11 +60,11 @@ export const CostFactorsGrid = () => {
   ];
   return (
     <Card>
-      <DiagramTitle subtitle="No todos los procedimientos cuestan lo mismo: depende de tu situación">
-        Qué influye en el coste de tu caso
+      <DiagramTitle subtitle={subtitle ?? "No todos los procedimientos cuestan lo mismo: depende de tu situación"}>
+        {title ?? "Qué influye en el coste de tu caso"}
       </DiagramTitle>
       <div className="grid gap-4 sm:grid-cols-2">
-        {factors.map(({ icon: Icon, title, desc }) => (
+        {data.map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
             className="flex gap-4 rounded-2xl border border-border bg-surface p-5"
@@ -75,32 +84,50 @@ export const CostFactorsGrid = () => {
 };
 
 /* 2. Coste del proceso vs deuda cancelada */
-export const CostVsDebtBars = () => (
+export const CostVsDebtBars = ({
+  title,
+  subtitle,
+  costLabel,
+  costValue,
+  debtLabel,
+  debtValue,
+  footnote,
+  costWidthPct = 6,
+}: {
+  title?: string;
+  subtitle?: string;
+  costLabel?: string;
+  costValue?: string;
+  debtLabel?: string;
+  debtValue?: string;
+  footnote?: string;
+  costWidthPct?: number;
+}) => (
   <Card>
-    <DiagramTitle subtitle="Ejemplo orientativo basado en casos reales">
-      Coste del proceso vs. deuda que dejas atrás
+    <DiagramTitle subtitle={subtitle ?? "Ejemplo orientativo basado en casos reales"}>
+      {title ?? "Coste del proceso vs. deuda que dejas atrás"}
     </DiagramTitle>
     <div className="space-y-7">
       <div>
         <div className="mb-2 flex items-baseline justify-between">
-          <span className="font-medium text-foreground">Coste del procedimiento</span>
-          <span className="text-sm font-semibold text-muted-foreground">~ 1</span>
+          <span className="font-medium text-foreground">{costLabel ?? "Coste del procedimiento"}</span>
+          <span className="text-sm font-semibold text-muted-foreground">{costValue ?? "~ 1"}</span>
         </div>
         <div className="h-4 w-full rounded-full bg-muted">
-          <div className="h-full w-[6%] rounded-full bg-muted-foreground/60" />
+          <div className="h-full rounded-full bg-muted-foreground/60" style={{ width: `${costWidthPct}%` }} />
         </div>
       </div>
       <div>
         <div className="mb-2 flex items-baseline justify-between">
-          <span className="font-medium text-foreground">Deuda cancelada</span>
-          <span className="text-sm font-semibold text-accent-deep">x 20 o más</span>
+          <span className="font-medium text-foreground">{debtLabel ?? "Deuda cancelada"}</span>
+          <span className="text-sm font-semibold text-accent-deep">{debtValue ?? "x 20 o más"}</span>
         </div>
         <div className="h-4 w-full rounded-full bg-muted">
           <div className="h-full w-full rounded-full bg-accent-deep" />
         </div>
       </div>
       <p className="text-center text-sm text-muted-foreground">
-        En la mayoría de casos, lo que dejas de pagar supera con creces lo que invertirás en resolver tu situación legalmente.
+        {footnote ?? "En la mayoría de casos, lo que dejas de pagar supera con creces lo que invertirás en resolver tu situación legalmente."}
       </p>
     </div>
   </Card>
@@ -235,26 +262,34 @@ export const BeforeAfterSplit = ({
 };
 
 /* 6. Donut de tipos de deuda */
-export const DebtTypesDonut = () => {
-  const segments = [
+export const DebtTypesDonut = ({
+  title,
+  subtitle,
+  segments,
+}: {
+  title?: string;
+  subtitle?: string;
+  segments?: { label: string; value: number; color: string }[];
+}) => {
+  const data = segments ?? [
     { label: "Tarjetas y créditos rápidos", value: 38, color: "hsl(84 75% 55%)" },
     { label: "Préstamos personales", value: 32, color: "hsl(145 60% 35%)" },
     { label: "Hipoteca / vivienda", value: 18, color: "hsl(160 30% 18%)" },
     { label: "Deuda pública", value: 12, color: "hsl(25 90% 60%)" },
   ];
-  const total = segments.reduce((s, x) => s + x.value, 0);
+  const total = data.reduce((s, x) => s + x.value, 0);
   let offset = 0;
   const r = 60;
   const c = 2 * Math.PI * r;
   return (
     <Card>
-      <DiagramTitle subtitle="Distribución típica entre quienes nos consultan">
-        De qué se componen las deudas
+      <DiagramTitle subtitle={subtitle ?? "Distribución típica entre quienes nos consultan"}>
+        {title ?? "De qué se componen las deudas"}
       </DiagramTitle>
       <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-around">
         <svg viewBox="0 0 160 160" className="h-44 w-44 -rotate-90">
           <circle cx="80" cy="80" r={r} fill="none" stroke="hsl(var(--muted))" strokeWidth="22" />
-          {segments.map((s) => {
+          {data.map((s) => {
             const len = (s.value / total) * c;
             const dasharray = `${len} ${c - len}`;
             const el = (
@@ -275,7 +310,7 @@ export const DebtTypesDonut = () => {
           })}
         </svg>
         <ul className="space-y-2.5">
-          {segments.map((s) => (
+          {data.map((s) => (
             <li key={s.label} className="flex items-center gap-3 text-sm">
               <span
                 className="h-3 w-3 rounded-full"
@@ -293,17 +328,23 @@ export const DebtTypesDonut = () => {
 };
 
 /* 7. 3 perfiles */
-export const PersonasGrid = () => {
-  const personas = [
+export const PersonasGrid = ({
+  title,
+  personas,
+}: {
+  title?: string;
+  personas?: { icon: LucideIcon; title: string; desc: string }[];
+}) => {
+  const data = personas ?? [
     { icon: Briefcase, title: "Asalariado", desc: "Con nómina embargada o microcréditos que se acumulan" },
     { icon: Building2, title: "Autónomo", desc: "Deudas con proveedores, Hacienda y Seguridad Social" },
     { icon: Users, title: "Ex-empresario", desc: "Cerraste tu negocio y arrastras deudas personales" },
   ];
   return (
     <Card>
-      <DiagramTitle>¿Te ves reflejado en alguno?</DiagramTitle>
+      <DiagramTitle>{title ?? "¿Te ves reflejado en alguno?"}</DiagramTitle>
       <div className="grid gap-4 md:grid-cols-3">
-        {personas.map(({ icon: Icon, title, desc }) => (
+        {data.map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
             className="rounded-2xl border border-border bg-surface p-5 text-center"
@@ -321,8 +362,14 @@ export const PersonasGrid = () => {
 };
 
 /* 8. Flow de embargos */
-export const EmbargoFlowChart = () => {
-  const nodes = [
+export const EmbargoFlowChart = ({
+  title,
+  nodes,
+}: {
+  title?: string;
+  nodes?: { icon: LucideIcon; title: string; desc: string }[];
+}) => {
+  const data = nodes ?? [
     { icon: FileText, title: "Reclamación", desc: "El acreedor inicia el proceso judicial" },
     { icon: Gavel, title: "Embargo declarado", desc: "El juzgado autoriza retener nómina o cuenta" },
     { icon: ShieldCheck, title: "Inicias Segunda Oportunidad", desc: "Se solicita la suspensión del embargo" },
@@ -330,9 +377,9 @@ export const EmbargoFlowChart = () => {
   ];
   return (
     <Card>
-      <DiagramTitle>Cómo se frena un embargo paso a paso</DiagramTitle>
+      <DiagramTitle>{title ?? "Cómo se frena un embargo paso a paso"}</DiagramTitle>
       <ol className="space-y-3">
-        {nodes.map(({ icon: Icon, title, desc }, i) => (
+        {data.map(({ icon: Icon, title, desc }, i) => (
           <li key={title}>
             <div className="flex items-start gap-4 rounded-2xl border border-border bg-surface p-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-foreground text-background">
@@ -343,7 +390,7 @@ export const EmbargoFlowChart = () => {
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               </div>
             </div>
-            {i < nodes.length - 1 && (
+            {i < data.length - 1 && (
               <div className="flex justify-center py-1.5 text-accent-deep" aria-hidden>
                 <ArrowRight className="h-4 w-4 rotate-90" />
               </div>
@@ -356,8 +403,16 @@ export const EmbargoFlowChart = () => {
 };
 
 /* 9. Stack de presupuesto */
-export const BudgetBreakdownStack = () => {
-  const segments = [
+export const BudgetBreakdownStack = ({
+  title,
+  subtitle,
+  segments,
+}: {
+  title?: string;
+  subtitle?: string;
+  segments?: { label: string; value: number; color: string }[];
+}) => {
+  const data = segments ?? [
     { label: "Vivienda", value: 35, color: "hsl(145 60% 30%)" },
     { label: "Alimentación", value: 20, color: "hsl(84 75% 55%)" },
     { label: "Suministros", value: 10, color: "hsl(160 25% 25%)" },
@@ -366,11 +421,11 @@ export const BudgetBreakdownStack = () => {
   ];
   return (
     <Card>
-      <DiagramTitle subtitle="Cuando las cuotas crecen, el resto del presupuesto se ahoga">
-        Dónde se va tu nómina hoy
+      <DiagramTitle subtitle={subtitle ?? "Cuando las cuotas crecen, el resto del presupuesto se ahoga"}>
+        {title ?? "Dónde se va tu nómina hoy"}
       </DiagramTitle>
       <div className="flex h-7 w-full overflow-hidden rounded-full">
-        {segments.map((s) => (
+        {data.map((s) => (
           <div
             key={s.label}
             style={{ width: `${s.value}%`, backgroundColor: s.color }}
@@ -379,7 +434,7 @@ export const BudgetBreakdownStack = () => {
         ))}
       </div>
       <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-        {segments.map((s) => (
+        {data.map((s) => (
           <li key={s.label} className="flex items-center gap-2 text-sm">
             <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: s.color }} aria-hidden />
             <span className="font-medium text-foreground">{s.label}</span>
