@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Banknote,
@@ -190,7 +191,7 @@ const BlogCard = ({ article }: { article: BlogArticle }) => {
           </span>
         </div>
         <a
-          href={`#${article.slug}`}
+          href={`/blog/${article.slug}`}
           className="inline-flex items-center gap-1.5 font-medium text-accent-deep transition-colors hover:text-foreground"
         >
           Leer más
@@ -284,13 +285,13 @@ const Blog = () => {
                 ))}
               </div>
 
-              <a
-                href="#cancelar-deudas-requisitos"
+              <Link
+                to="/blog/cancelar-deudas-requisitos"
                 className="mt-8 inline-flex w-fit items-center gap-2 font-semibold text-accent transition-colors hover:text-background"
               >
                 Leer la guía
                 <ArrowRight className="h-5 w-5" />
-              </a>
+              </Link>
             </div>
           </article>
 
