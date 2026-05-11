@@ -25,13 +25,13 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import stepForm from "@/assets/step-form.jpg";
 import stepStrategy from "@/assets/step-strategy.jpg";
-import stepFreedom from "@/assets/step-freedom.jpg";
-import personWoman from "@/assets/person-woman-walking.jpg";
-import personMan from "@/assets/person-man-portrait.jpg";
-import personCouple from "@/assets/person-couple-sofa.jpg";
-import testimonial2 from "@/assets/testimonial-2.jpg";
+import blogRequisitos from "@/assets/blog-requisitos.jpg";
+import blogEmbargos from "@/assets/blog-embargos.jpg";
+import blogAsnef from "@/assets/blog-asnef.jpg";
+import blogAutonomos from "@/assets/blog-autonomos.jpg";
+import blogRenegociar from "@/assets/blog-renegociar.jpg";
+import blogVidaDespues from "@/assets/blog-vida-despues.jpg";
 
 const categoryIcons: Record<string, LucideIcon> = {
   "Todos": LayoutGrid,
