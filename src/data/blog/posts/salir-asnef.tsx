@@ -92,7 +92,14 @@ export const salirAsnef: BlogPost = {
       title: "Qué documentación necesitas",
       body: (
         <>
+          <p>
+            La solicitud de baja en ASNEF es un trámite documental, pero hay que aportar exactamente lo que el
+            responsable del fichero puede aceptar como prueba. Cuanto más claros sean los documentos, más rápida
+            será la baja efectiva (la ley obliga a resolver en un mes desde la solicitud).
+          </p>
           <DocumentsChecklist
+            title="Documentos para pedir la baja en ASNEF"
+            subtitle="La mayoría se obtienen en el momento, no hace falta papeleo extra"
             items={[
               "DNI en vigor",
               "Sentencia o resolución judicial de cancelación",
@@ -142,6 +149,11 @@ export const salirAsnef: BlogPost = {
       title: "Mitos frecuentes sobre ASNEF",
       body: (
         <>
+          <p>
+            Sobre ASNEF circulan creencias muy extendidas que han retrasado durante años la baja de muchas
+            personas que ya tenían derecho a salir. Repasamos las tres más comunes para que decidas con la ley en
+            la mano, no con rumores de foro.
+          </p>
           <MythVsReality
             rows={[
               {
