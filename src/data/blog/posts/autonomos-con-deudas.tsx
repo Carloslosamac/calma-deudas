@@ -6,6 +6,7 @@ import {
   PersonasGrid,
   ProcessTimeline,
 } from "@/components/blog/diagrams";
+import { Building2, FileSpreadsheet, Landmark, Truck, Wrench } from "lucide-react";
 import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "../shared";
 import type { BlogPost } from "../types";
@@ -33,13 +34,15 @@ export const autonomosConDeudas: BlogPost = {
             tu vida personal salvo que hayas constituido una sociedad. Eso significa que una mala racha del negocio
             puede convertirse rápidamente en una deuda personal, especialmente con{" "}
             <ExtLink href="https://sede.agenciatributaria.gob.es/">Hacienda</ExtLink> y la{" "}
-            <ExtLink href="https://sede.seg-social.gob.es/">Seguridad Social</ExtLink>.
+            <ExtLink href="https://sede.seg-social.gob.es/">Seguridad Social</ExtLink>, que tienen capacidad de
+            embargo directo sin pasar por un juez.
           </p>
           <p>
             La regulación específica del autónomo está recogida en la{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2007-12792">Ley 20/2007 del Estatuto del Trabajo Autónomo</ExtLink>,
             que define derechos como la figura del autónomo económicamente dependiente y la protección por cese de
-            actividad. Pero la herramienta clave cuando la deuda ahoga la actividad es la Ley de Segunda Oportunidad.
+            actividad. Pero la herramienta clave cuando la deuda ahoga la actividad es la Ley de Segunda Oportunidad,
+            específicamente pensada para personas físicas que arrastran deuda profesional.
           </p>
         </>
       ),
@@ -50,11 +53,21 @@ export const autonomosConDeudas: BlogPost = {
       body: (
         <>
           <p>
-            En consulta vemos una mezcla habitual: cuotas de autónomos atrasadas, IVA y IRPF trimestrales sin
+            En consulta vemos una mezcla habitual: cuotas de autónomos atrasadas, IVA e IRPF trimestrales sin
             ingresar, préstamos ICO o créditos al consumo solicitados para hacer frente a meses flojos,
             descubiertos con proveedores y, en muchos casos, avales personales firmados a la sociedad.
           </p>
-          <DebtTypesDonut />
+          <DebtTypesDonut
+            title="Composición típica de la deuda del autónomo"
+            subtitle="Reparto medio en los casos que atendemos cada mes"
+            segments={[
+              { label: "Cuota de autónomos atrasada", value: 22, color: "hsl(25 90% 60%)" },
+              { label: "IVA e IRPF (Hacienda)", value: 28, color: "hsl(0 70% 55%)" },
+              { label: "Préstamos ICO / bancos", value: 24, color: "hsl(145 60% 35%)" },
+              { label: "Proveedores y facturas", value: 16, color: "hsl(84 75% 55%)" },
+              { label: "Avales personales", value: 10, color: "hsl(160 30% 18%)" },
+            ]}
+          />
           <p>
             La parte pública (Hacienda + Seguridad Social) suele ser la más urgente, porque tiene capacidad de
             embargo directo sin pasar por un juez. Si ya tienes una nómina o una cuenta embargada, te recomendamos
@@ -69,11 +82,24 @@ export const autonomosConDeudas: BlogPost = {
       title: "Tres perfiles típicos del autónomo endeudado",
       body: (
         <>
-          <PersonasGrid />
           <p>
-            Aunque las cifras cambian, el patrón es similar: actividad que perdió rentabilidad, cuotas que se
-            mantuvieron por inercia, y una bola de nieve que crece con recargos e intereses. La buena noticia es
-            que la ley permite poner orden de forma estructurada, sin tener que cerrar necesariamente la actividad.
+            Aunque los importes y los sectores cambian, en consulta se repiten tres perfiles muy reconocibles:
+            el oficio que vio caer el volumen de trabajo, el comercio de proximidad asfixiado por costes fijos y
+            el profesional con sociedad disuelta que arrastra avales personales. Reconocerse en uno de ellos
+            ayuda a diseñar la estrategia correcta desde el primer día.
+          </p>
+          <PersonasGrid
+            title="Tres autónomos, tres puntos de partida"
+            personas={[
+              { icon: Wrench, title: "Oficio o reforma", desc: "Cuotas y materiales sin cobrar a tiempo por clientes morosos" },
+              { icon: Truck, title: "Comercio o transporte", desc: "Costes fijos altos y márgenes que se han estrechado" },
+              { icon: Building2, title: "Ex-administrador", desc: "Cerraste la sociedad y respondes con avales personales" },
+            ]}
+          />
+          <p>
+            El patrón compartido es similar: actividad que perdió rentabilidad, cuotas que se mantuvieron por
+            inercia y una bola de nieve que crece con recargos e intereses. La buena noticia es que la ley
+            permite poner orden de forma estructurada, sin tener que cerrar necesariamente la actividad.
           </p>
         </>
       ),
@@ -117,7 +143,8 @@ export const autonomosConDeudas: BlogPost = {
           <p>
             Quedan fuera las pensiones de alimentos, las responsabilidades civiles derivadas de delito y las
             multas penales. La ley está pensada para la actividad económica honesta, no para encubrir
-            responsabilidades ajenas al negocio.
+            responsabilidades ajenas al negocio. Esa frontera es la que valida un juez antes de aprobar la
+            exoneración.
           </p>
         </>
       ),
@@ -130,9 +157,24 @@ export const autonomosConDeudas: BlogPost = {
           <p>
             El coste depende del volumen de deuda, del número de acreedores y de si hay sociedad o solo persona
             física implicada. Pero el verdadero coste suele estar al otro lado: recargos, intereses de demora del
-            20% en Hacienda y Seguridad Social, y la imposibilidad de facturar con normalidad.
+            20% en Hacienda y Seguridad Social, y la imposibilidad de facturar con normalidad mientras los
+            embargos siguen activos.
           </p>
-          <CostFactorsGrid />
+          <CostFactorsGrid
+            title="Qué encarece (o abarata) el caso de un autónomo"
+            subtitle="Estos factores marcan la diferencia frente a un asalariado"
+            factors={[
+              { icon: FileSpreadsheet, title: "Deuda fiscal pendiente", desc: "IVA e IRPF acumulados requieren cruce con Hacienda" },
+              { icon: Landmark, title: "Cuotas de Seguridad Social", desc: "Tesorería General aplica recargos del 20% sobre el principal" },
+              { icon: Building2, title: "Sociedad y avales", desc: "Si hubo sociedad, hay que separar responsabilidades personales" },
+              { icon: Truck, title: "Bienes afectos a la actividad", desc: "Vehículo, local o maquinaria requieren tratamiento específico" },
+            ]}
+          />
+          <p>
+            En la mayoría de casos, el coste del procedimiento se recupera en pocos meses solo por el cese de los
+            recargos públicos y la suspensión de los embargos. La pregunta correcta no es <em>cuánto cuesta</em>,
+            sino <em>cuánto te está costando no hacer nada</em> cada trimestre.
+          </p>
         </>
       ),
     },
@@ -141,22 +183,34 @@ export const autonomosConDeudas: BlogPost = {
       title: "Cómo es el proceso para un autónomo",
       body: (
         <>
+          <p>
+            En un autónomo, el procedimiento sigue una estructura clara pero con matices propios: hay que separar
+            actividad y persona, identificar si existen sociedades disueltas con avales y coordinar los plazos con
+            las obligaciones fiscales en curso. Esto no debe asustar: es trabajo del equipo legal, no del cliente.
+          </p>
           <ProcessTimeline
             steps={[
-              { title: "Diagnóstico", desc: "Revisamos contabilidad, deudas y avales" },
+              { title: "Diagnóstico", desc: "Revisamos contabilidad, deudas y avales firmados" },
               { title: "Estrategia", desc: "Decidimos: aplazar, renegociar o procedimiento" },
-              { title: "Solicitud", desc: "Se presenta el expediente con la documentación" },
-              { title: "Resolución", desc: "Cancelación o plan de pagos viable" },
+              { title: "Solicitud", desc: "Presentamos el expediente con la documentación" },
+              { title: "Resolución", desc: "Cancelación o plan de pagos viable y sostenible" },
             ]}
           />
+          <p>
+            Mientras el procedimiento avanza, el autónomo puede seguir facturando con normalidad si la actividad
+            es viable. No hay incompatibilidad legal entre acogerse a la Segunda Oportunidad y mantener el alta en
+            el RETA: lo importante es que las nuevas cuotas se paguen al día desde el inicio del expediente.
+          </p>
           <DocumentsChecklist
+            title="Documentación específica del autónomo"
+            subtitle="A diferencia del asalariado, hay que aportar también lo fiscal"
             items={[
-              "Declaraciones de IVA e IRPF",
+              "Declaraciones de IVA e IRPF de los últimos ejercicios",
               "Modelo 347 si aplica",
-              "Vida laboral",
+              "Vida laboral actualizada",
               "Cuotas pendientes de Seguridad Social",
-              "Listado de proveedores y saldos",
-              "Avales personales firmados",
+              "Listado de proveedores y saldos pendientes",
+              "Contratos y avales personales firmados",
             ]}
           />
         </>
@@ -167,6 +221,11 @@ export const autonomosConDeudas: BlogPost = {
       title: "Mitos del autónomo en deuda",
       body: (
         <>
+          <p>
+            En el día a día del autónomo circulan ideas equivocadas que retrasan la decisión durante años: que
+            darse de baja borra la deuda, que Hacienda no negocia nunca, que tras cancelar ya no se podrá volver
+            a facturar. Aclararlas suele ser el primer paso para mover ficha con cabeza.
+          </p>
           <MythVsReality
             rows={[
               {
@@ -183,6 +242,11 @@ export const autonomosConDeudas: BlogPost = {
               },
             ]}
           />
+          <p>
+            La realidad es que la mayoría de autónomos que se acogen al procedimiento siguen trabajando durante
+            todo el proceso y mantienen su actividad después. Lo que cambia no es el oficio, sino la mochila de
+            deuda que se arrastraba.
+          </p>
           <InlineCTA
             title="Ordenemos tu situación antes de tomar decisiones drásticas"
             description="Te decimos qué vía encaja con tu actividad sin cerrar nada precipitadamente."
