@@ -143,6 +143,66 @@ const BlogPost = () => {
             </div>
           </div>
         </article>
+
+        {/* Keyword cloud + related posts */}
+        <aside className="mx-auto mt-20 max-w-6xl border-t border-border pt-14">
+          {post.keywords && post.keywords.length > 0 && (
+            <div className="mb-14">
+              <h2 className="mb-5 font-poppins text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                Temas tratados en este artículo
+              </h2>
+              <ul className="flex flex-wrap gap-2.5">
+                {post.keywords.map((kw) => (
+                  <li key={kw}>
+                    <span className="inline-flex items-center rounded-full border border-border bg-surface px-4 py-1.5 text-sm text-muted-foreground">
+                      {kw}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {relatedPosts.length > 0 && (
+            <div>
+              <h2 className="mb-6 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                Artículos relacionados
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedPosts.map((rp) => (
+                  <Link
+                    key={rp.slug}
+                    to={`/blog/${rp.slug}`}
+                    className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-surface transition-shadow hover:shadow-medium"
+                  >
+                    <div className="overflow-hidden">
+                      <img
+                        src={rp.heroImage}
+                        alt={rp.heroAlt}
+                        loading="lazy"
+                        className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-deep">
+                        {rp.category}
+                      </p>
+                      <h3 className="mt-3 font-poppins text-lg font-semibold leading-snug text-foreground group-hover:text-accent-deep">
+                        {rp.title}
+                      </h3>
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                        {rp.excerpt}
+                      </p>
+                      <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-accent-deep">
+                        Leer artículo
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
       </main>
 
       <Footer />
