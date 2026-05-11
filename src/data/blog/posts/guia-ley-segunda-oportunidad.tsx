@@ -131,29 +131,33 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "que-es",
-      title: "Qué es la Ley de Segunda Oportunidad",
+      title: "Qué es la Ley de Segunda Oportunidad y cómo funciona",
       body: (
         <>
           <p>
             La <strong>Ley de Segunda Oportunidad</strong> es un{" "}
             <strong>procedimiento judicial</strong> que permite a personas físicas
-            (particulares y autónomos) <strong>cancelar legalmente sus deudas</strong>{" "}
-            cuando ya no pueden afrontarlas. No es una refinanciación, no es una
-            reunificación y no es una rebaja comercial: es un derecho reconocido en la
+            (particulares y autónomos) <strong>cancelar deudas legalmente</strong>{" "}
+            cuando ya no pueden afrontarlas. También conocida popularmente como{" "}
+            <em>Ley Segunda Oportunidad</em> o, en su denominación más formal,{" "}
+            <em>Ley de la Segunda Oportunidad</em> (LSO), no es una refinanciación, ni
+            una reunificación, ni una rebaja comercial: es un derecho reconocido en la
             ley española y armonizado con la normativa europea.
           </p>
           <p>
             Está pensada para personas honradas que, por una circunstancia sobrevenida
             (divorcio, enfermedad, despido, cierre del negocio, una operación financiera
             que salió mal), entran en una espiral de impagos imposible de remontar con
-            ingresos ordinarios. La finalidad de la ley es exactamente esa: dar una
-            salida real al deudor de <em>buena fe</em> y permitir que vuelva a tener una
-            economía sostenible.
+            ingresos ordinarios. La finalidad de la Ley de Segunda Oportunidad es
+            exactamente esa: dar una salida real al <strong>deudor de buena fe</strong>{" "}
+            y permitir que vuelva a tener una economía sostenible.
           </p>
           <p>
             El resultado final del proceso, cuando se completa con éxito, se llama{" "}
-            <strong>Exoneración del Pasivo Insatisfecho (EPI)</strong>. Es la
-            resolución judicial que cancela las deudas que el patrimonio del deudor no
+            <strong>Exoneración del Pasivo Insatisfecho (EPI)</strong>, también
+            conocida como <strong>Beneficio de Exoneración del Pasivo Insatisfecho
+            (BEPI)</strong>. Es la resolución judicial dictada al amparo de la Ley de
+            Segunda Oportunidad que cancela las deudas que el patrimonio del deudor no
             ha podido cubrir. A partir de ese momento, esos importes ya no son
             exigibles. Ni por el banco, ni por la financiera, ni por la empresa de
             recobro.
@@ -164,20 +168,21 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "origen",
-      title: "Origen y evolución: del BOE de 2015 a hoy",
+      title: "Origen y evolución de la Ley de Segunda Oportunidad: del BOE de 2015 a 2026",
       body: (
         <>
           <p>
-            La ley nació con el{" "}
+            La Ley de Segunda Oportunidad nació con el{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-2109">
               Real Decreto-Ley 1/2015
             </ExtLink>
             , que introdujo por primera vez en España un mecanismo para que una persona
-            física pudiera cancelar sus deudas. Se consolidó después con la{" "}
+            física pudiera cancelar deudas por vía judicial. Se consolidó después con la{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-8469">
               Ley 25/2015
             </ExtLink>
-            , conocida popularmente como “Ley de Segunda Oportunidad”.
+            , la norma conocida popularmente como <strong>“Ley de Segunda Oportunidad”</strong>{" "}
+            o, abreviadamente, <strong>LSO</strong>.
           </p>
           <p>
             En 2020 toda la regulación se integró en el{" "}
@@ -187,16 +192,24 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             <ExtLink href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1023">
               Directiva (UE) 2019/1023 sobre marcos de reestructuración e insolvencia
             </ExtLink>
-            . Esta reforma trajo tres novedades clave: se simplificó el procedimiento,
-            se permitió la <strong>exoneración inmediata sin liquidar</strong> bajo
-            ciertas condiciones y se abrió la puerta a cancelar parte de la{" "}
-            <strong>deuda pública</strong> (Hacienda y Seguridad Social).
+            . Esta reforma trajo tres novedades clave en la Ley de Segunda Oportunidad:
+            se simplificó el procedimiento, se permitió la{" "}
+            <strong>exoneración inmediata sin liquidar</strong> bajo ciertas
+            condiciones y se abrió la puerta a cancelar parte de la{" "}
+            <strong>deuda pública</strong> (Hacienda y Seguridad Social) —lo que el
+            análisis de{" "}
+            <ExtLink href="https://www.lawandtrends.com/noticias/mercantil/la-revolucion-silenciosa-de-la-ley-de-la-segunda-oportunidad-2026-la-exoneracion-del-credito-publico-ya-es-una-1.html">
+              Law&amp;Trends califica como la “revolución silenciosa” de la Ley de la
+              Segunda Oportunidad en 2026
+            </ExtLink>
+            .
           </p>
           <p>
-            En la práctica, esto significa que la ley que existe hoy es bastante más
-            favorable para el deudor de buena fe que la versión original de 2015. Si
-            alguien intentó acogerse hace años y le dijeron que no podía, conviene
-            volver a revisar el caso con la normativa actual.
+            En la práctica, esto significa que la Ley de Segunda Oportunidad que
+            existe hoy es bastante más favorable para el deudor de buena fe que la
+            versión original de 2015. Si alguien intentó acogerse a la Ley Segunda
+            Oportunidad hace años y le dijeron que no podía, conviene volver a revisar
+            el caso con la normativa de 2026.
           </p>
         </>
       ),
