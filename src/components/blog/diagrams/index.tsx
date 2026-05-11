@@ -650,7 +650,7 @@ export const ComparisonTable = ({
           {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         </div>
       )}
-      <div className="grid grid-cols-[1.4fr_1fr_1fr] border-b border-border bg-surface px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground md:px-8">
+      <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-2 border-b border-border bg-surface px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.16em] md:px-8">
         <span></span>
         <span>{a}</span>
         <span className="text-accent-deep">{b}</span>
@@ -659,7 +659,7 @@ export const ComparisonTable = ({
         {data.map((row) => (
           <li
             key={row.label}
-            className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 px-6 py-4 md:px-8"
+            className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-2 px-4 py-4 text-sm sm:gap-4 sm:text-base md:px-8"
           >
             <span className="font-medium text-foreground">{row.label}</span>
             <span
