@@ -357,29 +357,31 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <ComparisonTable
             title="Comparativa entre las dos vías"
             subtitle="Cada caso debe analizarse de forma individual"
-            leftTitle="Exoneración con liquidación"
-            rightTitle="Exoneración con plan de pagos"
-            highlight="right"
+            optionA="Exoneración con liquidación"
+            optionB="Exoneración con plan de pagos"
             rows={[
               {
                 label: "Patrimonio del deudor",
-                left: "Se liquida lo no esencial",
-                right: "Se conserva (incl. vivienda en muchos casos)",
+                a: "Se liquida lo no esencial",
+                b: "Se conserva (incl. vivienda en muchos casos)",
+                highlight: "b",
               },
               {
                 label: "Duración del proceso",
-                left: "6 - 12 meses",
-                right: "3 - 5 años con plan",
+                a: "6 - 12 meses",
+                b: "3 - 5 años con plan",
+                highlight: "a",
               },
               {
                 label: "Encaja mejor con",
-                left: "Personas sin ingresos estables",
-                right: "Asalariados o autónomos con nómina",
+                a: "Personas sin ingresos estables",
+                b: "Asalariados o autónomos con nómina",
               },
               {
                 label: "Resultado final",
-                left: "EPI sobre lo no cubierto",
-                right: "EPI al cumplir el plan",
+                a: "EPI sobre lo no cubierto",
+                b: "EPI al cumplir el plan",
+                highlight: "b",
               },
             ]}
           />

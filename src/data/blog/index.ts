@@ -5,8 +5,10 @@ import { salirAsnef } from "./posts/salir-asnef";
 import { autonomosConDeudas } from "./posts/autonomos-con-deudas";
 import { renegociarAcreedores } from "./posts/renegociar-acreedores";
 import { vidaDespuesDeuda } from "./posts/vida-despues-deuda";
+import { guiaLeySegundaOportunidad } from "./posts/guia-ley-segunda-oportunidad";
 
 export const blogPosts: BlogPost[] = [
+  guiaLeySegundaOportunidad,
   cancelarDeudasRequisitos,
   embargosSegundaOportunidad,
   salirAsnef,
