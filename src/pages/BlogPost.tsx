@@ -610,7 +610,7 @@ const BlogPost = () => {
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
             <img
               src={post.heroImage}
-              alt="Mujer caminando con tranquilidad tras cancelar sus deudas con la Ley de Segunda Oportunidad"
+              alt="Mujer revisando con un abogado la documentación para cancelar sus deudas mediante la Ley de Segunda Oportunidad"
               className="aspect-[16/9] w-full object-cover"
             />
           </figure>
