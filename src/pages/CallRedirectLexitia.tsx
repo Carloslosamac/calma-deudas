@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Seo from "@/components/seo/Seo";
 
 const CallRedirectLexitia = () => {
   const phoneNumber = "919952506";
@@ -19,6 +20,7 @@ const CallRedirectLexitia = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Seo title="Llamando…" description="Redirigiendo a nuestro equipo." canonical="/call/lexitia" robots="noindex,nofollow" />
       <div className="text-center space-y-6 max-w-md">
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center animate-pulse">
