@@ -1,5 +1,26 @@
 import { useMemo, useState } from "react";
-import { ArrowRight, CalendarDays, Clock3, FileText, MessageCircle, Search, ShieldCheck, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Briefcase,
+  CalendarDays,
+  Clock3,
+  FileText,
+  Gavel,
+  Home,
+  Landmark,
+  LayoutGrid,
+  Lightbulb,
+  MessageCircle,
+  PiggyBank,
+  Scale,
+  Search,
+  ShieldBan,
+  ShieldCheck,
+  Star,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -11,13 +32,18 @@ import personMan from "@/assets/person-man-portrait.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 
-const categories = [
-  "Todos",
-  "Segunda oportunidad",
-  "Embargos",
-  "ASNEF",
-  "Autónomos",
-  "Consejos",
+const categories: { name: string; icon: LucideIcon }[] = [
+  { name: "Todos", icon: LayoutGrid },
+  { name: "Segunda oportunidad", icon: Scale },
+  { name: "Embargos", icon: Gavel },
+  { name: "ASNEF", icon: ShieldBan },
+  { name: "Autónomos", icon: Briefcase },
+  { name: "Deuda pública", icon: Landmark },
+  { name: "Hipotecas", icon: Home },
+  { name: "Tarjetas y créditos", icon: Wallet },
+  { name: "Ahorro", icon: PiggyBank },
+  { name: "Finanzas familiares", icon: Banknote },
+  { name: "Consejos", icon: Lightbulb },
 ];
 
 const featuredArticle = {
@@ -252,21 +278,22 @@ const Blog = () => {
           </article>
 
           <div className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-3">
-            {categories.map((category) => {
-              const isActive = activeCategory === category;
+            {categories.map(({ name, icon: Icon }) => {
+              const isActive = activeCategory === name;
 
               return (
                 <button
-                  key={category}
+                  key={name}
                   type="button"
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
+                  onClick={() => setActiveCategory(name)}
+                  className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                     isActive
                       ? "bg-accent text-accent-foreground shadow-glow"
                       : "bg-muted text-muted-foreground hover:bg-accent-soft hover:text-foreground"
                   }`}
                 >
-                  {category}
+                  <Icon className="h-4 w-4" />
+                  {name}
                 </button>
               );
             })}
