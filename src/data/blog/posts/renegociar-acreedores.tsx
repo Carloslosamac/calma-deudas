@@ -173,7 +173,7 @@ export const renegociarAcreedores: BlogPost = {
           <InlineCTA
             title="¿Renegociar o ir por la vía legal?"
             description="Te decimos cuál encaja con tu situación antes de mover ficha."
-            buttonLabel="Analizar mi caso"
+            buttonLabel="Renegociar mi deuda"
           />
         </>
       ),

@@ -101,7 +101,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
           <InlineCTA
             title="¿Crees que cumples los requisitos?"
             description="Te lo confirmamos en 24 horas con un análisis personal sin compromiso."
-            buttonLabel="Comprobar mi caso"
+            buttonLabel="Comprobar requisitos"
           />
         </>
       ),
@@ -179,7 +179,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
           <InlineCTA
             title="¿Tienes un embargo activo?"
             description="Cuanto antes lo veamos, antes podemos pedir su suspensión legal."
-            buttonLabel="Hablar con un abogado"
+            buttonLabel="Parar mi embargo"
           />
         </>
       ),
@@ -312,7 +312,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
           <InlineCTA
             title="Hablemos sin compromiso"
             description="En 15 minutos te decimos si tu caso encaja y qué pasos seguir."
-            buttonLabel="Analizar mi deuda gratis"
+            buttonLabel="Cancelar mi deuda"
           />
         </>
       ),

@@ -106,7 +106,7 @@ export const embargosSegundaOportunidad: BlogPost = {
           <InlineCTA
             title="¿Tienes una nómina o cuenta embargada?"
             description="Cuanto antes lo veamos, antes podemos pedir la suspensión legal del embargo."
-            buttonLabel="Hablar con un abogado"
+            buttonLabel="Parar mi embargo"
           />
         </>
       ),
@@ -214,7 +214,7 @@ export const embargosSegundaOportunidad: BlogPost = {
           <InlineCTA
             title="Vamos a parar tu embargo"
             description="Si ya tienes una retención activa, el primer paso es saber si encaja en el procedimiento."
-            buttonLabel="Analizar mi caso"
+            buttonLabel="Parar mi embargo"
           />
         </>
       ),

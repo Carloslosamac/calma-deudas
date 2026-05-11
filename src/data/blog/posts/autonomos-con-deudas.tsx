@@ -136,7 +136,7 @@ export const autonomosConDeudas: BlogPost = {
           <InlineCTA
             title="¿Tu actividad está al límite?"
             description="Analizamos tu situación como autónomo y te decimos qué vía encaja antes de cerrar nada."
-            buttonLabel="Analizar mi caso"
+            buttonLabel="Salvar mi negocio"
           />
         </>
       ),
