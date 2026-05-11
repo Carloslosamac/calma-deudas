@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -11,6 +12,17 @@ const Header = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollToForm = () => {
+    const form = document.getElementById("hero-form");
+
+    if (form) {
+      form.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    window.location.href = "/#hero-form";
+  };
+
   return (
     <header className="fixed top-4 left-2 right-2 z-50">
       <div
@@ -20,10 +32,10 @@ const Header = () => {
             : "bg-white/60 backdrop-blur-md border border-white/40 shadow-soft"
         }`}
       >
-        <div className="flex items-center gap-2">
-          <img 
-            src="/lovable-uploads/8698ae24-c99d-402f-ba9e-a4bb74712c31.png" 
-            alt="Calma Logo" 
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src="/lovable-uploads/8698ae24-c99d-402f-ba9e-a4bb74712c31.png"
+            alt="Calma Logo"
             className="h-8"
           />
           <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground ml-2">
@@ -33,28 +45,29 @@ const Header = () => {
             </span>
             Asesores online
           </span>
-        </div>
-        
+        </Link>
+
         <nav className="hidden lg:flex items-center gap-8 text-sm">
-          <a href="#como-funciona" className="text-foreground/70 hover:text-foreground transition-colors">
+          <a href="/#como-funciona" className="text-foreground/70 hover:text-foreground transition-colors">
             Cómo funciona
           </a>
-          <a href="#soluciones" className="text-foreground/70 hover:text-foreground transition-colors">
+          <a href="/#soluciones" className="text-foreground/70 hover:text-foreground transition-colors">
             Soluciones
           </a>
-          <a href="#testimonios" className="text-foreground/70 hover:text-foreground transition-colors">
+          <Link to="/blog" className="text-foreground/70 hover:text-foreground transition-colors">
+            Blog
+          </Link>
+          <a href="/#testimonios" className="text-foreground/70 hover:text-foreground transition-colors">
             Casos reales
           </a>
-          <a href="#preguntas" className="text-foreground/70 hover:text-foreground transition-colors">
+          <a href="/#preguntas" className="text-foreground/70 hover:text-foreground transition-colors">
             FAQ
           </a>
         </nav>
 
-        <Button 
+        <Button
           className="rounded-full px-5 h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
-          onClick={() => {
-            document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }}
+          onClick={scrollToForm}
         >
           Analizar mi deuda
         </Button>
