@@ -51,8 +51,7 @@ const Header = () => {
         </nav>
 
         <Button 
-          variant="orange" 
-          className="rounded-full px-5 h-10 text-sm shadow-soft"
+          className="rounded-full px-5 h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
           onClick={() => {
             document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }}
