@@ -5,6 +5,7 @@ import {
   MythVsReality,
   ProcessTimeline,
 } from "@/components/blog/diagrams";
+import { Banknote, Gavel, Hourglass, ShieldCheck } from "lucide-react";
 import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "../shared";
 import type { BlogPost } from "../types";
@@ -77,7 +78,15 @@ export const embargosSegundaOportunidad: BlogPost = {
             trámite el procedimiento. No es automático: requiere un escrito específico, fundamentado y presentado
             por un abogado especializado.
           </p>
-          <EmbargoFlowChart />
+          <EmbargoFlowChart
+            title="De la notificación a la suspensión del embargo"
+            nodes={[
+              { icon: Gavel, title: "Embargo notificado", desc: "Tu empresa o banco recibe la orden de retener" },
+              { icon: Hourglass, title: "Solicitud urgente", desc: "Tu abogado presenta el procedimiento ante el juzgado" },
+              { icon: ShieldCheck, title: "Medidas cautelares", desc: "El juzgado ordena suspender las retenciones" },
+              { icon: Banknote, title: "Nómina íntegra", desc: "El pagador deja de retener desde la nómina siguiente" },
+            ]}
+          />
           <p>
             Para entender si encajas en el procedimiento, te recomendamos pasar antes por la guía sobre los{" "}
             <InternalLink to="/blog/cancelar-deudas-requisitos">requisitos para cancelar deudas</InternalLink>. Si tu
