@@ -2,10 +2,23 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import Seo from "@/components/seo/Seo";
+import { buildBreadcrumb } from "@/lib/seo/structuredData";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <Seo
+        title="Política de privacidad"
+        description="Política de privacidad de Calma: cómo tratamos tus datos cuando solicitas información sobre la Ley de Segunda Oportunidad."
+        canonical="/politica-de-privacidad"
+        structuredData={[
+          buildBreadcrumb([
+            { name: "Inicio", url: "/" },
+            { name: "Política de privacidad", url: "/politica-de-privacidad" },
+          ]),
+        ]}
+      />
       <Header />
       
       <main className="flex-1 bg-gradient-to-br from-background via-secondary/5 to-accent/5">
