@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
-import { getPostBySlug } from "@/data/blog";
+import { blogPosts, getPostBySlug } from "@/data/blog";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -15,6 +15,14 @@ const BlogPost = () => {
     () => (post ? post.sections.map((s) => ({ id: s.id, label: s.title })) : []),
     [post]
   );
+
+  const relatedPosts = useMemo(() => {
+    if (!post) return [];
+    const others = blogPosts.filter((p) => p.slug !== post.slug);
+    const sameCategory = others.filter((p) => p.category === post.category);
+    const rest = others.filter((p) => p.category !== post.category);
+    return [...sameCategory, ...rest].slice(0, 3);
+  }, [post]);
 
   useEffect(() => {
     if (post) {
