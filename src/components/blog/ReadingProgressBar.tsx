@@ -22,7 +22,7 @@ const ReadingProgressBar = () => {
 
   return (
     <div
-      className="fixed left-0 right-0 top-0 z-[60] h-1 bg-transparent"
+      className="fixed left-0 right-0 top-0 z-[60] h-1.5 bg-border/40"
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={100}
@@ -30,7 +30,7 @@ const ReadingProgressBar = () => {
       aria-label="Progreso de lectura"
     >
       <div
-        className="h-full bg-gradient-to-r from-accent-deep via-accent to-accent-deep transition-[width] duration-150 ease-out"
+        className="h-full bg-accent-deep transition-[width] duration-150 ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>
