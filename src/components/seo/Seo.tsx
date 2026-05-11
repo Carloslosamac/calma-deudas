@@ -44,6 +44,13 @@ const Seo = ({
   structuredData,
   appendSiteName = true,
 }: SeoProps) => {
+  // Si NO estamos en el dominio canónico, forzamos noindex para evitar
+  // duplicado con id-preview-*.lovable.app y calma-deudas.lovable.app.
+  const isCanonicalHost =
+    typeof window === "undefined" ||
+    window.location.hostname.endsWith("mi-calma.es");
+  const effectiveRobots = isCanonicalHost ? robots : "noindex,nofollow";
+
   const fullTitle =
     appendSiteName && !title.toLowerCase().includes(SITE_NAME.toLowerCase())
       ? `${title} | ${SITE_NAME}`
@@ -59,8 +66,8 @@ const Seo = ({
       {keywords?.length ? (
         <meta name="keywords" content={keywords.join(", ")} />
       ) : null}
-      <meta name="robots" content={robots} />
-      <meta name="googlebot" content={robots} />
+      <meta name="robots" content={effectiveRobots} />
+      <meta name="googlebot" content={effectiveRobots} />
       {author ? <meta name="author" content={author} /> : null}
 
       <link rel="canonical" href={canonicalUrl} />
@@ -94,13 +101,6 @@ const Seo = ({
       <meta name="twitter:image" content={image} />
 
       <meta name="theme-color" content="#0a3a23" />
-
-      {/* Si NO estamos en el dominio canónico, no indexar la versión preview/lovable.app */}
-      {typeof window !== "undefined" &&
-      window.location.hostname &&
-      !window.location.hostname.endsWith("mi-calma.es") ? (
-        <meta name="robots" content="noindex,nofollow" />
-      ) : null}
 
       {structuredData?.map((data, i) => (
         <script key={i} type="application/ld+json">
