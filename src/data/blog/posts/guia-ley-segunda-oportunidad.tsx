@@ -431,13 +431,14 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "proceso",
-      title: "El procedimiento paso a paso",
+      title: "Procedimiento de la Ley de Segunda Oportunidad paso a paso",
       body: (
         <>
           <p>
-            Conviene desmitificar el proceso. No hay juicios públicos, no hay vistas
-            multitudinarias y no se llama a tu familia ni a tu empresa. El expediente
-            es eminentemente documental y se desarrolla en cinco fases claras.
+            Conviene desmitificar el proceso de la Ley de Segunda Oportunidad. No hay
+            juicios públicos, no hay vistas multitudinarias y no se llama a tu familia
+            ni a tu empresa. El expediente es eminentemente documental y se desarrolla
+            en cinco fases claras.
           </p>
           <ProcessTimeline />
           <p>
@@ -461,9 +462,10 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             de los casos no se oponen, o sus oposiciones no prosperan.
           </p>
           <p>
-            <strong>5. Resolución y EPI.</strong> El juzgado dicta la resolución que
-            concede (o, excepcionalmente, deniega) la Exoneración del Pasivo
-            Insatisfecho. Esa resolución es la que cancela tu deuda.
+            <strong>5. Resolución y EPI/BEPI.</strong> El juzgado dicta la resolución
+            que concede (o, excepcionalmente, deniega) la{" "}
+            <strong>Exoneración del Pasivo Insatisfecho</strong> al amparo de la Ley
+            de Segunda Oportunidad. Esa resolución es la que cancela tu deuda.
           </p>
           <InlineCTA
             title="¿Quieres ver qué fase te tocaría?"
@@ -475,13 +477,14 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "embargos",
-      title: "Qué pasa con los embargos y las llamadas",
+      title: "Embargos y Ley de Segunda Oportunidad: qué pasa con las llamadas",
       body: (
         <>
           <p>
             Es la pregunta más urgente para quien tiene la nómina embargada, la cuenta
             bloqueada o varias llamadas diarias de empresas de recobro. La respuesta es
-            clara: la Segunda Oportunidad tiene mecanismos legales específicos para{" "}
+            clara: la Ley de Segunda Oportunidad tiene mecanismos legales específicos
+            para{" "}
             <strong>parar todo eso</strong>.
           </p>
           <EmbargoFlowChart />
@@ -499,7 +502,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <p>
             Profundizamos en este tema en la guía específica sobre{" "}
             <InternalLink to="/blog/embargos-segunda-oportunidad">
-              cómo parar un embargo con la Segunda Oportunidad
+              cómo parar un embargo con la Ley de Segunda Oportunidad
             </InternalLink>
             . Y si además figuras en ficheros de morosos, te interesará leer{" "}
             <InternalLink to="/blog/salir-asnef">cómo salir de ASNEF</InternalLink>.
@@ -514,13 +517,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "vivienda",
-      title: "¿Pierdo mi vivienda habitual?",
+      title: "Vivienda habitual y Ley de Segunda Oportunidad: ¿la pierdo?",
       body: (
         <>
           <p>
             Es uno de los miedos más comunes y, a la vez, uno de los más malinterpretados.
-            La Segunda Oportunidad <strong>no obliga automáticamente a vender la
-            vivienda habitual</strong>. Cuando se opta por la vía de la{" "}
+            La Ley de Segunda Oportunidad <strong>no obliga automáticamente a vender
+            la vivienda habitual</strong>. Cuando se opta por la vía de la{" "}
             <strong>exoneración con plan de pagos</strong>, en muchos casos es posible
             conservar la vivienda siempre que la hipoteca esté al corriente o pueda
             ponerse al día.
@@ -550,7 +553,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "autonomos",
-      title: "Particularidades para autónomos y exempresarios",
+      title: "Autónomos y exempresarios en la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
