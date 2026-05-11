@@ -32,13 +32,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   title:
     "Ley de Segunda Oportunidad 2026: la guía más completa y actualizada para cancelar tus deudas",
   excerpt:
-    "La guía más completa y actualizada de 2026 sobre la Ley de Segunda Oportunidad: requisitos, fases, embargos, vivienda, deuda pública, autónomos y vida después. Todo lo que necesitas saber para cancelar tus deudas con la Ley de Segunda Oportunidad, en lenguaje claro y sin tecnicismos.",
+    "La guía más completa y actualizada de 2026 sobre la Ley de Segunda Oportunidad: requisitos, fases, embargos, vivienda, deuda pública, autónomos y vida después. Todo lo que necesitas saber para cancelar tus deudas con la Ley Segunda Oportunidad, en lenguaje claro y sin tecnicismos.",
   date: "11 mayo 2026",
   readTime: "28 min",
   author: "Equipo legal Calma",
   heroImage,
   heroAlt:
-    "Mujer leyendo con tranquilidad un documento sobre la Ley de Segunda Oportunidad junto a una ventana iluminada",
+    "Mujer leyendo con tranquilidad un documento sobre la Ley Segunda Oportunidad junto a una ventana iluminada",
   keywords: [
     "ley de segunda oportunidad",
     "ley segunda oportunidad",
@@ -83,7 +83,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             Ley de Segunda Oportunidad antes de tomar una decisión.
           </p>
           <StatHighlights
-            title="La Ley de Segunda Oportunidad en cifras"
+            title="La LSO en cifras"
             subtitle="Datos consolidados a partir de resoluciones judiciales y memorias de despachos especializados"
             stats={[
               { value: "+30.000", label: "Personas exoneradas", hint: "desde 2015" },
@@ -113,7 +113,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             Está pensada para personas honradas que, por una circunstancia sobrevenida
             (divorcio, enfermedad, despido, cierre del negocio, una operación financiera
             que salió mal), entran en una espiral de impagos imposible de remontar con
-            ingresos ordinarios. La finalidad de la Ley de Segunda Oportunidad es
+            ingresos ordinarios. La finalidad de la LSO es
             exactamente esa: dar una salida real al <strong>deudor de buena fe</strong>{" "}
             y permitir que vuelva a tener una economía sostenible.
           </p>
@@ -137,7 +137,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            La Ley de Segunda Oportunidad nació con el{" "}
+            La Ley de la Segunda Oportunidad nació con el{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-2109">
               Real Decreto-Ley 1/2015
             </ExtLink>
@@ -170,7 +170,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             .
           </p>
           <p>
-            En la práctica, esto significa que la Ley de Segunda Oportunidad que
+            En la práctica, esto significa que la Ley 25/2015 que
             existe hoy es bastante más favorable para el deudor de buena fe que la
             versión original de 2015. Si alguien intentó acogerse a la Ley Segunda
             Oportunidad hace años y le dijeron que no podía, conviene volver a revisar
@@ -185,7 +185,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            Más allá del lenguaje técnico, la Ley de Segunda Oportunidad sirve para
+            Más allá del lenguaje técnico, la Ley de la Segunda Oportunidad sirve para
             tres cosas muy concretas y muy reconocibles para cualquiera que esté
             pasando por una situación de sobreendeudamiento.
           </p>
@@ -224,7 +224,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <p>
             Una de las grandes dudas es si los <strong>requisitos de la Ley de Segunda
             Oportunidad</strong> son inalcanzables. La respuesta corta es:{" "}
-            <strong>no</strong>. La Ley de Segunda Oportunidad está diseñada para
+            <strong>no</strong>. La Ley Segunda Oportunidad está diseñada para
             personas normales, y en la práctica la mayoría de quienes nos consultan
             cumplen las condiciones aunque crean que no.
           </p>
@@ -251,10 +251,10 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             no hace falta haber sido “perfecto”, basta con no haber actuado de manera
             fraudulenta. Haber pedido varios créditos para intentar cubrir gastos,
             haber refinanciado o haber usado tarjetas revolving <em>no</em> impide
-            acogerse a la Ley de Segunda Oportunidad.
+            acogerse a la Ley 25/2015.
           </p>
           <RiskMatrix
-            title="¿Tu caso encaja en la Ley de Segunda Oportunidad?"
+            title="¿Tu caso encaja en la LSO?"
             subtitle="Cruce entre urgencia (embargos, llamadas, impagos) y viabilidad legal del expediente"
           />
         </>
@@ -298,7 +298,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
         <>
           <p>
             La inmensa mayoría de deudas privadas entran dentro de un expediente de
-            Ley de Segunda Oportunidad:
+            Ley Segunda Oportunidad:
             préstamos personales, créditos al consumo, microcréditos, tarjetas
             revolving, descubiertos, líneas de crédito, financiación de coches o
             electrodomésticos, deudas con proveedores, facturas impagadas, avales
@@ -324,7 +324,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             <strong>Qué queda fuera.</strong> No se exoneran las deudas por pensiones
             de alimentos, las multas penales, las responsabilidades civiles derivadas
             de un delito ni, en general, deudas vinculadas a actuaciones dolosas. La
-            Ley de Segunda Oportunidad cancela deuda económica ordinaria, no
+            Ley Segunda Oportunidad cancela deuda económica ordinaria, no
             responsabilidades personales.
           </p>
         </>
@@ -400,7 +400,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            Conviene desmitificar el proceso de la Ley de Segunda Oportunidad. No hay
+            Conviene desmitificar el proceso de la Ley Segunda Oportunidad. No hay
             juicios públicos, no hay vistas multitudinarias y no se llama a tu familia
             ni a tu empresa. El expediente es eminentemente documental y se desarrolla
             en cinco fases claras.
@@ -467,7 +467,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <p>
             Profundizamos en este tema en la guía específica sobre{" "}
             <InternalLink to="/blog/embargos-segunda-oportunidad">
-              cómo parar un embargo con la Ley de Segunda Oportunidad
+              cómo parar un embargo con la LSO
             </InternalLink>
             . Y si además figuras en ficheros de morosos, te interesará leer{" "}
             <InternalLink to="/blog/salir-asnef">cómo salir de ASNEF</InternalLink>.
@@ -487,7 +487,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
         <>
           <p>
             Es uno de los miedos más comunes y, a la vez, uno de los más malinterpretados.
-            La Ley de Segunda Oportunidad <strong>no obliga automáticamente a vender
+            La LSO <strong>no obliga automáticamente a vender
             la vivienda habitual</strong>. Cuando se opta por la vía de la{" "}
             <strong>exoneración con plan de pagos</strong>, en muchos casos es posible
             conservar la vivienda siempre que la hipoteca esté al corriente o pueda
@@ -553,7 +553,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
         <>
           <p>
             Una de las dudas más prácticas es <em>“¿de qué voy a vivir mientras tanto?”</em>.
-            La idea clave es que la Ley de Segunda Oportunidad no te obliga a vivir
+            La idea clave es que la Ley de la Segunda Oportunidad no te obliga a vivir
             peor durante el proceso: te permite vivir, justamente, sin las cuotas
             asfixiantes que tenías antes.
           </p>
@@ -588,7 +588,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <CostFactorsGrid />
           <p>
             Lo verdaderamente relevante es la comparación entre coste y deuda cancelada
-            mediante la Ley de Segunda Oportunidad. En la inmensa mayoría de casos, el
+            mediante la Ley de la Segunda Oportunidad. En la inmensa mayoría de casos, el
             coste total del expediente representa una fracción muy pequeña frente al
             volumen de deuda exonerada.
           </p>
@@ -608,7 +608,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            La duración del procedimiento de Ley de Segunda Oportunidad varía según el
+            La duración del procedimiento de Ley 25/2015 varía según el
             juzgado, el número de acreedores y la complejidad patrimonial. Como
             horquilla realista, entre{" "}
             <strong>6 y 18 meses</strong> desde la presentación de la solicitud hasta
@@ -693,7 +693,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            Cuando el expediente de Ley de Segunda Oportunidad está bien preparado, el
+            Cuando el expediente de Ley 25/2015 está bien preparado, el
             porcentaje de resoluciones favorables es muy alto. Los casos en los que se
             deniega la exoneración están casi siempre vinculados a problemas de buena
             fe (ocultación de bienes, datos falsos en la solicitud) o a expedientes
@@ -725,7 +725,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             la situación, aunque no la resuelva de raíz.
           </p>
           <p>
-            La Ley de Segunda Oportunidad es la herramienta más potente para cancelar
+            La Ley Segunda Oportunidad es la herramienta más potente para cancelar
             deudas, pero no siempre es la primera. Lo correcto es analizar tu caso
             concreto y proponerte la vía que mejor encaje, no “venderte” el
             procedimiento por defecto.
@@ -842,7 +842,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
                 a: "Sí. Una vez exonerado y, con el tiempo, fuera de los ficheros de morosos, se puede reconstruir el historial crediticio paso a paso. Muchos clientes vuelven a contratar productos en 1-2 años.",
               },
               {
-                q: "18. ¿Puedo acogerme dos veces a la Ley de Segunda Oportunidad?",
+                q: "18. ¿Puedo acogerme dos veces a la LSO?",
                 a: "Sí, pero hay que respetar un plazo mínimo entre exoneraciones (actualmente entre 2 y 5 años según el tipo). La ley no impide volver a usarla si las circunstancias lo justifican.",
               },
               {
@@ -1004,7 +1004,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
         <>
           <p>
             Esta guía está elaborada por el equipo legal de Calma a partir de nuestra
-            experiencia tramitando expedientes de Ley de Segunda Oportunidad. Para
+            experiencia tramitando expedientes de Ley Segunda Oportunidad. Para
             contrastar criterios y mantenerla actualizada, también nos apoyamos en las
             siguientes fuentes oficiales y especializadas:
           </p>
