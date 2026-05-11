@@ -297,13 +297,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "perfiles",
-      title: "A quién protege la ley",
+      title: "A quién protege la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Aunque cada caso es único, en los expedientes que tramitamos se repiten una
-            y otra vez tres grandes perfiles. Reconocerse en uno de ellos no es
-            decisivo, pero ayuda a entender que no estás solo.
+            Aunque cada caso es único, en los expedientes de Ley de Segunda Oportunidad
+            que tramitamos se repiten una y otra vez tres grandes perfiles. Reconocerse
+            en uno de ellos no es decisivo, pero ayuda a entender que no estás solo.
           </p>
           <PersonasGrid />
           <p>
@@ -328,11 +328,12 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "tipos-deuda",
-      title: "Qué deudas se pueden cancelar y cuáles no",
+      title: "Qué deudas cancela la Ley de Segunda Oportunidad y cuáles no",
       body: (
         <>
           <p>
-            La inmensa mayoría de deudas privadas entran dentro del expediente:
+            La inmensa mayoría de deudas privadas entran dentro de un expediente de
+            Ley de Segunda Oportunidad:
             préstamos personales, créditos al consumo, microcréditos, tarjetas
             revolving, descubiertos, líneas de crédito, financiación de coches o
             electrodomésticos, deudas con proveedores, facturas impagadas, avales
@@ -341,32 +342,38 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           </p>
           <DebtTypesDonut />
           <p>
-            <strong>Deuda pública.</strong> Desde la reforma de 2022 también puede
-            exonerarse, aunque con límites: hasta <strong>10.000 €</strong> con
+            <strong>Deuda pública.</strong> Desde la reforma de 2022, la Ley de Segunda
+            Oportunidad también permite exonerar deuda pública, aunque con límites:
+            hasta <strong>10.000 €</strong> con
             Hacienda y otros <strong>10.000 €</strong> con Seguridad Social pueden
             cancelarse de forma íntegra; el primer tramo (los primeros 5.000 € de cada
             organismo) se exonera al 100% y, a partir de ahí, hasta los 10.000 €, al
             50%. Lo que quede por encima se reestructura en un plan de pagos a plazos
-            razonables.
+            razonables. Esta apertura, analizada como{" "}
+            <ExtLink href="https://www.lawandtrends.com/noticias/mercantil/la-revolucion-silenciosa-de-la-ley-de-la-segunda-oportunidad-2026-la-exoneracion-del-credito-publico-ya-es-una-1.html">
+              exoneración del crédito público
+            </ExtLink>
+            , es uno de los cambios más relevantes para autónomos.
           </p>
           <p>
             <strong>Qué queda fuera.</strong> No se exoneran las deudas por pensiones
             de alimentos, las multas penales, las responsabilidades civiles derivadas
             de un delito ni, en general, deudas vinculadas a actuaciones dolosas. La
-            ley cancela deuda económica ordinaria, no responsabilidades personales.
+            Ley de Segunda Oportunidad cancela deuda económica ordinaria, no
+            responsabilidades personales.
           </p>
         </>
       ),
     },
     {
       id: "modalidades",
-      title: "Dos caminos: exoneración inmediata o con plan de pagos",
+      title: "Dos vías de la Ley de Segunda Oportunidad: exoneración inmediata o con plan de pagos",
       body: (
         <>
           <p>
-            Tras la reforma de 2022, la ley contempla dos vías distintas para llegar a
-            la cancelación. La elección no es libre: depende de las circunstancias del
-            deudor.
+            Tras la reforma de 2022, la Ley de Segunda Oportunidad contempla dos vías
+            distintas para llegar a la cancelación. La elección no es libre: depende
+            de las circunstancias del deudor.
           </p>
           <p>
             <strong>1. Exoneración con liquidación de patrimonio.</strong> Si el deudor
