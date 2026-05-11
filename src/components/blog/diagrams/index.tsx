@@ -96,7 +96,7 @@ export const CostVsDebtBars = () => (
           <span className="text-sm font-semibold text-accent-deep">x 20 o más</span>
         </div>
         <div className="h-4 w-full rounded-full bg-muted">
-          <div className="h-full w-full rounded-full bg-gradient-to-r from-accent to-accent-deep" />
+          <div className="h-full w-full rounded-full bg-accent-deep" />
         </div>
       </div>
       <p className="text-center text-sm text-muted-foreground">
