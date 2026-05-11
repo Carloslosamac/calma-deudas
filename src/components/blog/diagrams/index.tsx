@@ -484,8 +484,12 @@ export const MythVsReality = ({
 
 /* 11. Documentos necesarios */
 export const DocumentsChecklist = ({
+  title,
+  subtitle,
   items,
 }: {
+  title?: string;
+  subtitle?: string;
   items?: string[];
 }) => {
   const docs =
@@ -499,8 +503,8 @@ export const DocumentsChecklist = ({
     ];
   return (
     <Card>
-      <DiagramTitle subtitle="Sin papeleo complicado: te acompañamos en cada paso">
-        Documentación habitual para empezar
+      <DiagramTitle subtitle={subtitle ?? "Sin papeleo complicado: te acompañamos en cada paso"}>
+        {title ?? "Documentación habitual para empezar"}
       </DiagramTitle>
       <div className="grid gap-3 sm:grid-cols-2">
         {docs.map((d) => (
