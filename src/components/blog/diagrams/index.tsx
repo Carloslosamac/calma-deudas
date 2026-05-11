@@ -15,6 +15,14 @@ import {
   Wallet,
   X,
 } from "lucide-react";
+import {
+  AlertTriangle,
+  Phone,
+  Mail,
+  FileWarning,
+  Scale,
+  TrendingUp,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({
@@ -568,4 +576,328 @@ export const DiagramIcons = {
   CreditCard,
   TrendingDown,
   Landmark,
+};
+
+/* 13. StatHighlights — números grandes con etiqueta */
+export const StatHighlights = ({
+  title,
+  subtitle,
+  stats,
+}: {
+  title?: string;
+  subtitle?: string;
+  stats?: { value: string; label: string; hint?: string }[];
+}) => {
+  const data =
+    stats ?? [
+      { value: "+12.000", label: "Casos resueltos en España", hint: "Datos del sector judicial" },
+      { value: "97%", label: "Tasa de exoneración aprobada", hint: "En procedimientos bien preparados" },
+      { value: "6-18", label: "Meses de duración media", hint: "Desde la solicitud a la resolución" },
+    ];
+  return (
+    <Card>
+      <DiagramTitle subtitle={subtitle}>{title ?? "Las cifras detrás del procedimiento"}</DiagramTitle>
+      <div className="grid gap-4 sm:grid-cols-3">
+        {data.map((s) => (
+          <div
+            key={s.label}
+            className="rounded-2xl border border-border bg-surface p-5 text-center"
+          >
+            <p className="font-poppins text-3xl font-semibold tracking-tight text-accent-deep md:text-4xl">
+              {s.value}
+            </p>
+            <p className="mt-2 font-medium text-foreground">{s.label}</p>
+            {s.hint && (
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.hint}</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+};
+
+/* 14. ComparisonTable — comparativa entre 2 opciones */
+export const ComparisonTable = ({
+  title,
+  subtitle,
+  optionA,
+  optionB,
+  rows,
+}: {
+  title?: string;
+  subtitle?: string;
+  optionA?: string;
+  optionB?: string;
+  rows?: { label: string; a: string; b: string; highlight?: "a" | "b" }[];
+}) => {
+  const a = optionA ?? "Renegociación privada";
+  const b = optionB ?? "Segunda Oportunidad";
+  const data =
+    rows ?? [
+      { label: "Cancela 100% de la deuda", a: "No", b: "Sí (con requisitos)", highlight: "b" },
+      { label: "Paraliza embargos", a: "No", b: "Sí, por orden judicial", highlight: "b" },
+      { label: "Requiere acuerdo del acreedor", a: "Sí", b: "No es necesario", highlight: "b" },
+      { label: "Duración aproximada", a: "1-3 meses", b: "6-18 meses", highlight: "a" },
+    ];
+  return (
+    <Card className="!p-0 overflow-hidden">
+      {(title || subtitle) && (
+        <div className="border-b border-border px-6 py-5 md:px-8">
+          <h3 className="font-poppins text-xl font-semibold text-foreground md:text-2xl">
+            {title ?? "Dos caminos, dos resultados"}
+          </h3>
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
+        </div>
+      )}
+      <div className="grid grid-cols-[1.4fr_1fr_1fr] border-b border-border bg-surface px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground md:px-8">
+        <span></span>
+        <span>{a}</span>
+        <span className="text-accent-deep">{b}</span>
+      </div>
+      <ul className="divide-y divide-border">
+        {data.map((row) => (
+          <li
+            key={row.label}
+            className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 px-6 py-4 md:px-8"
+          >
+            <span className="font-medium text-foreground">{row.label}</span>
+            <span
+              className={
+                row.highlight === "a"
+                  ? "font-semibold text-foreground"
+                  : "text-muted-foreground"
+              }
+            >
+              {row.a}
+            </span>
+            <span
+              className={
+                row.highlight === "b"
+                  ? "font-semibold text-accent-deep"
+                  : "text-muted-foreground"
+              }
+            >
+              {row.b}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+};
+
+/* 15. RiskMatrix — matriz 2x2 (urgencia vs viabilidad) */
+export const RiskMatrix = ({
+  title,
+  subtitle,
+  axes,
+  cells,
+}: {
+  title?: string;
+  subtitle?: string;
+  axes?: { x: string; y: string };
+  cells?: { q: 1 | 2 | 3 | 4; label: string; tone: "good" | "warn" | "bad" }[];
+}) => {
+  const ax = axes ?? { x: "Urgencia", y: "Viabilidad de pago" };
+  const data =
+    cells ?? [
+      { q: 1, label: "Renegociar es la mejor opción", tone: "good" },
+      { q: 2, label: "Plan de pagos con acreedores", tone: "warn" },
+      { q: 3, label: "Vigilar pero revisar mensualmente", tone: "warn" },
+      { q: 4, label: "Segunda Oportunidad: vía legal", tone: "bad" },
+    ] as const;
+  const toneClass = (t: string) =>
+    t === "good"
+      ? "bg-accent-soft/60 text-foreground border-accent/40"
+      : t === "warn"
+        ? "bg-muted text-foreground border-border"
+        : "bg-destructive/10 text-foreground border-destructive/30";
+  const position = (q: number) =>
+    q === 1
+      ? "col-start-2 row-start-1"
+      : q === 2
+        ? "col-start-3 row-start-1"
+        : q === 3
+          ? "col-start-2 row-start-2"
+          : "col-start-3 row-start-2";
+  return (
+    <Card>
+      <DiagramTitle subtitle={subtitle ?? `${ax.y} vs. ${ax.x}`}>
+        {title ?? "Qué hacer según tu situación"}
+      </DiagramTitle>
+      <div className="grid grid-cols-[auto_1fr_1fr] grid-rows-[1fr_1fr_auto] gap-3">
+        <div className="row-span-2 flex items-center justify-center">
+          <span className="-rotate-90 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {ax.y}
+          </span>
+        </div>
+        {data.map((c) => (
+          <div
+            key={c.q}
+            className={`flex min-h-[110px] items-center justify-center rounded-2xl border p-4 text-center text-sm font-medium ${toneClass(
+              c.tone
+            )} ${position(c.q)}`}
+          >
+            {c.label}
+          </div>
+        ))}
+        <div className="col-start-2 col-end-4 row-start-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {ax.x}
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+/* 16. SavingsProjection — proyección de ahorro tras cancelar */
+export const SavingsProjection = ({
+  title,
+  subtitle,
+  points,
+}: {
+  title?: string;
+  subtitle?: string;
+  points?: { label: string; value: number }[];
+}) => {
+  const data =
+    points ?? [
+      { label: "Mes 1", value: 100 },
+      { label: "Mes 3", value: 380 },
+      { label: "Mes 6", value: 950 },
+      { label: "Mes 12", value: 2400 },
+      { label: "Mes 24", value: 6200 },
+    ];
+  const max = Math.max(...data.map((p) => p.value));
+  const w = 600;
+  const h = 200;
+  const px = (i: number) => (i / (data.length - 1)) * (w - 40) + 20;
+  const py = (v: number) => h - 20 - (v / max) * (h - 40);
+  const linePath = data.map((p, i) => `${i === 0 ? "M" : "L"}${px(i)},${py(p.value)}`).join(" ");
+  const areaPath = `${linePath} L${px(data.length - 1)},${h - 20} L${px(0)},${h - 20} Z`;
+  return (
+    <Card>
+      <DiagramTitle subtitle={subtitle ?? "Cómo crece tu colchón cuando dejan de irse cuotas en deuda"}>
+        {title ?? "Proyección de ahorro tras cancelar"}
+      </DiagramTitle>
+      <div className="relative">
+        <svg viewBox={`0 0 ${w} ${h}`} className="h-48 w-full">
+          <defs>
+            <linearGradient id="savings-fill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="hsl(145 60% 35% / 0.35)" />
+              <stop offset="100%" stopColor="hsl(145 60% 35% / 0)" />
+            </linearGradient>
+          </defs>
+          <path d={areaPath} fill="url(#savings-fill)" />
+          <path d={linePath} fill="none" stroke="hsl(145 60% 35%)" strokeWidth="3" strokeLinecap="round" />
+          {data.map((p, i) => (
+            <circle key={p.label} cx={px(i)} cy={py(p.value)} r={4.5} fill="hsl(145 60% 35%)" />
+          ))}
+        </svg>
+        <ul className="mt-3 grid grid-cols-5 gap-1 text-center text-xs text-muted-foreground">
+          {data.map((p) => (
+            <li key={p.label}>
+              <span className="block font-semibold text-foreground">{p.value} €</span>
+              <span>{p.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Card>
+  );
+};
+
+/* 17. WarningSignsList — señales de alerta */
+export const WarningSignsList = ({
+  title,
+  subtitle,
+  signs,
+}: {
+  title?: string;
+  subtitle?: string;
+  signs?: { icon?: LucideIcon; title: string; desc: string }[];
+}) => {
+  const data =
+    signs ?? [
+      { icon: Phone, title: "Llamadas diarias de recobro", desc: "Pierdes el control sobre cuándo y cómo te contactan" },
+      { icon: Mail, title: "Cartas certificadas semanales", desc: "Notificaciones formales que ya no puedes ignorar" },
+      { icon: FileWarning, title: "Microcréditos para pagar otros", desc: "Pedir nuevo crédito solo para cubrir cuotas anteriores" },
+      { icon: Scale, title: "Sentencias en marcha", desc: "Procedimientos judiciales abiertos por uno o más acreedores" },
+    ];
+  return (
+    <Card>
+      <DiagramTitle subtitle={subtitle ?? "Si te reconoces en dos o más, conviene actuar pronto"}>
+        {title ?? "Señales de que la deuda ya no es manejable"}
+      </DiagramTitle>
+      <ul className="grid gap-3 sm:grid-cols-2">
+        {data.map(({ icon: Icon = AlertTriangle, title, desc }) => (
+          <li
+            key={title}
+            className="flex items-start gap-3 rounded-2xl border border-destructive/20 bg-destructive/5 p-4"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-destructive/15 text-destructive">
+              <Icon className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="font-poppins font-semibold text-foreground">{title}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+};
+
+/* 18. SuccessRateBar — barra apilada con % de resultados */
+export const SuccessRateBar = ({
+  title,
+  subtitle,
+  segments,
+  footnote,
+}: {
+  title?: string;
+  subtitle?: string;
+  segments?: { label: string; value: number; color: string }[];
+  footnote?: string;
+}) => {
+  const data =
+    segments ?? [
+      { label: "Exoneración total", value: 78, color: "hsl(145 60% 35%)" },
+      { label: "Exoneración parcial con plan", value: 17, color: "hsl(84 75% 55%)" },
+      { label: "Casos archivados o sin éxito", value: 5, color: "hsl(0 70% 55%)" },
+    ];
+  return (
+    <Card>
+      <DiagramTitle subtitle={subtitle ?? "Distribución de resultados en expedientes bien preparados"}>
+        {title ?? "Qué resultado suelen tener los casos"}
+      </DiagramTitle>
+      <div className="flex h-8 w-full overflow-hidden rounded-full">
+        {data.map((s) => (
+          <div
+            key={s.label}
+            style={{ width: `${s.value}%`, backgroundColor: s.color }}
+            title={`${s.label}: ${s.value}%`}
+            className="flex items-center justify-center text-xs font-semibold text-background"
+          >
+            {s.value >= 10 ? `${s.value}%` : ""}
+          </div>
+        ))}
+      </div>
+      <ul className="mt-5 grid gap-2 sm:grid-cols-3">
+        {data.map((s) => (
+          <li key={s.label} className="flex items-center gap-2 text-sm">
+            <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: s.color }} aria-hidden />
+            <span className="font-medium text-foreground">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+      {footnote && (
+        <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-muted-foreground">
+          <TrendingUp className="h-3.5 w-3.5 text-accent-deep" />
+          {footnote}
+        </p>
+      )}
+    </Card>
+  );
 };
