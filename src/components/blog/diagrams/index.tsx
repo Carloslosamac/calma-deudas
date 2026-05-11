@@ -726,8 +726,8 @@ export const RiskMatrix = ({
       <DiagramTitle subtitle={subtitle ?? `${ax.y} vs. ${ax.x}`}>
         {title ?? "Qué hacer según tu situación"}
       </DiagramTitle>
-      <div className="grid grid-cols-[auto_1fr_1fr] grid-rows-[1fr_1fr_auto] gap-3">
-        <div className="row-span-2 flex items-center justify-center">
+      <div className="grid grid-cols-[1fr_1fr] grid-rows-[1fr_1fr_auto] gap-3 sm:grid-cols-[auto_1fr_1fr]">
+        <div className="hidden row-span-2 sm:flex items-center justify-center">
           <span className="-rotate-90 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {ax.y}
           </span>
@@ -735,14 +735,14 @@ export const RiskMatrix = ({
         {data.map((c) => (
           <div
             key={c.q}
-            className={`flex min-h-[110px] items-center justify-center rounded-2xl border p-4 text-center text-sm font-medium ${toneClass(
+            className={`flex min-h-[96px] items-center justify-center rounded-2xl border p-3 text-center text-xs font-medium sm:min-h-[110px] sm:p-4 sm:text-sm ${toneClass(
               c.tone
             )} ${position(c.q)}`}
           >
             {c.label}
           </div>
         ))}
-        <div className="col-start-2 col-end-4 row-start-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="col-start-1 col-end-3 row-start-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:col-start-2 sm:col-end-4">
           {ax.x}
         </div>
       </div>
