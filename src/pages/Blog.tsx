@@ -25,6 +25,13 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import Seo from "@/components/seo/Seo";
+import {
+  buildBreadcrumb,
+  buildItemList,
+  buildOrganization,
+} from "@/lib/seo/structuredData";
+import { blogPosts } from "@/data/blog";
 import stepStrategy from "@/assets/step-strategy.jpg";
 import blogRequisitos from "@/assets/blog-requisitos.jpg";
 import blogEmbargos from "@/assets/blog-embargos.jpg";
