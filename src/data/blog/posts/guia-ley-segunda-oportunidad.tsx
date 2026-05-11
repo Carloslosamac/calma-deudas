@@ -850,15 +850,19 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "hub",
-      title: "Mapa de contenidos: 50 artículos para profundizar por ángulo",
+      title: "Encuentra la respuesta a tu situación concreta",
       body: (
         <>
           <p>
-            Esta guía funciona como <strong>hub</strong>: cubre todo lo esencial y, a
-            partir de aquí, enlaza con artículos más específicos según el ángulo que te
-            interese (requisitos, embargos, vivienda, deuda pública, autónomos, ASNEF,
-            casos concretos…). Estos son los 50 ángulos que iremos publicando y
-            actualizando.
+            Cada caso es distinto. Si lo que te preocupa ahora mismo es un embargo, no
+            es lo mismo que si tu duda es qué pasa con tu vivienda o con la deuda de
+            Hacienda. Aquí abajo tienes los temas más buscados, ordenados por
+            situación, para que vayas directo a lo que te toca.
+          </p>
+          <p>
+            Los que están enlazados ya puedes leerlos. El resto los iremos publicando
+            para responder, una por una, a las preguntas que más nos llegan al equipo
+            legal.
           </p>
           <ContentHub
             groups={[
