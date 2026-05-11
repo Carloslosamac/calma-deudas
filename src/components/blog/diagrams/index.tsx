@@ -468,13 +468,13 @@ export const MythVsReality = ({
     ];
   return (
     <Card className="!p-0 overflow-hidden">
-      <div className="grid grid-cols-[1fr_1fr] border-b border-border bg-surface px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] md:px-8">
+      <div className="grid grid-cols-[1fr_1fr] gap-3 border-b border-border bg-surface px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-xs sm:tracking-[0.16em] md:px-8">
         <span className="text-destructive">Mito</span>
         <span className="text-accent-deep">Realidad</span>
       </div>
       <ul className="divide-y divide-border">
         {data.map((row) => (
-          <li key={row.myth} className="grid grid-cols-[1fr_1fr] gap-4 px-6 py-4 md:px-8 md:py-5">
+          <li key={row.myth} className="grid grid-cols-[1fr_1fr] gap-3 px-4 py-4 text-sm sm:gap-4 sm:text-base md:px-8 md:py-5">
             <div className="flex items-start gap-2 text-muted-foreground">
               <X className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
               <span>{row.myth}</span>
