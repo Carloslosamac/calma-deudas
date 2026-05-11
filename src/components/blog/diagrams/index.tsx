@@ -715,12 +715,12 @@ export const RiskMatrix = ({
         : "bg-destructive/10 text-foreground border-destructive/30";
   const position = (q: number) =>
     q === 1
-      ? "col-start-2 row-start-1"
+      ? "col-start-1 row-start-1 sm:col-start-2"
       : q === 2
-        ? "col-start-3 row-start-1"
+        ? "col-start-2 row-start-1 sm:col-start-3"
         : q === 3
-          ? "col-start-2 row-start-2"
-          : "col-start-3 row-start-2";
+          ? "col-start-1 row-start-2 sm:col-start-2"
+          : "col-start-2 row-start-2 sm:col-start-3";
   return (
     <Card>
       <DiagramTitle subtitle={subtitle ?? `${ax.y} vs. ${ax.x}`}>
