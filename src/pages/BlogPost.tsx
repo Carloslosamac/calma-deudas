@@ -22,7 +22,7 @@ import {
 } from "@/components/blog/diagrams";
 import stepStrategy from "@/assets/step-strategy.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
-import personWoman from "@/assets/person-woman-walking.jpg";
+import blogRequisitos from "@/assets/blog-requisitos.jpg";
 
 // Helpers for SEO interlinking
 const InternalLink: React.FC<React.PropsWithChildren<{ to: string }>> = ({ to, children }) => (
@@ -58,7 +58,7 @@ const post = {
   date: "11 mayo 2026",
   readTime: "14 min",
   author: "Equipo legal Calma",
-  heroImage: personWoman,
+  heroImage: blogRequisitos,
 };
 
 const sections: Section[] = [
