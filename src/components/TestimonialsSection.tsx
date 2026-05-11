@@ -10,6 +10,9 @@ import {
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
+import testimonial4 from "@/assets/testimonial-4.jpg";
+import testimonial5 from "@/assets/testimonial-5.jpg";
+import testimonial6 from "@/assets/testimonial-6.jpg";
 
 const testimonials = [
   {
@@ -35,6 +38,30 @@ const testimonials = [
     saved: "19.800 €",
     text: "Avalé a mi hijo y, cuando él no pudo pagar, los bancos vinieron a por mi pensión. A mi edad pensaba que ya no había nada que hacer. Los abogados de Calma frenaron los embargos y cancelaron la deuda. Recuperé mi pensión y mi tranquilidad.",
     photo: testimonial3,
+  },
+  {
+    name: "María del Carmen Soto",
+    age: 53,
+    location: "Leganés",
+    saved: "24.600 €",
+    text: "Trabajo en un pequeño comercio familiar y durante años fui acumulando pagos atrasados para mantenerlo abierto. Cuando ya no podía más, Calma me ayudó a reorganizarlo todo y a cancelar la parte de deuda que me estaba ahogando. Volví a levantar la persiana sin esa losa encima.",
+    photo: testimonial4,
+  },
+  {
+    name: "Nuria Castillo",
+    age: 37,
+    location: "Fuenlabrada",
+    saved: "17.900 €",
+    text: "Encadené contratos temporales, una separación y varios microcréditos que se me fueron de las manos. Pensaba que nunca iba a salir. Me explicaron cada paso con claridad y cerramos una etapa que me tenía bloqueada desde hacía años.",
+    photo: testimonial5,
+  },
+  {
+    name: "Miguel Serrano",
+    age: 58,
+    location: "Parla",
+    saved: "33.400 €",
+    text: "Soy cerrajero y tras unos meses flojos empecé a financiar material, alquiler y cuotas con créditos rápidos. Llegó un punto en que trabajaba solo para pagar intereses. Con Calma paré esa rueda y pude seguir con mi oficio sin arrastrar toda esa deuda.",
+    photo: testimonial6,
   },
 ];
 
