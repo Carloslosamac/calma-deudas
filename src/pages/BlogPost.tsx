@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, ExternalLink, Share2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
@@ -23,6 +23,25 @@ import {
 import stepStrategy from "@/assets/step-strategy.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 import personWoman from "@/assets/person-woman-walking.jpg";
+
+// Helpers for SEO interlinking
+const InternalLink: React.FC<React.PropsWithChildren<{ to: string }>> = ({ to, children }) => (
+  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
+    {children}
+  </Link>
+);
+
+const ExtLink: React.FC<React.PropsWithChildren<{ href: string }>> = ({ href, children }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-medium text-accent-deep underline-offset-4 hover:underline"
+  >
+    {children}
+    <ExternalLink className="ml-0.5 inline-block h-3 w-3 align-baseline" />
+  </a>
+);
 
 type Section = {
   id: string;
@@ -50,7 +69,14 @@ const sections: Section[] = [
       <>
         <p>
           La <strong>Ley de Segunda Oportunidad</strong> es un mecanismo legal regulado
-          por el Real Decreto-Ley 1/2015 y consolidado en la Ley Concursal vigente,
+          por el{" "}
+          <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-2109">
+            Real Decreto-Ley 1/2015
+          </ExtLink>{" "}
+          y consolidado en el{" "}
+          <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2020-4859">
+            Texto Refundido de la Ley Concursal
+          </ExtLink>,
           que permite a personas físicas, autónomos y exempresarios <strong>cancelar
           sus deudas</strong> cuando no pueden hacer frente a ellas. No es una rebaja
           comercial, ni una refinanciación, ni una promesa publicitaria: es un
@@ -62,7 +88,9 @@ const sections: Section[] = [
           por circunstancias sobrevenidas, no puede pagar préstamos personales,
           tarjetas revolving, microcréditos, descubiertos bancarios, hipotecas
           impagadas, deudas con proveedores, avales firmados a familiares o incluso
-          una parte de la deuda pública con Hacienda y Seguridad Social. La idea
+          una parte de la deuda pública con{" "}
+          <ExtLink href="https://sede.agenciatributaria.gob.es/">Hacienda</ExtLink> y{" "}
+          <ExtLink href="https://sede.seg-social.gob.es/">Seguridad Social</ExtLink>. La idea
           es sencilla y profundamente humana: que un mal año, un divorcio, una
           enfermedad, un ERE o el cierre de un negocio no condenen a una persona a
           vivir endeudada el resto de su vida.
@@ -113,11 +141,12 @@ const sections: Section[] = [
         <RequirementsChecklist />
         <p>
           En la práctica, los perfiles que encajan son muy variados. Personas que
-          han ido encadenando microcréditos para llegar a fin de mes, autónomos que
-          arrastran cuotas atrasadas con Hacienda y Seguridad Social, familias
-          golpeadas por un divorcio o una enfermedad, antiguos avalistas que
-          respondieron por un familiar o un socio, o exempresarios que cerraron
-          su sociedad y se quedaron con deudas personales como administradores.
+          han ido encadenando microcréditos para llegar a fin de mes, <InternalLink to="/blog/autonomos-con-deudas">autónomos que arrastran cuotas atrasadas con Hacienda y Seguridad Social</InternalLink>,
+          familias golpeadas por un divorcio o una enfermedad, antiguos avalistas
+          que respondieron por un familiar o un socio, o exempresarios que cerraron
+          su sociedad y se quedaron con deudas personales como administradores. Si
+          además figuras en ficheros de morosos, te interesará nuestra guía
+          específica para <InternalLink to="/blog/salir-asnef">salir de ASNEF</InternalLink>.
           Si te reconoces en alguno de estos escenarios, lo más probable es que
           cumplas los requisitos y solo necesites un análisis legal para confirmarlo.
         </p>
@@ -256,7 +285,10 @@ const sections: Section[] = [
         <p>
           Aquí el tiempo importa: cuanto antes se inicia el expediente, antes se
           puede pedir esa suspensión. Si llevas meses con la nómina embargada o
-          acabas de recibir una notificación de embargo, es el mejor momento para
+          acabas de recibir una notificación de embargo, te recomendamos leer
+          también nuestra guía sobre{" "}
+          <InternalLink to="/blog/embargos-segunda-oportunidad">cómo parar un embargo con la Segunda Oportunidad</InternalLink>.
+          Es el mejor momento para
           analizar tu caso, porque el ahorro real (recuperar parte de tu salario
           desde el mes siguiente) suele compensar ampliamente el coste del
           procedimiento.
@@ -287,9 +319,12 @@ const sections: Section[] = [
           También cambia la relación con el sistema financiero. Pasados los plazos
           legales correspondientes, es posible volver a ser titular de cuentas,
           contratar productos básicos y, con el tiempo, reconstruir un historial
-          crediticio razonable. La cancelación de deudas no es el final del
-          camino: es la línea desde la que se puede empezar a construir algo
-          sostenible.
+          crediticio razonable según los criterios del{" "}
+          <ExtLink href="https://www.bde.es/">Banco de España</ExtLink>. La
+          cancelación de deudas no es el final del camino: es la línea desde la
+          que se puede empezar a construir algo sostenible, como contamos en
+          nuestro artículo sobre la{" "}
+          <InternalLink to="/blog/vida-despues-deuda">vida después de cancelar la deuda</InternalLink>.
         </p>
         <BeforeAfterSplit />
       </>
@@ -475,9 +510,15 @@ const sections: Section[] = [
         <p>
           A esto se suma una dimensión cultural muy española: la idea de que
           tener deudas es una falta moral. La normativa europea y el espíritu
-          de la ley dicen exactamente lo contrario. La insolvencia es un riesgo
-          natural del sistema económico, y existe un procedimiento legal
-          precisamente para permitir que personas honestas vuelvan a empezar.
+          de la ley dicen exactamente lo contrario: la{" "}
+          <ExtLink href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1023">
+            Directiva (UE) 2019/1023 sobre marcos de reestructuración
+          </ExtLink>{" "}
+          deja claro que la insolvencia es un riesgo natural del sistema
+          económico y que debe existir un procedimiento legal para permitir que
+          personas honestas vuelvan a empezar. Si quieres explorar antes vías
+          intermedias, revisa nuestra guía para{" "}
+          <InternalLink to="/blog/renegociar-acreedores">renegociar con tus acreedores</InternalLink>.
           No estás aprovechándote de un atajo; estás usando un derecho.
         </p>
         <InlineCTA
