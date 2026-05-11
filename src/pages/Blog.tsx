@@ -32,6 +32,20 @@ import personMan from "@/assets/person-man-portrait.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 
+const categoryIcons: Record<string, LucideIcon> = {
+  "Todos": LayoutGrid,
+  "Segunda oportunidad": Scale,
+  "Embargos": Gavel,
+  "ASNEF": ShieldBan,
+  "Autónomos": Briefcase,
+  "Deuda pública": Landmark,
+  "Hipotecas": Home,
+  "Tarjetas y créditos": Wallet,
+  "Ahorro": PiggyBank,
+  "Finanzas familiares": Banknote,
+  "Consejos": Lightbulb,
+};
+
 const categories: { name: string; icon: LucideIcon }[] = [
   { name: "Todos", icon: LayoutGrid },
   { name: "Segunda oportunidad", icon: Scale },
@@ -133,7 +147,9 @@ const normalize = (value: string) =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 
-const BlogCard = ({ article }: { article: BlogArticle }) => (
+const BlogCard = ({ article }: { article: BlogArticle }) => {
+  const CategoryIcon = categoryIcons[article.category] ?? Star;
+  return (
   <article
     id={article.slug}
     className="group overflow-hidden rounded-[2rem] border border-border bg-surface-elevated shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-large"
@@ -147,7 +163,7 @@ const BlogCard = ({ article }: { article: BlogArticle }) => (
       />
       <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
       <div className="absolute bottom-4 left-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-background/90 text-accent-deep shadow-medium backdrop-blur-sm">
-        <Star className="h-6 w-6 fill-accent text-accent-deep" />
+        <CategoryIcon className="h-6 w-6 text-accent-deep" strokeWidth={2.2} />
       </div>
     </div>
 
@@ -183,7 +199,8 @@ const BlogCard = ({ article }: { article: BlogArticle }) => (
       </div>
     </div>
   </article>
-);
+  );
+};
 
 const Blog = () => {
   const [query, setQuery] = useState("");
