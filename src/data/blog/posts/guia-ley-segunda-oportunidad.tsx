@@ -70,53 +70,55 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   sections: [
     {
       id: "introduccion",
-      title: "Qué vas a encontrar en esta guía",
+      title: "La guía más completa y actualizada de la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Esta es la <strong>guía completa de la Ley de Segunda Oportunidad</strong>:
-            qué es, cómo funciona, a quién protege, qué deudas cancela, cuánto cuesta y
-            cuánto tarda. Está escrita para personas que no son abogadas y reúne, en un
-            solo lugar, todo lo que necesitas saber antes de tomar una decisión.
+            Esta es <strong>la guía más completa y actualizada sobre la Ley de
+            Segunda Oportunidad en 2026</strong>: qué es, cómo funciona la Ley de
+            Segunda Oportunidad, a quién protege, qué deudas cancela, cuánto cuesta,
+            cuánto tarda y cómo se aplica tras la reforma de 2022 y la jurisprudencia
+            más reciente del Tribunal Supremo. Está escrita para personas que no son
+            abogadas y reúne, en un solo lugar, todo lo que necesitas saber sobre la
+            Ley de Segunda Oportunidad antes de tomar una decisión.
           </p>
           <p>
-            Hemos volcado y reordenado información del{" "}
+            Toda la información proviene de fuentes oficiales e institucionales: el{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-8469">
-              texto oficial publicado en el BOE
-            </ExtLink>{" "}
-            (la Ley 25/2015), del{" "}
+              texto oficial de la Ley 25/2015 publicado en el BOE
+            </ExtLink>
+            , el{" "}
             <ExtLink href="https://www.boe.es/buscar/act.php?id=BOE-A-2020-4859">
               Texto Refundido de la Ley Concursal
             </ExtLink>{" "}
-            tras la reforma de 2022, y de las explicaciones que vienen dando despachos
-            especializados como{" "}
-            <ExtLink href="https://reparatudeuda.es/ley-segunda-oportunidad/">
-              Repara tu Deuda
+            tras la reforma de la Ley 16/2022, la{" "}
+            <ExtLink href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32019L1023">
+              Directiva (UE) 2019/1023
+            </ExtLink>
+            , la jurisprudencia reciente del Tribunal Supremo recogida por el{" "}
+            <ExtLink href="https://www.abogacia.es/publicaciones/blogs/blog-de-derecho-de-los-los-consumidores/el-alcance-de-la-segunda-oportunidad-innovaciones-del-tribunal-supremo-sobre-exoneracion-y-buena-fe/">
+              Consejo General de la Abogacía Española
+            </ExtLink>
+            , análisis legal especializado como el de{" "}
+            <ExtLink href="https://www.lawandtrends.com/noticias/mercantil/la-revolucion-silenciosa-de-la-ley-de-la-segunda-oportunidad-2026-la-exoneracion-del-credito-publico-ya-es-una-1.html">
+              Law&amp;Trends sobre la exoneración del crédito público en 2026
+            </ExtLink>
+            , y datos de{" "}
+            <ExtLink href="https://sede.agenciatributaria.gob.es/">
+              Agencia Tributaria
             </ExtLink>
             ,{" "}
-            <ExtLink href="https://libertadsindeudas.com/ley-segunda-oportunidad-requisitos/">
-              Libertad Sin Deudas
-            </ExtLink>
-            ,{" "}
-            <ExtLink href="https://www.reclamador.es/ley-segunda-oportunidad/">
-              reclamador.es
-            </ExtLink>
-            ,{" "}
-            <ExtLink href="https://www.arriagaasociados.com/ley-de-segunda-oportunidad/">
-              Arriaga Asociados
-            </ExtLink>{" "}
-            o{" "}
-            <ExtLink href="https://www.deudafix.es/blog/ley-segunda-oportunidad/">
-              Deudafix
-            </ExtLink>
-            , además de medios generalistas como{" "}
+            <ExtLink href="https://sede.seg-social.gob.es/">Seguridad Social</ExtLink>{" "}
+            y{" "}
+            <ExtLink href="https://www.bde.es/">Banco de España</ExtLink>. También
+            cubrimos la cobertura en prensa generalista, como{" "}
             <ExtLink href="https://www.larazon.es/sociedad/ley-segunda-oportunidad-permite-cancelar-deudas-cumplen-requisitos-asi-funciona-mecanismo-que-protege-personas-vulnerables-b50m_2026042669ee3fee20f31556905a7d36.html">
               La Razón
             </ExtLink>
             .
           </p>
           <StatHighlights
-            title="La Segunda Oportunidad en cifras"
+            title="La Ley de Segunda Oportunidad en cifras"
             subtitle="Datos consolidados a partir de resoluciones judiciales y memorias de despachos especializados"
             stats={[
               { value: "+30.000", label: "Personas exoneradas", hint: "desde 2015" },
