@@ -2,10 +2,23 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import Seo from "@/components/seo/Seo";
+import { buildBreadcrumb } from "@/lib/seo/structuredData";
 
 const TermsAndConditions = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <Seo
+        title="Términos y condiciones"
+        description="Términos y condiciones del servicio legal de Calma para la Ley de Segunda Oportunidad."
+        canonical="/terminos-y-condiciones"
+        structuredData={[
+          buildBreadcrumb([
+            { name: "Inicio", url: "/" },
+            { name: "Términos y condiciones", url: "/terminos-y-condiciones" },
+          ]),
+        ]}
+      />
       <Header />
       
       <main className="flex-1 bg-gradient-to-br from-background via-secondary/5 to-accent/5">

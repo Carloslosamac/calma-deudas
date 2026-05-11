@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
 import Header from "@/components/Header";
@@ -6,6 +6,14 @@ import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import { blogPosts, getPostBySlug } from "@/data/blog";
+import Seo from "@/components/seo/Seo";
+import {
+  buildArticle,
+  buildBreadcrumb,
+  buildFaq,
+  buildHowTo,
+} from "@/lib/seo/structuredData";
+import { absoluteUrl } from "@/lib/seo/config";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -24,15 +32,15 @@ const BlogPost = () => {
     return [...sameCategory, ...rest].slice(0, 3);
   }, [post]);
 
-  useEffect(() => {
-    if (post) {
-      document.title = `${post.title} — Blog Calma`;
-    }
-  }, [post]);
-
   if (!post) {
     return (
       <div className="min-h-screen bg-background text-foreground">
+        <Seo
+          title="Artículo no disponible"
+          description="Este artículo no existe o ha sido movido. Vuelve al blog de Calma para ver el resto de guías sobre la Ley de Segunda Oportunidad."
+          canonical={`/blog/${slug ?? ""}`}
+          robots="noindex,follow"
+        />
         <Header />
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-36 text-center">
           <h1 className="font-poppins text-3xl font-semibold">Artículo no disponible</h1>
@@ -52,8 +60,48 @@ const BlogPost = () => {
     );
   }
 
+  const structured: Record<string, unknown>[] = [
+    buildBreadcrumb([
+      { name: "Inicio", url: "/" },
+      { name: "Blog", url: "/blog" },
+      { name: post.title, url: `/blog/${post.slug}` },
+    ]),
+    buildArticle({
+      title: post.seoTitle ?? post.title,
+      description: post.metaDescription ?? post.excerpt,
+      url: `/blog/${post.slug}`,
+      image: absoluteUrl(post.ogImage ?? post.heroImage),
+      author: post.author,
+      publishedAt: post.publishedAt,
+      updatedAt: post.updatedAt,
+      keywords: post.keywords,
+    }),
+  ];
+  if (post.faq?.length) structured.push(buildFaq(post.faq));
+  if (post.howToSteps?.length)
+    structured.push(
+      buildHowTo({
+        name: post.seoTitle ?? post.title,
+        description: post.metaDescription ?? post.excerpt,
+        steps: post.howToSteps,
+      })
+    );
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title={post.seoTitle ?? post.title}
+        description={post.metaDescription ?? post.excerpt}
+        canonical={post.canonicalUrl ?? `/blog/${post.slug}`}
+        ogType="article"
+        ogImage={post.ogImage ? absoluteUrl(post.ogImage) : undefined}
+        keywords={post.keywords}
+        author={post.author}
+        publishedAt={post.publishedAt}
+        updatedAt={post.updatedAt}
+        robots={post.noindex ? "noindex,follow" : undefined}
+        structuredData={structured}
+      />
       <ReadingProgressBar />
       <Header />
 

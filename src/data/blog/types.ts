@@ -18,4 +18,14 @@ export type BlogPost = {
   heroAlt: string;
   sections: BlogSection[];
   keywords?: string[];
+  /** SEO opcional — si no se especifica, se infieren de title/excerpt. */
+  seoTitle?: string;
+  metaDescription?: string;
+  ogImage?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+  canonicalUrl?: string;
+  faq?: { question: string; answer: string }[];
+  howToSteps?: { name: string; text: string }[];
+  noindex?: boolean;
 };
