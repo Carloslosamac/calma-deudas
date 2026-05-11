@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
 import Header from "@/components/Header";
