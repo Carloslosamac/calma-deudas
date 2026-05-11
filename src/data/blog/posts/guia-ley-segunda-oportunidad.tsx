@@ -216,13 +216,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "para-que-sirve",
-      title: "Para qué sirve realmente",
+      title: "Para qué sirve realmente la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Más allá del lenguaje técnico, la Segunda Oportunidad sirve para tres cosas
-            muy concretas y muy reconocibles para cualquiera que esté pasando por una
-            situación de sobreendeudamiento.
+            Más allá del lenguaje técnico, la Ley de Segunda Oportunidad sirve para
+            tres cosas muy concretas y muy reconocibles para cualquiera que esté
+            pasando por una situación de sobreendeudamiento.
           </p>
           <p>
             <strong>Primero</strong>: detener las llamadas, las cartas y la presión.
@@ -253,16 +253,17 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "requisitos",
-      title: "Requisitos para acogerse",
+      title: "Requisitos de la Ley de Segunda Oportunidad",
       body: (
         <>
           <p>
-            Una de las grandes dudas es si los requisitos son inalcanzables. La
-            respuesta corta es: <strong>no</strong>. La ley está diseñada para
+            Una de las grandes dudas es si los <strong>requisitos de la Ley de Segunda
+            Oportunidad</strong> son inalcanzables. La respuesta corta es:{" "}
+            <strong>no</strong>. La Ley de Segunda Oportunidad está diseñada para
             personas normales, y en la práctica la mayoría de quienes nos consultan
             cumplen las condiciones aunque crean que no.
           </p>
-          <p>Los requisitos esenciales son los siguientes:</p>
+          <p>Los requisitos esenciales de la Ley Segunda Oportunidad son:</p>
           <RequirementsChecklist />
           <p>
             En detalle: hay que ser <strong>persona física</strong> (particular o
@@ -276,14 +277,19 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             antes, respetar el plazo mínimo entre exoneraciones que fija la ley.
           </p>
           <p>
-            La <strong>buena fe</strong> es el concepto que más preocupa, pero en la
-            práctica se interpreta de forma razonable: no hace falta haber sido
-            “perfecto”, basta con no haber actuado de manera fraudulenta. Haber pedido
-            varios créditos para intentar cubrir gastos, haber refinanciado o haber
-            usado tarjetas revolving <em>no</em> impide acogerse a la ley.
+            La <strong>buena fe del deudor</strong> es el concepto que más preocupa,
+            pero en la práctica se interpreta de forma razonable. Las{" "}
+            <ExtLink href="https://www.abogacia.es/publicaciones/blogs/blog-de-derecho-de-los-los-consumidores/el-alcance-de-la-segunda-oportunidad-innovaciones-del-tribunal-supremo-sobre-exoneracion-y-buena-fe/">
+              últimas sentencias del Tribunal Supremo
+            </ExtLink>{" "}
+            sobre el alcance de la Ley de Segunda Oportunidad han ampliado el concepto:
+            no hace falta haber sido “perfecto”, basta con no haber actuado de manera
+            fraudulenta. Haber pedido varios créditos para intentar cubrir gastos,
+            haber refinanciado o haber usado tarjetas revolving <em>no</em> impide
+            acogerse a la Ley de Segunda Oportunidad.
           </p>
           <RiskMatrix
-            title="¿Tu caso encaja? Matriz rápida"
+            title="¿Tu caso encaja en la Ley de Segunda Oportunidad?"
             subtitle="Cruce entre urgencia (embargos, llamadas, impagos) y viabilidad legal del expediente"
           />
         </>
