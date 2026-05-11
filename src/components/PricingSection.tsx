@@ -61,7 +61,7 @@ const PricingSection = () => {
 
               <Button
                 onClick={() => document.getElementById("hero-form")?.scrollIntoView({ behavior: "smooth" })}
-                className="w-full h-13 rounded-2xl bg-accent text-foreground hover:bg-accent/90 text-base font-medium shadow-glow"
+                className="w-full h-12 rounded-full bg-accent text-accent-foreground hover:bg-accent/90 text-base font-medium shadow-glow"
               >
                 Empezar análisis gratuito
                 <ArrowRight className="h-5 w-5 ml-2" />
