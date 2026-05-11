@@ -468,13 +468,13 @@ export const MythVsReality = ({
     ];
   return (
     <Card className="!p-0 overflow-hidden">
-      <div className="grid grid-cols-[1fr_1fr] border-b border-border bg-surface px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] md:px-8">
+      <div className="grid grid-cols-[1fr_1fr] gap-3 border-b border-border bg-surface px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-xs sm:tracking-[0.16em] md:px-8">
         <span className="text-destructive">Mito</span>
         <span className="text-accent-deep">Realidad</span>
       </div>
       <ul className="divide-y divide-border">
         {data.map((row) => (
-          <li key={row.myth} className="grid grid-cols-[1fr_1fr] gap-4 px-6 py-4 md:px-8 md:py-5">
+          <li key={row.myth} className="grid grid-cols-[1fr_1fr] gap-3 px-4 py-4 text-sm sm:gap-4 sm:text-base md:px-8 md:py-5">
             <div className="flex items-start gap-2 text-muted-foreground">
               <X className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
               <span>{row.myth}</span>
@@ -650,7 +650,7 @@ export const ComparisonTable = ({
           {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         </div>
       )}
-      <div className="grid grid-cols-[1.4fr_1fr_1fr] border-b border-border bg-surface px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground md:px-8">
+      <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-2 border-b border-border bg-surface px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.16em] md:px-8">
         <span></span>
         <span>{a}</span>
         <span className="text-accent-deep">{b}</span>
@@ -659,7 +659,7 @@ export const ComparisonTable = ({
         {data.map((row) => (
           <li
             key={row.label}
-            className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 px-6 py-4 md:px-8"
+            className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-2 px-4 py-4 text-sm sm:gap-4 sm:text-base md:px-8"
           >
             <span className="font-medium text-foreground">{row.label}</span>
             <span
@@ -715,19 +715,19 @@ export const RiskMatrix = ({
         : "bg-destructive/10 text-foreground border-destructive/30";
   const position = (q: number) =>
     q === 1
-      ? "col-start-2 row-start-1"
+      ? "col-start-1 row-start-1 sm:col-start-2"
       : q === 2
-        ? "col-start-3 row-start-1"
+        ? "col-start-2 row-start-1 sm:col-start-3"
         : q === 3
-          ? "col-start-2 row-start-2"
-          : "col-start-3 row-start-2";
+          ? "col-start-1 row-start-2 sm:col-start-2"
+          : "col-start-2 row-start-2 sm:col-start-3";
   return (
     <Card>
       <DiagramTitle subtitle={subtitle ?? `${ax.y} vs. ${ax.x}`}>
         {title ?? "Qué hacer según tu situación"}
       </DiagramTitle>
-      <div className="grid grid-cols-[auto_1fr_1fr] grid-rows-[1fr_1fr_auto] gap-3">
-        <div className="row-span-2 flex items-center justify-center">
+      <div className="grid grid-cols-[1fr_1fr] grid-rows-[1fr_1fr_auto] gap-3 sm:grid-cols-[auto_1fr_1fr]">
+        <div className="hidden row-span-2 sm:flex items-center justify-center">
           <span className="-rotate-90 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {ax.y}
           </span>
@@ -735,14 +735,14 @@ export const RiskMatrix = ({
         {data.map((c) => (
           <div
             key={c.q}
-            className={`flex min-h-[110px] items-center justify-center rounded-2xl border p-4 text-center text-sm font-medium ${toneClass(
+            className={`flex min-h-[96px] items-center justify-center rounded-2xl border p-3 text-center text-xs font-medium sm:min-h-[110px] sm:p-4 sm:text-sm ${toneClass(
               c.tone
             )} ${position(c.q)}`}
           >
             {c.label}
           </div>
         ))}
-        <div className="col-start-2 col-end-4 row-start-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="col-start-1 col-end-3 row-start-3 text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:col-start-2 sm:col-end-4">
           {ax.x}
         </div>
       </div>
