@@ -58,7 +58,7 @@ const post = {
   date: "11 mayo 2026",
   readTime: "14 min",
   author: "Equipo legal Calma",
-  heroImage: stepStrategy,
+  heroImage: personWoman,
 };
 
 const sections: Section[] = [
@@ -206,8 +206,8 @@ const sections: Section[] = [
         </p>
         <figure className="overflow-hidden rounded-3xl border border-border shadow-soft">
           <img
-            src={personWoman}
-            alt="Persona caminando con tranquilidad tras cancelar sus deudas con la Ley de Segunda Oportunidad"
+            src={stepStrategy}
+            alt="Equipo legal acompañando a una persona en su proceso de Segunda Oportunidad"
             className="aspect-[16/9] w-full object-cover"
             loading="lazy"
           />
@@ -610,7 +610,7 @@ const BlogPost = () => {
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
             <img
               src={post.heroImage}
-              alt="Equipo legal acompañando a una persona en su proceso de Segunda Oportunidad"
+              alt="Mujer caminando con tranquilidad tras cancelar sus deudas con la Ley de Segunda Oportunidad"
               className="aspect-[16/9] w-full object-cover"
             />
           </figure>
