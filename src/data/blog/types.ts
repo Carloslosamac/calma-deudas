@@ -17,4 +17,5 @@ export type BlogPost = {
   heroImage: string;
   heroAlt: string;
   sections: BlogSection[];
+  keywords?: string[];
 };

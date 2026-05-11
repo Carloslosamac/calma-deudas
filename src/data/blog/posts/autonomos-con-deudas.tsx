@@ -23,6 +23,17 @@ export const autonomosConDeudas: BlogPost = {
   author: "Equipo legal Calma",
   heroImage: blogAutonomos,
   heroAlt: "Autónomo revisando facturas y cuentas en su pequeño negocio",
+  keywords: [
+    "autónomos",
+    "deuda fiscal",
+    "hacienda",
+    "seguridad social",
+    "cuota autónomos",
+    "IVA",
+    "IRPF",
+    "avales personales",
+    "segunda oportunidad",
+  ],
   sections: [
     {
       id: "panorama",
