@@ -16,7 +16,6 @@ import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "../shared";
 import type { BlogPost } from "../types";
 import blogRequisitos from "@/assets/blog-requisitos.jpg";
-import stepStrategy from "@/assets/step-strategy.jpg";
 import personCouple from "@/assets/person-couple-sofa.jpg";
 
 export const cancelarDeudasRequisitos: BlogPost = {
@@ -309,6 +308,3 @@ export const cancelarDeudasRequisitos: BlogPost = {
     },
   ],
 };
-
-// re-export for tree-shaking
-export { stepStrategy };
