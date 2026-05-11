@@ -38,7 +38,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   author: "Equipo legal Calma",
   heroImage,
   heroAlt:
-    "Mujer leyendo con tranquilidad un documento sobre la Ley de Segunda Oportunidad junto a una ventana iluminada",
+    "Mujer leyendo con tranquilidad un documento sobre la Ley Segunda Oportunidad junto a una ventana iluminada",
   keywords: [
     "ley de segunda oportunidad",
     "ley segunda oportunidad",
@@ -113,7 +113,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             Está pensada para personas honradas que, por una circunstancia sobrevenida
             (divorcio, enfermedad, despido, cierre del negocio, una operación financiera
             que salió mal), entran en una espiral de impagos imposible de remontar con
-            ingresos ordinarios. La finalidad de la Ley de Segunda Oportunidad es
+            ingresos ordinarios. La finalidad de la LSO es
             exactamente esa: dar una salida real al <strong>deudor de buena fe</strong>{" "}
             y permitir que vuelva a tener una economía sostenible.
           </p>
@@ -185,7 +185,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            Más allá del lenguaje técnico, la Ley de Segunda Oportunidad sirve para
+            Más allá del lenguaje técnico, la Ley de la Segunda Oportunidad sirve para
             tres cosas muy concretas y muy reconocibles para cualquiera que esté
             pasando por una situación de sobreendeudamiento.
           </p>
@@ -251,7 +251,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             no hace falta haber sido “perfecto”, basta con no haber actuado de manera
             fraudulenta. Haber pedido varios créditos para intentar cubrir gastos,
             haber refinanciado o haber usado tarjetas revolving <em>no</em> impide
-            acogerse a la Ley de Segunda Oportunidad.
+            acogerse a la Ley 25/2015.
           </p>
           <RiskMatrix
             title="¿Tu caso encaja en la LSO?"
@@ -324,7 +324,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             <strong>Qué queda fuera.</strong> No se exoneran las deudas por pensiones
             de alimentos, las multas penales, las responsabilidades civiles derivadas
             de un delito ni, en general, deudas vinculadas a actuaciones dolosas. La
-            Ley de Segunda Oportunidad cancela deuda económica ordinaria, no
+            Ley Segunda Oportunidad cancela deuda económica ordinaria, no
             responsabilidades personales.
           </p>
         </>
@@ -467,7 +467,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <p>
             Profundizamos en este tema en la guía específica sobre{" "}
             <InternalLink to="/blog/embargos-segunda-oportunidad">
-              cómo parar un embargo con la Ley de Segunda Oportunidad
+              cómo parar un embargo con la LSO
             </InternalLink>
             . Y si además figuras en ficheros de morosos, te interesará leer{" "}
             <InternalLink to="/blog/salir-asnef">cómo salir de ASNEF</InternalLink>.
@@ -588,7 +588,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <CostFactorsGrid />
           <p>
             Lo verdaderamente relevante es la comparación entre coste y deuda cancelada
-            mediante la Ley de Segunda Oportunidad. En la inmensa mayoría de casos, el
+            mediante la Ley de la Segunda Oportunidad. En la inmensa mayoría de casos, el
             coste total del expediente representa una fracción muy pequeña frente al
             volumen de deuda exonerada.
           </p>
@@ -693,7 +693,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
       body: (
         <>
           <p>
-            Cuando el expediente de Ley de Segunda Oportunidad está bien preparado, el
+            Cuando el expediente de Ley 25/2015 está bien preparado, el
             porcentaje de resoluciones favorables es muy alto. Los casos en los que se
             deniega la exoneración están casi siempre vinculados a problemas de buena
             fe (ocultación de bienes, datos falsos en la solicitud) o a expedientes
@@ -1004,7 +1004,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
         <>
           <p>
             Esta guía está elaborada por el equipo legal de Calma a partir de nuestra
-            experiencia tramitando expedientes de Ley de Segunda Oportunidad. Para
+            experiencia tramitando expedientes de Ley Segunda Oportunidad. Para
             contrastar criterios y mantenerla actualizada, también nos apoyamos en las
             siguientes fuentes oficiales y especializadas:
           </p>
