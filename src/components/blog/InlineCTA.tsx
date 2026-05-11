@@ -9,7 +9,7 @@ const InlineCTA = ({
   description: string;
   buttonLabel?: string;
 }) => (
-  <aside className="my-2 overflow-hidden rounded-3xl border border-border bg-surface-elevated p-7 shadow-soft md:p-9">
+  <aside className="my-2 overflow-hidden rounded-3xl border border-accent/30 bg-accent-soft/40 p-7 shadow-soft md:p-9">
     <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
       <div>
         <h3 className="font-poppins text-xl font-semibold leading-snug text-foreground md:text-2xl">

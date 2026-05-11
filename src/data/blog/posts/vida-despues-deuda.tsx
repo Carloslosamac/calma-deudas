@@ -145,7 +145,7 @@ export const vidaDespuesDeuda: BlogPost = {
           <InlineCTA
             title="¿Acabas de cancelar tu deuda?"
             description="Te orientamos sobre los siguientes pasos para mantener la calma a largo plazo."
-            buttonLabel="Hablar con Calma"
+            buttonLabel="Empezar de cero"
           />
         </>
       ),

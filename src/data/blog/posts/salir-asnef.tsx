@@ -189,7 +189,7 @@ export const salirAsnef: BlogPost = {
           <InlineCTA
             title="¿Estás en ASNEF y no sabes por dónde empezar?"
             description="Analizamos tu caso y te decimos qué pasos seguir para salir del fichero."
-            buttonLabel="Analizar mi situación"
+            buttonLabel="Salir de ASNEF"
           />
         </>
       ),
