@@ -330,7 +330,7 @@ const BlogPost = () => {
           {/* Body + sidebar */}
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div className="min-w-0">
-              <div className="prose prose-neutral max-w-none">
+              <div className="max-w-none">
                 {sections.map((section) => (
                   <section key={section.id} id={section.id} className="scroll-mt-28">
                     <h2 className="mt-14 flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
