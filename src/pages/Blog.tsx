@@ -231,6 +231,28 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Blog Calma: guías sobre la Ley de Segunda Oportunidad"
+        description="Guías claras y actualizadas sobre la Ley de Segunda Oportunidad, embargos, ASNEF, autónomos y vida después de cancelar deudas."
+        canonical="/blog"
+        keywords={[
+          "blog Ley de Segunda Oportunidad",
+          "cancelar deudas",
+          "guía ley segunda oportunidad",
+          "ASNEF",
+          "embargos",
+        ]}
+        structuredData={[
+          buildOrganization(),
+          buildBreadcrumb([
+            { name: "Inicio", url: "/" },
+            { name: "Blog", url: "/blog" },
+          ]),
+          buildItemList(
+            blogPosts.map((p) => ({ name: p.title, url: `/blog/${p.slug}` }))
+          ),
+        ]}
+      />
       <Header />
 
       <main className="px-6 pb-24 pt-32 md:pt-36">
