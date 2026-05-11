@@ -895,13 +895,14 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     },
     {
       id: "hub",
-      title: "Encuentra la respuesta a tu situación concreta",
+      title: "50 artículos sobre la Ley de Segunda Oportunidad ordenados por situación",
       body: (
         <>
           <p>
             Cada caso es distinto. Si lo que te preocupa ahora mismo es un embargo, no
-            es lo mismo que si tu duda es qué pasa con tu vivienda o con la deuda de
-            Hacienda. Aquí abajo tienes los temas más buscados, ordenados por
+            es lo mismo que si tu duda es qué pasa con tu vivienda en la Ley de
+            Segunda Oportunidad o con la deuda de Hacienda. Aquí abajo tienes los 50
+            ángulos más buscados de la Ley de Segunda Oportunidad, ordenados por
             situación, para que vayas directo a lo que te toca.
           </p>
           <p>
@@ -912,120 +913,120 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <ContentHub
             groups={[
               {
-                angle: "Requisitos y elegibilidad",
-                description: "Cómo saber si encajas y qué condiciones se exigen.",
+                angle: "Requisitos y elegibilidad en la Ley de Segunda Oportunidad",
+                description: "Cómo saber si encajas en la Ley de Segunda Oportunidad y qué condiciones se exigen.",
                 items: [
-                  { title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad", to: "/blog/cancelar-deudas-requisitos" },
-                  { title: "Qué se entiende por “deudor de buena fe” en la práctica" },
-                  { title: "Insolvencia actual vs. insolvencia inminente: diferencias" },
-                  { title: "Acogerse con antecedentes: qué delitos lo impiden y cuáles no" },
-                  { title: "¿Puedo acogerme si ya me exoneraron hace años?" },
+                  { title: "Requisitos de la Ley de Segunda Oportunidad en 2026: lista actualizada", to: "/blog/cancelar-deudas-requisitos" },
+                  { title: "Buena fe del deudor en la Ley de Segunda Oportunidad: cómo se interpreta" },
+                  { title: "Insolvencia actual vs. inminente en la Ley de Segunda Oportunidad" },
+                  { title: "Antecedentes penales y Ley de Segunda Oportunidad: qué delitos la impiden" },
+                  { title: "¿Puedo acogerme dos veces a la Ley de Segunda Oportunidad?" },
                 ],
               },
               {
-                angle: "Tipos de deuda que entran en el expediente",
-                description: "Qué se cancela, qué no, y matices por tipo de deuda.",
+                angle: "Tipos de deuda en la Ley de Segunda Oportunidad",
+                description: "Qué se cancela con la Ley de Segunda Oportunidad, qué no, y matices por tipo de deuda.",
                 items: [
-                  { title: "Cancelar microcréditos y préstamos rápidos con la Segunda Oportunidad" },
-                  { title: "Tarjetas revolving: cómo se incluyen en el expediente" },
-                  { title: "Cancelar avales personales firmados por un familiar" },
-                  { title: "Deudas con proveedores: cómo se ordenan en el procedimiento" },
-                  { title: "Préstamos entre particulares y deudas con familia: ¿se cancelan?" },
+                  { title: "Cancelar microcréditos con la Ley de Segunda Oportunidad" },
+                  { title: "Tarjetas revolving y Ley de Segunda Oportunidad: cómo se incluyen" },
+                  { title: "Cancelar avales personales con la Ley de Segunda Oportunidad" },
+                  { title: "Deudas con proveedores en la Ley de Segunda Oportunidad" },
+                  { title: "Préstamos entre particulares y Ley de Segunda Oportunidad" },
                 ],
               },
               {
-                angle: "Procedimiento paso a paso",
-                description: "Cómo se desarrolla el expediente desde dentro.",
+                angle: "Procedimiento de la Ley de Segunda Oportunidad",
+                description: "Cómo se desarrolla el expediente de la Ley de Segunda Oportunidad desde dentro.",
                 items: [
-                  { title: "Qué documentos pide el juzgado y cómo prepararlos" },
-                  { title: "Cómo se elige juzgado competente en Segunda Oportunidad" },
-                  { title: "Diferencias entre exoneración con liquidación y con plan de pagos" },
-                  { title: "Qué es el administrador concursal y cuándo aparece" },
-                  { title: "Oposición de un acreedor: qué pasa y cómo se resuelve" },
+                  { title: "Ley de Segunda Oportunidad paso a paso: del análisis previo a la EPI" },
+                  { title: "Documentación para la Ley de Segunda Oportunidad: checklist completo" },
+                  { title: "Juzgado competente en la Ley de Segunda Oportunidad: cómo se determina" },
+                  { title: "Administrador concursal en la Ley de Segunda Oportunidad: cuándo aparece" },
+                  { title: "Oposición de acreedores en la Ley de Segunda Oportunidad: cómo se resuelve" },
                 ],
               },
               {
-                angle: "Embargos y cuentas bloqueadas",
-                description: "Cómo se frena la presión legal en curso.",
+                angle: "Embargos y Ley de Segunda Oportunidad",
+                description: "Cómo paralizar embargos con la Ley de Segunda Oportunidad.",
                 items: [
-                  { title: "Qué ocurre con los embargos cuando inicias el proceso legal", to: "/blog/embargos-segunda-oportunidad" },
-                  { title: "Cómo desbloquear una cuenta bancaria embargada" },
-                  { title: "Embargo de nómina: en qué momento vuelve íntegra" },
-                  { title: "Embargo del vehículo: cuándo se puede evitar la subasta" },
-                  { title: "Embargos por varias deudas a la vez: cómo se unifican" },
+                  { title: "Parar embargos con la Ley de Segunda Oportunidad", to: "/blog/embargos-segunda-oportunidad" },
+                  { title: "Cuenta bancaria embargada: cómo la libera la Ley de Segunda Oportunidad" },
+                  { title: "Embargo de nómina y Ley de Segunda Oportunidad: cuándo vuelve íntegra" },
+                  { title: "Embargo del vehículo y Ley de Segunda Oportunidad: cuándo se evita la subasta" },
+                  { title: "Varios embargos a la vez en la Ley de Segunda Oportunidad" },
                 ],
               },
               {
-                angle: "Vivienda habitual e hipotecas",
-                description: "El miedo a perder la casa, despejado caso por caso.",
+                angle: "Vivienda habitual e hipotecas en la Ley de Segunda Oportunidad",
+                description: "El miedo a perder la casa con la Ley de Segunda Oportunidad, despejado caso por caso.",
                 items: [
-                  { title: "¿Pierdo mi vivienda habitual con la Segunda Oportunidad?" },
-                  { title: "Cómo conservar la vivienda mediante plan de pagos" },
-                  { title: "Ejecución hipotecaria en marcha: ¿se puede parar?" },
-                  { title: "Dación en pago vs. Segunda Oportunidad: cuándo conviene cada una" },
-                  { title: "Segunda vivienda y casas heredadas: cómo se tratan en el expediente" },
+                  { title: "Vivienda habitual en la Ley de Segunda Oportunidad: cuándo se conserva" },
+                  { title: "Conservar la vivienda con la Ley de Segunda Oportunidad y plan de pagos" },
+                  { title: "Ejecución hipotecaria y Ley de Segunda Oportunidad: ¿se puede parar?" },
+                  { title: "Dación en pago vs. Ley de Segunda Oportunidad: cuándo conviene cada una" },
+                  { title: "Segunda vivienda y herencias en la Ley de Segunda Oportunidad" },
                 ],
               },
               {
-                angle: "Autónomos y exempresarios",
-                description: "Casuísticas profesionales y societarias.",
+                angle: "Autónomos y exempresarios en la Ley de Segunda Oportunidad",
+                description: "Cómo aplica la Ley de Segunda Oportunidad a profesionales y exempresarios.",
                 items: [
-                  { title: "Autónomos con deudas: proteger tu actividad y empezar de nuevo", to: "/blog/autonomos-con-deudas" },
-                  { title: "Cancelar deudas siendo autónomo en activo" },
-                  { title: "Avales personales de administrador: cómo se incluyen" },
-                  { title: "Tras cerrar la SL: qué deudas siguen siendo tuyas" },
-                  { title: "Autónomos con deuda de IVA acumulada: vías reales de salida" },
+                  { title: "Autónomos y Ley de Segunda Oportunidad: cómo proteger tu actividad", to: "/blog/autonomos-con-deudas" },
+                  { title: "Autónomos en activo y Ley de Segunda Oportunidad: compatibilidad" },
+                  { title: "Avales personales de administrador en la Ley de Segunda Oportunidad" },
+                  { title: "Cerrar una SL y acogerse después a la Ley de Segunda Oportunidad" },
+                  { title: "Deuda de IVA acumulada y Ley de Segunda Oportunidad: vías reales" },
                 ],
               },
               {
-                angle: "Deuda pública (Hacienda y Seguridad Social)",
-                description: "El cambio más importante de la reforma de 2022.",
+                angle: "Deuda pública en la Ley de Segunda Oportunidad",
+                description: "Exoneración del crédito público con la Ley de Segunda Oportunidad: el cambio clave de la reforma de 2022.",
                 items: [
-                  { title: "Cancelar deuda con Hacienda: hasta dónde llega la exoneración" },
-                  { title: "Cancelar deuda con la Seguridad Social: límites y plan de pagos" },
-                  { title: "Apremios, recargos y intereses: cómo se calculan en el expediente" },
-                  { title: "Embargo de la AEAT sobre la cuenta: cómo se levanta" },
-                  { title: "Aplazamientos con Hacienda fracasados: qué pasa ahora" },
+                  { title: "Cancelar deuda con Hacienda con la Ley de Segunda Oportunidad: límites" },
+                  { title: "Cancelar deuda con la Seguridad Social en la Ley de Segunda Oportunidad" },
+                  { title: "Apremios y recargos en la Ley de Segunda Oportunidad: cómo se calculan" },
+                  { title: "Embargo de la AEAT y Ley de Segunda Oportunidad: cómo se levanta" },
+                  { title: "Aplazamientos con Hacienda fracasados: paso a la Ley de Segunda Oportunidad" },
                 ],
               },
               {
-                angle: "ASNEF y ficheros de morosidad",
-                description: "Salir de las listas y recuperar acceso al sistema financiero.",
+                angle: "ASNEF y ficheros tras la Ley de Segunda Oportunidad",
+                description: "Salir de las listas y recuperar acceso al sistema financiero después de la Ley de Segunda Oportunidad.",
                 items: [
-                  { title: "ASNEF: cómo salir tras cancelar deuda", to: "/blog/salir-asnef" },
-                  { title: "Diferencias entre ASNEF, Badexcug, RAI y CIRBE" },
-                  { title: "Cómo pedir formalmente la baja de un fichero" },
-                  { title: "Estar en ASNEF y alquilar piso: qué dice la ley" },
-                  { title: "Cuánto tarda en limpiarse el historial financiero" },
+                  { title: "ASNEF después de la Ley de Segunda Oportunidad: cómo limpiar el historial", to: "/blog/salir-asnef" },
+                  { title: "ASNEF, Badexcug, RAI y CIRBE: cuál afecta más a la Ley de Segunda Oportunidad" },
+                  { title: "Solicitar la baja en ASNEF tras la Ley de Segunda Oportunidad" },
+                  { title: "Alquilar piso estando en ASNEF tras la Ley de Segunda Oportunidad" },
+                  { title: "Cuánto tarda en limpiarse el historial tras la Ley de Segunda Oportunidad" },
                 ],
               },
               {
-                angle: "Después de la cancelación",
-                description: "Reconstruir economía, ahorro y vida financiera.",
+                angle: "Vida después de la Ley de Segunda Oportunidad",
+                description: "Reconstruir economía, ahorro y vida financiera tras la Ley de Segunda Oportunidad.",
                 items: [
-                  { title: "Después de cancelar deuda: hábitos para no volver al bloqueo", to: "/blog/vida-despues-deuda" },
-                  { title: "Cómo reconstruir tu historial crediticio paso a paso" },
-                  { title: "Volver a abrir una cuenta bancaria sin restricciones" },
-                  { title: "Primer crédito tras una Segunda Oportunidad: cuándo y cómo" },
-                  { title: "Plan de ahorro mínimo viable tras salir de las deudas" },
+                  { title: "Vida después de la Ley de Segunda Oportunidad: 5 hábitos clave", to: "/blog/vida-despues-deuda" },
+                  { title: "Reconstruir el historial crediticio tras la Ley de Segunda Oportunidad" },
+                  { title: "Abrir una cuenta bancaria tras la Ley de Segunda Oportunidad" },
+                  { title: "Primer crédito tras la Ley de Segunda Oportunidad: cuándo y cómo" },
+                  { title: "Plan de ahorro tras la Ley de Segunda Oportunidad: por dónde empezar" },
                 ],
               },
               {
-                angle: "Casos especiales y comparativas",
-                description: "Dudas frecuentes y comparativas con otras vías.",
+                angle: "Comparativas con la Ley de Segunda Oportunidad",
+                description: "Cómo encaja la Ley de Segunda Oportunidad frente a otras vías.",
                 items: [
-                  { title: "Cuándo conviene renegociar deudas y cuándo iniciar una vía legal", to: "/blog/renegociar-acreedores" },
-                  { title: "Reunificación de deudas vs. Segunda Oportunidad" },
-                  { title: "Concurso de acreedores tradicional vs. Segunda Oportunidad" },
-                  { title: "Acogerse en pareja: expediente conjunto o separado" },
-                  { title: "Herencia con deudas: aceptarla a beneficio de inventario o repudiar" },
+                  { title: "Renegociar deudas vs. Ley de Segunda Oportunidad: cuándo elegir cada una", to: "/blog/renegociar-acreedores" },
+                  { title: "Reunificación de deudas vs. Ley de Segunda Oportunidad" },
+                  { title: "Concurso de acreedores vs. Ley de Segunda Oportunidad: diferencias" },
+                  { title: "Ley de Segunda Oportunidad en pareja: expediente conjunto o separado" },
+                  { title: "Herencia con deudas y Ley de Segunda Oportunidad: qué hacer" },
                 ],
               },
             ]}
           />
           <InlineCTA
             title="¿No encuentras tu caso?"
-            description="Cuéntanoslo: te decimos qué guía leer y, si encaja, cómo aplicarte la Segunda Oportunidad."
+            description="Cuéntanoslo: te decimos qué guía leer y, si encaja, cómo aplicarte la Ley de Segunda Oportunidad."
             buttonLabel="Analizar mi caso"
           />
         </>
