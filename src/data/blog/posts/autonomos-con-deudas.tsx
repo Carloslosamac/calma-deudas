@@ -16,6 +16,7 @@ export const autonomosConDeudas: BlogPost = {
   slug: "autonomos-con-deudas",
   category: "Autónomos",
   title: "Autónomos con deudas: cómo proteger tu actividad y empezar de nuevo",
+  seoTitle: "Autónomos con deudas: cómo empezar de nuevo",
   excerpt:
     "Si trabajas por cuenta propia, hay formas de ordenar deudas sin cerrar la persiana. Repasamos opciones legales y errores frecuentes.",
   date: "30 abril 2026",
