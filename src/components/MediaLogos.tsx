@@ -5,7 +5,7 @@ const LogoRow = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (
     {logos.map((logo) => (
       <span
         key={logo}
-        className="font-semibold text-2xl md:text-3xl text-foreground/40 hover:text-foreground/70 transition-colors tracking-tight whitespace-nowrap"
+        className="font-semibold text-2xl md:text-3xl text-foreground/65 hover:text-foreground transition-colors tracking-tight whitespace-nowrap"
         style={{ fontFamily: "Georgia, serif" }}
       >
         {logo}

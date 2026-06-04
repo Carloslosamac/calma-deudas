@@ -17,6 +17,30 @@ export const autonomosConDeudas: BlogPost = {
   category: "Autónomos",
   title: "Autónomos con deudas: cómo proteger tu actividad y empezar de nuevo",
   seoTitle: "Autónomos con deudas: cómo empezar de nuevo",
+  metaDescription:
+    "Autónomos con deudas: opciones legales para proteger tu actividad, qué deudas se pueden cancelar (IVA, IRPF, Seguridad Social) y cómo empezar de nuevo.",
+  faq: [
+    {
+      question: "¿Un autónomo puede acogerse a la Ley de Segunda Oportunidad?",
+      answer:
+        "Sí. La ley está pensada especialmente para autónomos y particulares insolventes que actúan de buena fe.",
+    },
+    {
+      question: "¿Se puede cancelar la deuda con Hacienda y la Seguridad Social?",
+      answer:
+        "La deuda pública tiene límites de exoneración, pero buena parte puede cancelarse o reestructurarse en un plan de pagos asumible.",
+    },
+    {
+      question: "¿Tengo que cerrar mi negocio?",
+      answer:
+        "No necesariamente. Según el caso es posible mantener la actividad mientras se reordena y reduce la deuda.",
+    },
+    {
+      question: "¿Respondo con mis bienes personales?",
+      answer:
+        "Si firmaste avales o eras administrador, puedes responder con bienes personales; el procedimiento ayuda a separar y limitar esa responsabilidad.",
+    },
+  ],
   excerpt:
     "Si trabajas por cuenta propia, hay formas de ordenar deudas sin cerrar la persiana. Repasamos opciones legales y errores frecuentes.",
   date: "30 abril 2026",

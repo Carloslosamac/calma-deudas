@@ -9,6 +9,25 @@ export const vidaDespuesDeuda: BlogPost = {
   category: "Consejos",
   title: "Después de cancelar deuda: hábitos sencillos para no volver al bloqueo",
   seoTitle: "Vida después de cancelar tu deuda: hábitos",
+  metaDescription:
+    "Vida después de cancelar tus deudas: hábitos sencillos para reconstruir tu presupuesto, crear un colchón de seguridad y recuperar tu historial crediticio.",
+  faq: [
+    {
+      question: "¿Qué hago los primeros meses sin deuda?",
+      answer:
+        "Estabilizar gastos, crear un presupuesto realista y empezar a ahorrar un pequeño colchón antes de asumir nuevos compromisos.",
+    },
+    {
+      question: "¿Cuándo puedo volver a pedir financiación?",
+      answer:
+        "Cuando hayas salido de los ficheros de morosidad y demuestres ingresos estables; conviene empezar por importes pequeños y pagarlos con puntualidad.",
+    },
+    {
+      question: "¿Cómo reconstruyo mi historial crediticio?",
+      answer:
+        "Pagando puntualmente tus recibos y compromisos, evitando nuevas deudas innecesarias y manteniéndote fuera de ASNEF.",
+    },
+  ],
   excerpt:
     "Una segunda oportunidad también necesita un plan tranquilo. Presupuesto, ahorro mínimo y decisiones prácticas para mantener la calma.",
   date: "18 abril 2026",

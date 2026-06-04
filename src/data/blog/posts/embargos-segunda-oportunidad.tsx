@@ -16,6 +16,30 @@ export const embargosSegundaOportunidad: BlogPost = {
   category: "Embargos",
   title: "Qué ocurre con los embargos cuando inicias el proceso legal",
   seoTitle: "Embargos y Ley de Segunda Oportunidad",
+  metaDescription:
+    "Qué ocurre con los embargos de nómina, cuenta o bienes al iniciar la Ley de Segunda Oportunidad: cómo se frenan paso a paso, fases y documentación necesaria.",
+  faq: [
+    {
+      question: "¿Se pueden frenar los embargos con la Ley de Segunda Oportunidad?",
+      answer:
+        "Sí. Al admitirse el procedimiento, el juzgado puede suspender los embargos de nómina, cuentas y bienes mientras se tramita el caso.",
+    },
+    {
+      question: "¿Qué tipos de embargo existen?",
+      answer:
+        "Los más habituales son el embargo de nómina, el de cuentas bancarias y el de bienes. Cada uno tiene límites legales y un tratamiento distinto.",
+    },
+    {
+      question: "¿Cuánto tardan en parar un embargo?",
+      answer:
+        "Una vez admitido el procedimiento, la suspensión puede ordenarse en semanas, aunque depende del juzgado y de la urgencia del caso.",
+    },
+    {
+      question: "¿Pueden embargarme toda la nómina?",
+      answer:
+        "No. La parte de la nómina equivalente al salario mínimo interprofesional es inembargable, y por encima se aplican tramos legales que limitan la retención.",
+    },
+  ],
   excerpt:
     "Te explicamos cuándo pueden frenarse los embargos, qué pasa con la nómina y cómo se protege tu cuenta durante el expediente.",
   date: "7 mayo 2026",

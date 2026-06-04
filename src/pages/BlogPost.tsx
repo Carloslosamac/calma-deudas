@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
+import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import Seo from "@/components/seo/Seo";
 import {
@@ -94,7 +95,6 @@ const BlogPost = () => {
         description={post.metaDescription ?? post.excerpt}
         canonical={post.canonicalUrl ?? `/blog/${post.slug}`}
         ogType="article"
-        ogImage={post.ogImage ? absoluteUrl(post.ogImage) : undefined}
         keywords={post.keywords}
         author={post.author}
         publishedAt={post.publishedAt}
@@ -191,6 +191,17 @@ const BlogPost = () => {
             </div>
           </div>
         </article>
+
+        {post.faq && post.faq.length > 0 && (
+          <section className="mx-auto mt-20 max-w-3xl">
+            <h2 className="mb-6 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              Preguntas frecuentes
+            </h2>
+            <FaqList
+              items={post.faq.map((item) => ({ q: item.question, a: item.answer }))}
+            />
+          </section>
+        )}
 
         {/* Keyword cloud + related posts */}
         <aside className="mx-auto mt-20 max-w-6xl border-t border-border pt-14">

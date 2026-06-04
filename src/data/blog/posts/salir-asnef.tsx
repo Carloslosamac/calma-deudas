@@ -14,6 +14,30 @@ export const salirAsnef: BlogPost = {
   category: "ASNEF",
   title: "ASNEF: cómo salir de un fichero de morosidad después de cancelar deuda",
   seoTitle: "Cómo salir de ASNEF tras cancelar tu deuda",
+  metaDescription:
+    "Cómo salir de ASNEF y otros ficheros de morosidad tras cancelar tu deuda: cuándo pedir la baja, pasos a seguir, documentación y errores que debes evitar.",
+  faq: [
+    {
+      question: "¿Cuándo puedo salir de ASNEF?",
+      answer:
+        "Cuando la deuda que motivó la inclusión se ha pagado, cancelado o ya no es exigible. También si la inscripción es incorrecta o ha prescrito.",
+    },
+    {
+      question: "¿Cuánto tarda darse de baja en ASNEF?",
+      answer:
+        "La entidad debe actualizar o eliminar el dato en un plazo breve tras acreditar que la deuda ya no existe; normalmente en pocas semanas.",
+    },
+    {
+      question: "¿Salir de ASNEF mejora mi historial?",
+      answer:
+        "Sí. Estar fuera del fichero te permite volver a acceder a financiación, contratos y servicios que se deniegan a quienes figuran como morosos.",
+    },
+    {
+      question: "¿La Ley de Segunda Oportunidad me saca de ASNEF?",
+      answer:
+        "Al cancelar las deudas con el procedimiento desaparece la causa que te mantenía en el fichero, lo que permite solicitar la baja.",
+    },
+  ],
   excerpt:
     "Estar en un fichero puede bloquearte durante años. Estos son los pasos para pedir la baja y recuperar acceso a financiación básica.",
   date: "5 mayo 2026",

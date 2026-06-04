@@ -23,6 +23,30 @@ export const cancelarDeudasRequisitos: BlogPost = {
   category: "Segunda oportunidad",
   title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad",
   seoTitle: "¿Puedes cancelar tus deudas? Requisitos clave",
+  metaDescription:
+    "Descubre si cumples los requisitos de la Ley de Segunda Oportunidad para cancelar tus deudas: buena fe, insolvencia, deudas incluidas, coste y plazos.",
+  faq: [
+    {
+      question: "¿Qué requisitos pide la Ley de Segunda Oportunidad?",
+      answer:
+        "Ser deudor de buena fe, estar en situación de insolvencia, no superar ciertos límites de deuda y no haber sido condenado por delitos socioeconómicos en los últimos diez años.",
+    },
+    {
+      question: "¿Qué deudas se pueden cancelar?",
+      answer:
+        "La mayoría de deudas con bancos, financieras, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social tiene un tratamiento especial y límites de exoneración.",
+    },
+    {
+      question: "¿Cuánto tarda el procedimiento?",
+      answer:
+        "Entre 6 y 18 meses según la complejidad del caso y el juzgado, aunque los embargos pueden frenarse mucho antes de la resolución final.",
+    },
+    {
+      question: "¿Puedo acogerme si soy asalariado?",
+      answer:
+        "Sí. La ley protege tanto a particulares asalariados como a autónomos que estén en situación de insolvencia y actúen de buena fe.",
+    },
+  ],
   excerpt:
     "Una guía clara para entender si cumples los requisitos, qué documentación conviene preparar y qué señales indican que puedes acogerte al procedimiento.",
   date: "11 mayo 2026",

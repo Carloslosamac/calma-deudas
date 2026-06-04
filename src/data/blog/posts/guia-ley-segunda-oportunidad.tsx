@@ -32,6 +32,57 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   title:
     "Ley de Segunda Oportunidad 2026: la guía más completa y actualizada para cancelar tus deudas",
   seoTitle: "Ley de Segunda Oportunidad 2026: guía completa",
+  metaDescription:
+    "Guía completa y actualizada de la Ley de Segunda Oportunidad 2026: requisitos, fases, costes, embargos, vivienda y deuda pública para cancelar tus deudas.",
+  faq: [
+    {
+      question: "¿Qué es la Ley de Segunda Oportunidad?",
+      answer:
+        "Es la ley española que permite a particulares y autónomos de buena fe cancelar las deudas que no pueden pagar mediante la Exoneración del Pasivo Insatisfecho.",
+    },
+    {
+      question: "¿Qué requisitos hay que cumplir?",
+      answer:
+        "Ser deudor de buena fe, encontrarse en situación de insolvencia y no haber sido condenado por determinados delitos socioeconómicos en los últimos diez años.",
+    },
+    {
+      question: "¿Qué deudas se pueden cancelar?",
+      answer:
+        "La mayoría de deudas con bancos, financieras, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites de exoneración.",
+    },
+    {
+      question: "¿Cuánto tarda el procedimiento?",
+      answer:
+        "Entre 6 y 18 meses según la complejidad y el juzgado, aunque los embargos pueden suspenderse mucho antes de la resolución final.",
+    },
+    {
+      question: "¿Pierdo mi vivienda si me acojo?",
+      answer:
+        "No siempre. Según el caso y el valor de la hipoteca es posible conservar la vivienda habitual; se analiza individualmente antes de empezar.",
+    },
+  ],
+  howToSteps: [
+    {
+      name: "Análisis previo y preparación",
+      text: "Se estudia tu situación completa: ingresos, gastos, patrimonio, acreedores, tipo de deudas y embargos en curso, y se decide si encajas y por qué vía.",
+    },
+    {
+      name: "Presentación de la solicitud",
+      text: "Se presenta la solicitud ante el juzgado competente por tu domicilio, junto con toda la documentación requerida.",
+    },
+    {
+      name: "Admisión a trámite y medidas cautelares",
+      text: "El juzgado revisa el expediente y puede acordar la suspensión de los embargos y de las ejecuciones en curso.",
+    },
+    {
+      name: "Fase de oposición de acreedores",
+      text: "Los acreedores son notificados y pueden manifestar lo que consideren; en la mayoría de los casos no se oponen o sus oposiciones no prosperan.",
+    },
+    {
+      name: "Resolución y exoneración",
+      text: "El juzgado dicta la resolución que concede la Exoneración del Pasivo Insatisfecho, que es la que cancela tu deuda.",
+    },
+  ],
   excerpt:
     "La guía más completa y actualizada de 2026 sobre la Ley de Segunda Oportunidad: requisitos, fases, embargos, vivienda, deuda pública, autónomos y vida después. Todo lo que necesitas saber para cancelar tus deudas con la Ley Segunda Oportunidad, en lenguaje claro y sin tecnicismos.",
   date: "11 mayo 2026",

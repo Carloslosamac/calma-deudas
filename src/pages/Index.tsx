@@ -59,16 +59,18 @@ const Index = () => {
         ]}
       />
       <Header />
-      <HeroSection />
-      <StatsSection />
-      <MediaLogos />
-      <HowItWorks />
-      <FormSection />
-      <FeatureSection />
-      <BenefitsSection />
-      <TestimonialsSection />
-      <TrustBadges />
-      <PricingSection />
+      <main>
+        <HeroSection />
+        <StatsSection />
+        <MediaLogos />
+        <HowItWorks />
+        <FormSection />
+        <FeatureSection />
+        <BenefitsSection />
+        <TestimonialsSection />
+        <TrustBadges />
+        <PricingSection />
+      </main>
       <Footer />
     </div>
   );
