@@ -192,6 +192,17 @@ const BlogPost = () => {
           </div>
         </article>
 
+        {post.faq && post.faq.length > 0 && (
+          <section className="mx-auto mt-20 max-w-3xl">
+            <h2 className="mb-6 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              Preguntas frecuentes
+            </h2>
+            <FaqList
+              items={post.faq.map((item) => ({ q: item.question, a: item.answer }))}
+            />
+          </section>
+        )}
+
         {/* Keyword cloud + related posts */}
         <aside className="mx-auto mt-20 max-w-6xl border-t border-border pt-14">
           {post.keywords && post.keywords.length > 0 && (
