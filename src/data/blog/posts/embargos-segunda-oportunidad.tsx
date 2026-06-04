@@ -15,6 +15,7 @@ export const embargosSegundaOportunidad: BlogPost = {
   slug: "embargos-segunda-oportunidad",
   category: "Embargos",
   title: "Qué ocurre con los embargos cuando inicias el proceso legal",
+  seoTitle: "Embargos y Ley de Segunda Oportunidad",
   excerpt:
     "Te explicamos cuándo pueden frenarse los embargos, qué pasa con la nómina y cómo se protege tu cuenta durante el expediente.",
   date: "7 mayo 2026",
