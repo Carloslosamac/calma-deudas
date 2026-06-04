@@ -22,6 +22,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
   slug: "cancelar-deudas-requisitos",
   category: "Segunda oportunidad",
   title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad",
+  seoTitle: "¿Puedes cancelar tus deudas? Requisitos clave",
   excerpt:
     "Una guía clara para entender si cumples los requisitos, qué documentación conviene preparar y qué señales indican que puedes acogerte al procedimiento.",
   date: "11 mayo 2026",

@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Seo
-        title="Cancela tus deudas con la Ley de Segunda Oportunidad"
+        title="Cancela tus deudas: Ley de Segunda Oportunidad"
         description="Calma es el servicio legal especializado en la Ley de Segunda Oportunidad. Analizamos tu caso gratis, paramos embargos y te ayudamos a cancelar tus deudas."
         canonical="/"
         keywords={[

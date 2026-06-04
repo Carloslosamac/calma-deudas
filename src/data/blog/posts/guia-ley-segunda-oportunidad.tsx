@@ -31,6 +31,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   category: "Segunda oportunidad",
   title:
     "Ley de Segunda Oportunidad 2026: la guía más completa y actualizada para cancelar tus deudas",
+  seoTitle: "Ley de Segunda Oportunidad 2026: guía completa",
   excerpt:
     "La guía más completa y actualizada de 2026 sobre la Ley de Segunda Oportunidad: requisitos, fases, embargos, vivienda, deuda pública, autónomos y vida después. Todo lo que necesitas saber para cancelar tus deudas con la Ley Segunda Oportunidad, en lenguaje claro y sin tecnicismos.",
   date: "11 mayo 2026",

@@ -8,6 +8,7 @@ export const vidaDespuesDeuda: BlogPost = {
   slug: "vida-despues-deuda",
   category: "Consejos",
   title: "Después de cancelar deuda: hábitos sencillos para no volver al bloqueo",
+  seoTitle: "Vida después de cancelar tu deuda: hábitos",
   excerpt:
     "Una segunda oportunidad también necesita un plan tranquilo. Presupuesto, ahorro mínimo y decisiones prácticas para mantener la calma.",
   date: "18 abril 2026",
