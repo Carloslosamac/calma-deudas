@@ -13,6 +13,7 @@ export const salirAsnef: BlogPost = {
   slug: "salir-asnef",
   category: "ASNEF",
   title: "ASNEF: cómo salir de un fichero de morosidad después de cancelar deuda",
+  seoTitle: "Cómo salir de ASNEF tras cancelar tu deuda",
   excerpt:
     "Estar en un fichero puede bloquearte durante años. Estos son los pasos para pedir la baja y recuperar acceso a financiación básica.",
   date: "5 mayo 2026",
