@@ -14,6 +14,25 @@ export const renegociarAcreedores: BlogPost = {
   category: "Consejos",
   title: "Cuándo conviene renegociar deudas y cuándo iniciar una vía legal",
   seoTitle: "Renegociar deudas o iniciar la vía legal",
+  metaDescription:
+    "Cuándo conviene renegociar tus deudas con los acreedores y cuándo es mejor iniciar la vía legal: ventajas, límites y cómo preparar una propuesta realista.",
+  faq: [
+    {
+      question: "¿Cuándo conviene renegociar una deuda?",
+      answer:
+        "Cuando tienes ingresos para asumir una cuota sostenible y los acreedores aceptan mejorar plazos o aplicar quitas; es útil en situaciones puntuales.",
+    },
+    {
+      question: "¿Cuándo es mejor la vía legal?",
+      answer:
+        "Cuando la deuda es inasumible, hay varios acreedores o embargos en marcha, la Ley de Segunda Oportunidad suele ser más eficaz que renegociar.",
+    },
+    {
+      question: "¿Renegociar afecta a mi historial?",
+      answer:
+        "Puede dejar constancia del impago previo, pero ponerte al día ayuda a salir de los ficheros de morosidad con el tiempo.",
+    },
+  ],
   excerpt:
     "No todos los casos necesitan el mismo camino. Aprende a distinguir entre una renegociación viable y una deuda que ya exige protección legal.",
   date: "24 abril 2026",
