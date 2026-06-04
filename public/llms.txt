@@ -1,0 +1,26 @@
+# Calma
+
+> Calma es un servicio legal español especializado en la Ley de Segunda Oportunidad. Ayudamos a particulares y autónomos a cancelar sus deudas, frenar embargos y empezar de nuevo, con un análisis gratuito del caso y acompañamiento paso a paso.
+
+## Páginas principales
+
+- [Inicio](https://mi-calma.es/): Qué es Calma, cómo funciona la Ley de Segunda Oportunidad y análisis gratuito de tu caso.
+- [Blog](https://mi-calma.es/blog): Guías y artículos sobre cancelación de deudas, embargos, ASNEF y la Ley de Segunda Oportunidad.
+
+## Guía principal
+
+- [Guía de la Ley de Segunda Oportunidad](https://mi-calma.es/blog/guia-ley-segunda-oportunidad): La guía más completa y actualizada para cancelar tus deudas: proceso, costes, embargos, vivienda, deuda pública y vida después.
+
+## Artículos del blog
+
+- [Cómo saber si puedes cancelar tus deudas](https://mi-calma.es/blog/cancelar-deudas-requisitos): Requisitos para acogerse a la Segunda Oportunidad y qué deudas se pueden cancelar.
+- [Qué ocurre con los embargos](https://mi-calma.es/blog/embargos-segunda-oportunidad): Tipos de embargo y cómo frenarlos al iniciar el proceso legal.
+- [Cómo salir de ASNEF](https://mi-calma.es/blog/salir-asnef): Cómo salir de un fichero de morosidad después de cancelar la deuda.
+- [Autónomos con deudas](https://mi-calma.es/blog/autonomos-con-deudas): Cómo proteger tu actividad y empezar de nuevo siendo autónomo.
+- [Renegociar o iniciar vía legal](https://mi-calma.es/blog/renegociar-acreedores): Cuándo conviene renegociar con acreedores y cuándo acudir a la vía legal.
+- [Vida después de la deuda](https://mi-calma.es/blog/vida-despues-deuda): Hábitos sencillos para no volver al bloqueo financiero.
+
+## Legal
+
+- [Política de privacidad](https://mi-calma.es/politica-de-privacidad)
+- [Términos y condiciones](https://mi-calma.es/terminos-y-condiciones)
