@@ -94,7 +94,6 @@ const BlogPost = () => {
         description={post.metaDescription ?? post.excerpt}
         canonical={post.canonicalUrl ?? `/blog/${post.slug}`}
         ogType="article"
-        ogImage={post.ogImage ? absoluteUrl(post.ogImage) : undefined}
         keywords={post.keywords}
         author={post.author}
         publishedAt={post.publishedAt}
