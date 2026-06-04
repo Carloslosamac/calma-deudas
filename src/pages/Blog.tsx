@@ -276,6 +276,7 @@ const Blog = () => {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Buscar artículos..."
+              aria-label="Buscar artículos"
               className="h-full w-full bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
               type="search"
             />
