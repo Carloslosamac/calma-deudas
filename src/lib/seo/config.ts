@@ -6,7 +6,6 @@ export const SITE_URL = "https://mi-calma.es";
 export const SITE_NAME = "Calma";
 export const SITE_LOCALE = "es_ES";
 export const SITE_LANG = "es-ES";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/og/og-default.jpg`;
 
 // Cuentas sociales (placeholders — actualizar cuando estén creadas)
 export const TWITTER_SITE = "@calma_legal";
