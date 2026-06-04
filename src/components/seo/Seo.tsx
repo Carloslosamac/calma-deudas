@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import {
-  DEFAULT_OG_IMAGE,
   SITE_LANG,
   SITE_LOCALE,
   SITE_NAME,
@@ -18,7 +17,6 @@ export type SeoProps = {
   description: string;
   /** Path relativo (ej. "/blog") o URL absoluta. */
   canonical: string;
-  ogImage?: string;
   ogType?: "website" | "article";
   keywords?: string[];
   robots?: string; // ej. "noindex,nofollow"
@@ -34,7 +32,6 @@ const Seo = ({
   title,
   description,
   canonical,
-  ogImage,
   ogType = "website",
   keywords,
   robots = "index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1",
@@ -56,7 +53,6 @@ const Seo = ({
       ? `${title} | ${SITE_NAME}`
       : title;
   const canonicalUrl = absoluteUrl(canonical);
-  const image = ogImage ?? DEFAULT_OG_IMAGE;
 
   return (
     <Helmet prioritizeSeoTags>
@@ -81,10 +77,6 @@ const Seo = ({
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:image" content={image} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content={title} />
       {publishedAt ? (
         <meta property="article:published_time" content={publishedAt} />
       ) : null}
@@ -93,12 +85,11 @@ const Seo = ({
       ) : null}
 
       {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content={TWITTER_SITE} />
       <meta name="twitter:creator" content={TWITTER_CREATOR} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
 
       <meta name="theme-color" content="#0a3a23" />
 
