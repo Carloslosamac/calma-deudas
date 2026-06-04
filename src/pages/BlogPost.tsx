@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
+import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import Seo from "@/components/seo/Seo";
 import {
