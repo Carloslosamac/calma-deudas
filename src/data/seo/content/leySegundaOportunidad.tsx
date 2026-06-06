@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import CtaButton from "@/components/seo/CtaButton";
 import type { MoneyContent } from "./types";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
@@ -142,6 +141,10 @@ export const leySegundaOportunidad: MoneyContent = {
             <li><A to="/cancelar-deudas">Cancelar deudas</A> concretas con bancos y financieras.</li>
             <li>La <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">exoneración del pasivo insatisfecho</A>, el corazón legal de la ley.</li>
           </ul>
+          <p>
+            ¿Prefieres entender la ley en profundidad antes de decidir? Lee nuestra{" "}
+            <A to="/blog/guia-ley-segunda-oportunidad">guía completa de la Ley de Segunda Oportunidad</A>.
+          </p>
         </div>
       ),
     },
