@@ -302,8 +302,8 @@ const MoneyJourney = ({
                   </CtaButton>
                 </div>
                 <p className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <Lock className="h-4 w-4" aria-hidden />
-                  Tus datos están protegidos según el RGPD
+                  <Clock className="h-4 w-4" aria-hidden />
+                  Te llamamos en menos de 24h · Sin compromiso
                 </p>
               </section>
             </Reveal>

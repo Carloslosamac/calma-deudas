@@ -25,37 +25,37 @@ export const leySegundaOportunidad: MoneyContent = {
   ),
   hero: {
     badge: "Ley de Segunda Oportunidad",
-    titleLead: "Cancela tus deudas legalmente y",
+    titleLead: "Cancela tus deudas y",
     titleAccent: "empieza de cero.",
     subtitle: (
       <>
-        La Ley de Segunda Oportunidad es el mecanismo legal para personas
-        sobreendeudadas. En Calma estudiamos tu caso <strong>gratis</strong> y te
-        decimos con total claridad si puedes acogerte.
+        Deja de pagar deudas que te ahogan. Con la Ley de Segunda Oportunidad
+        las <strong>cancelamos legalmente</strong> y recuperas tu vida. Te
+        decimos hoy mismo, gratis, cuánto puedes dejar de pagar.
       </>
     ),
-    trustNote: "Sin DNI · Sin compromiso",
+    trustNote: "Respuesta en 24h · Sin compromiso",
   },
   benefits: [
     {
       icon: "shield",
       title: "Cancelación legal",
-      text: "Elimina las deudas que no puedes pagar bajo el amparo de la ley.",
+      text: "Borramos las deudas que no puedes pagar. De forma legal y definitiva.",
     },
     {
       icon: "phone-off",
       title: "Adiós al acoso",
-      text: "Pon fin a las llamadas y la presión constante de los acreedores.",
+      text: "Se acaban las llamadas, las cartas y la presión de los acreedores.",
     },
     {
       icon: "gavel",
       title: "Suspende embargos",
-      text: "Posibilidad real de detener embargos en curso desde el primer paso.",
+      text: "Frenamos los embargos en curso desde el primer paso del proceso.",
     },
     {
       icon: "users",
-      title: "Equipo experto",
-      text: "Abogados que te acompañan paso a paso, sin letra pequeña.",
+      title: "Lo hacemos por ti",
+      text: "Abogados que llevan todo el proceso. Tú solo recuperas tu tranquilidad.",
     },
   ],
   stepsTitle: "Tu camino hacia la libertad",
@@ -80,9 +80,9 @@ export const leySegundaOportunidad: MoneyContent = {
     },
   ],
   metrics: [
-    { value: "Gratis", label: "Diagnóstico inicial sin compromiso" },
-    { value: "6–18 meses", label: "Plazo medio del procedimiento" },
-    { value: "RGPD", label: "Tus datos siempre protegidos" },
+    { value: "Gratis", label: "Estudiamos tu caso hoy mismo" },
+    { value: "6–18 meses", label: "Y vuelves a empezar de cero" },
+    { value: "Hasta 100%", label: "De tus deudas, canceladas" },
   ],
   eligibility: {
     title: "¿Es para mí?",
@@ -102,8 +102,8 @@ export const leySegundaOportunidad: MoneyContent = {
     trustText: "Actualizado según la última reforma concursal.",
   },
   closing: {
-    title: "¿Empezamos hoy mismo?",
-    text: "Estudiamos tu caso gratis y sin compromiso en menos de 24 horas. Da el primer paso para recuperar tu tranquilidad.",
+    title: "Cada día que esperas, sigues pagando",
+    text: "Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y empieza a librarte de tus deudas hoy.",
   },
   sections: [
     {
