@@ -1,5 +1,6 @@
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Star, ArrowRight } from "lucide-react";
+import { Star, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import CtaButton from "@/components/seo/CtaButton";
 import type { MoneyTestimonial } from "@/data/seo/content/types";
 
