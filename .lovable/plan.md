@@ -1,10 +1,21 @@
-# Quitar la CTA fija en móvil
+## Objetivo
+Mejorar el header en móvil/tablet: que el botón "Analizar mi deuda" no domine la barra, dejando un botón compacto junto a la hamburguesa y mostrando el CTA destacado dentro del panel del menú.
 
-Eliminar la barra fija inferior que se añadió recientemente.
+## Cambios en `src/components/Header.tsx`
 
-## Cambios
+1. **Botón CTA compacto en móvil**
+   - El botón "Analizar mi deuda" se mantiene completo en desktop, pero en móvil/tablet se reduce: texto más corto ("Analizar" o icono) y menor padding/altura.
+   - Alternativa: ocultar el texto y mostrar solo un botón pequeño junto a la hamburguesa para liberar espacio para el logo.
 
-- **Editar** `src/components/seo/MoneyJourney.tsx`: quitar el import de `MobileCtaBar` y su render al final del `main`.
-- **Eliminar** `src/components/seo/MobileCtaBar.tsx` (ya no se usa).
+2. **CTA destacado dentro del menú**
+   - Añadir, en la parte superior o inferior del panel `SheetContent`, un botón "Analizar mi deuda" a ancho completo y bien visible que haga scroll a `#hero-form` (cumpliendo la regla: todos los CTA van a `#hero-form`).
+   - Al pulsarlo, cerrar el menú (`SheetClose`) y ejecutar `scrollToForm`.
 
-Se conserva el resto (TrustBar, prueba social, etc.) sin cambios.
+3. **Equilibrio de la barra**
+   - En móvil: `logo` a la izquierda, y a la derecha el botón compacto + hamburguesa con espaciado correcto.
+   - En desktop todo queda igual que ahora.
+
+### Detalles técnicos
+- Usar clases responsive de Tailwind (`hidden sm:inline`, tamaños condicionales) para alternar entre versión completa y compacta del CTA.
+- Reutilizar `scrollToForm` ya existente para el CTA del panel.
+- Sin cambios de lógica de negocio ni de rutas.
