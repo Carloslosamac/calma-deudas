@@ -25,6 +25,7 @@ const necesitasItems = [
   { label: "Cancelar tarjetas revolving", to: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { label: "Cancelar microcréditos", to: "/microcreditos-prestamos/cancelar-microcreditos" },
   { label: "Frenar a una empresa de recobro", to: "/empresas-de-recobro" },
+  { label: "Parar el acoso telefónico", to: "/empresas-de-recobro" },
   { label: "Reunificar mis deudas", to: "/reunificar-deudas" },
   { label: "Cancelar mis deudas", to: "/cancelar-deudas" },
 ];
