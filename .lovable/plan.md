@@ -1,45 +1,47 @@
-# Money page LSO como journey de conversión
+# Módulos interactivos para la money page LSO
 
-Transformar `/ley-segunda-oportunidad` (hoy bloques de texto apilados) en una landing visual con módulos, siguiendo la dirección **Modern legal journey** y los tokens de marca Calma (verde `accent`, navy `foreground/primary`, Poppins). Sin gradientes en CTAs; todos los CTA siguen haciendo scroll a `#hero-form`.
+Añadir 4 módulos interactivos a `/ley-segunda-oportunidad` que hagan el recorrido entretenido y útil, y que **terminen siempre en conversión** (botón que hace scroll a `#hero-form`, regla de marca). Solo frontend/presentación (sin backend): cálculos orientativos del lado del cliente con su aviso de "estimación". Estilo en tokens de marca Calma, animación con framer-motion, sin gradientes en CTAs.
 
-## Enfoque
-Ampliar la capa de contenido ya creada (`src/data/seo/content`) con módulos visuales opcionales y crear un layout `MoneyJourney`. Si una money page tiene `hero` definido, se renderiza con el journey; si no, sigue usando el scaffold actual. Así el patrón es reutilizable para el resto de money pages.
+## Módulos (en orden dentro del journey)
 
-## Cambios
+### 1. Simulador de deuda cancelable (tras el hero)
+- Sliders: **deuda total** (0–120.000 €) y **cuota mensual que pagas hoy**.
+- Salida animada: rango orientativo de deuda que podrías cancelar y "lo que dejarías de pagar al mes", con micro-aviso "estimación orientativa, lo confirmamos en tu estudio gratis".
+- CTA: "Quiero saber mi caso exacto" → `#hero-form`.
 
-### 1. Modelo de contenido — `src/data/seo/content/types.ts`
-Añadir tipos opcionales: `MoneyHero`, `MoneyBenefit` (con icono), `MoneyStep`, `MoneyMetric`, `MoneyEligibility`, `MoneyClosing`, y un set de iconos (`MoneyIcon`). Ampliar `MoneyContent` con `hero`, `benefits`, `steps`, `metrics`, `eligibility`, `closing` (todos opcionales).
+### 2. Selector de tipo de deuda (tras los beneficios)
+- Chips: Tarjetas revolving, Microcréditos, Préstamos bancarios, Hipoteca, Hacienda/SS, Varias a la vez.
+- Al elegir, mensaje adaptado + enlace interno a la solución relevante (revolving, microcréditos, reunificar, etc.) + CTA a `#hero-form`.
 
-### 2. Contenido LSO — `src/data/seo/content/leySegundaOportunidad.tsx`
-Reestructurar el copy ya escrito en módulos:
-- **hero**: badge + H1 ("Cancela tus deudas legalmente y *empieza de cero*") + subtítulo + nota "Sin DNI · Sin compromiso".
-- **benefits** (4 tarjetas con icono): Cancelación legal, Adiós al acoso, Suspende embargos, Equipo experto.
-- **steps** (4, el último resaltado): Diagnóstico → Preparación → Presentación → Exoneración.
-- **metrics** (3, sin inventar cifras de éxito): "Gratis" (diagnóstico inicial), "6–18 meses" (plazo medio), "RGPD" (datos protegidos).
-- **eligibility** (bloque oscuro "¿Es para mí?") con los 4 requisitos + nota "Revisado por abogado".
-- Se conservan como `sections` en prosa: "Coste y plazos" y "Otras vías que valoramos contigo" (con enlaces internos a revolving, microcréditos, reunificar, cancelar, EPI).
-- **faq**: las 5 actuales (con JSON-LD FAQPage).
-- **closing**: CTA final "¿Empezamos hoy mismo?".
-- Mantener el enlace al post pilar `/blog/guia-ley-segunda-oportunidad`.
+### 3. Test de elegibilidad / quiz (tras los pasos)
+- 4 preguntas rápidas Sí/No (insolvencia, buena fe, sin condenas socioeconómicas, origen de la deuda) con barra de progreso y transiciones.
+- Pantalla de resultado motivadora ("Tu caso encaja, vamos a por ello" / "Lo vemos contigo sin coste") + CTA a `#hero-form`.
 
-### 3. Nuevo layout — `src/components/seo/MoneyJourney.tsx`
-Componente que arma la página con `Header`, `Seo`, `Breadcrumbs` y `FormSection`/`Footer`, y renderiza en orden:
-1. Hero centrado (pill + H1 con acento + subtítulo + `CtaButton` + nota de confianza).
-2. Grid de beneficios (tarjetas `surface-elevated` con icono en `accent-soft`).
-3. Journey de pasos (tarjetas verticales conectadas; último paso en `accent-soft`).
-4. Banda de métricas (3 columnas).
-5. Secciones en prosa (coste/plazos, otras vías) en tarjetas.
-6. Bloque oscuro "¿Es para mí?" (`bg-primary`/`gradient-dark`) con requisitos + sello de revisión legal.
-7. FAQ (acordeón `FaqList`).
-8. CTA de cierre (banda `accent-soft`, botón sólido — sin gradiente).
-9. Enlazado interno relacionado.
-- Animación: revelado suave por scroll con framer-motion (fade/slide) y hover sutil en tarjetas.
-- Iconos vía `lucide-react` mapeados desde `MoneyIcon`.
+### 4. Comparador Antes / Después (antes del cierre)
+- Toggle "Hoy con deudas" vs "Después con Calma" que intercambia dos listas (estrés, llamadas, embargos ↔ tranquilidad, cero llamadas, vida nueva).
+- CTA a `#hero-form`.
 
-### 4. Resolver — `src/pages/seo/MoneyLanding.tsx`
-Si `content?.hero` existe → renderizar `MoneyJourney` (pasando page, content, breadcrumbs, related, structuredData, canonical). Si no, mantener el `SeoPageScaffold` actual. Conservar breadcrumb + LegalService + FAQ JSON-LD.
+## Cambios técnicos
+
+### Datos — `src/data/seo/content/types.ts` + `leySegundaOportunidad.tsx`
+Añadir bloque opcional `interactive` a `MoneyContent`:
+- `simulator?`: límites de los sliders + textos.
+- `debtTypes?`: lista `{ label, message, to? }`.
+- `quiz?`: `{ questions: {text, goodAnswer}[], resultPass, resultDoubt }`.
+- `beforeAfter?`: `{ before: string[], after: string[] }`.
+Rellenar estos datos para la página LSO. Al ser opcionales, otras money pages no muestran los módulos.
+
+### Componentes nuevos — `src/components/seo/interactive/`
+- `DebtSimulator.tsx` — sliders (componente `ui/slider`) + cálculo cliente + número animado.
+- `DebtTypeSelector.tsx` — chips seleccionables + panel de mensaje + enlace.
+- `EligibilityQuiz.tsx` — stepper con `AnimatePresence`, barra de progreso, pantalla de resultado.
+- `BeforeAfter.tsx` — toggle de dos estados con listas.
+Todos reutilizan `CtaButton` y los tokens (`accent`, `accent-soft`, `surface-elevated`, `primary`). Envueltos en el patrón de revelado por scroll ya existente.
+
+### Render — `src/components/seo/MoneyJourney.tsx`
+Insertar cada módulo en su posición cuando exista su dato en `content.interactive`. No se toca el resto de la estructura ni el SEO.
 
 ## Notas
-- Solo cambia la presentación de la money page; SEO (title/meta/canonical/structured data) y la regla de CTAs se mantienen.
-- El resto de money pages sin `hero` siguen con el scaffold (placeholder) sin cambios.
-- QA en preview tras implementar (desktop y móvil).
+- Sin recogida de datos personales en los módulos (los sliders/quiz son anónimos); la captación real sigue en `#hero-form`.
+- Cifras del simulador presentadas como orientativas para no inducir a error (E-E-A-T).
+- QA en preview (desktop y móvil) tras implementar.
