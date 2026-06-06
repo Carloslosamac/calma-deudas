@@ -3,6 +3,9 @@ import type { MoneyContent } from "./types";
 import lso1 from "@/assets/testimonios/lso-1.jpg";
 import lso2 from "@/assets/testimonios/lso-2.jpg";
 import lso3 from "@/assets/testimonios/lso-3.jpg";
+import lso4 from "@/assets/testimonios/lso-4.jpg";
+import lso5 from "@/assets/testimonios/lso-5.jpg";
+import lso6 from "@/assets/testimonios/lso-6.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -79,7 +82,7 @@ export const leySegundaOportunidad: MoneyContent = {
   testimonials: [
     {
       name: "Noemí V.",
-      amount: "136.410 €",
+      amount: "48.310 €",
       location: "Barcelona",
       text: "Arrastraba tarjetas, microcréditos e hipoteca. Hoy no debe nada y vuelve a dormir tranquila.",
       photo: lso1,
@@ -93,10 +96,31 @@ export const leySegundaOportunidad: MoneyContent = {
     },
     {
       name: "Juan Vicente T.",
-      amount: "129.320 €",
+      amount: "57.640 €",
       location: "Valencia",
       text: "Deudas con bancos y financieras. Empezó de cero y recuperó su nómina por completo.",
       photo: lso3,
+    },
+    {
+      name: "Marta L.",
+      amount: "31.890 €",
+      location: "Madrid",
+      text: "Préstamos personales que la asfixiaban. Hoy vuelve a tener margen para vivir y para los suyos.",
+      photo: lso4,
+    },
+    {
+      name: "David S.",
+      amount: "44.250 €",
+      location: "Sevilla",
+      text: "Acumuló deudas con varias financieras. Empezó de cero y dejó atrás las llamadas y la presión.",
+      photo: lso5,
+    },
+    {
+      name: "Cristina M.",
+      amount: "27.500 €",
+      location: "Zaragoza",
+      text: "Tarjetas y microcréditos que crecían cada mes. Canceló todo y recuperó la tranquilidad.",
+      photo: lso6,
     },
   ],
   stepsTitle: "Tu camino hacia la libertad",
