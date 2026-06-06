@@ -18,16 +18,16 @@ const solucionesItems = solucionesPaths
   .filter(Boolean)
   .map((m) => ({ label: m!.h1, to: m!.path }));
 
-const problemaPaths = [
-  "/embargos/parar-embargo",
-  "/asnef/salir-de-asnef",
-  "/juicio-monitorio-recobro/juicio-monitorio-deuda",
-  "/deudas-hacienda-seguridad-social/deudas-hacienda",
+const necesitasItems = [
+  { label: "Parar un embargo", to: "/embargos/parar-embargo" },
+  { label: "Salir de ASNEF", to: "/asnef/salir-de-asnef" },
+  { label: "Responder un juicio monitorio", to: "/juicio-monitorio-recobro/juicio-monitorio-deuda" },
+  { label: "Cancelar tarjetas revolving", to: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
+  { label: "Cancelar microcréditos", to: "/microcreditos-prestamos/cancelar-microcreditos" },
+  { label: "Frenar a una empresa de recobro", to: "/empresas-de-recobro" },
+  { label: "Reunificar mis deudas", to: "/reunificar-deudas" },
+  { label: "Cancelar mis deudas", to: "/cancelar-deudas" },
 ];
-const problemaItems = problemaPaths
-  .map((p) => moneyPages.find((m) => m.path === p))
-  .filter(Boolean)
-  .map((m) => ({ label: m!.h1, to: m!.path }));
 
 const entidadesItems = [
   { label: "Empresas de recobro", to: "/empresas-de-recobro" },
@@ -60,7 +60,7 @@ const Header = () => {
 
   const menus: { id: string; label: string; items: { label: string; to: string }[] }[] = [
     { id: "soluciones", label: "Soluciones", items: solucionesItems },
-    { id: "problema", label: "Por tu problema", items: problemaItems },
+    { id: "problema", label: "¿Qué necesitas?", items: necesitasItems },
     { id: "entidades", label: "Entidades", items: entidadesItems },
   ];
 
