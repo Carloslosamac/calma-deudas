@@ -24,7 +24,6 @@ import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import TrustBar from "@/components/seo/TrustBar";
-import MobileCtaBar from "@/components/seo/MobileCtaBar";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
 import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
