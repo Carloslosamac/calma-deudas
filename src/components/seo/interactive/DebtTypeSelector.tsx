@@ -25,7 +25,7 @@ const DebtTypeSelector = ({ title, subtitle, options }: Props) => {
         {subtitle && <p className="mt-2 text-muted-foreground">{subtitle}</p>}
       </div>
 
-      <div className="mt-8 flex flex-wrap justify-center gap-2.5">
+      <div className="mt-8 flex flex-nowrap justify-start gap-2.5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:justify-center">
         {options.map((o, i) => {
           const selected = i === active;
           return (
@@ -34,7 +34,7 @@ const DebtTypeSelector = ({ title, subtitle, options }: Props) => {
               type="button"
               onClick={() => setActive(i)}
               aria-pressed={selected}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+              className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 selected
                   ? "border-primary bg-primary text-primary-foreground shadow-soft"
                   : "border-border bg-surface-elevated text-muted-foreground hover:border-foreground/30 hover:text-foreground"
