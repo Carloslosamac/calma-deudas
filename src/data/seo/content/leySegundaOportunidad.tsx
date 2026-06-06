@@ -107,8 +107,8 @@ export const leySegundaOportunidad: MoneyContent = {
   },
   interactive: {
     simulator: {
-      title: "¿Cuánto podrías dejar de pagar?",
-      subtitle: "Mueve los controles y hazte una idea en 10 segundos.",
+      title: "¿Cuánto llevas pagando de más?",
+      subtitle: "Mueve los controles y descubre en 10 segundos lo que la ley puede borrar.",
       maxDebt: 120000,
       maxMonthly: 2000,
       defaultDebt: 25000,
@@ -180,17 +180,17 @@ export const leySegundaOportunidad: MoneyContent = {
         },
       ],
       resultPass: {
-        title: "Tu caso encaja. Vamos a por ello.",
-        text: "Cumples las condiciones clave para acogerte a la Ley de Segunda Oportunidad. El siguiente paso es un estudio gratis para confirmar cuánto puedes cancelar.",
+        title: "Tu caso encaja. ¿A qué esperas?",
+        text: "Cumples las condiciones clave para cancelar tus deudas. Cada mes que sigues pagando es dinero perdido. Pide tu estudio gratis ahora y confirma cuánto puedes borrar.",
       },
       resultDoubt: {
-        title: "Puede que sí. Lo vemos contigo, gratis.",
-        text: "Algunos puntos requieren una mirada experta, pero muchos casos parecidos terminan cancelando sus deudas. Cuéntanos el tuyo sin compromiso.",
+        title: "Probablemente sí. No te quedes con la duda.",
+        text: "Casos muy parecidos al tuyo terminan cancelando sus deudas cada semana. No pierdas un mes más por una duda que resolvemos gratis en 24h.",
       },
     },
     beforeAfter: {
-      title: "Tu vida antes y después de Calma",
-      subtitle: "Esto es lo que cambia cuando das el paso.",
+      title: "Esto es lo que te estás perdiendo",
+      subtitle: "La diferencia entre seguir pagando y haber dado el paso hace tiempo.",
       beforeLabel: "Hoy, con deudas",
       afterLabel: "Después, con Calma",
       before: [
