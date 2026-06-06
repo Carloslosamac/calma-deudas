@@ -74,6 +74,8 @@ export type MoneyTestimonial = {
   location: string;
   /** descripción corta del caso */
   text: string;
+  /** foto de la persona (import o URL) */
+  photo?: string;
 };
 
 /** ----- Módulos interactivos ----- */
@@ -162,6 +164,7 @@ export type MoneyContent = {
   testimonials?: MoneyTestimonial[];
   testimonialsTitle?: string;
   testimonialsSubtitle?: string;
+  testimonialsMoreHref?: string;
   steps?: MoneyStep[];
   stepsTitle?: string;
   stepsSubtitle?: string;

@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import MoneyLanding from "./pages/seo/MoneyLanding";
 import ClusterHub from "./pages/seo/ClusterHub";
 import EntityPage from "./pages/seo/EntityPage";
+import CasosLSO from "./pages/seo/CasosLSO";
 import { moneyPages } from "./data/seo/moneyPages";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,8 @@ const App = () => (
           {moneyPages.map((p) => (
             <Route key={p.path} path={p.path} element={<MoneyLanding />} />
           ))}
+          {/* Casos reales de la Ley de Segunda Oportunidad */}
+          <Route path="/ley-segunda-oportunidad/casos" element={<CasosLSO />} />
           {/* Fichas de entidad: /<cluster>/<slug> */}
           <Route path="/:cluster/:slug" element={<EntityPage />} />
           {/* Índices de cluster/hub: /<cluster> */}
