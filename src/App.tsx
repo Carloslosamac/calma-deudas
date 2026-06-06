@@ -15,6 +15,10 @@ import CallRedirectAltaley from "./pages/CallRedirectAltaley";
 import CallRedirectQuitaDeudas from "./pages/CallRedirectQuitaDeudas";
 import CallRedirectLexitia from "./pages/CallRedirectLexitia";
 import NotFound from "./pages/NotFound";
+import MoneyLanding from "./pages/seo/MoneyLanding";
+import ClusterHub from "./pages/seo/ClusterHub";
+import EntityPage from "./pages/seo/EntityPage";
+import { moneyPages } from "./data/seo/moneyPages";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +40,14 @@ const App = () => (
           <Route path="/call/altaley" element={<CallRedirectAltaley />} />
           <Route path="/call/quitadeudas" element={<CallRedirectQuitaDeudas />} />
           <Route path="/call/lexitia" element={<CallRedirectLexitia />} />
+          {/* Money pages (paths explícitos, generados desde data) */}
+          {moneyPages.map((p) => (
+            <Route key={p.path} path={p.path} element={<MoneyLanding />} />
+          ))}
+          {/* Fichas de entidad: /<cluster>/<slug> */}
+          <Route path="/:cluster/:slug" element={<EntityPage />} />
+          {/* Índices de cluster/hub: /<cluster> */}
+          <Route path="/:cluster" element={<ClusterHub />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
