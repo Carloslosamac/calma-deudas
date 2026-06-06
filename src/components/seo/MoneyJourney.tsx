@@ -23,6 +23,10 @@ import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
+import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
+import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
+import EligibilityQuiz from "@/components/seo/interactive/EligibilityQuiz";
+import BeforeAfter from "@/components/seo/interactive/BeforeAfter";
 
 const ICONS: Record<MoneyIcon, LucideIcon> = {
   shield: ShieldCheck,
@@ -86,7 +90,8 @@ const MoneyJourney = ({
   structuredData,
   related,
 }: MoneyJourneyProps) => {
-  const { hero, benefits, steps, metrics, eligibility, closing, sections, faq } = content;
+  const { hero, benefits, steps, metrics, eligibility, closing, sections, faq, interactive } =
+    content;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -139,6 +144,13 @@ const MoneyJourney = ({
         </section>
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
+          {/* ---------- Simulador de deuda ---------- */}
+          {interactive?.simulator && (
+            <Reveal>
+              <DebtSimulator config={interactive.simulator} />
+            </Reveal>
+          )}
+
           {/* ---------- Beneficios ---------- */}
           {benefits && benefits.length > 0 && (
             <section className="grid gap-4 md:grid-cols-2">
@@ -159,6 +171,17 @@ const MoneyJourney = ({
                 );
               })}
             </section>
+          )}
+
+          {/* ---------- Selector de tipo de deuda ---------- */}
+          {interactive?.debtTypes && interactive.debtTypes.length > 0 && (
+            <Reveal>
+              <DebtTypeSelector
+                title={interactive.debtTypesTitle ?? "¿De dónde vienen tus deudas?"}
+                subtitle={interactive.debtTypesSubtitle}
+                options={interactive.debtTypes}
+              />
+            </Reveal>
           )}
 
           {/* ---------- Journey de pasos ---------- */}
@@ -200,6 +223,13 @@ const MoneyJourney = ({
                 ))}
               </div>
             </section>
+          )}
+
+          {/* ---------- Test de elegibilidad ---------- */}
+          {interactive?.quiz && (
+            <Reveal>
+              <EligibilityQuiz quiz={interactive.quiz} />
+            </Reveal>
           )}
 
           {/* ---------- Métricas ---------- */}
@@ -282,6 +312,13 @@ const MoneyJourney = ({
                   <FaqList items={faq.map((f) => ({ q: f.q, a: f.a }))} />
                 </div>
               </section>
+            </Reveal>
+          )}
+
+          {/* ---------- Comparador antes / después ---------- */}
+          {interactive?.beforeAfter && (
+            <Reveal>
+              <BeforeAfter data={interactive.beforeAfter} />
             </Reveal>
           )}
 
