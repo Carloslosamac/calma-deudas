@@ -414,6 +414,7 @@ const MoneyJourney = ({
 
       <FormSection />
       <Footer />
+      <MobileCtaBar />
     </div>
   );
 };
