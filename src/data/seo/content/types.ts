@@ -26,7 +26,9 @@ export type MoneyIcon =
   | "sparkles"
   | "wallet"
   | "clock"
-  | "lock";
+  | "lock"
+  | "landmark"
+  | "ban";
 
 /** Hero del journey. */
 export type MoneyHero = {
@@ -144,6 +146,7 @@ export type MoneyContent = {
   /** si está presente, la página se renderiza con el layout "journey" */
   hero?: MoneyHero;
   benefits?: MoneyBenefit[];
+  benefitsTitle?: string;
   steps?: MoneyStep[];
   stepsTitle?: string;
   stepsSubtitle?: string;
