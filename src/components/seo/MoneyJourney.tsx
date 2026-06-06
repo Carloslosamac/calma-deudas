@@ -144,6 +144,13 @@ const MoneyJourney = ({
         </section>
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
+          {/* ---------- Simulador de deuda ---------- */}
+          {interactive?.simulator && (
+            <Reveal>
+              <DebtSimulator config={interactive.simulator} />
+            </Reveal>
+          )}
+
           {/* ---------- Beneficios ---------- */}
           {benefits && benefits.length > 0 && (
             <section className="grid gap-4 md:grid-cols-2">
@@ -164,6 +171,17 @@ const MoneyJourney = ({
                 );
               })}
             </section>
+          )}
+
+          {/* ---------- Selector de tipo de deuda ---------- */}
+          {interactive?.debtTypes && interactive.debtTypes.length > 0 && (
+            <Reveal>
+              <DebtTypeSelector
+                title={interactive.debtTypesTitle ?? "¿De dónde vienen tus deudas?"}
+                subtitle={interactive.debtTypesSubtitle}
+                options={interactive.debtTypes}
+              />
+            </Reveal>
           )}
 
           {/* ---------- Journey de pasos ---------- */}
@@ -205,6 +223,13 @@ const MoneyJourney = ({
                 ))}
               </div>
             </section>
+          )}
+
+          {/* ---------- Test de elegibilidad ---------- */}
+          {interactive?.quiz && (
+            <Reveal>
+              <EligibilityQuiz quiz={interactive.quiz} />
+            </Reveal>
           )}
 
           {/* ---------- Métricas ---------- */}
