@@ -1,7 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // "Soluciones" = servicios / métodos que ofrece Calma.
 const solucionesItems = [
