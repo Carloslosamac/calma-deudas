@@ -14,11 +14,8 @@ const DebtSimulator = ({ config }: { config: MoneySimulator }) => {
   const [debt, setDebt] = useState(config.defaultDebt ?? 25000);
   const [monthly, setMonthly] = useState(config.defaultMonthly ?? 450);
 
-  // Estimación ORIENTATIVA: rango de cancelación entre 60% y 90% de la deuda.
-  const { low, high } = useMemo(
-    () => ({ low: debt * 0.6, high: debt * 0.9 }),
-    [debt],
-  );
+  // Estimación ORIENTATIVA: cancelación media en torno al 75% de la deuda.
+  const canceled = useMemo(() => debt * 0.75, [debt]);
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-border bg-surface-elevated p-7 shadow-soft md:p-10">
@@ -70,10 +67,8 @@ const DebtSimulator = ({ config }: { config: MoneySimulator }) => {
             <TrendingDown className="h-5 w-5" aria-hidden />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">Estimación</span>
           </div>
-          <p className="mt-4 text-sm text-primary-foreground/70">Podrías cancelar entre</p>
-          <p className="font-poppins text-3xl font-bold md:text-4xl">
-            {eur(low)} € <span className="text-primary-foreground/50">y</span> {eur(high)} €
-          </p>
+          <p className="mt-4 text-sm text-primary-foreground/70">Podrías cancelar hasta</p>
+          <p className="font-poppins text-4xl font-bold md:text-5xl">{eur(canceled)} €</p>
           <p className="mt-4 text-sm text-primary-foreground/70">
             Y dejar de pagar hasta{" "}
             <strong className="text-primary-foreground">{eur(monthly)} € al mes</strong>.
