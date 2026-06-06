@@ -36,8 +36,8 @@ const DebtTypeSelector = ({ title, subtitle, options }: Props) => {
               aria-pressed={selected}
               className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 selected
-                  ? "border-accent bg-accent text-accent-foreground shadow-soft"
-                  : "border-border bg-surface-elevated text-foreground hover:border-accent/50 hover:bg-accent-soft/40"
+                  ? "border-primary bg-primary text-primary-foreground shadow-soft"
+                  : "border-border bg-surface-elevated text-muted-foreground hover:border-foreground/30 hover:text-foreground"
               }`}
             >
               {o.label}
