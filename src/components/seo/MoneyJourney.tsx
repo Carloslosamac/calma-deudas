@@ -10,6 +10,8 @@ import {
   Wallet,
   Clock,
   Lock,
+  Landmark,
+  Ban,
   CheckCircle2,
   ArrowRight,
   type LucideIcon,
@@ -38,6 +40,8 @@ const ICONS: Record<MoneyIcon, LucideIcon> = {
   wallet: Wallet,
   clock: Clock,
   lock: Lock,
+  landmark: Landmark,
+  ban: Ban,
 };
 
 /** Revelado suave por scroll. */
