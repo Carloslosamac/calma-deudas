@@ -10,17 +10,20 @@ import { absoluteUrl } from "@/lib/seo/config";
 import lso1 from "@/assets/testimonios/lso-1.jpg";
 import lso2 from "@/assets/testimonios/lso-2.jpg";
 import lso3 from "@/assets/testimonios/lso-3.jpg";
+import lso4 from "@/assets/testimonios/lso-4.jpg";
+import lso5 from "@/assets/testimonios/lso-5.jpg";
+import lso6 from "@/assets/testimonios/lso-6.jpg";
 
 const casos: MoneyTestimonial[] = [
-  { name: "Noemí V.", amount: "136.410 €", location: "Barcelona", text: "Arrastraba tarjetas, microcréditos e hipoteca. Hoy no debe nada y vuelve a dormir tranquila.", photo: lso1 },
+  { name: "Noemí V.", amount: "48.310 €", location: "Barcelona", text: "Arrastraba tarjetas, microcréditos e hipoteca. Hoy no debe nada y vuelve a dormir tranquila.", photo: lso1 },
   { name: "Antonio R.", amount: "22.179 €", location: "Sabadell", text: "Minicréditos que se le fueron de las manos. Canceló toda su deuda con la Ley de Segunda Oportunidad.", photo: lso2 },
-  { name: "Juan Vicente T.", amount: "129.320 €", location: "Valencia", text: "Deudas con bancos y financieras. Empezó de cero y recuperó su nómina por completo.", photo: lso3 },
-  { name: "María Dolores P.", amount: "84.500 €", location: "Madrid", text: "Avales de un negocio que cerró. Logró cancelar la deuda y proteger a sus familiares avalistas.", photo: lso2 },
+  { name: "Juan Vicente T.", amount: "57.640 €", location: "Valencia", text: "Deudas con bancos y financieras. Empezó de cero y recuperó su nómina por completo.", photo: lso3 },
+  { name: "María Dolores P.", amount: "39.200 €", location: "Madrid", text: "Avales de un negocio que cerró. Logró cancelar la deuda y proteger a sus familiares avalistas.", photo: lso4 },
   { name: "Francisco J.", amount: "57.900 €", location: "Sevilla", text: "Préstamos personales encadenados durante años. Hoy vive sin embargos ni llamadas.", photo: lso3 },
-  { name: "Carmen S.", amount: "41.230 €", location: "Zaragoza", text: "Tarjetas revolving con intereses abusivos. Las anuló y canceló el resto de su deuda.", photo: lso1 },
-  { name: "José Luis M.", amount: "98.760 €", location: "Málaga", text: "Autónomo con deudas de Hacienda y proveedores. Exoneró la mayor parte y reabrió su actividad.", photo: lso2 },
+  { name: "Carmen S.", amount: "41.230 €", location: "Zaragoza", text: "Tarjetas revolving con intereses abusivos. Las anuló y canceló el resto de su deuda.", photo: lso6 },
+  { name: "José Luis M.", amount: "52.480 €", location: "Málaga", text: "Autónomo con deudas de Hacienda y proveedores. Exoneró la mayor parte y reabrió su actividad.", photo: lso5 },
   { name: "Lucía F.", amount: "33.040 €", location: "Bilbao", text: "Microcréditos y descubiertos bancarios. Salió del ASNEF y empezó de nuevo.", photo: lso1 },
-  { name: "Roberto A.", amount: "112.880 €", location: "Murcia", text: "Deudas tras un divorcio y la pérdida de empleo. Canceló todo y recuperó la tranquilidad.", photo: lso3 },
+  { name: "Roberto A.", amount: "54.870 €", location: "Murcia", text: "Deudas tras un divorcio y la pérdida de empleo. Canceló todo y recuperó la tranquilidad.", photo: lso5 },
 ];
 
 const CasosLSO = () => {
