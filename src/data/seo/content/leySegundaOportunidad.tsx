@@ -24,81 +24,89 @@ export const leySegundaOportunidad: MoneyContent = {
       gratis y sin compromiso, y te decimos con claridad si puedes acogerte.
     </>
   ),
+  hero: {
+    badge: "Ley de Segunda Oportunidad",
+    titleLead: "Cancela tus deudas legalmente y",
+    titleAccent: "empieza de cero.",
+    subtitle: (
+      <>
+        La Ley de Segunda Oportunidad es el mecanismo legal para personas
+        sobreendeudadas. En Calma estudiamos tu caso <strong>gratis</strong> y te
+        decimos con total claridad si puedes acogerte.
+      </>
+    ),
+    trustNote: "Sin DNI · Sin compromiso",
+  },
+  benefits: [
+    {
+      icon: "shield",
+      title: "Cancelación legal",
+      text: "Elimina las deudas que no puedes pagar bajo el amparo de la ley.",
+    },
+    {
+      icon: "phone-off",
+      title: "Adiós al acoso",
+      text: "Pon fin a las llamadas y la presión constante de los acreedores.",
+    },
+    {
+      icon: "gavel",
+      title: "Suspende embargos",
+      text: "Posibilidad real de detener embargos en curso desde el primer paso.",
+    },
+    {
+      icon: "users",
+      title: "Equipo experto",
+      text: "Abogados que te acompañan paso a paso, sin letra pequeña.",
+    },
+  ],
+  stepsTitle: "Tu camino hacia la libertad",
+  stepsSubtitle: "Cuatro pasos claros para recuperar tu tranquilidad",
+  steps: [
+    {
+      title: "Diagnóstico gratuito",
+      text: "Analizamos tus deudas e ingresos para confirmar si puedes acogerte.",
+    },
+    {
+      title: "Preparación del expediente",
+      text: "Reunimos la documentación y diseñamos la mejor estrategia legal.",
+    },
+    {
+      title: "Presentación judicial",
+      text: "Iniciamos el proceso formal ante el juzgado correspondiente.",
+    },
+    {
+      title: "Exoneración total",
+      text: "El juez acuerda la cancelación de las deudas. Empiezas de cero.",
+      highlight: true,
+    },
+  ],
+  metrics: [
+    { value: "Gratis", label: "Diagnóstico inicial sin compromiso" },
+    { value: "6–18 meses", label: "Plazo medio del procedimiento" },
+    { value: "RGPD", label: "Tus datos siempre protegidos" },
+  ],
+  eligibility: {
+    title: "¿Es para mí?",
+    intro: (
+      <>
+        Si eres particular o autónomo, actúas de buena fe y no tienes condenas por
+        delitos económicos en los últimos 10 años, lo más probable es que sí.
+      </>
+    ),
+    requirements: [
+      "Eres particular o autónomo en situación de insolvencia (no puedes pagar tus deudas).",
+      "Actúas de buena fe: no has ocultado bienes ni provocado tu insolvencia de forma fraudulenta.",
+      "No has sido condenado por determinados delitos socioeconómicos en los últimos diez años.",
+      "Tus deudas no provienen, en su mayoría, de sanciones o conductas dolosas.",
+    ],
+    trustTitle: "Contenido revisado por abogado",
+    trustText: "Actualizado según la última reforma concursal.",
+  },
+  closing: {
+    title: "¿Empezamos hoy mismo?",
+    text: "Estudiamos tu caso gratis y sin compromiso en menos de 24 horas. Da el primer paso para recuperar tu tranquilidad.",
+  },
   sections: [
-    {
-      title: "Cancela tus deudas y empieza de cero",
-      body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            Si arrastras deudas con bancos, financieras, microcréditos o tarjetas que
-            ya no puedes asumir, la Ley de Segunda Oportunidad es la vía legal para
-            <strong> liberarte de ellas</strong> y recuperar tu tranquilidad.
-          </p>
-          <p>
-            No es un trámite genérico: cada caso es distinto. Por eso lo primero es un
-            <strong> diagnóstico gratuito</strong> en el que analizamos tu situación y
-            te explicamos, sin tecnicismos, qué deudas se pueden cancelar y qué pasos
-            seguir.
-          </p>
-          <div className="rounded-3xl border border-accent/30 bg-accent-soft/40 p-6">
-            <p className="font-poppins text-lg font-semibold text-foreground">
-              ¿Quieres saber si puedes cancelar tus deudas?
-            </p>
-            <p className="mt-1 mb-4 text-sm text-muted-foreground">
-              Analizamos tu caso gratis y sin compromiso en menos de 24 horas.
-            </p>
-            <CtaButton />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "¿Puedes acogerte? Requisitos",
-      body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Por lo general, podrás acogerte si cumples estas condiciones:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Eres un <strong>particular o autónomo</strong> en situación de insolvencia (no puedes pagar tus deudas).</li>
-            <li>Actúas de <strong>buena fe</strong>: no has ocultado bienes ni provocado tu insolvencia de forma fraudulenta.</li>
-            <li>No has sido condenado por determinados delitos socioeconómicos en los últimos diez años.</li>
-            <li>Tus deudas no provienen, en su mayoría, de sanciones o conductas dolosas.</li>
-          </ul>
-          <p>
-            ¿Dudas si tu caso encaja? Lo vemos contigo sin coste. Si prefieres entender
-            la ley en profundidad antes, lee nuestra{" "}
-            <A to="/blog/guia-ley-segunda-oportunidad">guía completa de la Ley de Segunda Oportunidad</A>.
-          </p>
-        </div>
-      ),
-    },
-    {
-      title: "Cómo funciona, paso a paso",
-      body: (
-        <ol className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <li><strong>1. Diagnóstico gratuito.</strong> Analizamos tus deudas, ingresos y situación para confirmar si puedes acogerte.</li>
-          <li><strong>2. Preparación del expediente.</strong> Reunimos la documentación y diseñamos la mejor estrategia para tu caso.</li>
-          <li><strong>3. Presentación judicial.</strong> Presentamos tu solicitud y, cuando procede, se suspenden los embargos.</li>
-          <li><strong>4. Exoneración.</strong> El juez acuerda la cancelación de las deudas que la ley permite y empiezas de cero.</li>
-        </ol>
-      ),
-    },
-    {
-      title: "Qué consigues con Calma",
-      body: (
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {[
-            "Cancelación legal de las deudas que no puedes pagar",
-            "Fin de las llamadas y la presión de los acreedores",
-            "Posibilidad de suspender embargos en curso",
-            "Un equipo que te acompaña en cada paso, sin letra pequeña",
-          ].map((t) => (
-            <li key={t} className="rounded-2xl border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground">
-              {t}
-            </li>
-          ))}
-        </ul>
-      ),
-    },
     {
       title: "Coste y plazos",
       body: (
