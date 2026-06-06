@@ -133,7 +133,58 @@ const Header = () => {
         >
           Analizar mi deuda
         </Button>
+
+        <button
+          type="button"
+          className="lg:hidden inline-flex items-center justify-center rounded-full p-2 text-foreground/70 hover:text-foreground transition-colors"
+          aria-label="Abrir menú"
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
+
+      {mobileOpen && (
+        <div className="lg:hidden mx-auto mt-2 w-full max-w-6xl rounded-3xl border border-border/60 bg-white/95 backdrop-blur-xl p-4 shadow-medium">
+          <nav className="flex flex-col gap-1 text-sm">
+            {menus.map((menu) => (
+              <div key={menu.id} className="py-1">
+                <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  {menu.label}
+                </p>
+                <ul>
+                  {menu.items.map((item) => (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        onClick={() => setMobileOpen(false)}
+                        className="block rounded-xl px-3 py-2 text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <a
+              href="/#como-funciona"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-xl px-3 py-2 text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+            >
+              Cómo funciona
+            </a>
+            <Link
+              to="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-xl px-3 py-2 text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+            >
+              Blog
+            </Link>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
