@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import SeoPageScaffold, { type RelatedLink } from "@/components/seo/SeoPageScaffold";
+import MoneyJourney from "@/components/seo/MoneyJourney";
 import NotFound from "@/pages/NotFound";
 import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
@@ -46,6 +47,23 @@ const MoneyLanding = () => {
       ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
       : []),
   ];
+
+  // Si la money page tiene módulos visuales (hero), se renderiza el journey.
+  if (content?.hero) {
+    return (
+      <MoneyJourney
+        content={content}
+        h1={page.h1}
+        eyebrow={cluster?.label}
+        seoTitle={page.seoTitle}
+        metaDescription={page.metaDescription}
+        canonical={canonical}
+        breadcrumbs={breadcrumbs}
+        structuredData={structuredData}
+        related={related}
+      />
+    );
+  }
 
   return (
     <SeoPageScaffold
