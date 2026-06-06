@@ -9,7 +9,6 @@ import {
   Sparkles,
   Wallet,
   Clock,
-  Lock,
   CheckCircle2,
   ArrowRight,
   type LucideIcon,
