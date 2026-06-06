@@ -36,26 +36,37 @@ export const leySegundaOportunidad: MoneyContent = {
     ),
     trustNote: "Respuesta en 24h · Gratis · Sin compromiso",
   },
+  benefitsTitle: "Beneficios de la Ley de Segunda Oportunidad",
   benefits: [
     {
       icon: "shield",
-      title: "Borrón y cuenta nueva",
-      text: "Cancelamos las deudas que no puedes pagar. Legal, definitivo y sin que vuelvan.",
-    },
-    {
-      icon: "phone-off",
-      title: "Se acaba el acoso hoy",
-      text: "Adiós a las llamadas, las cartas y la presión. Recuperas la paz que perdiste.",
-    },
-    {
-      icon: "gavel",
-      title: "Frenamos los embargos",
-      text: "Paramos los embargos en curso desde el primer paso. No esperes a que lleguen.",
+      title: "Cancelación total de deudas",
+      text: "Borramos las deudas que no puedes pagar. Legal, definitivo y sin que vuelvan.",
     },
     {
       icon: "users",
-      title: "Lo hacemos todo por ti",
-      text: "Abogados que llevan el proceso entero. Tú solo recuperas tu vida.",
+      title: "Cancelación de los avalistas",
+      text: "Protegemos también a quienes te avalaron para que no respondan por ti.",
+    },
+    {
+      icon: "landmark",
+      title: "Hacienda y Seguridad Social",
+      text: "La deuda pública también se exonera, con límites. Te decimos cuánto en tu caso.",
+    },
+    {
+      icon: "phone-off",
+      title: "Paralización de llamadas",
+      text: "Se acaban las llamadas, las cartas y la presión de los acreedores.",
+    },
+    {
+      icon: "gavel",
+      title: "Suspensión de embargos",
+      text: "Frenamos los embargos en curso, incluido el de la nómina, desde el primer paso.",
+    },
+    {
+      icon: "ban",
+      title: "Salida del ASNEF",
+      text: "Limpiamos tus datos de los ficheros de morosos para que vuelvas a empezar.",
     },
   ],
   stepsTitle: "Tu camino hacia la libertad",
