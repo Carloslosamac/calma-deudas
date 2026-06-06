@@ -164,6 +164,7 @@ export type MoneyContent = {
   testimonials?: MoneyTestimonial[];
   testimonialsTitle?: string;
   testimonialsSubtitle?: string;
+  testimonialsMoreHref?: string;
   steps?: MoneyStep[];
   stepsTitle?: string;
   stepsSubtitle?: string;
