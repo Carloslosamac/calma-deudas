@@ -69,6 +69,29 @@ export const leySegundaOportunidad: MoneyContent = {
       text: "Limpiamos tus datos de los ficheros de morosos para que vuelvas a empezar.",
     },
   ],
+  testimonialsTitle: "Personas que ya empezaron de cero",
+  testimonialsSubtitle:
+    "Casos reales de personas que dejaron de pagar deudas que la ley les permitía cancelar. Tú puedes ser el próximo.",
+  testimonials: [
+    {
+      name: "Noemí V.",
+      amount: "136.410 €",
+      location: "Barcelona",
+      text: "Arrastraba tarjetas, microcréditos e hipoteca. Hoy no debe nada y vuelve a dormir tranquila.",
+    },
+    {
+      name: "Antonio R.",
+      amount: "22.179 €",
+      location: "Sabadell",
+      text: "Minicréditos que se le fueron de las manos. Canceló toda su deuda con la Ley de Segunda Oportunidad.",
+    },
+    {
+      name: "Juan Vicente T.",
+      amount: "129.320 €",
+      location: "Valencia",
+      text: "Deudas con bancos y financieras. Empezó de cero y recuperó su nómina por completo.",
+    },
+  ],
   stepsTitle: "Tu camino hacia la libertad",
   stepsSubtitle: "Cuatro pasos claros para recuperar tu tranquilidad",
   steps: [

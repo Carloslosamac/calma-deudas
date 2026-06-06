@@ -29,6 +29,7 @@ import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
 import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
 import EligibilityQuiz from "@/components/seo/interactive/EligibilityQuiz";
 import BeforeAfter from "@/components/seo/interactive/BeforeAfter";
+import Testimonials from "@/components/seo/interactive/Testimonials";
 
 const ICONS: Record<MoneyIcon, LucideIcon> = {
   shield: ShieldCheck,
@@ -256,6 +257,17 @@ const MoneyJourney = ({
                   </div>
                 ))}
               </section>
+            </Reveal>
+          )}
+
+          {/* ---------- Testimonios ---------- */}
+          {content.testimonials && content.testimonials.length > 0 && (
+            <Reveal>
+              <Testimonials
+                title={content.testimonialsTitle ?? "Casos reales de deuda cancelada"}
+                subtitle={content.testimonialsSubtitle}
+                items={content.testimonials}
+              />
             </Reveal>
           )}
 

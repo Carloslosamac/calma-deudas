@@ -64,6 +64,18 @@ export type MoneyEligibility = {
 /** CTA de cierre del journey. */
 export type MoneyClosing = { title: string; text: string };
 
+/** Testimonio real de deuda cancelada (prueba social). */
+export type MoneyTestimonial = {
+  /** nombre de la persona */
+  name: string;
+  /** importe cancelado, ej. "136.410 €" */
+  amount: string;
+  /** ciudad / provincia */
+  location: string;
+  /** descripción corta del caso */
+  text: string;
+};
+
 /** ----- Módulos interactivos ----- */
 
 /** Simulador de deuda cancelable (sliders). */
@@ -147,6 +159,9 @@ export type MoneyContent = {
   hero?: MoneyHero;
   benefits?: MoneyBenefit[];
   benefitsTitle?: string;
+  testimonials?: MoneyTestimonial[];
+  testimonialsTitle?: string;
+  testimonialsSubtitle?: string;
   steps?: MoneyStep[];
   stepsTitle?: string;
   stepsSubtitle?: string;
