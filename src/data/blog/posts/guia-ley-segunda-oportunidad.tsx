@@ -259,6 +259,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             <strong>cancela las deudas</strong>. A partir de ahí, el deudor puede
             reorganizar su vida sin esa losa encima.
           </p>
+          <p>
+            Si ya tienes claro que quieres dar el paso, puedes ver directamente nuestro{" "}
+            <InternalLink to="/ley-segunda-oportunidad">
+              servicio de Ley de Segunda Oportunidad
+            </InternalLink>{" "}
+            y solicitar tu diagnóstico gratuito.
+          </p>
           <BeforeAfterSplit />
           <InlineCTA
             title="¿Estás pasando por esto ahora?"
