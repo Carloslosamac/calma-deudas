@@ -1,9 +1,45 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+import { moneyPages } from "@/data/seo/moneyPages";
+import { satelliteClusters } from "@/data/seo/architecture";
+
+const solucionesPaths = [
+  "/ley-segunda-oportunidad",
+  "/cancelar-deudas",
+  "/reunificacion-deudas",
+  "/asnef/salir-de-asnef",
+  "/embargos/parar-embargo",
+  "/tarjetas-revolving/cancelar-tarjetas-revolving",
+  "/microcreditos-prestamos/cancelar-microcreditos",
+];
+const solucionesItems = solucionesPaths
+  .map((p) => moneyPages.find((m) => m.path === p))
+  .filter(Boolean)
+  .map((m) => ({ label: m!.h1, to: m!.path }));
+
+const problemaPaths = [
+  "/embargos/parar-embargo",
+  "/asnef/salir-de-asnef",
+  "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+  "/deudas-hacienda-seguridad-social/deudas-hacienda",
+];
+const problemaItems = problemaPaths
+  .map((p) => moneyPages.find((m) => m.path === p))
+  .filter(Boolean)
+  .map((m) => ({ label: m!.h1, to: m!.path }));
+
+const entidadesItems = [
+  { label: "Empresas de recobro", to: "/empresas-de-recobro" },
+  { label: "Microcréditos", to: "/microcreditos-prestamos" },
+  { label: "Tarjetas revolving", to: "/tarjetas-revolving" },
+  { label: "Bancos e hipoteca", to: "/bancos-hipoteca-vivienda" },
+];
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -22,6 +58,12 @@ const Header = () => {
 
     window.location.href = "/#hero-form";
   };
+
+  const menus: { id: string; label: string; items: { label: string; to: string }[] }[] = [
+    { id: "soluciones", label: "Soluciones", items: solucionesItems },
+    { id: "problema", label: "Por tu problema", items: problemaItems },
+    { id: "entidades", label: "Entidades", items: entidadesItems },
+  ];
 
   return (
     <header className="fixed top-4 left-2 right-2 z-50">
@@ -47,22 +89,48 @@ const Header = () => {
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8 text-sm">
+        <nav
+          className="hidden lg:flex items-center gap-6 text-sm"
+          onMouseLeave={() => setOpenMenu(null)}
+        >
+          {menus.map((menu) => (
+            <div
+              key={menu.id}
+              className="relative"
+              onMouseEnter={() => setOpenMenu(menu.id)}
+            >
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 text-foreground/70 hover:text-foreground transition-colors"
+                aria-expanded={openMenu === menu.id}
+              >
+                {menu.label}
+                <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+              {openMenu === menu.id && (
+                <div className="absolute left-0 top-full pt-3">
+                  <ul className="w-64 rounded-2xl border border-border/60 bg-white/95 backdrop-blur-xl p-2 shadow-medium">
+                    {menu.items.map((item) => (
+                      <li key={item.to}>
+                        <Link
+                          to={item.to}
+                          className="block rounded-xl px-3 py-2 text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
           <a href="/#como-funciona" className="text-foreground/70 hover:text-foreground transition-colors">
             Cómo funciona
-          </a>
-          <a href="/#soluciones" className="text-foreground/70 hover:text-foreground transition-colors">
-            Soluciones
           </a>
           <Link to="/blog" className="text-foreground/70 hover:text-foreground transition-colors">
             Blog
           </Link>
-          <a href="/#testimonios" className="text-foreground/70 hover:text-foreground transition-colors">
-            Casos reales
-          </a>
-          <a href="/#preguntas" className="text-foreground/70 hover:text-foreground transition-colors">
-            FAQ
-          </a>
         </nav>
 
         <Button
