@@ -267,6 +267,7 @@ const MoneyJourney = ({
                 title={content.testimonialsTitle ?? "Casos reales de deuda cancelada"}
                 subtitle={content.testimonialsSubtitle}
                 items={content.testimonials}
+                moreHref={content.testimonialsMoreHref}
               />
             </Reveal>
           )}
