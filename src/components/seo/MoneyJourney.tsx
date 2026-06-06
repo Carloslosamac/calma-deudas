@@ -150,6 +150,9 @@ const MoneyJourney = ({
           </div>
         </section>
 
+        {/* ---------- Prueba social de marca ---------- */}
+        <TrustBar data={content.socialProof} />
+
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
           {/* ---------- Simulador de deuda ---------- */}
           {interactive?.simulator && (
