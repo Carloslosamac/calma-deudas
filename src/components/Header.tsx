@@ -4,30 +4,24 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { moneyPages } from "@/data/seo/moneyPages";
 
-const solucionesPaths = [
-  "/ley-segunda-oportunidad",
-  "/cancelar-deudas",
-  "/reunificacion-deudas",
-  "/asnef/salir-de-asnef",
-  "/embargos/parar-embargo",
-  "/tarjetas-revolving/cancelar-tarjetas-revolving",
-  "/microcreditos-prestamos/cancelar-microcreditos",
-];
-const solucionesItems = solucionesPaths
-  .map((p) => moneyPages.find((m) => m.path === p))
-  .filter(Boolean)
-  .map((m) => ({ label: m!.h1, to: m!.path }));
-
-const necesitasItems = [
-  { label: "Parar un embargo", to: "/embargos/parar-embargo" },
-  { label: "Salir de ASNEF", to: "/asnef/salir-de-asnef" },
-  { label: "Responder un juicio monitorio", to: "/juicio-monitorio-recobro/juicio-monitorio-deuda" },
+// "Soluciones" = servicios / métodos que ofrece Calma.
+const solucionesItems = [
+  { label: "Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad" },
+  { label: "Cancelar deudas", to: "/cancelar-deudas" },
+  { label: "Reunificar deudas", to: "/reunificar-deudas" },
+  { label: "Exoneración del pasivo insatisfecho", to: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho" },
+  { label: "Concurso de persona física", to: "/autonomos-concurso-acreedores/concurso-persona-fisica" },
   { label: "Cancelar tarjetas revolving", to: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { label: "Cancelar microcréditos", to: "/microcreditos-prestamos/cancelar-microcreditos" },
-  { label: "Frenar a una empresa de recobro", to: "/empresas-de-recobro" },
-  { label: "Parar el acoso telefónico", to: "/empresas-de-recobro" },
-  { label: "Reunificar mis deudas", to: "/reunificar-deudas" },
-  { label: "Cancelar mis deudas", to: "/cancelar-deudas" },
+];
+
+// "¿Qué necesitas?" = situaciones urgentes, en primera persona.
+const necesitasItems = [
+  { label: "Me van a embargar", to: "/embargos/parar-embargo" },
+  { label: "Estoy en ASNEF", to: "/asnef/salir-de-asnef" },
+  { label: "Me ha llegado un juicio monitorio", to: "/juicio-monitorio-recobro/juicio-monitorio-deuda" },
+  { label: "Una empresa de recobro me reclama", to: "/empresas-de-recobro" },
+  { label: "Recibo llamadas de acoso", to: "/empresas-de-recobro" },
 ];
 
 const entidadesItems = [
