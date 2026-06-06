@@ -110,10 +110,10 @@ const MoneyJourney = ({
       />
       <Header />
 
-      <main>
+      <main className="pt-28 md:pt-32">
         {/* ---------- Hero ---------- */}
         <section className="relative overflow-hidden bg-gradient-hero">
-          <div className="mx-auto max-w-4xl px-6 pb-16 pt-40 text-center md:pb-24 md:pt-48">
+          <div className="mx-auto max-w-4xl px-6 pb-16 pt-12 text-center md:pb-24 md:pt-16">
             <Breadcrumbs items={breadcrumbs} />
             <motion.div variants={reveal} initial="hidden" animate="show" className="mt-8">
               {(hero?.badge ?? eyebrow) && (
