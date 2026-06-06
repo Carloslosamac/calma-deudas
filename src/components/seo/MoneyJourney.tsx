@@ -315,6 +315,13 @@ const MoneyJourney = ({
             </Reveal>
           )}
 
+          {/* ---------- Comparador antes / después ---------- */}
+          {interactive?.beforeAfter && (
+            <Reveal>
+              <BeforeAfter data={interactive.beforeAfter} />
+            </Reveal>
+          )}
+
           {/* ---------- CTA de cierre ---------- */}
           {closing && (
             <Reveal>
