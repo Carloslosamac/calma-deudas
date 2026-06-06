@@ -23,6 +23,10 @@ import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
+import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
+import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
+import EligibilityQuiz from "@/components/seo/interactive/EligibilityQuiz";
+import BeforeAfter from "@/components/seo/interactive/BeforeAfter";
 
 const ICONS: Record<MoneyIcon, LucideIcon> = {
   shield: ShieldCheck,
@@ -86,7 +90,8 @@ const MoneyJourney = ({
   structuredData,
   related,
 }: MoneyJourneyProps) => {
-  const { hero, benefits, steps, metrics, eligibility, closing, sections, faq } = content;
+  const { hero, benefits, steps, metrics, eligibility, closing, sections, faq, interactive } =
+    content;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
