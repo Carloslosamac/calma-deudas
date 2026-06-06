@@ -18,44 +18,44 @@ export const leySegundaOportunidad: MoneyContent = {
   reviewed: true,
   intro: (
     <>
-      La Ley de Segunda Oportunidad te permite <strong>cancelar legalmente las deudas
-      que no puedes pagar</strong> y empezar de cero. En Calma estudiamos tu caso
-      gratis y sin compromiso, y te decimos con claridad si puedes acogerte.
+      Llevas años pagando deudas que <strong>la ley te permite cancelar</strong>. Cada
+      mes que pasa pierdes dinero que no vas a recuperar. En Calma te decimos hoy,
+      gratis, cuánto deberías haber dejado de pagar ya.
     </>
   ),
   hero: {
     badge: "Ley de Segunda Oportunidad",
-    titleLead: "Cancela tus deudas y",
-    titleAccent: "empieza de cero.",
+    titleLead: "Llevas años pagando una deuda",
+    titleAccent: "que la ley puede borrar.",
     subtitle: (
       <>
-        Deja de pagar deudas que te ahogan. Con la Ley de Segunda Oportunidad
-        las <strong>cancelamos legalmente</strong> y recuperas tu vida. Te
-        decimos hoy mismo, gratis, cuánto puedes dejar de pagar.
+        Miles de personas como tú ya cancelaron sus deudas <strong>legalmente</strong> y
+        se preguntan por qué no lo hicieron antes. Cada mes que esperas, regalas tu
+        nómina a los bancos. Te decimos hoy mismo, gratis, cuánto puedes dejar de pagar.
       </>
     ),
-    trustNote: "Respuesta en 24h · Sin compromiso",
+    trustNote: "Respuesta en 24h · Gratis · Sin compromiso",
   },
   benefits: [
     {
       icon: "shield",
-      title: "Cancelación legal",
-      text: "Borramos las deudas que no puedes pagar. De forma legal y definitiva.",
+      title: "Borrón y cuenta nueva",
+      text: "Cancelamos las deudas que no puedes pagar. Legal, definitivo y sin que vuelvan.",
     },
     {
       icon: "phone-off",
-      title: "Adiós al acoso",
-      text: "Se acaban las llamadas, las cartas y la presión de los acreedores.",
+      title: "Se acaba el acoso hoy",
+      text: "Adiós a las llamadas, las cartas y la presión. Recuperas la paz que perdiste.",
     },
     {
       icon: "gavel",
-      title: "Suspende embargos",
-      text: "Frenamos los embargos en curso desde el primer paso del proceso.",
+      title: "Frenamos los embargos",
+      text: "Paramos los embargos en curso desde el primer paso. No esperes a que lleguen.",
     },
     {
       icon: "users",
-      title: "Lo hacemos por ti",
-      text: "Abogados que llevan todo el proceso. Tú solo recuperas tu tranquilidad.",
+      title: "Lo hacemos todo por ti",
+      text: "Abogados que llevan el proceso entero. Tú solo recuperas tu vida.",
     },
   ],
   stepsTitle: "Tu camino hacia la libertad",
@@ -80,9 +80,9 @@ export const leySegundaOportunidad: MoneyContent = {
     },
   ],
   metrics: [
-    { value: "Gratis", label: "Estudiamos tu caso hoy mismo" },
-    { value: "6–18 meses", label: "Y vuelves a empezar de cero" },
-    { value: "Hasta 100%", label: "De tus deudas, canceladas" },
+    { value: "Hasta 100%", label: "De tus deudas, canceladas para siempre" },
+    { value: "+19.000", label: "Familias ya libres de deudas en España" },
+    { value: "Gratis", label: "Sabes hoy mismo cuánto puedes dejar de pagar" },
   ],
   eligibility: {
     title: "¿Es para mí?",
@@ -102,8 +102,8 @@ export const leySegundaOportunidad: MoneyContent = {
     trustText: "Actualizado según la última reforma concursal.",
   },
   closing: {
-    title: "Cada día que esperas, sigues pagando",
-    text: "Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y empieza a librarte de tus deudas hoy.",
+    title: "Cada mes que esperas, regalas tu nómina",
+    text: "La gente que ya se acogió solo se arrepiente de una cosa: no haberlo hecho antes. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y deja de pagar lo que la ley puede borrar.",
   },
   interactive: {
     simulator: {
