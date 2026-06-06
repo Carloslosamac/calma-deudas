@@ -6,6 +6,9 @@ import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { blogPosts } from "../src/data/blog";
 import { SITE_URL } from "../src/lib/seo/config";
+import { moneyPages } from "../src/data/seo/moneyPages";
+import { satelliteClusters } from "../src/data/seo/architecture";
+import { entities } from "../src/data/seo/entities";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -40,7 +43,37 @@ const postEntries: Entry[] = blogPosts.map((p) => ({
   priority: p.slug === "guia-ley-segunda-oportunidad" ? "0.9" : "0.7",
 }));
 
-const entries = [...staticEntries, ...postEntries];
+// Money pages (carpeta-cluster, prioridad SEO alta).
+const moneyEntries: Entry[] = moneyPages.map((p) => ({
+  loc: `${p.path}/`,
+  lastmod: today,
+  changefreq: "weekly",
+  priority: p.priority === "critica" ? "0.9" : "0.8",
+}));
+
+// Índices de cluster satélite.
+const clusterEntries: Entry[] = satelliteClusters.map((c) => ({
+  loc: `/${c.slug}/`,
+  lastmod: today,
+  changefreq: "weekly",
+  priority: "0.6",
+}));
+
+// Fichas de entidad.
+const entityEntries: Entry[] = entities.map((e) => ({
+  loc: `/${e.cluster}/${e.slug}/`,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.5",
+}));
+
+const entries = [
+  ...staticEntries,
+  ...moneyEntries,
+  ...clusterEntries,
+  ...entityEntries,
+  ...postEntries,
+];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
