@@ -3,7 +3,8 @@ import SeoPageScaffold, { type RelatedLink } from "@/components/seo/SeoPageScaff
 import NotFound from "@/pages/NotFound";
 import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
-import { buildBreadcrumb, buildLegalService } from "@/lib/seo/structuredData";
+import { getMoneyContent } from "@/data/seo/content";
+import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
 import { absoluteUrl } from "@/lib/seo/config";
 
 /** Resuelve una money page a partir del pathname y la renderiza. */
@@ -16,6 +17,7 @@ const MoneyLanding = () => {
 
   const cluster = getCluster(page.cluster);
   const canonical = `${page.path}/`;
+  const content = getMoneyContent(page.path);
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
@@ -40,6 +42,9 @@ const MoneyLanding = () => {
       breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical })),
     ),
     buildLegalService(),
+    ...(content?.faq?.length
+      ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
+      : []),
   ];
 
   return (
@@ -47,14 +52,18 @@ const MoneyLanding = () => {
       template={page.template}
       h1={page.h1}
       eyebrow={cluster?.label}
-      intro={page.metaDescription}
+      intro={content?.intro ?? page.metaDescription}
       seoTitle={page.seoTitle}
       metaDescription={page.metaDescription}
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
       related={related}
-      needsLegalReview={page.metaDescription.includes("revisión legal")}
+      sections={content?.sections}
+      faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
+      needsLegalReview={
+        content ? !content.reviewed : page.metaDescription.includes("revisión legal")
+      }
     />
   );
 };
