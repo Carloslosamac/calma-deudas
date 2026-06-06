@@ -276,6 +276,55 @@ export const leySegundaOportunidad: MoneyContent = {
   },
   sections: [
     {
+      title: "¿Qué pasa con tu vivienda y tus bienes?",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            La duda que más frena a la gente es perder la casa. La realidad es que{" "}
+            <strong>acogerse a la ley no significa quedarte sin nada</strong>. La ley
+            distingue entre dos vías y elegimos contigo la que más te protege.
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong>Con liquidación:</strong> se realizan los bienes para pagar lo
+              posible y el resto de la deuda se cancela. Útil si no tienes vivienda o ya
+              está sobre-endeudada.
+            </li>
+            <li>
+              <strong>Con plan de pagos:</strong> conservas tu vivienda habitual y pagas
+              una parte adaptada a tus ingresos durante un tiempo, cancelando el resto.
+            </li>
+          </ul>
+          <p>
+            Antes de presentar nada analizamos el valor de tu vivienda, la deuda
+            pendiente y tu situación para proteger lo máximo posible. Nada se decide sin
+            ti.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Cómo afecta a tu día a día",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            El cambio se nota desde las primeras semanas, mucho antes de la resolución
+            final del juez:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Las llamadas y cartas de los acreedores se detienen.</li>
+            <li>Los embargos en curso, incluido el de la nómina, pueden suspenderse.</li>
+            <li>Recuperas el control de tu sueldo para llegar a fin de mes.</li>
+            <li>Sales del ASNEF y otros ficheros de morosos al cerrar el proceso.</li>
+          </ul>
+          <p>
+            Es importante saberlo: durante el procedimiento tu vida sigue. Puedes
+            trabajar, cobrar tu nómina y volver a respirar mientras avanzamos.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Coste y plazos",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
@@ -313,6 +362,27 @@ export const leySegundaOportunidad: MoneyContent = {
           <p>
             ¿Prefieres entender la ley en profundidad antes de decidir? Lee nuestra{" "}
             <A to="/blog/guia-ley-segunda-oportunidad">guía completa de la Ley de Segunda Oportunidad</A>.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Qué necesitas para empezar hoy",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            No hace falta que lo tengas todo ordenado. Para el{" "}
+            <strong>diagnóstico gratuito</strong> basta con una idea aproximada de tu
+            situación; los documentos los reunimos contigo después.
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Un listado, aunque sea aproximado, de tus deudas y acreedores.</li>
+            <li>Tus ingresos actuales (nómina, prestación o ingresos como autónomo).</li>
+            <li>Si tienes vivienda u otros bienes a tu nombre.</li>
+          </ul>
+          <p>
+            Con eso te decimos en 24h si encajas y cuánto puedes dejar de pagar. Sin
+            compromiso y sin coste. Cada mes que esperas es dinero que no recuperas.
           </p>
         </div>
       ),
