@@ -1,7 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // "Soluciones" = servicios / métodos que ofrece Calma.
 const solucionesItems = [
@@ -126,12 +138,72 @@ const Header = () => {
           </Link>
         </nav>
 
-        <Button
-          className="rounded-full px-5 h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
-          onClick={scrollToForm}
-        >
-          Analizar mi deuda
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            className="rounded-full px-5 h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
+            onClick={scrollToForm}
+          >
+            Analizar mi deuda
+          </Button>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <button
+                type="button"
+                className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground/80 hover:bg-accent-soft/50 transition-colors"
+                aria-label="Abrir menú"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[88%] max-w-sm overflow-y-auto">
+              <nav className="mt-8 flex flex-col gap-2">
+                <Accordion type="multiple" className="w-full">
+                  {menus.map((menu) => (
+                    <AccordionItem key={menu.id} value={menu.id} className="border-border/60">
+                      <AccordionTrigger className="text-base font-medium">
+                        {menu.label}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <ul className="flex flex-col gap-1">
+                          {menu.items.map((item) => (
+                            <li key={item.to}>
+                              <SheetClose asChild>
+                                <Link
+                                  to={item.to}
+                                  className="block rounded-xl px-3 py-2 text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                                >
+                                  {item.label}
+                                </Link>
+                              </SheetClose>
+                            </li>
+                          ))}
+                        </ul>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+
+                <SheetClose asChild>
+                  <a
+                    href="/#como-funciona"
+                    className="rounded-xl px-3 py-3 text-base font-medium text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                  >
+                    Cómo funciona
+                  </a>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    to="/blog"
+                    className="rounded-xl px-3 py-3 text-base font-medium text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                  >
+                    Blog
+                  </Link>
+                </SheetClose>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
