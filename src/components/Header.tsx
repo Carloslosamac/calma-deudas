@@ -143,7 +143,7 @@ const Header = () => {
             className="rounded-full px-3 sm:px-5 h-9 sm:h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
             onClick={scrollToForm}
           >
-            <span className="lg:hidden">Analizar</span>
+            <span className="lg:hidden">Consulta</span>
             <span className="hidden lg:inline">Analizar mi deuda</span>
           </Button>
 
