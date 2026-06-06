@@ -105,6 +105,110 @@ export const leySegundaOportunidad: MoneyContent = {
     title: "Cada día que esperas, sigues pagando",
     text: "Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y empieza a librarte de tus deudas hoy.",
   },
+  interactive: {
+    simulator: {
+      title: "¿Cuánto podrías dejar de pagar?",
+      subtitle: "Mueve los controles y hazte una idea en 10 segundos.",
+      maxDebt: 120000,
+      maxMonthly: 2000,
+      defaultDebt: 25000,
+      defaultMonthly: 450,
+    },
+    debtTypesTitle: "¿De dónde vienen tus deudas?",
+    debtTypesSubtitle: "Elige lo que más se parece a tu caso y te decimos por dónde empezar.",
+    debtTypes: [
+      {
+        label: "Tarjetas revolving",
+        message:
+          "Las revolving suelen tener intereses abusivos. Muchas veces se pueden anular y, con la Ley de Segunda Oportunidad, cancelar por completo.",
+        to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
+        linkLabel: "Cómo cancelar tarjetas revolving",
+      },
+      {
+        label: "Microcréditos",
+        message:
+          "Los microcréditos se acumulan rápido y ahogan. Entran de lleno en la Ley de Segunda Oportunidad y se pueden cancelar.",
+        to: "/microcreditos-prestamos/cancelar-microcreditos",
+        linkLabel: "Cómo cancelar microcréditos",
+      },
+      {
+        label: "Préstamos bancarios",
+        message:
+          "Préstamos personales y descubiertos con el banco también se cancelan si no puedes asumirlos. Lo estudiamos gratis.",
+        to: "/cancelar-deudas",
+        linkLabel: "Cancelar deudas con el banco",
+      },
+      {
+        label: "Hipoteca",
+        message:
+          "La hipoteca es delicada: no siempre implica perder la vivienda. Valoramos tu caso para protegerla en lo posible.",
+      },
+      {
+        label: "Hacienda / Seg. Social",
+        message:
+          "La deuda pública con Hacienda y Seguridad Social también se exonera, con ciertos límites. Te decimos cuánto en tu caso.",
+        to: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
+        linkLabel: "Exoneración del pasivo insatisfecho",
+      },
+      {
+        label: "Varias a la vez",
+        message:
+          "Lo más habitual: varias deudas a la vez. Las unificamos en una única estrategia para cancelar el máximo posible.",
+        to: "/reunificar-deudas",
+        linkLabel: "Ver opciones para varias deudas",
+      },
+    ],
+    quiz: {
+      title: "¿Tu caso encaja? Descúbrelo en 30 segundos",
+      subtitle: "4 preguntas rápidas. Sin dar tus datos.",
+      questions: [
+        {
+          text: "¿No puedes pagar tus deudas con tus ingresos actuales?",
+          goodAnswer: "yes",
+        },
+        {
+          text: "¿Tus deudas suman más de 5.000 €?",
+          goodAnswer: "yes",
+        },
+        {
+          text: "¿Has actuado de buena fe (sin ocultar bienes ni provocar la insolvencia)?",
+          goodAnswer: "yes",
+        },
+        {
+          text: "¿Has sido condenado por delitos económicos en los últimos 10 años?",
+          goodAnswer: "no",
+        },
+      ],
+      resultPass: {
+        title: "Tu caso encaja. Vamos a por ello.",
+        text: "Cumples las condiciones clave para acogerte a la Ley de Segunda Oportunidad. El siguiente paso es un estudio gratis para confirmar cuánto puedes cancelar.",
+      },
+      resultDoubt: {
+        title: "Puede que sí. Lo vemos contigo, gratis.",
+        text: "Algunos puntos requieren una mirada experta, pero muchos casos parecidos terminan cancelando sus deudas. Cuéntanos el tuyo sin compromiso.",
+      },
+    },
+    beforeAfter: {
+      title: "Tu vida antes y después de Calma",
+      subtitle: "Esto es lo que cambia cuando das el paso.",
+      beforeLabel: "Hoy, con deudas",
+      afterLabel: "Después, con Calma",
+      before: [
+        "Llamadas y cartas de acreedores cada semana",
+        "Sueldo que se va entero en cuotas e intereses",
+        "Miedo constante a un embargo",
+        "Sin margen para imprevistos ni para tu familia",
+        "Estrés y noches sin dormir",
+      ],
+      after: [
+        "Se acaban las llamadas y la presión",
+        "Recuperas tu nómina para vivir",
+        "Embargos suspendidos durante el proceso",
+        "Empiezas de cero, sin esas deudas",
+        "Tranquilidad para volver a respirar",
+      ],
+    },
+  },
   sections: [
     {
       title: "Coste y plazos",
