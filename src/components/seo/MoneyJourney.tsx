@@ -157,23 +157,32 @@ const MoneyJourney = ({
 
           {/* ---------- Beneficios ---------- */}
           {benefits && benefits.length > 0 && (
-            <section className="grid gap-4 md:grid-cols-2">
-              {benefits.map((b, i) => {
-                const Icon = ICONS[b.icon] ?? Sparkles;
-                return (
-                  <Reveal key={b.title} delay={i * 0.06}>
-                    <div className="group flex h-full gap-4 rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-medium">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
-                        <Icon className="h-6 w-6" aria-hidden />
+            <section>
+              {content.benefitsTitle && (
+                <Reveal className="mb-10 text-center md:mb-12">
+                  <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                    {content.benefitsTitle}
+                  </h2>
+                </Reveal>
+              )}
+              <div className="grid gap-x-6 gap-y-9 sm:grid-cols-2 md:grid-cols-3">
+                {benefits.map((b, i) => {
+                  const Icon = ICONS[b.icon] ?? Sparkles;
+                  return (
+                    <Reveal key={b.title} delay={i * 0.05}>
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-deep shadow-soft">
+                          <Icon className="h-6 w-6" aria-hidden />
+                        </div>
+                        <div>
+                          <h3 className="font-poppins font-semibold leading-snug text-foreground">{b.title}</h3>
+                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.text}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-poppins font-semibold text-foreground">{b.title}</h3>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.text}</p>
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
+                    </Reveal>
+                  );
+                })}
+              </div>
             </section>
           )}
 
