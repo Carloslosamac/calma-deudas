@@ -296,9 +296,11 @@ export const leySegundaOportunidad: MoneyContent = {
             </li>
           </ul>
           <p>
-            Antes de presentar nada analizamos el valor de tu vivienda, la deuda
-            pendiente y tu situación para proteger lo máximo posible. Nada se decide sin
-            ti.
+            En muchos casos la vivienda <strong>sí se puede mantener</strong>, sobre todo
+            cuando la hipoteca está casi pagada o cuando el valor de la casa no supera lo
+            que aún debes. Antes de presentar nada analizamos el valor de tu vivienda, la
+            deuda pendiente y tu situación para proteger lo máximo posible. Nada se decide
+            sin ti.
           </p>
         </div>
       ),
