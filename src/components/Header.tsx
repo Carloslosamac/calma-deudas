@@ -140,10 +140,11 @@ const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button
-            className="rounded-full px-5 h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
+            className="rounded-full px-3 sm:px-5 h-9 sm:h-10 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
             onClick={scrollToForm}
           >
-            Analizar mi deuda
+            <span className="lg:hidden">Analizar</span>
+            <span className="hidden lg:inline">Analizar mi deuda</span>
           </Button>
 
           <Sheet>
@@ -157,7 +158,15 @@ const Header = () => {
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[88%] max-w-sm overflow-y-auto">
-              <nav className="mt-8 flex flex-col gap-2">
+              <SheetClose asChild>
+                <Button
+                  className="mt-8 w-full rounded-full h-11 text-sm shadow-soft bg-accent text-accent-foreground hover:bg-accent/90"
+                  onClick={scrollToForm}
+                >
+                  Analizar mi deuda
+                </Button>
+              </SheetClose>
+              <nav className="mt-6 flex flex-col gap-2">
                 <Accordion type="multiple" className="w-full">
                   {menus.map((menu) => (
                     <AccordionItem key={menu.id} value={menu.id} className="border-border/60">
