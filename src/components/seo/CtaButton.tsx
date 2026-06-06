@@ -1,14 +1,5 @@
 import { Button } from "@/components/ui/button";
-
-/** CTA global: siempre hace scroll a #hero-form (regla de marca). */
-const scrollToForm = () => {
-  const form = document.getElementById("hero-form");
-  if (form) {
-    form.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
-  }
-  window.location.href = "/#hero-form";
-};
+import { scrollToForm } from "@/lib/seo/scrollToForm";
 
 const CtaButton = ({
   children = "Analizar mi deuda gratis",
