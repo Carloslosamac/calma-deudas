@@ -73,6 +73,11 @@ const DebtSimulator = ({ config }: { config: MoneySimulator }) => {
             Y dejar de pagar hasta{" "}
             <strong className="text-primary-foreground">{eur(monthly)} € al mes</strong>.
           </p>
+          <p className="mt-3 rounded-2xl bg-primary-foreground/10 px-4 py-3 text-sm text-primary-foreground/80">
+            Cada año que esperas regalas{" "}
+            <strong className="text-accent">{eur(monthly * 12)} €</strong> a tus
+            acreedores. Dinero que no vas a recuperar.
+          </p>
           <p className="mt-4 text-xs text-primary-foreground/50">
             Estimación orientativa. Lo confirmamos con cifras reales en tu estudio gratis.
           </p>

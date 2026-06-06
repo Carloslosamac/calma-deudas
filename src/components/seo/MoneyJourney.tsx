@@ -67,29 +67,6 @@ const Reveal = ({
   </motion.div>
 );
 
-/** Bloque de texto de transición entre módulos (suaviza y da contraste). */
-const Interlude = ({
-  eyebrow,
-  title,
-  text,
-}: {
-  eyebrow?: string;
-  title: string;
-  text: string;
-}) => (
-  <Reveal className="mx-auto max-w-2xl text-center">
-    {eyebrow && (
-      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-deep">
-        {eyebrow}
-      </span>
-    )}
-    <h2 className="mt-3 font-poppins text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-      {title}
-    </h2>
-    <p className="mt-3 text-base leading-relaxed text-muted-foreground">{text}</p>
-  </Reveal>
-);
-
 export type MoneyJourneyProps = {
   content: MoneyContent;
   h1: string;
@@ -167,15 +144,6 @@ const MoneyJourney = ({
         </section>
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
-          {/* ---------- Interludio: pon número a tu deuda ---------- */}
-          {interactive?.simulator && (
-            <Interlude
-              eyebrow="Tu caso, en cifras"
-              title="¿Cuánto podrías quitarte de encima?"
-              text="Antes de hablar de papeles, pon un número. Mueve la deuda que arrastras y verás, en segundos, cuánto podrías llegar a cancelar legalmente."
-            />
-          )}
-
           {/* ---------- Simulador de deuda ---------- */}
           {interactive?.simulator && (
             <Reveal>
@@ -203,15 +171,6 @@ const MoneyJourney = ({
                 );
               })}
             </section>
-          )}
-
-          {/* ---------- Interludio: tipos de deuda ---------- */}
-          {interactive?.debtTypes && interactive.debtTypes.length > 0 && (
-            <Interlude
-              eyebrow="No todas las deudas son iguales"
-              title="Cada deuda tiene su estrategia"
-              text="Tarjetas, microcréditos, banco o Hacienda: cada una se ataca de una forma distinta. Dinos de dónde viene la tuya y te decimos por dónde empezar."
-            />
           )}
 
           {/* ---------- Selector de tipo de deuda ---------- */}
@@ -264,15 +223,6 @@ const MoneyJourney = ({
                 ))}
               </div>
             </section>
-          )}
-
-          {/* ---------- Interludio: test rápido ---------- */}
-          {interactive?.quiz && (
-            <Interlude
-              eyebrow="30 segundos"
-              title="¿Tu caso encaja? Salgamos de dudas"
-              text="No hace falta una cita ni dar tus datos para saber si puedes acogerte. Responde 4 preguntas rápidas y te lo decimos al instante."
-            />
           )}
 
           {/* ---------- Test de elegibilidad ---------- */}
@@ -363,15 +313,6 @@ const MoneyJourney = ({
                 </div>
               </section>
             </Reveal>
-          )}
-
-          {/* ---------- Interludio: antes / después ---------- */}
-          {interactive?.beforeAfter && (
-            <Interlude
-              eyebrow="El cambio real"
-              title="Así se ve tu vida sin las deudas"
-              text="Imagina abrir el móvil sin miedo a las llamadas. Esto es lo que cambia el día que empiezas con Calma."
-            />
           )}
 
           {/* ---------- Comparador antes / después ---------- */}
