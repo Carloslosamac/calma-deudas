@@ -5,6 +5,7 @@ import FormSection from "@/components/FormSection";
 import Seo from "@/components/seo/Seo";
 import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
+import FaqList from "@/components/blog/FaqList";
 import type { TemplateType } from "@/data/seo/architecture";
 
 /**
@@ -60,17 +61,26 @@ const SECTIONS: Record<TemplateType, string[]> = {
 
 export type RelatedLink = { label: string; to: string };
 
+/** Sección con copy real (sustituye al placeholder). */
+export type ContentSection = { title: string; body: React.ReactNode };
+/** FAQ para la UI. */
+export type ScaffoldFaq = { q: string; a: React.ReactNode };
+
 export type SeoPageScaffoldProps = {
   template: TemplateType;
   h1: string;
   eyebrow?: string;
-  intro?: string;
+  intro?: React.ReactNode;
   seoTitle: string;
   metaDescription: string;
   canonical: string;
   breadcrumbs: Crumb[];
   structuredData?: Record<string, unknown>[];
   related?: RelatedLink[];
+  /** secciones con copy real; si se omite, se muestran placeholders */
+  sections?: ContentSection[];
+  /** preguntas frecuentes (se renderiza un acordeón al final del contenido) */
+  faq?: ScaffoldFaq[];
   /** marca el contenido como pendiente de revisión legal */
   needsLegalReview?: boolean;
   children?: React.ReactNode;
@@ -87,10 +97,12 @@ const SeoPageScaffold = ({
   breadcrumbs,
   structuredData,
   related,
+  sections: contentSections,
+  faq,
   needsLegalReview,
   children,
 }: SeoPageScaffoldProps) => {
-  const sections = SECTIONS[template];
+  const placeholderSections = SECTIONS[template];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -126,19 +138,41 @@ const SeoPageScaffold = ({
             </div>
           </header>
 
-          {/* Bloques de contenido obligatorios (placeholder por esqueleto) */}
+          {/* Contenido: copy real si existe, si no bloques placeholder */}
           <div className="mt-14 space-y-12">
-            {sections.map((title) => (
-              <section key={title} className="scroll-mt-28">
+            {contentSections && contentSections.length > 0
+              ? contentSections.map((s) => (
+                  <section key={s.title} className="scroll-mt-28">
+                    <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                      <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
+                      {s.title}
+                    </h2>
+                    <div className="mt-5">{s.body}</div>
+                  </section>
+                ))
+              : placeholderSections.map((title) => (
+                  <section key={title} className="scroll-mt-28">
+                    <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                      <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
+                      {title}
+                    </h2>
+                    <div className="mt-4 rounded-2xl border border-dashed border-border bg-surface/60 p-6 text-sm text-muted-foreground">
+                      Contenido pendiente · {title}
+                    </div>
+                  </section>
+                ))}
+
+            {faq && faq.length > 0 && (
+              <section className="scroll-mt-28">
                 <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
                   <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
-                  {title}
+                  Preguntas frecuentes
                 </h2>
-                <div className="mt-4 rounded-2xl border border-dashed border-border bg-surface/60 p-6 text-sm text-muted-foreground">
-                  Contenido pendiente · {title}
+                <div className="mt-5">
+                  <FaqList items={faq.map((f) => ({ q: f.q, a: f.a }))} />
                 </div>
               </section>
-            ))}
+            )}
           </div>
 
           {children}
