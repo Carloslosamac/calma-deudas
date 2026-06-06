@@ -64,6 +64,20 @@ export type MoneyEligibility = {
 /** CTA de cierre del journey. */
 export type MoneyClosing = { title: string; text: string };
 
+/** Banda de prueba social de marca (valoración + casos + medios). */
+export type MoneySocialProof = {
+  /** nota media, ej. "4,8" */
+  rating?: string;
+  /** nº de valoraciones, ej. "+1.200 valoraciones" */
+  ratingCount?: string;
+  /** cifra de casos resueltos, ej. "+19.000 familias sin deudas" */
+  casesLabel?: string;
+  /** sello de confianza, ej. "Respuesta en 24h · Gratis · Sin compromiso" */
+  trustSeal?: string;
+  /** etiqueta sobre los logos de medios */
+  mediaLabel?: string;
+};
+
 /** Testimonio real de deuda cancelada (prueba social). */
 export type MoneyTestimonial = {
   /** nombre de la persona */
@@ -171,6 +185,8 @@ export type MoneyContent = {
   metrics?: MoneyMetric[];
   eligibility?: MoneyEligibility;
   closing?: MoneyClosing;
+  /** banda de prueba social bajo el hero */
+  socialProof?: MoneySocialProof;
   /** módulos interactivos (simulador, selector, quiz, antes/después) */
   interactive?: MoneyInteractive;
 };

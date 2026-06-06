@@ -42,6 +42,13 @@ export const leySegundaOportunidad: MoneyContent = {
     ),
     trustNote: "Respuesta en 24h · Gratis · Sin compromiso",
   },
+  socialProof: {
+    rating: "4,8",
+    ratingCount: "+1.200 valoraciones",
+    casesLabel: "+19.000 familias sin deudas",
+    trustSeal: "Respuesta en 24h · Gratis · Sin compromiso",
+    mediaLabel: "Han hablado de nosotros",
+  },
   benefitsTitle: "Beneficios de la Ley de Segunda Oportunidad",
   benefits: [
     {

@@ -23,6 +23,8 @@ import Seo from "@/components/seo/Seo";
 import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
+import TrustBar from "@/components/seo/TrustBar";
+import MobileCtaBar from "@/components/seo/MobileCtaBar";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
 import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
@@ -147,6 +149,9 @@ const MoneyJourney = ({
             </motion.div>
           </div>
         </section>
+
+        {/* ---------- Prueba social de marca ---------- */}
+        <TrustBar data={content.socialProof} />
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
           {/* ---------- Simulador de deuda ---------- */}
@@ -409,6 +414,7 @@ const MoneyJourney = ({
 
       <FormSection />
       <Footer />
+      <MobileCtaBar />
     </div>
   );
 };

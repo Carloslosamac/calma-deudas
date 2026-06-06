@@ -1,47 +1,37 @@
-# Módulos interactivos para la money page LSO
+# Mejoras de confianza y conversión — LSO
 
-Añadir 4 módulos interactivos a `/ley-segunda-oportunidad` que hagan el recorrido entretenido y útil, y que **terminen siempre en conversión** (botón que hace scroll a `#hero-form`, regla de marca). Solo frontend/presentación (sin backend): cálculos orientativos del lado del cliente con su aviso de "estimación". Estilo en tokens de marca Calma, animación con framer-motion, sin gradientes en CTAs.
+Dos añadidos a la página `/ley-segunda-oportunidad`: una banda de **prueba social de marca** y una **CTA fija en móvil**.
 
-## Módulos (en orden dentro del journey)
+## 1. Prueba social de marca
 
-### 1. Simulador de deuda cancelable (tras el hero)
-- Sliders: **deuda total** (0–120.000 €) y **cuota mensual que pagas hoy**.
-- Salida animada: rango orientativo de deuda que podrías cancelar y "lo que dejarías de pagar al mes", con micro-aviso "estimación orientativa, lo confirmamos en tu estudio gratis".
-- CTA: "Quiero saber mi caso exacto" → `#hero-form`.
+Nuevo componente `TrustBar` que muestra, en una banda limpia justo debajo del hero:
 
-### 2. Selector de tipo de deuda (tras los beneficios)
-- Chips: Tarjetas revolving, Microcréditos, Préstamos bancarios, Hipoteca, Hacienda/SS, Varias a la vez.
-- Al elegir, mensaje adaptado + enlace interno a la solución relevante (revolving, microcréditos, reunificar, etc.) + CTA a `#hero-form`.
+- **Valoración tipo Trustpilot**: 5 estrellas, nota destacada (ej. "4,8/5") y nº de reseñas (ej. "+1.200 valoraciones").
+- **Casos resueltos**: cifra fuerte (ej. "+19.000 familias sin deudas") con icono.
+- **Sello de confianza**: "Respuesta en 24h · Gratis · Sin compromiso".
+- **Logos de medios**: fila de medios ("Han hablado de nosotros") reutilizando el estilo del componente `MediaLogos` ya existente, en versión compacta.
 
-### 3. Test de elegibilidad / quiz (tras los pasos)
-- 4 preguntas rápidas Sí/No (insolvencia, buena fe, sin condenas socioeconómicas, origen de la deuda) con barra de progreso y transiciones.
-- Pantalla de resultado motivadora ("Tu caso encaja, vamos a por ello" / "Lo vemos contigo sin coste") + CTA a `#hero-form`.
+Se integra en `MoneyJourney.tsx` para que aparezca en todas las money pages (no solo LSO), justo tras el hero y antes del simulador. Los textos saldrán de un nuevo bloque opcional `socialProof` en el contenido, con valores por defecto sensatos para que no rompa otras páginas.
 
-### 4. Comparador Antes / Después (antes del cierre)
-- Toggle "Hoy con deudas" vs "Después con Calma" que intercambia dos listas (estrés, llamadas, embargos ↔ tranquilidad, cero llamadas, vida nueva).
-- CTA a `#hero-form`.
+## 2. CTA fija en móvil
 
-## Cambios técnicos
+Nuevo componente `MobileCtaBar`:
 
-### Datos — `src/data/seo/content/types.ts` + `leySegundaOportunidad.tsx`
-Añadir bloque opcional `interactive` a `MoneyContent`:
-- `simulator?`: límites de los sliders + textos.
-- `debtTypes?`: lista `{ label, message, to? }`.
-- `quiz?`: `{ questions: {text, goodAnswer}[], resultPass, resultDoubt }`.
-- `beforeAfter?`: `{ before: string[], after: string[] }`.
-Rellenar estos datos para la página LSO. Al ser opcionales, otras money pages no muestran los módulos.
+- Barra fija en la parte inferior, **solo en móvil** (`md:hidden`).
+- Botón "Analizar mi deuda gratis" que hace scroll a `#hero-form` (regla de marca, sin navegar a otra página ni gradientes).
+- Aparece al hacer scroll más allá del hero y se oculta arriba del todo, con una transición suave.
+- Se añade una vez en `MoneyJourney.tsx` para cubrir todas las money pages.
 
-### Componentes nuevos — `src/components/seo/interactive/`
-- `DebtSimulator.tsx` — sliders (componente `ui/slider`) + cálculo cliente + número animado.
-- `DebtTypeSelector.tsx` — chips seleccionables + panel de mensaje + enlace.
-- `EligibilityQuiz.tsx` — stepper con `AnimatePresence`, barra de progreso, pantalla de resultado.
-- `BeforeAfter.tsx` — toggle de dos estados con listas.
-Todos reutilizan `CtaButton` y los tokens (`accent`, `accent-soft`, `surface-elevated`, `primary`). Envueltos en el patrón de revelado por scroll ya existente.
+## Detalles técnicos
 
-### Render — `src/components/seo/MoneyJourney.tsx`
-Insertar cada módulo en su posición cuando exista su dato en `content.interactive`. No se toca el resto de la estructura ni el SEO.
+- **Archivos nuevos**: `src/components/seo/TrustBar.tsx`, `src/components/seo/MobileCtaBar.tsx`.
+- **Editar** `src/components/seo/MoneyJourney.tsx`: render de `TrustBar` tras el hero y `MobileCtaBar` al final del `main`.
+- **Editar** `src/data/seo/content/types.ts`: tipo opcional `socialProof` (rating, ratingCount, casesLabel, mediaLabel) en `MoneyContent`.
+- **Editar** `src/data/seo/content/leySegundaOportunidad.tsx`: añadir bloque `socialProof`.
+- Reutilizar la lógica `scrollToForm` (extraer a util compartido o replicar) para el botón fijo.
+- Estilo con tokens del design system (accent, surface, border); estrellas con `lucide-react`; sin gradientes en el botón CTA.
+- Padding inferior extra en móvil para que la barra fija no tape contenido (FormSection/Footer).
 
-## Notas
-- Sin recogida de datos personales en los módulos (los sliders/quiz son anónimos); la captación real sigue en `#hero-form`.
-- Cifras del simulador presentadas como orientativas para no inducir a error (E-E-A-T).
-- QA en preview (desktop y móvil) tras implementar.
+## Verificación
+
+Revisar en preview a 375px (barra fija visible y funcional) y en desktop (TrustBar correcto, barra oculta), comprobando que el CTA hace scroll a `#hero-form`.
