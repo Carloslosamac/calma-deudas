@@ -75,14 +75,14 @@ const EligibilityQuiz = ({ quiz }: { quiz: MoneyQuiz }) => {
                 <button
                   type="button"
                   onClick={() => answer("yes")}
-                  className="min-w-28 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
+                  className="min-w-28 rounded-full border-2 border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:bg-accent-soft/50"
                 >
                   Sí
                 </button>
                 <button
                   type="button"
                   onClick={() => answer("no")}
-                  className="min-w-28 rounded-full border border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent/50"
+                  className="min-w-28 rounded-full border-2 border-border bg-surface px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:bg-accent-soft/50"
                 >
                   No
                 </button>
