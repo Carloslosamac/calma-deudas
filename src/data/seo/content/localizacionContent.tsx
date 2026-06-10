@@ -19,6 +19,18 @@ const P = ({ children }: { children: ReactNode }) => (
   <p className="text-base leading-relaxed text-foreground/85">{children}</p>
 );
 
+/**
+ * Índice de variante determinista por ciudad: estable para cada URL (no
+ * cambia entre cargas, lo que confundiría a Google) pero repartido entre
+ * ciudades para que el texto del armazón no sea idéntico entre todas.
+ */
+const variantIndex = (slug: string): number => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+};
+const pick = <T,>(arr: T[], seed: number): T => arr[seed % arr.length];
+
 export type LocalSection = { title: string; body: ReactNode };
 export type LocalFaq = { q: string; a: ReactNode; plain: string };
 
