@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
-import p1 from "@/assets/testimonial-5.jpg";
-import p2 from "@/assets/testimonial-6.jpg";
-import p3 from "@/assets/person-woman-window.jpg";
-import p4 from "@/assets/person-man-portrait.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -12,9 +8,11 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 );
 
 /**
- * Money page "Exoneración del pasivo insatisfecho (EPI)". Ángulo jurídico:
- * el mecanismo concreto que cancela la deuda dentro de la LSO. Módulo: línea
- * temporal legal. Sub-página del hub LSO. Pendiente de revisión legal.
+ * Página "Exoneración del pasivo insatisfecho (EPI)". Ángulo INFORMATIVO /
+ * AUTORIDAD JURÍDICA (no transaccional): explica el mecanismo legal con rigor
+ * —qué se exonera y qué no, modalidades, límites de deuda pública y revocación—
+ * y deriva el lead a la money page comercial /ley-segunda-oportunidad para no
+ * canibalizarla. Sub-página del hub LSO. Pendiente de revisión legal.
  */
 export const exoneracionPasivoInsatisfecho: MoneyContent = {
   path: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
@@ -22,11 +20,9 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
   tone: "legal",
   layout: [
     "benefits",
+    "comparisonTable",
+    "exonerationLimits",
     "legalTimeline",
-    "steps",
-    "quiz",
-    "metrics",
-    "testimonials",
     "sections",
     "eligibility",
     "faq",
@@ -34,23 +30,25 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
   ],
   intro: (
     <>
-      La <strong>exoneración del pasivo insatisfecho (EPI)</strong> es el mecanismo de la Ley de
-      Segunda Oportunidad por el que el juez cancela las deudas que no puedes pagar. Te
-      explicamos cómo funciona y si encajas, gratis.
+      La <strong>exoneración del pasivo insatisfecho (EPI)</strong> es la resolución judicial
+      que, dentro de la Ley de Segunda Oportunidad, cancela las deudas que no puedes pagar.
+      Aquí te explicamos con rigor cómo funciona: qué deudas alcanza, sus dos modalidades, los
+      límites de la deuda pública y cuándo puede revocarse.
     </>
   ),
   hero: {
-    badge: "Exoneración del pasivo insatisfecho",
-    titleLead: "Cancela legalmente",
-    titleAccent: "tu pasivo insatisfecho.",
+    badge: "Mecanismo legal de la Ley de Segunda Oportunidad",
+    titleLead: "Qué es y cómo funciona",
+    titleAccent: "la exoneración del pasivo insatisfecho.",
     subtitle: (
       <>
-        La EPI es la resolución judicial que <strong>borra las deudas pendientes</strong> dentro
-        de la Ley de Segunda Oportunidad. Estudiamos tu caso gratis y te decimos si puedes
-        acogerte.
+        La EPI es el corazón jurídico de la{" "}
+        <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>: la resolución por la
+        que el juez <strong>cancela las deudas pendientes</strong>. Te explicamos qué cubre,
+        sus límites y sus efectos, sin tecnicismos.
       </>
     ),
-    trustNote: "Diagnóstico gratis · Sin compromiso",
+    trustNote: "Guía jurídica · Actualizada a la reforma concursal",
   },
   socialProof: {
     rating: "4,8",
@@ -59,36 +57,14 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     trustSeal: "Abogados especialistas · Respuesta en 24h · Sin compromiso",
     mediaLabel: "Han hablado de nosotros",
   },
-  benefitsTitle: "Qué supone la exoneración del pasivo",
+  benefitsTitle: "Qué define a la exoneración del pasivo insatisfecho",
   benefits: [
-    { icon: "shield", title: "Cancelación de deudas", text: "El juez exonera las deudas pendientes que no puedes asumir." },
-    { icon: "scale", title: "Resolución judicial", text: "Es una decisión del juzgado con respaldo legal pleno, no un acuerdo informal." },
-    { icon: "wallet", title: "Recuperas tus ingresos", text: "Sin deudas exoneradas, tu nómina vuelve a ser para vivir." },
-    { icon: "landmark", title: "Incluye deuda pública", text: "Con límites, también alcanza a Hacienda y Seguridad Social." },
-    { icon: "gavel", title: "Embargos suspendidos", text: "Durante el procedimiento pueden suspenderse los embargos en curso." },
-    { icon: "sparkles", title: "Empiezas de cero", text: "Cierras el capítulo de la deuda y recuperas la tranquilidad." },
-  ],
-  testimonialsTitle: "Personas con su pasivo exonerado",
-  testimonialsSubtitle: "Casos reales de deudas canceladas por resolución judicial.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
-  testimonials: [
-    { name: "Alberto N.", amount: "68.300 €", location: "Madrid", text: "El juez exoneró mi deuda. Empecé de cero después de años atrapado.", photo: p1 },
-    { name: "Rosa M.", amount: "41.500 €", location: "Valencia", text: "Incluida deuda con Hacienda, dentro de los límites. Hoy respiro.", photo: p2 },
-    { name: "Tomás V.", amount: "95.200 €", location: "Sevilla", text: "Como autónomo arrastraba mucha deuda. La EPI me dio una salida real.", photo: p3 },
-    { name: "Inés C.", amount: "53.800 €", location: "Bilbao", text: "Pensaba que no había solución. La exoneración cambió mi vida.", photo: p4 },
-  ],
-  stepsTitle: "Cómo se consigue la EPI",
-  stepsSubtitle: "El camino hasta la cancelación judicial",
-  steps: [
-    { title: "Diagnóstico gratuito", text: "Comprobamos que cumples los requisitos de buena fe e insolvencia." },
-    { title: "Preparación del expediente", text: "Reunimos documentación y planteamos plan de pagos o liquidación." },
-    { title: "Procedimiento judicial", text: "Solicitamos la exoneración ante el juzgado y te representamos." },
-    { title: "Pasivo exonerado", text: "El juez dicta la cancelación de las deudas pendientes.", highlight: true },
-  ],
-  metrics: [
-    { value: "Gratis", label: "Estudiamos tu caso sin compromiso" },
-    { value: "24h", label: "Te llamamos en menos de un día" },
-    { value: "+19.000", label: "Familias ya libres de deudas" },
+    { icon: "gavel", title: "Es una resolución judicial", text: "La dicta un juez con respaldo legal pleno; no es un acuerdo informal con los acreedores." },
+    { icon: "scale", title: "Dos modalidades posibles", text: "Con plan de pagos (conservas patrimonio) o con liquidación previa de bienes." },
+    { icon: "shield", title: "Alcanza la mayoría de deudas", text: "Préstamos, tarjetas, microcréditos y deudas con proveedores, entre otras." },
+    { icon: "landmark", title: "Deuda pública con límites", text: "Hacienda y Seguridad Social se exoneran solo hasta los topes que fija la ley." },
+    { icon: "lock", title: "Exige buena fe", text: "Requiere no haber ocultado bienes ni provocado la insolvencia de forma fraudulenta." },
+    { icon: "clock", title: "Provisional o definitiva", text: "Con plan de pagos es revisable durante 3 años; tras cumplirlo se vuelve definitiva." },
   ],
   eligibility: {
     title: "¿Puedo acogerme a la EPI?",
@@ -108,10 +84,40 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     trustText: "Contenido en revisión por abogado especialista en insolvencia.",
   },
   closing: {
-    title: "La exoneración existe y es para personas como tú",
-    text: "No sigas cargando una deuda que la ley permite cancelar. Pide tu diagnóstico gratis y descubre si puedes acogerte.",
+    title: "¿Quieres saber si tu caso encaja en la EPI?",
+    text: "Ya conoces el mecanismo; el siguiente paso es aplicarlo a tu situación. Estudiamos tu caso gratis dentro de la Ley de Segunda Oportunidad y te decimos qué deuda podrías exonerar.",
   },
   interactive: {
+    comparisonTable: {
+      title: "Qué deudas se exoneran y cuáles no",
+      subtitle:
+        "La EPI alcanza casi toda la deuda ordinaria, pero la ley deja fuera o limita algunos conceptos.",
+      columns: [
+        { title: "Se exoneran", highlight: true },
+        { title: "Quedan fuera o con límite" },
+      ],
+      rows: [
+        { feature: "Préstamos personales y bancarios", values: ["Sí, en su totalidad", "—"] },
+        { feature: "Tarjetas y créditos revolving", values: ["Sí", "—"] },
+        { feature: "Microcréditos y préstamos rápidos", values: ["Sí", "—"] },
+        { feature: "Deudas con proveedores (autónomos)", values: ["Sí", "—"] },
+        { feature: "Deuda pública (Hacienda y Seg. Social)", values: ["Parcial", "Solo hasta el límite legal"] },
+        { feature: "Pensiones de alimentos", values: ["—", "Excluidas"] },
+        { feature: "Multas y responsabilidad penal", values: ["—", "Excluidas"] },
+        { feature: "Deudas por dolo o mala fe", values: ["—", "Excluidas"] },
+      ],
+    },
+    exonerationLimits: {
+      title: "Límites de la deuda pública",
+      subtitle:
+        "Hacienda y Seguridad Social no se exoneran por completo: la ley fija un tope por organismo.",
+      items: [
+        { label: "Hacienda (AEAT)", text: "Se exonera hasta el límite legal por deudor; el resto se reorganiza en un plan de pagos." },
+        { label: "Seguridad Social", text: "Mismo criterio: tramo exonerable limitado y el exceso aplazado." },
+        { label: "El resto de la deuda", text: "Préstamos, tarjetas y microcréditos no tienen este tope y pueden cancelarse íntegramente." },
+      ],
+      note: "Las cuantías concretas dependen de la normativa vigente y de tu caso. Lo confirmamos en el diagnóstico.",
+    },
     legalTimeline: {
       title: "Las fases hasta la exoneración",
       subtitle: "La EPI es la resolución final de un procedimiento reglado.",
@@ -122,41 +128,59 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
         { title: "Resolución de exoneración (EPI)", duration: "Resolución", text: "El juez cancela las deudas pendientes. Empiezas de cero." },
       ],
     },
-    quiz: {
-      title: "¿Encajas en la exoneración? Descúbrelo",
-      subtitle: "4 preguntas rápidas. Sin dar tus datos.",
-      questions: [
-        { text: "¿No puedes pagar tus deudas con tus ingresos?", goodAnswer: "yes" },
-        { text: "¿Actúas de buena fe?", goodAnswer: "yes" },
-        { text: "¿Eres particular o autónomo?", goodAnswer: "yes" },
-        { text: "¿Has ocultado bienes a propósito?", goodAnswer: "no" },
-      ],
-      resultPass: { title: "Podrías acogerte a la EPI", text: "Tu perfil encaja con la exoneración. Pide tu diagnóstico gratis ahora." },
-      resultDoubt: { title: "No te quedes con la duda", text: "Casos parecidos consiguen la exoneración. Lo valoramos gratis en 24h." },
-    },
   },
   sections: [
     {
       title: "¿Qué es la exoneración del pasivo insatisfecho?",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La EPI es la resolución judicial que, dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, <strong>cancela las deudas que no puedes pagar</strong>. Es el resultado final del procedimiento, una vez acreditada tu insolvencia y buena fe.</p>
+          <p>La EPI es la resolución judicial que, dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, <strong>cancela las deudas que no puedes pagar</strong>. Es el resultado final del procedimiento, una vez acreditada tu insolvencia y buena fe. No es un acuerdo con los acreedores ni una quita pactada: es una decisión del juzgado con efecto pleno.</p>
+          <p>Su regulación está en el Texto Refundido de la Ley Concursal, reformado en 2022 para hacer la exoneración más accesible y permitir, en muchos casos, conservar la vivienda mediante un plan de pagos.</p>
         </div>
       ),
     },
     {
-      title: "Qué deudas alcanza y cuáles tienen límites",
+      title: "Las dos modalidades de exoneración",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Alcanza préstamos, tarjetas, microcréditos y deudas con proveedores. La <strong>deuda pública</strong> (Hacienda y Seguridad Social) se exonera con límites legales. Mira el detalle en <A to="/deudas-hacienda-seguridad-social/deudas-hacienda">deudas con Hacienda</A>.</p>
+          <p>La ley contempla dos vías para llegar a la exoneración, y se elige la que mejor protege tu situación:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>EPI con liquidación de bienes:</strong> se realizan los bienes embargables para pagar lo posible y el resto de la deuda se cancela de forma inmediata. Útil cuando no hay vivienda o ya está sobreendeudada.</li>
+            <li><strong>EPI con plan de pagos:</strong> conservas tu patrimonio (incluida, en muchos casos, la vivienda habitual) y abonas una parte adaptada a tus ingresos durante un periodo de hasta 3 años. Cumplido el plan, el resto se exonera.</li>
+          </ul>
+          <p>Si todavía puedes asumir parte de la deuda, valora antes <A to="/reunificar-deudas">reunificar deudas</A> o <A to="/cancelar-deudas">cancelar deudas</A> concretas.</p>
         </div>
       ),
     },
     {
-      title: "Requisitos de buena fe",
+      title: "Exoneración provisional y definitiva",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Se exige no haber ocultado bienes ni provocado la insolvencia de forma fraudulenta, y colaborar con el procedimiento. Lo confirmamos en el diagnóstico gratuito.</p>
+          <p>En la modalidad <strong>con liquidación</strong>, la exoneración es <strong>directa y definitiva</strong>: una vez dictada, las deudas quedan canceladas.</p>
+          <p>En la modalidad <strong>con plan de pagos</strong>, la exoneración es <strong>provisional</strong> durante el periodo del plan (hasta 3 años). Si cumples el plan, se convierte en definitiva; durante ese tiempo el juez puede revisarla.</p>
+        </div>
+      ),
+    },
+    {
+      title: "Cuándo puede revocarse la exoneración",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>La EPI no es irreversible si se actúa de mala fe. Un juez puede revocarla, normalmente a instancia de un acreedor, en supuestos como:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Ocultar bienes, ingresos o derechos durante el procedimiento.</li>
+            <li>Una mejora sustancial de fortuna en los años siguientes (por herencia, premio o similar).</li>
+            <li>Incumplir el plan de pagos en la modalidad provisional.</li>
+          </ul>
+          <p>Por eso la <strong>transparencia y la buena fe</strong> son determinantes. Para el detalle de la deuda pública, consulta <A to="/deudas-hacienda-seguridad-social/deudas-hacienda">deudas con Hacienda</A>.</p>
+        </div>
+      ),
+    },
+    {
+      title: "Efectos de la exoneración en tu día a día",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>Una vez firme la exoneración, las deudas alcanzadas <strong>dejan de ser exigibles</strong>: se acaban las reclamaciones, las llamadas y los embargos por esas deudas. Recuperas tu nómina y puedes salir del <A to="/asnef/salir-de-asnef">ASNEF</A> y otros ficheros de morosos.</p>
+          <p>¿Quieres entender todo el procedimiento en profundidad? Lee la <A to="/blog/guia-ley-segunda-oportunidad">guía completa de la Ley de Segunda Oportunidad</A>.</p>
         </div>
       ),
     },
@@ -164,6 +188,9 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
   faq: [
     { q: "¿Qué es la exoneración del pasivo insatisfecho?", a: (<>Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe.</>), plain: "Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe." },
     { q: "¿Incluye la deuda con Hacienda?", a: (<>Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos.</>), plain: "Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos." },
+    { q: "¿La exoneración es definitiva?", a: (<>Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva.</>), plain: "Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva." },
+    { q: "¿Aparece la exoneración en algún registro público?", a: (<>Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda.</>), plain: "Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda." },
+    { q: "¿Puede revocarse una vez concedida?", a: (<>Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos.</>), plain: "Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos." },
     { q: "¿Puedo perder mi vivienda?", a: (<>Depende del caso. A veces se mantiene mediante un plan de pagos; en otros se liquida. Lo valoramos en tu diagnóstico.</>), plain: "Depende del caso. A veces se mantiene mediante un plan de pagos; en otros se liquida. Lo valoramos en tu diagnóstico." },
     { q: "¿El diagnóstico tiene coste?", a: (<>No. El diagnóstico es gratuito y sin compromiso.</>), plain: "No. El diagnóstico es gratuito y sin compromiso." },
   ],
