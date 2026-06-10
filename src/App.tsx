@@ -27,7 +27,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
 import { guias } from "./data/seo/guias";
-import { localizaciones } from "./data/seo/localizaciones";
 
 const queryClient = new QueryClient();
 
