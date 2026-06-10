@@ -22,6 +22,7 @@ type Entry = {
 const staticEntries: Entry[] = [
   { loc: "/", changefreq: "weekly", priority: "1.0", lastmod: today },
   { loc: "/blog", changefreq: "weekly", priority: "0.9", lastmod: today },
+  { loc: "/servicios", changefreq: "weekly", priority: "0.8", lastmod: today },
   {
     loc: "/politica-de-privacidad",
     changefreq: "yearly",
