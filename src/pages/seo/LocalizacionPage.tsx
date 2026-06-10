@@ -16,7 +16,14 @@ const LocalizacionPage = () => {
   const content = getLocalizacionContent(city);
 
   const seoTitle = `Abogados Ley Segunda Oportunidad en ${city.name} | Calma`;
-  const metaDescription = `Abogados especialistas en la Ley de Segunda Oportunidad en ${city.name}. Cancela tus deudas legalmente. Diagnóstico gratis y sin compromiso.`;
+  const metaVariants = [
+    `Abogados especialistas en la Ley de Segunda Oportunidad en ${city.name} (${city.provincia}). Cancela tus deudas legalmente. Diagnóstico gratis y sin compromiso.`,
+    `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente en toda la provincia de ${city.provincia}. Primer diagnóstico gratuito.`,
+    `Cancela tus deudas en ${city.name} con la Ley de Segunda Oportunidad. Abogados especialistas para ${city.provincia}, atención online y diagnóstico gratis.`,
+  ];
+  let h = 0;
+  for (let i = 0; i < city.slug.length; i++) h = (h * 31 + city.slug.charCodeAt(i)) >>> 0;
+  const metaDescription = metaVariants[h % metaVariants.length];
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
