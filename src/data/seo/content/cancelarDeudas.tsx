@@ -204,68 +204,138 @@ export const cancelarDeudas: MoneyContent = {
       defaultDebt: 22000,
       defaultMonthly: 400,
     },
-    debtTypesTitle: "¿Qué deudas quieres cancelar?",
-    debtTypesSubtitle: "Elige lo que más se parece a tu caso y te decimos por dónde empezar.",
+    comparisonTable: {
+      title: "¿Qué solución te conviene?",
+      subtitle:
+        "No todas las deudas se eliminan igual. Esta es la guía rápida para situarte; tu caso lo confirmamos gratis.",
+      columns: [
+        { title: "Cancelar (LSO)", highlight: true },
+        { title: "Anular por usura" },
+        { title: "Negociar quita" },
+        { title: "Reunificar" },
+      ],
+      rows: [
+        {
+          feature: "Cuándo encaja",
+          values: [
+            "No puedes pagar nada",
+            "Intereses abusivos",
+            "Puedes pagar una parte",
+            "Puedes pagar una cuota",
+          ],
+        },
+        {
+          feature: "Qué pasa con la deuda",
+          values: ["Se cancela entera", "Se anula la abusiva", "Se reduce", "Se agrupa"],
+        },
+        {
+          feature: "¿Sigues pagando?",
+          values: ["no", "no", "Parte", "sí"],
+        },
+        {
+          feature: "Para deuda pública",
+          values: ["sí", "no", "Limitado", "no"],
+        },
+        {
+          feature: "Plazo aproximado",
+          values: ["6-18 meses", "Meses", "Semanas", "Inmediato"],
+        },
+        {
+          feature: "Resultado",
+          values: ["Empiezas de cero", "Deuda anulada", "Deuda menor", "Una sola cuota"],
+        },
+      ],
+    },
+    debtTypesTitle: "¿En qué situación estás?",
+    debtTypesSubtitle: "Elige la que más se parece a la tuya y te decimos por dónde tu deuda puede desaparecer.",
     debtTypes: [
       {
-        label: "Tarjetas revolving",
+        label: "Ya no puedo pagar nada",
         message:
-          "Suelen tener intereses abusivos: muchas veces se anulan por usura y se pueden cancelar.",
-        to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
-        linkLabel: "Cómo cancelar tarjetas revolving",
-      },
-      {
-        label: "Microcréditos",
-        message:
-          "Se acumulan rápido y ahogan. Se pueden cancelar con la Ley de Segunda Oportunidad.",
-        to: "/microcreditos-prestamos/cancelar-microcreditos",
-        linkLabel: "Cómo cancelar microcréditos",
-      },
-      {
-        label: "Préstamos bancarios",
-        message:
-          "Préstamos personales y descubiertos también se cancelan si no puedes asumirlos.",
+          "Si tus ingresos no cubren las cuotas, la vía más potente es cancelar toda la deuda con la Ley de Segunda Oportunidad.",
         to: "/ley-segunda-oportunidad",
-        linkLabel: "Ley de Segunda Oportunidad",
+        linkLabel: "Cancelar con la Ley de Segunda Oportunidad",
       },
       {
-        label: "Aún puedo pagar algo",
+        label: "Puedo pagar una cuota pequeña",
         message:
-          "Si todavía puedes pagar una cuota asumible, quizá te convenga reunificar antes de cancelar.",
+          "Si aún puedes asumir un pago razonable, valoramos reunificar en una sola cuota o negociar una quita antes de cancelar.",
         to: "/reunificar-deudas",
         linkLabel: "Ver reunificación de deudas",
       },
       {
-        label: "Hacienda / Seg. Social",
+        label: "Mis intereses son altísimos",
         message:
-          "La deuda pública también se exonera, con límites. Te decimos cuánto en tu caso.",
+          "Tarjetas revolving y microcréditos suelen tener intereses abusivos: muchas veces la deuda se anula por usura.",
+        to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
+        linkLabel: "Anular tarjetas revolving por usura",
+      },
+      {
+        label: "Tengo deuda con Hacienda / SS",
+        message:
+          "La deuda pública también se exonera, con ciertos límites. Te decimos cuánto puedes eliminar en tu caso.",
         to: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
         linkLabel: "Exoneración del pasivo insatisfecho",
       },
       {
-        label: "Varias a la vez",
+        label: "Me reclaman o me embargan",
         message:
-          "Lo más habitual. Las unificamos en una estrategia para cancelar el máximo posible.",
+          "Si ya hay reclamación judicial o embargo, hay que actuar rápido: podemos frenarlo y cancelar la deuda de fondo.",
+        to: "/microcreditos-prestamos/cancelar-microcreditos",
+        linkLabel: "Cómo cancelar microcréditos",
+      },
+      {
+        label: "No sé por dónde empezar",
+        message:
+          "Lo más habitual: varias deudas y mil dudas. Estudiamos tu caso gratis y elegimos la mejor vía por ti.",
         to: "/cancelacion-de-deudas",
         linkLabel: "Guía de cancelación de deudas",
       },
     ],
+    urgencyTimeline: {
+      title: "Qué pasa si no eliges una salida",
+      subtitle: "Cuanto más esperas, más caro y más difícil. Esta es la línea que sigue una deuda sin solución.",
+      items: [
+        {
+          time: "Hoy",
+          title: "Los intereses siguen creciendo",
+          text: "Cada mes que pasa, la deuda es mayor y tu margen para vivir, menor.",
+        },
+        {
+          time: "Semanas",
+          title: "Reclamaciones y recobro",
+          text: "Llamadas, cartas y empresas de recobro presionando para que pagues.",
+        },
+        {
+          time: "Meses",
+          title: "Demanda y juicio monitorio",
+          text: "El acreedor reclama judicialmente la deuda y se acumulan costas.",
+          danger: true,
+        },
+        {
+          time: "Después",
+          title: "Embargo de nómina y cuentas",
+          text: "Se traba tu sueldo y tus cuentas. Evitarlo es mucho más fácil antes de llegar aquí.",
+          danger: true,
+        },
+      ],
+    },
     quiz: {
-      title: "¿Puedes cancelar tus deudas? Descúbrelo",
-      subtitle: "4 preguntas rápidas. Sin dar tus datos.",
+      title: "¿Cuál es tu vía? Descúbrelo",
+      subtitle: "4 preguntas rápidas para orientarte. Sin dar tus datos.",
       questions: [
         { text: "¿No puedes pagar tus deudas con tus ingresos actuales?", goodAnswer: "yes" },
         { text: "¿Tus deudas suman más de 5.000 €?", goodAnswer: "yes" },
-        { text: "¿Vienen de préstamos, tarjetas o microcréditos?", goodAnswer: "yes" },
+        { text: "¿Vienen de préstamos, tarjetas o microcréditos (no solo sanciones)?", goodAnswer: "yes" },
         { text: "¿Has ocultado bienes o provocado tu insolvencia a propósito?", goodAnswer: "no" },
       ],
       resultPass: {
-        title: "Puedes cancelar buena parte de tu deuda",
-        text: "Cumples las condiciones clave. Cada mes que sigues pagando es dinero perdido. Pide tu estudio gratis y confirma cuánto puedes borrar.",
+        title: "Tu deuda puede desaparecer",
+        text: "Tu perfil encaja con las vías para eliminar deuda. Pide tu estudio gratis y te decimos exactamente cuál es la tuya y cuánto puedes borrar.",
       },
       resultDoubt: {
-        title: "Probablemente sí. No te quedes con la duda.",
-        text: "Casos muy parecidos al tuyo cancelan deuda cada semana. Lo resolvemos gratis en 24h.",
+        title: "Seguramente hay una vía para ti",
+        text: "Casos muy parecidos al tuyo eliminan deuda cada semana, cada uno por una vía distinta. Lo resolvemos gratis en 24h.",
       },
     },
     beforeAfter: {
