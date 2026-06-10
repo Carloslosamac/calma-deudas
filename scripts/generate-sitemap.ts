@@ -9,6 +9,8 @@ import { SITE_URL } from "../src/lib/seo/config";
 import { moneyPages } from "../src/data/seo/moneyPages";
 import { satelliteClusters } from "../src/data/seo/architecture";
 import { entities } from "../src/data/seo/entities";
+import { comparativas } from "../src/data/seo/comparativas";
+import { guias } from "../src/data/seo/guias";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -68,11 +70,29 @@ const entityEntries: Entry[] = entities.map((e) => ({
   priority: "0.5",
 }));
 
+// Comparativas.
+const comparativaEntries: Entry[] = comparativas.map((c) => ({
+  loc: `${c.path}/`,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.6",
+}));
+
+// Guías de educación financiera.
+const guiaEntries: Entry[] = guias.map((g) => ({
+  loc: `${g.path}/`,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.6",
+}));
+
 const entries = [
   ...staticEntries,
   ...moneyEntries,
   ...clusterEntries,
   ...entityEntries,
+  ...comparativaEntries,
+  ...guiaEntries,
   ...postEntries,
 ];
 
