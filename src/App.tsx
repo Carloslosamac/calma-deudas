@@ -19,6 +19,7 @@ import MoneyLanding from "./pages/seo/MoneyLanding";
 import ClusterHub from "./pages/seo/ClusterHub";
 import EntityPage from "./pages/seo/EntityPage";
 import CasosLSO from "./pages/seo/CasosLSO";
+import Servicios from "./pages/seo/Servicios";
 import { moneyPages } from "./data/seo/moneyPages";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,8 @@ const App = () => (
           <Route path="/call/altaley" element={<CallRedirectAltaley />} />
           <Route path="/call/quitadeudas" element={<CallRedirectQuitaDeudas />} />
           <Route path="/call/lexitia" element={<CallRedirectLexitia />} />
+          {/* Hub de servicios */}
+          <Route path="/servicios" element={<Servicios />} />
           {/* Money pages (paths explícitos, generados desde data) */}
           {moneyPages.map((p) => (
             <Route key={p.path} path={p.path} element={<MoneyLanding />} />
