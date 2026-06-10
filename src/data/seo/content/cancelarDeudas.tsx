@@ -209,40 +209,40 @@ export const cancelarDeudas: MoneyContent = {
       subtitle:
         "No todas las deudas se eliminan igual. Esta es la guía rápida para situarte; tu caso lo confirmamos gratis.",
       columns: [
-        { title: "Cancelar (LSO)", highlight: true },
-        { title: "Anular por usura" },
-        { title: "Negociar quita" },
+        { title: "LSO", highlight: true },
         { title: "Reunificar" },
+        { title: "Reclamación judicial" },
+        { title: "Refinanciar" },
       ],
       rows: [
         {
           feature: "Cuándo encaja",
           values: [
             "No puedes pagar nada",
-            "Intereses abusivos",
-            "Puedes pagar una parte",
             "Puedes pagar una cuota",
+            "Intereses o cláusulas abusivas",
+            "Quieres mejores condiciones",
           ],
         },
         {
           feature: "Qué pasa con la deuda",
-          values: ["Se cancela entera", "Se anula la abusiva", "Se reduce", "Se agrupa"],
+          values: ["Se cancela entera", "Se agrupa", "Se anula la abusiva", "Se rebaja la cuota"],
         },
         {
           feature: "¿Sigues pagando?",
-          values: ["no", "no", "Parte", "sí"],
+          values: ["no", "sí", "no", "sí"],
         },
         {
           feature: "Para deuda pública",
-          values: ["sí", "no", "Limitado", "no"],
+          values: ["sí", "no", "no", "no"],
         },
         {
           feature: "Plazo aproximado",
-          values: ["6-18 meses", "Meses", "Semanas", "Inmediato"],
+          values: ["6-18 meses", "Inmediato", "Meses", "Semanas"],
         },
         {
           feature: "Resultado",
-          values: ["Empiezas de cero", "Deuda anulada", "Deuda menor", "Una sola cuota"],
+          values: ["Empiezas de cero", "Una sola cuota", "Deuda anulada", "Cuota más baja"],
         },
       ],
     },
