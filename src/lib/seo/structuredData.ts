@@ -1,4 +1,5 @@
 import { ORGANIZATION, SITE_NAME, SITE_URL, absoluteUrl } from "./config";
+import type { Localizacion } from "@/data/seo/localizaciones";
 
 type JsonLd = Record<string, unknown>;
 
@@ -46,6 +47,49 @@ export const buildLegalService = (): JsonLd => ({
   areaServed: { "@type": "Country", name: "España" },
   serviceType: "Ley de Segunda Oportunidad",
   priceRange: "€€",
+  provider: {
+    "@type": "Organization",
+    name: ORGANIZATION.name,
+    url: SITE_URL,
+  },
+});
+
+/**
+ * LegalService local para las landings por ciudad. Modela un negocio de
+ * "área de servicio" (service-area business): SIN dirección/oficina física
+ * —no existe, la atención es en remoto— pero con `areaServed` a nivel de
+ * ciudad/provincia y `geo` con las coordenadas reales. Es la forma correcta
+ * y honesta de declarar relevancia local ante los buscadores.
+ */
+export const buildLocalLegalService = (city: Localizacion): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  name: `${ORGANIZATION.name} · Abogados Ley de Segunda Oportunidad en ${city.name}`,
+  url: absoluteUrl(`${city.path}/`),
+  image: ORGANIZATION.logo,
+  description: `Abogados especialistas en la Ley de Segunda Oportunidad que atienden a ${city.name} y toda la provincia de ${city.provincia}. Atención online y presencia en los juzgados cuando el procedimiento lo requiere.`,
+  areaServed: {
+    "@type": "City",
+    name: city.name,
+    containedInPlace: {
+      "@type": "AdministrativeArea",
+      name: city.provincia,
+    },
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: city.lat,
+    longitude: city.lng,
+  },
+  serviceType: "Ley de Segunda Oportunidad",
+  priceRange: "€€",
+  availableChannel: [
+    {
+      "@type": "ServiceChannel",
+      serviceUrl: absoluteUrl(`${city.path}/`),
+      availableLanguage: ["Spanish"],
+    },
+  ],
   provider: {
     "@type": "Organization",
     name: ORGANIZATION.name,
