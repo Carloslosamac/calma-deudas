@@ -8,9 +8,12 @@ import t3 from "@/assets/testimonial-3.jpg";
 import t4 from "@/assets/testimonial-4.jpg";
 import t5 from "@/assets/testimonial-5.jpg";
 import t6 from "@/assets/testimonial-6.jpg";
-import team1 from "@/assets/avatar-1.jpg";
-import team2 from "@/assets/avatar-2.jpg";
-import team3 from "@/assets/avatar-3.jpg";
+import team1 from "@/assets/team-lawyer-1.jpg";
+import team2 from "@/assets/team-lawyer-2.jpg";
+import team3 from "@/assets/team-lawyer-3.jpg";
+import team4 from "@/assets/team-lawyer-4.jpg";
+import team5 from "@/assets/team-lawyer-5.jpg";
+import team6 from "@/assets/team-lawyer-6.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
