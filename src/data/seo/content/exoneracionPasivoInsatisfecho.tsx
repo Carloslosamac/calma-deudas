@@ -120,7 +120,6 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
       ],
       note: "Estos importes son los vigentes tras la reforma concursal de 2022 y pueden actualizarse. Lo confirmamos en tu diagnóstico.",
     },
-    },
     legalTimeline: {
       title: "Las fases hasta la exoneración",
       subtitle: "La EPI es la resolución final de un procedimiento reglado.",
