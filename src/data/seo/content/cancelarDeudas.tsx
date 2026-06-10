@@ -361,15 +361,33 @@ export const cancelarDeudas: MoneyContent = {
   },
   sections: [
     {
-      title: "¿Qué deudas se pueden cancelar?",
+      title: "Las 4 vías para que tu deuda desaparezca",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
-            La mayoría de deudas con bancos, financieras, tarjetas, microcréditos,
-            proveedores y particulares <strong>se pueden cancelar</strong> cuando no puedes
-            pagarlas. La deuda pública con Hacienda y Seguridad Social también, con ciertos
-            límites de exoneración.
+            No existe una sola forma de eliminar una deuda. Según tu situación, la salida
+            puede ser una de estas cuatro:
           </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong>Cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>:</strong>{" "}
+              cuando no puedes pagar, se cancela la deuda entera, incluida la pública con límites.
+            </li>
+            <li>
+              <strong>Anular por usura:</strong> en{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
+              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> con
+              intereses abusivos, la deuda se anula total o parcialmente.
+            </li>
+            <li>
+              <strong>Negociar una quita:</strong> un acuerdo con el acreedor para reducir lo
+              que debes cuando aún hay algo de margen.
+            </li>
+            <li>
+              <strong><A to="/reunificar-deudas">Reunificar</A>:</strong> agrupar todo en una
+              sola cuota asumible si todavía puedes pagar.
+            </li>
+          </ul>
           <p>
             Si quieres entender a fondo las vías legales, plazos y requisitos, lee nuestra
             guía de <A to="/cancelacion-de-deudas">cancelación de deudas</A>.
@@ -378,44 +396,50 @@ export const cancelarDeudas: MoneyContent = {
       ),
     },
     {
-      title: "Vías legales para cancelar deudas",
-      body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Según tu caso, estudiamos la vía que más te conviene:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Ley de Segunda Oportunidad:</strong> cancela las deudas que no puedes
-              pagar. La vía más potente. Conócela en el{" "}
-              <A to="/ley-segunda-oportunidad">hub de la LSO</A>.
-            </li>
-            <li>
-              <strong>Reclamación por usura:</strong> en revolving y microcréditos con
-              intereses abusivos, muchas veces la deuda se anula.
-            </li>
-            <li>
-              <strong>Negociación con acreedores:</strong> quitas y acuerdos cuando aún hay
-              margen de pago.
-            </li>
-          </ul>
-        </div>
-      ),
-    },
-    {
-      title: "Cancelar o reunificar: cuál te conviene",
+      title: "¿Cómo sé cuál es la mía?",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
-            Si ya no puedes pagar, lo lógico es <strong>cancelar</strong>. Si todavía puedes
-            asumir una cuota razonable, quizá te interese{" "}
-            <A to="/reunificar-deudas">reunificar tus deudas</A> en un solo pago antes de
-            cancelar. En el diagnóstico gratuito te decimos cuál encaja mejor con tu
-            situación, sin compromiso.
+            La vía correcta depende de dos cosas: <strong>cuánto puedes pagar</strong> y{" "}
+            <strong>de dónde viene la deuda</strong>. Como guía rápida:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              Si <strong>no puedes pagar nada</strong> → cancelar con la{" "}
+              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
+            </li>
+            <li>
+              Si tus <strong>intereses son abusivos</strong> → anular por usura.
+            </li>
+            <li>
+              Si <strong>puedes pagar una parte</strong> → negociar una quita o{" "}
+              <A to="/reunificar-deudas">reunificar</A>.
+            </li>
+          </ul>
+          <p>
+            No tienes que acertar tú: en el diagnóstico gratuito comparamos las vías
+            contigo y elegimos la que más deuda elimina en tu caso.
           </p>
         </div>
       ),
     },
     {
-      title: "Coste y plazos",
+      title: "Cancelar vs reunificar vs reclamar",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            <strong>Cancelar</strong> hace desaparecer la deuda cuando ya no puedes pagar.{" "}
+            <strong>Reclamar</strong> por usura la anula si los intereses son abusivos.{" "}
+            <A to="/reunificar-deudas">Reunificar</A> no la elimina, pero la convierte en una
+            sola cuota más baja si todavía puedes pagar. La peor opción casi siempre es no
+            elegir ninguna: en el diagnóstico gratuito te decimos cuál encaja mejor contigo,
+            sin compromiso.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Coste y plazos por vía",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
@@ -423,9 +447,10 @@ export const cancelarDeudas: MoneyContent = {
             damos un presupuesto cerrado desde el principio, con opción de pago fraccionado.
           </p>
           <p>
-            Los plazos dependen de la vía: una reclamación por usura puede resolverse antes
-            que un procedimiento de Segunda Oportunidad, que suele durar entre 6 y 18 meses.
-            Los embargos pueden suspenderse mucho antes.
+            Los plazos dependen de la vía: una <strong>reunificación</strong> es casi
+            inmediata, una <strong>reclamación por usura</strong> se resuelve en meses y la{" "}
+            <strong>Ley de Segunda Oportunidad</strong> suele durar entre 6 y 18 meses. En
+            todos los casos, los embargos pueden suspenderse mucho antes del final.
           </p>
         </div>
       ),
@@ -433,7 +458,15 @@ export const cancelarDeudas: MoneyContent = {
   ],
   faq: [
     {
-      q: "¿Qué deudas puedo cancelar?",
+      q: "No sé qué vía me conviene, ¿cómo lo decido?",
+      a: (
+        <>No tienes que decidirlo tú. En el diagnóstico gratuito analizamos cuánto puedes pagar y de dónde viene tu deuda, comparamos las vías (cancelar, reclamar, negociar o reunificar) y te decimos cuál elimina más deuda en tu caso.</>
+      ),
+      plain:
+        "No tienes que decidirlo tú. En el diagnóstico gratuito analizamos cuánto puedes pagar y de dónde viene tu deuda, comparamos las vías (cancelar, reclamar, negociar o reunificar) y te decimos cuál elimina más deuda en tu caso.",
+    },
+    {
+      q: "¿Qué deudas puedo eliminar?",
       a: (
         <>La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites.</>
       ),
@@ -441,7 +474,15 @@ export const cancelarDeudas: MoneyContent = {
         "La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites.",
     },
     {
-      q: "¿Cuánto cuesta cancelar mis deudas?",
+      q: "¿Y si me equivoco de vía?",
+      a: (
+        <>No vas a elegir a ciegas: la vía la definimos nosotros tras estudiar tu caso, y solo seguimos adelante cuando tiene sentido para ti. Si tu situación cambia, reorientamos la estrategia.</>
+      ),
+      plain:
+        "No vas a elegir a ciegas: la vía la definimos nosotros tras estudiar tu caso, y solo seguimos adelante cuando tiene sentido para ti. Si tu situación cambia, reorientamos la estrategia.",
+    },
+    {
+      q: "¿Cuánto cuesta eliminar mis deudas?",
       a: (
         <>El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado y opción de pago fraccionado.</>
       ),
