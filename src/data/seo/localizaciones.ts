@@ -39,7 +39,10 @@ export type Localizacion = {
 
 const base = "/abogados-ley-segunda-oportunidad";
 
-const cities: Omit<Localizacion, "path">[] = [
+const cities: Omit<
+  Localizacion,
+  "path" | "zonas" | "sedeJudicial" | "perfilDeuda" | "prefijo"
+>[] = [
   {
     slug: "madrid",
     name: "Madrid",
