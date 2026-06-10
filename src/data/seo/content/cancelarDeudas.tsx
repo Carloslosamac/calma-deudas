@@ -414,6 +414,40 @@ export const cancelarDeudas: MoneyContent = {
   },
   sections: [
     {
+      title: "¿Por dónde empiezo?",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            Si te sientes perdido, hazte estas tres preguntas. La respuesta te acerca a la
+            vía que mejor encaja contigo:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong>¿Puedes pagar algo cada mes?</strong> Si <strong>no</strong>, tu vía es
+              cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
+              Si <strong>sí</strong>, valora <A to="/reunificar-deudas">reunificar</A> en una
+              sola cuota.
+            </li>
+            <li>
+              <strong>¿Tus intereses son altísimos?</strong> En{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
+              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> muchas
+              veces la deuda se anula por usura.
+            </li>
+            <li>
+              <strong>¿Ya te reclaman o te embargan?</strong> Hay que actuar rápido: podemos
+              frenarlo y atacar la deuda de fondo.
+            </li>
+          </ul>
+          <p>
+            No tienes que acertar tú. Cuéntanos tu situación y lo resolvemos gratis. Si
+            prefieres entenderlo a fondo antes, lee la guía de{" "}
+            <A to="/cancelacion-de-deudas">cancelación de deudas</A>.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Las 4 vías para que tu deuda desaparezca",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
