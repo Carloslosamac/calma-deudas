@@ -147,23 +147,23 @@ export const cancelarDeudas: MoneyContent = {
       photo: p6,
     },
   ],
-  stepsTitle: "Tu camino para cancelar deudas",
-  stepsSubtitle: "Cuatro pasos claros para quitarte la carga",
+  stepsTitle: "De no saber qué hacer a tu deuda eliminada",
+  stepsSubtitle: "Cuatro pasos claros, sin que tengas que decidir solo",
   steps: [
     {
       title: "Diagnóstico gratuito",
-      text: "Analizamos tus deudas e ingresos para ver cuáles puedes cancelar.",
+      text: "Analizamos tus deudas e ingresos para ver qué vías encajan con tu caso.",
     },
     {
-      title: "Estrategia a medida",
-      text: "Elegimos la mejor vía legal: reclamación, LSO o negociación.",
+      title: "Elegimos la vía correcta",
+      text: "Comparamos cancelar, reclamar, negociar o reunificar y te decimos cuál te conviene.",
     },
     {
       title: "Inicio del proceso",
       text: "Ponemos en marcha la cancelación y frenamos la presión de los acreedores.",
     },
     {
-      title: "Deuda cancelada",
+      title: "Deuda eliminada",
       text: "Te quitas la carga y empiezas de cero.",
       highlight: true,
     },
@@ -174,11 +174,12 @@ export const cancelarDeudas: MoneyContent = {
     { value: "Gratis", label: "Sabes hoy mismo cuánto puedes dejar de pagar" },
   ],
   eligibility: {
-    title: "¿Puedo cancelar mis deudas?",
+    title: "¿Puede desaparecer mi deuda?",
     intro: (
       <>
-        Si no puedes pagar tus deudas con tus ingresos actuales y actúas de buena fe, lo
-        más probable es que puedas cancelar buena parte de ellas. Lo confirmamos gratis.
+        Casi siempre hay una vía para eliminar la deuda; lo que cambia es cuál. Si te
+        reconoces en estos puntos, lo más probable es que podamos hacerla desaparecer.
+        Lo confirmamos gratis.
       </>
     ),
     requirements: [
@@ -191,8 +192,8 @@ export const cancelarDeudas: MoneyContent = {
     trustText: "Actualizado según la última reforma concursal.",
   },
   closing: {
-    title: "Cada mes que pagas, es dinero que no recuperas",
-    text: "Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y descubre cuánta deuda puedes cancelar legalmente.",
+    title: "No necesitas saber la vía. Solo dar el primer paso",
+    text: "Tú nos cuentas tu situación y nosotros te decimos por dónde tu deuda puede desaparecer. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora.",
   },
   interactive: {
     simulator: {
