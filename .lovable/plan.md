@@ -1,40 +1,43 @@
 ## Objetivo
 
-Hoy el highlight del `<h1>` solo usa 2 colores: verde (`transactional`, `legal`, `calm`) y naranja (`urgent`). El objetivo es que cada tono tenga su propio acento, diferenciando las money pages también por color de cabecera, manteniendo el verde de marca como base.
+Dar contenido real a los 12 hubs de cluster satélite, que hoy renderizan solo intro + enlaces con secciones en placeholder ("Contenido pendiente"). Cada hub pasa a ser una página índice editorial con copy propio, secciones SEO, FAQ (con JSON-LD) e interlinking reforzado hacia sus money pages y fichas de entidad.
 
-## Resultado: 4 colores de highlight
+Los 3 hubs "principales" (LSO, Cancelar deudas, Reunificar) NO entran aquí: sus URLs ya se sirven como money pages. Esto cubre solo los satélites:
 
-| Color highlight | Páginas | Sensación |
-|-----------------|---------|-----------|
-| Verde de marca (actual) | Cancelar deudas, Microcréditos, Revolving, Reunificación, Reunificar, **LSO**, **Abogados LSO** | Acción / marca |
-| Azul jurídico (nuevo) | Concurso, Deudas Hacienda, Deudas Seg. Social, EPI | Confianza / autoridad |
-| Teal sereno (nuevo) | Cancelación de deudas | Calma / alivio |
-| Naranja (actual) | ASNEF, Parar embargo, Juicio monitorio | Urgencia |
-
-Nota: aunque LSO y Abogados LSO son páginas jurídicas, se mantienen en **verde de marca** por ser las cabeceras principales del hub. Solo las jurídicas secundarias (Concurso, Hacienda, Seg. Social, EPI) llevan el azul.
+```
+asnef · embargos · tarjetas-revolving · microcreditos-prestamos ·
+deudas-hacienda-seguridad-social · juicio-monitorio-recobro ·
+bancos-hipoteca-vivienda · autonomos-concurso-acreedores ·
+empresas-de-recobro · situaciones · estafas-fraude · guias
+```
 
 ## Cómo se hace
 
-1. **Nuevos tokens semánticos** en `src/index.css` (HSL) y su mapeo en `tailwind.config.ts`:
-   - `--legal-deep` (azul oscuro, ~`215 55% 35%`) y `--legal-soft`.
-   - `--calm-deep` (teal, ~`180 45% 32%`) y `--calm-soft`.
-   - Se reutilizan `accent-deep` (verde) y `orange-deep` (naranja). Nada de colores hardcodeados.
+1. **Nuevo registro de contenido de hub** en `src/data/seo/content/hubContent.tsx`:
+   - Tipo `HubContent`: `{ slug, intro, sections: ContentSection[], faq: { q; a; plain }[] }`.
+   - Función `getHubContent(slug)`.
+   - Reutiliza `ContentSection` y el patrón de FAQ ya existentes (igual que las money pages, con `plain` para el JSON-LD).
 
-2. **Extender el mapa `TONE`** en `src/components/seo/MoneyJourney.tsx`:
-   - `legal` → `text-legal-deep` (azul).
-   - `calm` → `text-calm-deep` (teal).
-   - `transactional` y `urgent` se quedan igual.
-   - El `heroBg` no cambia; solo el color del texto destacado y del badge.
+2. **Actualizar `src/pages/seo/ClusterHub.tsx`**:
+   - Leer `getHubContent(cluster.slug)`.
+   - Pasar `intro`, `sections` y `faq` a `SeoPageScaffold` (ya soporta ambos).
+   - Añadir `buildFaq(...)` al `structuredData` cuando el hub tenga FAQ.
+   - Mantener el enlazado interno actual (money pages del cluster + entidades + clusters relacionados).
 
-3. **Reasignar el tono de LSO y Abogados LSO** de `legal` a `transactional` en sus archivos de contenido (`leySegundaOportunidad.tsx` y `abogadosLeySegundaOportunidad.tsx`), para que muestren el verde de marca. El resto de páginas conserva su `tone` actual.
+3. **Redactar el copy de los 12 hubs** (long-form SEO, ángulo propio por cluster):
+   - Cada hub: intro potente, 3–5 secciones (qué cubre la sección, situaciones típicas, tus opciones/derechos, cómo te ayudamos) y 3–5 FAQ.
+   - Interlinking explícito en el cuerpo hacia las money pages del cluster (p. ej. ASNEF → "Salir de ASNEF") y, donde aplique, hacia fichas de entidad (revolving → WiZink/Cetelem; microcréditos → Vivus/Moneyman; recobro → Kruk/Intrum; bancos → Santander/BBVA).
+   - Tono coherente con el cluster: urgente (ASNEF, embargos, monitorio, recobro), transaccional (revolving, microcréditos, públicas, autónomos), informativo (bancos, situaciones, estafas, guías).
+   - Todos los CTA siguen apuntando a `#hero-form` (regla de marca).
 
-## Alcance acotado
+## Anti-canibalización
 
-- Solo cambia el **color del highlight del título y del badge** del hero, según el tono. El resto del journey (iconos de beneficios, CTA, fondos `accent-soft`) sigue en verde de marca para mantener cohesión y respetar la regla de marca de los CTA.
+- El hub habla del **tema/cluster** (visión general + navegación), no compite con la money page concreta: el hub `/asnef` orienta y enlaza, y "Salir de ASNEF" es la página transaccional. Se evita duplicar el mismo enfoque keyword.
 
 ## Detalle técnico
 
-- Archivos a tocar: `src/index.css`, `tailwind.config.ts`, `src/components/seo/MoneyJourney.tsx`, `src/data/seo/content/leySegundaOportunidad.tsx`, `src/data/seo/content/abogadosLeySegundaOportunidad.tsx`.
-- Verificación: revisar en preview una página de cada color (Exoneración=azul, Cancelación de deudas=teal, ASNEF=naranja, LSO y Cancelar deudas=verde) en móvil y escritorio, comprobando contraste sobre el fondo claro.
+- Archivos: crear `src/data/seo/content/hubContent.tsx`; editar `src/pages/seo/ClusterHub.tsx`. Sin tocar routing, sitemap ni backend (los hubs ya están en rutas y sitemap).
+- Sin colores hardcodeados; se mantiene la plantilla editorial `SeoPageScaffold` (deliberadamente distinta del journey de las money pages).
+- Verificación: build + revisión en preview de 3–4 hubs (ASNEF, embargos, revolving, recobro) comprobando secciones, FAQ y enlaces, en móvil y escritorio.
 
-Si prefieres otros colores concretos para el azul jurídico o el teal, dímelo y los ajusto antes de implementar.
+Por volumen de copy, propongo redactar los 12 en una sola tanda. Si prefieres, puedo empezar por 3–4 como muestra antes de completar el resto.
