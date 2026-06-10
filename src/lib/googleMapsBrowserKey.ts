@@ -17,12 +17,15 @@ const CUSTOM_DOMAIN_KEY = "AIzaSyAWAIuJ0ejzcItwqd8RL3AuBpdIhHqqwB8";
 const MANAGED_KEY = import.meta.env
   .VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY as string | undefined;
 
+export const isCustomGoogleMapsDomain = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname.toLowerCase();
+  return host === "mi-calma.es" || host.endsWith(".mi-calma.es");
+};
+
 export const getGoogleMapsBrowserKey = (): string | undefined => {
-  if (typeof window !== "undefined") {
-    const host = window.location.hostname;
-    if (host === "mi-calma.es" || host.endsWith(".mi-calma.es")) {
-      return CUSTOM_DOMAIN_KEY;
-    }
+  if (isCustomGoogleMapsDomain()) {
+    return CUSTOM_DOMAIN_KEY;
   }
   return MANAGED_KEY;
 };
