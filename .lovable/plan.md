@@ -1,36 +1,47 @@
 ## Objetivo
 
-Dar contenido real a las 23 fichas de entidad ya sembradas en `entities.ts` (Kruk, Intrum, EOS, Axactor, Link Finanzas, Vivus, Moneyman, MyKredit, Dineo, Cofidis, WiZink, Cetelem, Oney, Carrefour, Klarna, Santander, BBVA, CaixaBank, Bankinter, Sabadell, Abanca, Openbank). Hoy `EntityPage.tsx` muestra "[Contenido pendiente]". Cada ficha pasa a ser una página útil que responde a la intención "deudas con X / reclamar a X" e interconecta con su money page de solución y otras entidades del cluster.
+Activar las dos plantillas que faltan de la arquitectura SEO —`comparativa` y `guia`— creando páginas reales con datos, rutas, contenido e interlinking. Hoy ambos templates solo existen como esqueleto en `SeoPageScaffold`; no hay registros, rutas ni páginas, así que sus URLs caen en NotFound.
 
-Alcance: solo las 23 existentes (no se amplía el catálogo del Excel).
+Set inicial de alto valor (evergreen, sin canibalizar el blog ni las money pages):
+
+Comparativas (intención "X o Y / diferencias"):
+- `/reunificacion-deudas/reunificar-o-cancelar` — Reunificar vs cancelar deudas
+- `/ley-segunda-oportunidad/segunda-oportunidad-vs-concurso` — Ley de Segunda Oportunidad vs concurso de acreedores
+- `/cancelar-deudas/acuerdo-de-pago-vs-cancelacion` — Negociar un acuerdo vs cancelar la deuda
+
+Guías (educación financiera evergreen, en el cluster `/guias`):
+- `/guias/como-hacer-un-presupuesto` — Cómo hacer un presupuesto familiar
+- `/guias/que-es-la-tae` — Qué es la TAE y por qué importa
+- `/guias/fondo-de-emergencia` — Fondo de emergencia: cuánto ahorrar
+- `/guias/alternativas-a-los-microcreditos` — Alternativas a los microcréditos
+
+Estos temas no solapan con los posts de blog existentes (salir de ASNEF, requisitos de cancelar deudas, embargos, vida después de la deuda, renegociar acreedores, autónomos, guía LSO).
 
 ## Cómo se hace
 
-1. **Nuevo registro de contenido** en `src/data/seo/content/entityContent.tsx`:
-   - Tipo `EntityContent`: `{ slug, cluster, intro, sections, faq }` (mismo patrón `body: ReactNode` + `plain` para JSON-LD que hubs).
-   - Función `getEntityContent(cluster, slug)`.
+1. **Registros de datos**: `src/data/seo/comparativas.ts` y `src/data/seo/guias.ts`, con tipos `{ slug, cluster, path, h1, seoTitle, metaDescription }`, más helpers `getComparativa`/`getGuia` y arrays para generar rutas y sitemap (igual patrón que `moneyPages`/`entities`).
 
-2. **Plantillas por tipo (`kind`)** para no repetir copy y mantener calidad:
-   - `recobro` (Kruk, Intrum, EOS, Axactor, Link Finanzas): quién es la empresa, por qué te reclama (compra de cartera), tus derechos frente al acoso, cómo verificar la deuda, opciones (verificar/negociar/cancelar). Enlaza a `/empresas-de-recobro`, `/juicio-monitorio-recobro/...`, `/cancelar-deudas`.
-   - `microcredito` (Vivus, Moneyman, MyKredit, Dineo, Cofidis): qué tipo de préstamo es, intereses/TAE, la espiral, cómo cancelar. Enlaza a `/microcreditos-prestamos/cancelar-microcreditos` y `/asnef/salir-de-asnef`.
-   - `revolving` (WiZink, Cetelem, Oney, Carrefour, Klarna): tarjeta revolving, usura e intereses abusivos, cómo reclamar/anular. Enlaza a `/tarjetas-revolving/cancelar-tarjetas-revolving`.
-   - `banco` (Santander, BBVA, CaixaBank, Bankinter, Sabadell, Abanca, Openbank): tipos de deuda bancaria, qué hacer si no llegas, proteger vivienda, reunificar o cancelar. Enlaza a `/cancelar-deudas` y `/reunificacion-deudas`.
-   - Cada plantilla recibe el nombre de la entidad para personalizar título, intro, secciones y FAQ. Donde aporte valor, se añaden 1-2 datos específicos por entidad.
+2. **Registros de contenido**: `src/data/seo/content/comparativaContent.tsx` y `guiaContent.tsx`, con `intro`, `sections` (`body: ReactNode`) y `faq` (`a` + `plain` para JSON-LD), mismo patrón que hubs/entidades.
+   - Las comparativas incluyen una **tabla** (pros/contras, cuándo conviene cada opción) renderizada en el `body` de una sección, más recomendación final.
+   - Las guías siguen el esquema del template `guia`: respuesta clara, ejemplos prácticos, contenido relacionado y FAQ.
 
-3. **Actualizar `src/pages/seo/EntityPage.tsx`**:
-   - Leer `getEntityContent(...)`; si existe, pasar `intro`, `sections`, `faq` (con `buildFaq` en `structuredData`) a `SeoPageScaffold`.
-   - Mantener H1, breadcrumbs, `buildLegalService` y el enlazado interno actual (solución + otras entidades del cluster).
-   - Fallback al intro genérico solo si una ficha aún no tuviera contenido (las 23 lo tendrán).
+3. **Páginas**: `src/pages/seo/ComparativaPage.tsx` y `GuiaPage.tsx`, usando `SeoPageScaffold` con `template="comparativa"` y `"guia"`, breadcrumbs, `buildBreadcrumb` + `buildLegalService` + `buildFaq`, e interlinking a su money page/hub relevante. CTAs a `#hero-form`.
 
-## Anti-canibalización e interlinking
+4. **Rutas** en `src/App.tsx`: generar `<Route>` explícitos desde ambos registros, colocados **encima** de `/:cluster/:slug` para que no los capture `EntityPage`.
 
-- La ficha se centra en la **entidad concreta** (intención de marca: "deudas con WiZink"), no compite con la money page transaccional ni con el hub: enlaza a ambos como solución.
-- Todos los CTA siguen apuntando a `#hero-form` (regla de marca).
+5. **Sitemap**: añadir las entradas de comparativas y guías en `scripts/generate-sitemap.ts` y regenerar `public/sitemap.xml`.
+
+6. **Interlinking**: enlazar las nuevas páginas desde los hubs y money pages relacionados (p. ej. el hub `/guias` lista sus guías; `/reunificacion-deudas` enlaza la comparativa). El enlazado "related" de `ClusterHub` ya recoge money pages y entidades; se ampliará para incluir comparativas/guías del cluster.
+
+## Anti-canibalización
+
+- Comparativa = decisión entre opciones (no compite con la money page transaccional, enlaza a ella como solución).
+- Guía = referencia evergreen de educación financiera (distinta del blog narrativo y de las money pages).
 
 ## Detalle técnico
 
-- Archivos: crear `src/data/seo/content/entityContent.tsx`; editar `src/pages/seo/EntityPage.tsx`. Sin tocar routing ni sitemap (las fichas ya están en rutas).
-- Sin colores hardcodeados; se mantiene la plantilla editorial `SeoPageScaffold`.
-- Verificación: `tsc` + revisión en preview de una ficha de cada tipo (p. ej. Kruk, Vivus, WiZink, Santander) comprobando secciones, FAQ y enlaces, en móvil y escritorio.
+- Archivos nuevos: 2 registros de datos, 2 de contenido, 2 páginas. Editar: `src/App.tsx`, `src/pages/seo/ClusterHub.tsx` (related), `scripts/generate-sitemap.ts`, `public/sitemap.xml`.
+- Sin colores hardcodeados; plantilla editorial `SeoPageScaffold`.
+- Verificación: `tsc` + preview de 1 comparativa y 1 guía (tabla, FAQ, enlaces) en móvil y escritorio; comprobar que las rutas resuelven y no caen en NotFound.
 
-Propongo redactarlas en una sola tanda apoyándome en las 4 plantillas por tipo. ¿Procedo así?
+¿Procedo con este set inicial (3 comparativas + 4 guías)?
