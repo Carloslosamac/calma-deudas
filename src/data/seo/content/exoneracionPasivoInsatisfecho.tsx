@@ -164,6 +164,21 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
       ),
     },
     {
+      title: "Actualización 2026: el Supremo amplía la exoneración del crédito público",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>Las <strong>sentencias del Tribunal Supremo de 18 de febrero de 2026</strong> (SSTS 254/2026, 259/2026 y 260/2026) marcan un punto de inflexión: amplían de forma sustancial cuánta deuda pública puede cancelarse en la EPI. Tres claves:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</li>
+            <li><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (hasta 10.000 € por organismo: 100 % los primeros 5.000 € y 50 % el tramo de 5.000 € a 10.000 €).</li>
+            <li><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</li>
+          </ul>
+          <p><strong>Ejemplo:</strong> con 44.000 € de deuda pública (24.000 € con Hacienda y 20.000 € con Seguridad Social, parte intereses y parte principal), aplicando esta doctrina podrías llegar a pagar solo unos 7.500 €: una exoneración cercana al 83 %.</p>
+          <p>Por eso ahora es clave <strong>analizar la naturaleza de cada deuda</strong> (principal ordinario vs. intereses/recargos subordinados) en cada caso. Lo hacemos en tu diagnóstico.</p>
+        </div>
+      ),
+    },
+    {
       title: "Cuándo puede revocarse la exoneración",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
