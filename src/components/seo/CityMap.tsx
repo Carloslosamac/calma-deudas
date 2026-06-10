@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { localizaciones } from "@/data/seo/localizaciones";
+import { getGoogleMapsBrowserKey } from "@/lib/googleMapsBrowserKey";
 
 /**
  * Mapa interactivo de España con un punto por ciudad del cluster local.
@@ -8,9 +9,6 @@ import { localizaciones } from "@/data/seo/localizaciones";
  * Carga la Maps JavaScript API de forma asíncrona con callback global.
  */
 
-const BROWSER_KEY = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY as
-  | string
-  | undefined;
 const TRACKING_ID = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID as
   | string
   | undefined;
@@ -35,7 +33,7 @@ const loadMaps = (): Promise<void> => {
   scriptLoading = new Promise<void>((resolve, reject) => {
     window[CALLBACK] = () => resolve();
     const params = new URLSearchParams({
-      key: BROWSER_KEY ?? "",
+      key: getGoogleMapsBrowserKey() ?? "",
       loading: "async",
       callback: CALLBACK,
     });
@@ -55,7 +53,7 @@ const CityMap = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!BROWSER_KEY) {
+    if (!getGoogleMapsBrowserKey()) {
       setError(true);
       return;
     }
