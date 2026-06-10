@@ -13,13 +13,13 @@ const SOLUTIONS = [
     key: "lso",
     label: "LSO",
     desc: "Cancela las deudas que no puedes pagar. Empiezas de cero, sin cuota.",
-    result: (d: number, m: number) => ({ cancela: d * 0.75, total: d * 0.25, cuota: 0 }),
+    result: (d: number, m: number) => ({ cancela: d, total: 0, cuota: 125 }),
   },
   {
     key: "reunificar",
     label: "Reunificar",
     desc: "No cancela: agrupa todo en un préstamo y reduce el total a pagar y la cuota.",
-    result: (d: number, m: number) => ({ cancela: 0, total: d * 0.92, cuota: m * 0.5 }),
+    result: (d: number, m: number) => ({ cancela: d * 0.5, total: d * 0.5, cuota: m * 0.5 }),
   },
   {
     key: "reclamacion",
