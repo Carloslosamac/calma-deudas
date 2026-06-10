@@ -24,7 +24,7 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const abogadosLeySegundaOportunidad: MoneyContent = {
   path: "/abogados-ley-segunda-oportunidad",
   reviewed: true,
-  tone: "legal",
+  tone: "transactional",
   layout: [
     "simulator",
     "benefits",
