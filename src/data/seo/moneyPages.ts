@@ -50,7 +50,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Abogados Ley de Segunda Oportunidad en España | Calma",
     metaDescription:
-      "Abogados especialistas en la Ley de Segunda Oportunidad. Primer diagnóstico gratuito y sin compromiso. [Placeholder]",
+      "Abogados especialistas en la Ley de Segunda Oportunidad. Estudiamos tu caso gratis y te acompañamos para cancelar tus deudas legalmente.",
   },
   {
     path: "/cancelar-deudas",
@@ -76,7 +76,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelación de deudas en España: guía completa | Calma",
     metaDescription:
-      "Todo sobre la cancelación de deudas en España: vías legales, requisitos y plazos. [Placeholder]",
+      "Todo sobre la cancelación de deudas en España: vías legales, requisitos, plazos y opciones para empezar con un diagnóstico gratuito.",
   },
   {
     path: "/reunificacion-deudas",
@@ -89,7 +89,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Reunificación de deudas: unifica tus cuotas | Calma",
     metaDescription:
-      "Reunifica tus deudas en una sola cuota mensual. Compara si te conviene frente a la LSO. [Placeholder]",
+      "Reunifica tus deudas en una sola cuota mensual y compara si te conviene frente a la Ley de Segunda Oportunidad.",
   },
   {
     path: "/reunificar-deudas",
