@@ -1,70 +1,53 @@
 ## Objetivo
 
-Hacer que cada landing por ciudad **rezume relevancia local verificable** y se presente ante Google como un **negocio de área de servicio (service-area business)** legítimo, sin afirmar oficina física (atendéis en remoto). El conocimiento local real y los datos estructurados correctos son lo que diferencia una página local creíble de una doorway page penalizable.
+Reducir el solapamiento textual entre las 20 landings por ciudad para alejarlas del patrón "doorway/duplicado", combinando **dos palancas**: (1) más contenido genuinamente único por ciudad y (2) rotación de la redacción del armazón para que las frases plantilla no sean clónicas. Se mantienen las 20 ciudades.
 
-Principio rector: **nunca afirmar oficina/dirección física**. Sí afirmar "atención a [ciudad] y provincia, online y presencial cuando el juzgado lo requiere".
+Meta práctica: pasar de ~15-20 % de texto único a ~40-50 %, y que ninguna pareja de ciudades comparta párrafos idénticos palabra por palabra.
 
-## 1. Enriquecer los datos locales por ciudad (`src/data/seo/localizaciones.ts`)
+## 1. Más datos únicos por ciudad (`src/data/seo/localizaciones.ts`)
 
-Hoy cada ciudad tiene `localNote`, `tribunal`, `lat/lng`. Añadiremos campos locales **verificables** que demuestran conocimiento real del territorio:
+Ampliar el tipo `Localizacion` y el objeto `localExtra` (ya existe) con 2 campos nuevos, cualitativos y verificables (sin estadísticas inventadas):
 
-- `comarcas`/`zonas`: barrios o comarcas principales que se atienden (p. ej. Madrid → Centro, Vallecas, Carabanchel… / provincia: Alcalá, Móstoles, Getafe).
-- `partidoJudicial` + `direccionJuzgado`: dirección real del juzgado de lo Mercantil/Primera Instancia de la ciudad (dato público y verificable, refuerza autenticidad).
-- `localData`: 1-2 datos locales reales (sector económico predominante, tipo de deuda frecuente en la zona) — ya existe parcialmente en `localNote`, lo estructuramos.
-- `prefijo`: prefijo telefónico provincial (91, 93, 96…) para mostrarlo como referencia local aunque la centralita sea única.
+- `audienciaProvincial`: referencia real a la Audiencia Provincial / criterio judicial de esa provincia (p. ej. "la Audiencia Provincial de Valencia").
+- `ejemploCaso`: caso típico anonimizado propio del tejido económico local (p. ej. en Vigo, autónomo del sector del mar; en Elche, taller de calzado). Una o dos frases únicas por ciudad.
 
-Todos son datos públicos reales, no inventados.
+Esto da material para un bloque que solo tiene sentido en esa ciudad.
 
-## 2. Schema `LegalService` parametrizado por ciudad (`src/lib/seo/structuredData.ts`)
+## 2. Rotación de redacción del armazón (`src/data/seo/content/localizacionContent.tsx`)
 
-`buildLegalService()` hoy es genérico y fijo a "España". Crear una variante `buildLocalLegalService(city)` que emita señales locales correctas para service-area business:
+Hoy todas las ciudades comparten exactamente las mismas frases plantilla (intro, "cómo trabajamos", "honorarios", FAQ). Introducir un **selector determinista de variante** por ciudad para que el texto base cambie entre ciudades pero sea estable para cada URL (importante: nada aleatorio en cada carga, eso confunde a Google).
 
-- `areaServed`: `{ "@type": "City", name, containedInPlace: { "@type": "AdministrativeArea", name: provincia } }` (en vez de Country).
-- `geo`: `{ "@type": "GeoCoordinates", latitude, longitude }` con las coords de la ciudad.
-- **Sin `address`** (no hay oficina). Esto es lo correcto y honesto para service-area.
-- `availableChannel`: indicar atención online + teléfono.
-- `serviceType`, `priceRange`, `provider` se mantienen.
+- Helper `pickVariant(city, variants[])` que elige índice por el `rank` o un hash del `slug` (módulo nº de variantes). Determinista y repartido.
+- Crear **3-4 variantes redactadas** para cada bloque de armazón: `intro`, cuerpo de "Abogados... en {ciudad}", "Cómo trabajamos tu caso", "Honorarios y plazos", y las respuestas de las 4 FAQ.
+- Cada variante mantiene el mismo mensaje legal y los mismos CTAs/enlaces internos, solo cambia la estructura y el fraseo.
 
-`LocalizacionPage.tsx` pasará a usar `buildLocalLegalService(city)`.
+Resultado: dos ciudades cualesquiera reciben combinaciones distintas de fraseo + sus datos locales únicos.
 
-## 3. Profundizar el contenido local del template (`src/data/seo/content/localizacionContent.tsx`)
+## 3. Nuevo bloque único: "Casos frecuentes en {ciudad}"
 
-Añadir secciones nuevas que solo una página con conocimiento local real tendría (esto es lo que más pesa contra el factor "doorway"):
+Añadir una sección alimentada por `ejemploCaso` + `audienciaProvincial`, que describe el tipo de caso real que más se ve en esa ciudad y cómo lo aborda el criterio judicial provincial. Es contenido que no encaja en ninguna otra ciudad → máxima señal de unicidad.
 
-- **"Dónde está el juzgado en {ciudad}"**: nombre y dirección real del partido judicial + cómo es el criterio de esos juzgados (ya hay base, se enriquece con dirección verificable).
-- **"Zonas que atendemos en {provincia}"**: lista de comarcas/barrios reales → demuestra cobertura geográfica genuina.
-- **"La situación de deuda en {ciudad}"**: párrafo con el dato económico local real (sector predominante, tipo de deuda frecuente).
-- Reforzar el mensaje honesto de atención **online + provincia** en intro y FAQ (ya está, se afina).
+## 4. Afinar metadatos por ciudad (`src/pages/seo/LocalizacionPage.tsx`)
 
-Mantener cada bloque **único por ciudad** mediante los nuevos campos, evitando texto plantilla idéntico.
+`seoTitle` y `metaDescription` hoy son idénticos salvo el nombre de ciudad. Rotar también la `metaDescription` con 2-3 variantes (mismo `pickVariant`) e incluir la provincia, para que los snippets no sean clónicos en la SERP.
 
-## 4. Mapa local real (`src/components/seo/CityMap.tsx` ya existe)
+## Lo que NO cambia
 
-Verificar que el mapa centra en las coordenadas reales de la ciudad y mostrarlo de forma prominente en la landing local (señal visual de foco geográfico). Si no está incrustado en `LocalizacionPage`, añadirlo.
+- Routing, sitemap, schema (ya quedó como service-area en el paso anterior) y estructura de la plantilla.
+- El mensaje honesto: atención online a ciudad y provincia, sin oficina física.
 
-## 5. Honestidad anti-penalización (transversal)
+## Recordatorio (fuera de código)
 
-- No usar la palabra "oficina" ni direcciones propias falsas en ningún sitio.
-- Frase clara tipo: "Atendemos a clientes de {ciudad} y toda la provincia de {provincia}. Diagnóstico y tramitación online; acudimos al juzgado de {ciudad} cuando el procedimiento lo requiere."
-- Teléfono: mostrar la centralita única (no inventar números locales), opcionalmente con el prefijo provincial como referencia informativa.
-
-## Lo que NO se toca en código (pero es lo decisivo a futuro — fuera de la web)
-
-Te lo dejo explícito porque sin esto ninguna mejora on-page basta para "convencer del todo" a Google de presencia local:
-
-1. **Google Business Profile** por ciudad → requiere dirección verificable; sin oficina real no podréis verificar por ciudad. Alternativa legítima: una sola ficha en vuestra ubicación real con área de servicio amplia.
-2. **NAP consistente** en directorios y colegios de abogados.
-3. **Reseñas** y **backlinks locales**.
+La diferenciación on-page reduce el riesgo de duplicado, pero lo que **desactiva** el riesgo de doorway de raíz es la señal de entidad real: Google Business Profile, citaciones NAP y reseñas. Lo dejo anotado; no es parte de esta implementación.
 
 ---
 
 ### Detalles técnicos (resumen)
 
-- `localizaciones.ts`: ampliar el tipo `Localizacion` y los 20 objetos con `comarcas`, `direccionJuzgado`, `partidoJudicial`, `localData`, `prefijo`.
-- `structuredData.ts`: nueva función `buildLocalLegalService(city)` con `areaServed` City + `geo`, sin `address`.
-- `LocalizacionPage.tsx`: usar el nuevo schema y, si falta, incrustar `CityMap`.
-- `localizacionContent.tsx`: 2-3 secciones locales nuevas alimentadas por los campos añadidos.
-- Sin cambios de backend ni de routing; las 20 URLs y el sitemap ya existen.
+- `localizaciones.ts`: +2 campos (`audienciaProvincial`, `ejemploCaso`) en el tipo, en `localExtra` (20 entradas) y en el `Omit` de `cities`.
+- `localizacionContent.tsx`: helper `pickVariant`, arrays de variantes para intro/secciones/FAQ, nueva sección "Casos frecuentes en {ciudad}".
+- `LocalizacionPage.tsx`: `metaDescription` rotada por variante.
+- Sin tocar backend ni rutas.
 </content>
-<summary>Plan para reforzar la relevancia local de las 20 landings por ciudad como negocio de área de servicio (sin afirmar oficina física): datos locales verificables, schema LegalService local con geo/areaServed, y secciones de contenido genuinamente local.</summary>
+<summary>Plan para diferenciar las 20 landings por ciudad: nuevos datos únicos (audiencia provincial, caso típico local), rotación determinista del fraseo del armazón y las metadescripciones, y un bloque "Casos frecuentes en {ciudad}".</summary>
 </invoke>
