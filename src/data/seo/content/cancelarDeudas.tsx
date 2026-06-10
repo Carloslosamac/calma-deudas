@@ -374,18 +374,18 @@ export const cancelarDeudas: MoneyContent = {
               cuando no puedes pagar, se cancela la deuda entera, incluida la pública con límites.
             </li>
             <li>
-              <strong>Anular por usura:</strong> en{" "}
-              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
-              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> con
-              intereses abusivos, la deuda se anula total o parcialmente.
-            </li>
-            <li>
-              <strong>Negociar una quita:</strong> un acuerdo con el acreedor para reducir lo
-              que debes cuando aún hay algo de margen.
-            </li>
-            <li>
               <strong><A to="/reunificar-deudas">Reunificar</A>:</strong> agrupar todo en una
               sola cuota asumible si todavía puedes pagar.
+            </li>
+            <li>
+              <strong>Reclamación judicial:</strong> en{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
+              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> con
+              intereses o cláusulas abusivas, se anula la deuda total o parcialmente ante el juzgado.
+            </li>
+            <li>
+              <strong>Refinanciar:</strong> renegociar con el banco para rebajar la cuota y los
+              intereses cuando aún puedes pagar pero las condiciones te ahogan.
             </li>
           </ul>
           <p>
