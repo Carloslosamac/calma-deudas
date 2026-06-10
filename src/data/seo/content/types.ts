@@ -106,6 +106,8 @@ export type MoneySimulator = {
   defaultDebt?: number;
   /** valor inicial de cuota mensual (€) */
   defaultMonthly?: number;
+  /** si está activo, muestra un selector que compara soluciones (LSO, reunificar…) */
+  compareSolutions?: boolean;
 };
 
 /** Opción del selector de tipo de deuda. */
