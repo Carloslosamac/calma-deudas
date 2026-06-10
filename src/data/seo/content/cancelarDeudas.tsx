@@ -542,6 +542,21 @@ export const cancelarDeudas: MoneyContent = {
         </div>
       ),
     },
+    {
+      title: "Nuestro compromiso contigo",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>Antes de decidir nada, queremos que lo tengas todo claro:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>Diagnóstico gratuito</strong> y sin compromiso: primero estudiamos tu caso.</li>
+            <li><strong>Respuesta en 24h</strong> con una idea clara de qué vía te conviene.</li>
+            <li><strong>Contenido y casos revisados por abogado</strong> especialista en insolvencia.</li>
+            <li><strong>Presupuesto cerrado desde el inicio</strong>, con opción de pago fraccionado.</li>
+            <li><strong>Sin letra pequeña:</strong> nada se pone en marcha sin que lo entiendas y lo apruebes.</li>
+          </ul>
+        </div>
+      ),
+    },
   ],
   faq: [
     {
