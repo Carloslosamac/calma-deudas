@@ -147,6 +147,87 @@ export type MoneyBeforeAfter = {
   after: string[];
 };
 
+/** ----- Módulos exclusivos por servicio ----- */
+
+/** Miembro del equipo (E-E-A-T) para servicios jurídicos. */
+export type MoneyTeamMember = {
+  name: string;
+  role: string;
+  credential?: string;
+  photo?: string;
+};
+
+/** Bloque de equipo + credenciales (autoridad jurídica). */
+export type MoneyTeamCredentials = {
+  title: string;
+  subtitle?: string;
+  members: MoneyTeamMember[];
+  /** sellos / cifras de autoridad, ej. "+19.000 casos", "Abogados colegiados" */
+  highlights?: string[];
+};
+
+/** Calculadora de usura (tarjetas revolving). */
+export type MoneyUsuryCalculator = {
+  title: string;
+  subtitle?: string;
+  /** TAE legal de referencia para comparar (ej. 20) */
+  legalApr?: number;
+  /** TAE típica de la tarjeta revolving (ej. 26) */
+  cardApr?: number;
+  defaultBalance?: number;
+  maxBalance?: number;
+};
+
+/** Comparador "lo que pediste vs lo que devuelves" (microcréditos). */
+export type MoneyValueComparison = {
+  title: string;
+  subtitle?: string;
+  borrowedLabel: string;
+  repaidLabel: string;
+  defaultBorrowed?: number;
+  maxBorrowed?: number;
+  /** factor de devolución típico (ej. 2.6 = devuelves 2,6x) */
+  factor?: number;
+};
+
+/** Tabla comparativa (reunificar vs cancelar, etc.). */
+export type MoneyComparisonColumn = { title: string; highlight?: boolean };
+export type MoneyComparisonRow = { feature: string; values: string[] };
+export type MoneyComparisonTable = {
+  title: string;
+  subtitle?: string;
+  columns: MoneyComparisonColumn[];
+  rows: MoneyComparisonRow[];
+};
+
+/** Línea temporal de urgencia ("qué pasa si no actúas"). */
+export type MoneyTimelineItem = {
+  time: string;
+  title: string;
+  text: string;
+  danger?: boolean;
+};
+export type MoneyUrgencyTimeline = {
+  title: string;
+  subtitle?: string;
+  items: MoneyTimelineItem[];
+};
+
+/** Línea temporal de fases legales (LSO, EPI, concurso). */
+export type MoneyLegalTimeline = {
+  title: string;
+  subtitle?: string;
+  phases: { title: string; text: string; duration?: string }[];
+};
+
+/** Bloque de límites de exoneración (deuda pública). */
+export type MoneyExonerationLimits = {
+  title: string;
+  subtitle?: string;
+  items: { label: string; text: string }[];
+  note?: string;
+};
+
 /** Conjunto de módulos interactivos de una money page. */
 export type MoneyInteractive = {
   simulator?: MoneySimulator;
@@ -155,7 +236,39 @@ export type MoneyInteractive = {
   debtTypesSubtitle?: string;
   quiz?: MoneyQuiz;
   beforeAfter?: MoneyBeforeAfter;
+  teamCredentials?: MoneyTeamCredentials;
+  usuryCalculator?: MoneyUsuryCalculator;
+  valueComparison?: MoneyValueComparison;
+  comparisonTable?: MoneyComparisonTable;
+  urgencyTimeline?: MoneyUrgencyTimeline;
+  legalTimeline?: MoneyLegalTimeline;
+  exonerationLimits?: MoneyExonerationLimits;
 };
+
+/** Tono visual de la página (acento + energía). */
+export type MoneyTone = "transactional" | "legal" | "urgent" | "calm";
+
+/** Clave de un módulo renderizable, para ordenar el journey por página. */
+export type MoneyModuleKey =
+  | "simulator"
+  | "benefits"
+  | "debtTypes"
+  | "steps"
+  | "quiz"
+  | "metrics"
+  | "testimonials"
+  | "sections"
+  | "eligibility"
+  | "faq"
+  | "beforeAfter"
+  | "closing"
+  | "teamCredentials"
+  | "usuryCalculator"
+  | "valueComparison"
+  | "comparisonTable"
+  | "urgencyTimeline"
+  | "legalTimeline"
+  | "exonerationLimits";
 
 /** Copy comercial completo de una money page. */
 export type MoneyContent = {
@@ -173,6 +286,10 @@ export type MoneyContent = {
   /** ----- Módulos visuales del journey (opcionales) ----- */
   /** si está presente, la página se renderiza con el layout "journey" */
   hero?: MoneyHero;
+  /** tono visual de la página (acento dominante). Por defecto "transactional". */
+  tone?: MoneyTone;
+  /** orden de los módulos del journey. Si se omite, se usa el orden por defecto. */
+  layout?: MoneyModuleKey[];
   benefits?: MoneyBenefit[];
   benefitsTitle?: string;
   testimonials?: MoneyTestimonial[];

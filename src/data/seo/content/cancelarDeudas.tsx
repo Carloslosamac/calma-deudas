@@ -21,6 +21,21 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const cancelarDeudas: MoneyContent = {
   path: "/cancelar-deudas",
   reviewed: true,
+  tone: "transactional",
+  layout: [
+    "simulator",
+    "benefits",
+    "debtTypes",
+    "steps",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "sections",
+    "beforeAfter",
+    "eligibility",
+    "faq",
+    "closing",
+  ],
   intro: (
     <>
       Hay deudas que <strong>no tienes por qué seguir pagando</strong>. Si no llegas a

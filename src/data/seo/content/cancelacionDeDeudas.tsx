@@ -21,6 +21,22 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const cancelacionDeDeudas: MoneyContent = {
   path: "/cancelacion-de-deudas",
   reviewed: true,
+  tone: "calm",
+  layout: [
+    "simulator",
+    "benefits",
+    "debtTypes",
+    "sections",
+    "legalTimeline",
+    "steps",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "eligibility",
+    "faq",
+    "beforeAfter",
+    "closing",
+  ],
   intro: (
     <>
       La <strong>cancelación de deudas</strong> es real y está regulada por ley en España.
@@ -177,6 +193,32 @@ export const cancelacionDeDeudas: MoneyContent = {
     text: "Conocer las vías es el principio; aplicarlas a tu situación es lo que cancela la deuda. Pide tu estudio gratis y te decimos exactamente qué puedes cancelar y cómo.",
   },
   interactive: {
+    legalTimeline: {
+      title: "Vías legales para cancelar deudas y sus plazos",
+      subtitle: "Según tu caso, se elige la vía más adecuada. Estos son los caminos posibles.",
+      phases: [
+        {
+          title: "Reclamación por usura o cláusulas abusivas",
+          duration: "Meses",
+          text: "En tarjetas revolving y microcréditos con interés desproporcionado, la deuda puede anularse total o parcialmente.",
+        },
+        {
+          title: "Negociación con acreedores",
+          duration: "Variable",
+          text: "Quitas y acuerdos de pago cuando todavía hay margen para asumir parte de la deuda.",
+        },
+        {
+          title: "Acuerdo extrajudicial de pagos",
+          duration: "1-2 meses",
+          text: "Paso previo de la Ley de Segunda Oportunidad para intentar un acuerdo global con todos los acreedores.",
+        },
+        {
+          title: "Exoneración judicial (LSO)",
+          duration: "Resolución",
+          text: "Si no puedes pagar, el juez cancela las deudas pendientes y empiezas de cero.",
+        },
+      ],
+    },
     simulator: {
       title: "¿Cuánta deuda sería cancelable?",
       subtitle: "Una estimación rápida. La cifra real la confirmamos en tu diagnóstico gratis.",

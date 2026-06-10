@@ -6,6 +6,9 @@ import t3 from "@/assets/testimonial-3.jpg";
 import t4 from "@/assets/testimonial-4.jpg";
 import t5 from "@/assets/testimonial-5.jpg";
 import t6 from "@/assets/testimonial-6.jpg";
+import team1 from "@/assets/avatar-1.jpg";
+import team2 from "@/assets/avatar-2.jpg";
+import team3 from "@/assets/avatar-3.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -21,6 +24,21 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const abogadosLeySegundaOportunidad: MoneyContent = {
   path: "/abogados-ley-segunda-oportunidad",
   reviewed: true,
+  tone: "legal",
+  layout: [
+    "simulator",
+    "benefits",
+    "teamCredentials",
+    "steps",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "sections",
+    "eligibility",
+    "faq",
+    "beforeAfter",
+    "closing",
+  ],
   intro: (
     <>
       Detrás de cada caso cancelado hay un <strong>abogado especialista</strong> que
@@ -177,6 +195,36 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
     text: "Un abogado que conoce el procedimiento marca la diferencia entre intentarlo y conseguirlo. Pide tu diagnóstico gratis y deja que un especialista te diga hoy cuánto puedes cancelar.",
   },
   interactive: {
+    teamCredentials: {
+      title: "Un equipo jurídico real detrás de tu caso",
+      subtitle:
+        "No eres un número de expediente. Abogados especialistas en insolvencia llevan tu procedimiento de principio a fin.",
+      members: [
+        {
+          name: "Equipo de admisión",
+          role: "Diagnóstico inicial",
+          credential: "Análisis gratuito de viabilidad",
+          photo: team1,
+        },
+        {
+          name: "Abogados concursales",
+          role: "Preparación del expediente",
+          credential: "Colegiados y especialistas en LSO",
+          photo: team2,
+        },
+        {
+          name: "Representación judicial",
+          role: "Defensa ante el juzgado",
+          credential: "Procuradores y abogados en sala",
+          photo: team3,
+        },
+      ],
+      highlights: [
+        "+19.000 familias sin deudas",
+        "Abogados colegiados",
+        "Presupuesto cerrado desde el inicio",
+      ],
+    },
     simulator: {
       title: "¿Cuánta deuda podrías cancelar?",
       subtitle: "Mueve los controles y un abogado te confirmará la cifra real en tu diagnóstico gratis.",

@@ -31,6 +31,14 @@ import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
 import EligibilityQuiz from "@/components/seo/interactive/EligibilityQuiz";
 import BeforeAfter from "@/components/seo/interactive/BeforeAfter";
 import Testimonials from "@/components/seo/interactive/Testimonials";
+import TeamCredentials from "@/components/seo/interactive/TeamCredentials";
+import UsuryCalculator from "@/components/seo/interactive/UsuryCalculator";
+import ValueComparison from "@/components/seo/interactive/ValueComparison";
+import ComparisonTable from "@/components/seo/interactive/ComparisonTable";
+import UrgencyTimeline from "@/components/seo/interactive/UrgencyTimeline";
+import LegalTimeline from "@/components/seo/interactive/LegalTimeline";
+import ExonerationLimits from "@/components/seo/interactive/ExonerationLimits";
+import type { MoneyModuleKey, MoneyTone } from "@/data/seo/content/types";
 
 const ICONS: Record<MoneyIcon, LucideIcon> = {
   shield: ShieldCheck,
@@ -45,6 +53,53 @@ const ICONS: Record<MoneyIcon, LucideIcon> = {
   landmark: Landmark,
   ban: Ban,
 };
+
+/** Estilos de hero según el tono visual de la página. */
+const TONE: Record<MoneyTone, { heroBg: string; accentText: string; badge: string }> = {
+  transactional: {
+    heroBg: "bg-gradient-hero",
+    accentText: "text-accent-deep",
+    badge: "text-accent-deep",
+  },
+  legal: {
+    heroBg: "bg-gradient-hero",
+    accentText: "text-accent-deep",
+    badge: "text-accent-deep",
+  },
+  calm: {
+    heroBg: "bg-gradient-hero",
+    accentText: "text-accent-deep",
+    badge: "text-accent-deep",
+  },
+  urgent: {
+    heroBg: "bg-surface",
+    accentText: "text-orange-deep",
+    badge: "text-orange-deep",
+  },
+};
+
+/** Orden por defecto de los módulos del journey (cada bloque solo aparece si tiene datos). */
+const DEFAULT_ORDER: MoneyModuleKey[] = [
+  "urgencyTimeline",
+  "simulator",
+  "usuryCalculator",
+  "valueComparison",
+  "benefits",
+  "comparisonTable",
+  "debtTypes",
+  "steps",
+  "legalTimeline",
+  "quiz",
+  "metrics",
+  "teamCredentials",
+  "testimonials",
+  "sections",
+  "exonerationLimits",
+  "eligibility",
+  "faq",
+  "beforeAfter",
+  "closing",
+];
 
 /** Revelado suave por scroll. */
 const reveal: Variants = {
@@ -99,6 +154,254 @@ const MoneyJourney = ({
   const { hero, benefits, steps, metrics, eligibility, closing, sections, faq, interactive } =
     content;
 
+  const tone = TONE[content.tone ?? "transactional"];
+  const order = content.layout ?? DEFAULT_ORDER;
+
+  /** Registro de bloques renderizables por clave. Devuelve null si no hay datos. */
+  const blocks: Record<MoneyModuleKey, React.ReactNode> = {
+    simulator: interactive?.simulator ? (
+      <Reveal>
+        <DebtSimulator config={interactive.simulator} />
+      </Reveal>
+    ) : null,
+    benefits:
+      benefits && benefits.length > 0 ? (
+        <section>
+          {content.benefitsTitle && (
+            <Reveal className="mb-10 text-center md:mb-12">
+              <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                {content.benefitsTitle}
+              </h2>
+            </Reveal>
+          )}
+          <div className="grid gap-x-6 gap-y-9 sm:grid-cols-2 md:grid-cols-3">
+            {benefits.map((b, i) => {
+              const Icon = ICONS[b.icon] ?? Sparkles;
+              return (
+                <Reveal key={b.title} delay={i * 0.05}>
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-deep shadow-soft">
+                      <Icon className="h-6 w-6" aria-hidden />
+                    </div>
+                    <div>
+                      <h3 className="font-poppins font-semibold leading-snug text-foreground">{b.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.text}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </section>
+      ) : null,
+    debtTypes:
+      interactive?.debtTypes && interactive.debtTypes.length > 0 ? (
+        <Reveal>
+          <DebtTypeSelector
+            title={interactive.debtTypesTitle ?? "¿De dónde vienen tus deudas?"}
+            subtitle={interactive.debtTypesSubtitle}
+            options={interactive.debtTypes}
+          />
+        </Reveal>
+      ) : null,
+    steps:
+      steps && steps.length > 0 ? (
+        <section>
+          <Reveal className="text-center">
+            <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              {content.stepsTitle ?? "Tu camino, paso a paso"}
+            </h2>
+            {content.stepsSubtitle && (
+              <p className="mt-3 text-muted-foreground">{content.stepsSubtitle}</p>
+            )}
+          </Reveal>
+          <div className="mt-10 space-y-5">
+            {steps.map((s, i) => (
+              <Reveal key={s.title} delay={i * 0.06}>
+                <div
+                  className={`flex items-start gap-5 rounded-3xl border p-6 transition-colors ${
+                    s.highlight
+                      ? "border-accent/40 bg-accent-soft/50"
+                      : "border-border bg-surface-elevated shadow-soft"
+                  }`}
+                >
+                  <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-poppins text-sm font-bold ${
+                      s.highlight
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-primary text-primary-foreground"
+                    }`}
+                  >
+                    {i + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-poppins font-semibold text-foreground">{s.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-foreground/75">{s.text}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      ) : null,
+    quiz: interactive?.quiz ? (
+      <Reveal>
+        <EligibilityQuiz quiz={interactive.quiz} />
+      </Reveal>
+    ) : null,
+    metrics:
+      metrics && metrics.length > 0 ? (
+        <Reveal>
+          <section className="grid gap-6 rounded-3xl border border-border bg-surface p-8 sm:grid-cols-3 md:p-10">
+            {metrics.map((m) => (
+              <div key={m.label} className="text-center">
+                <p className="font-poppins text-3xl font-bold text-accent-deep md:text-4xl">{m.value}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{m.label}</p>
+              </div>
+            ))}
+          </section>
+        </Reveal>
+      ) : null,
+    testimonials:
+      content.testimonials && content.testimonials.length > 0 ? (
+        <Reveal>
+          <Testimonials
+            title={content.testimonialsTitle ?? "Casos reales de deuda cancelada"}
+            subtitle={content.testimonialsSubtitle}
+            items={content.testimonials}
+            moreHref={content.testimonialsMoreHref}
+          />
+        </Reveal>
+      ) : null,
+    sections:
+      sections && sections.length > 0 ? (
+        <div className="space-y-14">
+          {sections.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.04}>
+              <section className="scroll-mt-28">
+                <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                  <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
+                  {s.title}
+                </h2>
+                <div className="mt-5">{s.body}</div>
+              </section>
+            </Reveal>
+          ))}
+        </div>
+      ) : null,
+    eligibility: eligibility ? (
+      <Reveal>
+        <section className="rounded-[2rem] bg-gradient-dark p-8 text-primary-foreground md:p-12">
+          <div className="max-w-2xl">
+            <h2 className="font-poppins text-3xl font-bold tracking-tight md:text-4xl">
+              {eligibility.title}
+            </h2>
+            <p className="mt-4 text-primary-foreground/70">{eligibility.intro}</p>
+            <ul className="mt-8 space-y-3">
+              {eligibility.requirements.map((r) => (
+                <li key={r} className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
+                  <span className="text-sm leading-relaxed text-primary-foreground/90">{r}</span>
+                </li>
+              ))}
+            </ul>
+            {(eligibility.trustTitle || eligibility.trustText) && (
+              <div className="mt-9 flex items-center gap-3 border-t border-primary-foreground/15 pt-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 text-accent">
+                  <Scale className="h-5 w-5" aria-hidden />
+                </div>
+                <div className="text-sm">
+                  {eligibility.trustTitle && (
+                    <p className="font-semibold text-primary-foreground">{eligibility.trustTitle}</p>
+                  )}
+                  {eligibility.trustText && (
+                    <p className="text-primary-foreground/60">{eligibility.trustText}</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      </Reveal>
+    ) : null,
+    faq:
+      faq && faq.length > 0 ? (
+        <Reveal>
+          <section className="scroll-mt-28">
+            <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
+              Preguntas frecuentes
+            </h2>
+            <div className="mt-6">
+              <FaqList items={faq.map((f) => ({ q: f.q, a: f.a }))} />
+            </div>
+          </section>
+        </Reveal>
+      ) : null,
+    beforeAfter: interactive?.beforeAfter ? (
+      <Reveal>
+        <BeforeAfter data={interactive.beforeAfter} />
+      </Reveal>
+    ) : null,
+    closing: closing ? (
+      <Reveal>
+        <section className="rounded-[2rem] border border-accent/30 bg-accent-soft/50 p-10 text-center md:p-14">
+          <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            {closing.title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">{closing.text}</p>
+          <div className="mt-8 flex justify-center">
+            <CtaButton className="h-14 px-8 text-base">
+              <span className="flex items-center gap-2">
+                Analizar mi deuda gratis
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </span>
+            </CtaButton>
+          </div>
+          <p className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <Clock className="h-4 w-4" aria-hidden />
+            Te llamamos en menos de 24h · Sin compromiso
+          </p>
+        </section>
+      </Reveal>
+    ) : null,
+    teamCredentials: interactive?.teamCredentials ? (
+      <Reveal>
+        <TeamCredentials data={interactive.teamCredentials} />
+      </Reveal>
+    ) : null,
+    usuryCalculator: interactive?.usuryCalculator ? (
+      <Reveal>
+        <UsuryCalculator data={interactive.usuryCalculator} />
+      </Reveal>
+    ) : null,
+    valueComparison: interactive?.valueComparison ? (
+      <Reveal>
+        <ValueComparison data={interactive.valueComparison} />
+      </Reveal>
+    ) : null,
+    comparisonTable: interactive?.comparisonTable ? (
+      <Reveal>
+        <ComparisonTable data={interactive.comparisonTable} />
+      </Reveal>
+    ) : null,
+    urgencyTimeline: interactive?.urgencyTimeline ? (
+      <Reveal>
+        <UrgencyTimeline data={interactive.urgencyTimeline} />
+      </Reveal>
+    ) : null,
+    legalTimeline: interactive?.legalTimeline ? (
+      <Reveal>
+        <LegalTimeline data={interactive.legalTimeline} />
+      </Reveal>
+    ) : null,
+    exonerationLimits: interactive?.exonerationLimits ? (
+      <Reveal>
+        <ExonerationLimits data={interactive.exonerationLimits} />
+      </Reveal>
+    ) : null,
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo
@@ -112,12 +415,12 @@ const MoneyJourney = ({
 
       <main className="pt-28 md:pt-32">
         {/* ---------- Hero ---------- */}
-        <section className="relative overflow-hidden bg-gradient-hero">
+        <section className={`relative overflow-hidden ${tone.heroBg}`}>
           <div className="mx-auto max-w-4xl px-6 pb-16 pt-12 text-center md:pb-24 md:pt-16">
             <Breadcrumbs items={breadcrumbs} />
             <motion.div variants={reveal} initial="hidden" animate="show" className="mt-8">
               {(hero?.badge ?? eyebrow) && (
-                <span className="inline-flex items-center rounded-full border border-border bg-surface-elevated px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-deep">
+                <span className={`inline-flex items-center rounded-full border border-border bg-surface-elevated px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] ${tone.badge}`}>
                   {hero?.badge ?? eyebrow}
                 </span>
               )}
@@ -125,7 +428,7 @@ const MoneyJourney = ({
                 {hero ? (
                   <>
                     {hero.titleLead}{" "}
-                    <span className="text-accent-deep">{hero.titleAccent}</span>
+                    <span className={tone.accentText}>{hero.titleAccent}</span>
                   </>
                 ) : (
                   h1
@@ -140,7 +443,7 @@ const MoneyJourney = ({
                 </CtaButton>
                 {hero?.trustNote && (
                   <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <CheckCircle2 className="h-5 w-5 text-accent-deep" aria-hidden />
+                    <CheckCircle2 className={`h-5 w-5 ${tone.accentText}`} aria-hidden />
                     {hero.trustNote}
                   </span>
                 )}
@@ -153,227 +456,9 @@ const MoneyJourney = ({
         <TrustBar data={content.socialProof} />
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
-          {/* ---------- Simulador de deuda ---------- */}
-          {interactive?.simulator && (
-            <Reveal>
-              <DebtSimulator config={interactive.simulator} />
-            </Reveal>
-          )}
-
-          {/* ---------- Beneficios ---------- */}
-          {benefits && benefits.length > 0 && (
-            <section>
-              {content.benefitsTitle && (
-                <Reveal className="mb-10 text-center md:mb-12">
-                  <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                    {content.benefitsTitle}
-                  </h2>
-                </Reveal>
-              )}
-              <div className="grid gap-x-6 gap-y-9 sm:grid-cols-2 md:grid-cols-3">
-                {benefits.map((b, i) => {
-                  const Icon = ICONS[b.icon] ?? Sparkles;
-                  return (
-                    <Reveal key={b.title} delay={i * 0.05}>
-                      <div className="flex items-start gap-4">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-deep shadow-soft">
-                          <Icon className="h-6 w-6" aria-hidden />
-                        </div>
-                        <div>
-                          <h3 className="font-poppins font-semibold leading-snug text-foreground">{b.title}</h3>
-                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{b.text}</p>
-                        </div>
-                      </div>
-                    </Reveal>
-                  );
-                })}
-              </div>
-            </section>
-          )}
-
-          {/* ---------- Selector de tipo de deuda ---------- */}
-          {interactive?.debtTypes && interactive.debtTypes.length > 0 && (
-            <Reveal>
-              <DebtTypeSelector
-                title={interactive.debtTypesTitle ?? "¿De dónde vienen tus deudas?"}
-                subtitle={interactive.debtTypesSubtitle}
-                options={interactive.debtTypes}
-              />
-            </Reveal>
-          )}
-
-          {/* ---------- Journey de pasos ---------- */}
-          {steps && steps.length > 0 && (
-            <section>
-              <Reveal className="text-center">
-                <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                  {content.stepsTitle ?? "Tu camino, paso a paso"}
-                </h2>
-                {content.stepsSubtitle && (
-                  <p className="mt-3 text-muted-foreground">{content.stepsSubtitle}</p>
-                )}
-              </Reveal>
-              <div className="mt-10 space-y-5">
-                {steps.map((s, i) => (
-                  <Reveal key={s.title} delay={i * 0.06}>
-                    <div
-                      className={`flex items-start gap-5 rounded-3xl border p-6 transition-colors ${
-                        s.highlight
-                          ? "border-accent/40 bg-accent-soft/50"
-                          : "border-border bg-surface-elevated shadow-soft"
-                      }`}
-                    >
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-poppins text-sm font-bold ${
-                          s.highlight
-                            ? "bg-accent text-accent-foreground"
-                            : "bg-primary text-primary-foreground"
-                        }`}
-                      >
-                        {i + 1}
-                      </div>
-                      <div>
-                        <h3 className="font-poppins font-semibold text-foreground">{s.title}</h3>
-                        <p className="mt-1 text-sm leading-relaxed text-foreground/75">{s.text}</p>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* ---------- Test de elegibilidad ---------- */}
-          {interactive?.quiz && (
-            <Reveal>
-              <EligibilityQuiz quiz={interactive.quiz} />
-            </Reveal>
-          )}
-
-          {/* ---------- Métricas ---------- */}
-          {metrics && metrics.length > 0 && (
-            <Reveal>
-              <section className="grid gap-6 rounded-3xl border border-border bg-surface p-8 sm:grid-cols-3 md:p-10">
-                {metrics.map((m) => (
-                  <div key={m.label} className="text-center">
-                    <p className="font-poppins text-3xl font-bold text-accent-deep md:text-4xl">{m.value}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{m.label}</p>
-                  </div>
-                ))}
-              </section>
-            </Reveal>
-          )}
-
-          {/* ---------- Testimonios ---------- */}
-          {content.testimonials && content.testimonials.length > 0 && (
-            <Reveal>
-              <Testimonials
-                title={content.testimonialsTitle ?? "Casos reales de deuda cancelada"}
-                subtitle={content.testimonialsSubtitle}
-                items={content.testimonials}
-                moreHref={content.testimonialsMoreHref}
-              />
-            </Reveal>
-          )}
-
-          {/* ---------- Secciones en prosa ---------- */}
-          {sections && sections.length > 0 && (
-            <div className="space-y-14">
-              {sections.map((s, i) => (
-                <Reveal key={s.title} delay={i * 0.04}>
-                  <section className="scroll-mt-28">
-                    <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-                      <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
-                      {s.title}
-                    </h2>
-                    <div className="mt-5">{s.body}</div>
-                  </section>
-                </Reveal>
-              ))}
-            </div>
-          )}
-
-          {/* ---------- ¿Es para mí? (bloque oscuro) ---------- */}
-          {eligibility && (
-            <Reveal>
-              <section className="rounded-[2rem] bg-gradient-dark p-8 text-primary-foreground md:p-12">
-                <div className="max-w-2xl">
-                  <h2 className="font-poppins text-3xl font-bold tracking-tight md:text-4xl">
-                    {eligibility.title}
-                  </h2>
-                  <p className="mt-4 text-primary-foreground/70">{eligibility.intro}</p>
-                  <ul className="mt-8 space-y-3">
-                    {eligibility.requirements.map((r) => (
-                      <li key={r} className="flex items-start gap-3">
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
-                        <span className="text-sm leading-relaxed text-primary-foreground/90">{r}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {(eligibility.trustTitle || eligibility.trustText) && (
-                    <div className="mt-9 flex items-center gap-3 border-t border-primary-foreground/15 pt-6">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-foreground/10 text-accent">
-                        <Scale className="h-5 w-5" aria-hidden />
-                      </div>
-                      <div className="text-sm">
-                        {eligibility.trustTitle && (
-                          <p className="font-semibold text-primary-foreground">{eligibility.trustTitle}</p>
-                        )}
-                        {eligibility.trustText && (
-                          <p className="text-primary-foreground/60">{eligibility.trustText}</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </section>
-            </Reveal>
-          )}
-
-          {/* ---------- FAQ ---------- */}
-          {faq && faq.length > 0 && (
-            <Reveal>
-              <section className="scroll-mt-28">
-                <h2 className="flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-                  <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
-                  Preguntas frecuentes
-                </h2>
-                <div className="mt-6">
-                  <FaqList items={faq.map((f) => ({ q: f.q, a: f.a }))} />
-                </div>
-              </section>
-            </Reveal>
-          )}
-
-          {/* ---------- Comparador antes / después ---------- */}
-          {interactive?.beforeAfter && (
-            <Reveal>
-              <BeforeAfter data={interactive.beforeAfter} />
-            </Reveal>
-          )}
-
-          {/* ---------- CTA de cierre ---------- */}
-          {closing && (
-            <Reveal>
-              <section className="rounded-[2rem] border border-accent/30 bg-accent-soft/50 p-10 text-center md:p-14">
-                <h2 className="font-poppins text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                  {closing.title}
-                </h2>
-                <p className="mx-auto mt-4 max-w-xl text-muted-foreground">{closing.text}</p>
-                <div className="mt-8 flex justify-center">
-                  <CtaButton className="h-14 px-8 text-base">
-                    <span className="flex items-center gap-2">
-                      Analizar mi deuda gratis
-                      <ArrowRight className="h-5 w-5" aria-hidden />
-                    </span>
-                  </CtaButton>
-                </div>
-                <p className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" aria-hidden />
-                  Te llamamos en menos de 24h · Sin compromiso
-                </p>
-              </section>
-            </Reveal>
+          {/* ---------- Módulos ordenables por página ---------- */}
+          {order.map((key, i) =>
+            blocks[key] ? <div key={`${key}-${i}`}>{blocks[key]}</div> : null,
           )}
 
           {/* ---------- E-E-A-T ---------- */}
