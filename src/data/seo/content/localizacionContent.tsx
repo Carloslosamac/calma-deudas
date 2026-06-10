@@ -83,10 +83,29 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       body: (
         <div className="space-y-4">
           <P>
-            Si vives en {name} o en la provincia de {provincia} ({comunidad}) y no puedes hacer
-            frente a tus deudas, la <strong>Ley de Segunda Oportunidad</strong> te permite
-            cancelarlas legalmente y empezar de cero. Nuestro equipo de abogados especialistas
-            en derecho concursal lleva tu caso de principio a fin.
+            {pick(
+              [
+                <>
+                  Si vives en {name} o en la provincia de {provincia} ({comunidad}) y no puedes
+                  hacer frente a tus deudas, la <strong>Ley de Segunda Oportunidad</strong> te
+                  permite cancelarlas legalmente y empezar de cero. Nuestro equipo de abogados
+                  especialistas en derecho concursal lleva tu caso de principio a fin.
+                </>,
+                <>
+                  ¿No puedes pagar tus deudas y vives en {name} o su provincia ({provincia},{" "}
+                  {comunidad})? La <strong>Ley de Segunda Oportunidad</strong> te permite
+                  cancelarlas legalmente y volver a empezar. Un equipo de abogados concursalistas
+                  se encarga de todo el procedimiento.
+                </>,
+                <>
+                  Para muchas familias y autónomos de {name} ({provincia}, {comunidad}), la{" "}
+                  <strong>Ley de Segunda Oportunidad</strong> es la vía para cancelar las deudas y
+                  empezar de cero. Nuestros abogados especialistas en derecho concursal se ocupan
+                  de todo el proceso.
+                </>,
+              ],
+              v,
+            )}
           </P>
           <P>{localNote}</P>
           <P>
