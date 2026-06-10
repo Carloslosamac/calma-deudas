@@ -22,6 +22,22 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const leySegundaOportunidad: MoneyContent = {
   path: "/ley-segunda-oportunidad",
   reviewed: true,
+  tone: "legal",
+  layout: [
+    "simulator",
+    "benefits",
+    "debtTypes",
+    "steps",
+    "legalTimeline",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "sections",
+    "eligibility",
+    "faq",
+    "beforeAfter",
+    "closing",
+  ],
   intro: (
     <>
       Llevas años pagando deudas que <strong>la ley te permite cancelar</strong>. Cada
@@ -178,6 +194,32 @@ export const leySegundaOportunidad: MoneyContent = {
     text: "La gente que ya se acogió solo se arrepiente de una cosa: no haberlo hecho antes. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y deja de pagar lo que la ley puede borrar.",
   },
   interactive: {
+    legalTimeline: {
+      title: "Las fases de la Ley de Segunda Oportunidad",
+      subtitle: "Un procedimiento reglado. Nosotros lo llevamos por ti de principio a fin.",
+      phases: [
+        {
+          title: "Diagnóstico y preparación",
+          duration: "Semana 1",
+          text: "Estudiamos tus deudas e ingresos, confirmamos que cumples los requisitos y reunimos la documentación.",
+        },
+        {
+          title: "Acuerdo extrajudicial de pagos",
+          duration: "1-2 meses",
+          text: "Se intenta un acuerdo con tus acreedores a través de un mediador concursal. Si no prospera, se abre la vía judicial.",
+        },
+        {
+          title: "Procedimiento judicial",
+          duration: "Variable",
+          text: "Se solicita al juzgado el concurso y, según tu caso, un plan de pagos o la liquidación de bienes. Los embargos pueden suspenderse.",
+        },
+        {
+          title: "Exoneración del pasivo (BEPI)",
+          duration: "Resolución",
+          text: "El juez dicta la cancelación de las deudas pendientes. Empiezas de cero, libre de la carga.",
+        },
+      ],
+    },
     simulator: {
       title: "¿Cuánto llevas pagando de más?",
       subtitle: "Mueve los controles y descubre en 10 segundos lo que la ley puede borrar.",

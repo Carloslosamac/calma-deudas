@@ -43,6 +43,8 @@ export default {
           DEFAULT: "hsl(var(--orange))",
           foreground: "hsl(var(--orange-foreground))",
         },
+        "orange-soft": "hsl(var(--orange-soft))",
+        "orange-deep": "hsl(var(--orange-deep))",
         "accent-soft": "hsl(var(--accent-soft))",
         "accent-deep": "hsl(var(--accent-deep))",
         surface: {

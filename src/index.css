@@ -35,6 +35,8 @@ All colors MUST be HSL.
 
     --orange: 25 95% 60%;
     --orange-foreground: 0 0% 100%;
+    --orange-soft: 25 90% 92%;
+    --orange-deep: 18 85% 42%;
 
     --surface: 60 25% 96%;
     --surface-elevated: 0 0% 100%;

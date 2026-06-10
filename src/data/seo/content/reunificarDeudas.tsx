@@ -21,6 +21,21 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const reunificarDeudas: MoneyContent = {
   path: "/reunificar-deudas",
   reviewed: true,
+  tone: "transactional",
+  layout: [
+    "steps",
+    "simulator",
+    "benefits",
+    "debtTypes",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "sections",
+    "eligibility",
+    "faq",
+    "beforeAfter",
+    "closing",
+  ],
   intro: (
     <>
       ¿Pagas varios préstamos y no te aclaras? Te explicamos <strong>cómo reunificar tus

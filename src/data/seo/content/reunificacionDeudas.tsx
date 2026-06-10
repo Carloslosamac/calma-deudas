@@ -21,6 +21,22 @@ const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
 export const reunificacionDeudas: MoneyContent = {
   path: "/reunificacion-deudas",
   reviewed: true,
+  tone: "transactional",
+  layout: [
+    "simulator",
+    "comparisonTable",
+    "benefits",
+    "debtTypes",
+    "steps",
+    "quiz",
+    "metrics",
+    "testimonials",
+    "sections",
+    "eligibility",
+    "faq",
+    "beforeAfter",
+    "closing",
+  ],
   intro: (
     <>
       Si pagas varias cuotas cada mes y te asfixian, la <strong>reunificación de deudas</strong>{" "}
@@ -178,6 +194,23 @@ export const reunificacionDeudas: MoneyContent = {
     text: "No todas las situaciones se resuelven igual. Pide tu estudio gratis y te diremos con honestidad si lo tuyo es reunificar o cancelar la deuda.",
   },
   interactive: {
+    comparisonTable: {
+      title: "Reunificar vs cancelar: cuál te conviene",
+      subtitle: "Dos caminos distintos. Te ayudamos a elegir el que encaja con tu situación.",
+      columns: [
+        { title: "Reunificar" },
+        { title: "Cancelar (LSO)", highlight: true },
+      ],
+      rows: [
+        { feature: "Sigues pagando la deuda", values: ["sí", "no"] },
+        { feature: "Una sola cuota mensual", values: ["sí", "no"] },
+        { feature: "Elimina la deuda", values: ["no", "sí"] },
+        { feature: "Ideal si aún puedes pagar", values: ["sí", "no"] },
+        { feature: "Ideal si no puedes pagar", values: ["no", "sí"] },
+        { feature: "Frena embargos", values: ["no", "sí"] },
+        { feature: "Coste total a largo plazo", values: ["Puede subir", "Se cancela"] },
+      ],
+    },
     simulator: {
       title: "¿Cuánto podrías bajar tu cuota?",
       subtitle: "Mueve los controles y estima tu nueva cuota única. La cifra real la vemos gratis.",
