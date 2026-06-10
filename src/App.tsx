@@ -18,10 +18,14 @@ import NotFound from "./pages/NotFound";
 import MoneyLanding from "./pages/seo/MoneyLanding";
 import ClusterHub from "./pages/seo/ClusterHub";
 import EntityPage from "./pages/seo/EntityPage";
+import ComparativaPage from "./pages/seo/ComparativaPage";
+import GuiaPage from "./pages/seo/GuiaPage";
 import CasosLSO from "./pages/seo/CasosLSO";
 import Servicios from "./pages/seo/Servicios";
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
+import { comparativas } from "./data/seo/comparativas";
+import { guias } from "./data/seo/guias";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +56,14 @@ const App = () => (
           ))}
           {/* Casos reales de la Ley de Segunda Oportunidad */}
           <Route path="/ley-segunda-oportunidad/casos" element={<CasosLSO />} />
+          {/* Guías de educación financiera: /guias/<slug> */}
+          {guias.map((g) => (
+            <Route key={g.path} path={g.path} element={<GuiaPage />} />
+          ))}
+          {/* Comparativas: /<cluster>/<slug> (antes del catch-all de entidad) */}
+          {comparativas.map((c) => (
+            <Route key={c.path} path={c.path} element={<ComparativaPage />} />
+          ))}
           {/* Fichas de entidad: /<cluster>/<slug> */}
           <Route path="/:cluster/:slug" element={<EntityPage />} />
           {/* Índices de cluster/hub: /<cluster> */}
