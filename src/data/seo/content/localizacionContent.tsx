@@ -41,15 +41,40 @@ export type LocalContent = {
 };
 
 export const getLocalizacionContent = (city: Localizacion): LocalContent => {
-  const { name, provincia, comunidad, tribunal, localNote, zonas, sedeJudicial, perfilDeuda, prefijo } =
-    city;
+  const {
+    name,
+    provincia,
+    comunidad,
+    tribunal,
+    localNote,
+    zonas,
+    sedeJudicial,
+    perfilDeuda,
+    prefijo,
+    audienciaProvincial,
+    ejemploCaso,
+  } = city;
+  const v = variantIndex(city.slug);
 
-  const intro = (
-    <>
-      ¿Buscas <strong>abogados de la Ley de Segunda Oportunidad en {name}</strong>? Estudiamos
-      tu caso gratis, preparamos el expediente y te representamos ante los juzgados de{" "}
-      {provincia} para cancelar legalmente tus deudas. Primer diagnóstico sin compromiso.
-    </>
+  const intro = pick(
+    [
+      <>
+        ¿Buscas <strong>abogados de la Ley de Segunda Oportunidad en {name}</strong>? Estudiamos
+        tu caso gratis, preparamos el expediente y te representamos ante los juzgados de{" "}
+        {provincia} para cancelar legalmente tus deudas. Primer diagnóstico sin compromiso.
+      </>,
+      <>
+        En {name} cancelamos deudas con la <strong>Ley de Segunda Oportunidad</strong>. Analizamos
+        gratis tu situación, montamos el expediente y te representamos ante los juzgados de{" "}
+        {provincia}, de principio a fin y sin compromiso.
+      </>,
+      <>
+        ¿Estás en {name} y las deudas te superan? Con la{" "}
+        <strong>Ley de Segunda Oportunidad</strong> puedes cancelarlas legalmente. El primer
+        diagnóstico es gratuito y, si sigues, llevamos tu caso ante los juzgados de {provincia}.
+      </>,
+    ],
+    v,
   );
 
   const sections: LocalSection[] = [
