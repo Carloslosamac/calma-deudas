@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
 import { localizaciones } from "@/data/seo/localizaciones";
+import CityMap from "@/components/seo/CityMap";
 import t1 from "@/assets/testimonial-1.jpg";
 import t2 from "@/assets/testimonial-2.jpg";
 import t3 from "@/assets/testimonial-3.jpg";
@@ -402,6 +403,7 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
             Atendemos casos en toda España. Consulta la página de tu ciudad para conocer los
             juzgados competentes y cómo trabajamos en tu zona:
           </p>
+          <CityMap />
           <ul className="grid gap-2 sm:grid-cols-2">
             {localizaciones.map((l) => (
               <li key={l.slug}>
