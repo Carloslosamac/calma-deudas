@@ -4,7 +4,8 @@ import NotFound from "@/pages/NotFound";
 import { getEntity, entitiesByCluster } from "@/data/seo/entities";
 import { getCluster } from "@/data/seo/architecture";
 import { moneyPagesByPath } from "@/data/seo/moneyPages";
-import { buildBreadcrumb, buildLegalService } from "@/lib/seo/structuredData";
+import { getEntityContent } from "@/data/seo/content/entityContent";
+import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
 
 /** Ficha de entidad: /<cluster>/<slug> (banco, financiera, recobro…). */
 const EntityPage = () => {
@@ -16,6 +17,7 @@ const EntityPage = () => {
   const cluster = getCluster(entity.cluster);
   const solution = moneyPagesByPath[entity.solutionPath];
   const canonical = `/${entity.cluster}/${entity.slug}/`;
+  const content = getEntityContent(entity);
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
@@ -36,20 +38,29 @@ const EntityPage = () => {
       breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical })),
     ),
     buildLegalService(),
+    ...(content?.faq?.length
+      ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
+      : []),
   ];
+
+  const intro = content
+    ? content.intro
+    : `Tienes una deuda o reclamación de ${entity.name}. Te explicamos tus derechos y opciones.`;
 
   return (
     <SeoPageScaffold
       template="entidad"
       h1={`Deudas con ${entity.name}: qué hacer`}
       eyebrow={cluster?.label}
-      intro={`Tienes una deuda o reclamación de ${entity.name}. Te explicamos tus derechos y opciones. [Contenido pendiente]`}
+      intro={intro}
       seoTitle={`Deudas con ${entity.name}: derechos y soluciones | Calma`}
-      metaDescription={`Qué hacer ante una deuda o reclamación de ${entity.name}: tus derechos, cómo verificar la deuda y tus opciones. [Placeholder]`}
+      metaDescription={`Qué hacer ante una deuda o reclamación de ${entity.name}: tus derechos, cómo verificar la deuda y cómo cancelarla.`}
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
       related={related}
+      sections={content?.sections}
+      faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
     />
   );
 };
