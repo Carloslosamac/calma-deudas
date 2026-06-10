@@ -102,7 +102,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Reunificar deudas: cómo hacerlo paso a paso | Calma",
     metaDescription:
-      "Aprende a reunificar tus deudas y reducir tu cuota mensual. Estudio gratuito. [Placeholder]",
+      "Aprende a reunificar tus deudas, reducir tu cuota mensual y decidir si esta opción encaja con tu situación actual.",
   },
   {
     path: "/asnef/salir-de-asnef",
@@ -115,7 +115,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Cómo salir de ASNEF rápido y legalmente | Calma",
     metaDescription:
-      "Te explicamos cómo salir de ASNEF y otros ficheros de morosos. Actúa hoy. [Placeholder]",
+      "Te explicamos cómo salir de ASNEF y otros ficheros de morosos de forma legal, según el origen de tu deuda.",
   },
   {
     path: "/embargos/parar-embargo",
@@ -128,7 +128,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Cómo parar un embargo: qué hacer hoy | Calma",
     metaDescription:
-      "Pasos para parar un embargo de nómina, cuenta o vivienda. Te ayudamos ya. [Placeholder]",
+      "Pasos para parar un embargo de nómina, cuenta o vivienda y revisar si puedes cancelar la deuda que lo provoca.",
   },
   {
     path: "/tarjetas-revolving/cancelar-tarjetas-revolving",
