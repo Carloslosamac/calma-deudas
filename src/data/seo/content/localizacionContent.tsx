@@ -229,9 +229,26 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       body: (
         <div className="space-y-4">
           <P>
-            El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos con
-            un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que los
-            honorarios nunca sean el motivo de no empezar.
+            {pick(
+              [
+                <>
+                  El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos
+                  con un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que
+                  los honorarios nunca sean el motivo de no empezar.
+                </>,
+                <>
+                  Lo primero, el <strong>diagnóstico, es gratis</strong>. Si decides continuar,
+                  fijamos un presupuesto cerrado desde el principio, con posibilidad de pago
+                  fraccionado, para que el dinero no te frene.
+                </>,
+                <>
+                  Trabajamos con transparencia: el <strong>primer diagnóstico no cuesta nada</strong>{" "}
+                  y, si sigues adelante, sabrás el precio cerrado desde el inicio, con opción de
+                  fraccionarlo.
+                </>,
+              ],
+              v,
+            )}
           </P>
           <P>
             El procedimiento suele durar entre 6 y 18 meses según la complejidad y el juzgado de{" "}
