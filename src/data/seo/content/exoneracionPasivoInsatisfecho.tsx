@@ -118,7 +118,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
         { label: "El exceso, en plan de pagos", text: "Lo que supere esos límites no se cancela: se reorganiza y aplaza en un plan de pagos." },
         { label: "El resto de la deuda", text: "Préstamos, tarjetas y microcréditos no tienen este tope y pueden cancelarse íntegramente." },
       ],
-      note: "Estos importes son los vigentes tras la reforma concursal de 2022 y pueden actualizarse. Lo confirmamos en tu diagnóstico.",
+      note: "Importes de la reforma concursal de 2022. Las sentencias del Tribunal Supremo de 18 de febrero de 2026 amplían su alcance (ver más abajo). Lo confirmamos en tu diagnóstico.",
     },
     legalTimeline: {
       title: "Las fases hasta la exoneración",
@@ -164,6 +164,21 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
       ),
     },
     {
+      title: "Actualización 2026: el Supremo amplía la exoneración del crédito público",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>Las <strong>sentencias del Tribunal Supremo de 18 de febrero de 2026</strong> (SSTS 254/2026, 259/2026 y 260/2026) marcan un punto de inflexión: amplían de forma sustancial cuánta deuda pública puede cancelarse en la EPI. Tres claves:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</li>
+            <li><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (hasta 10.000 € por organismo: 100 % los primeros 5.000 € y 50 % el tramo de 5.000 € a 10.000 €).</li>
+            <li><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</li>
+          </ul>
+          <p><strong>Ejemplo:</strong> con 44.000 € de deuda pública (24.000 € con Hacienda y 20.000 € con Seguridad Social, parte intereses y parte principal), aplicando esta doctrina podrías llegar a pagar solo unos 7.500 €: una exoneración cercana al 83 %.</p>
+          <p>Por eso ahora es clave <strong>analizar la naturaleza de cada deuda</strong> (principal ordinario vs. intereses/recargos subordinados) en cada caso. Lo hacemos en tu diagnóstico.</p>
+        </div>
+      ),
+    },
+    {
       title: "Cuándo puede revocarse la exoneración",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
@@ -190,6 +205,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
   faq: [
     { q: "¿Qué es la exoneración del pasivo insatisfecho?", a: (<>Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe.</>), plain: "Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe." },
     { q: "¿Incluye la deuda con Hacienda?", a: (<>Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos.</>), plain: "Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos." },
+    { q: "¿Qué cambia con las sentencias del Tribunal Supremo de 2026?", a: (<>Las sentencias de 18 de febrero de 2026 amplían la exoneración del crédito público: los intereses y recargos (crédito subordinado) se exoneran al 100 % sin el límite de 10.000 €, el principal mantiene ese tope, y el régimen se aplica también a administraciones autonómicas y locales.</>), plain: "Las sentencias de 18 de febrero de 2026 amplían la exoneración del crédito público: los intereses y recargos (crédito subordinado) se exoneran al 100 % sin el límite de 10.000 €, el principal mantiene ese tope, y el régimen se aplica también a administraciones autonómicas y locales." },
     { q: "¿La exoneración es definitiva?", a: (<>Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva.</>), plain: "Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva." },
     { q: "¿Aparece la exoneración en algún registro público?", a: (<>Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda.</>), plain: "Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda." },
     { q: "¿Puede revocarse una vez concedida?", a: (<>Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos.</>), plain: "Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos." },
