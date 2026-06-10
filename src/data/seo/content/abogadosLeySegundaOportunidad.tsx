@@ -215,13 +215,13 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
   },
   interactive: {
     teamCredentials: {
-      title: "Un equipo jurídico real detrás de tu caso",
+      title: "Una empresa legal completa detrás de tu caso",
       subtitle:
-        "No eres un número de expediente. Abogados especialistas en insolvencia llevan tu procedimiento de principio a fin.",
+        "No eres un número de expediente. Un equipo de abogados especialistas en insolvencia, junto a las áreas de operaciones, atención al cliente, tecnología y soporte, lleva tu procedimiento de principio a fin.",
       members: [
         {
           name: "Marta Belmonte",
-          role: "Directora del área concursal",
+          role: "Socia directora",
           credential: "Abogada colegiada · 15 años en insolvencia",
           photo: team1,
         },
@@ -245,8 +245,8 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         },
         {
           name: "Nuria Cano",
-          role: "Gestora de expedientes",
-          credential: "Coordinación documental del proceso",
+          role: "Responsable de atención al cliente",
+          credential: "Acompañamiento durante todo el proceso",
           photo: team5,
         },
         {
@@ -275,8 +275,8 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         },
         {
           name: "Elena Ruiz",
-          role: "Gestora de expedientes",
-          credential: "Seguimiento documental del proceso",
+          role: "Customer success manager",
+          credential: "Seguimiento y satisfacción del cliente",
           photo: team10,
         },
         {
@@ -293,14 +293,14 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         },
         {
           name: "Ramón Castro",
-          role: "Asesor jurídico sénior",
+          role: "Director jurídico",
           credential: "20 años en derecho mercantil y concursal",
           photo: team13,
         },
         {
           name: "Patricia León",
-          role: "Asistente legal",
-          credential: "Atención y coordinación de clientes",
+          role: "Responsable de RR. HH.",
+          credential: "Selección y desarrollo del equipo",
           photo: team14,
         },
         {
@@ -312,13 +312,13 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         {
           name: "Beatriz Campos",
           role: "Directora de operaciones",
-          credential: "Coordinación del equipo jurídico",
+          credential: "Coordinación y eficiencia de los procesos",
           photo: team16,
         },
         {
           name: "Iván Moreno",
-          role: "Abogado de admisión",
-          credential: "Diagnóstico inicial y documentación",
+          role: "Responsable de tecnología",
+          credential: "Plataforma y seguridad de tus datos",
           photo: team17,
         },
         {
@@ -335,8 +335,8 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         },
         {
           name: "Alicia Méndez",
-          role: "Abogada de litigación",
-          credential: "Defensa frente a acreedores",
+          role: "Responsable de marketing",
+          credential: "Comunicación clara y sin letra pequeña",
           photo: team20,
         },
       ],
