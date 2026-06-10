@@ -141,7 +141,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelar tarjetas revolving por usura | Calma",
     metaDescription:
-      "Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisión gratuita. [Placeholder]",
+      "Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisamos tu contrato gratis y sin compromiso.",
   },
   {
     path: "/microcreditos-prestamos/cancelar-microcreditos",
@@ -154,7 +154,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelar microcréditos abusivos en España | Calma",
     metaDescription:
-      "Cancela microcréditos y préstamos rápidos con intereses abusivos. [Placeholder]",
+      "Cancela microcréditos y préstamos rápidos con intereses abusivos. Analizamos si puedes reclamar o cancelar la deuda.",
   },
   {
     path: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
@@ -193,7 +193,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Juicio monitorio por deuda: cómo responder | Calma",
     metaDescription:
-      "Te ha llegado un juicio monitorio por una deuda: plazos y qué hacer. [Placeholder]",
+      "Te ha llegado un juicio monitorio por una deuda: conoce los plazos, opciones y cómo responder antes de que avance.",
   },
   {
     path: "/deudas-hacienda-seguridad-social/deudas-hacienda",
