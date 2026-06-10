@@ -3,7 +3,7 @@ import SeoPageScaffold, { type RelatedLink } from "@/components/seo/SeoPageScaff
 import NotFound from "@/pages/NotFound";
 import { getLocalizacion, localizaciones } from "@/data/seo/localizaciones";
 import { getLocalizacionContent } from "@/data/seo/content/localizacionContent";
-import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
+import { buildBreadcrumb, buildLocalLegalService, buildFaq } from "@/lib/seo/structuredData";
 
 /** Landing local de abogados LSO: /abogados-ley-segunda-oportunidad/<ciudad>. */
 const LocalizacionPage = () => {
@@ -35,7 +35,7 @@ const LocalizacionPage = () => {
 
   const structuredData = [
     buildBreadcrumb(breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical }))),
-    buildLegalService(),
+    buildLocalLegalService(city),
     buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain }))),
   ];
 
