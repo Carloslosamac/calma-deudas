@@ -4,6 +4,8 @@ import NotFound from "@/pages/NotFound";
 import { getCluster } from "@/data/seo/architecture";
 import { moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { entitiesByCluster } from "@/data/seo/entities";
+import { comparativasByCluster } from "@/data/seo/comparativas";
+import { guiasByCluster } from "@/data/seo/guias";
 import { getHubContent } from "@/data/seo/content/hubContent";
 import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
 
@@ -20,6 +22,8 @@ const ClusterHub = () => {
 
   const related: RelatedLink[] = [
     ...moneyPagesByCluster(cluster.slug).map((p) => ({ label: p.h1, to: p.path })),
+    ...comparativasByCluster(cluster.slug).map((c) => ({ label: c.label, to: c.path })),
+    ...guiasByCluster(cluster.slug).map((g) => ({ label: g.label, to: g.path })),
     ...entitiesByCluster(cluster.slug).map((e) => ({
       label: e.name,
       to: `/${e.cluster}/${e.slug}`,
