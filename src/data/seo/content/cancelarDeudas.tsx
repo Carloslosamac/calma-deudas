@@ -204,6 +204,50 @@ export const cancelarDeudas: MoneyContent = {
     text: "Tú nos cuentas tu situación y nosotros te decimos por dónde tu deuda puede desaparecer. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora.",
   },
   interactive: {
+    legalTimeline: {
+      title: "Cómo es el proceso, paso a paso",
+      subtitle: "Tú no decides solo: te guiamos desde el primer día hasta que la deuda desaparece.",
+      phases: [
+        {
+          title: "Diagnóstico gratuito",
+          duration: "24-48h",
+          text: "Analizamos tus deudas, tus ingresos y de dónde viene cada una. Sin coste ni compromiso.",
+        },
+        {
+          title: "Elegimos la vía correcta",
+          duration: "Semana 1",
+          text: "Comparamos cancelar (LSO), reclamar, reunificar o refinanciar y te decimos cuál elimina más deuda en tu caso.",
+        },
+        {
+          title: "Puesta en marcha",
+          duration: "Variable",
+          text: "Iniciamos el procedimiento elegido y frenamos llamadas, reclamaciones y embargos en curso.",
+        },
+        {
+          title: "Deuda eliminada",
+          duration: "Resolución",
+          text: "Tu deuda desaparece por la vía adecuada y empiezas de cero, con tranquilidad.",
+        },
+      ],
+    },
+    teamCredentials: {
+      title: "El equipo que elige la vía correcta por ti",
+      subtitle:
+        "No eres un número de expediente. Un equipo de abogados especialistas en insolvencia analiza tu caso y lleva el procedimiento de principio a fin.",
+      members: [
+        { name: "Marta Belmonte", role: "Socia directora", credential: "Abogada colegiada · 15 años en insolvencia", photo: team1 },
+        { name: "Javier Ferrer", role: "Abogado concursal sénior", credential: "Especialista en exoneración del pasivo", photo: team2 },
+        { name: "Lucía Ordóñez", role: "Abogada de admisión", credential: "Diagnóstico y viabilidad del caso", photo: team3 },
+        { name: "Andrés Solís", role: "Responsable de litigación", credential: "Representación ante el juzgado", photo: team4 },
+        { name: "Sara Belda", role: "Abogada de litigación", credential: "Oposición a embargos y ejecuciones", photo: team5 },
+        { name: "Nuria Cano", role: "Atención al cliente", credential: "Acompañamiento durante todo el proceso", photo: team6 },
+      ],
+      highlights: [
+        "+19.000 familias sin deudas",
+        "Abogados colegiados",
+        "Presupuesto cerrado desde el inicio",
+      ],
+    },
     simulator: {
       title: "¿Cuánta deuda podrías cancelar?",
       subtitle: "Mueve los controles y compara qué hace cada solución con tu deuda y tu cuota.",
