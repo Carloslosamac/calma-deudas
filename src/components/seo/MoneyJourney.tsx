@@ -413,10 +413,10 @@ const MoneyJourney = ({
       />
       <Header />
 
-      <main className="pt-28 md:pt-32">
+      <main>
         {/* ---------- Hero ---------- */}
         <section className={`relative overflow-hidden ${tone.heroBg}`}>
-          <div className="mx-auto max-w-4xl px-6 pb-16 pt-12 text-center md:pb-24 md:pt-16">
+          <div className="mx-auto max-w-4xl px-6 pb-16 pt-36 text-center md:pb-24 md:pt-40">
             <Breadcrumbs items={breadcrumbs} />
             <motion.div variants={reveal} initial="hidden" animate="show" className="mt-8">
               {(hero?.badge ?? eyebrow) && (
