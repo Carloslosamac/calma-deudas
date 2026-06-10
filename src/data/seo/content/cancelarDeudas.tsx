@@ -6,6 +6,12 @@ import p3 from "@/assets/person-closeup-man-2.jpg";
 import p4 from "@/assets/person-closeup-woman-2.jpg";
 import p5 from "@/assets/person-closeup-man-3.jpg";
 import p6 from "@/assets/person-closeup-woman-3.jpg";
+import team1 from "@/assets/team-lawyer-1.jpg";
+import team2 from "@/assets/team-lawyer-2.jpg";
+import team3 from "@/assets/team-lawyer-3.jpg";
+import team4 from "@/assets/team-lawyer-4.jpg";
+import team5 from "@/assets/team-lawyer-5.jpg";
+import team6 from "@/assets/team-lawyer-6.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -28,9 +34,11 @@ export const cancelarDeudas: MoneyContent = {
     "comparisonTable",
     "benefits",
     "urgencyTimeline",
+    "legalTimeline",
     "steps",
     "quiz",
     "metrics",
+    "teamCredentials",
     "testimonials",
     "sections",
     "beforeAfter",
@@ -196,6 +204,50 @@ export const cancelarDeudas: MoneyContent = {
     text: "Tú nos cuentas tu situación y nosotros te decimos por dónde tu deuda puede desaparecer. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora.",
   },
   interactive: {
+    legalTimeline: {
+      title: "Cómo es el proceso, paso a paso",
+      subtitle: "Tú no decides solo: te guiamos desde el primer día hasta que la deuda desaparece.",
+      phases: [
+        {
+          title: "Diagnóstico gratuito",
+          duration: "24-48h",
+          text: "Analizamos tus deudas, tus ingresos y de dónde viene cada una. Sin coste ni compromiso.",
+        },
+        {
+          title: "Elegimos la vía correcta",
+          duration: "Semana 1",
+          text: "Comparamos cancelar (LSO), reclamar, reunificar o refinanciar y te decimos cuál elimina más deuda en tu caso.",
+        },
+        {
+          title: "Puesta en marcha",
+          duration: "Variable",
+          text: "Iniciamos el procedimiento elegido y frenamos llamadas, reclamaciones y embargos en curso.",
+        },
+        {
+          title: "Deuda eliminada",
+          duration: "Resolución",
+          text: "Tu deuda desaparece por la vía adecuada y empiezas de cero, con tranquilidad.",
+        },
+      ],
+    },
+    teamCredentials: {
+      title: "El equipo que elige la vía correcta por ti",
+      subtitle:
+        "No eres un número de expediente. Un equipo de abogados especialistas en insolvencia analiza tu caso y lleva el procedimiento de principio a fin.",
+      members: [
+        { name: "Marta Belmonte", role: "Socia directora", credential: "Abogada colegiada · 15 años en insolvencia", photo: team1 },
+        { name: "Javier Ferrer", role: "Abogado concursal sénior", credential: "Especialista en exoneración del pasivo", photo: team2 },
+        { name: "Lucía Ordóñez", role: "Abogada de admisión", credential: "Diagnóstico y viabilidad del caso", photo: team3 },
+        { name: "Andrés Solís", role: "Responsable de litigación", credential: "Representación ante el juzgado", photo: team4 },
+        { name: "Sara Belda", role: "Abogada de litigación", credential: "Oposición a embargos y ejecuciones", photo: team5 },
+        { name: "Nuria Cano", role: "Atención al cliente", credential: "Acompañamiento durante todo el proceso", photo: team6 },
+      ],
+      highlights: [
+        "+19.000 familias sin deudas",
+        "Abogados colegiados",
+        "Presupuesto cerrado desde el inicio",
+      ],
+    },
     simulator: {
       title: "¿Cuánta deuda podrías cancelar?",
       subtitle: "Mueve los controles y compara qué hace cada solución con tu deuda y tu cuota.",
@@ -362,6 +414,40 @@ export const cancelarDeudas: MoneyContent = {
   },
   sections: [
     {
+      title: "¿Por dónde empiezo?",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            Si te sientes perdido, hazte estas tres preguntas. La respuesta te acerca a la
+            vía que mejor encaja contigo:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong>¿Puedes pagar algo cada mes?</strong> Si <strong>no</strong>, tu vía es
+              cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
+              Si <strong>sí</strong>, valora <A to="/reunificar-deudas">reunificar</A> en una
+              sola cuota.
+            </li>
+            <li>
+              <strong>¿Tus intereses son altísimos?</strong> En{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
+              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> muchas
+              veces la deuda se anula por usura.
+            </li>
+            <li>
+              <strong>¿Ya te reclaman o te embargan?</strong> Hay que actuar rápido: podemos
+              frenarlo y atacar la deuda de fondo.
+            </li>
+          </ul>
+          <p>
+            No tienes que acertar tú. Cuéntanos tu situación y lo resolvemos gratis. Si
+            prefieres entenderlo a fondo antes, lee la guía de{" "}
+            <A to="/cancelacion-de-deudas">cancelación de deudas</A>.
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "Las 4 vías para que tu deuda desaparezca",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
@@ -453,6 +539,21 @@ export const cancelarDeudas: MoneyContent = {
             <strong>Ley de Segunda Oportunidad</strong> suele durar entre 6 y 18 meses. En
             todos los casos, los embargos pueden suspenderse mucho antes del final.
           </p>
+        </div>
+      ),
+    },
+    {
+      title: "Nuestro compromiso contigo",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>Antes de decidir nada, queremos que lo tengas todo claro:</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>Diagnóstico gratuito</strong> y sin compromiso: primero estudiamos tu caso.</li>
+            <li><strong>Respuesta en 24h</strong> con una idea clara de qué vía te conviene.</li>
+            <li><strong>Contenido y casos revisados por abogado</strong> especialista en insolvencia.</li>
+            <li><strong>Presupuesto cerrado desde el inicio</strong>, con opción de pago fraccionado.</li>
+            <li><strong>Sin letra pequeña:</strong> nada se pone en marcha sin que lo entiendas y lo apruebes.</li>
+          </ul>
         </div>
       ),
     },

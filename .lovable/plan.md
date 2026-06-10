@@ -1,44 +1,34 @@
 ## Objetivo
 
-Convertir `/cancelar-deudas` en el **pináculo** para una persona que sabe que quiere eliminar su deuda pero **aún no sabe cómo**. Todo el copy y cada módulo se reorientan a "ayúdame a elegir la vía correcta", y el **comparador de soluciones según situación** pasa a ser el corazón de la página. Mismo patrón técnico que LSO (`MoneyJourney`), solo cambia el contenido en `src/data/seo/content/cancelarDeudas.tsx`.
+Reforzar `/cancelar-deudas` con cuatro añadidos que ayudan a quien aún no sabe qué hacer: confianza (equipo), claridad del proceso (timeline), orientación inicial (mini-guía) y garantías (sellos). Solo se edita `src/data/seo/content/cancelarDeudas.tsx` (más imports de imágenes de equipo ya existentes). No se tocan componentes ni tipos: `teamCredentials` y `legalTimeline` ya existen en `MoneyJourney`.
 
-## Ángulo editorial
+## Cambios en `cancelarDeudas.tsx`
 
-- Persona objetivo: "quiero que mi deuda desaparezca, pero no sé qué hacer".
-- Mensaje rector: hay varias vías (cancelar por LSO, anular por usura, negociar quita, reunificar) y **la clave es elegir la correcta para tu caso** — eso lo decidimos juntos, gratis.
-- No canibalizar: la guía profunda sigue en `/cancelacion-de-deudas`; la LSO en `/ley-segunda-oportunidad`. Esta página es la **decisión + acción**.
+1. **Equipo y credenciales (`interactive.teamCredentials`)**
+   - Reutilizar fotos `@/assets/team-lawyer-*.jpg` (subconjunto de ~6 miembros para no recargar).
+   - Título reorientado a la decisión: "El equipo que elige la vía correcta por ti".
+   - `highlights`: "+19.000 familias sin deudas", "Abogados colegiados", "Presupuesto cerrado desde el inicio".
 
-## Cambios módulo a módulo (en `cancelarDeudas.tsx`)
+2. **Fases del proceso (`interactive.legalTimeline`)**
+   - 4 fases del recorrido multi-vía: Diagnóstico gratuito → Elegimos la vía (cancelar/reclamar/reunificar/refinanciar) → Puesta en marcha y freno a la presión → Deuda eliminada. Con `duration` orientativa.
+   - Título: "Cómo es el proceso, paso a paso".
 
-1. **Hero**: reenfocar de "cancela las deudas que te ahogan" a "tu deuda puede desaparecer; te decimos por qué vía". Título + subtítulo orientados a "no sabes cómo, nosotros te guiamos".
+3. **Mini-guía "¿Por dónde empiezo?" (nueva `MoneySection`)**
+   - Sección de texto que guía a quien está perdido: 3 preguntas que se haga ("¿puedo pagar algo?", "¿mis intereses son abusivos?", "¿me reclaman?") y a dónde lleva cada respuesta, con enlaces internos a LSO, revolving, microcréditos, reunificar y la guía `/cancelacion-de-deudas`.
+   - Se inserta al inicio de `sections`.
 
-2. **Nuevo `comparisonTable`** (módulo estrella, hoy sin usar): tabla "¿Qué solución te conviene?" comparando las 4 vías —**Cancelar (LSO)**, **Anular por usura**, **Negociar quita**, **Reunificar**— por filas como: cuándo encaja, qué pasa con la deuda, plazos, si puedes seguir pagando, resultado. Columna destacada según el caso más común. CTA "¿Cuál es la mía? Pregúntanos gratis".
+4. **Garantías / sellos (nueva `MoneySection`)**
+   - Bloque "Nuestro compromiso contigo" con bullets de confianza: diagnóstico gratis, sin compromiso, contenido revisado por abogado, presupuesto cerrado, respuesta en 24h, sin letra pequeña.
+   - Se inserta al final de `sections`, antes del cierre.
 
-3. **`debtTypes` → selector "según tu situación"**: reescribir las opciones para que sean **situaciones** ("Ya no puedo pagar nada", "Puedo pagar una cuota pequeña", "Mis intereses son altísimos", "Tengo deuda pública", "Me reclaman/embargan", "No sé por dónde empezar"), cada una apuntando a la vía y enlace correctos.
-
-4. **Nuevo `urgencyTimeline`**: "Qué pasa si no eliges una salida" (intereses crecen → reclamaciones → monitorio → embargo), para empujar a actuar sin saber aún la vía.
-
-5. **`quiz`**: reorientar a "¿Qué vía es la tuya?" — preguntas que segmentan hacia cancelar/reclamar/reunificar, no solo elegibilidad LSO.
-
-6. **`benefits`**: mantener pero reencuadrar a "resultado independientemente de la vía" (deuda fuera, recuperas nómina, paran llamadas, etc.).
-
-7. **`steps`**: reescribir como "de no saber qué hacer → a deuda eliminada": Diagnóstico → Elegimos la vía → Ponemos en marcha → Deuda eliminada.
-
-8. **`sections`**: reescribir hacia comparación y decisión: "Las 4 vías para que tu deuda desaparezca", "¿Cómo sé cuál es la mía?", "Cancelar vs reunificar vs reclamar", "Coste y plazos por vía". Mantener enlaces internos a LSO, revolving, microcréditos, reunificar y guía.
-
-9. **`faq`**: añadir preguntas tipo "No sé qué vía me conviene, ¿cómo lo decido?", "¿Y si me equivoco de vía?", junto a las de coste/plazos.
-
-10. **`beforeAfter`, `metrics`, `eligibility`, `closing`, `testimonials`, `simulator`**: ajustar copy al ángulo "elige tu vía / tu deuda desaparece", sin cambios estructurales.
-
-11. **`layout`**: nuevo orden priorizando la decisión:
-`simulator → debtTypes → comparisonTable → benefits → urgencyTimeline → steps → quiz → metrics → testimonials → sections → beforeAfter → eligibility → faq → closing`.
+5. **`layout`**: añadir `teamCredentials` y `legalTimeline` en el orden:
+   `simulator → debtTypes → comparisonTable → benefits → urgencyTimeline → legalTimeline → steps → quiz → metrics → teamCredentials → testimonials → sections → beforeAfter → eligibility → faq → closing`.
 
 ## Detalles técnicos
 
-- Solo se edita `src/data/seo/content/cancelarDeudas.tsx`. No se tocan componentes ni tipos: `comparisonTable` y `urgencyTimeline` ya existen en `types.ts`, en `MoneyJourney` y como componentes (`ComparisonTable`, `UrgencyTimeline`).
-- `seoTitle`/`metaDescription` viven en `src/data/seo/moneyPages.ts`; se revisarán para alinear con el ángulo "qué solución te conviene" si conviene (cambio menor, opcional).
-- Sin cambios en routing, sitemap ni schema.
+- Imports nuevos de imágenes de equipo (mismos assets que usa `abogadosLeySegundaOportunidad.tsx`).
+- Sin cambios en routing, sitemap, schema ni componentes. Todos los CTAs siguen llevando a `#hero-form`; los enlaces internos usan el helper `A`.
 
 ## Verificación
 
-- Revisar el build y la preview de `/cancelar-deudas`: que aparezcan la tabla comparativa y el timeline, y que el orden de módulos sea el previsto.
+- Revisar build y preview de `/cancelar-deudas`: que aparezcan el timeline legal, el bloque de equipo y las dos secciones nuevas en el orden previsto.
