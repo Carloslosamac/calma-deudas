@@ -17,9 +17,10 @@ const TRACKING_ID = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_
 
 const CALLBACK = "__calmaInitCityMap";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
-    google?: typeof google;
+    google?: any;
     [CALLBACK]?: () => void;
   }
 }
