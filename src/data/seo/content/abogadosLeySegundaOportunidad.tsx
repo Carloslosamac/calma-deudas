@@ -14,6 +14,20 @@ import team3 from "@/assets/team-lawyer-3.jpg";
 import team4 from "@/assets/team-lawyer-4.jpg";
 import team5 from "@/assets/team-lawyer-5.jpg";
 import team6 from "@/assets/team-lawyer-6.jpg";
+import team7 from "@/assets/team-lawyer-7.jpg";
+import team8 from "@/assets/team-lawyer-8.jpg";
+import team9 from "@/assets/team-lawyer-9.jpg";
+import team10 from "@/assets/team-lawyer-10.jpg";
+import team11 from "@/assets/team-lawyer-11.jpg";
+import team12 from "@/assets/team-lawyer-12.jpg";
+import team13 from "@/assets/team-lawyer-13.jpg";
+import team14 from "@/assets/team-lawyer-14.jpg";
+import team15 from "@/assets/team-lawyer-15.jpg";
+import team16 from "@/assets/team-lawyer-16.jpg";
+import team17 from "@/assets/team-lawyer-17.jpg";
+import team18 from "@/assets/team-lawyer-18.jpg";
+import team19 from "@/assets/team-lawyer-19.jpg";
+import team20 from "@/assets/team-lawyer-20.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
