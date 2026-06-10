@@ -118,7 +118,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
         { label: "El exceso, en plan de pagos", text: "Lo que supere esos límites no se cancela: se reorganiza y aplaza en un plan de pagos." },
         { label: "El resto de la deuda", text: "Préstamos, tarjetas y microcréditos no tienen este tope y pueden cancelarse íntegramente." },
       ],
-      note: "Estos importes son los vigentes tras la reforma concursal de 2022 y pueden actualizarse. Lo confirmamos en tu diagnóstico.",
+      note: "Importes de la reforma concursal de 2022. Las sentencias del Tribunal Supremo de 18 de febrero de 2026 amplían su alcance (ver más abajo). Lo confirmamos en tu diagnóstico.",
     },
     legalTimeline: {
       title: "Las fases hasta la exoneración",
