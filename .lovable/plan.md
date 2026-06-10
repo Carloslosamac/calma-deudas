@@ -61,3 +61,9 @@ Cada módulo es un componente nuevo y opcional; una página solo renderiza los q
 - Verificación: build + revisión visual de varias rutas (móvil y escritorio) para confirmar que cada servicio se ve distinto.
 
 Por volumen, propongo ejecutar por fases y enseñarte la Fase 1+2 (infra + las 6 ya creadas, claramente diferenciadas) antes de seguir con las 9 nuevas, salvo que prefieras que avance del tirón.
+
+## Estado: COMPLETADO
+
+- Fase 1, 2 y 3 hechas: 15 money pages con módulos, acentos y layouts propios.
+- Registradas las 9 nuevas en `index.ts`.
+- Fase 4: hub `/servicios` (con `ItemList`), enlazado en menú "Soluciones", footer y sitemap.
