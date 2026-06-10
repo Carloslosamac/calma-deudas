@@ -11,6 +11,7 @@ import { satelliteClusters } from "../src/data/seo/architecture";
 import { entities } from "../src/data/seo/entities";
 import { comparativas } from "../src/data/seo/comparativas";
 import { guias } from "../src/data/seo/guias";
+import { localizaciones } from "../src/data/seo/localizaciones";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -86,6 +87,14 @@ const guiaEntries: Entry[] = guias.map((g) => ({
   priority: "0.6",
 }));
 
+// Cluster local: abogados LSO por ciudad.
+const localizacionEntries: Entry[] = localizaciones.map((l) => ({
+  loc: `${l.path}/`,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.7",
+}));
+
 const entries = [
   ...staticEntries,
   ...moneyEntries,
@@ -93,6 +102,7 @@ const entries = [
   ...entityEntries,
   ...comparativaEntries,
   ...guiaEntries,
+  ...localizacionEntries,
   ...postEntries,
 ];
 
