@@ -97,10 +97,10 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             vivas: el diagnóstico y la tramitación se hacen sin desplazamientos.
           </P>
           <CityLocationMap city={city} />
-          <P className="text-sm">
+          <p className="text-sm leading-relaxed text-foreground/70">
             ¿Prefieres hablar por teléfono? Atendemos a la provincia de {provincia} (prefijo{" "}
             {prefijo}) a través de nuestro equipo central, de lunes a viernes.
-          </P>
+          </p>
         </div>
       ),
     },
