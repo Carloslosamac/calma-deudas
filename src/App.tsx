@@ -22,6 +22,7 @@ import ComparativaPage from "./pages/seo/ComparativaPage";
 import GuiaPage from "./pages/seo/GuiaPage";
 import CasosLSO from "./pages/seo/CasosLSO";
 import Servicios from "./pages/seo/Servicios";
+import LocalizacionPage from "./pages/seo/LocalizacionPage";
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -56,6 +57,11 @@ const App = () => (
           ))}
           {/* Casos reales de la Ley de Segunda Oportunidad */}
           <Route path="/ley-segunda-oportunidad/casos" element={<CasosLSO />} />
+          {/* Cluster local: abogados LSO por ciudad (antes del catch-all de entidad) */}
+          <Route
+            path="/abogados-ley-segunda-oportunidad/:ciudad"
+            element={<LocalizacionPage />}
+          />
           {/* Guías de educación financiera: /guias/<slug> */}
           {guias.map((g) => (
             <Route key={g.path} path={g.path} element={<GuiaPage />} />
