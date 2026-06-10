@@ -339,8 +339,8 @@ export const cancelarDeudas: MoneyContent = {
       },
     },
     beforeAfter: {
-      title: "Esto es lo que te estás perdiendo",
-      subtitle: "La diferencia entre seguir pagando y cancelar de una vez.",
+      title: "Antes y después de elegir tu salida",
+      subtitle: "La diferencia entre seguir atrapado y dejar que la deuda desaparezca.",
       beforeLabel: "Hoy, con deudas",
       afterLabel: "Después, con Calma",
       before: [
