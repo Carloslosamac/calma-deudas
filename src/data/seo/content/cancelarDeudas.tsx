@@ -24,8 +24,10 @@ export const cancelarDeudas: MoneyContent = {
   tone: "transactional",
   layout: [
     "simulator",
-    "benefits",
     "debtTypes",
+    "comparisonTable",
+    "benefits",
+    "urgencyTimeline",
     "steps",
     "quiz",
     "metrics",
@@ -38,20 +40,21 @@ export const cancelarDeudas: MoneyContent = {
   ],
   intro: (
     <>
-      Hay deudas que <strong>no tienes por qué seguir pagando</strong>. Si no llegas a
-      fin de mes por las cuotas, existen vías legales para eliminarlas. Te decimos hoy,
-      gratis, cuáles puedes cancelar en tu caso.
+      Quieres que tu deuda <strong>desaparezca</strong>, pero no sabes por dónde empezar.
+      Existen varias vías legales y la clave está en <strong>elegir la correcta para tu
+      caso</strong>. Te decimos hoy, gratis, cuál es la tuya.
     </>
   ),
   hero: {
     badge: "Cancelar deudas",
-    titleLead: "Cancela las deudas",
-    titleAccent: "que te están ahogando.",
+    titleLead: "Quieres que tu deuda desaparezca.",
+    titleAccent: "Te decimos cómo.",
     subtitle: (
       <>
-        Tarjetas, microcréditos, préstamos, descubiertos… Si tus deudas crecen más rápido
-        de lo que puedes pagar, la ley te permite <strong>eliminarlas</strong>. Te decimos
-        hoy mismo, gratis, cuánto puedes dejar de pagar.
+        No hay una sola forma de eliminar una deuda: cancelar por ley, anular intereses
+        abusivos, negociar una quita o reunificar. Lo difícil es saber{" "}
+        <strong>cuál encaja contigo</strong>. Lo estudiamos hoy mismo, gratis, y te
+        decimos por qué vía tu deuda puede desaparecer.
       </>
     ),
     trustNote: "Respuesta en 24h · Gratis · Sin compromiso",
@@ -63,12 +66,12 @@ export const cancelarDeudas: MoneyContent = {
     trustSeal: "Respuesta en 24h · Gratis · Sin compromiso",
     mediaLabel: "Han hablado de nosotros",
   },
-  benefitsTitle: "Qué consigues al cancelar tus deudas",
+  benefitsTitle: "El resultado, elijas la vía que elijas",
   benefits: [
     {
       icon: "shield",
       title: "Eliminación de la deuda",
-      text: "Borramos legalmente las deudas que no puedes asumir. Definitivo y sin que vuelvan.",
+      text: "Sea por la vía que sea, el objetivo es el mismo: que la deuda desaparezca y no vuelva.",
     },
     {
       icon: "wallet",
@@ -144,23 +147,23 @@ export const cancelarDeudas: MoneyContent = {
       photo: p6,
     },
   ],
-  stepsTitle: "Tu camino para cancelar deudas",
-  stepsSubtitle: "Cuatro pasos claros para quitarte la carga",
+  stepsTitle: "De no saber qué hacer a tu deuda eliminada",
+  stepsSubtitle: "Cuatro pasos claros, sin que tengas que decidir solo",
   steps: [
     {
       title: "Diagnóstico gratuito",
-      text: "Analizamos tus deudas e ingresos para ver cuáles puedes cancelar.",
+      text: "Analizamos tus deudas e ingresos para ver qué vías encajan con tu caso.",
     },
     {
-      title: "Estrategia a medida",
-      text: "Elegimos la mejor vía legal: reclamación, LSO o negociación.",
+      title: "Elegimos la vía correcta",
+      text: "Comparamos cancelar, reclamar, negociar o reunificar y te decimos cuál te conviene.",
     },
     {
       title: "Inicio del proceso",
       text: "Ponemos en marcha la cancelación y frenamos la presión de los acreedores.",
     },
     {
-      title: "Deuda cancelada",
+      title: "Deuda eliminada",
       text: "Te quitas la carga y empiezas de cero.",
       highlight: true,
     },
@@ -171,11 +174,12 @@ export const cancelarDeudas: MoneyContent = {
     { value: "Gratis", label: "Sabes hoy mismo cuánto puedes dejar de pagar" },
   ],
   eligibility: {
-    title: "¿Puedo cancelar mis deudas?",
+    title: "¿Puede desaparecer mi deuda?",
     intro: (
       <>
-        Si no puedes pagar tus deudas con tus ingresos actuales y actúas de buena fe, lo
-        más probable es que puedas cancelar buena parte de ellas. Lo confirmamos gratis.
+        Casi siempre hay una vía para eliminar la deuda; lo que cambia es cuál. Si te
+        reconoces en estos puntos, lo más probable es que podamos hacerla desaparecer.
+        Lo confirmamos gratis.
       </>
     ),
     requirements: [
@@ -188,8 +192,8 @@ export const cancelarDeudas: MoneyContent = {
     trustText: "Actualizado según la última reforma concursal.",
   },
   closing: {
-    title: "Cada mes que pagas, es dinero que no recuperas",
-    text: "Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora y descubre cuánta deuda puedes cancelar legalmente.",
+    title: "No necesitas saber la vía. Solo dar el primer paso",
+    text: "Tú nos cuentas tu situación y nosotros te decimos por dónde tu deuda puede desaparecer. Mientras lo piensas, los intereses crecen y los embargos avanzan. Pide tu estudio gratis ahora.",
   },
   interactive: {
     simulator: {
@@ -200,73 +204,143 @@ export const cancelarDeudas: MoneyContent = {
       defaultDebt: 22000,
       defaultMonthly: 400,
     },
-    debtTypesTitle: "¿Qué deudas quieres cancelar?",
-    debtTypesSubtitle: "Elige lo que más se parece a tu caso y te decimos por dónde empezar.",
+    comparisonTable: {
+      title: "¿Qué solución te conviene?",
+      subtitle:
+        "No todas las deudas se eliminan igual. Esta es la guía rápida para situarte; tu caso lo confirmamos gratis.",
+      columns: [
+        { title: "Cancelar (LSO)", highlight: true },
+        { title: "Anular por usura" },
+        { title: "Negociar quita" },
+        { title: "Reunificar" },
+      ],
+      rows: [
+        {
+          feature: "Cuándo encaja",
+          values: [
+            "No puedes pagar nada",
+            "Intereses abusivos",
+            "Puedes pagar una parte",
+            "Puedes pagar una cuota",
+          ],
+        },
+        {
+          feature: "Qué pasa con la deuda",
+          values: ["Se cancela entera", "Se anula la abusiva", "Se reduce", "Se agrupa"],
+        },
+        {
+          feature: "¿Sigues pagando?",
+          values: ["no", "no", "Parte", "sí"],
+        },
+        {
+          feature: "Para deuda pública",
+          values: ["sí", "no", "Limitado", "no"],
+        },
+        {
+          feature: "Plazo aproximado",
+          values: ["6-18 meses", "Meses", "Semanas", "Inmediato"],
+        },
+        {
+          feature: "Resultado",
+          values: ["Empiezas de cero", "Deuda anulada", "Deuda menor", "Una sola cuota"],
+        },
+      ],
+    },
+    debtTypesTitle: "¿En qué situación estás?",
+    debtTypesSubtitle: "Elige la que más se parece a la tuya y te decimos por dónde tu deuda puede desaparecer.",
     debtTypes: [
       {
-        label: "Tarjetas revolving",
+        label: "Ya no puedo pagar nada",
         message:
-          "Suelen tener intereses abusivos: muchas veces se anulan por usura y se pueden cancelar.",
-        to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
-        linkLabel: "Cómo cancelar tarjetas revolving",
-      },
-      {
-        label: "Microcréditos",
-        message:
-          "Se acumulan rápido y ahogan. Se pueden cancelar con la Ley de Segunda Oportunidad.",
-        to: "/microcreditos-prestamos/cancelar-microcreditos",
-        linkLabel: "Cómo cancelar microcréditos",
-      },
-      {
-        label: "Préstamos bancarios",
-        message:
-          "Préstamos personales y descubiertos también se cancelan si no puedes asumirlos.",
+          "Si tus ingresos no cubren las cuotas, la vía más potente es cancelar toda la deuda con la Ley de Segunda Oportunidad.",
         to: "/ley-segunda-oportunidad",
-        linkLabel: "Ley de Segunda Oportunidad",
+        linkLabel: "Cancelar con la Ley de Segunda Oportunidad",
       },
       {
-        label: "Aún puedo pagar algo",
+        label: "Puedo pagar una cuota pequeña",
         message:
-          "Si todavía puedes pagar una cuota asumible, quizá te convenga reunificar antes de cancelar.",
+          "Si aún puedes asumir un pago razonable, valoramos reunificar en una sola cuota o negociar una quita antes de cancelar.",
         to: "/reunificar-deudas",
         linkLabel: "Ver reunificación de deudas",
       },
       {
-        label: "Hacienda / Seg. Social",
+        label: "Mis intereses son altísimos",
         message:
-          "La deuda pública también se exonera, con límites. Te decimos cuánto en tu caso.",
+          "Tarjetas revolving y microcréditos suelen tener intereses abusivos: muchas veces la deuda se anula por usura.",
+        to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
+        linkLabel: "Anular tarjetas revolving por usura",
+      },
+      {
+        label: "Tengo deuda con Hacienda / SS",
+        message:
+          "La deuda pública también se exonera, con ciertos límites. Te decimos cuánto puedes eliminar en tu caso.",
         to: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
         linkLabel: "Exoneración del pasivo insatisfecho",
       },
       {
-        label: "Varias a la vez",
+        label: "Me reclaman o me embargan",
         message:
-          "Lo más habitual. Las unificamos en una estrategia para cancelar el máximo posible.",
+          "Si ya hay reclamación judicial o embargo, hay que actuar rápido: podemos frenarlo y cancelar la deuda de fondo.",
+        to: "/microcreditos-prestamos/cancelar-microcreditos",
+        linkLabel: "Cómo cancelar microcréditos",
+      },
+      {
+        label: "No sé por dónde empezar",
+        message:
+          "Lo más habitual: varias deudas y mil dudas. Estudiamos tu caso gratis y elegimos la mejor vía por ti.",
         to: "/cancelacion-de-deudas",
         linkLabel: "Guía de cancelación de deudas",
       },
     ],
+    urgencyTimeline: {
+      title: "Qué pasa si no eliges una salida",
+      subtitle: "Cuanto más esperas, más caro y más difícil. Esta es la línea que sigue una deuda sin solución.",
+      items: [
+        {
+          time: "Hoy",
+          title: "Los intereses siguen creciendo",
+          text: "Cada mes que pasa, la deuda es mayor y tu margen para vivir, menor.",
+        },
+        {
+          time: "Semanas",
+          title: "Reclamaciones y recobro",
+          text: "Llamadas, cartas y empresas de recobro presionando para que pagues.",
+        },
+        {
+          time: "Meses",
+          title: "Demanda y juicio monitorio",
+          text: "El acreedor reclama judicialmente la deuda y se acumulan costas.",
+          danger: true,
+        },
+        {
+          time: "Después",
+          title: "Embargo de nómina y cuentas",
+          text: "Se traba tu sueldo y tus cuentas. Evitarlo es mucho más fácil antes de llegar aquí.",
+          danger: true,
+        },
+      ],
+    },
     quiz: {
-      title: "¿Puedes cancelar tus deudas? Descúbrelo",
-      subtitle: "4 preguntas rápidas. Sin dar tus datos.",
+      title: "¿Cuál es tu vía? Descúbrelo",
+      subtitle: "4 preguntas rápidas para orientarte. Sin dar tus datos.",
       questions: [
         { text: "¿No puedes pagar tus deudas con tus ingresos actuales?", goodAnswer: "yes" },
         { text: "¿Tus deudas suman más de 5.000 €?", goodAnswer: "yes" },
-        { text: "¿Vienen de préstamos, tarjetas o microcréditos?", goodAnswer: "yes" },
+        { text: "¿Vienen de préstamos, tarjetas o microcréditos (no solo sanciones)?", goodAnswer: "yes" },
         { text: "¿Has ocultado bienes o provocado tu insolvencia a propósito?", goodAnswer: "no" },
       ],
       resultPass: {
-        title: "Puedes cancelar buena parte de tu deuda",
-        text: "Cumples las condiciones clave. Cada mes que sigues pagando es dinero perdido. Pide tu estudio gratis y confirma cuánto puedes borrar.",
+        title: "Tu deuda puede desaparecer",
+        text: "Tu perfil encaja con las vías para eliminar deuda. Pide tu estudio gratis y te decimos exactamente cuál es la tuya y cuánto puedes borrar.",
       },
       resultDoubt: {
-        title: "Probablemente sí. No te quedes con la duda.",
-        text: "Casos muy parecidos al tuyo cancelan deuda cada semana. Lo resolvemos gratis en 24h.",
+        title: "Seguramente hay una vía para ti",
+        text: "Casos muy parecidos al tuyo eliminan deuda cada semana, cada uno por una vía distinta. Lo resolvemos gratis en 24h.",
       },
     },
     beforeAfter: {
-      title: "Esto es lo que te estás perdiendo",
-      subtitle: "La diferencia entre seguir pagando y cancelar de una vez.",
+      title: "Antes y después de elegir tu salida",
+      subtitle: "La diferencia entre seguir atrapado y dejar que la deuda desaparezca.",
       beforeLabel: "Hoy, con deudas",
       afterLabel: "Después, con Calma",
       before: [
@@ -287,15 +361,33 @@ export const cancelarDeudas: MoneyContent = {
   },
   sections: [
     {
-      title: "¿Qué deudas se pueden cancelar?",
+      title: "Las 4 vías para que tu deuda desaparezca",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
-            La mayoría de deudas con bancos, financieras, tarjetas, microcréditos,
-            proveedores y particulares <strong>se pueden cancelar</strong> cuando no puedes
-            pagarlas. La deuda pública con Hacienda y Seguridad Social también, con ciertos
-            límites de exoneración.
+            No existe una sola forma de eliminar una deuda. Según tu situación, la salida
+            puede ser una de estas cuatro:
           </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              <strong>Cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>:</strong>{" "}
+              cuando no puedes pagar, se cancela la deuda entera, incluida la pública con límites.
+            </li>
+            <li>
+              <strong>Anular por usura:</strong> en{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
+              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> con
+              intereses abusivos, la deuda se anula total o parcialmente.
+            </li>
+            <li>
+              <strong>Negociar una quita:</strong> un acuerdo con el acreedor para reducir lo
+              que debes cuando aún hay algo de margen.
+            </li>
+            <li>
+              <strong><A to="/reunificar-deudas">Reunificar</A>:</strong> agrupar todo en una
+              sola cuota asumible si todavía puedes pagar.
+            </li>
+          </ul>
           <p>
             Si quieres entender a fondo las vías legales, plazos y requisitos, lee nuestra
             guía de <A to="/cancelacion-de-deudas">cancelación de deudas</A>.
@@ -304,44 +396,50 @@ export const cancelarDeudas: MoneyContent = {
       ),
     },
     {
-      title: "Vías legales para cancelar deudas",
-      body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Según tu caso, estudiamos la vía que más te conviene:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Ley de Segunda Oportunidad:</strong> cancela las deudas que no puedes
-              pagar. La vía más potente. Conócela en el{" "}
-              <A to="/ley-segunda-oportunidad">hub de la LSO</A>.
-            </li>
-            <li>
-              <strong>Reclamación por usura:</strong> en revolving y microcréditos con
-              intereses abusivos, muchas veces la deuda se anula.
-            </li>
-            <li>
-              <strong>Negociación con acreedores:</strong> quitas y acuerdos cuando aún hay
-              margen de pago.
-            </li>
-          </ul>
-        </div>
-      ),
-    },
-    {
-      title: "Cancelar o reunificar: cuál te conviene",
+      title: "¿Cómo sé cuál es la mía?",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
-            Si ya no puedes pagar, lo lógico es <strong>cancelar</strong>. Si todavía puedes
-            asumir una cuota razonable, quizá te interese{" "}
-            <A to="/reunificar-deudas">reunificar tus deudas</A> en un solo pago antes de
-            cancelar. En el diagnóstico gratuito te decimos cuál encaja mejor con tu
-            situación, sin compromiso.
+            La vía correcta depende de dos cosas: <strong>cuánto puedes pagar</strong> y{" "}
+            <strong>de dónde viene la deuda</strong>. Como guía rápida:
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              Si <strong>no puedes pagar nada</strong> → cancelar con la{" "}
+              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
+            </li>
+            <li>
+              Si tus <strong>intereses son abusivos</strong> → anular por usura.
+            </li>
+            <li>
+              Si <strong>puedes pagar una parte</strong> → negociar una quita o{" "}
+              <A to="/reunificar-deudas">reunificar</A>.
+            </li>
+          </ul>
+          <p>
+            No tienes que acertar tú: en el diagnóstico gratuito comparamos las vías
+            contigo y elegimos la que más deuda elimina en tu caso.
           </p>
         </div>
       ),
     },
     {
-      title: "Coste y plazos",
+      title: "Cancelar vs reunificar vs reclamar",
+      body: (
+        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+          <p>
+            <strong>Cancelar</strong> hace desaparecer la deuda cuando ya no puedes pagar.{" "}
+            <strong>Reclamar</strong> por usura la anula si los intereses son abusivos.{" "}
+            <A to="/reunificar-deudas">Reunificar</A> no la elimina, pero la convierte en una
+            sola cuota más baja si todavía puedes pagar. La peor opción casi siempre es no
+            elegir ninguna: en el diagnóstico gratuito te decimos cuál encaja mejor contigo,
+            sin compromiso.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: "Coste y plazos por vía",
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
@@ -349,9 +447,10 @@ export const cancelarDeudas: MoneyContent = {
             damos un presupuesto cerrado desde el principio, con opción de pago fraccionado.
           </p>
           <p>
-            Los plazos dependen de la vía: una reclamación por usura puede resolverse antes
-            que un procedimiento de Segunda Oportunidad, que suele durar entre 6 y 18 meses.
-            Los embargos pueden suspenderse mucho antes.
+            Los plazos dependen de la vía: una <strong>reunificación</strong> es casi
+            inmediata, una <strong>reclamación por usura</strong> se resuelve en meses y la{" "}
+            <strong>Ley de Segunda Oportunidad</strong> suele durar entre 6 y 18 meses. En
+            todos los casos, los embargos pueden suspenderse mucho antes del final.
           </p>
         </div>
       ),
@@ -359,7 +458,15 @@ export const cancelarDeudas: MoneyContent = {
   ],
   faq: [
     {
-      q: "¿Qué deudas puedo cancelar?",
+      q: "No sé qué vía me conviene, ¿cómo lo decido?",
+      a: (
+        <>No tienes que decidirlo tú. En el diagnóstico gratuito analizamos cuánto puedes pagar y de dónde viene tu deuda, comparamos las vías (cancelar, reclamar, negociar o reunificar) y te decimos cuál elimina más deuda en tu caso.</>
+      ),
+      plain:
+        "No tienes que decidirlo tú. En el diagnóstico gratuito analizamos cuánto puedes pagar y de dónde viene tu deuda, comparamos las vías (cancelar, reclamar, negociar o reunificar) y te decimos cuál elimina más deuda en tu caso.",
+    },
+    {
+      q: "¿Qué deudas puedo eliminar?",
       a: (
         <>La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites.</>
       ),
@@ -367,7 +474,15 @@ export const cancelarDeudas: MoneyContent = {
         "La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites.",
     },
     {
-      q: "¿Cuánto cuesta cancelar mis deudas?",
+      q: "¿Y si me equivoco de vía?",
+      a: (
+        <>No vas a elegir a ciegas: la vía la definimos nosotros tras estudiar tu caso, y solo seguimos adelante cuando tiene sentido para ti. Si tu situación cambia, reorientamos la estrategia.</>
+      ),
+      plain:
+        "No vas a elegir a ciegas: la vía la definimos nosotros tras estudiar tu caso, y solo seguimos adelante cuando tiene sentido para ti. Si tu situación cambia, reorientamos la estrategia.",
+    },
+    {
+      q: "¿Cuánto cuesta eliminar mis deudas?",
       a: (
         <>El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado y opción de pago fraccionado.</>
       ),

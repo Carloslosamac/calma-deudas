@@ -61,9 +61,9 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Cancelar deudas: cómo eliminarlas legalmente | Calma",
+    seoTitle: "Cancelar deudas: qué solución te conviene | Calma",
     metaDescription:
-      "Descubre cómo cancelar tus deudas de forma legal. Diagnóstico gratuito de tu caso. [Placeholder]",
+      "¿Quieres eliminar tu deuda pero no sabes cómo? Comparamos las vías legales y te decimos cuál es la tuya. Diagnóstico gratuito de tu caso.",
   },
   {
     path: "/cancelacion-de-deudas",

@@ -1,53 +1,44 @@
 ## Objetivo
 
-Reducir el solapamiento textual entre las 20 landings por ciudad para alejarlas del patrón "doorway/duplicado", combinando **dos palancas**: (1) más contenido genuinamente único por ciudad y (2) rotación de la redacción del armazón para que las frases plantilla no sean clónicas. Se mantienen las 20 ciudades.
+Convertir `/cancelar-deudas` en el **pináculo** para una persona que sabe que quiere eliminar su deuda pero **aún no sabe cómo**. Todo el copy y cada módulo se reorientan a "ayúdame a elegir la vía correcta", y el **comparador de soluciones según situación** pasa a ser el corazón de la página. Mismo patrón técnico que LSO (`MoneyJourney`), solo cambia el contenido en `src/data/seo/content/cancelarDeudas.tsx`.
 
-Meta práctica: pasar de ~15-20 % de texto único a ~40-50 %, y que ninguna pareja de ciudades comparta párrafos idénticos palabra por palabra.
+## Ángulo editorial
 
-## 1. Más datos únicos por ciudad (`src/data/seo/localizaciones.ts`)
+- Persona objetivo: "quiero que mi deuda desaparezca, pero no sé qué hacer".
+- Mensaje rector: hay varias vías (cancelar por LSO, anular por usura, negociar quita, reunificar) y **la clave es elegir la correcta para tu caso** — eso lo decidimos juntos, gratis.
+- No canibalizar: la guía profunda sigue en `/cancelacion-de-deudas`; la LSO en `/ley-segunda-oportunidad`. Esta página es la **decisión + acción**.
 
-Ampliar el tipo `Localizacion` y el objeto `localExtra` (ya existe) con 2 campos nuevos, cualitativos y verificables (sin estadísticas inventadas):
+## Cambios módulo a módulo (en `cancelarDeudas.tsx`)
 
-- `audienciaProvincial`: referencia real a la Audiencia Provincial / criterio judicial de esa provincia (p. ej. "la Audiencia Provincial de Valencia").
-- `ejemploCaso`: caso típico anonimizado propio del tejido económico local (p. ej. en Vigo, autónomo del sector del mar; en Elche, taller de calzado). Una o dos frases únicas por ciudad.
+1. **Hero**: reenfocar de "cancela las deudas que te ahogan" a "tu deuda puede desaparecer; te decimos por qué vía". Título + subtítulo orientados a "no sabes cómo, nosotros te guiamos".
 
-Esto da material para un bloque que solo tiene sentido en esa ciudad.
+2. **Nuevo `comparisonTable`** (módulo estrella, hoy sin usar): tabla "¿Qué solución te conviene?" comparando las 4 vías —**Cancelar (LSO)**, **Anular por usura**, **Negociar quita**, **Reunificar**— por filas como: cuándo encaja, qué pasa con la deuda, plazos, si puedes seguir pagando, resultado. Columna destacada según el caso más común. CTA "¿Cuál es la mía? Pregúntanos gratis".
 
-## 2. Rotación de redacción del armazón (`src/data/seo/content/localizacionContent.tsx`)
+3. **`debtTypes` → selector "según tu situación"**: reescribir las opciones para que sean **situaciones** ("Ya no puedo pagar nada", "Puedo pagar una cuota pequeña", "Mis intereses son altísimos", "Tengo deuda pública", "Me reclaman/embargan", "No sé por dónde empezar"), cada una apuntando a la vía y enlace correctos.
 
-Hoy todas las ciudades comparten exactamente las mismas frases plantilla (intro, "cómo trabajamos", "honorarios", FAQ). Introducir un **selector determinista de variante** por ciudad para que el texto base cambie entre ciudades pero sea estable para cada URL (importante: nada aleatorio en cada carga, eso confunde a Google).
+4. **Nuevo `urgencyTimeline`**: "Qué pasa si no eliges una salida" (intereses crecen → reclamaciones → monitorio → embargo), para empujar a actuar sin saber aún la vía.
 
-- Helper `pickVariant(city, variants[])` que elige índice por el `rank` o un hash del `slug` (módulo nº de variantes). Determinista y repartido.
-- Crear **3-4 variantes redactadas** para cada bloque de armazón: `intro`, cuerpo de "Abogados... en {ciudad}", "Cómo trabajamos tu caso", "Honorarios y plazos", y las respuestas de las 4 FAQ.
-- Cada variante mantiene el mismo mensaje legal y los mismos CTAs/enlaces internos, solo cambia la estructura y el fraseo.
+5. **`quiz`**: reorientar a "¿Qué vía es la tuya?" — preguntas que segmentan hacia cancelar/reclamar/reunificar, no solo elegibilidad LSO.
 
-Resultado: dos ciudades cualesquiera reciben combinaciones distintas de fraseo + sus datos locales únicos.
+6. **`benefits`**: mantener pero reencuadrar a "resultado independientemente de la vía" (deuda fuera, recuperas nómina, paran llamadas, etc.).
 
-## 3. Nuevo bloque único: "Casos frecuentes en {ciudad}"
+7. **`steps`**: reescribir como "de no saber qué hacer → a deuda eliminada": Diagnóstico → Elegimos la vía → Ponemos en marcha → Deuda eliminada.
 
-Añadir una sección alimentada por `ejemploCaso` + `audienciaProvincial`, que describe el tipo de caso real que más se ve en esa ciudad y cómo lo aborda el criterio judicial provincial. Es contenido que no encaja en ninguna otra ciudad → máxima señal de unicidad.
+8. **`sections`**: reescribir hacia comparación y decisión: "Las 4 vías para que tu deuda desaparezca", "¿Cómo sé cuál es la mía?", "Cancelar vs reunificar vs reclamar", "Coste y plazos por vía". Mantener enlaces internos a LSO, revolving, microcréditos, reunificar y guía.
 
-## 4. Afinar metadatos por ciudad (`src/pages/seo/LocalizacionPage.tsx`)
+9. **`faq`**: añadir preguntas tipo "No sé qué vía me conviene, ¿cómo lo decido?", "¿Y si me equivoco de vía?", junto a las de coste/plazos.
 
-`seoTitle` y `metaDescription` hoy son idénticos salvo el nombre de ciudad. Rotar también la `metaDescription` con 2-3 variantes (mismo `pickVariant`) e incluir la provincia, para que los snippets no sean clónicos en la SERP.
+10. **`beforeAfter`, `metrics`, `eligibility`, `closing`, `testimonials`, `simulator`**: ajustar copy al ángulo "elige tu vía / tu deuda desaparece", sin cambios estructurales.
 
-## Lo que NO cambia
+11. **`layout`**: nuevo orden priorizando la decisión:
+`simulator → debtTypes → comparisonTable → benefits → urgencyTimeline → steps → quiz → metrics → testimonials → sections → beforeAfter → eligibility → faq → closing`.
 
-- Routing, sitemap, schema (ya quedó como service-area en el paso anterior) y estructura de la plantilla.
-- El mensaje honesto: atención online a ciudad y provincia, sin oficina física.
+## Detalles técnicos
 
-## Recordatorio (fuera de código)
+- Solo se edita `src/data/seo/content/cancelarDeudas.tsx`. No se tocan componentes ni tipos: `comparisonTable` y `urgencyTimeline` ya existen en `types.ts`, en `MoneyJourney` y como componentes (`ComparisonTable`, `UrgencyTimeline`).
+- `seoTitle`/`metaDescription` viven en `src/data/seo/moneyPages.ts`; se revisarán para alinear con el ángulo "qué solución te conviene" si conviene (cambio menor, opcional).
+- Sin cambios en routing, sitemap ni schema.
 
-La diferenciación on-page reduce el riesgo de duplicado, pero lo que **desactiva** el riesgo de doorway de raíz es la señal de entidad real: Google Business Profile, citaciones NAP y reseñas. Lo dejo anotado; no es parte de esta implementación.
+## Verificación
 
----
-
-### Detalles técnicos (resumen)
-
-- `localizaciones.ts`: +2 campos (`audienciaProvincial`, `ejemploCaso`) en el tipo, en `localExtra` (20 entradas) y en el `Omit` de `cities`.
-- `localizacionContent.tsx`: helper `pickVariant`, arrays de variantes para intro/secciones/FAQ, nueva sección "Casos frecuentes en {ciudad}".
-- `LocalizacionPage.tsx`: `metaDescription` rotada por variante.
-- Sin tocar backend ni rutas.
-</content>
-<summary>Plan para diferenciar las 20 landings por ciudad: nuevos datos únicos (audiencia provincial, caso típico local), rotación determinista del fraseo del armazón y las metadescripciones, y un bloque "Casos frecuentes en {ciudad}".</summary>
-</invoke>
+- Revisar el build y la preview de `/cancelar-deudas`: que aparezcan la tabla comparativa y el timeline, y que el orden de módulos sea el previsto.
