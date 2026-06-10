@@ -8,9 +8,12 @@ import t3 from "@/assets/testimonial-3.jpg";
 import t4 from "@/assets/testimonial-4.jpg";
 import t5 from "@/assets/testimonial-5.jpg";
 import t6 from "@/assets/testimonial-6.jpg";
-import team1 from "@/assets/avatar-1.jpg";
-import team2 from "@/assets/avatar-2.jpg";
-import team3 from "@/assets/avatar-3.jpg";
+import team1 from "@/assets/team-lawyer-1.jpg";
+import team2 from "@/assets/team-lawyer-2.jpg";
+import team3 from "@/assets/team-lawyer-3.jpg";
+import team4 from "@/assets/team-lawyer-4.jpg";
+import team5 from "@/assets/team-lawyer-5.jpg";
+import team6 from "@/assets/team-lawyer-6.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -203,22 +206,40 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         "No eres un número de expediente. Abogados especialistas en insolvencia llevan tu procedimiento de principio a fin.",
       members: [
         {
-          name: "Equipo de admisión",
-          role: "Diagnóstico inicial",
-          credential: "Análisis gratuito de viabilidad",
+          name: "Marta Belmonte",
+          role: "Directora del área concursal",
+          credential: "Abogada colegiada · 15 años en insolvencia",
           photo: team1,
         },
         {
-          name: "Abogados concursales",
-          role: "Preparación del expediente",
-          credential: "Colegiados y especialistas en LSO",
+          name: "Javier Ferrer",
+          role: "Abogado concursal sénior",
+          credential: "Especialista en exoneración del pasivo",
           photo: team2,
         },
         {
-          name: "Representación judicial",
-          role: "Defensa ante el juzgado",
-          credential: "Procuradores y abogados en sala",
+          name: "Lucía Ordóñez",
+          role: "Abogada de admisión",
+          credential: "Diagnóstico y viabilidad del caso",
           photo: team3,
+        },
+        {
+          name: "Andrés Solís",
+          role: "Responsable de litigación",
+          credential: "Representación ante el juzgado",
+          photo: team4,
+        },
+        {
+          name: "Nuria Cano",
+          role: "Gestora de expedientes",
+          credential: "Coordinación documental del proceso",
+          photo: team5,
+        },
+        {
+          name: "Diego Marín",
+          role: "Abogado concursal",
+          credential: "Autónomos y concurso de persona física",
+          photo: team6,
         },
       ],
       highlights: [
