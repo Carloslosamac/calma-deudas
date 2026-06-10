@@ -59,9 +59,10 @@ const App = () => (
           {/* Casos reales de la Ley de Segunda Oportunidad */}
           <Route path="/ley-segunda-oportunidad/casos" element={<CasosLSO />} />
           {/* Cluster local: abogados LSO por ciudad (antes del catch-all de entidad) */}
-          {localizaciones.map((l) => (
-            <Route key={l.path} path={l.path} element={<LocalizacionPage />} />
-          ))}
+          <Route
+            path="/abogados-ley-segunda-oportunidad/:ciudad"
+            element={<LocalizacionPage />}
+          />
           {/* Guías de educación financiera: /guias/<slug> */}
           {guias.map((g) => (
             <Route key={g.path} path={g.path} element={<GuiaPage />} />
