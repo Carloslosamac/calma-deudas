@@ -163,11 +163,11 @@ export const moneyPages: MoneyPage[] = [
     label: "Exoneración del pasivo",
     objetivo: "Autoridad legal y captación cualificada",
     priority: "alta",
-    intent: "transaccional",
+    intent: "informativa",
     template: "money",
-    seoTitle: "Exoneración del pasivo insatisfecho (EPI) | Calma",
+    seoTitle: "Exoneración del pasivo insatisfecho: qué es | Calma",
     metaDescription:
-      "Qué es la exoneración del pasivo insatisfecho y cómo conseguirla. [Pendiente revisión legal]",
+      "Qué es la exoneración del pasivo insatisfecho: deudas que cubre, modalidades, límites y revocación. Guía jurídica clara. [Pendiente revisión legal]",
   },
   {
     path: "/autonomos-concurso-acreedores/concurso-persona-fisica",
