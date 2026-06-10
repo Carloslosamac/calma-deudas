@@ -1,0 +1,169 @@
+import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import type { Localizacion } from "@/data/seo/localizaciones";
+
+/**
+ * Generador de contenido localizado para las landings de abogados por ciudad.
+ * Cada ciudad recibe secciones y FAQ con datos locales (provincia, comunidad,
+ * tribunal y nota única) para evitar contenido duplicado.
+ */
+
+const A = ({ to, children }: { to: string; children: ReactNode }) => (
+  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
+    {children}
+  </Link>
+);
+
+const P = ({ children }: { children: ReactNode }) => (
+  <p className="text-base leading-relaxed text-foreground/85">{children}</p>
+);
+
+export type LocalSection = { title: string; body: ReactNode };
+export type LocalFaq = { q: string; a: ReactNode; plain: string };
+
+export type LocalContent = {
+  intro: ReactNode;
+  sections: LocalSection[];
+  faq: LocalFaq[];
+};
+
+export const getLocalizacionContent = (city: Localizacion): LocalContent => {
+  const { name, provincia, comunidad, tribunal, localNote } = city;
+
+  const intro = (
+    <>
+      ¿Buscas <strong>abogados de la Ley de Segunda Oportunidad en {name}</strong>? Estudiamos
+      tu caso gratis, preparamos el expediente y te representamos ante los juzgados de{" "}
+      {provincia} para cancelar legalmente tus deudas. Primer diagnóstico sin compromiso.
+    </>
+  );
+
+  const sections: LocalSection[] = [
+    {
+      title: `Abogados de la Ley de Segunda Oportunidad en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Si vives en {name} o en la provincia de {provincia} ({comunidad}) y no puedes hacer
+            frente a tus deudas, la <strong>Ley de Segunda Oportunidad</strong> te permite
+            cancelarlas legalmente y empezar de cero. Nuestro equipo de abogados especialistas
+            en derecho concursal lleva tu caso de principio a fin.
+          </P>
+          <P>{localNote}</P>
+          <P>
+            Para entender el procedimiento completo, consulta el hub de la{" "}
+            <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> o el detalle de la{" "}
+            <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">
+              exoneración del pasivo insatisfecho
+            </A>
+            .
+          </P>
+        </div>
+      ),
+    },
+    {
+      title: `Qué juzgados tramitan tu caso en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            La Ley de Segunda Oportunidad es un procedimiento <strong>judicial</strong>. En{" "}
+            {name}, los expedientes se tramitan ante los <strong>{tribunal}</strong>: los
+            particulares sin actividad empresarial acuden a los Juzgados de Primera Instancia y
+            los autónomos y empresarios, a los Juzgados de lo Mercantil.
+          </P>
+          <P>
+            Conocer el criterio de los juzgados de {provincia} nos permite preparar un
+            expediente sólido y anticipar lo que el juez espera, lo que aumenta las
+            probabilidades de que prospere la exoneración.
+          </P>
+        </div>
+      ),
+    },
+    {
+      title: `Cómo trabajamos tu caso en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Buena parte del proceso se gestiona de forma telemática, así que no necesitas
+            desplazamientos para empezar. Estos son los pasos:
+          </P>
+          <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/85">
+            <li>Diagnóstico gratuito: un abogado revisa tus deudas e ingresos y confirma si puedes acogerte.</li>
+            <li>Preparación del expediente con toda la documentación y la mejor estrategia legal.</li>
+            <li>Presentación y representación ante los juzgados de {name}.</li>
+            <li>Resolución del juez: cancelación con plan de pagos o con liquidación.</li>
+          </ul>
+          <P>
+            ¿Tu deuda viene de productos abusivos? Mira también cómo{" "}
+            <A to="/cancelar-deudas">cancelar deudas</A>,{" "}
+            <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">cancelar tarjetas revolving</A>{" "}
+            o <A to="/microcreditos-prestamos/cancelar-microcreditos">cancelar microcréditos</A>.
+          </P>
+        </div>
+      ),
+    },
+    {
+      title: "Honorarios y plazos",
+      body: (
+        <div className="space-y-4">
+          <P>
+            El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos con
+            un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que los
+            honorarios nunca sean el motivo de no empezar.
+          </P>
+          <P>
+            El procedimiento suele durar entre 6 y 18 meses según la complejidad y el juzgado de{" "}
+            {name}, aunque los embargos pueden suspenderse mucho antes.
+          </P>
+        </div>
+      ),
+    },
+  ];
+
+  const faq: LocalFaq[] = [
+    {
+      q: `¿Atendéis casos de toda la provincia de ${provincia}?`,
+      a: (
+        <>
+          Sí. Atendemos a clientes de {name} y de toda la provincia de {provincia}. Gran parte
+          del proceso se gestiona de forma telemática, sin desplazamientos.
+        </>
+      ),
+      plain: `Sí. Atendemos a clientes de ${name} y de toda la provincia de ${provincia}. Gran parte del proceso se gestiona de forma telemática, sin desplazamientos.`,
+    },
+    {
+      q: `¿Qué juzgado tramita la Ley de Segunda Oportunidad en ${name}?`,
+      a: (
+        <>
+          Los {tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los
+          autónomos y empresarios, a los Juzgados de lo Mercantil.
+        </>
+      ),
+      plain: `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
+    },
+    {
+      q: "¿Cuánto cuesta un abogado de la Ley de Segunda Oportunidad?",
+      a: (
+        <>
+          El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto
+          cerrado desde el inicio y opción de pago fraccionado.
+        </>
+      ),
+      plain:
+        "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",
+    },
+    {
+      q: "¿Necesito acudir presencialmente?",
+      a: (
+        <>
+          No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de
+          forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.
+        </>
+      ),
+      plain:
+        "No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.",
+    },
+  ];
+
+  return { intro, sections, faq };
+};
