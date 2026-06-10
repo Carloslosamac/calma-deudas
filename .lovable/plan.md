@@ -1,55 +1,52 @@
+## Objetivo
+Reordenar las secciones de la landing `/abogados-ley-segunda-oportunidad` para que sigan una lógica de conversión clara: enganchar, dar valor, explicar el proceso, cualificar, demostrar con pruebas sociales y cerrar con CTA. Todo el cambio se hace en un único array (`layout`), sin tocar componentes ni estilos.
 
-## Problema
+## Situación actual
+Estructura fija (no se toca): Hero con CTA → Barra de confianza → [módulos del `layout`] → bloque E-E-A-T → enlaces relacionados → Formulario `#hero-form`.
 
-Hoy `/ley-segunda-oportunidad` (LSO) y `/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho` (EPI) son casi idénticas: mismo hero "cancela tus deudas", beneficios calcados, mismo quiz, misma timeline. Compiten por la misma intención transaccional y se canibalizan en buscadores.
+Orden actual del `layout`:
+1. simulator (simulador de deuda)
+2. benefits (beneficios)
+3. teamCredentials (equipo de 20 personas)
+4. steps (paso a paso)
+5. quiz (test de elegibilidad)
+6. metrics (cifras)
+7. testimonials (testimonios)
+8. sections (contenido SEO largo)
+9. eligibility (requisitos)
+10. faq
+11. beforeAfter (antes/después)
+12. closing (CTA final)
 
-## Enfoque propuesto (el "bacano")
+Problemas de conversión detectados:
+- El equipo de 20 personas (`teamCredentials`) está en posición 3, muy arriba: es un bloque enorme que empuja el funnel hacia abajo antes de explicar el proceso.
+- El contenido SEO largo (`sections`) está en mitad del funnel (pos. 8), separando la prueba social de los requisitos y el cierre.
+- Las pruebas sociales (metrics, testimonials, beforeAfter, equipo) están dispersas en vez de agrupadas en un bloque de confianza.
+- `debtTypes` (selector "¿Qué tipo de deuda tienes?") tiene datos pero **no está en el `layout`, así que no se renderiza**. Es un módulo de engagement útil y está desaprovechado.
 
-**LSO = la puerta comercial** (intención transaccional, captar el lead, vista de embudo). **No se toca.**
+## Orden propuesto (optimizado para conversión)
+Reescribir el array `layout` así:
+1. simulator — gancho interactivo inmediato
+2. debtTypes — segundo micro-engagement (recuperado)
+3. benefits — propuesta de valor / por qué Calma
+4. metrics — cifras de confianza rápidas
+5. steps — cómo funciona, paso a paso
+6. quiz — cualificación / micro-conversión
+7. eligibility — "¿cumplo los requisitos?"
+8. testimonials — prueba social
+9. beforeAfter — prueba de resultados
+10. teamCredentials — equipo / E-E-A-T como cierre de confianza
+11. sections — contenido SEO en profundidad (hacia el final)
+12. faq — manejo de objeciones
+13. closing — CTA final
 
-**EPI = la página de autoridad jurídica** (intención informativa-técnica, responde la pregunta concreta "¿qué es exactamente la exoneración y cómo funciona?"). Es el contenido experto que rankea por consultas legales precisas y deriva el lead a la LSO como página de conversión.
+Lógica: enganchar (1-2) → valor y confianza inicial (3-4) → proceso (5) → cualificar (6-7) → demostrar (8-10) → contenido profundo + objeciones (11-12) → cerrar (13).
 
-La diferencia clave: la LSO te vende el resultado ("borra tu deuda"); la EPI te explica el **mecanismo legal** con rigor y resuelve las dudas finas que la gente busca antes de decidirse. Eso construye E-E-A-T y captura long-tail jurídico sin pisar a la LSO.
+## Detalles técnicos
+- Único archivo a editar: `src/data/seo/content/abogadosLeySegundaOportunidad.tsx`, array `layout` (líneas 47-60).
+- Añadir `"debtTypes"` al array (recupera el módulo ya existente, líneas 357-401).
+- No se modifica `MoneyJourney.tsx` ni ningún componente: cada bloque solo se pinta si tiene datos, y el orden lo dicta este array.
+- El CTA del hero y el bloque E-E-A-T/relacionados/formulario siguen igual. Los CTAs siguen apuntando a `#hero-form`.
 
-### Cambios de ángulo en EPI
-
-```text
-                 LSO (intacta)              EPI (reenfocada)
-Intención        transaccional             informativa / autoridad
-Tono             emocional, "deja de pagar"  jurídico, claro, didáctico
-Hero             "la ley puede borrar"      "qué es y cómo se consigue la EPI"
-Módulo estrella  simulador de deuda         tabla: qué se exonera vs qué NO
-Conversión       formulario directo         CTA suave → enlaza a LSO
-```
-
-### Contenido concreto a reescribir en EPI
-
-1. **Hero técnico-didáctico**: badge "Mecanismo legal de la LSO", título centrado en *entender* la exoneración (qué es la resolución del juez), subtítulo que aclara que es el corazón jurídico de la LSO. Menos "vende", más "explica".
-
-2. **Bloques nuevos de valor real (los que la gente busca):**
-   - **Las dos modalidades de EPI**: con plan de pagos (conservas patrimonio, pagas parte 3 años) vs. con liquidación inmediata. Cuándo conviene cada una.
-   - **Qué deudas se exoneran y cuáles NO** — usar el componente de tabla comparativa (`CompareTable` / `ComparisonTable` ya existente) para mostrar exonerables (tarjetas, microcréditos, préstamos, proveedores) vs. excluidas/limitadas (deuda pública con tope, pensiones de alimentos, multas penales, créditos por dolo).
-   - **Límites de la deuda pública** — reutilizar `ExonerationLimits` (ya existe el componente) con los topes de Hacienda y Seguridad Social.
-   - **EPI provisional vs. definitiva**: qué es la exoneración con plan de pagos (provisional, revisable) frente a la inmediata.
-   - **Causas de revocación**: en qué supuestos un juez puede revocar la exoneración (ocultar bienes, mejora de fortuna). Aporta rigor y confianza.
-
-3. **Mantener pero adaptar**: timeline legal (ya encaja bien aquí), eligibility con foco en "buena fe", FAQ ampliada con las dudas técnicas (¿la EPI sale en el BOE?, ¿puedo volver a pedir crédito?, ¿es definitiva?).
-
-4. **Quitar el solapamiento**: fuera el simulador de deuda y el before/after emocional (eso es territorio de la LSO). El quiz se mantiene pero más sobrio o se sustituye por el bloque de modalidades.
-
-5. **Interlinking limpio**: EPI enlaza claramente a la LSO como "dónde empezar / pedir diagnóstico", a deudas con Hacienda y al post pilar del blog. La LSO ya enlaza a EPI (en `debtTypes`), así que el circuito queda: LSO ⇄ EPI con roles distintos.
-
-6. **Metadatos**: title/description de EPI reorientados a intención informativa ("Qué es y cómo funciona…") en vez de "cáncelala". Marcar `tone: "legal"` (ya lo está) y dejar `reviewed: false` con el aviso de revisión legal pendiente que ya tiene.
-
-## Archivos a tocar
-
-- `src/data/seo/content/exoneracionPasivoInsatisfecho.tsx` — reescritura del copy y de los módulos (único archivo de contenido).
-- `src/data/seo/content/types.ts` — solo si hace falta añadir un tipo para el bloque de "modalidades" o de tabla exonerables/excluidas (a confirmar al implementar; se reutilizan componentes existentes siempre que sea posible).
-- Posible pequeño ajuste en `MoneyJourney` / scaffold únicamente si un módulo nuevo necesita renderizado (se evitará reutilizando `ExonerationLimits`, `ComparisonTable` y `CompareTable` ya existentes).
-- `src/data/seo/moneyPages.ts` — actualizar `seoTitle`/`metaDescription` de la entrada EPI hacia intención informativa.
-
-La LSO (`leySegundaOportunidad.tsx` y su entrada en `moneyPages.ts`) queda **sin cambios**.
-
-## Resultado
-
-Dos páginas con roles claros: la LSO convierte, la EPI da autoridad y captura el long-tail jurídico, enlazándose entre sí sin canibalizarse.
+## Nota
+Si prefieres mantener `debtTypes` oculto, lo dejo fuera del array; mi recomendación es incluirlo por su valor de engagement.
