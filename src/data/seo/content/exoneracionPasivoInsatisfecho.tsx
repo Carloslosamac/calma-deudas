@@ -110,13 +110,15 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     exonerationLimits: {
       title: "Límites de la deuda pública",
       subtitle:
-        "Hacienda y Seguridad Social no se exoneran por completo: la ley fija un tope por organismo.",
+        "Hacienda y Seguridad Social no se exoneran por completo. La ley concursal (art. 489 TRLC) fija un tope de 10.000 € por organismo.",
       items: [
-        { label: "Hacienda (AEAT)", text: "Se exonera hasta el límite legal por deudor; el resto se reorganiza en un plan de pagos." },
-        { label: "Seguridad Social", text: "Mismo criterio: tramo exonerable limitado y el exceso aplazado." },
+        { label: "Hacienda (AEAT): hasta 10.000 €", text: "Los primeros 5.000 € se exoneran al 100 %; del tramo de 5.000 € a 10.000 € se exonera el 50 %." },
+        { label: "Seguridad Social: hasta 10.000 €", text: "Mismo criterio e independiente del de Hacienda: hasta 10.000 € adicionales con la misma escala (100 % / 50 %)." },
+        { label: "Tope conjunto: 20.000 €", text: "Sumando ambos organismos, se puede exonerar un máximo de 20.000 € de deuda pública por deudor." },
+        { label: "El exceso, en plan de pagos", text: "Lo que supere esos límites no se cancela: se reorganiza y aplaza en un plan de pagos." },
         { label: "El resto de la deuda", text: "Préstamos, tarjetas y microcréditos no tienen este tope y pueden cancelarse íntegramente." },
       ],
-      note: "Las cuantías concretas dependen de la normativa vigente y de tu caso. Lo confirmamos en el diagnóstico.",
+      note: "Estos importes son los vigentes tras la reforma concursal de 2022 y pueden actualizarse. Lo confirmamos en tu diagnóstico.",
     },
     legalTimeline: {
       title: "Las fases hasta la exoneración",
