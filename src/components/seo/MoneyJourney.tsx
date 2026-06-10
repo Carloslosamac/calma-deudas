@@ -63,13 +63,13 @@ const TONE: Record<MoneyTone, { heroBg: string; accentText: string; badge: strin
   },
   legal: {
     heroBg: "bg-gradient-hero",
-    accentText: "text-accent-deep",
-    badge: "text-accent-deep",
+    accentText: "text-legal-deep",
+    badge: "text-legal-deep",
   },
   calm: {
     heroBg: "bg-gradient-hero",
-    accentText: "text-accent-deep",
-    badge: "text-accent-deep",
+    accentText: "text-calm-deep",
+    badge: "text-calm-deep",
   },
   urgent: {
     heroBg: "bg-surface",
