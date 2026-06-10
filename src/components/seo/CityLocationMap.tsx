@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Localizacion } from "@/data/seo/localizaciones";
+import GoogleMapFallback from "@/components/seo/GoogleMapFallback";
 import { getGoogleMapsBrowserKey } from "@/lib/googleMapsBrowserKey";
 
 /**
@@ -18,6 +19,7 @@ const CALLBACK = "__calmaInitCityMap";
 declare global {
   interface Window {
     google?: any;
+    gm_authFailure?: () => void;
     [CALLBACK]?: () => void;
   }
 }
@@ -40,6 +42,11 @@ const loadMaps = (): Promise<void> => {
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?${params.toString()}`;
     script.async = true;
+    const previousAuthFailure = window.gm_authFailure;
+    window.gm_authFailure = () => {
+      previousAuthFailure?.();
+      reject(new Error("Google Maps rechazó la clave configurada"));
+    };
     script.onerror = () => reject(new Error("No se pudo cargar Google Maps"));
     document.head.appendChild(script);
   });
@@ -73,6 +80,13 @@ const CityLocationMap = ({ city }: { city: Localizacion }) => {
           map,
           title: `Abogados Ley de Segunda Oportunidad en ${city.name}`,
         });
+
+        window.setTimeout(() => {
+          if (cancelled || !ref.current) return;
+          if (ref.current.querySelector(".gm-err-container, .gm-err-message, img[src*='icon_error']")) {
+            setError(true);
+          }
+        }, 1500);
       })
       .catch(() => {
         if (!cancelled) setError(true);
@@ -83,7 +97,15 @@ const CityLocationMap = ({ city }: { city: Localizacion }) => {
     };
   }, [city]);
 
-  if (error) return null;
+  if (error) {
+    return (
+      <GoogleMapFallback
+        title={`Zona de servicio de abogados de la Ley de Segunda Oportunidad en ${city.name}`}
+        query={`Abogados Ley de Segunda Oportunidad ${city.name}`}
+        className="h-[320px] w-full overflow-hidden rounded-2xl border border-border"
+      />
+    );
+  }
 
   return (
     <div

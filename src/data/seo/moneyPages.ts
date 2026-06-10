@@ -50,7 +50,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Abogados Ley de Segunda Oportunidad en España | Calma",
     metaDescription:
-      "Abogados especialistas en la Ley de Segunda Oportunidad. Primer diagnóstico gratuito y sin compromiso. [Placeholder]",
+      "Abogados especialistas en la Ley de Segunda Oportunidad. Estudiamos tu caso gratis y te acompañamos para cancelar tus deudas legalmente.",
   },
   {
     path: "/cancelar-deudas",
@@ -76,7 +76,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelación de deudas en España: guía completa | Calma",
     metaDescription:
-      "Todo sobre la cancelación de deudas en España: vías legales, requisitos y plazos. [Placeholder]",
+      "Todo sobre la cancelación de deudas en España: vías legales, requisitos, plazos y opciones para empezar con un diagnóstico gratuito.",
   },
   {
     path: "/reunificacion-deudas",
@@ -89,7 +89,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Reunificación de deudas: unifica tus cuotas | Calma",
     metaDescription:
-      "Reunifica tus deudas en una sola cuota mensual. Compara si te conviene frente a la LSO. [Placeholder]",
+      "Reunifica tus deudas en una sola cuota mensual y compara si te conviene frente a la Ley de Segunda Oportunidad.",
   },
   {
     path: "/reunificar-deudas",
@@ -102,7 +102,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Reunificar deudas: cómo hacerlo paso a paso | Calma",
     metaDescription:
-      "Aprende a reunificar tus deudas y reducir tu cuota mensual. Estudio gratuito. [Placeholder]",
+      "Aprende a reunificar tus deudas, reducir tu cuota mensual y decidir si esta opción encaja con tu situación actual.",
   },
   {
     path: "/asnef/salir-de-asnef",
@@ -115,7 +115,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Cómo salir de ASNEF rápido y legalmente | Calma",
     metaDescription:
-      "Te explicamos cómo salir de ASNEF y otros ficheros de morosos. Actúa hoy. [Placeholder]",
+      "Te explicamos cómo salir de ASNEF y otros ficheros de morosos de forma legal, según el origen de tu deuda.",
   },
   {
     path: "/embargos/parar-embargo",
@@ -128,7 +128,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Cómo parar un embargo: qué hacer hoy | Calma",
     metaDescription:
-      "Pasos para parar un embargo de nómina, cuenta o vivienda. Te ayudamos ya. [Placeholder]",
+      "Pasos para parar un embargo de nómina, cuenta o vivienda y revisar si puedes cancelar la deuda que lo provoca.",
   },
   {
     path: "/tarjetas-revolving/cancelar-tarjetas-revolving",
@@ -141,7 +141,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelar tarjetas revolving por usura | Calma",
     metaDescription:
-      "Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisión gratuita. [Placeholder]",
+      "Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisamos tu contrato gratis y sin compromiso.",
   },
   {
     path: "/microcreditos-prestamos/cancelar-microcreditos",
@@ -154,7 +154,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "Cancelar microcréditos abusivos en España | Calma",
     metaDescription:
-      "Cancela microcréditos y préstamos rápidos con intereses abusivos. [Placeholder]",
+      "Cancela microcréditos y préstamos rápidos con intereses abusivos. Analizamos si puedes reclamar o cancelar la deuda.",
   },
   {
     path: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
@@ -193,7 +193,7 @@ export const moneyPages: MoneyPage[] = [
     template: "urgente",
     seoTitle: "Juicio monitorio por deuda: cómo responder | Calma",
     metaDescription:
-      "Te ha llegado un juicio monitorio por una deuda: plazos y qué hacer. [Placeholder]",
+      "Te ha llegado un juicio monitorio por una deuda: conoce los plazos, opciones y cómo responder antes de que avance.",
   },
   {
     path: "/deudas-hacienda-seguridad-social/deudas-hacienda",
