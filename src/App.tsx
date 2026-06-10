@@ -20,6 +20,7 @@ import ClusterHub from "./pages/seo/ClusterHub";
 import EntityPage from "./pages/seo/EntityPage";
 import CasosLSO from "./pages/seo/CasosLSO";
 import Servicios from "./pages/seo/Servicios";
+import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
