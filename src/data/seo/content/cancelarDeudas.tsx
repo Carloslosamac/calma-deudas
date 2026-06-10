@@ -6,6 +6,12 @@ import p3 from "@/assets/person-closeup-man-2.jpg";
 import p4 from "@/assets/person-closeup-woman-2.jpg";
 import p5 from "@/assets/person-closeup-man-3.jpg";
 import p6 from "@/assets/person-closeup-woman-3.jpg";
+import team1 from "@/assets/team-lawyer-1.jpg";
+import team2 from "@/assets/team-lawyer-2.jpg";
+import team3 from "@/assets/team-lawyer-3.jpg";
+import team4 from "@/assets/team-lawyer-4.jpg";
+import team5 from "@/assets/team-lawyer-5.jpg";
+import team6 from "@/assets/team-lawyer-6.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
