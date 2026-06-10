@@ -198,11 +198,12 @@ export const cancelarDeudas: MoneyContent = {
   interactive: {
     simulator: {
       title: "¿Cuánta deuda podrías cancelar?",
-      subtitle: "Mueve los controles y descubre en 10 segundos lo que la ley puede borrar.",
+      subtitle: "Mueve los controles y compara qué hace cada solución con tu deuda y tu cuota.",
       maxDebt: 120000,
       maxMonthly: 2000,
       defaultDebt: 22000,
       defaultMonthly: 400,
+      compareSolutions: true,
     },
     comparisonTable: {
       title: "¿Qué solución te conviene?",
