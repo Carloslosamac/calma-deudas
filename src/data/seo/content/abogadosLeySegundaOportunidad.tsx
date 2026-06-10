@@ -14,6 +14,20 @@ import team3 from "@/assets/team-lawyer-3.jpg";
 import team4 from "@/assets/team-lawyer-4.jpg";
 import team5 from "@/assets/team-lawyer-5.jpg";
 import team6 from "@/assets/team-lawyer-6.jpg";
+import team7 from "@/assets/team-lawyer-7.jpg";
+import team8 from "@/assets/team-lawyer-8.jpg";
+import team9 from "@/assets/team-lawyer-9.jpg";
+import team10 from "@/assets/team-lawyer-10.jpg";
+import team11 from "@/assets/team-lawyer-11.jpg";
+import team12 from "@/assets/team-lawyer-12.jpg";
+import team13 from "@/assets/team-lawyer-13.jpg";
+import team14 from "@/assets/team-lawyer-14.jpg";
+import team15 from "@/assets/team-lawyer-15.jpg";
+import team16 from "@/assets/team-lawyer-16.jpg";
+import team17 from "@/assets/team-lawyer-17.jpg";
+import team18 from "@/assets/team-lawyer-18.jpg";
+import team19 from "@/assets/team-lawyer-19.jpg";
+import team20 from "@/assets/team-lawyer-20.jpg";
 
 const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
@@ -240,6 +254,90 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
           role: "Abogado concursal",
           credential: "Autónomos y concurso de persona física",
           photo: team6,
+        },
+        {
+          name: "Sara Vidal",
+          role: "Abogada concursal",
+          credential: "Exoneración del pasivo insatisfecho",
+          photo: team7,
+        },
+        {
+          name: "Pablo Iglesias",
+          role: "Abogado de litigación",
+          credential: "Oposición a embargos y ejecuciones",
+          photo: team8,
+        },
+        {
+          name: "Raquel Torres",
+          role: "Abogada de admisión",
+          credential: "Análisis de viabilidad del caso",
+          photo: team9,
+        },
+        {
+          name: "Elena Ruiz",
+          role: "Gestora de expedientes",
+          credential: "Seguimiento documental del proceso",
+          photo: team10,
+        },
+        {
+          name: "Carmen Navarro",
+          role: "Abogada concursal sénior",
+          credential: "12 años en derecho de insolvencia",
+          photo: team11,
+        },
+        {
+          name: "Adrián Gil",
+          role: "Abogado concursal",
+          credential: "Negociación con entidades financieras",
+          photo: team12,
+        },
+        {
+          name: "Ramón Castro",
+          role: "Asesor jurídico sénior",
+          credential: "20 años en derecho mercantil y concursal",
+          photo: team13,
+        },
+        {
+          name: "Patricia León",
+          role: "Asistente legal",
+          credential: "Atención y coordinación de clientes",
+          photo: team14,
+        },
+        {
+          name: "Héctor Ramos",
+          role: "Abogado de litigación",
+          credential: "Representación ante el juzgado mercantil",
+          photo: team15,
+        },
+        {
+          name: "Beatriz Campos",
+          role: "Directora de operaciones",
+          credential: "Coordinación del equipo jurídico",
+          photo: team16,
+        },
+        {
+          name: "Iván Moreno",
+          role: "Abogado de admisión",
+          credential: "Diagnóstico inicial y documentación",
+          photo: team17,
+        },
+        {
+          name: "Cristina Herrero",
+          role: "Abogada concursal",
+          credential: "Particulares y exoneración de deudas",
+          photo: team18,
+        },
+        {
+          name: "Sergio Lozano",
+          role: "Abogado concursal sénior",
+          credential: "Especialista en plan de pagos",
+          photo: team19,
+        },
+        {
+          name: "Alicia Méndez",
+          role: "Abogada de litigación",
+          credential: "Defensa frente a acreedores",
+          photo: team20,
         },
       ],
       highlights: [
