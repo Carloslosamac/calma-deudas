@@ -4,7 +4,8 @@ import NotFound from "@/pages/NotFound";
 import { getCluster } from "@/data/seo/architecture";
 import { moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { entitiesByCluster } from "@/data/seo/entities";
-import { buildBreadcrumb, buildLegalService } from "@/lib/seo/structuredData";
+import { getHubContent } from "@/data/seo/content/hubContent";
+import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
 
 /** Índice de un cluster satélite (hub de sección). */
 const ClusterHub = () => {
@@ -15,6 +16,7 @@ const ClusterHub = () => {
 
   const canonical = `/${cluster.slug}/`;
   const breadcrumbs = [{ name: "Inicio", to: "/" }, { name: cluster.label }];
+  const content = getHubContent(cluster.slug);
 
   const related: RelatedLink[] = [
     ...moneyPagesByCluster(cluster.slug).map((p) => ({ label: p.h1, to: p.path })),
@@ -34,20 +36,29 @@ const ClusterHub = () => {
       { name: cluster.label, url: canonical },
     ]),
     buildLegalService(),
+    ...(content?.faq?.length
+      ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
+      : []),
   ];
+
+  const intro = content?.intro ?? cluster.description;
+  const metaDescription = content?.metaDescription ?? cluster.description;
+  const seoTitle = content?.seoTitle ?? `${cluster.title} | Calma`;
 
   return (
     <SeoPageScaffold
       template="hub"
       h1={cluster.title}
       eyebrow="Sección"
-      intro={cluster.description}
-      seoTitle={`${cluster.title} | Calma`}
-      metaDescription={cluster.description}
+      intro={intro}
+      seoTitle={seoTitle}
+      metaDescription={metaDescription}
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
       related={related}
+      sections={content?.sections}
+      faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
     />
   );
 };
