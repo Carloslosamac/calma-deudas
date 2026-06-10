@@ -1,69 +1,40 @@
 ## Objetivo
 
-Que cada money page deje de ser "la misma plantilla con otro texto" y exprima el ángulo de su servicio, con **módulos visuales propios**, orden y acento diferenciados. Aplicarlo a **las 15 money pages** (las 6 con journey + las 9 que hoy son placeholder) y añadir un hub `/servicios` para reforzar el enlazado interno sin tocar las URLs de keyword.
+Hoy el highlight del `<h1>` solo usa 2 colores: verde (`transactional`, `legal`, `calm`) y naranja (`urgent`). El objetivo es que cada tono tenga su propio acento, diferenciando las money pages también por color de cabecera, manteniendo el verde de marca como base.
 
-## Decisión de routing (lo mejor para SEO)
+## Resultado: 4 colores de highlight
 
-- Las URLs de cada servicio se **mantienen en la raíz** (`/cancelar-deudas`, `/reunificar-deudas`, `/tarjetas-revolving/cancelar-tarjetas-revolving`…). Mover a `/servicios/...` diluiría la keyword y forzaría redirecciones 301 innecesarias. Es la opción correcta para posicionar.
-- Se crea **`/servicios`** como página índice/hub navegable que lista todas las soluciones con tarjetas y `ItemList` (structured data). Aporta un hub de enlazado interno y una URL limpia para campañas, sin canibalizar. Se añade al menú y al footer.
+| Color highlight | Páginas | Sensación |
+|-----------------|---------|-----------|
+| Verde de marca (actual) | Cancelar deudas, Microcréditos, Revolving, Reunificación, Reunificar, **LSO**, **Abogados LSO** | Acción / marca |
+| Azul jurídico (nuevo) | Concurso, Deudas Hacienda, Deudas Seg. Social, EPI | Confianza / autoridad |
+| Teal sereno (nuevo) | Cancelación de deudas | Calma / alivio |
+| Naranja (actual) | ASNEF, Parar embargo, Juicio monitorio | Urgencia |
 
-## Cómo se logra la diferenciación (clave del encargo)
+Nota: aunque LSO y Abogados LSO son páginas jurídicas, se mantienen en **verde de marca** por ser las cabeceras principales del hub. Solo las jurídicas secundarias (Concurso, Hacienda, Seg. Social, EPI) llevan el azul.
 
-Hoy `MoneyJourney` renderiza SIEMPRE el mismo orden fijo de bloques. Se reescribe para que cada página declare:
+## Cómo se hace
 
-1. **`accent` / identidad visual por servicio**: cada money page elige un acento semántico (token) y una iconografía dominante, de modo que urgencias (embargos, ASNEF, monitorio) se sientan más enérgicas y las jurídicas (LSO, EPI, concurso) más sobrias.
-2. **`layout`: orden de módulos configurable**: un array que define qué bloques aparecen y en qué orden. Una página de urgencia abre con timeline + CTA; una jurídica abre con credenciales del equipo; una transaccional con simulador.
-3. **Módulos exclusivos por servicio** (lo que de verdad rompe la sensación de clon):
+1. **Nuevos tokens semánticos** en `src/index.css` (HSL) y su mapeo en `tailwind.config.ts`:
+   - `--legal-deep` (azul oscuro, ~`215 55% 35%`) y `--legal-soft`.
+   - `--calm-deep` (teal, ~`180 45% 32%`) y `--calm-soft`.
+   - Se reutilizan `accent-deep` (verde) y `orange-deep` (naranja). Nada de colores hardcodeados.
 
-```text
-Servicio                         Módulo único destacado
--------------------------------  -------------------------------------------
-Abogados LSO / EPI / Concurso    Bloque equipo + credenciales (E-E-A-T)
-Tarjetas revolving               Calculadora de usura (interés pagado vs legal)
-Microcréditos                    Comparador "lo que devuelves vs lo que pediste"
-Reunificación / Reunificar       Tabla comparativa reunificar vs cancelar
-Embargos / Monitorio / ASNEF     Timeline de urgencia "qué pasa si no actúas"
-LSO (hub) / EPI / Concurso       Línea temporal de fases legales
-Deudas Hacienda / Seg. Social    Bloque límites de exoneración (callout)
-Cancelar / Cancelación           Selector de vías legales (ya existe, se potencia)
-```
+2. **Extender el mapa `TONE`** en `src/components/seo/MoneyJourney.tsx`:
+   - `legal` → `text-legal-deep` (azul).
+   - `calm` → `text-calm-deep` (teal).
+   - `transactional` y `urgent` se quedan igual.
+   - El `heroBg` no cambia; solo el color del texto destacado y del badge.
 
-Cada módulo es un componente nuevo y opcional; una página solo renderiza los que declara.
+3. **Reasignar el tono de LSO y Abogados LSO** de `legal` a `transactional` en sus archivos de contenido (`leySegundaOportunidad.tsx` y `abogadosLeySegundaOportunidad.tsx`), para que muestren el verde de marca. El resto de páginas conserva su `tone` actual.
 
-## Fases de entrega
+## Alcance acotado
 
-**Fase 1 — Infraestructura (sin cambios visibles de contenido)**
-- Extender `types.ts`: `accent`, `layout` (orden de módulos), y nuevos tipos de módulo (`usuryCalculator`, `valueComparison`, `comparisonTable`, `teamCredentials`, `urgencyTimeline`, `legalTimeline`, `exonerationLimits`).
-- Reescribir `MoneyJourney.tsx` para renderizar según `layout` (con orden por defecto para compatibilidad) y aplicar el `accent` de la página.
-- Crear los componentes nuevos en `src/components/seo/interactive/`.
+- Solo cambia el **color del highlight del título y del badge** del hero, según el tono. El resto del journey (iconos de beneficios, CTA, fondos `accent-soft`) sigue en verde de marca para mantener cohesión y respetar la regla de marca de los CTA.
 
-**Fase 2 — Re-diferenciar las 6 páginas con journey ya creadas**
-- LSO, Abogados LSO, Cancelar, Cancelación, Reunificación, Reunificar: asignar acento, reordenar módulos y enchufar su módulo exclusivo (credenciales en Abogados LSO; tabla comparativa en reunificación; selector de vías potenciado en cancelación; etc.).
+## Detalle técnico
 
-**Fase 3 — Construir journey completo para las 9 money pages restantes**
-- ASNEF, Parar embargo, Cancelar revolving, Cancelar microcréditos, EPI, Concurso persona física, Juicio monitorio, Deudas Hacienda, Deudas Seguridad Social.
-- Cada una con copy propio (hero, beneficios, pasos, testimonios adaptados, secciones SEO, FAQ con `plain` para JSON-LD), su acento y su módulo exclusivo. Las jurídicas sensibles quedan con `reviewed: false` (aviso de revisión) hasta validar el copy legal.
+- Archivos a tocar: `src/index.css`, `tailwind.config.ts`, `src/components/seo/MoneyJourney.tsx`, `src/data/seo/content/leySegundaOportunidad.tsx`, `src/data/seo/content/abogadosLeySegundaOportunidad.tsx`.
+- Verificación: revisar en preview una página de cada color (Exoneración=azul, Cancelación de deudas=teal, ASNEF=naranja, LSO y Cancelar deudas=verde) en móvil y escritorio, comprobando contraste sobre el fondo claro.
 
-**Fase 4 — Hub `/servicios` + navegación**
-- Nueva página `Servicios` (lista por clusters con tarjetas y `ItemList`), ruta en `App.tsx`, enlace en `Header` y `Footer`, y entrada en el sitemap.
-
-## Anti-canibalización e interlinking
-
-- Se respeta la diferenciación de ángulo ya definida entre pares (cancelar vs cancelación, reunificar vs reunificación) y se refuerza con módulos distintos (uno lleva tabla comparativa, el otro selector de vías).
-- Interlinking horizontal entre hermanos del cluster, hub correspondiente y `/servicios`.
-
-## Detalles técnicos
-
-- Sin tocar `client.ts`, `types.ts` de Supabase ni migraciones (no hay backend implicado).
-- Todos los CTA siguen scrolleando a `#hero-form`; sin gradientes en CTAs (regla de marca).
-- Colores nuevos solo vía tokens semánticos en `index.css` / `tailwind.config.ts`; nada de clases de color hardcodeadas.
-- Archivos: editar `types.ts`, `MoneyJourney.tsx`, `MoneyLanding.tsx` (paso de `accent`), `index.ts` (registro), `Header.tsx`, `Footer.tsx`, `App.tsx`, `scripts/generate-sitemap.ts`; nuevos componentes de módulo y 9 nuevos archivos de contenido + `src/pages/seo/Servicios.tsx`.
-- Verificación: build + revisión visual de varias rutas (móvil y escritorio) para confirmar que cada servicio se ve distinto.
-
-Por volumen, propongo ejecutar por fases y enseñarte la Fase 1+2 (infra + las 6 ya creadas, claramente diferenciadas) antes de seguir con las 9 nuevas, salvo que prefieras que avance del tirón.
-
-## Estado: COMPLETADO
-
-- Fase 1, 2 y 3 hechas: 15 money pages con módulos, acentos y layouts propios.
-- Registradas las 9 nuevas en `index.ts`.
-- Fase 4: hub `/servicios` (con `ItemList`), enlazado en menú "Soluciones", footer y sitemap.
+Si prefieres otros colores concretos para el azul jurídico o el teal, dímelo y los ajusto antes de implementar.
