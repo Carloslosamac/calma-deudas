@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Localizacion } from "@/data/seo/localizaciones";
+import CityLocationMap from "@/components/seo/CityLocationMap";
 
 /**
  * Generador de contenido localizado para las landings de abogados por ciudad.
@@ -28,7 +29,8 @@ export type LocalContent = {
 };
 
 export const getLocalizacionContent = (city: Localizacion): LocalContent => {
-  const { name, provincia, comunidad, tribunal, localNote } = city;
+  const { name, provincia, comunidad, tribunal, localNote, zonas, sedeJudicial, perfilDeuda, prefijo } =
+    city;
 
   const intro = (
     <>
@@ -72,9 +74,45 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             los autónomos y empresarios, a los Juzgados de lo Mercantil.
           </P>
           <P>
+            En la práctica, tu caso se gestiona en {sedeJudicial}. Aunque la mayor parte del
+            procedimiento es telemático, conocer la sede y los plazos de {name} nos permite
+            coordinar cualquier comparecencia sin que tengas que preocuparte.
+          </P>
+          <P>
             Conocer el criterio de los juzgados de {provincia} nos permite preparar un
             expediente sólido y anticipar lo que el juez espera, lo que aumenta las
             probabilidades de que prospere la exoneración.
+          </P>
+        </div>
+      ),
+    },
+    {
+      title: `Zonas que atendemos en ${name} y provincia`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Damos servicio a toda la ciudad de {name} y a la provincia de {provincia} ({comunidad}),
+            incluidas zonas como {zonas.slice(0, -1).join(", ")} y {zonas[zonas.length - 1]}. La
+            atención es <strong>online</strong>, así que no importa en qué punto de la provincia
+            vivas: el diagnóstico y la tramitación se hacen sin desplazamientos.
+          </P>
+          <CityLocationMap city={city} />
+          <p className="text-sm leading-relaxed text-foreground/70">
+            ¿Prefieres hablar por teléfono? Atendemos a la provincia de {provincia} (prefijo{" "}
+            {prefijo}) a través de nuestro equipo central, de lunes a viernes.
+          </p>
+        </div>
+      ),
+    },
+    {
+      title: `La situación de la deuda en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>{perfilDeuda}</P>
+          <P>{localNote}</P>
+          <P>
+            Sea cual sea el origen de tu deuda, estudiamos tu caso concreto en {name} y te decimos
+            con claridad si puedes acogerte a la Ley de Segunda Oportunidad.
           </P>
         </div>
       ),

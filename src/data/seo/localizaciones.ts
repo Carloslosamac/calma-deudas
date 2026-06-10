@@ -25,13 +25,24 @@ export type Localizacion = {
   /** coordenadas para el mapa */
   lat: number;
   lng: number;
+  /** barrios de la ciudad y municipios de la provincia que se atienden */
+  zonas: string[];
+  /** sede judicial de referencia (dato público) donde se tramitan los expedientes */
+  sedeJudicial: string;
+  /** perfil de deuda más frecuente en la zona */
+  perfilDeuda: string;
+  /** prefijo telefónico provincial (referencia local) */
+  prefijo: string;
   /** path absoluto sin trailing slash para el Router */
   path: string;
 };
 
 const base = "/abogados-ley-segunda-oportunidad";
 
-const cities: Omit<Localizacion, "path">[] = [
+const cities: Omit<
+  Localizacion,
+  "path" | "zonas" | "sedeJudicial" | "perfilDeuda" | "prefijo"
+>[] = [
   {
     slug: "madrid",
     name: "Madrid",
@@ -274,8 +285,141 @@ const cities: Omit<Localizacion, "path">[] = [
   },
 ];
 
+/**
+ * Datos locales adicionales por ciudad (públicos y verificables): zonas
+ * atendidas, sede judicial de referencia, perfil de deuda y prefijo. Sirven
+ * para que cada landing desprenda relevancia local real (service-area
+ * business) sin afirmar oficina física, que no existe (atención en remoto).
+ */
+const localExtra: Record<
+  string,
+  Pick<Localizacion, "zonas" | "sedeJudicial" | "perfilDeuda" | "prefijo">
+> = {
+  madrid: {
+    zonas: ["Centro", "Vallecas", "Carabanchel", "Tetuán", "Móstoles", "Alcalá de Henares", "Getafe", "Leganés", "Fuenlabrada"],
+    sedeJudicial: "los Juzgados de lo Mercantil de Madrid (entorno de la calle Gran Vía) y los Juzgados de Primera Instancia de la capital",
+    perfilDeuda: "En Madrid predominan los casos de deudas por tarjetas revolving, préstamos al consumo y avales de pequeños negocios.",
+    prefijo: "91",
+  },
+  barcelona: {
+    zonas: ["Eixample", "Sants", "Nou Barris", "Sant Andreu", "Badalona", "Sabadell", "Terrassa", "Mataró"],
+    sedeJudicial: "la Ciutat de la Justícia de Barcelona, en la Gran Via de les Corts Catalanes, 111",
+    perfilDeuda: "En Barcelona son frecuentes las deudas de autónomos del comercio y los servicios, junto a préstamos personales acumulados.",
+    prefijo: "93",
+  },
+  valencia: {
+    zonas: ["Ciutat Vella", "Quatre Carreres", "Campanar", "Benimaclet", "Torrent", "Paterna", "Gandía", "Sagunto"],
+    sedeJudicial: "la Ciudad de la Justicia de Valencia, en la avenida del Saler, 14",
+    perfilDeuda: "En Valencia abundan los casos de autónomos de la hostelería y el comercio, además de microcréditos y tarjetas revolving.",
+    prefijo: "96",
+  },
+  sevilla: {
+    zonas: ["Triana", "Macarena", "Nervión", "Sevilla Este", "Dos Hermanas", "Alcalá de Guadaíra", "Utrera", "Écija"],
+    sedeJudicial: "los Juzgados de Sevilla, en el entorno del Prado de San Sebastián y la Buhaira",
+    perfilDeuda: "En Sevilla pesan las deudas de autónomos con Hacienda y Seguridad Social y los préstamos al consumo de familias.",
+    prefijo: "954",
+  },
+  zaragoza: {
+    zonas: ["Delicias", "El Rabal", "Casablanca", "Actur", "Calatayud", "Utebo", "Ejea de los Caballeros"],
+    sedeJudicial: "los Juzgados de Zaragoza, en el entorno de la plaza del Pilar y el Coso",
+    perfilDeuda: "En Zaragoza predominan los microcréditos, las tarjetas revolving y los préstamos familiares acumulados.",
+    prefijo: "976",
+  },
+  malaga: {
+    zonas: ["Centro", "Carretera de Cádiz", "Teatinos", "Marbella", "Vélez-Málaga", "Fuengirola", "Mijas", "Torremolinos"],
+    sedeJudicial: "la Ciudad de la Justicia de Málaga, en la calle Fiscal Luis Portero",
+    perfilDeuda: "En Málaga son habituales las deudas de autónomos del turismo y la hostelería, con fuerte estacionalidad.",
+    prefijo: "952",
+  },
+  murcia: {
+    zonas: ["Centro", "El Carmen", "Cabezo de Torres", "Cartagena", "Lorca", "Molina de Segura", "Alcantarilla"],
+    sedeJudicial: "la Ciudad de la Justicia de Murcia, en la avenida de la Justicia (Infante Juan Manuel)",
+    perfilDeuda: "En Murcia abundan las deudas de autónomos de la agricultura, el comercio y los proveedores.",
+    prefijo: "968",
+  },
+  palma: {
+    zonas: ["Centro", "Pere Garau", "Son Gotleu", "Inca", "Manacor", "Calvià", "Menorca", "Ibiza"],
+    sedeJudicial: "los Juzgados de Palma, en el entorno de la avenida Alemania y el Parc de la Mar",
+    perfilDeuda: "En Palma pesan las deudas vinculadas a la estacionalidad del empleo turístico y los préstamos personales.",
+    prefijo: "971",
+  },
+  "las-palmas-de-gran-canaria": {
+    zonas: ["Vegueta", "Triana", "Schamann", "Telde", "Santa Lucía", "Lanzarote", "Fuerteventura"],
+    sedeJudicial: "la Ciudad de la Justicia de Las Palmas de Gran Canaria",
+    perfilDeuda: "En Las Palmas predominan las deudas de consumo y de pequeños autónomos del sector servicios.",
+    prefijo: "928",
+  },
+  bilbao: {
+    zonas: ["Casco Viejo", "Deusto", "Indautxu", "Barakaldo", "Getxo", "Santurtzi", "Basauri"],
+    sedeJudicial: "el Palacio de Justicia de Bilbao y los juzgados del entorno de Barroeta Aldamar",
+    perfilDeuda: "En Bilbao son frecuentes las deudas de particulares y autónomos tras el cierre de pequeños negocios.",
+    prefijo: "94",
+  },
+  alicante: {
+    zonas: ["Centro", "San Blas", "Carolinas", "Torrevieja", "Benidorm", "Orihuela", "Elda"],
+    sedeJudicial: "la Ciudad de la Justicia de Alicante, en el barrio de Benalúa",
+    perfilDeuda: "En Alicante abundan las deudas de autónomos del comercio y la construcción y los préstamos en varias entidades.",
+    prefijo: "965",
+  },
+  cordoba: {
+    zonas: ["Centro", "Levante", "Poniente", "Lucena", "Puente Genil", "Montilla", "Priego de Córdoba"],
+    sedeJudicial: "la Ciudad de la Justicia de Córdoba",
+    perfilDeuda: "En Córdoba predominan las deudas de consumo, microcréditos y préstamos personales de familias.",
+    prefijo: "957",
+  },
+  valladolid: {
+    zonas: ["Centro", "Delicias", "Parquesol", "Medina del Campo", "Laguna de Duero", "Tudela de Duero"],
+    sedeJudicial: "el Palacio de Justicia de Valladolid, en el entorno de la calle Angustias",
+    perfilDeuda: "En Valladolid son habituales las deudas de particulares y pequeños autónomos del comercio.",
+    prefijo: "983",
+  },
+  vigo: {
+    zonas: ["Casco Vello", "Teis", "Coia", "Pontevedra", "Redondela", "Cangas", "O Porriño"],
+    sedeJudicial: "los Juzgados de Vigo, en el entorno de García Barbón y la rúa Lalín",
+    perfilDeuda: "En Vigo pesan las deudas de autónomos del mar, la industria auxiliar y el comercio.",
+    prefijo: "986",
+  },
+  gijon: {
+    zonas: ["Centro", "El Llano", "La Calzada", "Oviedo", "Avilés", "Siero", "Langreo"],
+    sedeJudicial: "el Palacio de Justicia de Gijón, en la calle Decano Prendes Pando",
+    perfilDeuda: "En Gijón abundan las deudas derivadas del cierre de pequeños negocios y los préstamos al consumo.",
+    prefijo: "985",
+  },
+  lhospitalet: {
+    zonas: ["Centre", "Collblanc", "Bellvitge", "Cornellà", "El Prat", "Esplugues", "Sant Boi"],
+    sedeJudicial: "la Ciutat de la Justícia (compartida con Barcelona), en la Gran Via de les Corts Catalanes, 111",
+    perfilDeuda: "En L'Hospitalet predominan las deudas de consumo y de autónomos del área metropolitana de Barcelona.",
+    prefijo: "93",
+  },
+  "vitoria-gasteiz": {
+    zonas: ["Centro", "Lakua", "Salburua", "Zaramaga", "Llodio", "Amurrio"],
+    sedeJudicial: "el Palacio de Justicia de Vitoria-Gasteiz, en el entorno de la avenida Gasteiz",
+    perfilDeuda: "En Vitoria-Gasteiz son frecuentes las deudas de particulares y de autónomos del sector industrial.",
+    prefijo: "945",
+  },
+  "a-coruna": {
+    zonas: ["Centro", "Os Mallos", "Monte Alto", "Ferrol", "Santiago de Compostela", "Carballo", "Betanzos"],
+    sedeJudicial: "el Palacio de Justicia de A Coruña, en el entorno de la calle Monforte",
+    perfilDeuda: "En A Coruña abundan las deudas de autónomos del comercio, la hostelería y los servicios.",
+    prefijo: "981",
+  },
+  granada: {
+    zonas: ["Centro", "Albaicín", "Zaidín", "Motril", "Armilla", "Maracena", "Loja"],
+    sedeJudicial: "los Juzgados de Granada, en el entorno de La Caleta y Plaza Nueva",
+    perfilDeuda: "En Granada pesan las deudas de consumo de familias y de autónomos del turismo y la universidad.",
+    prefijo: "958",
+  },
+  elche: {
+    zonas: ["Centro", "Carrús", "Altabix", "Crevillent", "Santa Pola", "Aspe", "Novelda"],
+    sedeJudicial: "los Juzgados de Elche, con los asuntos mercantiles en la Ciudad de la Justicia de Alicante",
+    perfilDeuda: "En Elche predominan las deudas de autónomos del calzado y la industria, y de familias con varias deudas.",
+    prefijo: "966",
+  },
+};
+
 export const localizaciones: Localizacion[] = cities.map((c) => ({
   ...c,
+  ...localExtra[c.slug],
   path: `${base}/${c.slug}`,
 }));
 
