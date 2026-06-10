@@ -24,6 +24,7 @@ const solucionesItems = [
   { label: "Concurso de persona física", to: "/autonomos-concurso-acreedores/concurso-persona-fisica" },
   { label: "Cancelar tarjetas revolving", to: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { label: "Cancelar microcréditos", to: "/microcreditos-prestamos/cancelar-microcreditos" },
+  { label: "Ver todos los servicios →", to: "/servicios" },
 ];
 
 // "¿Qué necesitas?" = situaciones urgentes, en primera persona.
