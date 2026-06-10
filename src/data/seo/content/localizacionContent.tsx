@@ -174,12 +174,40 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       ),
     },
     {
+      title: `Casos frecuentes en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>{ejemploCaso}</P>
+          <P>
+            Situaciones así se resuelven cada año con la Ley de Segunda Oportunidad. El criterio
+            de {audienciaProvincial} marca cómo se valoran estos expedientes en {provincia}, y por
+            eso preparamos cada caso pensando en lo que el tribunal espera.
+          </P>
+        </div>
+      ),
+    },
+    {
       title: `Cómo trabajamos tu caso en ${name}`,
       body: (
         <div className="space-y-4">
           <P>
-            Buena parte del proceso se gestiona de forma telemática, así que no necesitas
-            desplazamientos para empezar. Estos son los pasos:
+            {pick(
+              [
+                <>
+                  Buena parte del proceso se gestiona de forma telemática, así que no necesitas
+                  desplazamientos para empezar. Estos son los pasos:
+                </>,
+                <>
+                  No hace falta que te desplaces para arrancar: gestionamos casi todo de forma
+                  telemática. El recorrido es este:
+                </>,
+                <>
+                  Empezar es sencillo y sin desplazamientos, porque trabajamos online en gran parte
+                  del proceso. Estos son los pasos que seguimos en {name}:
+                </>,
+              ],
+              v,
+            )}
           </P>
           <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/85">
             <li>Diagnóstico gratuito: un abogado revisa tus deudas e ingresos y confirma si puedes acogerte.</li>
