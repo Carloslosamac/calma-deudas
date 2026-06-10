@@ -259,48 +259,55 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     },
   ];
 
+  const faqProvincia = pick(
+    [
+      `Sí. Atendemos a clientes de ${name} y de toda la provincia de ${provincia}. Gran parte del proceso se gestiona de forma telemática, sin desplazamientos.`,
+      `Por supuesto. Damos servicio a ${name} y a cualquier municipio de la provincia de ${provincia}: como trabajamos online, no importa en qué punto vivas.`,
+    ],
+    v,
+  );
+  const faqJuzgado = pick(
+    [
+      `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
+      `En ${name}, los ${tribunal}. Si eres particular, tu caso va a los Juzgados de Primera Instancia; si eres autónomo o empresario, a los de lo Mercantil.`,
+    ],
+    v,
+  );
+  const faqCoste = pick(
+    [
+      "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",
+      "El diagnóstico inicial es gratuito. A partir de ahí trabajamos con un presupuesto cerrado desde el principio y con la opción de pagarlo a plazos.",
+    ],
+    v,
+  );
+  const faqPresencial = pick(
+    [
+      "No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.",
+      `No suele ser necesario. Hacemos el diagnóstico y casi toda la tramitación de forma telemática; solo se acude al juzgado de ${name} si el procedimiento lo exige.`,
+    ],
+    v,
+  );
+
   const faq: LocalFaq[] = [
     {
       q: `¿Atendéis casos de toda la provincia de ${provincia}?`,
-      a: (
-        <>
-          Sí. Atendemos a clientes de {name} y de toda la provincia de {provincia}. Gran parte
-          del proceso se gestiona de forma telemática, sin desplazamientos.
-        </>
-      ),
-      plain: `Sí. Atendemos a clientes de ${name} y de toda la provincia de ${provincia}. Gran parte del proceso se gestiona de forma telemática, sin desplazamientos.`,
+      a: <>{faqProvincia}</>,
+      plain: faqProvincia,
     },
     {
       q: `¿Qué juzgado tramita la Ley de Segunda Oportunidad en ${name}?`,
-      a: (
-        <>
-          Los {tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los
-          autónomos y empresarios, a los Juzgados de lo Mercantil.
-        </>
-      ),
-      plain: `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
+      a: <>{faqJuzgado}</>,
+      plain: faqJuzgado,
     },
     {
       q: "¿Cuánto cuesta un abogado de la Ley de Segunda Oportunidad?",
-      a: (
-        <>
-          El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto
-          cerrado desde el inicio y opción de pago fraccionado.
-        </>
-      ),
-      plain:
-        "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",
+      a: <>{faqCoste}</>,
+      plain: faqCoste,
     },
     {
       q: "¿Necesito acudir presencialmente?",
-      a: (
-        <>
-          No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de
-          forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.
-        </>
-      ),
-      plain:
-        "No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.",
+      a: <>{faqPresencial}</>,
+      plain: faqPresencial,
     },
   ];
 
