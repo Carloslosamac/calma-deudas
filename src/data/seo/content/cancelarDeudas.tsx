@@ -24,8 +24,10 @@ export const cancelarDeudas: MoneyContent = {
   tone: "transactional",
   layout: [
     "simulator",
-    "benefits",
     "debtTypes",
+    "comparisonTable",
+    "benefits",
+    "urgencyTimeline",
     "steps",
     "quiz",
     "metrics",
@@ -38,20 +40,21 @@ export const cancelarDeudas: MoneyContent = {
   ],
   intro: (
     <>
-      Hay deudas que <strong>no tienes por qué seguir pagando</strong>. Si no llegas a
-      fin de mes por las cuotas, existen vías legales para eliminarlas. Te decimos hoy,
-      gratis, cuáles puedes cancelar en tu caso.
+      Quieres que tu deuda <strong>desaparezca</strong>, pero no sabes por dónde empezar.
+      Existen varias vías legales y la clave está en <strong>elegir la correcta para tu
+      caso</strong>. Te decimos hoy, gratis, cuál es la tuya.
     </>
   ),
   hero: {
     badge: "Cancelar deudas",
-    titleLead: "Cancela las deudas",
-    titleAccent: "que te están ahogando.",
+    titleLead: "Quieres que tu deuda desaparezca.",
+    titleAccent: "Te decimos cómo.",
     subtitle: (
       <>
-        Tarjetas, microcréditos, préstamos, descubiertos… Si tus deudas crecen más rápido
-        de lo que puedes pagar, la ley te permite <strong>eliminarlas</strong>. Te decimos
-        hoy mismo, gratis, cuánto puedes dejar de pagar.
+        No hay una sola forma de eliminar una deuda: cancelar por ley, anular intereses
+        abusivos, negociar una quita o reunificar. Lo difícil es saber{" "}
+        <strong>cuál encaja contigo</strong>. Lo estudiamos hoy mismo, gratis, y te
+        decimos por qué vía tu deuda puede desaparecer.
       </>
     ),
     trustNote: "Respuesta en 24h · Gratis · Sin compromiso",
@@ -63,12 +66,12 @@ export const cancelarDeudas: MoneyContent = {
     trustSeal: "Respuesta en 24h · Gratis · Sin compromiso",
     mediaLabel: "Han hablado de nosotros",
   },
-  benefitsTitle: "Qué consigues al cancelar tus deudas",
+  benefitsTitle: "El resultado, elijas la vía que elijas",
   benefits: [
     {
       icon: "shield",
       title: "Eliminación de la deuda",
-      text: "Borramos legalmente las deudas que no puedes asumir. Definitivo y sin que vuelvan.",
+      text: "Sea por la vía que sea, el objetivo es el mismo: que la deuda desaparezca y no vuelva.",
     },
     {
       icon: "wallet",
