@@ -33,6 +33,10 @@ export type Localizacion = {
   perfilDeuda: string;
   /** prefijo telefónico provincial (referencia local) */
   prefijo: string;
+  /** Audiencia Provincial de referencia (dato público) */
+  audienciaProvincial: string;
+  /** caso típico anonimizado propio del tejido económico local */
+  ejemploCaso: string;
   /** path absoluto sin trailing slash para el Router */
   path: string;
 };
@@ -41,7 +45,13 @@ const base = "/abogados-ley-segunda-oportunidad";
 
 const cities: Omit<
   Localizacion,
-  "path" | "zonas" | "sedeJudicial" | "perfilDeuda" | "prefijo"
+  | "path"
+  | "zonas"
+  | "sedeJudicial"
+  | "perfilDeuda"
+  | "prefijo"
+  | "audienciaProvincial"
+  | "ejemploCaso"
 >[] = [
   {
     slug: "madrid",
@@ -417,9 +427,102 @@ const localExtra: Record<
   },
 };
 
+/**
+ * Datos para el contenido único por ciudad: Audiencia Provincial de
+ * referencia (criterio judicial) y un caso típico anonimizado del tejido
+ * económico local. Sirven para que cada landing tenga material propio que
+ * no encaja en ninguna otra ciudad (anti contenido duplicado).
+ */
+const localCases: Record<
+  string,
+  Pick<Localizacion, "audienciaProvincial" | "ejemploCaso">
+> = {
+  madrid: {
+    audienciaProvincial: "la Audiencia Provincial de Madrid",
+    ejemploCaso: "Un caso habitual en Madrid: un trabajador que encadenó varias tarjetas revolving y préstamos rápidos para llegar a fin de mes y acaba con cuotas que superan su sueldo.",
+  },
+  barcelona: {
+    audienciaProvincial: "la Audiencia Provincial de Barcelona",
+    ejemploCaso: "Un caso habitual en Barcelona: un autónomo del comercio o la restauración que, tras bajar las ventas, arrastra deudas con proveedores y con la Seguridad Social.",
+  },
+  valencia: {
+    audienciaProvincial: "la Audiencia Provincial de Valencia",
+    ejemploCaso: "Un caso habitual en Valencia: un autónomo de la hostelería que cerró el local y quedó con préstamos del negocio y microcréditos personales sin poder asumirlos.",
+  },
+  sevilla: {
+    audienciaProvincial: "la Audiencia Provincial de Sevilla",
+    ejemploCaso: "Un caso habitual en Sevilla: un autónomo que acumuló deuda con Hacienda y la Seguridad Social y, además, préstamos al consumo de la familia.",
+  },
+  zaragoza: {
+    audienciaProvincial: "la Audiencia Provincial de Zaragoza",
+    ejemploCaso: "Un caso habitual en Zaragoza: una familia que fue sumando microcréditos y tarjetas revolving para cubrir gastos imprevistos hasta perder el control de las cuotas.",
+  },
+  malaga: {
+    audienciaProvincial: "la Audiencia Provincial de Málaga",
+    ejemploCaso: "Un caso habitual en Málaga: un autónomo del turismo o la hostelería con ingresos muy estacionales que, en temporada baja, no puede atender los préstamos del negocio.",
+  },
+  murcia: {
+    audienciaProvincial: "la Audiencia Provincial de Murcia",
+    ejemploCaso: "Un caso habitual en Murcia: un pequeño autónomo del campo o el comercio que quedó con deudas a proveedores y préstamos tras una mala campaña.",
+  },
+  palma: {
+    audienciaProvincial: "la Audiencia Provincial de Baleares",
+    ejemploCaso: "Un caso habitual en Palma: un trabajador con contrato de temporada que, al terminar el verano, no puede mantener las cuotas de los préstamos pedidos durante el año.",
+  },
+  "las-palmas-de-gran-canaria": {
+    audienciaProvincial: "la Audiencia Provincial de Las Palmas",
+    ejemploCaso: "Un caso habitual en Las Palmas: una familia con deudas de consumo y un pequeño autónomo del sector servicios que vio caer su facturación.",
+  },
+  bilbao: {
+    audienciaProvincial: "la Audiencia Provincial de Bizkaia",
+    ejemploCaso: "Un caso habitual en Bilbao: un autónomo que cerró su negocio y quedó con avales y préstamos personales que no puede asumir con su nuevo empleo.",
+  },
+  alicante: {
+    audienciaProvincial: "la Audiencia Provincial de Alicante",
+    ejemploCaso: "Un caso habitual en Alicante: un autónomo del comercio o la construcción con préstamos en varias entidades a la vez y cuotas que se solapan.",
+  },
+  cordoba: {
+    audienciaProvincial: "la Audiencia Provincial de Córdoba",
+    ejemploCaso: "Un caso habitual en Córdoba: una familia que acumuló microcréditos y préstamos personales para imprevistos y ya no puede pagar todas las cuotas.",
+  },
+  valladolid: {
+    audienciaProvincial: "la Audiencia Provincial de Valladolid",
+    ejemploCaso: "Un caso habitual en Valladolid: un pequeño autónomo del comercio que, tras bajar las ventas, arrastra deudas con proveedores y préstamos del negocio.",
+  },
+  vigo: {
+    audienciaProvincial: "la Audiencia Provincial de Pontevedra",
+    ejemploCaso: "Un caso habitual en Vigo: un autónomo del mar o de la industria auxiliar que, tras un parón de actividad, quedó con deudas y préstamos sin poder atenderlos.",
+  },
+  gijon: {
+    audienciaProvincial: "la Audiencia Provincial de Asturias",
+    ejemploCaso: "Un caso habitual en Gijón: un autónomo que cerró su pequeño negocio y quedó con préstamos y deudas con proveedores difíciles de asumir.",
+  },
+  lhospitalet: {
+    audienciaProvincial: "la Audiencia Provincial de Barcelona",
+    ejemploCaso: "Un caso habitual en L'Hospitalet: una familia del área metropolitana con varias deudas de consumo y tarjetas que ya no puede atender.",
+  },
+  "vitoria-gasteiz": {
+    audienciaProvincial: "la Audiencia Provincial de Álava",
+    ejemploCaso: "Un caso habitual en Vitoria-Gasteiz: un trabajador del sector industrial que, tras un ERE o un cambio de empleo, no puede mantener los préstamos pedidos.",
+  },
+  "a-coruna": {
+    audienciaProvincial: "la Audiencia Provincial de A Coruña",
+    ejemploCaso: "Un caso habitual en A Coruña: un autónomo del comercio o la hostelería que arrastra deudas tras una caída de ingresos.",
+  },
+  granada: {
+    audienciaProvincial: "la Audiencia Provincial de Granada",
+    ejemploCaso: "Un caso habitual en Granada: una familia con deudas de consumo y un autónomo del turismo que vio caer su actividad fuera de temporada.",
+  },
+  elche: {
+    audienciaProvincial: "la Audiencia Provincial de Alicante",
+    ejemploCaso: "Un caso habitual en Elche: un autónomo del calzado o la industria local que quedó con deudas tras una mala temporada y préstamos del negocio.",
+  },
+};
+
 export const localizaciones: Localizacion[] = cities.map((c) => ({
   ...c,
   ...localExtra[c.slug],
+  ...localCases[c.slug],
   path: `${base}/${c.slug}`,
 }));
 

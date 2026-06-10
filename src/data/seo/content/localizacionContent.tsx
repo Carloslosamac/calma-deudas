@@ -19,6 +19,18 @@ const P = ({ children }: { children: ReactNode }) => (
   <p className="text-base leading-relaxed text-foreground/85">{children}</p>
 );
 
+/**
+ * Índice de variante determinista por ciudad: estable para cada URL (no
+ * cambia entre cargas, lo que confundiría a Google) pero repartido entre
+ * ciudades para que el texto del armazón no sea idéntico entre todas.
+ */
+const variantIndex = (slug: string): number => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+};
+const pick = <T,>(arr: T[], seed: number): T => arr[seed % arr.length];
+
 export type LocalSection = { title: string; body: ReactNode };
 export type LocalFaq = { q: string; a: ReactNode; plain: string };
 
@@ -29,15 +41,40 @@ export type LocalContent = {
 };
 
 export const getLocalizacionContent = (city: Localizacion): LocalContent => {
-  const { name, provincia, comunidad, tribunal, localNote, zonas, sedeJudicial, perfilDeuda, prefijo } =
-    city;
+  const {
+    name,
+    provincia,
+    comunidad,
+    tribunal,
+    localNote,
+    zonas,
+    sedeJudicial,
+    perfilDeuda,
+    prefijo,
+    audienciaProvincial,
+    ejemploCaso,
+  } = city;
+  const v = variantIndex(city.slug);
 
-  const intro = (
-    <>
-      ¿Buscas <strong>abogados de la Ley de Segunda Oportunidad en {name}</strong>? Estudiamos
-      tu caso gratis, preparamos el expediente y te representamos ante los juzgados de{" "}
-      {provincia} para cancelar legalmente tus deudas. Primer diagnóstico sin compromiso.
-    </>
+  const intro = pick(
+    [
+      <>
+        ¿Buscas <strong>abogados de la Ley de Segunda Oportunidad en {name}</strong>? Estudiamos
+        tu caso gratis, preparamos el expediente y te representamos ante los juzgados de{" "}
+        {provincia} para cancelar legalmente tus deudas. Primer diagnóstico sin compromiso.
+      </>,
+      <>
+        En {name} cancelamos deudas con la <strong>Ley de Segunda Oportunidad</strong>. Analizamos
+        gratis tu situación, montamos el expediente y te representamos ante los juzgados de{" "}
+        {provincia}, de principio a fin y sin compromiso.
+      </>,
+      <>
+        ¿Estás en {name} y las deudas te superan? Con la{" "}
+        <strong>Ley de Segunda Oportunidad</strong> puedes cancelarlas legalmente. El primer
+        diagnóstico es gratuito y, si sigues, llevamos tu caso ante los juzgados de {provincia}.
+      </>,
+    ],
+    v,
   );
 
   const sections: LocalSection[] = [
@@ -46,10 +83,29 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       body: (
         <div className="space-y-4">
           <P>
-            Si vives en {name} o en la provincia de {provincia} ({comunidad}) y no puedes hacer
-            frente a tus deudas, la <strong>Ley de Segunda Oportunidad</strong> te permite
-            cancelarlas legalmente y empezar de cero. Nuestro equipo de abogados especialistas
-            en derecho concursal lleva tu caso de principio a fin.
+            {pick(
+              [
+                <>
+                  Si vives en {name} o en la provincia de {provincia} ({comunidad}) y no puedes
+                  hacer frente a tus deudas, la <strong>Ley de Segunda Oportunidad</strong> te
+                  permite cancelarlas legalmente y empezar de cero. Nuestro equipo de abogados
+                  especialistas en derecho concursal lleva tu caso de principio a fin.
+                </>,
+                <>
+                  ¿No puedes pagar tus deudas y vives en {name} o su provincia ({provincia},{" "}
+                  {comunidad})? La <strong>Ley de Segunda Oportunidad</strong> te permite
+                  cancelarlas legalmente y volver a empezar. Un equipo de abogados concursalistas
+                  se encarga de todo el procedimiento.
+                </>,
+                <>
+                  Para muchas familias y autónomos de {name} ({provincia}, {comunidad}), la{" "}
+                  <strong>Ley de Segunda Oportunidad</strong> es la vía para cancelar las deudas y
+                  empezar de cero. Nuestros abogados especialistas en derecho concursal se ocupan
+                  de todo el proceso.
+                </>,
+              ],
+              v,
+            )}
           </P>
           <P>{localNote}</P>
           <P>
@@ -118,12 +174,40 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       ),
     },
     {
+      title: `Casos frecuentes en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>{ejemploCaso}</P>
+          <P>
+            Situaciones así se resuelven cada año con la Ley de Segunda Oportunidad. El criterio
+            de {audienciaProvincial} marca cómo se valoran estos expedientes en {provincia}, y por
+            eso preparamos cada caso pensando en lo que el tribunal espera.
+          </P>
+        </div>
+      ),
+    },
+    {
       title: `Cómo trabajamos tu caso en ${name}`,
       body: (
         <div className="space-y-4">
           <P>
-            Buena parte del proceso se gestiona de forma telemática, así que no necesitas
-            desplazamientos para empezar. Estos son los pasos:
+            {pick(
+              [
+                <>
+                  Buena parte del proceso se gestiona de forma telemática, así que no necesitas
+                  desplazamientos para empezar. Estos son los pasos:
+                </>,
+                <>
+                  No hace falta que te desplaces para arrancar: gestionamos casi todo de forma
+                  telemática. El recorrido es este:
+                </>,
+                <>
+                  Empezar es sencillo y sin desplazamientos, porque trabajamos online en gran parte
+                  del proceso. Estos son los pasos que seguimos en {name}:
+                </>,
+              ],
+              v,
+            )}
           </P>
           <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/85">
             <li>Diagnóstico gratuito: un abogado revisa tus deudas e ingresos y confirma si puedes acogerte.</li>
@@ -145,9 +229,26 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       body: (
         <div className="space-y-4">
           <P>
-            El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos con
-            un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que los
-            honorarios nunca sean el motivo de no empezar.
+            {pick(
+              [
+                <>
+                  El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos
+                  con un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que
+                  los honorarios nunca sean el motivo de no empezar.
+                </>,
+                <>
+                  Lo primero, el <strong>diagnóstico, es gratis</strong>. Si decides continuar,
+                  fijamos un presupuesto cerrado desde el principio, con posibilidad de pago
+                  fraccionado, para que el dinero no te frene.
+                </>,
+                <>
+                  Trabajamos con transparencia: el <strong>primer diagnóstico no cuesta nada</strong>{" "}
+                  y, si sigues adelante, sabrás el precio cerrado desde el inicio, con opción de
+                  fraccionarlo.
+                </>,
+              ],
+              v,
+            )}
           </P>
           <P>
             El procedimiento suele durar entre 6 y 18 meses según la complejidad y el juzgado de{" "}
@@ -158,48 +259,55 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     },
   ];
 
+  const faqProvincia = pick(
+    [
+      `Sí. Atendemos a clientes de ${name} y de toda la provincia de ${provincia}. Gran parte del proceso se gestiona de forma telemática, sin desplazamientos.`,
+      `Por supuesto. Damos servicio a ${name} y a cualquier municipio de la provincia de ${provincia}: como trabajamos online, no importa en qué punto vivas.`,
+    ],
+    v,
+  );
+  const faqJuzgado = pick(
+    [
+      `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
+      `En ${name}, los ${tribunal}. Si eres particular, tu caso va a los Juzgados de Primera Instancia; si eres autónomo o empresario, a los de lo Mercantil.`,
+    ],
+    v,
+  );
+  const faqCoste = pick(
+    [
+      "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",
+      "El diagnóstico inicial es gratuito. A partir de ahí trabajamos con un presupuesto cerrado desde el principio y con la opción de pagarlo a plazos.",
+    ],
+    v,
+  );
+  const faqPresencial = pick(
+    [
+      "No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.",
+      `No suele ser necesario. Hacemos el diagnóstico y casi toda la tramitación de forma telemática; solo se acude al juzgado de ${name} si el procedimiento lo exige.`,
+    ],
+    v,
+  );
+
   const faq: LocalFaq[] = [
     {
       q: `¿Atendéis casos de toda la provincia de ${provincia}?`,
-      a: (
-        <>
-          Sí. Atendemos a clientes de {name} y de toda la provincia de {provincia}. Gran parte
-          del proceso se gestiona de forma telemática, sin desplazamientos.
-        </>
-      ),
-      plain: `Sí. Atendemos a clientes de ${name} y de toda la provincia de ${provincia}. Gran parte del proceso se gestiona de forma telemática, sin desplazamientos.`,
+      a: <>{faqProvincia}</>,
+      plain: faqProvincia,
     },
     {
       q: `¿Qué juzgado tramita la Ley de Segunda Oportunidad en ${name}?`,
-      a: (
-        <>
-          Los {tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los
-          autónomos y empresarios, a los Juzgados de lo Mercantil.
-        </>
-      ),
-      plain: `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
+      a: <>{faqJuzgado}</>,
+      plain: faqJuzgado,
     },
     {
       q: "¿Cuánto cuesta un abogado de la Ley de Segunda Oportunidad?",
-      a: (
-        <>
-          El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto
-          cerrado desde el inicio y opción de pago fraccionado.
-        </>
-      ),
-      plain:
-        "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",
+      a: <>{faqCoste}</>,
+      plain: faqCoste,
     },
     {
       q: "¿Necesito acudir presencialmente?",
-      a: (
-        <>
-          No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de
-          forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.
-        </>
-      ),
-      plain:
-        "No es imprescindible. El diagnóstico y buena parte de la tramitación se realizan de forma telemática; solo se acude al juzgado cuando el procedimiento lo requiere.",
+      a: <>{faqPresencial}</>,
+      plain: faqPresencial,
     },
   ];
 
