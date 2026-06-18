@@ -1,5 +1,7 @@
+import { createElement } from "react";
 import type { MoneyContent } from "./types";
-import type { MoneyModuleKey } from "./types";
+import type { MoneyModuleKey, MoneySection } from "./types";
+import SectionBlocks from "@/components/seo/SectionBlocks";
 import { enrichmentByPath } from "./enrichment";
 import { leySegundaOportunidad } from "./leySegundaOportunidad";
 import { abogadosLeySegundaOportunidad } from "./abogadosLeySegundaOportunidad";
@@ -66,7 +68,17 @@ const mergeEnrichment = (c: MoneyContent): MoneyContent => {
     layout = insertKey(layout, "faq");
   }
 
-  return { ...c, interactive, faq, ...(layout ? { layout } : {}) };
+  let sections = c.sections;
+  if (e.extraSections && e.extraSections.length > 0) {
+    const extra: MoneySection[] = e.extraSections.map((s) => ({
+      title: s.title,
+      body: createElement(SectionBlocks, { blocks: s.blocks }),
+    }));
+    sections = [...c.sections, ...extra];
+    if (layout && !layout.includes("sections")) layout = insertKey(layout, "sections");
+  }
+
+  return { ...c, interactive, faq, sections, ...(layout ? { layout } : {}) };
 };
 
 export const moneyContentByPath: Record<string, MoneyContent> = contents.reduce(

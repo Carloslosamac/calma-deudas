@@ -268,6 +268,33 @@ export type MoneyInteractive = {
 /** Tono visual de la página (acento + energía). */
 export type MoneyTone = "transactional" | "legal" | "urgent" | "calm";
 
+/** ----- Bloques data-driven para secciones generadas (paridad de contenido) ----- */
+
+/** Enlace interno simple usado dentro de bloques. */
+export type MoneyBlockLink = { to: string; label: string };
+
+/**
+ * Bloque de contenido tipado que el renderizador `SectionBlocks` convierte en
+ * los módulos visuales del kit. El texto admite **negritas** y enlaces internos
+ * en formato [texto](/ruta).
+ */
+export type MoneyBlock =
+  | { kind: "paragraph"; text: string }
+  | { kind: "keyCallout"; eyebrow?: string; headline: string; body?: string; tone?: "accent" | "neutral" }
+  | {
+      kind: "optionCards";
+      columns?: 2 | 3;
+      items: { icon?: MoneyIcon; title: string; text: string; links?: MoneyBlockLink[] }[];
+    }
+  | { kind: "factGrid"; columns?: 2 | 3; items: { value: string; label: string; detail?: string }[] }
+  | { kind: "checkList"; variant?: "check" | "cross"; items: string[] }
+  | { kind: "callout"; variant?: "info" | "warning"; title?: string; text: string }
+  | { kind: "table"; headers: string[]; rows: string[][] }
+  | { kind: "actionLink"; to: string; text: string };
+
+/** Sección de contenido generada a partir de bloques tipados. */
+export type MoneyExtraSection = { title: string; blocks: MoneyBlock[] };
+
 /** Clave de un módulo renderizable, para ordenar el journey por página. */
 export type MoneyModuleKey =
   | "simulator"
