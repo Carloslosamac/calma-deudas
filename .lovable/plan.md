@@ -1,75 +1,45 @@
+# Fichas de entidad: máxima tranquilidad y respuesta a los miedos reales
+
 ## Objetivo
-Construir 4 super hubs de entidades, uno por cluster:
-- Empresas de recobro
-- Microcrédito
-- Tarjetas
-- Bancos
+Convertir cada ficha de entidad (`/<cluster>/<slug>`) en una página que transmita **seguridad, calma, compañía y autoridad**, y que responda a los **miedos reales** que tiene la gente que debe a esa entidad (los que aparecen en foros y en "la gente también pregunta"), no a lo que dicen los 10 primeros resultados de Google.
 
-Cada hub incluirá todas las empresas relevantes de su cluster y servirá como índice SEO fuerte para enlazar a todas sus fichas individuales.
+Aplica a las ~102 entidades reusando las 4 plantillas por tipo (recobro, microcrédito, revolving, banco), para que sea coherente y exhaustivo desde el primer momento.
 
-## Lo que voy a construir
-1. **Ampliar el inventario de entidades**
-   - Completar `src/data/seo/entities.ts` con cobertura exhaustiva por cluster.
-   - Mantener la clasificación por `kind`, `cluster` y `solutionPath` para no romper la arquitectura actual.
+## Investigación previa (foros reales)
+Antes de escribir, recopilaré las dudas y miedos recurrentes reales en foros y SERP por cada tipo de entidad (Reddit, Forocoches, foros de deudas/legal, "preguntas relacionadas" de Google). Ejemplos de miedos a cubrir:
 
-2. **Convertir los 4 clusters en super hubs reales**
-   - Reforzar el contenido de los hubs ya existentes para que no sean solo intro editorial, sino páginas índice potentes.
-   - Añadir bloques de listado completo de entidades por cluster, agrupadas y enlazadas.
-   - Hacer que cada hub sea claramente la página madre del cluster y distribuya autoridad interna a todas las entidades.
+```text
+Recobro:        ¿Pueden venir a mi casa? ¿Me llaman al trabajo o a familiares?
+                ¿Pueden embargarme sin avisar? ¿Aparezco en ASNEF? ¿Está prescrita?
+Microcréditos:  La bola de nieve, refinanciar para tapar, intereses abusivos,
+                ASNEF por impago pequeño, vergüenza, llamadas constantes.
+Revolving:      "Pago y la deuda no baja", usura, reclamar lo pagado de más,
+                miedo a perjudicar el historial, ¿puedo reclamar si ya pagué?
+Bancos:         Hipoteca/vivienda en riesgo, embargo de nómina, avales,
+                descubiertos, ¿pierdo mi casa?, ¿me quedo sin cuenta?
+```
 
-3. **Escalar las fichas de entidad**
-   - Usar la plantilla existente de `entityContent.tsx` para generar automáticamente todas las nuevas URLs de entidad.
-   - Mantener copy adaptado por tipo de entidad: recobro, microcrédito, revolving/tarjetas y banco.
-   - Completar notas específicas para las entidades más relevantes para que no suenen genéricas.
+Estos miedos alimentarán los bloques de "Mitos vs realidad" y las FAQ, personalizados con el nombre de la entidad.
 
-4. **Mejorar interlinking SEO entre hub ↔ entidades ↔ money pages**
-   - Cada hub enlazará a todas sus entidades.
-   - Cada ficha de entidad enlazará a su money page de solución correspondiente.
-   - Añadir enlaces cruzados entre clusters relacionados cuando tenga sentido comercial/SEO.
+## Estructura nueva de cada ficha
+Reescribir `src/data/seo/content/entityContent.tsx` para que cada plantilla por tipo genere, además del contenido actual, estos bloques (usando el kit de módulos en `src/components/seo/modules`):
 
-5. **Dejar la base preparada para crecimiento masivo**
-   - Estructura pensada para añadir más entidades sin rehacer componentes.
-   - Mantener coherencia con la arquitectura actual (`architecture.ts`, `hubContent.tsx`, `entityContent.tsx`).
+1. **Bloque de tranquilidad emocional** (KeyCallout): "Tu deuda con {entidad} tiene solución. No estás solo/a. Recupera tu espacio y tu tranquilidad." Mensaje cálido y humano al inicio.
+2. **Por qué te reclama / cómo funciona** (se mantiene, mejorado).
+3. **Tus miedos, resueltos** (nuevo): los miedos reales de foros para ese tipo, cada uno con la realidad legal tranquilizadora (CheckList / FactGrid).
+4. **Mitos vs realidad** (nuevo, Callout/FactGrid): desmonta falsas creencias ("mañana me embargan la nómina", "van a ir a mi casa", "voy a estar fichado para siempre") con la realidad.
+5. **Por qué Calma** (nuevo, KeyCallout/CheckList): especialistas en Ley de Segunda Oportunidad, acompañamiento humano, casos resueltos, primer paso sin compromiso. "Somos los mejores y queremos que lo sepas."
+6. **Tus opciones / cómo cancelar o reclamar** (se mantiene, con interlinking a money pages según `solutionPath`).
+7. **CTA reforzado** (varios puntos): botones cálidos que llevan a `#hero-form` (regla de proyecto), no a otras páginas.
+8. **FAQ ampliada** (FAQPage JSON-LD): de 2-3 preguntas a 5-7 por tipo, basadas en los miedos reales, personalizadas con el nombre de la entidad.
 
-## Alcance funcional
-### Clusters a cubrir exhaustivamente
-- **Empresas de recobro**: todas las empresas relevantes de gestión/compra de deuda.
-- **Microcrédito**: todas las marcas y prestamistas rápidos relevantes.
-- **Tarjetas**: emisores y marcas de tarjetas revolving/financiación asociada.
-- **Bancos**: bancos y entidades financieras relevantes dentro del cluster de banca/hipoteca/vivienda.
+## Detalle técnico
+- **`src/data/seo/content/entityContent.tsx`**: reescribir las 4 funciones (`recobroContent`, `microcreditoContent`, `revolvingContent`, `bancoContent`) para devolver las secciones nuevas. Reutilizar los módulos del kit (KeyCallout, CheckList, FactGrid, Callout/WarningCallout, OptionCards, A) en lugar de párrafos sueltos, siguiendo la regla de "módulos legibles, nunca muros de texto".
+- **CTA en mitad de ficha**: insertar `CtaButton` dentro de secciones clave (el componente ya apunta a `#hero-form`). Si hace falta, añadir un pequeño módulo de CTA reutilizable.
+- **NOTES por entidad**: mantener y, donde aporte, enriquecer la nota específica para que el copy no quede genérico.
+- **FAQ → JSON-LD**: `EntityPage.tsx` ya construye `buildFaq` desde `content.faq`; al ampliar las FAQ se enriquece automáticamente el structured data. Sin cambios estructurales en `EntityPage.tsx`.
+- **Meta**: revisar `seoTitle`/`metaDescription` en `EntityPage.tsx` para reforzar el ángulo de tranquilidad/solución (p. ej. "Deudas con {entidad}: soluciónalas con calma").
+- Sin cambios de backend ni de datos: todo es contenido/presentación.
 
-### Resultado esperado
-- 4 hubs fuertes y completos.
-- Un listado exhaustivo de entidades por cluster.
-- Una URL individual por entidad dentro de su cluster.
-- Mejor cobertura long-tail y mejor arquitectura interna para las money pages.
-
-## Detalles técnicos
-- **Archivos principales a tocar**
-  - `src/data/seo/entities.ts`
-  - `src/data/seo/content/hubContent.tsx`
-  - Posiblemente el renderer/listado del template de hub si hoy no pinta listados exhaustivos de entidades.
-  - `src/data/seo/content/entityContent.tsx` para ampliar notas específicas si hace falta.
-
-- **Patrón a respetar**
-  - La arquitectura ya separa:
-    - money pages
-    - hubs satélite
-    - fichas de entidad
-  - Aprovecharé esa base, sin rehacer el sistema.
-
-- **Criterio SEO**
-  - Un solo hub principal por cluster.
-  - Todas las entidades relevantes colgando de ese hub.
-  - Enlazado interno fuerte hacia la solución comercial correcta.
-  - Sin mezclar clusters incorrectamente para evitar canibalización.
-
-## Decisión que aplicaré por defecto
-Como has pedido cobertura exhaustiva, haré **cobertura total de entidades por cluster**, no solo top marcas.
-
-## Riesgo a controlar
-El único punto delicado es la **clasificación correcta de cada empresa dentro de su cluster**. Si quieres, en la implementación puedo seguir uno de estos dos enfoques:
-1. **Yo propongo el listado completo por criterio SEO/comercial y lo monto directamente.**
-2. **Tú me pasas o validas la lista maestra por cluster y yo la implemento exacta.**
-
-Si apruebas, en la siguiente fase lo implemento directamente sobre la arquitectura actual.
+## Resultado
+Las 102 fichas pasan de informativas a **persuasivas y tranquilizadoras**, resolviendo los miedos reales de quien debe a cada entidad y posicionando a Calma como el acompañante experto, manteniendo coherencia, SEO (FAQ JSON-LD ampliado) y la regla de CTAs hacia `#hero-form`.
