@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, CheckList, WarningCallout } from "@/components/seo/modules";
 import { localizaciones } from "@/data/seo/localizaciones";
 import CityMap from "@/components/seo/CityMap";
 import t1 from "@/assets/testimonial-1.jpg";
@@ -28,12 +28,6 @@ import team17 from "@/assets/team-lawyer-17.jpg";
 import team18 from "@/assets/team-lawyer-18.jpg";
 import team19 from "@/assets/team-lawyer-19.jpg";
 import team20 from "@/assets/team-lawyer-20.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page de Abogados de la Ley de Segunda Oportunidad.
