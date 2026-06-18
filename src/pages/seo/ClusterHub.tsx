@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SeoPageScaffold, { type RelatedLink } from "@/components/seo/SeoPageScaffold";
 import NotFound from "@/pages/NotFound";
 import { getCluster } from "@/data/seo/architecture";
@@ -48,6 +49,40 @@ const ClusterHub = () => {
   const intro = content?.intro ?? cluster.description;
   const metaDescription = content?.metaDescription ?? cluster.description;
   const seoTitle = content?.seoTitle ?? `${cluster.title} | Calma`;
+  const hubEntityClusters = new Set([
+    "empresas-de-recobro",
+    "microcreditos-prestamos",
+    "tarjetas-revolving",
+    "bancos-hipoteca-vivienda",
+  ]);
+  const allEntities = entitiesByCluster(cluster.slug);
+  const sections = content?.sections ? [...content.sections] : [];
+
+  if (hubEntityClusters.has(cluster.slug) && allEntities.length > 0) {
+    sections.push({
+      title: `Todas las entidades de ${cluster.label}`,
+      body: (
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-muted-foreground">
+            Este hub reúne todas las entidades detectadas dentro del cluster para que puedas ir
+            directo a la ficha de tu caso y ver qué opciones tienes frente a esa empresa.
+          </p>
+          <ul className="grid gap-2.5 sm:grid-cols-2">
+            {allEntities.map((entity) => (
+              <li key={entity.slug}>
+                <Link
+                  to={`/${entity.cluster}/${entity.slug}`}
+                  className="block rounded-2xl border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground transition-colors hover:border-accent/50 hover:bg-accent-soft/40"
+                >
+                  {entity.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ),
+    });
+  }
 
   return (
     <SeoPageScaffold
@@ -61,7 +96,7 @@ const ClusterHub = () => {
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
       related={related}
-      sections={content?.sections}
+      sections={sections}
       faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
     />
   );
