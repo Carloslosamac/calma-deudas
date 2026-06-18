@@ -308,12 +308,12 @@ export const reunificacionDeudas: MoneyContent = {
             eyebrow="En una frase"
             headline={
               <>
-                Juntar varios préstamos en{" "}
-                <span className="text-accent-deep">una sola cuota más baja</span>.
+                Negociar con tus entidades para{" "}
+                <span className="text-accent-deep">bajar la cuota y el total</span>.
               </>
             }
           >
-            <p>Se alarga el plazo para reducir la cuota mensual. No elimina la deuda: la reorganiza para que puedas pagarla con más holgura.</p>
+            <p>No es un préstamo nuevo. Negociamos extrajudicialmente con cada acreedor para rebajar tanto tu pago mensual como el importe total que debes. No elimina la deuda, pero la mejora.</p>
           </KeyCallout>
           <ActionLink to="/reunificar-deudas">
             ¿Prefieres pasar directamente a la acción?{" "}
@@ -343,25 +343,26 @@ export const reunificacionDeudas: MoneyContent = {
             ]}
           />
           <p className="text-base leading-relaxed text-foreground/85">
-            Reunificar y seguir sin poder pagar solo alarga el problema y encarece la deuda.
-            Por eso te damos una comparativa honesta antes de decidir.
+            Ojo: reunificar (negociar y rebajar) no es <strong>refinanciar</strong>, que es pedir un
+            préstamo nuevo que alarga el plazo y encarece el total. Por eso te damos una comparativa
+            honesta antes de decidir.
           </p>
         </div>
       ),
     },
     {
-      title: "Ventajas y riesgos a tener en cuenta",
+      title: "Reunificar no es refinanciar",
       body: (
         <div className="space-y-5">
-          <p className="text-base leading-relaxed text-foreground/85">La reunificación tiene luces y sombras, y conviene conocerlas:</p>
+          <p className="text-base leading-relaxed text-foreground/85">Es la diferencia clave que casi nadie te explica:</p>
           <CheckList
-            items={[<><strong>A favor:</strong> una sola cuota, pago mensual más bajo, gestión más simple.</>]}
+            items={[<><strong>Reunificar (lo nuestro):</strong> negociamos con las entidades y baja tu cuota <strong>y</strong> el total que debes. Sin préstamo nuevo.</>]}
           />
           <CheckList
             variant="cross"
             items={[
-              <><strong>En contra:</strong> al alargar el plazo, puedes pagar más intereses totales.</>,
-              <><strong>Cuidado:</strong> evita reunificar con garantía sobre tu vivienda sin valorarlo bien.</>,
+              <><strong>Refinanciar (lo que evitamos):</strong> pedir un préstamo nuevo que agrupa todo, baja la cuota pero alarga el plazo y encarece el total.</>,
+              <><strong>Cuidado:</strong> desconfía de quien te ofrezca reunificar poniendo tu vivienda como garantía. Eso es refinanciar.</>,
             ]}
           />
         </div>
@@ -384,10 +385,10 @@ export const reunificacionDeudas: MoneyContent = {
     {
       q: "¿Qué es reunificar deudas?",
       a: (
-        <>Es juntar varios préstamos en uno solo, con una única cuota mensual normalmente más baja al alargar el plazo. No elimina la deuda, la reorganiza.</>
+        <>Es negociar extrajudicialmente con tus entidades para rebajar tu cuota mensual y el importe total que debes. No es un préstamo nuevo ni elimina la deuda: la mejora.</>
       ),
       plain:
-        "Es juntar varios préstamos en uno solo, con una única cuota mensual normalmente más baja al alargar el plazo. No elimina la deuda, la reorganiza.",
+        "Es negociar extrajudicialmente con tus entidades para rebajar tu cuota mensual y el importe total que debes. No es un préstamo nuevo ni elimina la deuda: la mejora.",
     },
     {
       q: "¿Es mejor reunificar o cancelar?",
@@ -398,12 +399,12 @@ export const reunificacionDeudas: MoneyContent = {
         "Reunificar conviene si aún puedes pagar y quieres bajar la cuota. Si no puedes asumir las cuotas, suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
     },
     {
-      q: "¿Reunificar sale más caro a largo plazo?",
+      q: "¿Reunificar es lo mismo que refinanciar?",
       a: (
-        <>Puede salir más caro en intereses totales porque se alarga el plazo, aunque baja la cuota mensual. Te mostramos el coste total antes de decidir.</>
+        <>No. Refinanciar es pedir un préstamo nuevo que alarga el plazo y encarece el total. Reunificar, como lo hacemos nosotros, es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.</>
       ),
       plain:
-        "Puede salir más caro en intereses totales porque se alarga el plazo, aunque baja la cuota mensual. Te mostramos el coste total antes de decidir.",
+        "No. Refinanciar es pedir un préstamo nuevo que alarga el plazo y encarece el total. Reunificar, como lo hacemos nosotros, es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.",
     },
     {
       q: "¿El estudio tiene coste?",
