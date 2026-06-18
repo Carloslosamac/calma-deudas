@@ -271,7 +271,7 @@ export const reunificacionDeudas: MoneyContent = {
       ],
       resultPass: {
         title: "La reunificación encaja contigo",
-        text: "Tu perfil cuadra con reunificar: una sola cuota más baja. Pide tu estudio gratis y te damos la cifra real, sin compromiso.",
+        text: "Tu perfil cuadra con reunificar: negociamos para bajar tu cuota y tu total. Pide tu estudio gratis y te damos la cifra real, sin compromiso.",
       },
       resultDoubt: {
         title: "Quizá te convenga cancelar",
