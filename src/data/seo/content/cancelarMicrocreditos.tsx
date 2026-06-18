@@ -140,26 +140,42 @@ export const cancelarMicrocreditos: MoneyContent = {
     {
       title: "Por qué los microcréditos se hacen una bola",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Los microcréditos dan dinero al instante, pero con <strong>TAE altísimas</strong> y plazos cortos. Si no puedes devolver, se acumulan comisiones por demora y muchas personas piden otro para tapar el anterior, creando una bola imposible.</p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              Dinero al instante que se convierte en una{" "}
+              <span className="text-accent-deep">bola imposible</span>.
+            </>
+          }
+        >
+          <p>Los microcréditos tienen <strong>TAE altísimas</strong> y plazos cortos. Si no puedes devolver, se acumulan comisiones por demora y muchas personas piden otro para tapar el anterior.</p>
+        </KeyCallout>
       ),
     },
     {
       title: "Cómo se anulan por usura",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Cuando el interés es desproporcionado, el contrato es nulo por usura: solo devuelves el capital, sin intereses. Si tienes muchas deudas a la vez, la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> puede cancelarlas todas.</p>
-          <p>¿También tarjetas? Mira cómo <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">cancelar tarjetas revolving</A>.</p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
+            Cuando el interés es desproporcionado, el contrato es <strong>nulo por usura</strong>: solo devuelves el capital, sin intereses. Si tienes muchas deudas a la vez, la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> puede cancelarlas todas.
+          </p>
+          <p className="text-base leading-relaxed text-foreground/85">
+            ¿También tarjetas? Mira cómo <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">cancelar tarjetas revolving</A>.
+          </p>
         </div>
       ),
     },
     {
       title: "Coste y plazos",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La <strong>revisión es gratuita</strong>. Según el caso, reclamamos la nulidad o iniciamos la Segunda Oportunidad, siempre con presupuesto cerrado y opción de pago fraccionado.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Gratis", label: "Revisión", detail: "Estudiamos tus microcréditos sin coste ni compromiso." },
+            { value: "A medida", label: "Estrategia", detail: "Reclamamos la nulidad o iniciamos la Segunda Oportunidad." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+          ]}
+        />
       ),
     },
   ],
