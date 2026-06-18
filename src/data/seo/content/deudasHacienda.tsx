@@ -73,7 +73,6 @@ export const deudasHacienda: MoneyContent = {
     { name: "Raúl V.", amount: "Apremio frenado", location: "Málaga", text: "Me había llegado la providencia de apremio. La paramos y aplazamos el pago.", photo: p5 },
     { name: "Marta D.", amount: "Embargo evitado", location: "Zaragoza", text: "Iban a embargarme la cuenta. Negociamos un fraccionamiento a tiempo.", photo: p6 },
   ],
-  ],
   stepsTitle: "Cómo gestionamos tu deuda con Hacienda",
   stepsSubtitle: "Cuatro pasos para ordenar tu situación",
   steps: [
