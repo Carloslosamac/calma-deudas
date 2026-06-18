@@ -115,10 +115,11 @@ export const concursoPersonaFisica: MoneyContent = {
       title: "Fases del concurso de persona física",
       subtitle: "Un procedimiento ordenado y bajo control judicial.",
       phases: [
-        { title: "Estudio de la insolvencia", duration: "Semana 1", text: "Analizamos tu situación patrimonial y la estrategia más favorable." },
-        { title: "Solicitud de concurso", duration: "Variable", text: "Se presenta la solicitud ante el juzgado competente." },
-        { title: "Fase común y convenio o liquidación", duration: "Meses", text: "Plan de pagos viable o liquidación ordenada de bienes, con embargos suspendidos." },
-        { title: "Exoneración del pasivo", duration: "Resolución", text: "Se cancela la deuda pendiente y cierras el procedimiento." },
+        { title: "Solicitud y auto de declaración", duration: "Inicio", text: "Se presenta la solicitud de concurso ante el juzgado mercantil o de primera instancia y el juez dicta el auto que declara la insolvencia." },
+        { title: "Administración concursal", duration: "Primeras semanas", text: "Se nombra al administrador concursal, que verifica el activo y el pasivo y elabora el inventario de la masa." },
+        { title: "Fase común", duration: "Meses", text: "Se determinan los créditos y su orden de prelación. Los embargos quedan suspendidos mientras dura el procedimiento." },
+        { title: "Convenio o liquidación", duration: "Variable", text: "O bien un convenio con quitas y esperas, o bien la liquidación ordenada de los bienes no necesarios para la actividad." },
+        { title: "Conclusión y exoneración", duration: "Resolución", text: "El juez declara concluido el concurso y exonera el pasivo insatisfecho restante. Cierras el procedimiento sin deuda." },
       ],
     },
     quiz: {
