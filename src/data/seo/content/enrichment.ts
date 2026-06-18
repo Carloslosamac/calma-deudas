@@ -779,454 +779,193 @@ export const enrichmentByPath: Record<string, Enrichment> = {
   },
   "/reunificacion-deudas": {
     faq: [
-      { q: "¿Qué requisitos mínimos pide el banco para reunificar mis préstamos?", a: "Generalmente, debes demostrar ingresos estables, no superar un porcentaje de endeudamiento del 40% de tu sueldo y que la suma de deudas no exceda el 80% del valor de tu vivienda si aportas garantía.", plain: "Generalmente, debes demostrar ingresos estables, no superar un porcentaje de endeudamiento del 40% de tu sueldo y que la suma de deudas no exceda el 80% del valor de tu vivienda si aportas garantía." },
-      { q: "¿Puedo hacer la reunificación de deudas si estoy en un listado de ASNEF?", a: "Es muy difícil por la vía bancaria tradicional, ya que los bancos descartan perfiles con impagos; en estos casos, la Ley de Segunda Oportunidad suele ser una alternativa más viable para empezar de cero.", plain: "Es muy difícil por la vía bancaria tradicional, ya que los bancos descartan perfiles con impagos; en estos casos, la Ley de Segunda Oportunidad suele ser una alternativa más viable para empezar de cero." },
-      { q: "¿Qué documentación necesito presentar para que estudien mi caso?", a: "Necesitarás tu DNI, contrato laboral, las últimas tres nóminas, la vida laboral actualizada y los contratos o extractos de todos los préstamos y tarjetas que quieras agrupar.", plain: "Necesitarás tu DNI, contrato laboral, las últimas tres nóminas, la vida laboral actualizada y los contratos o extractos de todos los préstamos y tarjetas que quieras agrupar." },
-      { q: "¿Es posible reunificar deudas sin necesidad de tener una hipoteca?", a: "Sí, existen préstamos personales específicos para reunificar, aunque suelen tener un límite cercano a los 60.000 euros y un tipo de interés algo más alto que la opción hipotecaria.", plain: "Sí, existen préstamos personales específicos para reunificar, aunque suelen tener un límite cercano a los 60.000 euros y un tipo de interés algo más alto que la opción hipotecaria." },
-      { q: "¿Cuánto tiempo se tarda en completar todo el proceso?", a: "Si es un préstamo personal, puede resolverse en unos 5 o 7 días hábiles; si hay una hipoteca de por medio, el proceso suele dilatarse entre 3 y 5 semanas por los trámites de tasación y notaría.", plain: "Si es un préstamo personal, puede resolverse en unos 5 o 7 días hábiles; si hay una hipoteca de por medio, el proceso suele dilatarse entre 3 y 5 semanas por los trámites de tasación y notaría." },
-      { q: "¿Qué ocurre con mis tarjetas de crédito tras la agrupación?", a: "Lo habitual es que la entidad financiera exija la cancelación definitiva de esas tarjetas para evitar que vuelvas a generar deuda nueva mientras pagas la cuota unificada.", plain: "Lo habitual es que la entidad financiera exija la cancelación definitiva de esas tarjetas para evitar que vuelvas a generar deuda nueva mientras pagas la cuota unificada." },
-      { q: "¿Debo cambiar de banco obligatoriamente para agrupar mis pagos?", a: "No siempre, pero en la mayoría de los casos las mejores ofertas exigen domiciliar la nómina y los recibos en la nueva entidad que te concede el préstamo de unificación.", plain: "No siempre, pero en la mayoría de los casos las mejores ofertas exigen domiciliar la nómina y los recibos en la nueva entidad que te concede el préstamo de unificación." },
-      { q: "¿Qué gastos notariales implica la reunificación hipotecaria?", a: "Incluye los honorarios del notario, el registro de la propiedad, la tasación del inmueble y el Impuesto de Actos Jurídicos Documentados, que varía según la Comunidad Autónoma.", plain: "Incluye los honorarios del notario, el registro de la propiedad, la tasación del inmueble y el Impuesto de Actos Jurídicos Documentados, que varía según la Comunidad Autónoma." },
+      { q: "¿Reunificar es lo mismo que pedir un préstamo nuevo?", a: "No. Nosotros no te damos otro crédito ni te hacemos firmar una nueva hipoteca. Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total que debes sobre la deuda que ya tienes.", plain: "No. Nosotros no te damos otro crédito ni te hacemos firmar una nueva hipoteca. Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total que debes sobre la deuda que ya tienes." },
+      { q: "¿Cuánto se puede rebajar de la deuda al negociar?", a: "Depende de cada acreedor, de la antigüedad de la deuda y de tu situación, por lo que cualquier cifra es orientativa. En el estudio gratuito te decimos qué margen de rebaja real esperamos en tu caso antes de empezar.", plain: "Depende de cada acreedor, de la antigüedad de la deuda y de tu situación, por lo que cualquier cifra es orientativa. En el estudio gratuito te decimos qué margen de rebaja real esperamos en tu caso antes de empezar." },
+      { q: "¿Por qué baja también el total y no solo la cuota?", a: "Porque no alargamos el plazo: negociamos quitas y mejores condiciones con cada entidad. A diferencia de refinanciar, donde la cuota baja pero el total sube por los años de intereses, aquí buscamos reducir las dos cosas.", plain: "Porque no alargamos el plazo: negociamos quitas y mejores condiciones con cada entidad. A diferencia de refinanciar, donde la cuota baja pero el total sube por los años de intereses, aquí buscamos reducir las dos cosas." },
+      { q: "¿Necesito estar al corriente o tener nómina para reunificar?", a: "No como en la vía bancaria. La negociación extrajudicial no exige aprobación de un banco ni tasación: trabaja sobre tu deuda actual, también si ya tienes impagos o estás en ASNEF.", plain: "No como en la vía bancaria. La negociación extrajudicial no exige aprobación de un banco ni tasación: trabaja sobre tu deuda actual, también si ya tienes impagos o estás en ASNEF." },
+      { q: "¿Qué pasa si una entidad no acepta la negociación?", a: "Se negocia acreedor por acreedor, así que un 'no' de una entidad no bloquea el resto. Si la mayoría de tu deuda no es negociable y tu situación es de insolvencia, valoramos contigo la Ley de Segunda Oportunidad.", plain: "Se negocia acreedor por acreedor, así que un 'no' de una entidad no bloquea el resto. Si la mayoría de tu deuda no es negociable y tu situación es de insolvencia, valoramos contigo la Ley de Segunda Oportunidad." },
+      { q: "¿Tengo que poner mi casa como garantía?", a: "No. Eso sería refinanciar, no reunificar. Nuestra reunificación es negociación pura sobre la deuda existente: no firmas hipotecas ni avales nuevos sobre tu vivienda.", plain: "No. Eso sería refinanciar, no reunificar. Nuestra reunificación es negociación pura sobre la deuda existente: no firmas hipotecas ni avales nuevos sobre tu vivienda." },
+      { q: "¿Cuánto tarda la negociación?", a: "Varía según el número de acreedores y su disposición. El estudio inicial es inmediato y, a partir de ahí, la negociación se desarrolla en semanas; te vamos informando de cada acuerdo que cerramos.", plain: "Varía según el número de acreedores y su disposición. El estudio inicial es inmediato y, a partir de ahí, la negociación se desarrolla en semanas; te vamos informando de cada acuerdo que cerramos." },
     ],
     conceptGlossary: {
-      title: "Diccionario para entender tu deuda",
-      subtitle: "Conceptos clave explicados de forma sencilla para que tomes el control de tus finanzas.",
+      title: "Diccionario para entender tu negociación",
+      subtitle: "Conceptos clave explicados de forma sencilla para que tomes el control de tu deuda.",
       terms: [
-        { term: "TAE (Tasa Anual Equivalente)", definition: "Es el indicador real de cuánto te cuesta el préstamo al año, ya que suma el interés (TIN) más las comisiones y gastos bancarios." },
-        { term: "Amortización anticipada", definition: "Acción de devolver parte o el total del dinero prestado antes de que termine el plazo pactado, lo que puede conllevar una comisión por parte del banco." },
-        { term: "Capacidad de reembolso", definition: "Es el análisis que hace el banco para saber si, tras pagar la cuota, te queda dinero suficiente para tus gastos básicos de vida." },
-        { term: "Carencia", definition: "Periodo de tiempo en el que solo pagas los intereses del préstamo o incluso no pagas nada, aunque esto hace que la deuda final sea algo más cara." },
-        { term: "Garantía hipotecaria", definition: "Cuando utilizas tu casa como respaldo del préstamo; si no pagas, el banco tiene el derecho de ejecutar la vivienda para recuperar el dinero." },
-        { term: "Diferencial", definition: "La parte fija que se suma al índice de referencia (como el Euríbor) en los préstamos con interés variable." },
+        { term: "Negociación extrajudicial", definition: "Acuerdo privado con tus acreedores, sin pleitos, para rebajar la cuota y el importe total de la deuda." },
+        { term: "Quita", definition: "Parte de la deuda que el acreedor acepta perdonar dentro de la negociación, reduciendo el total que pagarás." },
+        { term: "Reunificar (Calma)", definition: "Negociar con las entidades para bajar cuota y total sobre tu deuda actual. No es un préstamo nuevo." },
+        { term: "Refinanciar", definition: "Pedir un crédito nuevo que agrupa todo: baja la cuota pero alarga el plazo y encarece el total. No es lo que hacemos." },
+        { term: "Acreedor", definition: "La entidad o empresa a la que debes dinero (banco, financiera, tarjeta, microcrédito) y con la que negociamos." },
+        { term: "Insolvencia", definition: "Cuando no puedes hacer frente a tus deudas; si es total y no hay margen de negociación, la vía suele ser la Ley de Segunda Oportunidad." },
       ],
     },
     mythVsReality: {
       title: "Verdades y mentiras sobre la reunificación",
-      subtitle: "Desmontamos los bulos más comunes para que no te lleves sorpresas con tus cuotas.",
+      subtitle: "Desmontamos los bulos más comunes para que no te lleves sorpresas.",
       items: [
-        { myth: "“La reunificación elimina una parte de mi deuda actual”", reality: "Falso. La deuda sigue siendo la misma (o mayor por los gastos); lo que se reduce es la cuota mensual al alargar el tiempo que estarás pagando." },
-        { myth: "“Solo se pueden reunir préstamos bancarios”", reality: "No es cierto. También puedes incluir deudas de tarjetas revolving, microcréditos de financieras comerciales y, en ocasiones, deudas con la administración." },
-        { myth: "“Cualquier persona puede agrupar sus deudas por ley”", reality: "La reunificación es un acuerdo comercial privado; el banco no está obligado por ley a dártelo si considera que tu perfil es de alto riesgo." },
-        { myth: "“Es la única solución si no llego a fin de mes”", reality: "Existen otras vías legales como la Ley de Segunda Oportunidad que, a diferencia de la reunificación, sí permite cancelar deudas legalmente si eres insolvente." },
+        { myth: "“Reunificar es pedir otro préstamo para juntarlo todo”", reality: "Eso es refinanciar. Reunificar, como lo hacemos nosotros, es negociar con tus entidades para rebajar cuota y total sin firmar un crédito nuevo." },
+        { myth: "“Al reunificar siempre acabas pagando más”", reality: "Eso ocurre al refinanciar, porque se alarga el plazo. En la negociación buscamos justo lo contrario: que baje el total, no solo la cuota." },
+        { myth: "“Si estoy en ASNEF no puedo reunificar”", reality: "Por la vía bancaria sí es difícil, pero la negociación extrajudicial trabaja sobre tu deuda actual, también con impagos previos." },
+        { myth: "“Tengo que poner mi vivienda como garantía”", reality: "No. Negociamos sobre la deuda existente, sin avales ni hipotecas nuevas sobre tu casa." },
       ],
     },
     extraSections: [
       {
-            "title": "Modalidades de reunificación: ¿Con o sin hipoteca?",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Dependiendo de tu perfil de solvencia y de las garantías de las que dispongas, existen dos vías principales para agrupar tus pagos:"
-                  },
-                  {
-                        "kind": "optionCards",
-                        "columns": 2,
-                        "items": [
-                              {
-                                    "icon": "landmark",
-                                    "title": "Con garantía hipotecaria",
-                                    "text": "Utilizas tu vivienda como aval. Permite agrupar importes elevados (hasta el 70-80% del valor de tasación), con plazos de hasta 30 años e intereses mucho más bajos."
-                              },
-                              {
-                                    "icon": "wallet",
-                                    "title": "Sin garantía (Personal)",
-                                    "text": "Mediante un préstamo de reunificación común. Los importes suelen topar en 60.000 €, con tipos de interés algo más altos y plazos habitualmente hasta los 10 años."
-                              }
-                        ]
-                  }
-            ]
+        title: "Cómo negociamos tu deuda paso a paso",
+        blocks: [
+          { kind: "paragraph", text: "Reunificar con nosotros es un proceso de negociación, no una operación bancaria. Así trabajamos tu caso:" },
+          {
+            kind: "optionCards",
+            columns: 2,
+            items: [
+              { icon: "scale", title: "Estudiamos tu deuda", text: "Analizamos cada préstamo, tarjeta y microcrédito para ver dónde hay margen real de rebaja y qué acreedores suelen negociar." },
+              { icon: "users", title: "Negociamos por ti", text: "Hablamos con cada entidad para conseguir quitas y mejores condiciones, bajando la cuota mensual y el importe total." },
+            ],
+          },
+        ],
       },
       {
-            "title": "Gastos y costes: qué pagarás por formalizar",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Agrupar deudas no es gratis; conlleva una serie de gastos asociados a la cancelación de los contratos antiguos y la apertura del nuevo que debemos calcular en tu estudio:"
-                  },
-                  {
-                        "kind": "checkList",
-                        "variant": "check",
-                        "items": [
-                              "Comisiones por cancelación anticipada de los préstamos actuales (entre 0,5% y 1%).",
-                              "Comisión de apertura del nuevo préstamo unificado.",
-                              "Gastos de notaría, Registro de la Propiedad y gestoría (si hay hipoteca).",
-                              "Impuesto de Actos Jurídicos Documentados (IAJD) en procesos hipotecarios.",
-                              "Tasación oficial de la vivienda si se aporta como garantía."
-                        ]
-                  }
-            ]
+        title: "Qué conseguimos al negociar",
+        blocks: [
+          { kind: "paragraph", text: "El objetivo no es aplazar la deuda, sino mejorarla de verdad:" },
+          {
+            kind: "checkList",
+            variant: "check",
+            items: [
+              "**Menos cuota:** un pago mensual más bajo y asumible.",
+              "**Menos total:** se reduce el importe global gracias a las quitas negociadas.",
+              "**Sin préstamo nuevo:** no firmas otro crédito ni alargas el plazo.",
+              "**Un solo interlocutor:** negociamos con todos tus acreedores por ti.",
+            ],
+          },
+        ],
       },
       {
-            "title": "Documentación necesaria para el estudio",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Para que nuestro equipo analice la viabilidad de tu operación, necesitaremos que tengas preparada la siguiente documentación personal y financiera:"
-                  },
-                  {
-                        "kind": "factGrid",
-                        "columns": 2,
-                        "items": [
-                              {
-                                    "value": "Laboral",
-                                    "label": "Tus datos",
-                                    "detail": "Últimas 3 nóminas, contrato de trabajo y vida laboral."
-                              },
-                              {
-                                    "value": "Deudas",
-                                    "label": "Contratos",
-                                    "detail": "Recibos actuales de todos los préstamos y tarjetas."
-                              },
-                              {
-                                    "value": "Fiscal",
-                                    "label": "IRPF",
-                                    "detail": "Última declaración de la Renta presentada."
-                              },
-                              {
-                                    "value": "Inmueble",
-                                    "label": "Escrituras",
-                                    "detail": "Nota simple si vas a aportar vivienda como garantía."
-                              }
-                        ]
-                  }
-            ]
+        title: "Reunificar no es refinanciar",
+        blocks: [
+          { kind: "paragraph", text: "Es la confusión más habitual y la diferencia es enorme para tu bolsillo:" },
+          {
+            kind: "table",
+            headers: ["", "Reunificar (Calma)", "Refinanciar"],
+            rows: [
+              ["Qué es", "Negociar con tus entidades.", "Pedir un préstamo nuevo."],
+              ["Cuota mensual", "Baja.", "Baja."],
+              ["Coste total", "Baja (quitas negociadas).", "Sube (más años de intereses)."],
+              ["Plazo", "No se alarga.", "Se alarga."],
+              ["Tu vivienda", "Sin garantía nueva.", "A veces como aval."],
+            ],
+          },
+          { kind: "actionLink", to: "/cancelar-deudas", text: "Si tu situación es de insolvencia total, infórmate sobre cómo cancelar deudas." },
+        ],
       },
       {
-            "title": "Requisitos mínimos de solvencia",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Para que una entidad bancaria o financiera apruebe la operación, se deben cumplir ciertos criterios de estabilidad según la normativa de consumo actual:"
-                  },
-                  {
-                        "kind": "table",
-                        "headers": [
-                              "Requisito",
-                              "Criterio estándar"
-                        ],
-                        "rows": [
-                              [
-                                    "Ingresos",
-                                    "Deben ser estables y demostrables (nómina fija o autónomo con antigüedad)."
-                              ],
-                              [
-                                    "Capacidad de pago",
-                                    "La nueva cuota no debería superar el 35-40% de tus ingresos netos."
-                              ],
-                              [
-                                    "Situación en ASNEF",
-                                    "Si tienes impagos registrados, solo es viable con garantía inmobiliaria."
-                              ],
-                              [
-                                    "Edad",
-                                    "Normalmente se requiere que el préstamo finalice antes de los 75 años."
-                              ]
-                        ]
-                  },
-                  {
-                        "kind": "callout",
-                        "variant": "warning",
-                        "title": "Sobre los ficheros de morosidad",
-                        "text": "Si tu nombre aparece en ASNEF o RAI por impagos graves, la banca tradicional suele denegar la reunificación. En estos casos, es esencial valorar si te conviene más [salir de ASNEF](/asnef/salir-de-asnef) o acudir a la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad)."
-                  }
-            ]
+        title: "Cuándo NO basta con reunificar",
+        blocks: [
+          {
+            kind: "callout",
+            variant: "warning",
+            title: "Si la deuda te supera del todo",
+            text: "Cuando no puedes asumir ninguna cuota y no tienes bienes de valor que proteger, negociar una rebaja no será suficiente. En ese caso, la vía adecuada suele ser la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad), que cancela legalmente la deuda. Si ya tienes embargos, lo primero es [pararlos](/embargos/parar-embargo).",
+          },
+        ],
       },
-      {
-            "title": "Diferencia entre reunificar, refinanciar y cancelar",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Es común confundir estos términos, pero sus efectos legales y financieros son muy distintos:"
-                  },
-                  {
-                        "kind": "checkList",
-                        "variant": "check",
-                        "items": [
-                              "**Refinanciar:** Modificas las condiciones de un solo préstamo con tu mismo banco.",
-                              "**Reunificar:** Creas un contrato nuevo que cancela y absorbe todas tus deudas previas.",
-                              "**Cancelar (LSO):** No pagas la deuda, sino que un juez la extingue por insolvencia."
-                        ]
-                  },
-                  {
-                        "kind": "actionLink",
-                        "to": "/cancelar-deudas",
-                        "text": "Si crees que tu situación es de insolvencia total, infórmate sobre cómo cancelar deudas."
-                  }
-            ]
-      },
-      {
-            "title": "Condiciones financieras estimadas",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Aunque cada caso es único, los tipos de interés en préstamos de reunificación suelen oscilar según el mercado actual y el perfil del cliente:"
-                  },
-                  {
-                        "kind": "factGrid",
-                        "columns": 3,
-                        "items": [
-                              {
-                                    "value": "9% - 14%",
-                                    "label": "TIN promedio",
-                                    "detail": "Para préstamos personales"
-                              },
-                              {
-                                    "value": "4% - 7%",
-                                    "label": "TIN promedio",
-                                    "detail": "Para préstamos con hipoteca"
-                              },
-                              {
-                                    "value": "Hasta 80%",
-                                    "label": "Ahorro cuota",
-                                    "detail": "Máximo ahorro mensual estimado"
-                              }
-                        ]
-                  },
-                  {
-                        "kind": "paragraph",
-                        "text": "Recuerda que estas cifras son orientativas. Al alargar el plazo de devolución para bajar la cuota, el coste total de intereses a lo largo de la vida del préstamo será mayor que en los créditos originales."
-                  }
-            ]
-      }
-],
+    ],
   },
   "/reunificar-deudas": {
     faq: [
-      { q: "¿Qué diferencia hay entre TIN y TAE al reunificar?", a: "El TIN es el interés que el banco te cobra por el dinero, mientras que la TAE incluye además las comisiones y gastos asociados. Fijarte en la TAE es la mejor forma de saber cuánto te cuesta realmente el préstamo comparado con otros.", plain: "El TIN es el interés que el banco te cobra por el dinero, mientras que la TAE incluye además las comisiones y gastos asociados. Fijarte en la TAE es la mejor forma de saber cuánto te cuesta realmente el préstamo comparado con otros." },
-      { q: "¿Puedo elegir qué deudas agrupar y cuáles dejar fuera?", a: "Sí, tienes libertad para decidir qué préstamos unificar, aunque lo lógico es incluir aquellos con los intereses más altos, como las tarjetas revolving o microcréditos. Ten en cuenta que la entidad financiera evaluará si el perfil resultante es viable para ellos.", plain: "Sí, tienes libertad para decidir qué préstamos unificar, aunque lo lógico es incluir aquellos con los intereses más altos, como las tarjetas revolving o microcréditos. Ten en cuenta que la entidad financiera evaluará si el perfil resultante es viable para ellos." },
-      { q: "¿Es obligatorio contratar un seguro de vida o de pagos?", a: "No es obligatorio por ley, pero muchas entidades lo exigen como garantía para aprobar la operación, especialmente en importes altos. Siempre puedes negociar sus condiciones o buscar una alternativa que no te obligue a estas vinculaciones.", plain: "No es obligatorio por ley, pero muchas entidades lo exigen como garantía para aprobar la operación, especialmente en importes altos. Siempre puedes negociar sus condiciones o buscar una alternativa que no te obligue a estas vinculaciones." },
-      { q: "¿Qué ocurre si aparezco en ficheros como ASNEF o RAI?", a: "Estar en listas de morosidad suele ser un motivo de rechazo instantáneo en la banca tradicional. En Calma analizamos si tu situación encaja mejor en una Ley de Segunda Oportunidad para cancelar deudas en lugar de sumar una nueva.", plain: "Estar en listas de morosidad suele ser un motivo de rechazo instantáneo en la banca tradicional. En Calma analizamos si tu situación encaja mejor en una Ley de Segunda Oportunidad para cancelar deudas en lugar de sumar una nueva." },
-      { q: "¿Cómo afecta el nuevo plazo de devolución al coste total?", a: "Al alargar el tiempo para pagar, la cuota mensual baja y te da aire, pero pagarás intereses durante más años. Esto significa que, al final del proceso, habrás pagado más dinero en intereses que si hubieras mantenido los plazos cortos originales.", plain: "Al alargar el tiempo para pagar, la cuota mensual baja y te da aire, pero pagarás intereses durante más años. Esto significa que, al final del proceso, habrás pagado más dinero en intereses que si hubieras mantenido los plazos cortos originales." },
-      { q: "¿Qué gastos notariales implica una reunificación con hipoteca?", a: "Si usas tu vivienda como garantía, deberás pagar la tasación (unos 300-500€), notaría, registro de la propiedad y el Impuesto de Actos Jurídicos Documentados (IAJD). Estos gastos suelen sumarse al total del nuevo préstamo para que no los pagues de golpe.", plain: "Si usas tu vivienda como garantía, deberás pagar la tasación (unos 300-500€), notaría, registro de la propiedad y el Impuesto de Actos Jurídicos Documentados (IAJD). Estos gastos suelen sumarse al total del nuevo préstamo para que no los pagues de golpe." },
-      { q: "¿Tengo que cambiar mi cuenta nómina de banco?", a: "No siempre, pero las entidades suelen ofrecer mejores condiciones (un TIN más bajo) si domicilias tus ingresos y recibos con ellos. Es una decisión comercial que depende de la oferta de cada banco o financiera.", plain: "No siempre, pero las entidades suelen ofrecer mejores condiciones (un TIN más bajo) si domicilias tus ingresos y recibos con ellos. Es una decisión comercial que depende de la oferta de cada banco o financiera." },
-      { q: "¿Puedo reunificar deudas si solo tengo ingresos de autónomo?", a: "Sí, pero te pedirán más documentación, como las últimas declaraciones de IVA e IRPF y un certificado de estar al corriente con Hacienda y la Seguridad Social. La estabilidad de tus ingresos será el factor clave para la aprobación.", plain: "Sí, pero te pedirán más documentación, como las últimas declaraciones de IVA e IRPF y un certificado de estar al corriente con Hacienda y la Seguridad Social. La estabilidad de tus ingresos será el factor clave para la aprobación." },
+      { q: "¿Cómo se reunifican las deudas con vosotros?", a: "Negociamos extrajudicialmente con tus acreedores, uno a uno, para rebajar la cuota mensual y el importe total. No te damos un préstamo nuevo ni agrupamos todo en una hipoteca: trabajamos sobre la deuda que ya tienes.", plain: "Negociamos extrajudicialmente con tus acreedores, uno a uno, para rebajar la cuota mensual y el importe total. No te damos un préstamo nuevo ni agrupamos todo en una hipoteca: trabajamos sobre la deuda que ya tienes." },
+      { q: "¿Qué necesito para empezar?", a: "Un listado aproximado de tus deudas y cuotas, y tus ingresos mensuales. Con eso hacemos el estudio gratuito y vemos qué margen de negociación hay en tu caso.", plain: "Un listado aproximado de tus deudas y cuotas, y tus ingresos mensuales. Con eso hacemos el estudio gratuito y vemos qué margen de negociación hay en tu caso." },
+      { q: "¿Puedo reunificar si estoy en ASNEF o con impagos?", a: "Sí. A diferencia de la vía bancaria, la negociación extrajudicial trabaja sobre tu deuda actual aunque ya tengas impagos registrados. De hecho, esas deudas suelen tener más margen de rebaja.", plain: "Sí. A diferencia de la vía bancaria, la negociación extrajudicial trabaja sobre tu deuda actual aunque ya tengas impagos registrados. De hecho, esas deudas suelen tener más margen de rebaja." },
+      { q: "¿Tengo que cambiar de banco o domiciliar la nómina?", a: "No. Como no firmamos un préstamo nuevo, no hay que cambiar de banco ni domiciliar nada. Solo negociamos con tus acreedores actuales para mejorar las condiciones de lo que debes.", plain: "No. Como no firmamos un préstamo nuevo, no hay que cambiar de banco ni domiciliar nada. Solo negociamos con tus acreedores actuales para mejorar las condiciones de lo que debes." },
+      { q: "¿Por qué reunificar baja el total y refinanciar no?", a: "Porque al refinanciar alargas el plazo y pagas intereses durante más años, así que el total sube. Al reunificar negociamos quitas sobre la deuda existente, por lo que el importe global baja.", plain: "Porque al refinanciar alargas el plazo y pagas intereses durante más años, así que el total sube. Al reunificar negociamos quitas sobre la deuda existente, por lo que el importe global baja." },
+      { q: "¿Qué pasa si algún acreedor no quiere negociar?", a: "Negociamos acreedor por acreedor, así que un rechazo no frena el resto. Si la mayor parte de tu deuda no se puede mejorar y eres insolvente, te planteamos la Ley de Segunda Oportunidad.", plain: "Negociamos acreedor por acreedor, así que un rechazo no frena el resto. Si la mayor parte de tu deuda no se puede mejorar y eres insolvente, te planteamos la Ley de Segunda Oportunidad." },
+      { q: "¿Puedo reunificar siendo autónomo?", a: "Sí. La negociación no depende de la aprobación de un banco, sino del acuerdo con tus acreedores, así que también encaja con ingresos de autónomo. Lo estudiamos gratis en tu caso.", plain: "Sí. La negociación no depende de la aprobación de un banco, sino del acuerdo con tus acreedores, así que también encaja con ingresos de autónomo. Lo estudiamos gratis en tu caso." },
     ],
     conceptGlossary: {
-      title: "Diccionario para entender tus deudas",
+      title: "Diccionario para entender tu negociación",
       subtitle: "Conceptos clave explicados de forma sencilla para que nadie te confunda.",
       terms: [
-        { term: "Amortización", definition: "Es el proceso de devolver el dinero que te prestaron más los intereses mediante pagos periódicos." },
-        { term: "Carencia", definition: "Un periodo de tiempo en el que solo pagas los intereses de la deuda o nada en absoluto, aplazando el pago del capital principal." },
-        { term: "Comisión de apertura", definition: "Un porcentaje del total del préstamo que el banco te cobra al inicio por los trámites de gestión y estudio." },
-        { term: "Garantía Hipotecaria", definition: "Usar una vivienda de tu propiedad como aval del préstamo; si no pagas, el banco podría ejecutar la vivienda para cobrar la deuda." },
-        { term: "Sobreendeudamiento", definition: "Situación en la que el pago de tus deudas se come más del 40% de tus ingresos netos mensuales, dificultando cubrir tus necesidades básicas." },
+        { term: "Negociación extrajudicial", definition: "Acuerdo privado con tus acreedores, sin pleitos, para rebajar la cuota y el total de tu deuda." },
+        { term: "Quita", definition: "Parte de la deuda que el acreedor acepta perdonar, reduciendo el importe total que pagarás." },
+        { term: "Reunificar (Calma)", definition: "Negociar con las entidades para bajar cuota y total sobre tu deuda actual. Sin préstamo nuevo." },
+        { term: "Refinanciar", definition: "Pedir un crédito nuevo que agrupa todo: baja la cuota pero alarga el plazo y encarece el total." },
+        { term: "Sobreendeudamiento", definition: "Cuando el pago de tus deudas se come gran parte de tus ingresos y no llegas a fin de mes." },
       ],
     },
     mythVsReality: {
-      title: "Verdades y mentiras sobre la reunificación",
+      title: "Verdades y mentiras sobre reunificar",
       subtitle: "Desmontamos los bulos más comunes para que decidas con total seguridad.",
       items: [
-        { myth: "“Reunificar deudas elimina parte de lo que debo”", reality: "Falso. La reunificación no perdona capital; solo lo reorganiza para que pagues menos cada mes. Si buscas una quita o cancelación parcial, el mecanismo legal adecuado es la Ley de Segunda Oportunidad." },
-        { myth: "“Es un proceso gratuito si lo hago con mi banco”", reality: "Incluso con tu propio banco, el proceso conlleva costes como la cancelación de préstamos antiguos o nuevas comisiones de apertura y gastos de gestión." },
-        { myth: "“Cualquier persona puede reunificar si tiene trabajo”", reality: "Tener nómina ayuda, pero no es garantía. Las entidades miran tu historial crediticio, tu edad y que el total de tus deudas no supere ciertos límites de riesgo." },
-        { myth: "“La reunificación es la única salida al acoso telefónico”", reality: "No es la única. Si no puedes pagar ni siquiera una cuota unificada, existen medidas legales para paralizar embargos y llamadas de recobro de forma definitiva." },
+        { myth: "“Reunificar es juntarlo todo en un préstamo nuevo”", reality: "Eso es refinanciar. Reunificar con nosotros es negociar con tus entidades para rebajar cuota y total, sin firmar otro crédito." },
+        { myth: "“Reunificar siempre encarece la deuda”", reality: "Encarece al refinanciar, porque se alarga el plazo. La negociación busca reducir el total, no aumentarlo." },
+        { myth: "“Con impagos o en ASNEF no hay nada que hacer”", reality: "La negociación extrajudicial trabaja sobre tu deuda actual aunque tengas impagos; esas deudas suelen tener más margen de rebaja." },
+        { myth: "“Tengo que poner mi casa como aval”", reality: "No. Negociamos sobre la deuda existente, sin hipotecas ni avales nuevos sobre tu vivienda." },
       ],
     },
     extraSections: [
       {
-            "title": "Modalidades: ¿Con o sin garantía hipotecaria?",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Dependiendo de tu situación patrimonial y del volumen de deuda, existen dos caminos principales para agrupar tus pagos:"
-                  },
-                  {
-                        "kind": "optionCards",
-                        "columns": 2,
-                        "items": [
-                              {
-                                    "icon": "landmark",
-                                    "title": "Con garantía hipotecaria",
-                                    "text": "Si tienes una vivienda en propiedad o con poca carga, puedes ampliar tu hipoteca o abrir una nueva (rehipoteca). Es ideal para deudas superiores a 60.000€ porque ofrece los intereses más bajos del mercado."
-                              },
-                              {
-                                    "icon": "wallet",
-                                    "title": "Sin garantía hipotecaria",
-                                    "text": "Se agrupan las deudas mediante un préstamo personal de reunificación. El límite suele rondar los 60.000€, el plazo es algo más corto (hasta 10-12 años) y no pones tu casa en riesgo directo."
-                              }
-                        ]
-                  }
-            ]
+        title: "Reunificar paso a paso (negociando)",
+        blocks: [
+          { kind: "paragraph", text: "No tramitamos un préstamo: negociamos tu deuda. Estos son los pasos:" },
+          {
+            kind: "checkList",
+            variant: "check",
+            items: [
+              "Reúne un listado de tus préstamos, tarjetas y cuotas actuales.",
+              "Pedimos un estudio gratuito para ver el margen de rebaja real.",
+              "Negociamos con cada acreedor quitas y mejores condiciones.",
+              "Pasas a una cuota más baja y un total menor, sin crédito nuevo.",
+            ],
+          },
+        ],
       },
       {
-            "title": "Requisitos legales y solvencia en España",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Para que una entidad financiera apruebe la operación bajo la normativa de consumo y el Banco de España, debes cumplir ciertos criterios de estabilidad:"
-                  },
-                  {
-                        "kind": "checkList",
-                        "variant": "check",
-                        "items": [
-                              "Ser mayor de edad con DNI o NIE en vigor y residencia en España.",
-                              "Justificar ingresos recurrentes (nómina indefinida, pensión o autónomos con solvencia).",
-                              "Ratio de endeudamiento: la nueva cuota no debería superar el 35-40% de tus ingresos netos.",
-                              "Situación en ficheros: lo ideal es no estar en ASNEF, aunque existen opciones con aval o garantía inmobiliaria.",
-                              "Aportar vida laboral y los últimos extractos de tus movimientos bancarios."
-                        ]
-                  }
-            ]
+        title: "Reunificar vs refinanciar vs cancelar",
+        blocks: [
+          { kind: "paragraph", text: "Tres conceptos que se confunden y tienen efectos muy distintos:" },
+          {
+            kind: "table",
+            headers: ["Vía", "Qué hace", "Efecto en el total"],
+            rows: [
+              ["Reunificar (Calma)", "Negocia con las entidades tu deuda actual.", "Baja (quitas)."],
+              ["Refinanciar", "Pides un préstamo nuevo que agrupa todo.", "Sube (más años)."],
+              ["Cancelar (LSO)", "Un juez exonera la deuda por insolvencia.", "Desaparece."],
+            ],
+          },
+          { kind: "actionLink", to: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho", text: "Saber más sobre la cancelación total de deudas" },
+        ],
       },
       {
-            "title": "Papeles que necesitaremos revisar",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Para realizar el estudio de viabilidad sin compromiso, es necesario organizar la documentación que exigen las entidades bancarias:"
-                  },
-                  {
-                        "kind": "factGrid",
-                        "columns": 3,
-                        "items": [
-                              {
-                                    "value": "Ingresos",
-                                    "label": "Tus últimas 3 nóminas e IRPF."
-                              },
-                              {
-                                    "value": "Deudas",
-                                    "label": "Contratos o recibos de cada préstamo y tarjeta."
-                              },
-                              {
-                                    "value": "Vivienda",
-                                    "label": "Nota simple y tasación (si hay hipoteca)."
-                              }
-                        ]
-                  }
-            ]
+        title: "Riesgos que debes conocer",
+        blocks: [
+          {
+            kind: "keyCallout",
+            eyebrow: "Atención",
+            headline: "Cuidado con quien te ofrece un préstamo",
+            body: "Si alguien te propone «reunificar» pidiendo un crédito nuevo o poniendo tu vivienda como garantía, en realidad te está refinanciando: bajas la cuota pero alargas el plazo y pagas más en total. Nosotros negociamos tu deuda actual, sin crédito nuevo.",
+          },
+          {
+            kind: "callout",
+            variant: "warning",
+            text: "Si ya no puedes asumir ninguna cuota y no tienes bienes de valor que proteger, negociar una rebaja no bastará: valora la Ley de Segunda Oportunidad para cancelar la deuda.",
+          },
+        ],
       },
       {
-            "title": "Costes asociados a la reunificación",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Reunificar implica cancelar préstamos antiguos y abrir uno nuevo. Esto genera una serie de gastos que se suelen incluir en la nueva financiación para que no tengas que aportarlos de golpe:"
-                  },
-                  {
-                        "kind": "table",
-                        "headers": [
-                              "Concepto",
-                              "Descripción aproximada"
-                        ],
-                        "rows": [
-                              [
-                                    "Comisiones de cancelación",
-                                    "Penalización por pagar antes tus antiguos préstamos (0,5% - 1%)."
-                              ],
-                              [
-                                    "Gastos de apertura",
-                                    "Comisión por formalizar el nuevo préstamo de reunificación."
-                              ],
-                              [
-                                    "Notaría y Registro",
-                                    "Solo obligatorios si se realiza una operación hipotecaria."
-                              ],
-                              [
-                                    "Impuestos (IAJD)",
-                                    "Aplicable en el caso de escriturar nuevas garantías inmobiliarias."
-                              ]
-                        ]
-                  }
-            ]
+        title: "Escenarios especiales: ASNEF y embargos",
+        blocks: [
+          { kind: "paragraph", text: "Estar en ficheros o con un embargo en marcha no te deja sin opciones:" },
+          {
+            kind: "optionCards",
+            columns: 2,
+            items: [
+              { icon: "ban", title: "Con ASNEF o RAI", text: "La negociación extrajudicial trabaja sobre tu deuda aunque tengas impagos. Y, una vez saldada o rebajada, podrás [salir de ASNEF](/asnef/salir-de-asnef).", links: [ { to: "/asnef/salir-de-asnef", label: "Salir de ASNEF" } ] },
+              { icon: "gavel", title: "Con embargos", text: "Si ya hay una orden judicial, la prioridad es [parar el embargo](/embargos/parar-embargo) y, en paralelo, negociar la deuda que lo provoca.", links: [ { to: "/juicio-monitorio-recobro/juicio-monitorio-deuda", label: "Gestionar juicio monitorio" } ] },
+            ],
+          },
+        ],
       },
-      {
-            "title": "Riesgos que debes conocer",
-            "blocks": [
-                  {
-                        "kind": "keyCallout",
-                        "eyebrow": "Atención",
-                        "headline": "El coste del tiempo",
-                        "body": "Al reducir la cuota mensual, lo habitual es ampliar el plazo. Esto significa que estarás pagando intereses durante más años, por lo que el coste total de la deuda será superior al original."
-                  },
-                  {
-                        "kind": "callout",
-                        "variant": "warning",
-                        "text": "Si utilizas tu vivienda como garantía, el riesgo en caso de impago es la ejecución hipotecaria. Por eso, en Calma solo recomendamos esta vía si tu solvencia futura es estable."
-                  }
-            ]
-      },
-      {
-            "title": "Escenarios especiales: ASNEF y Embargos",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Estar en ficheros de morosidad dificulta el acceso a la banca tradicional, pero no cierra todas las puertas:"
-                  },
-                  {
-                        "kind": "optionCards",
-                        "columns": 2,
-                        "items": [
-                              {
-                                    "icon": "ban",
-                                    "title": "Con ASNEF o RAI",
-                                    "text": "Es posible mediante financieras de capital privado o aportando un avalista solvente, aunque los intereses serán más altos que en un préstamo ordinario.",
-                                    "links": [
-                                          {
-                                                "to": "/asnef/salir-de-asnef",
-                                                "label": "Salir de ASNEF"
-                                          }
-                                    ]
-                              },
-                              {
-                                    "icon": "gavel",
-                                    "title": "Con Embargos",
-                                    "text": "Si ya tienes una orden judicial, la prioridad es [parar el embargo](/embargos/parar-embargo). La reunificación puede ser una solución si existe una propiedad con margen de garantía suficiente.",
-                                    "links": [
-                                          {
-                                                "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
-                                                "label": "Gestionar juicio monitorio"
-                                          }
-                                    ]
-                              }
-                        ]
-                  }
-            ]
-      },
-      {
-            "title": "Diferencias clave: Reunificar vs Segunda Oportunidad",
-            "blocks": [
-                  {
-                        "kind": "paragraph",
-                        "text": "Es común confundir estos términos, pero legalmente son soluciones para perfiles opuestos:"
-                  },
-                  {
-                        "kind": "table",
-                        "headers": [
-                              "Característica",
-                              "Reunificación",
-                              "Ley Segunda Oportunidad"
-                        ],
-                        "rows": [
-                              [
-                                    "Objetivo",
-                                    "Pagar una cuota más baja.",
-                                    "Eliminar la deuda legalmente."
-                              ],
-                              [
-                                    "Requisito",
-                                    "Ingresos o bienes suficientes.",
-                                    "Insolvencia demostrable."
-                              ],
-                              [
-                                    "Patrimonio",
-                                    "Se intenta proteger.",
-                                    "Puede liquidarse (salvo excepciones)."
-                              ],
-                              [
-                                    "Resultado",
-                                    "Sigues pagando la deuda.",
-                                    "La deuda desaparece (BEPI)."
-                              ]
-                        ]
-                  },
-                  {
-                        "kind": "actionLink",
-                        "to": "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
-                        "text": "Saber más sobre la cancelación total de deudas"
-                  }
-            ]
-      }
-],
+    ],
   },
   "/asnef/salir-de-asnef": {
     faq: [
