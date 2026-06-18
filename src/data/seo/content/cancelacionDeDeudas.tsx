@@ -1,11 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, OptionCards, ActionLink, WarningCallout, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/person-man-portrait.jpg";
-import p2 from "@/assets/person-woman-window.jpg";
-import p3 from "@/assets/person-woman-walking.jpg";
-import p4 from "@/assets/person-couple-sofa.jpg";
-import p5 from "@/assets/person-family-table.jpg";
-import p6 from "@/assets/avatar-1.jpg";
+import p1 from "@/assets/casos/cancelacion-1.jpg";
+import p2 from "@/assets/casos/cancelacion-2.jpg";
+import p3 from "@/assets/casos/cancelacion-3.jpg";
+import p4 from "@/assets/casos/cancelacion-4.jpg";
+import p5 from "@/assets/casos/cancelacion-5.jpg";
+import p6 from "@/assets/casos/cancelacion-6.jpg";
 
 /**
  * Money page "Cancelación de deudas". Ángulo informativo/guía: vías legales,
@@ -117,14 +117,14 @@ export const cancelacionDeDeudas: MoneyContent = {
       photo: p3,
     },
     {
-      name: "Pareja en Málaga",
+      name: "Sergio V.",
       amount: "58.900 €",
       location: "Málaga",
-      text: "Cancelamos las deudas de los dos. Saber cómo funcionaba nos quitó el miedo.",
+      text: "Arrastraba deudas de varios años. Saber cómo funcionaba me quitó el miedo y empecé.",
       photo: p4,
     },
     {
-      name: "Familia en Bilbao",
+      name: "Pilar N.",
       amount: "46.300 €",
       location: "Bilbao",
       text: "Con hijos pequeños, recuperar la nómina lo cambió todo. La deuda quedó cancelada.",
