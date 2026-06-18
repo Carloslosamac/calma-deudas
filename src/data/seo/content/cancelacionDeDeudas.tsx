@@ -320,113 +320,94 @@ export const cancelacionDeDeudas: MoneyContent = {
       title: "¿Qué es la cancelación de deudas?",
       body: (
         <div className="space-y-5">
-          <div className="rounded-3xl border border-accent/30 bg-accent-soft/40 p-6 md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-deep">
-              En una frase
-            </p>
-            <p className="mt-3 font-poppins text-xl font-semibold leading-snug text-foreground md:text-2xl">
-              Cancelar una deuda significa que{" "}
-              <span className="text-accent-deep">dejas de deberla legalmente</span>.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-foreground/80">
+          <KeyCallout
+            eyebrow="En una frase"
+            headline={
+              <>
+                Cancelar una deuda significa que{" "}
+                <span className="text-accent-deep">dejas de deberla legalmente</span>.
+              </>
+            }
+          >
+            <p>
               En España, la principal vía es la <strong>Ley de Segunda Oportunidad</strong>, que
               permite exonerar las deudas que un particular o autónomo no puede pagar. Existen
               otras vías, como la reclamación por intereses abusivos.
             </p>
-          </div>
-          <Link
-            to="/cancelar-deudas"
-            className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface-elevated p-5 transition-colors hover:border-accent/50"
-          >
-            <span className="text-base font-medium text-foreground">
-              ¿Prefieres pasar directamente a la acción?{" "}
-              <span className="text-accent-deep">Cancelar deudas</span>
-            </span>
-            <ArrowRight className="h-5 w-5 shrink-0 text-accent-deep transition-transform group-hover:translate-x-1" aria-hidden />
-          </Link>
+          </KeyCallout>
+          <ActionLink to="/cancelar-deudas">
+            ¿Prefieres pasar directamente a la acción?{" "}
+            <span className="text-accent-deep">Cancelar deudas</span>
+          </ActionLink>
         </div>
       ),
     },
     {
       title: "Vías legales de cancelación",
       body: (
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
-              <Scale className="h-5 w-5" aria-hidden />
-            </span>
-            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
-              Ley de Segunda Oportunidad
-            </h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
-              Exonera el pasivo insatisfecho. Es la vía más amplia para cancelar lo que no
-              puedes pagar.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-              <A to="/ley-segunda-oportunidad">Hub de la LSO</A>
-              <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">Exoneración del pasivo</A>
-            </div>
-          </div>
-          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
-              <Gavel className="h-5 w-5" aria-hidden />
-            </span>
-            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
-              Reclamación por usura
-            </h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
-              Anula los intereses abusivos en tarjetas revolving y microcréditos.
-            </p>
-            <div className="mt-4 text-sm">
-              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">Tarjetas revolving</A>
-            </div>
-          </div>
-          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
-              <Handshake className="h-5 w-5" aria-hidden />
-            </span>
-            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
-              Acuerdos y quitas
-            </h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
-              Reducción negociada de la deuda cuando todavía hay margen para pagar una parte.
-            </p>
-          </div>
-        </div>
+        <OptionCards
+          items={[
+            {
+              icon: "scale",
+              title: "Ley de Segunda Oportunidad",
+              text: "Exonera el pasivo insatisfecho. Es la vía más amplia para cancelar lo que no puedes pagar.",
+              links: (
+                <>
+                  <A to="/ley-segunda-oportunidad">Hub de la LSO</A>
+                  <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">Exoneración del pasivo</A>
+                </>
+              ),
+            },
+            {
+              icon: "gavel",
+              title: "Reclamación por usura",
+              text: "Anula los intereses abusivos en tarjetas revolving y microcréditos.",
+              links: <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">Tarjetas revolving</A>,
+            },
+            {
+              icon: "users",
+              title: "Acuerdos y quitas",
+              text: "Reducción negociada de la deuda cuando todavía hay margen para pagar una parte.",
+            },
+          ]}
+        />
       ),
     },
     {
       title: "Requisitos y buena fe",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            La cancelación por Segunda Oportunidad exige <strong>insolvencia</strong> y
-            <strong> buena fe</strong>: no haber ocultado bienes ni haber provocado el
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
+            La cancelación por Segunda Oportunidad exige <strong>insolvencia</strong> y{" "}
+            <strong>buena fe</strong>: no haber ocultado bienes ni haber provocado el
             sobreendeudamiento de forma fraudulenta. También se valora no tener condenas por
             ciertos delitos económicos recientes.
           </p>
-          <p>
-            Un matiz práctico importante: si tienes <strong>vivienda, terreno u otros bienes
-            de valor totalmente pagados</strong>, la fase de liquidación de la LSO podría
-            realizarlos para pagar a los acreedores. En esos casos suele ser preferible{" "}
-            <A to="/reunificacion-deudas">reunificar</A> para proteger ese patrimonio.
-          </p>
+          <WarningCallout title="Si tienes bienes de valor totalmente pagados">
+            <p>
+              Si tienes <strong>vivienda, terreno u otros bienes de valor totalmente
+              pagados</strong>, la fase de liquidación de la LSO podría realizarlos para pagar a
+              los acreedores. En esos casos suele ser preferible{" "}
+              <A to="/reunificacion-deudas">reunificar</A> para proteger ese patrimonio.
+            </p>
+          </WarningCallout>
         </div>
       ),
     },
     {
       title: "Plazos y coste",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            El procedimiento judicial suele durar entre <strong>6 y 18 meses</strong>, según
-            la complejidad y el juzgado. Los embargos pueden suspenderse mucho antes. El
-            diagnóstico es gratuito y, si sigues, el presupuesto es cerrado con opción de
-            pago fraccionado.
-          </p>
-          <p>
-            ¿No estás seguro de si cancelar o{" "}
-            <A to="/reunificacion-deudas">reunificar</A>? Lo valoramos gratis en tu caso.
+        <div className="space-y-5">
+          <FactGrid
+            items={[
+              { value: "6–18 meses", label: "Duración", detail: "Según complejidad y juzgado. Los embargos se suspenden antes." },
+              { value: "Gratis", label: "Diagnóstico", detail: "Analizamos tu caso sin coste ni compromiso." },
+              { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
+            ¿No estás seguro de si cancelar o <A to="/reunificacion-deudas">reunificar</A>? Lo
+            valoramos gratis en tu caso.
           </p>
         </div>
       ),
