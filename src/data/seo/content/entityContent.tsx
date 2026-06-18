@@ -172,6 +172,7 @@ const NOTES: Record<string, string> = {
 const recobroContent = (e: Entity, note: string): EntityContent => ({
   intro: `${note} Si ${e.name} te reclama una deuda, tienes derechos: aquí te explicamos cómo comprobar que la deuda es real y qué opciones tienes.`,
   sections: [
+    calmSection(e),
     {
       title: `Por qué te reclama ${e.name}`,
       body: (
@@ -203,6 +204,35 @@ const recobroContent = (e: Entity, note: string): EntityContent => ({
       ),
     },
     {
+      title: "Tus miedos, resueltos",
+      body: (
+        <MythReality
+          items={[
+            {
+              myth: `Que ${e.name} mande a alguien a tu casa a cobrar o a llevarse tus cosas.`,
+              reality:
+                "Nadie puede presentarse en tu domicilio a embargar bienes. Solo un juzgado, con una orden judicial, puede embargar, y siempre con avisos previos.",
+            },
+            {
+              myth: "Que llamen a tu trabajo, a tus padres o a tus vecinos y todos se enteren.",
+              reality:
+                "Contar tu deuda a terceros o presionar a tu entorno es ilegal. Puedes exigir que cesen esas prácticas y, si insisten, denunciarlas.",
+            },
+            {
+              myth: "Que de un día para otro te embarguen la nómina o la cuenta.",
+              reality:
+                "Un embargo necesita una sentencia previa. Hay margen de actuación y, además, una parte de tu salario es inembargable por ley.",
+            },
+            {
+              myth: "Estar fichado en ASNEF para siempre.",
+              reality:
+                "Si resuelves o cancelas la deuda, sales de los ficheros. Y si el apunte es incorrecto, puede retirarse antes.",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       title: "Qué hacer si llegan al juzgado",
       body: (
         <P>
@@ -214,6 +244,7 @@ const recobroContent = (e: Entity, note: string): EntityContent => ({
         </P>
       ),
     },
+    calmaSection(e),
   ],
   faq: [
     {
@@ -230,6 +261,21 @@ const recobroContent = (e: Entity, note: string): EntityContent => ({
       q: "¿Y si la deuda es muy antigua?",
       a: <P>Puede estar prescrita. Conviene revisar las fechas antes de reconocer o pagar la deuda reclamada.</P>,
       plain: "Puede estar prescrita; conviene revisar las fechas antes de reconocer o pagar la deuda reclamada.",
+    },
+    {
+      q: `¿Puede ${e.name} venir a mi casa?`,
+      a: <P>No. Ningún gestor de cobros puede entrar en tu domicilio ni llevarse nada. Solo un juzgado puede ordenar un embargo, con avisos previos.</P>,
+      plain: `No. ${e.name} no puede entrar en tu casa ni llevarse bienes; solo un juzgado puede embargar, con avisos previos.`,
+    },
+    {
+      q: "¿Pueden llamar a mi trabajo o a mi familia?",
+      a: <P>No deben revelar tu deuda a terceros ni presionar a tu entorno. Es una práctica ilegal que puedes exigir que cese y denunciar.</P>,
+      plain: "No. Revelar tu deuda a tu trabajo o familia y presionar a tu entorno es ilegal; puedes exigir que cese y denunciarlo.",
+    },
+    {
+      q: `¿Cómo dejo de tener deudas con ${e.name} para siempre?`,
+      a: <P>Si la deuda es real pero inasumible, la Ley de Segunda Oportunidad permite cancelarla por completo. Analizamos tu caso gratis y te decimos si encajas.</P>,
+      plain: `Si la deuda es real e inasumible, la Ley de Segunda Oportunidad permite cancelarla por completo. Calma analiza tu caso gratis.`,
     },
   ],
 });
