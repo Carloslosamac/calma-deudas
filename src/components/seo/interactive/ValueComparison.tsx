@@ -48,13 +48,13 @@ const ValueComparison = ({ data }: { data: MoneyValueComparison }) => {
           <ArrowRight className="mx-auto hidden h-6 w-6 text-muted-foreground sm:block" aria-hidden />
           <div className="rounded-2xl border border-orange/40 bg-orange-soft p-5 text-center">
             <p className="text-xs uppercase tracking-wide text-orange-deep">{data.repaidLabel}</p>
-            <p className="mt-1 font-poppins text-2xl font-bold text-orange-deep">{eur(repaid)}</p>
+            <p className="mt-1 font-poppins text-2xl font-bold text-orange-deep">{eur(extra)}</p>
           </div>
         </div>
 
         <p className="mt-5 text-center text-sm leading-relaxed text-foreground">
-          Acabas devolviendo <strong className="text-orange-deep">{eur(extra)} de más</strong>. Con
-          intereses así de altos, gran parte de la deuda suele poder anularse.
+          Acabas devolviendo <strong className="text-orange-deep">{eur(repaid)}</strong> en total. Con
+          intereses así de altos, gran parte de la deuda suele poder anularse y recuperar lo pagado de más.
         </p>
 
         <div className="mt-7 flex justify-center">
