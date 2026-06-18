@@ -185,6 +185,7 @@ export const leySegundaOportunidad: MoneyContent = {
       "Actúas de buena fe: no has ocultado bienes ni provocado tu insolvencia de forma fraudulenta.",
       "No has sido condenado por determinados delitos socioeconómicos en los últimos diez años.",
       "Tus deudas no provienen, en su mayoría, de sanciones o conductas dolosas.",
+      "No tienes vivienda, terreno u otros bienes de valor totalmente pagados que prefieras conservar: en la práctica la liquidación podría realizarlos. Si los tienes, valoramos reunificar para protegerlos.",
     ],
     trustTitle: "Contenido revisado por abogado",
     trustText: "Actualizado según la última reforma concursal.",
@@ -289,6 +290,10 @@ export const leySegundaOportunidad: MoneyContent = {
           goodAnswer: "yes",
         },
         {
+          text: "¿Tienes vivienda u otros bienes de valor totalmente pagados?",
+          goodAnswer: "no",
+        },
+        {
           text: "¿Has sido condenado por delitos económicos en los últimos 10 años?",
           goodAnswer: "no",
         },
@@ -299,7 +304,7 @@ export const leySegundaOportunidad: MoneyContent = {
       },
       resultDoubt: {
         title: "Probablemente sí. No te quedes con la duda.",
-        text: "Casos muy parecidos al tuyo terminan cancelando sus deudas cada semana. No pierdas un mes más por una duda que resolvemos gratis en 24h.",
+        text: "Si tienes bienes de valor totalmente pagados, la LSO podría liquidarlos y quizá te convenga más reunificar para protegerlos. Casos muy parecidos al tuyo se resuelven cada semana: te decimos la vía exacta gratis en 24h.",
       },
     },
     beforeAfter: {
@@ -350,6 +355,14 @@ export const leySegundaOportunidad: MoneyContent = {
             que aún debes. Antes de presentar nada analizamos el valor de tu vivienda, la
             deuda pendiente y tu situación para proteger lo máximo posible. Nada se decide
             sin ti.
+          </p>
+          <p>
+            Hay un caso en el que conviene ser honestos: si tienes una{" "}
+            <strong>vivienda, terreno u otros bienes de valor totalmente pagados</strong> (sin
+            hipoteca y con valor real), la fase de liquidación de la LSO podría realizarlos
+            para pagar a los acreedores. En esa situación, lo habitual es que te compense más{" "}
+            <A to="/reunificar-deudas">reunificar</A> tus deudas en una sola cuota y conservar
+            ese patrimonio, en lugar de cancelar. Lo valoramos contigo gratis antes de elegir vía.
           </p>
         </div>
       ),

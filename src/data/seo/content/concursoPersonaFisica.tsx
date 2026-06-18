@@ -129,10 +129,11 @@ export const concursoPersonaFisica: MoneyContent = {
         { text: "¿Eres particular o autónomo insolvente?", goodAnswer: "yes" },
         { text: "¿No puedes atender tus deudas actuales?", goodAnswer: "yes" },
         { text: "¿Actúas de buena fe?", goodAnswer: "yes" },
+        { text: "¿Tienes vivienda u otros bienes de valor totalmente pagados?", goodAnswer: "no" },
         { text: "¿Has provocado la insolvencia de forma fraudulenta?", goodAnswer: "no" },
       ],
       resultPass: { title: "El concurso podría ser tu vía", text: "Tu caso encaja. Pide tu diagnóstico gratis y te trazamos la estrategia." },
-      resultDoubt: { title: "No te quedes con la duda", text: "Casos parecidos se resuelven cada semana. Lo valoramos gratis en 24h." },
+      resultDoubt: { title: "No te quedes con la duda", text: "Si tienes bienes de valor pagados, la liquidación podría afectarlos y quizá te compense reunificar para protegerlos. Lo valoramos gratis en 24h." },
     },
   },
   sections: [
