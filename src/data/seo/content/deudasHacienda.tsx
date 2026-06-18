@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, OptionCards, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/avatar-3.jpg";
 import p2 from "@/assets/person-man-portrait.jpg";
 import p3 from "@/assets/person-woman-window.jpg";
 import p4 from "@/assets/person-couple-sofa.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Deudas con Hacienda". Ángulo: deuda pública con límites de exoneración.
