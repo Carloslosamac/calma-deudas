@@ -110,7 +110,7 @@ export const cancelarMicrocreditos: MoneyContent = {
       title: "Lo que pediste vs lo que acabas devolviendo",
       subtitle: "Mueve el importe y mira cuánto se multiplica con intereses de microcrédito.",
       borrowedLabel: "Pediste",
-      repaidLabel: "Devuelves",
+      repaidLabel: "Puedes recuperar",
       defaultBorrowed: 1000,
       maxBorrowed: 10000,
       factor: 2.6,
