@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { Scale, Gavel, Handshake, ArrowRight } from "lucide-react";
 import p1 from "@/assets/person-man-portrait.jpg";
 import p2 from "@/assets/person-woman-window.jpg";
 import p3 from "@/assets/person-woman-walking.jpg";
