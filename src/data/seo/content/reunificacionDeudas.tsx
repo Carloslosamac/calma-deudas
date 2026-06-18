@@ -9,8 +9,9 @@ import p6 from "@/assets/testimonios/lso-6.jpg";
 
 /**
  * Money page "Reunificación de deudas". Pilar del cluster, ángulo comparativo:
- * reunificar (sigues pagando, una sola cuota) vs cancelar (LSO). Deriva a
- * /reunificar-deudas (acción paso a paso) y al hub LSO, para no canibalizar.
+ * reunificar (negociamos extrajudicialmente con las entidades para bajar cuota
+ * Y total) vs cancelar (LSO). NO es refinanciar (préstamo nuevo que alarga el
+ * plazo). Deriva a /reunificar-deudas (acción paso a paso) y al hub LSO.
  */
 export const reunificacionDeudas: MoneyContent = {
   path: "/reunificacion-deudas",
@@ -33,20 +34,20 @@ export const reunificacionDeudas: MoneyContent = {
   ],
   intro: (
     <>
-      Si pagas varias cuotas cada mes y te asfixian, la <strong>reunificación de deudas</strong>{" "}
-      las junta en un solo pago más bajo. Te explicamos cuándo conviene y cuándo es mejor
-      cancelar, y lo aplicamos a tu caso gratis.
+      Si pagas varias cuotas cada mes y te asfixian, con la <strong>reunificación de deudas</strong>{" "}
+      negociamos con tus entidades para rebajar tu cuota mensual <strong>y</strong> el total que
+      debes. No es un préstamo nuevo. Te decimos gratis si te conviene o si es mejor cancelar.
     </>
   ),
   hero: {
     badge: "Reunificación de deudas",
-    titleLead: "Varias cuotas, un solo pago",
-    titleAccent: "que sí puedes asumir.",
+    titleLead: "Negociamos tu deuda:",
+    titleAccent: "menos cuota y menos total.",
     subtitle: (
       <>
-        La reunificación junta todos tus préstamos en <strong>una única cuota mensual</strong>,
-        más baja y manejable. Te decimos gratis si te conviene reunificar o si en tu caso
-        sale mejor cancelar la deuda.
+        Reunificar no es pedir un préstamo: <strong>negociamos extrajudicialmente</strong> con tus
+        acreedores para bajar la cuota mensual <strong>y</strong> el importe total que pagas. Te
+        decimos gratis si te conviene reunificar o si en tu caso sale mejor cancelar la deuda.
       </>
     ),
     trustNote: "Estudio gratis · Sin compromiso",
@@ -62,13 +63,13 @@ export const reunificacionDeudas: MoneyContent = {
   benefits: [
     {
       icon: "wallet",
-      title: "Una sola cuota",
-      text: "Juntas todos tus préstamos en un único pago mensual, más fácil de controlar.",
+      title: "Menos total a pagar",
+      text: "Negociamos con tus entidades para rebajar el importe global de tu deuda, no solo aplazarla.",
     },
     {
       icon: "clock",
       title: "Cuota más baja",
-      text: "Al alargar el plazo, la cuota mensual baja y recuperas oxígeno cada mes.",
+      text: "Reordenamos los pagos para bajar la cuota mensual y que recuperes oxígeno cada mes.",
     },
     {
       icon: "scale",
@@ -78,7 +79,7 @@ export const reunificacionDeudas: MoneyContent = {
     {
       icon: "users",
       title: "Un solo interlocutor",
-      text: "Dejas de lidiar con varios acreedores y gestionas todo en un único sitio.",
+      text: "Negociamos por ti con cada acreedor: dejas de lidiar con todos a la vez.",
     },
     {
       icon: "sparkles",
@@ -87,8 +88,8 @@ export const reunificacionDeudas: MoneyContent = {
     },
     {
       icon: "lock",
-      title: "Condiciones claras",
-      text: "Te explicamos el coste total y el plazo antes de decidir. Sin letra pequeña.",
+      title: "Sin préstamo nuevo",
+      text: "No firmas otro crédito ni pones tu vivienda en garantía: mejoramos la deuda que ya tienes.",
     },
   ],
   testimonialsTitle: "Personas que recuperaron el control",
@@ -112,7 +113,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
     {
       name: "Óscar L.",
-      amount: "4 cuotas → 1",
+      amount: "-30% del total",
       location: "Sevilla",
       text: "Me explicaron que en mi caso reunificar era lo mejor. Acertaron de pleno.",
       photo: p3,
@@ -140,7 +141,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
   ],
   stepsTitle: "Cómo funciona la reunificación",
-  stepsSubtitle: "Cuatro pasos para pasar de varias cuotas a una sola",
+  stepsSubtitle: "Cuatro pasos para negociar y rebajar tu deuda",
   steps: [
     {
       title: "Estudio gratuito",
@@ -151,17 +152,17 @@ export const reunificacionDeudas: MoneyContent = {
       text: "Te enseñamos reunificar vs cancelar para que elijas con información clara.",
     },
     {
-      title: "Propuesta a medida",
-      text: "Diseñamos la operación con la cuota y el plazo que encajan contigo.",
+      title: "Negociación con tus acreedores",
+      text: "Negociamos extrajudicialmente con cada entidad para rebajar cuota y total.",
     },
     {
-      title: "Una sola cuota",
-      text: "Unificas todo en un único pago mensual asumible.",
+      title: "Deuda rebajada",
+      text: "Pasas a un pago mensual más bajo y un importe total menor.",
       highlight: true,
     },
   ],
   metrics: [
-    { value: "1 cuota", label: "En lugar de varios recibos cada mes" },
+    { value: "Menos total", label: "Negociamos para rebajar lo que debes" },
     { value: "Comparativa", label: "Reunificar vs cancelar, siempre honesta" },
     { value: "Gratis", label: "Estudiamos tu caso sin compromiso" },
   ],
