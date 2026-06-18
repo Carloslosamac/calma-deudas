@@ -1,29 +1,75 @@
-# Plan: Fotos hiper-realistas + arreglo de build
+## Objetivo
+Construir 4 super hubs de entidades, uno por cluster:
+- Empresas de recobro
+- Microcrédito
+- Tarjetas
+- Bancos
 
-## 1. Arreglar el build (bloqueante)
-En `src/data/seo/content/deudasHacienda.tsx` hay un `],` duplicado en la línea 76 (sobra un cierre del array `testimonials`). Eliminar esa línea para que el build vuelva a compilar.
+Cada hub incluirá todas las empresas relevantes de su cluster y servirá como índice SEO fuerte para enlazar a todas sus fichas individuales.
 
-## 2. Regenerar las 90 fotos con realismo extremo
-Las fotos actuales "huelen a IA" (piel demasiado lisa, ojos perfectos, look render). Vamos a regenerar las 6 fotos por tema (15 temas = 90 imágenes) en `src/assets/casos/` manteniendo los mismos nombres de archivo, así no hay que tocar ningún import ni componente.
+## Lo que voy a construir
+1. **Ampliar el inventario de entidades**
+   - Completar `src/data/seo/entities.ts` con cobertura exhaustiva por cluster.
+   - Mantener la clasificación por `kind`, `cluster` y `solutionPath` para no romper la arquitectura actual.
 
-### Modelo
-Usar el tier **`premium.gemini`** (Nano Banana 2 / Gemini image) en la herramienta `generate_image`, que es el mejor para retratos foto-realistas y texturas de piel reales. Si algún resultado sigue pareciendo render, reintentar ese caso concreto con `premium.gpt`.
+2. **Convertir los 4 clusters en super hubs reales**
+   - Reforzar el contenido de los hubs ya existentes para que no sean solo intro editorial, sino páginas índice potentes.
+   - Añadir bloques de listado completo de entidades por cluster, agrupadas y enlazadas.
+   - Hacer que cada hub sea claramente la página madre del cluster y distribuya autoridad interna a todas las entidades.
 
-### Estilo de prompt (clave para que no parezca IA)
-Cada prompt buscará:
-- **Gente española real y corriente** (no modelos): distintos rangos de edad (25–65), hombres y mujeres, complexiones y rasgos variados, peinados normales, ropa de calle.
-- **Estética selfie/foto de móvil amateur**: luz natural imperfecta, ligera textura de grano, poros y arruguitas visibles, imperfecciones de piel, encuadre casual, fondos cotidianos (cocina, salón, calle, coche).
-- **Anti-IA explícito**: pedir "no airbrushing, realistic skin pores and blemishes, candid amateur smartphone photo, natural uneven lighting" y evitar simetría perfecta, dientes perfectos y bokeh de estudio.
-- **Expresión** acorde al alivio/tranquilidad de cada testimonio.
-- Diversidad entre los 6 casos de un mismo tema (edades/sexos distintos) para no repetir caras.
+3. **Escalar las fichas de entidad**
+   - Usar la plantilla existente de `entityContent.tsx` para generar automáticamente todas las nuevas URLs de entidad.
+   - Mantener copy adaptado por tipo de entidad: recobro, microcrédito, revolving/tarjetas y banco.
+   - Completar notas específicas para las entidades más relevantes para que no suenen genéricas.
 
-### Cobertura (15 temas)
-revolving, lso, cancelar, microcreditos, asnef, embargo, reunificar, reunificacion, cancelacion, hacienda — y los temas restantes que ya tienen sus archivos. Se mantienen exactamente los mismos 90 nombres de archivo.
+4. **Mejorar interlinking SEO entre hub ↔ entidades ↔ money pages**
+   - Cada hub enlazará a todas sus entidades.
+   - Cada ficha de entidad enlazará a su money page de solución correspondiente.
+   - Añadir enlaces cruzados entre clusters relacionados cuando tenga sentido comercial/SEO.
 
-## 3. Verificación
-- Confirmar que el build compila tras el fix.
-- Revisar una muestra (zoom) de varias caras nuevas para validar que el realismo es convincente antes de dar por terminado.
+5. **Dejar la base preparada para crecimiento masivo**
+   - Estructura pensada para añadir más entidades sin rehacer componentes.
+   - Mantener coherencia con la arquitectura actual (`architecture.ts`, `hubContent.tsx`, `entityContent.tsx`).
 
-## Notas técnicas
-- No se modifica ningún `.tsx` de contenido salvo el fix puntual de `deudasHacienda.tsx`.
-- Las imágenes se sobrescriben en sitio (`overwrite`), preservando rutas `@/assets/casos/<tema>-<n>.jpg`.
+## Alcance funcional
+### Clusters a cubrir exhaustivamente
+- **Empresas de recobro**: todas las empresas relevantes de gestión/compra de deuda.
+- **Microcrédito**: todas las marcas y prestamistas rápidos relevantes.
+- **Tarjetas**: emisores y marcas de tarjetas revolving/financiación asociada.
+- **Bancos**: bancos y entidades financieras relevantes dentro del cluster de banca/hipoteca/vivienda.
+
+### Resultado esperado
+- 4 hubs fuertes y completos.
+- Un listado exhaustivo de entidades por cluster.
+- Una URL individual por entidad dentro de su cluster.
+- Mejor cobertura long-tail y mejor arquitectura interna para las money pages.
+
+## Detalles técnicos
+- **Archivos principales a tocar**
+  - `src/data/seo/entities.ts`
+  - `src/data/seo/content/hubContent.tsx`
+  - Posiblemente el renderer/listado del template de hub si hoy no pinta listados exhaustivos de entidades.
+  - `src/data/seo/content/entityContent.tsx` para ampliar notas específicas si hace falta.
+
+- **Patrón a respetar**
+  - La arquitectura ya separa:
+    - money pages
+    - hubs satélite
+    - fichas de entidad
+  - Aprovecharé esa base, sin rehacer el sistema.
+
+- **Criterio SEO**
+  - Un solo hub principal por cluster.
+  - Todas las entidades relevantes colgando de ese hub.
+  - Enlazado interno fuerte hacia la solución comercial correcta.
+  - Sin mezclar clusters incorrectamente para evitar canibalización.
+
+## Decisión que aplicaré por defecto
+Como has pedido cobertura exhaustiva, haré **cobertura total de entidades por cluster**, no solo top marcas.
+
+## Riesgo a controlar
+El único punto delicado es la **clasificación correcta de cada empresa dentro de su cluster**. Si quieres, en la implementación puedo seguir uno de estos dos enfoques:
+1. **Yo propongo el listado completo por criterio SEO/comercial y lo monto directamente.**
+2. **Tú me pasas o validas la lista maestra por cluster y yo la implemento exacta.**
+
+Si apruebas, en la siguiente fase lo implemento directamente sobre la arquitectura actual.
