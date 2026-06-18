@@ -55,7 +55,9 @@ const ClusterHub = () => {
     "tarjetas-revolving",
     "bancos-hipoteca-vivienda",
   ]);
-  const allEntities = entitiesByCluster(cluster.slug);
+  const allEntities = [...entitiesByCluster(cluster.slug)].sort((a, b) =>
+    a.name.localeCompare(b.name, "es", { sensitivity: "base" }),
+  );
   const sections = content?.sections ? [...content.sections] : [];
 
   if (hubEntityClusters.has(cluster.slug) && allEntities.length > 0) {
