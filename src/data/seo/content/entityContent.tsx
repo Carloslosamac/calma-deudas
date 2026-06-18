@@ -475,6 +475,7 @@ const revolvingContent = (e: Entity, note: string): EntityContent => ({
 const bancoContent = (e: Entity, note: string): EntityContent => ({
   intro: `${note} Si tienes deudas con ${e.name} que no puedes pagar, aquí reunimos tus opciones para reducirlas, reunificarlas o cancelarlas.`,
   sections: [
+    calmSection(e),
     {
       title: `Deudas con ${e.name}`,
       body: (
@@ -497,6 +498,35 @@ const bancoContent = (e: Entity, note: string): EntityContent => ({
       ),
     },
     {
+      title: "Tus miedos, resueltos",
+      body: (
+        <MythReality
+          items={[
+            {
+              myth: `Perder tu casa de un día para otro porque no pagas a ${e.name}.`,
+              reality:
+                "La ejecución hipotecaria es un proceso largo con plazos y avisos. Hay carencia, novación, dación o Segunda Oportunidad antes de llegar ahí. Cuanto antes actúes, más opciones de proteger tu vivienda.",
+            },
+            {
+              myth: "Que te embarguen toda la nómina y te quedes sin nada.",
+              reality:
+                "El salario mínimo interprofesional es inembargable, y por encima solo se embarga un porcentaje por tramos. Y nada de esto ocurre sin sentencia previa.",
+            },
+            {
+              myth: "Quedarte sin cuenta bancaria y sin poder cobrar tu sueldo.",
+              reality:
+                "Tienes derecho a una cuenta de pago básica. Una deuda con tu banco no te deja fuera del sistema bancario.",
+            },
+            {
+              myth: "Que la deuda crezca para siempre y no haya salida.",
+              reality:
+                "Si la situación es inasumible de buena fe, la Ley de Segunda Oportunidad puede cancelar la deuda bancaria por completo.",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       title: `Reducir o cancelar tu deuda con ${e.name}`,
       body: (
         <P>
@@ -507,6 +537,7 @@ const bancoContent = (e: Entity, note: string): EntityContent => ({
         </P>
       ),
     },
+    calmaSection(e),
   ],
   faq: [
     {
@@ -518,6 +549,21 @@ const bancoContent = (e: Entity, note: string): EntityContent => ({
       q: "¿Qué es mejor, reunificar o cancelar?",
       a: <P>Reunificar baja la cuota pero mantiene la deuda; cancelar la elimina. La elección depende de tus ingresos y del importe total.</P>,
       plain: "Reunificar baja la cuota pero mantiene la deuda; cancelar la elimina. Depende de tus ingresos y del importe total.",
+    },
+    {
+      q: `¿Puede ${e.name} embargarme la nómina?`,
+      a: <P>Solo con sentencia previa y respetando los límites legales: el salario mínimo es inembargable y por encima solo se embarga un porcentaje por tramos.</P>,
+      plain: `${e.name} solo puede embargar con sentencia previa y dentro de los límites legales: el salario mínimo es inembargable.`,
+    },
+    {
+      q: "No puedo pagar la hipoteca, ¿voy a perder mi casa?",
+      a: <P>No de inmediato. Hay carencia, novación, dación en pago y Segunda Oportunidad. Cuanto antes actúes, más opciones de proteger tu vivienda.</P>,
+      plain: "No de inmediato: hay carencia, novación, dación y Segunda Oportunidad. Actuar pronto da más opciones de proteger la vivienda.",
+    },
+    {
+      q: "¿Por dónde empiezo si me agobia toda mi deuda?",
+      a: <P>Por un análisis gratuito y sin compromiso. Vemos tu caso con calma y te decimos qué vía encaja mejor según tus ingresos y tu deuda total.</P>,
+      plain: "Por un análisis gratuito y sin compromiso: vemos tu caso y te decimos qué vía encaja según tus ingresos y deuda total.",
     },
   ],
 });
