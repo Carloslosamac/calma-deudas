@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Entity } from "@/data/seo/entities";
+import CtaButton from "@/components/seo/CtaButton";
+import KeyCallout from "@/components/seo/modules/KeyCallout";
+import CheckList from "@/components/seo/modules/CheckList";
+import { ShieldCheck, XCircle, CheckCircle2 } from "lucide-react";
 
 /**
  * Contenido real de las fichas de entidad (banco, recobro, microcrédito, revolving).
@@ -35,6 +39,85 @@ const UL = ({ items }: { items: ReactNode[] }) => (
     ))}
   </ul>
 );
+
+/** CTA cálido reutilizable dentro de una sección (siempre lleva a #hero-form). */
+const InlineCta = ({ label = "Cuéntanos tu caso, sin compromiso" }: { label?: string }) => (
+  <div className="mt-6">
+    <CtaButton>{label}</CtaButton>
+    <p className="mt-2 text-sm text-muted-foreground">
+      Gratis y confidencial. Te decimos con calma qué se puede hacer en tu caso.
+    </p>
+  </div>
+);
+
+/** Par "mito vs realidad" para desmontar miedos falsos. */
+type Myth = { myth: ReactNode; reality: ReactNode };
+const MythReality = ({ items }: { items: Myth[] }) => (
+  <div className="space-y-4">
+    {items.map((m, i) => (
+      <div key={i} className="rounded-3xl border border-border bg-surface-elevated p-5 shadow-soft md:p-6">
+        <p className="flex items-start gap-3 text-base leading-relaxed text-foreground/70">
+          <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-orange-deep" aria-hidden />
+          <span><span className="font-semibold text-foreground">Lo que temes:</span> {m.myth}</span>
+        </p>
+        <p className="mt-3 flex items-start gap-3 text-base leading-relaxed text-foreground/85">
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent-deep" aria-hidden />
+          <span><span className="font-semibold text-foreground">La realidad:</span> {m.reality}</span>
+        </p>
+      </div>
+    ))}
+  </div>
+);
+
+/** Bloque de tranquilidad emocional: primera sección de toda ficha. */
+const calmSection = (e: Entity): EntitySection => ({
+  title: "Respira: tu deuda tiene solución",
+  body: (
+    <>
+      <KeyCallout
+        eyebrow="No estás solo/a"
+        headline={
+          <>
+            Deber dinero a {e.name} <span className="text-accent-deep">no te define</span>, y
+            tampoco es el final del camino.
+          </>
+        }
+      >
+        <p>
+          Sabemos el nudo en el estómago cada vez que suena el teléfono o llega una carta. Miles de
+          personas han pasado por exactamente lo mismo y hoy duermen tranquilas. Tu situación tiene
+          salida y nosotros te acompañamos en cada paso.
+        </p>
+      </KeyCallout>
+      <InlineCta />
+    </>
+  ),
+});
+
+/** Bloque de autoridad "Por qué Calma": cierre persuasivo de toda ficha. */
+const calmaSection = (e: Entity): EntitySection => ({
+  title: "Por qué confiar en Calma",
+  body: (
+    <>
+      <div className="mb-5 flex items-start gap-3 rounded-3xl border border-accent/30 bg-accent-soft/40 p-6">
+        <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-accent-deep" aria-hidden />
+        <p className="text-base leading-relaxed text-foreground/85">
+          Llevamos años ayudando a personas con deudas como la tuya con {e.name}. No vendemos humo:
+          analizamos tu caso, te decimos la verdad y solo seguimos si de verdad podemos ayudarte.
+        </p>
+      </div>
+      <CheckList
+        items={[
+          "Especialistas en Ley de Segunda Oportunidad y deuda bancaria, no una gestoría improvisada.",
+          "Acompañamiento humano y cercano: una persona contigo de principio a fin.",
+          "Cientos de casos resueltos y deudas canceladas de forma definitiva.",
+          "Primer análisis gratuito y sin compromiso: tú decides después.",
+        ]}
+      />
+      <InlineCta label="Empezar mi análisis gratuito" />
+    </>
+  ),
+});
 
 /** Nota corta y específica por entidad (aporta detalle real al copy). */
 const NOTES: Record<string, string> = {
