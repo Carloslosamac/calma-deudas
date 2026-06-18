@@ -283,6 +283,7 @@ const recobroContent = (e: Entity, note: string): EntityContent => ({
 const microcreditoContent = (e: Entity, note: string): EntityContent => ({
   intro: `${note} Si arrastras deuda con ${e.name}, aquí te explicamos cómo funciona este tipo de préstamo y cómo cancelarlo de forma definitiva.`,
   sections: [
+    calmSection(e),
     {
       title: `Cómo funcionan los préstamos de ${e.name}`,
       body: (
@@ -306,6 +307,35 @@ const microcreditoContent = (e: Entity, note: string): EntityContent => ({
       ),
     },
     {
+      title: "Tus miedos, resueltos",
+      body: (
+        <MythReality
+          items={[
+            {
+              myth: "Que tengas que pedir otro préstamo para tapar el de este mes, sin fin.",
+              reality:
+                "Romper la bola de nieve es justo lo que hacemos. Se aborda el conjunto de tu deuda de una vez, no préstamo a préstamo.",
+            },
+            {
+              myth: `Que los intereses de ${e.name} hagan tu deuda impagable para siempre.`,
+              reality:
+                "Muchas TAE de microcréditos son abusivas y se pueden reclamar. Y si la deuda ya es inasumible, se puede cancelar entera.",
+            },
+            {
+              myth: "Quedar fichado en ASNEF por un impago pequeño.",
+              reality:
+                "Al cancelar o regularizar la deuda sales de ASNEF. Un apunte por una cantidad pequeña no te condena de por vida.",
+            },
+            {
+              myth: "Que te juzguen o te dé vergüenza pedir ayuda.",
+              reality:
+                "Aquí nadie te juzga. Atendemos cada día a personas trabajadoras que se vieron atrapadas por estos productos.",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       title: `Cómo cancelar tu deuda con ${e.name}`,
       body: (
         <P>
@@ -317,6 +347,7 @@ const microcreditoContent = (e: Entity, note: string): EntityContent => ({
         </P>
       ),
     },
+    calmaSection(e),
   ],
   faq: [
     {
@@ -333,6 +364,21 @@ const microcreditoContent = (e: Entity, note: string): EntityContent => ({
       q: `¿Puedo reclamar intereses abusivos a ${e.name}?`,
       a: <P>En muchos casos sí. Si la TAE es notablemente superior a la del mercado, puede considerarse abusiva.</P>,
       plain: `En muchos casos sí: si la TAE de ${e.name} es notablemente superior a la del mercado, puede considerarse abusiva.`,
+    },
+    {
+      q: `¿Qué pasa si dejo de pagar a ${e.name}?`,
+      a: <P>Pueden añadir intereses e incluirte en ASNEF, pero no pueden embargarte sin sentencia ni entrar en tu casa. Lo importante es buscar salida antes de que escale.</P>,
+      plain: `Pueden sumar intereses e incluirte en ASNEF, pero no embargarte sin sentencia. ${e.name} no puede entrar en tu casa.`,
+    },
+    {
+      q: "Tengo microcréditos de varias empresas a la vez, ¿hay solución?",
+      a: <P>Sí, y es lo más habitual. Se analiza el conjunto de toda tu deuda y se busca una salida única y definitiva, no empresa por empresa.</P>,
+      plain: "Sí. Lo habitual es tener varios a la vez; se analiza el conjunto de la deuda y se busca una salida única y definitiva.",
+    },
+    {
+      q: "Me da vergüenza, ¿de verdad puedo salir de esto?",
+      a: <P>Sí. No estás solo/a y no te vamos a juzgar. Miles de personas han cancelado deudas como la tuya y han recuperado la tranquilidad.</P>,
+      plain: "Sí. No estás solo/a; miles de personas han cancelado deudas de microcréditos y recuperado su tranquilidad.",
     },
   ],
 });
