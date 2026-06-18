@@ -1,17 +1,11 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, OptionCards, WarningCallout, CheckList, FactGrid } from "@/components/seo/modules";
 import lso1 from "@/assets/testimonios/lso-1.jpg";
 import lso2 from "@/assets/testimonios/lso-2.jpg";
 import lso3 from "@/assets/testimonios/lso-3.jpg";
 import lso4 from "@/assets/testimonios/lso-4.jpg";
 import lso5 from "@/assets/testimonios/lso-5.jpg";
 import lso6 from "@/assets/testimonios/lso-6.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page comercial de la Ley de Segunda Oportunidad.
