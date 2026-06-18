@@ -140,30 +140,54 @@ export const pararEmbargo: MoneyContent = {
     {
       title: "Tipos de embargo y cómo frenarlos",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>Embargo de nómina:</strong> la ley protege un mínimo inembargable según tu salario y cargas familiares.</li>
-            <li><strong>Embargo de cuenta:</strong> no pueden dejarte sin el mínimo vital; revisamos que se respete.</li>
-            <li><strong>Embargo de vivienda:</strong> en ejecución hipotecaria hay vías de oposición y negociación.</li>
-          </ul>
-        </div>
+        <OptionCards
+          items={[
+            {
+              icon: "wallet",
+              title: "Embargo de nómina",
+              text: "La ley protege un mínimo inembargable según tu salario y cargas familiares.",
+            },
+            {
+              icon: "landmark",
+              title: "Embargo de cuenta",
+              text: "No pueden dejarte sin el mínimo vital; revisamos que se respete.",
+            },
+            {
+              icon: "lock",
+              title: "Embargo de vivienda",
+              text: "En ejecución hipotecaria hay vías de oposición y negociación.",
+            },
+          ]}
+        />
       ),
     },
     {
       title: "La vía definitiva: resolver la deuda",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Parar el embargo es el primer paso, pero la solución duradera es eliminar la deuda. Con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, los embargos pueden suspenderse y la deuda cancelarse.</p>
+        <KeyCallout
+          eyebrow="La solución duradera"
+          headline={
+            <>
+              Parar el embargo es el primer paso;{" "}
+              <span className="text-accent-deep">eliminar la deuda</span> es la solución.
+            </>
+          }
+        >
+          <p>Con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, los embargos pueden suspenderse y la deuda cancelarse.</p>
           <p>Si el embargo viene de una demanda, mira también <A to="/juicio-monitorio-recobro/juicio-monitorio-deuda">qué hacer ante un juicio monitorio</A>.</p>
-        </div>
+        </KeyCallout>
       ),
     },
     {
       title: "¿Cuánto cuesta y cuánto tarda?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>El <strong>diagnóstico urgente es gratuito</strong>. Las medidas para frenar el embargo se valoran de inmediato; si seguimos adelante, trabajamos con presupuesto cerrado y opción de pago fraccionado.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "24h", label: "Atención urgente", detail: "Valoramos las medidas para frenar el embargo de inmediato." },
+            { value: "Gratis", label: "Diagnóstico", detail: "Sin coste ni compromiso." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+          ]}
+        />
       ),
     },
   ],
