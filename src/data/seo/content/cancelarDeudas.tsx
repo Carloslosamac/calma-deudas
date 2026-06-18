@@ -271,11 +271,15 @@ export const cancelarDeudas: MoneyContent = {
         {
           feature: "Cuándo encaja",
           values: [
-            "No puedes pagar nada",
-            "Puedes pagar una cuota",
+            "No puedes pagar y no tienes bienes de valor",
+            "No puedes pagar pero tienes bienes que proteger (o aún pagas)",
             "Intereses o cláusulas abusivas",
             "Quieres mejores condiciones",
           ],
+        },
+        {
+          feature: "Con bienes de valor pagados",
+          values: ["Pueden liquidarse", "Los protege", "no", "no"],
         },
         {
           feature: "Qué pasa con la deuda",
@@ -310,9 +314,9 @@ export const cancelarDeudas: MoneyContent = {
         linkLabel: "Cancelar con la Ley de Segunda Oportunidad",
       },
       {
-        label: "Puedo pagar una cuota pequeña",
+        label: "No puedo pagar, pero tengo bienes (casa/terreno pagado)",
         message:
-          "Si aún puedes asumir un pago razonable, valoramos reunificar en una sola cuota o negociar una quita antes de cancelar.",
+          "Si tienes vivienda u otros bienes de valor totalmente pagados, la LSO podría liquidarlos: reunificar suele proteger ese patrimonio agrupando todo en una sola cuota.",
         to: "/reunificar-deudas",
         linkLabel: "Ver reunificación de deudas",
       },
@@ -380,6 +384,7 @@ export const cancelarDeudas: MoneyContent = {
         { text: "¿No puedes pagar tus deudas con tus ingresos actuales?", goodAnswer: "yes" },
         { text: "¿Tus deudas suman más de 5.000 €?", goodAnswer: "yes" },
         { text: "¿Vienen de préstamos, tarjetas o microcréditos (no solo sanciones)?", goodAnswer: "yes" },
+        { text: "¿Tienes vivienda u otros bienes de valor totalmente pagados?", goodAnswer: "no" },
         { text: "¿Has ocultado bienes o provocado tu insolvencia a propósito?", goodAnswer: "no" },
       ],
       resultPass: {
@@ -388,7 +393,7 @@ export const cancelarDeudas: MoneyContent = {
       },
       resultDoubt: {
         title: "Seguramente hay una vía para ti",
-        text: "Casos muy parecidos al tuyo eliminan deuda cada semana, cada uno por una vía distinta. Lo resolvemos gratis en 24h.",
+        text: "Si tienes bienes de valor pagados, cancelar con la LSO podría liquidarlos y quizá te convenga más reunificar para protegerlos. Lo resolvemos gratis en 24h y te decimos la vía exacta.",
       },
     },
     beforeAfter: {
@@ -423,10 +428,12 @@ export const cancelarDeudas: MoneyContent = {
           </p>
           <ul className="list-disc space-y-2 pl-5">
             <li>
-              <strong>¿Puedes pagar algo cada mes?</strong> Si <strong>no</strong>, tu vía es
-              cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
-              Si <strong>sí</strong>, valora <A to="/reunificar-deudas">reunificar</A> en una
-              sola cuota.
+              <strong>¿Puedes pagar algo cada mes?</strong> Si <strong>sí</strong>, valora{" "}
+              <A to="/reunificar-deudas">reunificar</A> en una sola cuota. Si <strong>no</strong>,
+              y <strong>no tienes bienes de valor pagados</strong>, tu vía es cancelar con la{" "}
+              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>; si tienes vivienda o
+              terreno pagado, suele convenir <A to="/reunificar-deudas">reunificar</A> para
+              protegerlo.
             </li>
             <li>
               <strong>¿Tus intereses son altísimos?</strong> En{" "}
@@ -487,20 +494,23 @@ export const cancelarDeudas: MoneyContent = {
       body: (
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
-            La vía correcta depende de dos cosas: <strong>cuánto puedes pagar</strong> y{" "}
+            La vía correcta depende de tres cosas: <strong>cuánto puedes pagar</strong>,{" "}
+            <strong>si tienes bienes de valor pagados</strong> y{" "}
             <strong>de dónde viene la deuda</strong>. Como guía rápida:
           </p>
           <ul className="list-disc space-y-2 pl-5">
             <li>
-              Si <strong>no puedes pagar nada</strong> → cancelar con la{" "}
+              Si <strong>no puedes pagar nada y no tienes bienes de valor</strong> → cancelar con la{" "}
               <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
             </li>
             <li>
-              Si tus <strong>intereses son abusivos</strong> → anular por usura.
+              Si <strong>no puedes pagar pero tienes vivienda o terreno pagado</strong> →{" "}
+              <A to="/reunificar-deudas">reunificar</A> para no arriesgar esos bienes en una
+              liquidación.
             </li>
             <li>
-              Si <strong>puedes pagar una parte</strong> → negociar una quita o{" "}
-              <A to="/reunificar-deudas">reunificar</A>.
+              Si tus <strong>intereses son abusivos</strong> y la deuda es contenida → anular
+              por usura.
             </li>
           </ul>
           <p>

@@ -152,7 +152,13 @@ export const juicioMonitorioDeuda: MoneyContent = {
             <li>Que está <strong>prescrita</strong> por el paso del tiempo.</li>
             <li>Que incluye <strong>intereses o cláusulas abusivas</strong> (revolving, microcréditos).</li>
           </ul>
-          <p>Si la deuda es real pero no puedes pagarla, valora la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.</p>
+          <p>
+            Oponerse al monitorio tiene sentido cuando la deuda es discutible y eres solvente.
+            Si la deuda es real pero <strong>no puedes pagarla y no tienes bienes de valor</strong>,
+            la vía de fondo es la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>;
+            si no puedes pagar pero tienes patrimonio pagado, valora{" "}
+            <A to="/reunificar-deudas">reunificar</A> para protegerlo.
+          </p>
         </div>
       ),
     },

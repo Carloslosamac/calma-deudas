@@ -313,9 +313,9 @@ export const cancelacionDeDeudas: MoneyContent = {
         linkLabel: "Cancelar deudas ahora",
       },
       {
-        label: "Aún puedo pagar algo",
+        label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Si puedes asumir una cuota razonable, valora reunificar antes de cancelar.",
+          "Si aún puedes asumir una cuota, o tienes vivienda o terreno totalmente pagados que la LSO podría liquidar, suele convenir reunificar para protegerlos.",
         to: "/reunificacion-deudas",
         linkLabel: "Reunificación de deudas",
       },
@@ -371,6 +371,12 @@ export const cancelacionDeDeudas: MoneyContent = {
             <strong> buena fe</strong>: no haber ocultado bienes ni haber provocado el
             sobreendeudamiento de forma fraudulenta. También se valora no tener condenas por
             ciertos delitos económicos recientes.
+          </p>
+          <p>
+            Un matiz práctico importante: si tienes <strong>vivienda, terreno u otros bienes
+            de valor totalmente pagados</strong>, la fase de liquidación de la LSO podría
+            realizarlos para pagar a los acreedores. En esos casos suele ser preferible{" "}
+            <A to="/reunificacion-deudas">reunificar</A> para proteger ese patrimonio.
           </p>
         </div>
       ),

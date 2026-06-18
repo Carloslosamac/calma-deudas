@@ -151,7 +151,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
             <li><strong>EPI con liquidación de bienes:</strong> se realizan los bienes embargables para pagar lo posible y el resto de la deuda se cancela de forma inmediata. Útil cuando no hay vivienda o ya está sobreendeudada.</li>
             <li><strong>EPI con plan de pagos:</strong> conservas tu patrimonio (incluida, en muchos casos, la vivienda habitual) y abonas una parte adaptada a tus ingresos durante un periodo de hasta 3 años. Cumplido el plan, el resto se exonera.</li>
           </ul>
-          <p>Si todavía puedes asumir parte de la deuda, valora antes <A to="/reunificar-deudas">reunificar deudas</A> o <A to="/cancelar-deudas">cancelar deudas</A> concretas.</p>
+          <p>Si todavía puedes asumir parte de la deuda, o tienes <strong>vivienda o terreno totalmente pagados</strong> que la EPI con liquidación podría realizar, valora antes <A to="/reunificar-deudas">reunificar deudas</A> para proteger ese patrimonio; si no tienes bienes de valor que perder, <A to="/cancelar-deudas">cancelar</A> suele ser la vía más limpia.</p>
         </div>
       ),
     },

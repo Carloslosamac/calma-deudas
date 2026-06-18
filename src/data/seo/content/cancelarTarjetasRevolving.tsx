@@ -127,10 +127,11 @@ export const cancelarTarjetasRevolving: MoneyContent = {
         { text: "¿Tu tarjeta es revolving o de pago aplazado?", goodAnswer: "yes" },
         { text: "¿La TAE ronda o supera el 20%?", goodAnswer: "yes" },
         { text: "¿La deuda casi no baja aunque pagas?", goodAnswer: "yes" },
+        { text: "¿Estás en insolvencia (no puedes pagar el resto de tus deudas)?", goodAnswer: "no" },
         { text: "¿La contrataste hace menos de un mes?", goodAnswer: "no" },
       ],
       resultPass: { title: "Tu tarjeta podría ser usura", text: "Tu caso encaja con las revolving que se anulan. Pide tu revisión gratis ahora." },
-      resultDoubt: { title: "Vale la pena revisarlo", text: "Muchas revolving se anulan aunque no lo parezca. Lo revisamos gratis en 24h." },
+      resultDoubt: { title: "Vale la pena revisarlo", text: "Muchas revolving se anulan aunque no lo parezca. Y si estás en insolvencia con varias deudas, quizá te convenga más la Ley de Segunda Oportunidad que reclamar solo esta tarjeta. Lo revisamos gratis en 24h." },
     },
     beforeAfter: {
       title: "Antes y después de reclamar",

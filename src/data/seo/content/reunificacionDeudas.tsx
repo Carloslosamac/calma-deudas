@@ -175,14 +175,15 @@ export const reunificacionDeudas: MoneyContent = {
     title: "¿Me conviene reunificar?",
     intro: (
       <>
-        La reunificación encaja sobre todo si <strong>todavía puedes pagar</strong> una
-        cuota razonable y quieres simplificar. Si ya no puedes asumir nada, suele ser mejor
-        cancelar. Esto es lo que valoramos:
+        La reunificación encaja si <strong>todavía puedes pagar</strong> una cuota razonable, o
+        si <strong>no puedes pagar pero tienes bienes de valor pagados</strong> que la
+        cancelación por LSO podría liquidar. Si no puedes pagar y no tienes patrimonio que
+        proteger, suele ser mejor cancelar. Esto es lo que valoramos:
       </>
     ),
     requirements: [
       "Tienes varias deudas o préstamos con cuotas que te cuesta asumir juntas.",
-      "Todavía cuentas con ingresos para pagar una cuota única más baja.",
+      "Cuentas con ingresos para una cuota única más baja, o tienes bienes pagados que quieres proteger.",
       "Buscas simplificar y reducir el pago mensual, no necesariamente eliminar la deuda.",
       "Quieres una comparativa honesta antes de decidir entre reunificar y cancelar.",
     ],
@@ -206,7 +207,8 @@ export const reunificacionDeudas: MoneyContent = {
         { feature: "Una sola cuota mensual", values: ["sí", "no"] },
         { feature: "Elimina la deuda", values: ["no", "sí"] },
         { feature: "Ideal si aún puedes pagar", values: ["sí", "no"] },
-        { feature: "Ideal si no puedes pagar", values: ["no", "sí"] },
+        { feature: "Ideal si no puedes pagar y no tienes bienes", values: ["no", "sí"] },
+        { feature: "Protege bienes de valor pagados", values: ["sí", "no"] },
         { feature: "Frena embargos", values: ["no", "sí"] },
         { feature: "Coste total a largo plazo", values: ["Puede subir", "Se cancela"] },
       ],
@@ -239,14 +241,14 @@ export const reunificacionDeudas: MoneyContent = {
       {
         label: "Ya no puedo pagar",
         message:
-          "Si no puedes asumir ninguna cuota, reunificar no es la solución: mejor cancelar la deuda.",
+          "Si no puedes asumir ninguna cuota y no tienes bienes de valor que perder, reunificar no es la solución: mejor cancelar la deuda.",
         to: "/ley-segunda-oportunidad",
         linkLabel: "Ley de Segunda Oportunidad",
       },
       {
-        label: "Con hipoteca",
+        label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Reunificar con garantía hipotecaria es delicado: lo valoramos con mucho cuidado.",
+          "Si tienes vivienda o terreno pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio en una sola cuota.",
       },
       {
         label: "Microcréditos",
@@ -268,7 +270,7 @@ export const reunificacionDeudas: MoneyContent = {
       subtitle: "4 preguntas rápidas. Sin dar tus datos.",
       questions: [
         { text: "¿Tienes dos o más deudas con cuotas distintas?", goodAnswer: "yes" },
-        { text: "¿Todavía puedes pagar una cuota mensual razonable?", goodAnswer: "yes" },
+        { text: "¿Puedes pagar una cuota razonable o tienes bienes de valor pagados que proteger?", goodAnswer: "yes" },
         { text: "¿Tu objetivo principal es bajar el pago mensual?", goodAnswer: "yes" },
         { text: "¿Es imposible que pagues ninguna cuota?", goodAnswer: "no" },
       ],
@@ -278,7 +280,7 @@ export const reunificacionDeudas: MoneyContent = {
       },
       resultDoubt: {
         title: "Quizá te convenga cancelar",
-        text: "Si las cuotas te superan, reunificar puede no bastar. Te comparamos reunificar y cancelar gratis para que elijas seguro.",
+        text: "Si las cuotas te superan y no tienes bienes de valor que proteger, reunificar puede no bastar y cancelar con la LSO sea mejor. Te comparamos ambas vías gratis.",
       },
     },
     beforeAfter: {
@@ -326,12 +328,14 @@ export const reunificacionDeudas: MoneyContent = {
           <ul className="list-disc space-y-2 pl-5">
             <li>
               <strong>Reunificar</strong> tiene sentido si todavía puedes pagar y solo
-              necesitas bajar la cuota y simplificar.
+              necesitas bajar la cuota y simplificar, o si no puedes pagar pero tienes bienes
+              de valor pagados (vivienda, terreno) que quieres proteger de una liquidación.
             </li>
             <li>
               <strong>Cancelar</strong> (vía{" "}
               <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>) es mejor si ya
-              no puedes asumir las cuotas, por mucho que las juntes.
+              no puedes asumir las cuotas y no tienes patrimonio de valor que perder, por mucho
+              que las juntes.
             </li>
           </ul>
           <p>

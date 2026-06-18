@@ -206,6 +206,7 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
       "Actúas de buena fe: no has ocultado bienes ni provocado tu insolvencia de forma fraudulenta.",
       "No has sido condenado por determinados delitos socioeconómicos en los últimos diez años.",
       "Tus deudas no provienen, en su mayoría, de sanciones o conductas dolosas.",
+      "No tienes bienes de valor totalmente pagados que prefieras conservar: si los tienes, un abogado valorará si reunificar protege mejor tu patrimonio.",
     ],
     trustTitle: "Contenido revisado por abogado",
     trustText: "Actualizado según la última reforma concursal.",
@@ -408,6 +409,7 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
         { text: "¿No puedes pagar tus deudas con tus ingresos actuales?", goodAnswer: "yes" },
         { text: "¿Tus deudas suman más de 5.000 €?", goodAnswer: "yes" },
         { text: "¿Has actuado de buena fe (sin ocultar bienes)?", goodAnswer: "yes" },
+        { text: "¿Tienes vivienda u otros bienes de valor totalmente pagados?", goodAnswer: "no" },
         { text: "¿Has sido condenado por delitos económicos en los últimos 10 años?", goodAnswer: "no" },
       ],
       resultPass: {
@@ -416,7 +418,7 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
       },
       resultDoubt: {
         title: "Probablemente sí. Que lo valore un abogado.",
-        text: "Casos muy parecidos al tuyo se resuelven cada semana. No pierdas un mes: un abogado lo confirma gratis en 24h.",
+        text: "Si tienes bienes de valor pagados, un abogado valorará si te conviene más reunificar para protegerlos en lugar de cancelar. Lo confirma gratis en 24h.",
       },
     },
     beforeAfter: {

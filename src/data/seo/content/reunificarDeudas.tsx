@@ -174,13 +174,15 @@ export const reunificarDeudas: MoneyContent = {
     title: "¿Puedo reunificar mis deudas?",
     intro: (
       <>
-        Para reunificar, lo normal es que <strong>todavía puedas pagar</strong> una cuota
-        única más baja. Esto es lo que tenemos en cuenta:
+        Reunificar encaja en dos perfiles: cuando <strong>todavía puedes pagar</strong> una
+        cuota única más baja, o cuando <strong>no puedes pagar pero tienes bienes de valor
+        pagados</strong> (vivienda, terreno) que la cancelación por LSO podría liquidar. Esto
+        es lo que tenemos en cuenta:
       </>
     ),
     requirements: [
       "Tienes dos o más préstamos o deudas con cuotas distintas.",
-      "Cuentas con ingresos estables para asumir una cuota única.",
+      "Cuentas con ingresos para asumir una cuota única, o tienes patrimonio pagado que quieres proteger.",
       "Quieres simplificar y reducir el pago mensual.",
       "Buscas una guía clara, paso a paso, para hacerlo bien.",
     ],
@@ -227,14 +229,14 @@ export const reunificarDeudas: MoneyContent = {
       {
         label: "Ya no puedo pagar",
         message:
-          "Si no puedes asumir ninguna cuota, reunificar no basta: mejor cancelar la deuda.",
+          "Si no puedes asumir ninguna cuota y no tienes bienes de valor que perder, reunificar no basta: mejor cancelar con la Ley de Segunda Oportunidad.",
         to: "/ley-segunda-oportunidad",
         linkLabel: "Ley de Segunda Oportunidad",
       },
       {
-        label: "Con hipoteca",
+        label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Reunificar con garantía sobre tu vivienda es delicado: lo valoramos con cuidado.",
+          "Si tienes vivienda o terreno totalmente pagados, cancelar con la LSO podría liquidarlos. Reunificar te permite proteger ese patrimonio agrupando todo en una cuota.",
       },
       {
         label: "No lo tengo claro",
@@ -249,7 +251,7 @@ export const reunificarDeudas: MoneyContent = {
       subtitle: "4 preguntas rápidas. Sin dar tus datos.",
       questions: [
         { text: "¿Tienes dos o más deudas con cuotas distintas?", goodAnswer: "yes" },
-        { text: "¿Tienes ingresos estables cada mes?", goodAnswer: "yes" },
+        { text: "¿Tienes ingresos estables o bienes de valor pagados que quieras proteger?", goodAnswer: "yes" },
         { text: "¿Quieres bajar y simplificar tu pago mensual?", goodAnswer: "yes" },
         { text: "¿Te resulta imposible pagar ninguna cuota?", goodAnswer: "no" },
       ],
@@ -259,7 +261,7 @@ export const reunificarDeudas: MoneyContent = {
       },
       resultDoubt: {
         title: "Puede que te convenga cancelar",
-        text: "Si las cuotas te superan, reunificar quizá no baste. Te comparamos reunificar y cancelar gratis.",
+        text: "Si las cuotas te superan y no tienes bienes de valor que proteger, reunificar quizá no baste y cancelar con la LSO sea mejor. Te comparamos ambas vías gratis.",
       },
     },
     beforeAfter: {
@@ -321,10 +323,12 @@ export const reunificarDeudas: MoneyContent = {
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
             Reunificar no siempre es la mejor idea. Si ya <strong>no puedes pagar ninguna
-            cuota</strong>, juntarlas solo alarga el problema y encarece la deuda. En ese
-            caso suele ser mejor cancelar con la{" "}
-            <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>. También conviene
-            evitar reunificar poniendo tu vivienda como garantía sin valorarlo bien.
+            cuota</strong> y <strong>no tienes bienes de valor que perder</strong>, juntarlas
+            solo alarga el problema y encarece la deuda. En ese caso suele ser mejor cancelar
+            con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>. En cambio,
+            si no puedes pagar pero sí tienes vivienda o terreno pagados, reunificar es la vía
+            que protege ese patrimonio. También conviene evitar reunificar poniendo tu vivienda
+            como garantía sin valorarlo bien.
           </p>
         </div>
       ),
