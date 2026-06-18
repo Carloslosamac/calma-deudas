@@ -1,18 +1,11 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
-import { Scale, Gavel, Handshake, ArrowRight } from "lucide-react";
+import { A, KeyCallout, OptionCards, ActionLink, WarningCallout, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/person-man-portrait.jpg";
 import p2 from "@/assets/person-woman-window.jpg";
 import p3 from "@/assets/person-woman-walking.jpg";
 import p4 from "@/assets/person-couple-sofa.jpg";
 import p5 from "@/assets/person-family-table.jpg";
 import p6 from "@/assets/avatar-1.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Cancelación de deudas". Ángulo informativo/guía: vías legales,
