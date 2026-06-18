@@ -68,14 +68,14 @@ const DebtSimulator = ({ config }: { config: MoneySimulator }) => {
       return {
         key: "reunificar" as const,
         reason:
-          "Aún puedes asumir una cuota: reunificar baja el pago mensual sin tocar tus bienes.",
+          "Aún puedes asumir una cuota: negociamos con tus entidades para bajar el pago mensual y el total, sin tocar tus bienes.",
       };
     }
     if (hasAssets)
       return {
         key: "reunificar" as const,
         reason:
-          "No puedes pagar pero tienes bienes de valor pagados: reunificar protege ese patrimonio (la LSO podría liquidarlo).",
+          "No puedes pagar pero tienes bienes de valor pagados: reunificar (negociar con tus acreedores) protege ese patrimonio, que la LSO podría liquidar.",
       };
     return {
       key: "lso" as const,
