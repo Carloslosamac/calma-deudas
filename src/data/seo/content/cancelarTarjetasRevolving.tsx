@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/testimonial-1.jpg";
 import p2 from "@/assets/testimonial-2.jpg";
 import p3 from "@/assets/testimonial-3.jpg";
 import p4 from "@/assets/testimonial-4.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Cancelar tarjetas revolving". Ángulo usura: intereses abusivos.
@@ -146,27 +140,47 @@ export const cancelarTarjetasRevolving: MoneyContent = {
     {
       title: "¿Qué es una tarjeta revolving y por qué es peligrosa?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La revolving es una tarjeta de <strong>crédito con pago aplazado</strong>: pagas una cuota fija pequeña, pero los intereses son tan altos que la deuda apenas baja. Puedes pasar años pagando sin reducir el saldo.</p>
-          <p>Cuando la TAE es desproporcionada, la ley la considera usura y el contrato es nulo.</p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              Pagas una cuota pequeña, pero la deuda{" "}
+              <span className="text-accent-deep">apenas baja</span>.
+            </>
+          }
+        >
+          <p>La revolving es una tarjeta de crédito con pago aplazado e intereses tan altos que puedes pasar años pagando sin reducir el saldo.</p>
+          <p>Cuando la TAE es desproporcionada, la ley la considera <strong>usura</strong> y el contrato es nulo.</p>
+        </KeyCallout>
       ),
     },
     {
       title: "Qué puedes recuperar al anularla",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Si se declara la nulidad, solo debes el <strong>capital realmente dispuesto</strong>. Todo lo pagado por encima (intereses, comisiones, seguros) se te devuelve o se descuenta. Si ya pagaste de más, recuperas la diferencia.</p>
-          <p>¿Tienes también microcréditos? Mira cómo <A to="/microcreditos-prestamos/cancelar-microcreditos">cancelar microcréditos</A>.</p>
+        <div className="space-y-5">
+          <FactGrid
+            items={[
+              { value: "Solo capital", label: "Lo que debes", detail: "Tras la nulidad respondes solo por el capital dispuesto." },
+              { value: "Se devuelve", label: "Intereses y comisiones", detail: "Lo pagado de más se devuelve o se descuenta." },
+              { value: "La diferencia", label: "Si ya pagaste de más", detail: "Recuperas todo lo abonado por encima del capital." },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
+            ¿Tienes también microcréditos? Mira cómo <A to="/microcreditos-prestamos/cancelar-microcreditos">cancelar microcréditos</A>.
+          </p>
         </div>
       ),
     },
     {
       title: "Coste y plazos de la reclamación",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La <strong>revisión inicial es gratuita</strong>. Muchas entidades aceptan la nulidad en fase extrajudicial; si hay que ir a juicio, los plazos son mayores pero la jurisprudencia es favorable. Te damos presupuesto cerrado.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Gratis", label: "Revisión inicial", detail: "Estudiamos tu contrato sin coste ni compromiso." },
+            { value: "Extrajudicial", label: "Muchos casos", detail: "Muchas entidades aceptan la nulidad sin llegar a juicio." },
+            { value: "Favorable", label: "Jurisprudencia", detail: "Si hay que litigar, los criterios del Supremo te respaldan." },
+          ]}
+        />
       ),
     },
   ],

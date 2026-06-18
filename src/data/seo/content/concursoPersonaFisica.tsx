@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/person-couple-sofa.jpg";
 import p2 from "@/assets/person-family-table.jpg";
 import p3 from "@/assets/person-woman-walking.jpg";
 import p4 from "@/assets/avatar-2.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Concurso de persona física". Ángulo jurídico post-reforma concursal.
@@ -140,9 +134,17 @@ export const concursoPersonaFisica: MoneyContent = {
     {
       title: "¿Qué es el concurso de persona física?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Es el procedimiento legal para que un <strong>particular o autónomo insolvente</strong> reorganice o cancele sus deudas bajo control judicial. Tras la reforma concursal, se ha agilizado y conecta directamente con la exoneración del pasivo.</p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              Un cauce judicial para que un insolvente{" "}
+              <span className="text-accent-deep">reorganice o cancele</span> sus deudas.
+            </>
+          }
+        >
+          <p>Es el procedimiento para que un <strong>particular o autónomo insolvente</strong> resuelva sus deudas bajo control judicial. Tras la reforma concursal se ha agilizado y conecta directamente con la exoneración del pasivo.</p>
+        </KeyCallout>
       ),
     },
     {
@@ -156,9 +158,13 @@ export const concursoPersonaFisica: MoneyContent = {
     {
       title: "Coste y duración",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>El <strong>diagnóstico es gratuito</strong>. La duración depende de la complejidad y de si hay convenio o liquidación; trabajamos con presupuesto cerrado y pago fraccionable.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Gratis", label: "Diagnóstico", detail: "Estudiamos tu insolvencia sin coste ni compromiso." },
+            { value: "Según caso", label: "Duración", detail: "Depende de si hay convenio o liquidación." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con pago fraccionable." },
+          ]}
+        />
       ),
     },
   ],

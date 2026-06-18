@@ -1,17 +1,11 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, OptionCards, CheckList, ActionLink } from "@/components/seo/modules";
 import p1 from "@/assets/testimonios/lso-1.jpg";
 import p2 from "@/assets/testimonios/lso-2.jpg";
 import p3 from "@/assets/testimonios/lso-3.jpg";
 import p4 from "@/assets/testimonios/lso-4.jpg";
 import p5 from "@/assets/testimonios/lso-5.jpg";
 import p6 from "@/assets/testimonios/lso-6.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Reunificación de deudas". Pilar del cluster, ángulo comparativo:
@@ -308,37 +302,46 @@ export const reunificacionDeudas: MoneyContent = {
     {
       title: "¿Qué es la reunificación de deudas?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            Reunificar consiste en <strong>juntar varios préstamos y deudas en uno solo</strong>,
-            con una única cuota mensual, normalmente más baja porque se alarga el plazo. No
-            elimina la deuda: la reorganiza para que puedas pagarla con más holgura.
-          </p>
-          <p>
-            Si quieres pasar directamente a la acción, mira{" "}
-            <A to="/reunificar-deudas">cómo reunificar deudas paso a paso</A>.
-          </p>
+        <div className="space-y-5">
+          <KeyCallout
+            eyebrow="En una frase"
+            headline={
+              <>
+                Juntar varios préstamos en{" "}
+                <span className="text-accent-deep">una sola cuota más baja</span>.
+              </>
+            }
+          >
+            <p>Se alarga el plazo para reducir la cuota mensual. No elimina la deuda: la reorganiza para que puedas pagarla con más holgura.</p>
+          </KeyCallout>
+          <ActionLink to="/reunificar-deudas">
+            ¿Prefieres pasar directamente a la acción?{" "}
+            <span className="text-accent-deep">Reunificar deudas paso a paso</span>
+          </ActionLink>
         </div>
       ),
     },
     {
       title: "Reunificar vs cancelar: cuándo cada una",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Reunificar</strong> tiene sentido si todavía puedes pagar y solo
-              necesitas bajar la cuota y simplificar, o si no puedes pagar pero tienes bienes
-              de valor pagados (vivienda, terreno) que quieres proteger de una liquidación.
-            </li>
-            <li>
-              <strong>Cancelar</strong> (vía{" "}
-              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>) es mejor si ya
-              no puedes asumir las cuotas y no tienes patrimonio de valor que perder, por mucho
-              que las juntes.
-            </li>
-          </ul>
-          <p>
+        <div className="space-y-5">
+          <OptionCards
+            columns={2}
+            items={[
+              {
+                icon: "wallet",
+                title: "Reunificar",
+                text: "Si todavía puedes pagar y solo necesitas bajar la cuota, o si no puedes pagar pero tienes bienes de valor pagados (vivienda, terreno) que quieres proteger de una liquidación.",
+              },
+              {
+                icon: "scale",
+                title: "Cancelar (LSO)",
+                text: "Mejor si ya no puedes asumir las cuotas y no tienes patrimonio de valor que perder, por mucho que las juntes.",
+                links: <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>,
+              },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             Reunificar y seguir sin poder pagar solo alarga el problema y encarece la deuda.
             Por eso te damos una comparativa honesta antes de decidir.
           </p>
@@ -348,13 +351,18 @@ export const reunificacionDeudas: MoneyContent = {
     {
       title: "Ventajas y riesgos a tener en cuenta",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La reunificación tiene luces y sombras, y conviene conocerlas:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>A favor:</strong> una sola cuota, pago mensual más bajo, gestión más simple.</li>
-            <li><strong>En contra:</strong> al alargar el plazo, puedes pagar más intereses totales.</li>
-            <li><strong>Cuidado:</strong> evita reunificar con garantía sobre tu vivienda sin valorarlo bien.</li>
-          </ul>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">La reunificación tiene luces y sombras, y conviene conocerlas:</p>
+          <CheckList
+            items={[<><strong>A favor:</strong> una sola cuota, pago mensual más bajo, gestión más simple.</>]}
+          />
+          <CheckList
+            variant="cross"
+            items={[
+              <><strong>En contra:</strong> al alargar el plazo, puedes pagar más intereses totales.</>,
+              <><strong>Cuidado:</strong> evita reunificar con garantía sobre tu vivienda sin valorarlo bien.</>,
+            ]}
+          />
         </div>
       ),
     },

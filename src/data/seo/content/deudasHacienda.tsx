@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, OptionCards, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/avatar-3.jpg";
 import p2 from "@/assets/person-man-portrait.jpg";
 import p3 from "@/assets/person-woman-window.jpg";
 import p4 from "@/assets/person-couple-sofa.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Deudas con Hacienda". Ángulo: deuda pública con límites de exoneración.
@@ -137,26 +131,46 @@ export const deudasHacienda: MoneyContent = {
     {
       title: "¿Se puede cancelar la deuda con Hacienda?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Sí, pero con matices. La deuda pública se exonera <strong>con límites</strong> dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>: una parte puede cancelarse y el resto se reorganiza en un plan de pagos.</p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              La deuda con Hacienda se exonera{" "}
+              <span className="text-accent-deep">con límites</span>.
+            </>
+          }
+        >
+          <p>Dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, una parte de la deuda pública puede cancelarse y el resto se reorganiza en un plan de pagos.</p>
+        </KeyCallout>
       ),
     },
     {
       title: "Aplazar, fraccionar o recurrir",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Antes de llegar a la exoneración, hay vías administrativas: aplazar, fraccionar o recurrir la liquidación si tiene errores. Lo valoramos según tu importe y tu capacidad de pago.</p>
-          <p>Si la deuda viene de tu actividad, mira también <A to="/deudas-hacienda-seguridad-social/deudas-seguridad-social">deudas con la Seguridad Social</A>.</p>
+        <div className="space-y-5">
+          <OptionCards
+            items={[
+              { icon: "clock", title: "Aplazar", text: "Retrasar el pago dentro de los criterios de la Agencia Tributaria." },
+              { icon: "wallet", title: "Fraccionar", text: "Dividir la deuda en cuotas asumibles según tu capacidad de pago." },
+              { icon: "gavel", title: "Recurrir", text: "Reclamar la liquidación si tiene errores, antes de pagar de más." },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
+            Si la deuda viene de tu actividad, mira también <A to="/deudas-hacienda-seguridad-social/deudas-seguridad-social">deudas con la Seguridad Social</A>.
+          </p>
         </div>
       ),
     },
     {
       title: "Coste y plazos",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>El <strong>diagnóstico es gratuito</strong>. La gestión depende de la vía elegida; trabajamos con presupuesto cerrado y opción de pago fraccionado.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Gratis", label: "Diagnóstico", detail: "Estudiamos tu deuda con Hacienda sin coste." },
+            { value: "Según vía", label: "Gestión", detail: "Depende de si aplazamos, recurrimos o exoneramos." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+          ]}
+        />
       ),
     },
   ],

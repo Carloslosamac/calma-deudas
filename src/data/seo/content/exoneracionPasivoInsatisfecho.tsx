@@ -1,11 +1,5 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
+import { A, KeyCallout, OptionCards, WarningCallout, CheckList } from "@/components/seo/modules";
 
 /**
  * Página "Exoneración del pasivo insatisfecho (EPI)". Ángulo INFORMATIVO /
@@ -136,22 +130,43 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     {
       title: "¿Qué es la exoneración del pasivo insatisfecho?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La EPI es la resolución judicial que, dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, <strong>cancela las deudas que no puedes pagar</strong>. Es el resultado final del procedimiento, una vez acreditada tu insolvencia y buena fe. No es un acuerdo con los acreedores ni una quita pactada: es una decisión del juzgado con efecto pleno.</p>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              Una resolución judicial que{" "}
+              <span className="text-accent-deep">cancela las deudas que no puedes pagar</span>.
+            </>
+          }
+        >
+          <p>La EPI es el resultado final del procedimiento de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, una vez acreditada tu insolvencia y buena fe. No es un acuerdo con los acreedores ni una quita pactada: es una decisión del juzgado con efecto pleno.</p>
           <p>Su regulación está en el Texto Refundido de la Ley Concursal, reformado en 2022 para hacer la exoneración más accesible y permitir, en muchos casos, conservar la vivienda mediante un plan de pagos.</p>
-        </div>
+        </KeyCallout>
       ),
     },
     {
       title: "Las dos modalidades de exoneración",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>La ley contempla dos vías para llegar a la exoneración, y se elige la que mejor protege tu situación:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>EPI con liquidación de bienes:</strong> se realizan los bienes embargables para pagar lo posible y el resto de la deuda se cancela de forma inmediata. Útil cuando no hay vivienda o ya está sobreendeudada.</li>
-            <li><strong>EPI con plan de pagos:</strong> conservas tu patrimonio (incluida, en muchos casos, la vivienda habitual) y abonas una parte adaptada a tus ingresos durante un periodo de hasta 3 años. Cumplido el plan, el resto se exonera.</li>
-          </ul>
-          <p>Si todavía puedes asumir parte de la deuda, o tienes <strong>vivienda o terreno totalmente pagados</strong> que la EPI con liquidación podría realizar, valora antes <A to="/reunificar-deudas">reunificar deudas</A> para proteger ese patrimonio; si no tienes bienes de valor que perder, <A to="/cancelar-deudas">cancelar</A> suele ser la vía más limpia.</p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">La ley contempla dos vías para llegar a la exoneración, y se elige la que mejor protege tu situación:</p>
+          <OptionCards
+            columns={2}
+            items={[
+              {
+                icon: "scale",
+                title: "EPI con liquidación de bienes",
+                text: "Se realizan los bienes embargables para pagar lo posible y el resto de la deuda se cancela de forma inmediata. Útil cuando no hay vivienda o ya está sobreendeudada.",
+              },
+              {
+                icon: "shield",
+                title: "EPI con plan de pagos",
+                text: "Conservas tu patrimonio (incluida, en muchos casos, la vivienda habitual) y abonas una parte adaptada a tus ingresos hasta 3 años. Cumplido el plan, el resto se exonera.",
+              },
+            ]}
+          />
+          <WarningCallout title="¿Tienes bienes de valor pagados?">
+            <p>Si todavía puedes asumir parte de la deuda, o tienes <strong>vivienda o terreno totalmente pagados</strong> que la EPI con liquidación podría realizar, valora antes <A to="/reunificar-deudas">reunificar deudas</A> para proteger ese patrimonio; si no tienes bienes de valor que perder, <A to="/cancelar-deudas">cancelar</A> suele ser la vía más limpia.</p>
+          </WarningCallout>
         </div>
       ),
     },
@@ -167,14 +182,27 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     {
       title: "Actualización 2026: el Supremo amplía la exoneración del crédito público",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+        <div className="space-y-5 text-base leading-relaxed text-foreground/85">
           <p>Las <strong>sentencias del Tribunal Supremo de 18 de febrero de 2026</strong> (SSTS 254/2026, 259/2026 y 260/2026) marcan un punto de inflexión: amplían de forma sustancial cuánta deuda pública puede cancelarse en la EPI. Tres claves:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</li>
-            <li><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (hasta 10.000 € por organismo: 100 % los primeros 5.000 € y 50 % el tramo de 5.000 € a 10.000 €).</li>
-            <li><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</li>
-          </ul>
-          <p><strong>Ejemplo:</strong> con 44.000 € de deuda pública (24.000 € con Hacienda y 20.000 € con Seguridad Social, parte intereses y parte principal), aplicando esta doctrina podrías llegar a pagar solo unos 7.500 €: una exoneración cercana al 83 %.</p>
+          <CheckList
+            items={[
+              <><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</>,
+              <><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (hasta 10.000 € por organismo: 100 % los primeros 5.000 € y 50 % el tramo de 5.000 € a 10.000 €).</>,
+              <><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</>,
+            ]}
+          />
+          <KeyCallout
+            tone="neutral"
+            eyebrow="Ejemplo real"
+            headline={
+              <>
+                Con 44.000 € de deuda pública, podrías pagar solo{" "}
+                <span className="text-accent-deep">unos 7.500 €</span>.
+              </>
+            }
+          >
+            <p>24.000 € con Hacienda y 20.000 € con Seguridad Social (parte intereses, parte principal): aplicando esta doctrina, una exoneración cercana al 83 %.</p>
+          </KeyCallout>
           <p>Por eso ahora es clave <strong>analizar la naturaleza de cada deuda</strong> (principal ordinario vs. intereses/recargos subordinados) en cada caso. Lo hacemos en tu diagnóstico.</p>
         </div>
       ),
@@ -182,13 +210,16 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     {
       title: "Cuándo puede revocarse la exoneración",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+        <div className="space-y-5 text-base leading-relaxed text-foreground/85">
           <p>La EPI no es irreversible si se actúa de mala fe. Un juez puede revocarla, normalmente a instancia de un acreedor, en supuestos como:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Ocultar bienes, ingresos o derechos durante el procedimiento.</li>
-            <li>Una mejora sustancial de fortuna en los años siguientes (por herencia, premio o similar).</li>
-            <li>Incumplir el plan de pagos en la modalidad provisional.</li>
-          </ul>
+          <CheckList
+            variant="cross"
+            items={[
+              "Ocultar bienes, ingresos o derechos durante el procedimiento.",
+              "Una mejora sustancial de fortuna en los años siguientes (por herencia, premio o similar).",
+              "Incumplir el plan de pagos en la modalidad provisional.",
+            ]}
+          />
           <p>Por eso la <strong>transparencia y la buena fe</strong> son determinantes. Para el detalle de la deuda pública, consulta <A to="/deudas-hacienda-seguridad-social/deudas-hacienda">deudas con Hacienda</A>.</p>
         </div>
       ),

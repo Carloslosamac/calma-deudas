@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, OptionCards, CheckList, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/person-closeup-man-1.jpg";
 import p2 from "@/assets/person-closeup-woman-1.jpg";
 import p3 from "@/assets/person-closeup-man-2.jpg";
@@ -12,12 +12,6 @@ import team3 from "@/assets/team-lawyer-3.jpg";
 import team4 from "@/assets/team-lawyer-4.jpg";
 import team5 from "@/assets/team-lawyer-5.jpg";
 import team6 from "@/assets/team-lawyer-6.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Cancelar deudas". Ángulo acción/resultado: eliminar lo que no
@@ -457,32 +451,45 @@ export const cancelarDeudas: MoneyContent = {
     {
       title: "Las 4 vías para que tu deuda desaparezca",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             No existe una sola forma de eliminar una deuda. Según tu situación, la salida
             puede ser una de estas cuatro:
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>:</strong>{" "}
-              cuando no puedes pagar, se cancela la deuda entera, incluida la pública con límites.
-            </li>
-            <li>
-              <strong><A to="/reunificar-deudas">Reunificar</A>:</strong> agrupar todo en una
-              sola cuota asumible si todavía puedes pagar.
-            </li>
-            <li>
-              <strong>Reclamación judicial:</strong> en{" "}
-              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">tarjetas revolving</A> y{" "}
-              <A to="/microcreditos-prestamos/cancelar-microcreditos">microcréditos</A> con
-              intereses o cláusulas abusivas, se anula la deuda total o parcialmente ante el juzgado.
-            </li>
-            <li>
-              <strong>Refinanciar:</strong> renegociar con el banco para rebajar la cuota y los
-              intereses cuando aún puedes pagar pero las condiciones te ahogan.
-            </li>
-          </ul>
-          <p>
+          <OptionCards
+            columns={2}
+            items={[
+              {
+                icon: "scale",
+                title: "Cancelar con la LSO",
+                text: "Cuando no puedes pagar, se cancela la deuda entera, incluida la pública con límites.",
+                links: <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>,
+              },
+              {
+                icon: "wallet",
+                title: "Reunificar",
+                text: "Agrupar todo en una sola cuota asumible si todavía puedes pagar.",
+                links: <A to="/reunificar-deudas">Reunificar deudas</A>,
+              },
+              {
+                icon: "gavel",
+                title: "Reclamación judicial",
+                text: "En revolving y microcréditos con intereses abusivos, se anula la deuda total o parcialmente ante el juzgado.",
+                links: (
+                  <>
+                    <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">Revolving</A>
+                    <A to="/microcreditos-prestamos/cancelar-microcreditos">Microcréditos</A>
+                  </>
+                ),
+              },
+              {
+                icon: "landmark",
+                title: "Refinanciar",
+                text: "Renegociar con el banco para rebajar cuota e intereses cuando aún puedes pagar pero las condiciones te ahogan.",
+              },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             Si quieres entender a fondo las vías legales, plazos y requisitos, lee nuestra
             guía de <A to="/cancelacion-de-deudas">cancelación de deudas</A>.
           </p>
@@ -492,28 +499,20 @@ export const cancelarDeudas: MoneyContent = {
     {
       title: "¿Cómo sé cuál es la mía?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             La vía correcta depende de tres cosas: <strong>cuánto puedes pagar</strong>,{" "}
             <strong>si tienes bienes de valor pagados</strong> y{" "}
             <strong>de dónde viene la deuda</strong>. Como guía rápida:
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              Si <strong>no puedes pagar nada y no tienes bienes de valor</strong> → cancelar con la{" "}
-              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
-            </li>
-            <li>
-              Si <strong>no puedes pagar pero tienes vivienda o terreno pagado</strong> →{" "}
-              <A to="/reunificar-deudas">reunificar</A> para no arriesgar esos bienes en una
-              liquidación.
-            </li>
-            <li>
-              Si tus <strong>intereses son abusivos</strong> y la deuda es contenida → anular
-              por usura.
-            </li>
-          </ul>
-          <p>
+          <CheckList
+            items={[
+              <>Si <strong>no puedes pagar nada y no tienes bienes de valor</strong> → cancelar con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.</>,
+              <>Si <strong>no puedes pagar pero tienes vivienda o terreno pagado</strong> → <A to="/reunificar-deudas">reunificar</A> para no arriesgar esos bienes en una liquidación.</>,
+              <>Si tus <strong>intereses son abusivos</strong> y la deuda es contenida → anular por usura.</>,
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             No tienes que acertar tú: en el diagnóstico gratuito comparamos las vías
             contigo y elegimos la que más deuda elimina en tu caso.
           </p>
@@ -538,16 +537,17 @@ export const cancelarDeudas: MoneyContent = {
     {
       title: "Coste y plazos por vía",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            El <strong>diagnóstico inicial es gratuito</strong>. Si sigues adelante, te
-            damos un presupuesto cerrado desde el principio, con opción de pago fraccionado.
-          </p>
-          <p>
-            Los plazos dependen de la vía: una <strong>reunificación</strong> es casi
-            inmediata, una <strong>reclamación por usura</strong> se resuelve en meses y la{" "}
-            <strong>Ley de Segunda Oportunidad</strong> suele durar entre 6 y 18 meses. En
-            todos los casos, los embargos pueden suspenderse mucho antes del final.
+        <div className="space-y-5">
+          <FactGrid
+            items={[
+              { value: "Casi inmediata", label: "Reunificación", detail: "Una sola cuota en cuanto se aprueba la operación." },
+              { value: "Meses", label: "Reclamación por usura", detail: "Anulación de intereses, muchas veces sin juicio." },
+              { value: "6–18 meses", label: "Ley de Segunda Oportunidad", detail: "Los embargos se suspenden mucho antes del final." },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
+            El <strong>diagnóstico inicial es gratuito</strong>. Si sigues adelante, te damos
+            un presupuesto cerrado desde el principio, con opción de pago fraccionado.
           </p>
         </div>
       ),
@@ -555,15 +555,17 @@ export const cancelarDeudas: MoneyContent = {
     {
       title: "Nuestro compromiso contigo",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Antes de decidir nada, queremos que lo tengas todo claro:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>Diagnóstico gratuito</strong> y sin compromiso: primero estudiamos tu caso.</li>
-            <li><strong>Respuesta en 24h</strong> con una idea clara de qué vía te conviene.</li>
-            <li><strong>Contenido y casos revisados por abogado</strong> especialista en insolvencia.</li>
-            <li><strong>Presupuesto cerrado desde el inicio</strong>, con opción de pago fraccionado.</li>
-            <li><strong>Sin letra pequeña:</strong> nada se pone en marcha sin que lo entiendas y lo apruebes.</li>
-          </ul>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">Antes de decidir nada, queremos que lo tengas todo claro:</p>
+          <CheckList
+            items={[
+              <><strong>Diagnóstico gratuito</strong> y sin compromiso: primero estudiamos tu caso.</>,
+              <><strong>Respuesta en 24h</strong> con una idea clara de qué vía te conviene.</>,
+              <><strong>Contenido y casos revisados por abogado</strong> especialista en insolvencia.</>,
+              <><strong>Presupuesto cerrado desde el inicio</strong>, con opción de pago fraccionado.</>,
+              <><strong>Sin letra pequeña:</strong> nada se pone en marcha sin que lo entiendas y lo apruebes.</>,
+            ]}
+          />
         </div>
       ),
     },

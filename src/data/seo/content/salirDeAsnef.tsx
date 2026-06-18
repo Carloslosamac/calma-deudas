@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, OptionCards, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/person-closeup-man-1.jpg";
 import p2 from "@/assets/person-closeup-woman-1.jpg";
 import p3 from "@/assets/person-closeup-man-2.jpg";
 import p4 from "@/assets/person-closeup-woman-2.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Salir de ASNEF". Ángulo urgente: estar en un fichero de morosos
@@ -157,30 +151,55 @@ export const salirDeAsnef: MoneyContent = {
     {
       title: "¿Qué es ASNEF y por qué te bloquea?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>ASNEF es el fichero de morosos más usado en España. Si una empresa te incluye por una deuda impagada, los bancos y financieras lo consultan y te <strong>deniegan crédito</strong> de forma casi automática.</p>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              ASNEF es el fichero de morosos que hace que te{" "}
+              <span className="text-accent-deep">denieguen crédito</span>.
+            </>
+          }
+        >
+          <p>Si una empresa te incluye por una deuda impagada, los bancos y financieras lo consultan y te cierran el grifo de forma casi automática.</p>
           <p>Salir no es solo borrar el dato: lo eficaz es resolver la deuda que originó la inclusión. Si viene de productos abusivos, puede anularse. Mira cómo <A to="/cancelar-deudas">cancelar deudas</A>.</p>
-        </div>
+        </KeyCallout>
       ),
     },
     {
       title: "Cómo salir de ASNEF de forma legal",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>Pagar o cancelar la deuda:</strong> al resolverla, la empresa debe dar de baja tus datos.</li>
-            <li><strong>Impugnar la inclusión:</strong> si la deuda no existe, está pagada o caducada, se reclama su retirada.</li>
-            <li><strong>Reclamar por usura:</strong> en microcréditos y <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">revolving</A>, la deuda puede anularse.</li>
-          </ul>
-        </div>
+        <OptionCards
+          items={[
+            {
+              icon: "wallet",
+              title: "Pagar o cancelar la deuda",
+              text: "Al resolverla, la empresa debe dar de baja tus datos del fichero.",
+            },
+            {
+              icon: "shield",
+              title: "Impugnar la inclusión",
+              text: "Si la deuda no existe, está pagada o caducada, se reclama su retirada.",
+            },
+            {
+              icon: "gavel",
+              title: "Reclamar por usura",
+              text: "En microcréditos y revolving, la deuda puede anularse por intereses abusivos.",
+              links: <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">Tarjetas revolving</A>,
+            },
+          ]}
+        />
       ),
     },
     {
       title: "¿Cuánto tarda y cuánto cuesta?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>El <strong>diagnóstico es gratuito</strong>. Una vez resuelta la deuda, la baja del fichero suele producirse en pocos días. Si optamos por impugnar o reclamar, los plazos dependen del caso, pero te damos un presupuesto cerrado desde el principio.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Pocos días", label: "Baja del fichero", detail: "Una vez resuelta la deuda, tus datos salen rápido." },
+            { value: "Gratis", label: "Diagnóstico", detail: "Estudiamos tu caso sin coste ni compromiso." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo si hay que impugnar o reclamar." },
+          ]}
+        />
       ),
     },
   ],

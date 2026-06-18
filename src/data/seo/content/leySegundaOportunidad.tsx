@@ -1,17 +1,11 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, OptionCards, WarningCallout, CheckList, FactGrid } from "@/components/seo/modules";
 import lso1 from "@/assets/testimonios/lso-1.jpg";
 import lso2 from "@/assets/testimonios/lso-2.jpg";
 import lso3 from "@/assets/testimonios/lso-3.jpg";
 import lso4 from "@/assets/testimonios/lso-4.jpg";
 import lso5 from "@/assets/testimonios/lso-5.jpg";
 import lso6 from "@/assets/testimonios/lso-6.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page comercial de la Ley de Segunda Oportunidad.
@@ -332,56 +326,62 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       title: "¿Qué pasa con tu vivienda y tus bienes?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             La duda que más frena a la gente es perder la casa. La realidad es que{" "}
             <strong>acogerse a la ley no significa quedarte sin nada</strong>. La ley
             distingue entre dos vías y elegimos contigo la que más te protege.
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Con liquidación:</strong> se realizan los bienes para pagar lo
-              posible y el resto de la deuda se cancela. Útil si no tienes vivienda o ya
-              está sobre-endeudada.
-            </li>
-            <li>
-              <strong>Con plan de pagos:</strong> conservas tu vivienda habitual y pagas
-              una parte adaptada a tus ingresos durante un tiempo, cancelando el resto.
-            </li>
-          </ul>
-          <p>
+          <OptionCards
+            columns={2}
+            items={[
+              {
+                icon: "scale",
+                title: "Con liquidación",
+                text: "Se realizan los bienes para pagar lo posible y el resto de la deuda se cancela. Útil si no tienes vivienda o ya está sobre-endeudada.",
+              },
+              {
+                icon: "lock",
+                title: "Con plan de pagos",
+                text: "Conservas tu vivienda habitual y pagas una parte adaptada a tus ingresos durante un tiempo, cancelando el resto.",
+              },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             En muchos casos la vivienda <strong>sí se puede mantener</strong>, sobre todo
             cuando la hipoteca está casi pagada o cuando el valor de la casa no supera lo
-            que aún debes. Antes de presentar nada analizamos el valor de tu vivienda, la
-            deuda pendiente y tu situación para proteger lo máximo posible. Nada se decide
-            sin ti.
+            que aún debes. Antes de presentar nada analizamos tu situación para proteger lo
+            máximo posible. Nada se decide sin ti.
           </p>
-          <p>
-            Hay un caso en el que conviene ser honestos: si tienes una{" "}
-            <strong>vivienda, terreno u otros bienes de valor totalmente pagados</strong> (sin
-            hipoteca y con valor real), la fase de liquidación de la LSO podría realizarlos
-            para pagar a los acreedores. En esa situación, lo habitual es que te compense más{" "}
-            <A to="/reunificar-deudas">reunificar</A> tus deudas en una sola cuota y conservar
-            ese patrimonio, en lugar de cancelar. Lo valoramos contigo gratis antes de elegir vía.
-          </p>
+          <WarningCallout title="Si tienes bienes de valor totalmente pagados">
+            <p>
+              Si tienes una <strong>vivienda, terreno u otros bienes de valor totalmente
+              pagados</strong> (sin hipoteca y con valor real), la fase de liquidación de la LSO
+              podría realizarlos para pagar a los acreedores. En esa situación suele compensar más{" "}
+              <A to="/reunificar-deudas">reunificar</A> tus deudas en una sola cuota y conservar
+              ese patrimonio. Lo valoramos contigo gratis antes de elegir vía.
+            </p>
+          </WarningCallout>
         </div>
       ),
     },
     {
       title: "Cómo afecta a tu día a día",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             El cambio se nota desde las primeras semanas, mucho antes de la resolución
             final del juez:
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Las llamadas y cartas de los acreedores se detienen.</li>
-            <li>Los embargos en curso, incluido el de la nómina, pueden suspenderse.</li>
-            <li>Recuperas el control de tu sueldo para llegar a fin de mes.</li>
-            <li>Sales del ASNEF y otros ficheros de morosos al cerrar el proceso.</li>
-          </ul>
-          <p>
+          <CheckList
+            items={[
+              "Las llamadas y cartas de los acreedores se detienen.",
+              "Los embargos en curso, incluido el de la nómina, pueden suspenderse.",
+              "Recuperas el control de tu sueldo para llegar a fin de mes.",
+              "Sales del ASNEF y otros ficheros de morosos al cerrar el proceso.",
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             Es importante saberlo: durante el procedimiento tu vida sigue. Puedes
             trabajar, cobrar tu nómina y volver a respirar mientras avanzamos.
           </p>
@@ -391,18 +391,15 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       title: "Coste y plazos",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            El <strong>diagnóstico inicial es gratuito</strong>. Si decides seguir adelante,
-            te ofrecemos un presupuesto claro y cerrado desde el principio, con la
-            posibilidad de pago fraccionado para que el coste no sea un obstáculo.
-          </p>
-          <p>
-            El procedimiento suele resolverse en un plazo aproximado de{" "}
-            <strong>6 a 18 meses</strong> según la complejidad del caso y el juzgado,
-            aunque los embargos pueden suspenderse mucho antes.
-          </p>
-          <p>
+        <div className="space-y-5">
+          <FactGrid
+            items={[
+              { value: "Gratis", label: "Diagnóstico inicial", detail: "Te decimos en 24h si encajas, sin compromiso." },
+              { value: "6–18 meses", label: "Duración", detail: "Según complejidad y juzgado. Los embargos se suspenden antes." },
+              { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             ¿Tu deuda viene sobre todo de productos abusivos? Mira también cómo{" "}
             <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">cancelar tarjetas revolving</A>{" "}
             o <A to="/microcreditos-prestamos/cancelar-microcreditos">cancelar microcréditos</A>.
@@ -413,17 +410,34 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       title: "Otras vías que valoramos contigo",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             La Ley de Segunda Oportunidad no siempre es la única opción. Según tu caso,
             también estudiamos:
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li><A to="/reunificar-deudas">Reunificar tus deudas</A> en una sola cuota si aún puedes pagar.</li>
-            <li><A to="/cancelar-deudas">Cancelar deudas</A> concretas con bancos y financieras.</li>
-            <li>La <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">exoneración del pasivo insatisfecho</A>, el corazón legal de la ley.</li>
-          </ul>
-          <p>
+          <OptionCards
+            items={[
+              {
+                icon: "wallet",
+                title: "Reunificar tus deudas",
+                text: "Unificar todo en una sola cuota si aún puedes pagar y quieres proteger tu patrimonio.",
+                links: <A to="/reunificar-deudas">Reunificar deudas</A>,
+              },
+              {
+                icon: "ban",
+                title: "Cancelar deudas",
+                text: "Cancelar deudas concretas con bancos y financieras.",
+                links: <A to="/cancelar-deudas">Cancelar deudas</A>,
+              },
+              {
+                icon: "scale",
+                title: "Exoneración del pasivo",
+                text: "El corazón legal de la ley: la resolución judicial que cancela lo que no puedes pagar.",
+                links: <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">Exoneración del pasivo</A>,
+              },
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             ¿Prefieres entender la ley en profundidad antes de decidir? Lee nuestra{" "}
             <A to="/blog/guia-ley-segunda-oportunidad">guía completa de la Ley de Segunda Oportunidad</A>.
           </p>
@@ -433,18 +447,20 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       title: "Qué necesitas para empezar hoy",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             No hace falta que lo tengas todo ordenado. Para el{" "}
             <strong>diagnóstico gratuito</strong> basta con una idea aproximada de tu
             situación; los documentos los reunimos contigo después.
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Un listado, aunque sea aproximado, de tus deudas y acreedores.</li>
-            <li>Tus ingresos actuales (nómina, prestación o ingresos como autónomo).</li>
-            <li>Si tienes vivienda u otros bienes a tu nombre.</li>
-          </ul>
-          <p>
+          <CheckList
+            items={[
+              "Un listado, aunque sea aproximado, de tus deudas y acreedores.",
+              "Tus ingresos actuales (nómina, prestación o ingresos como autónomo).",
+              "Si tienes vivienda u otros bienes a tu nombre.",
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             Con eso te decimos en 24h si encajas y cuánto puedes dejar de pagar. Sin
             compromiso y sin coste. Cada mes que esperas es dinero que no recuperas.
           </p>
