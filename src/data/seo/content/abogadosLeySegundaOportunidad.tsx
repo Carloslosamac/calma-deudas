@@ -440,54 +440,51 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
     {
       title: "¿Por qué acudir a un abogado especialista?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            La Ley de Segunda Oportunidad es un procedimiento <strong>judicial</strong>: no
-            basta con rellenar un formulario. Un abogado especializado en derecho concursal
-            conoce los requisitos, los plazos y la jurisprudencia de cada juzgado, y eso
-            multiplica las probabilidades de que tu expediente prospere.
-          </p>
-          <p>
-            En Calma cada caso lo lleva un abogado colegiado que decide contigo la vía más
-            protectora, prepara la documentación y te representa ante el juez. Para entender
-            la ley en profundidad, consulta el hub de la{" "}
-            <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.
-          </p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              La LSO es un procedimiento <span className="text-accent-deep">judicial</span>: no
+              basta con un formulario.
+            </>
+          }
+        >
+          <p>Un abogado especializado en derecho concursal conoce los requisitos, los plazos y la jurisprudencia de cada juzgado, y eso multiplica las probabilidades de que tu expediente prospere.</p>
+          <p>En Calma cada caso lo lleva un abogado colegiado que decide contigo la vía más protectora, prepara la documentación y te representa ante el juez. Para entender la ley en profundidad, consulta el hub de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>.</p>
+        </KeyCallout>
       ),
     },
     {
       title: "Honorarios: cuánto cuesta un abogado de la LSO",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">
             El <strong>primer diagnóstico es gratuito</strong>. Si decides seguir, trabajamos
             con un presupuesto cerrado desde el inicio y opción de pago fraccionado, para que
             los honorarios nunca sean el motivo de no empezar.
           </p>
-          <p>
-            Desconfía de quien promete cancelar deudas "sin coste" o "en un mes": el
-            procedimiento es judicial y tiene unos plazos. La transparencia en los honorarios
-            es la primera señal de un buen profesional.
-          </p>
+          <WarningCallout title="Cuidado con las promesas fáciles">
+            <p>Desconfía de quien promete cancelar deudas "sin coste" o "en un mes": el procedimiento es judicial y tiene unos plazos. La transparencia en los honorarios es la primera señal de un buen profesional.</p>
+          </WarningCallout>
         </div>
       ),
     },
     {
       title: "El procedimiento paso a paso",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Con un abogado al frente, el proceso sigue estas fases:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Diagnóstico y verificación de requisitos (buena fe, insolvencia).</li>
-            <li>Intento de acuerdo extrajudicial cuando procede.</li>
-            <li>Presentación del concurso y solicitud de exoneración del pasivo.</li>
-            <li>Resolución del juez: cancelación con plan de pagos o con liquidación.</li>
-          </ul>
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">Con un abogado al frente, el proceso sigue estas fases:</p>
+          <CheckList
+            items={[
+              "Diagnóstico y verificación de requisitos (buena fe, insolvencia).",
+              "Intento de acuerdo extrajudicial cuando procede.",
+              "Presentación del concurso y solicitud de exoneración del pasivo.",
+              "Resolución del juez: cancelación con plan de pagos o con liquidación.",
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             Los embargos suelen suspenderse mucho antes de la resolución final. Te lo
-            explicamos en detalle en la{" "}
-            <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">exoneración del pasivo insatisfecho</A>.
+            explicamos en detalle en la <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">exoneración del pasivo insatisfecho</A>.
           </p>
         </div>
       ),
@@ -495,15 +492,17 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
     {
       title: "Cómo elegir un buen abogado",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Antes de poner tu caso en manos de nadie, comprueba:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Que sea <strong>abogado colegiado</strong> y especializado en derecho concursal.</li>
-            <li>Que te dé un presupuesto cerrado y por escrito.</li>
-            <li>Que estudie tu caso antes de prometer resultados.</li>
-            <li>Que tenga casos y valoraciones reales que lo respalden.</li>
-          </ul>
-          <p>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">Antes de poner tu caso en manos de nadie, comprueba:</p>
+          <CheckList
+            items={[
+              <>Que sea <strong>abogado colegiado</strong> y especializado en derecho concursal.</>,
+              "Que te dé un presupuesto cerrado y por escrito.",
+              "Que estudie tu caso antes de prometer resultados.",
+              "Que tenga casos y valoraciones reales que lo respalden.",
+            ]}
+          />
+          <p className="text-base leading-relaxed text-foreground/85">
             ¿Tu deuda viene de productos abusivos? Mira también cómo{" "}
             <A to="/cancelar-deudas">cancelar deudas</A> o{" "}
             <A to="/reunificar-deudas">reunificar deudas</A> si aún puedes pagar.
