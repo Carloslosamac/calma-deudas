@@ -32,7 +32,7 @@ const UsuryCalculator = ({ data }: { data: MoneyUsuryCalculator }) => {
 
       <div className="mx-auto mt-8 max-w-xl">
         <div className="flex items-center justify-between text-sm font-medium text-foreground">
-          <span>Saldo pendiente de tu tarjeta</span>
+          <span>Saldo pendiente (tarjetas + microcréditos)</span>
           <span className="font-poppins text-lg font-bold text-accent-deep">{eur(balance)}</span>
         </div>
         <Slider
