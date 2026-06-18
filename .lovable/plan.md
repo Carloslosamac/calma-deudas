@@ -1,70 +1,60 @@
-# Cerrar el gap de contenido en las 15 money pages
+# Cobertura total de contenido en las 15 money pages (paridad con el top 10)
 
-Objetivo: que cada money page no solo tenga el mejor "continente" (UI/UX con módulos), sino también todo el "contenido" relevante que cubren las páginas que mejor rankean en Google España para su keyword principal. Resultado: cobertura temática completa, escrita original con la voz de Calma y renderizada con los módulos que ya tenemos.
+Objetivo real: que ninguna de nuestras money pages omita **ningún bloque de información** que esté presente en las 10 páginas mejor posicionadas de Google España para su keyword. No un añadido suave (glosario/mitos/FAQ), sino **secciones completas** con toda la información relevante, redactada original y renderizada con el kit visual existente.
 
-## Cómo funciona
+## Por qué el enfoque anterior se quedó corto
 
-Para cada una de las 15 money pages:
-1. **Investigar la SERP** (Firecrawl): `search` de la keyword principal en Google España (`country: es`, `lang: es`) y `scrape` (markdown + summary) de las páginas top que rankean.
-2. **Extraer el inventario de temas**: listar los bloques de contenido / subtemas que aparecen en esas páginas (requisitos, plazos, costes, casos, FAQs, conceptos, riesgos, pasos, documentación, etc.).
-3. **Diff contra nuestra página**: comparar ese inventario con lo que ya cubre nuestro contenido actual y marcar lo que falta o está flojo.
-4. **Rellenar huecos**: escribir el contenido que falta **original (sintetizado y reescrito), nunca copiado**, y colocarlo en el módulo adecuado del kit existente.
+Solo añadí 3 módulos de datos (glosario, mitos, FAQ) y scrapeé 6 resultados con texto truncado. Para "paridad con el top 10" necesito: (1) scrape real y completo del top 10, (2) inventario exhaustivo de bloques, (3) diff contra TODO el contenido actual de cada página, (4) redactar cada bloque que falte como sección completa.
 
-## Mapa keyword → página (15)
+## Pieza técnica nueva: secciones data-driven
 
+Hoy las `sections` usan JSX a mano, que no escala ni se genera de forma fiable. Crearé un renderizador **`SectionBlocks`** que convierte datos tipados (JSON) en los módulos ya existentes. Así el contenido generado es **datos tipados, no JSX suelto** (robusto y type-safe).
+
+Esquema de bloque (mapea 1:1 al kit actual):
+```text
+paragraph   -> <p> con texto (admite negritas e enlaces internos)
+keyCallout  -> KeyCallout (idea-fuerza "en una frase")
+optionCards -> OptionCards (vías / tipos / opciones, con enlaces internos)
+factGrid    -> FactGrid (cifras: plazos, costes, límites)
+checkList   -> CheckList (requisitos / criterios; variante check o cross)
+callout     -> Info/WarningCallout (avisos, matices de triaje)
+table       -> tabla comparativa simple dentro de sección
+actionLink  -> ActionLink (cross-sell a otra money page)
 ```
-ley-segunda-oportunidad ............. "ley de segunda oportunidad"
-abogados-ley-segunda-oportunidad .... "abogados ley segunda oportunidad"
-cancelar-deudas ..................... "cancelar deudas"
-cancelacion-de-deudas ............... "cancelacion de deudas"
-reunificacion-deudas ................ "reunificacion de deudas"
-reunificar-deudas ................... "reunificar deudas"
-salir-de-asnef ...................... "salir de asnef / quitar asnef"
-parar-embargo ....................... "parar embargo / cómo parar un embargo"
-cancelar-tarjetas-revolving ......... "tarjetas revolving / reclamar revolving"
-cancelar-microcreditos .............. "cancelar microcreditos"
-exoneracion-pasivo-insatisfecho ..... "exoneracion del pasivo insatisfecho"
-concurso-persona-fisica ............. "concurso de persona fisica / acreedores"
-juicio-monitorio-deuda .............. "juicio monitorio / qué es"
-deudas-hacienda ..................... "deudas con hacienda"
-deudas-seguridad-social ............. "deudas con la seguridad social"
-```
+Cada `extraSection = { title, blocks: Block[] }` se renderiza con `SectionBlocks` y se inyecta en `sections`, que ya está en el `layout` de todas las páginas.
 
-## Reglas de mapeo de huecos → módulos (kit existente)
+## Proceso por página (las 15)
 
-Cada tipo de información detectada va al módulo que ya tenemos, manteniendo el estándar visual:
-- Concepto/definición nuevo → `KeyCallout` o sección con `conceptGlossary`
-- Vías/opciones → `OptionCards`
-- Requisitos/criterios → `CheckList` (+ `WarningCallout` cuando aplica la regla de triaje)
-- Plazos, costes, cifras → `FactGrid`
-- "Qué pasa si no actúas" / fases → `urgencyTimeline` o `legalTimeline`
-- Bulos frecuentes en la SERP → `mythVsReality`
-- Preguntas que aparecen en "People also ask" → `faq` (UI + JSON-LD)
-- Cross-sell hacia otra solución → `ActionLink`
-- Texto explicativo largo → `MoneySection` con el body troceado en módulos legibles (nunca muros de prosa)
+1. **Scrape profundo del top 10** (Firecrawl, Google España, `country: es`): 10 resultados por keyword, contenido completo (markdown sin truncar + headings + FAQs), no 6 truncados.
+2. **Inventario exhaustivo**: extraer TODOS los bloques temáticos del top 10 (definición, requisitos, tipos de deuda, plazos, costes/honorarios, fases del proceso, documentación necesaria, ventajas/inconvenientes, riesgos de no actuar, casos/ejemplos, normativa aplicable, diferencias con otras vías, preguntas, etc.).
+3. **Diff contra nuestra página**: comparar el inventario con TODO lo que ya cubre el contenido actual (secciones + módulos + FAQ + glosario + mitos). Marcar solo lo que falta o está flojo.
+4. **Redacción original** (sintetizada y reescrita, nunca copiada; voz de Calma; marco legal español real): convertir cada hueco en `extraSection` con sus bloques, o en datos para módulos interactivos cuando aplique (comparisonTable, urgencyTimeline, legalTimeline, exonerationLimits, beforeAfter).
+5. **Inyección** vía el registro (`enrichment` + merge en `index.ts`): se añaden las nuevas secciones y módulos sin reescribir los archivos a mano.
 
-## Reglas de negocio que se respetan
+## Reglas que se respetan (memoria del proyecto)
 
-- Triaje de soluciones intacto: LSO = insolvente + SIN bienes pagados; reunificar = insolvente + CON bienes valiosos; reclamación judicial = solvente + usura + deuda baja.
-- Todos los CTA siguen apuntando a `#hero-form`. Sin gradientes en CTAs.
-- Marca "Calma". Tokens semánticos, nada de colores hardcodeados.
-- Contenido reescrito y original (anti-duplicado por SEO y legalmente seguro).
+- Triaje intacto: LSO = insolvente + SIN bienes pagados; reunificar = insolvente + CON bienes valiosos; reclamación judicial = solvente + usura + deuda baja.
+- Todos los CTA siguen a `#hero-form`. Sin gradientes en CTAs.
+- Módulos legibles, nunca muros de prosa (cada sección troceada en bloques del kit).
+- Anti-canibalización: respetar la intención de cada página (acción vs guía) y enlazar entre ellas en vez de duplicar.
+- Marca "Calma". Tokens semánticos, nada hardcodeado. Sin inventar cifras: rangos prudentes.
+- Contenido original (anti-duplicado SEO y legalmente seguro).
 
-## Pasos de ejecución
+## Entregables
 
-1. **Conectar Firecrawl** (no hay conexión activa todavía) para poder hacer search+scrape real de Google España.
-2. **Investigación por lotes** con subagentes: cada subagente investiga la SERP de varias keywords y devuelve un inventario de temas + diff contra nuestro contenido actual (sin tocar archivos).
-3. **Redacción y montaje**: por cada página, añadir las secciones/módulos/FAQs que falten en su archivo de `src/data/seo/content/*.tsx`, reutilizando el kit de `src/components/seo/modules`. Si algún hueco necesita un tipo de dato ya soportado por `types.ts` (faq, conceptGlossary, mythVsReality, etc.) se rellena ahí.
-4. **Verificación**: compilación TypeScript limpia y revisión visual de un par de páginas representativas en el preview.
+1. `src/components/seo/SectionBlocks.tsx` — renderizador de bloques → kit.
+2. Tipos de bloque en `types.ts` (o archivo de bloques).
+3. `enrichment` ampliado: por página, `sections` completas + módulos interactivos que falten + FAQ/glosario/mitos ya hechos.
+4. Merge en `index.ts` que inyecta todo en el `layout` correcto.
+5. Verificación: compilación TS limpia + revisión visual de 2-3 páginas (incl. ley de segunda oportunidad).
 
-## Fuera de alcance
+## Alcance / expectativas
 
-- No se crean rutas nuevas ni se cambia la arquitectura de clusters.
-- No se tocan plantillas no-money ni el backend.
-- No se cambian tokens de diseño ni la lógica de los módulos (solo se alimentan con más datos).
+- Las páginas crecerán bastante (es el objetivo: paridad informativa con el top 10).
+- Es un volumen grande; lo ejecuto página por página dentro del trabajo para mantener calidad.
+- No se crean rutas nuevas ni se toca backend ni tokens de diseño; solo contenido + un renderizador.
 
 ## Nota técnica
 
-- Firecrawl se llama solo desde investigación (no se añade código de Firecrawl a la app).
-- El trabajo de contenido vive en `src/data/seo/content/*.tsx`; si hace falta un campo nuevo en `types.ts` para un módulo ya existente, se extiende ahí de forma mínima.
-- Es un volumen grande de contenido en una sola pasada; lo ejecuto página por página dentro del mismo trabajo para mantener calidad y poder revisar el resultado.
+- Firecrawl solo se usa en investigación (no entra código de Firecrawl en la app).
+- Si un bloque encaja en un módulo interactivo ya soportado por `types.ts`, se rellena ese módulo; si es prosa estructurada, va como `extraSection` con bloques.
