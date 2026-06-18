@@ -283,48 +283,61 @@ export const reunificarDeudas: MoneyContent = {
     {
       title: "Cómo reunificar deudas paso a paso",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Reunificar es más sencillo de lo que parece si sigues estos pasos:</p>
-          <ol className="list-decimal space-y-2 pl-5">
-            <li>Haz un listado de tus deudas, cuotas y plazos actuales.</li>
-            <li>Calcula cuánto pagas en total cada mes.</li>
-            <li>Pide un estudio para ver tu nueva cuota única y el coste total.</li>
-            <li>Compara reunificar con cancelar y elige con los números delante.</li>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">Reunificar es más sencillo de lo que parece si sigues estos pasos:</p>
+          <ol className="space-y-3">
+            {[
+              "Haz un listado de tus deudas, cuotas y plazos actuales.",
+              "Calcula cuánto pagas en total cada mes.",
+              "Pide un estudio para ver tu nueva cuota única y el coste total.",
+              "Compara reunificar con cancelar y elige con los números delante.",
+            ].map((step, i) => (
+              <li key={i} className="flex items-start gap-4 rounded-2xl border border-border bg-surface-elevated p-4 shadow-soft">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">
+                  {i + 1}
+                </span>
+                <span className="text-base leading-relaxed text-foreground/85">{step}</span>
+              </li>
+            ))}
           </ol>
-          <p>
-            Para entender a fondo ventajas y riesgos, lee la guía de{" "}
-            <A to="/reunificacion-deudas">reunificación de deudas</A>.
-          </p>
+          <ActionLink to="/reunificacion-deudas">
+            ¿Quieres entender ventajas y riesgos a fondo?{" "}
+            <span className="text-accent-deep">Guía de reunificación de deudas</span>
+          </ActionLink>
         </div>
       ),
     },
     {
       title: "Qué necesitas para empezar",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>No hace falta tenerlo todo perfecto. Para el estudio gratuito basta con:</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Un listado aproximado de tus préstamos y tarjetas.</li>
-            <li>La cuota que pagas por cada uno al mes.</li>
-            <li>Tus ingresos mensuales actuales.</li>
-          </ul>
+        <div className="space-y-5">
+          <p className="text-base leading-relaxed text-foreground/85">No hace falta tenerlo todo perfecto. Para el estudio gratuito basta con:</p>
+          <CheckList
+            items={[
+              "Un listado aproximado de tus préstamos y tarjetas.",
+              "La cuota que pagas por cada uno al mes.",
+              "Tus ingresos mensuales actuales.",
+            ]}
+          />
         </div>
       ),
     },
     {
       title: "Cuándo NO conviene reunificar",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
+        <WarningCallout title="Reunificar no siempre es la mejor idea">
           <p>
-            Reunificar no siempre es la mejor idea. Si ya <strong>no puedes pagar ninguna
-            cuota</strong> y <strong>no tienes bienes de valor que perder</strong>, juntarlas
-            solo alarga el problema y encarece la deuda. En ese caso suele ser mejor cancelar
-            con la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>. En cambio,
-            si no puedes pagar pero sí tienes vivienda o terreno pagados, reunificar es la vía
-            que protege ese patrimonio. También conviene evitar reunificar poniendo tu vivienda
-            como garantía sin valorarlo bien.
+            Si ya <strong>no puedes pagar ninguna cuota</strong> y <strong>no tienes bienes de
+            valor que perder</strong>, juntarlas solo alarga el problema y encarece la deuda. En
+            ese caso suele ser mejor cancelar con la <A to="/ley-segunda-oportunidad">Ley de
+            Segunda Oportunidad</A>.
           </p>
-        </div>
+          <p>
+            En cambio, si no puedes pagar pero sí tienes vivienda o terreno pagados, reunificar
+            es la vía que protege ese patrimonio. Evita reunificar poniendo tu vivienda como
+            garantía sin valorarlo bien.
+          </p>
+        </WarningCallout>
       ),
     },
     {
