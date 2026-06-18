@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { Scale, Gavel, Handshake, ArrowRight } from "lucide-react";
 import p1 from "@/assets/person-man-portrait.jpg";
 import p2 from "@/assets/person-woman-window.jpg";
 import p3 from "@/assets/person-woman-walking.jpg";
@@ -325,40 +326,79 @@ export const cancelacionDeDeudas: MoneyContent = {
     {
       title: "¿Qué es la cancelación de deudas?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>
-            Cancelar una deuda significa que <strong>dejas de deberla legalmente</strong>.
-            En España, la principal vía es la Ley de Segunda Oportunidad, que permite
-            exonerar las deudas que un particular o autónomo no puede pagar. Existen otras
-            vías, como la reclamación por intereses abusivos.
-          </p>
-          <p>
-            Si prefieres pasar directamente a la acción, visita{" "}
-            <A to="/cancelar-deudas">cancelar deudas</A>. Si quieres el detalle legal,
-            sigue leyendo esta guía.
-          </p>
+        <div className="space-y-5">
+          <div className="rounded-3xl border border-accent/30 bg-accent-soft/40 p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-deep">
+              En una frase
+            </p>
+            <p className="mt-3 font-poppins text-xl font-semibold leading-snug text-foreground md:text-2xl">
+              Cancelar una deuda significa que{" "}
+              <span className="text-accent-deep">dejas de deberla legalmente</span>.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-foreground/80">
+              En España, la principal vía es la <strong>Ley de Segunda Oportunidad</strong>, que
+              permite exonerar las deudas que un particular o autónomo no puede pagar. Existen
+              otras vías, como la reclamación por intereses abusivos.
+            </p>
+          </div>
+          <Link
+            to="/cancelar-deudas"
+            className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface-elevated p-5 transition-colors hover:border-accent/50"
+          >
+            <span className="text-base font-medium text-foreground">
+              ¿Prefieres pasar directamente a la acción?{" "}
+              <span className="text-accent-deep">Cancelar deudas</span>
+            </span>
+            <ArrowRight className="h-5 w-5 shrink-0 text-accent-deep transition-transform group-hover:translate-x-1" aria-hidden />
+          </Link>
         </div>
       ),
     },
     {
       title: "Vías legales de cancelación",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              <strong>Ley de Segunda Oportunidad:</strong> exonera el pasivo insatisfecho.
-              Es la vía más amplia. Detalle en el{" "}
-              <A to="/ley-segunda-oportunidad">hub de la LSO</A> y en la{" "}
-              <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">exoneración del pasivo</A>.
-            </li>
-            <li>
-              <strong>Reclamación por usura:</strong> anula intereses abusivos en revolving
-              y microcréditos.
-            </li>
-            <li>
-              <strong>Acuerdos y quitas:</strong> reducción negociada cuando aún hay margen.
-            </li>
-          </ul>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
+              <Scale className="h-5 w-5" aria-hidden />
+            </span>
+            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
+              Ley de Segunda Oportunidad
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
+              Exonera el pasivo insatisfecho. Es la vía más amplia para cancelar lo que no
+              puedes pagar.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              <A to="/ley-segunda-oportunidad">Hub de la LSO</A>
+              <A to="/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho">Exoneración del pasivo</A>
+            </div>
+          </div>
+          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
+              <Gavel className="h-5 w-5" aria-hidden />
+            </span>
+            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
+              Reclamación por usura
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
+              Anula los intereses abusivos en tarjetas revolving y microcréditos.
+            </p>
+            <div className="mt-4 text-sm">
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">Tarjetas revolving</A>
+            </div>
+          </div>
+          <div className="flex flex-col rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
+              <Handshake className="h-5 w-5" aria-hidden />
+            </span>
+            <h3 className="mt-4 font-poppins text-lg font-semibold text-foreground">
+              Acuerdos y quitas
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/80">
+              Reducción negociada de la deuda cuando todavía hay margen para pagar una parte.
+            </p>
+          </div>
         </div>
       ),
     },
