@@ -132,27 +132,51 @@ export const juicioMonitorioDeuda: MoneyContent = {
     {
       title: "¿Qué es un juicio monitorio?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Es un procedimiento rápido para reclamar deudas dinerarias. El juzgado te requiere el pago y dispones de <strong>20 días hábiles</strong> para pagar, oponerte o no hacer nada. La opción que elijas tiene consecuencias muy distintas.</p>
-        </div>
+        <KeyCallout
+          eyebrow="Tienes 20 días hábiles"
+          headline={
+            <>
+              El juzgado te requiere el pago: puedes pagar, oponerte o{" "}
+              <span className="text-accent-deep">no hacer nada</span>.
+            </>
+          }
+        >
+          <p>Es un procedimiento rápido para reclamar deudas dinerarias. La opción que elijas dentro del plazo tiene consecuencias muy distintas.</p>
+        </KeyCallout>
       ),
     },
     {
       title: "Qué puedes alegar al oponerte",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Que la deuda <strong>no existe o ya está pagada</strong>.</li>
-            <li>Que está <strong>prescrita</strong> por el paso del tiempo.</li>
-            <li>Que incluye <strong>intereses o cláusulas abusivas</strong> (revolving, microcréditos).</li>
-          </ul>
-          <p>
-            Oponerse al monitorio tiene sentido cuando la deuda es discutible y eres solvente.
-            Si la deuda es real pero <strong>no puedes pagarla y no tienes bienes de valor</strong>,
-            la vía de fondo es la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>;
-            si no puedes pagar pero tienes patrimonio pagado, valora{" "}
-            <A to="/reunificar-deudas">reunificar</A> para protegerlo.
-          </p>
+        <div className="space-y-5">
+          <OptionCards
+            items={[
+              {
+                icon: "ban",
+                title: "No existe o está pagada",
+                text: "Puedes alegar que la deuda no es real o que ya la abonaste.",
+              },
+              {
+                icon: "clock",
+                title: "Está prescrita",
+                text: "Que ha caducado por el paso del tiempo sin reclamación válida.",
+              },
+              {
+                icon: "gavel",
+                title: "Intereses abusivos",
+                text: "Que incluye cláusulas o intereses abusivos (revolving, microcréditos).",
+              },
+            ]}
+          />
+          <WarningCallout title="¿No puedes pagar la deuda?">
+            <p>
+              Oponerse tiene sentido cuando la deuda es discutible y eres solvente. Si la deuda es
+              real pero <strong>no puedes pagarla y no tienes bienes de valor</strong>, la vía de
+              fondo es la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>; si no
+              puedes pagar pero tienes patrimonio pagado, valora{" "}
+              <A to="/reunificar-deudas">reunificar</A> para protegerlo.
+            </p>
+          </WarningCallout>
         </div>
       ),
     },
