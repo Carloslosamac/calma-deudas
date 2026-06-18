@@ -386,6 +386,7 @@ const microcreditoContent = (e: Entity, note: string): EntityContent => ({
 const revolvingContent = (e: Entity, note: string): EntityContent => ({
   intro: `${note} Si tienes una tarjeta revolving de ${e.name}, puede que estés pagando intereses usurarios. Aquí te explicamos cómo reclamar y cancelar.`,
   sections: [
+    calmSection(e),
     {
       title: `Por qué tu deuda con ${e.name} no baja`,
       body: (
@@ -407,6 +408,30 @@ const revolvingContent = (e: Entity, note: string): EntityContent => ({
       ),
     },
     {
+      title: "Tus miedos, resueltos",
+      body: (
+        <MythReality
+          items={[
+            {
+              myth: "Pagar cada mes y ver que la deuda no baja, como si nunca terminara.",
+              reality:
+                "No estás haciendo nada mal: la revolving está diseñada así. Al anularla por usura, dejas de alimentar ese bucle.",
+            },
+            {
+              myth: "Que ya no puedas reclamar porque terminaste de pagar o cancelaste la tarjeta.",
+              reality:
+                "Sí puedes. La nulidad por usura es imprescriptible: aunque la tarjeta lleve años cerrada, puedes recuperar lo pagado de más.",
+            },
+            {
+              myth: `Que reclamar a ${e.name} arruine tu historial o te traiga problemas.`,
+              reality:
+                "Reclamar es un derecho. No perjudica tu historial; al contrario, si hay apuntes ligados a una deuda usuraria pueden retirarse.",
+            },
+          ]}
+        />
+      ),
+    },
+    {
       title: `Reclamar o cancelar tu tarjeta de ${e.name}`,
       body: (
         <P>
@@ -416,6 +441,7 @@ const revolvingContent = (e: Entity, note: string): EntityContent => ({
         </P>
       ),
     },
+    calmaSection(e),
   ],
   faq: [
     {
@@ -427,6 +453,21 @@ const revolvingContent = (e: Entity, note: string): EntityContent => ({
       q: "¿Puedo reclamar si ya terminé de pagar la tarjeta?",
       a: <P>Sí. Aunque la hayas cancelado, puedes reclamar la devolución de los intereses cobrados de forma abusiva.</P>,
       plain: "Sí. Aunque la hayas cancelado, puedes reclamar la devolución de los intereses abusivos.",
+    },
+    {
+      q: `¿Por qué la deuda de mi tarjeta ${e.name} no baja aunque pago?`,
+      a: <P>Porque la cuota se va casi entera en intereses y el saldo se renueva cada mes. Es el diseño de la revolving, no un error tuyo.</P>,
+      plain: `Porque la cuota de la revolving de ${e.name} se va en intereses y el saldo se renueva cada mes; es su diseño, no un error tuyo.`,
+    },
+    {
+      q: "¿Cuánto dinero puedo recuperar?",
+      a: <P>Todo lo pagado por encima del capital que dispusiste. En muchos casos son varios miles de euros, según los años y el saldo.</P>,
+      plain: "Todo lo pagado por encima del capital dispuesto; en muchos casos varios miles de euros según años y saldo.",
+    },
+    {
+      q: "¿Y si además tengo otras deudas?",
+      a: <P>Se valora el conjunto. Puedes reclamar la revolving por usura y, si el total es inasumible, cancelar toda tu deuda con la Ley de Segunda Oportunidad.</P>,
+      plain: "Se valora el conjunto: reclamar la revolving por usura y, si el total es inasumible, cancelar toda la deuda con la Ley de Segunda Oportunidad.",
     },
   ],
 });
