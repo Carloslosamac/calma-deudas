@@ -765,7 +765,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                         "items": [
                               "Planes de administración: Mediación para bajar intereses a cambio de no usar más crédito.",
                               "Quitas por pago único: Negociar pagar un 50% hoy para cerrar el expediente (requiere liquidez inmediata).",
-                              "Reunificación: Si tienes ingresos estables pero cuotas muy altas, agrupar deudas en una sola hipoteca."
+                              "Reunificación: Si tienes ingresos estables pero cuotas muy altas, negociamos con tus entidades para bajar cuota y total, sin préstamo nuevo."
                         ]
                   },
                   {
