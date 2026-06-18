@@ -1,9 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/person-closeup-woman-3.jpg";
-import p2 from "@/assets/person-closeup-man-3.jpg";
-import p3 from "@/assets/person-closeup-woman-1.jpg";
-import p4 from "@/assets/person-closeup-man-1.jpg";
+import p1 from "@/assets/casos/microcreditos-1.jpg";
+import p2 from "@/assets/casos/microcreditos-2.jpg";
+import p3 from "@/assets/casos/microcreditos-3.jpg";
+import p4 from "@/assets/casos/microcreditos-4.jpg";
+import p5 from "@/assets/casos/microcreditos-5.jpg";
+import p6 from "@/assets/casos/microcreditos-6.jpg";
 
 /**
  * Money page "Cancelar microcréditos". Ángulo: deuda pequeña que se multiplica.
@@ -68,8 +70,10 @@ export const cancelarMicrocreditos: MoneyContent = {
   testimonials: [
     { name: "Noelia G.", amount: "8.400 €", location: "Madrid", text: "Pedí 600 € y acabé debiendo miles. Los anularon y salí del bucle.", photo: p1 },
     { name: "Raúl D.", amount: "11.200 €", location: "Valencia", text: "Tenía seis microcréditos encadenados. Hoy no debo nada.", photo: p2 },
-    { name: "Paula M.", amount: "5.700 €", location: "Sevilla", text: "Los intereses eran un disparate. La deuda se canceló.", photo: p3 },
-    { name: "Iker S.", amount: "9.950 €", location: "Bilbao", text: "Pagaba y pagaba sin bajar. Reclamamos y dejé de deber.", photo: p4 },
+    { name: "Paula M.", amount: "5.700 €", location: "Sevilla", text: "Los intereses eran un disparate. La deuda se canceló entera.", photo: p3 },
+    { name: "Iker S.", amount: "9.950 €", location: "Bilbao", text: "Pagaba y pagaba sin que bajara. Reclamamos y dejé de deber.", photo: p4 },
+    { name: "Vanesa M.", amount: "6.300 €", location: "Málaga", text: "Un préstamo rápido se convirtió en cuatro. Anularon los intereses abusivos.", photo: p5 },
+    { name: "Adrián P.", amount: "10.480 €", location: "Zaragoza", text: "Pedía uno para pagar otro. Frenamos la bola y cancelé la deuda.", photo: p6 },
   ],
   stepsTitle: "Cómo cancelamos tus microcréditos",
   stepsSubtitle: "Cuatro pasos para frenar la bola de deuda",
