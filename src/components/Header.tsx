@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
+import calmaLogo from "@/assets/calma-logo.png";
 import {
   Sheet,
   SheetContent,
@@ -82,7 +83,7 @@ const Header = () => {
       >
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/lovable-uploads/8698ae24-c99d-402f-ba9e-a4bb74712c31.png"
+            src={calmaLogo}
             alt="Calma Logo"
             className="h-8"
           />
