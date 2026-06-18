@@ -46,9 +46,9 @@ const ValueComparison = ({ data }: { data: MoneyValueComparison }) => {
             <p className="mt-1 font-poppins text-2xl font-bold text-foreground">{eur(borrowed)}</p>
           </div>
           <ArrowRight className="mx-auto hidden h-6 w-6 text-muted-foreground sm:block" aria-hidden />
-          <div className="rounded-2xl border border-orange/40 bg-orange-soft p-5 text-center">
-            <p className="text-xs uppercase tracking-wide text-orange-deep">{data.repaidLabel}</p>
-            <p className="mt-1 font-poppins text-2xl font-bold text-orange-deep">{eur(extra)}</p>
+          <div className="rounded-2xl border border-accent/40 bg-accent-soft/40 p-5 text-center">
+            <p className="text-xs uppercase tracking-wide text-accent-deep">{data.repaidLabel}</p>
+            <p className="mt-1 font-poppins text-2xl font-bold text-accent-deep">{eur(extra)}</p>
           </div>
         </div>
 
