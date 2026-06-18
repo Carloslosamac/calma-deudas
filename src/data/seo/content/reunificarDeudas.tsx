@@ -1,11 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, CheckList, WarningCallout, ActionLink } from "@/components/seo/modules";
-import p1 from "@/assets/testimonial-1.jpg";
-import p2 from "@/assets/testimonial-2.jpg";
-import p3 from "@/assets/testimonial-3.jpg";
-import p4 from "@/assets/testimonial-4.jpg";
-import p5 from "@/assets/testimonial-5.jpg";
-import p6 from "@/assets/testimonial-6.jpg";
+import p1 from "@/assets/casos/reunificar-1.jpg";
+import p2 from "@/assets/casos/reunificar-2.jpg";
+import p3 from "@/assets/casos/reunificar-3.jpg";
+import p4 from "@/assets/casos/reunificar-4.jpg";
+import p5 from "@/assets/casos/reunificar-5.jpg";
+import p6 from "@/assets/casos/reunificar-6.jpg";
 
 /**
  * Money page "Reunificar deudas". Ángulo acción paso a paso: cómo reunificar hoy.
