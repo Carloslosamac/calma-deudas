@@ -1,11 +1,5 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
+import { A, KeyCallout, OptionCards, WarningCallout, CheckList } from "@/components/seo/modules";
 
 /**
  * Página "Exoneración del pasivo insatisfecho (EPI)". Ángulo INFORMATIVO /
