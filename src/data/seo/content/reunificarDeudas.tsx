@@ -289,7 +289,7 @@ export const reunificarDeudas: MoneyContent = {
             {[
               "Haz un listado de tus deudas, cuotas y plazos actuales.",
               "Calcula cuánto pagas en total cada mes.",
-              "Pide un estudio para ver tu nueva cuota única y el coste total.",
+              "Pide un estudio para ver cuánto podemos rebajar tu cuota y tu total.",
               "Compara reunificar con cancelar y elige con los números delante.",
             ].map((step, i) => (
               <li key={i} className="flex items-start gap-4 rounded-2xl border border-border bg-surface-elevated p-4 shadow-soft">
@@ -328,14 +328,14 @@ export const reunificarDeudas: MoneyContent = {
         <WarningCallout title="Reunificar no siempre es la mejor idea">
           <p>
             Si ya <strong>no puedes pagar ninguna cuota</strong> y <strong>no tienes bienes de
-            valor que perder</strong>, juntarlas solo alarga el problema y encarece la deuda. En
-            ese caso suele ser mejor cancelar con la <A to="/ley-segunda-oportunidad">Ley de
+            valor que perder</strong>, negociar una rebaja no basta: la deuda te seguirá superando.
+            En ese caso suele ser mejor cancelar con la <A to="/ley-segunda-oportunidad">Ley de
             Segunda Oportunidad</A>.
           </p>
           <p>
-            En cambio, si no puedes pagar pero sí tienes vivienda o terreno pagados, reunificar
-            es la vía que protege ese patrimonio. Evita reunificar poniendo tu vivienda como
-            garantía sin valorarlo bien.
+            Y desconfía de quien te ofrezca «reunificar» pidiendo un préstamo nuevo o poniendo tu
+            vivienda como garantía: eso es <strong>refinanciar</strong>, alarga el plazo y encarece
+            el total. Nosotros negociamos con tus entidades, sin crédito nuevo.
           </p>
         </WarningCallout>
       ),
@@ -346,7 +346,7 @@ export const reunificarDeudas: MoneyContent = {
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
             El <strong>estudio es gratuito y sin compromiso</strong>. Te mostramos la cuota,
-            el plazo y el coste total, y lo comparamos con{" "}
+            la rebaja negociable y el coste total, y lo comparamos con{" "}
             <A to="/cancelar-deudas">cancelar tus deudas</A> para que elijas con seguridad.
           </p>
         </div>
@@ -357,10 +357,10 @@ export const reunificarDeudas: MoneyContent = {
     {
       q: "¿Cómo se reunifican las deudas?",
       a: (
-        <>Se juntan tus préstamos y deudas en una sola operación con una única cuota mensual. Hacemos un estudio, te proponemos la nueva cuota y, si encaja, se formaliza.</>
+        <>Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total. Hacemos un estudio, negociamos por ti y, si encaja, se formaliza el acuerdo. No es un préstamo nuevo.</>
       ),
       plain:
-        "Se juntan tus préstamos y deudas en una sola operación con una única cuota mensual. Hacemos un estudio, te proponemos la nueva cuota y, si encaja, se formaliza.",
+        "Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total. Hacemos un estudio, negociamos por ti y, si encaja, se formaliza el acuerdo. No es un préstamo nuevo.",
     },
     {
       q: "¿Qué necesito para reunificar?",
@@ -373,10 +373,10 @@ export const reunificarDeudas: MoneyContent = {
     {
       q: "¿Cuándo no conviene reunificar?",
       a: (
-        <>Cuando ya no puedes pagar ninguna cuota: juntarlas solo alarga el problema. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.</>
+        <>Cuando ya no puedes pagar ninguna cuota: negociar una rebaja no basta. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.</>
       ),
       plain:
-        "Cuando ya no puedes pagar ninguna cuota: juntarlas solo alarga el problema. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
+        "Cuando ya no puedes pagar ninguna cuota: negociar una rebaja no basta. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
     },
     {
       q: "¿El estudio cuesta algo?",
