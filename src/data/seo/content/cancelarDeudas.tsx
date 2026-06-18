@@ -423,7 +423,7 @@ export const cancelarDeudas: MoneyContent = {
           <ul className="list-disc space-y-2 pl-5">
             <li>
               <strong>¿Puedes pagar algo cada mes?</strong> Si <strong>sí</strong>, valora{" "}
-              <A to="/reunificar-deudas">reunificar</A> en una sola cuota. Si <strong>no</strong>,
+              <A to="/reunificar-deudas">reunificar</A> (negociar y rebajar tu deuda). Si <strong>no</strong>,
               y <strong>no tienes bienes de valor pagados</strong>, tu vía es cancelar con la{" "}
               <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>; si tienes vivienda o
               terreno pagado, suele convenir <A to="/reunificar-deudas">reunificar</A> para
@@ -468,7 +468,7 @@ export const cancelarDeudas: MoneyContent = {
               {
                 icon: "wallet",
                 title: "Reunificar",
-                text: "Agrupar todo en una sola cuota asumible si todavía puedes pagar.",
+                text: "Negociar con tus entidades para bajar cuota y total si todavía puedes pagar. Sin préstamo nuevo.",
                 links: <A to="/reunificar-deudas">Reunificar deudas</A>,
               },
               {
@@ -485,7 +485,7 @@ export const cancelarDeudas: MoneyContent = {
               {
                 icon: "landmark",
                 title: "Refinanciar",
-                text: "Renegociar con el banco para rebajar cuota e intereses cuando aún puedes pagar pero las condiciones te ahogan.",
+                text: "Pedir un préstamo nuevo que agrupa todo: baja la cuota, pero alarga el plazo y encarece el total. Es lo contrario a reunificar.",
               },
             ]}
           />
@@ -527,7 +527,7 @@ export const cancelarDeudas: MoneyContent = {
             <strong>Cancelar</strong> hace desaparecer la deuda cuando ya no puedes pagar.{" "}
             <strong>Reclamar</strong> por usura la anula si los intereses son abusivos.{" "}
             <A to="/reunificar-deudas">Reunificar</A> no la elimina, pero la convierte en una
-            sola cuota más baja si todavía puedes pagar. La peor opción casi siempre es no
+            cuota y un total más bajos negociando con tus entidades, si todavía puedes pagar. La peor opción casi siempre es no
             elegir ninguna: en el diagnóstico gratuito te decimos cuál encaja mejor contigo,
             sin compromiso.
           </p>
@@ -540,7 +540,7 @@ export const cancelarDeudas: MoneyContent = {
         <div className="space-y-5">
           <FactGrid
             items={[
-              { value: "Casi inmediata", label: "Reunificación", detail: "Una sola cuota en cuanto se aprueba la operación." },
+              { value: "Semanas", label: "Reunificación", detail: "Negociación con tus acreedores para bajar cuota y total." },
               { value: "Meses", label: "Reclamación por usura", detail: "Anulación de intereses, muchas veces sin juicio." },
               { value: "6–18 meses", label: "Ley de Segunda Oportunidad", detail: "Los embargos se suspenden mucho antes del final." },
             ]}
