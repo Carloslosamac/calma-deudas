@@ -1,65 +1,70 @@
-# Money pages: "readable modules + interactives" as the standard
+# Cerrar el gap de contenido en las 15 money pages
 
-## Goal
-Make every money page render like `/cancelacion-de-deudas`: prose broken into scannable, attractive modules (callout cards, option grids, fact tiles, warning notes) plus the right interactive widgets — instead of walls of text. Turn the one-off inline JSX into a reusable kit so all 14 remaining pages and all future content stay consistent.
+Objetivo: que cada money page no solo tenga el mejor "continente" (UI/UX con módulos), sino también todo el "contenido" relevante que cubren las páginas que mejor rankean en Google España para su keyword principal. Resultado: cobertura temática completa, escrita original con la voz de Calma y renderizada con los módulos que ya tenemos.
 
-## Part 1 — Build the reusable module kit
-New folder `src/components/seo/modules/` with small presentational components (semantic tokens only, no hardcoded colors), each accepting plain data props so content files stay clean:
+## Cómo funciona
 
-- `KeyCallout` — the highlighted "En una frase" card (eyebrow + bold one-liner with accent span + supporting paragraph). For the core takeaway of a section.
-- `OptionCards` — responsive icon-card grid (1/2/3 cols). Each card: lucide icon, title, description, optional internal links. Reuses the existing `MoneyIcon` name set so icons stay consistent.
-- `ActionLink` — the bordered arrow link box ("¿Prefieres pasar a la acción?").
-- `InfoCallout` / `WarningCallout` — note boxes for caveats (e.g. the paid-asset / liquidation warning from the triage rule), with info vs warning variants.
-- `FactGrid` — compact stat/fact tiles (e.g. "6–18 meses", "Coste", limits) for plazos/coste-type sections.
-- `CheckList` — styled check/icon bullet list to replace plain `<ul>` prose lists.
+Para cada una de las 15 money pages:
+1. **Investigar la SERP** (Firecrawl): `search` de la keyword principal en Google España (`country: es`, `lang: es`) y `scrape` (markdown + summary) de las páginas top que rankean.
+2. **Extraer el inventario de temas**: listar los bloques de contenido / subtemas que aparecen en esas páginas (requisitos, plazos, costes, casos, FAQs, conceptos, riesgos, pasos, documentación, etc.).
+3. **Diff contra nuestra página**: comparar ese inventario con lo que ya cubre nuestro contenido actual y marcar lo que falta o está flojo.
+4. **Rellenar huecos**: escribir el contenido que falta **original (sintetizado y reescrito), nunca copiado**, y colocarlo en el módulo adecuado del kit existente.
 
-A shared `A` internal-link helper currently duplicated in content files moves into a tiny `src/components/seo/modules/Link.tsx` (or `index.ts` barrel) so pages import from one place. A barrel `modules/index.ts` re-exports everything.
+## Mapa keyword → página (15)
 
-`cancelacion-de-deudas` is refactored to consume the kit (same look, less inline markup) so it becomes the canonical reference.
+```
+ley-segunda-oportunidad ............. "ley de segunda oportunidad"
+abogados-ley-segunda-oportunidad .... "abogados ley segunda oportunidad"
+cancelar-deudas ..................... "cancelar deudas"
+cancelacion-de-deudas ............... "cancelacion de deudas"
+reunificacion-deudas ................ "reunificacion de deudas"
+reunificar-deudas ................... "reunificar deudas"
+salir-de-asnef ...................... "salir de asnef / quitar asnef"
+parar-embargo ....................... "parar embargo / cómo parar un embargo"
+cancelar-tarjetas-revolving ......... "tarjetas revolving / reclamar revolving"
+cancelar-microcreditos .............. "cancelar microcreditos"
+exoneracion-pasivo-insatisfecho ..... "exoneracion del pasivo insatisfecho"
+concurso-persona-fisica ............. "concurso de persona fisica / acreedores"
+juicio-monitorio-deuda .............. "juicio monitorio / qué es"
+deudas-hacienda ..................... "deudas con hacienda"
+deudas-seguridad-social ............. "deudas con la seguridad social"
+```
 
-## Part 2 — Audit & convert all 14 money pages
-For each page, convert the prose-heavy sections (especially the opening "qué es / cómo funciona / vías / requisitos / plazos" sections) into kit modules, and confirm it has the interactives that fit its intent. Pages:
+## Reglas de mapeo de huecos → módulos (kit existente)
 
-- ley-segunda-oportunidad
-- abogados-ley-segunda-oportunidad
-- cancelar-deudas
-- reunificacion-deudas
-- reunificar-deudas
-- salir-de-asnef
-- parar-embargo
-- cancelar-tarjetas-revolving
-- cancelar-microcreditos
-- exoneracion-pasivo-insatisfecho
-- concurso-persona-fisica
-- juicio-monitorio-deuda
-- deudas-hacienda
-- deudas-seguridad-social
+Cada tipo de información detectada va al módulo que ya tenemos, manteniendo el estándar visual:
+- Concepto/definición nuevo → `KeyCallout` o sección con `conceptGlossary`
+- Vías/opciones → `OptionCards`
+- Requisitos/criterios → `CheckList` (+ `WarningCallout` cuando aplica la regla de triaje)
+- Plazos, costes, cifras → `FactGrid`
+- "Qué pasa si no actúas" / fases → `urgencyTimeline` o `legalTimeline`
+- Bulos frecuentes en la SERP → `mythVsReality`
+- Preguntas que aparecen en "People also ask" → `faq` (UI + JSON-LD)
+- Cross-sell hacia otra solución → `ActionLink`
+- Texto explicativo largo → `MoneySection` con el body troceado en módulos legibles (nunca muros de prosa)
 
-### Conversion rules (applied per page)
-- Lead section → `KeyCallout` with the page's core promise.
-- "Vías / opciones / tipos" prose → `OptionCards`.
-- "Requisitos" / qualifying lists → `CheckList`, with a `WarningCallout` for the paid-asset → reunificar caveat where the triage rule applies.
-- "Plazos y coste" → `FactGrid` tiles.
-- Cross-sell / next-step prose → `ActionLink`.
-- Keep all CTAs scrolling to `#hero-form` (per project rule). Keep solution-triage steering intact (LSO vs reunificar vs reclamación).
+## Reglas de negocio que se respetan
 
-### Interactives coverage
-Confirm each page exposes the interactive(s) that match its job and isn't identical to siblings (avoid duplicate-content risk):
-- LSO / exoneración / concurso → simulator (compareSolutions), eligibility quiz, legalTimeline, conceptGlossary/mythVsReality.
-- reunificación/reunificar → simulator + comparisonTable (reunificar vs LSO) + asset-focused quiz.
-- tarjetas-revolving → usuryCalculator; microcréditos → valueComparison.
-- parar-embargo / juicio-monitorio → urgencyTimeline.
-- salir-de-asnef → beforeAfter.
-- hacienda / seguridad-social → exonerationLimits.
-Where a fitting interactive is missing, add it via the existing `interactive` config (data only — no new widget code unless a page needs one that doesn't exist yet).
+- Triaje de soluciones intacto: LSO = insolvente + SIN bienes pagados; reunificar = insolvente + CON bienes valiosos; reclamación judicial = solvente + usura + deuda baja.
+- Todos los CTA siguen apuntando a `#hero-form`. Sin gradientes en CTAs.
+- Marca "Calma". Tokens semánticos, nada de colores hardcodeados.
+- Contenido reescrito y original (anti-duplicado por SEO y legalmente seguro).
 
-## Out of scope
-- No new routes, no architecture/cluster changes, no copy rewrites beyond reshaping existing text into modules.
-- No changes to `legalTimeline` content logic, backend, or design tokens/fonts (palette and typography stay as-is).
-- Non-money templates (hub, guia, comparativa, entidad, localizacion) are untouched.
+## Pasos de ejecución
 
-## Technical notes
-- All work stays in `src/components/seo/modules/` (new) and `src/data/seo/content/*.tsx` (data). `MoneyJourney.tsx` already renders `sections[].body` as JSX, so no journey changes are required.
-- Components use only semantic Tailwind tokens (`accent`, `surface-elevated`, `border`, `foreground/80`, etc.) and `framer-motion` is already handled by the `Reveal` wrapper at the journey level.
-- TypeScript must compile cleanly; module props are typed.
-- Verify a sample of converted pages in the preview after rollout.
+1. **Conectar Firecrawl** (no hay conexión activa todavía) para poder hacer search+scrape real de Google España.
+2. **Investigación por lotes** con subagentes: cada subagente investiga la SERP de varias keywords y devuelve un inventario de temas + diff contra nuestro contenido actual (sin tocar archivos).
+3. **Redacción y montaje**: por cada página, añadir las secciones/módulos/FAQs que falten en su archivo de `src/data/seo/content/*.tsx`, reutilizando el kit de `src/components/seo/modules`. Si algún hueco necesita un tipo de dato ya soportado por `types.ts` (faq, conceptGlossary, mythVsReality, etc.) se rellena ahí.
+4. **Verificación**: compilación TypeScript limpia y revisión visual de un par de páginas representativas en el preview.
+
+## Fuera de alcance
+
+- No se crean rutas nuevas ni se cambia la arquitectura de clusters.
+- No se tocan plantillas no-money ni el backend.
+- No se cambian tokens de diseño ni la lógica de los módulos (solo se alimentan con más datos).
+
+## Nota técnica
+
+- Firecrawl se llama solo desde investigación (no se añade código de Firecrawl a la app).
+- El trabajo de contenido vive en `src/data/seo/content/*.tsx`; si hace falta un campo nuevo en `types.ts` para un módulo ya existente, se extiende ahí de forma mínima.
+- Es un volumen grande de contenido en una sola pasada; lo ejecuto página por página dentro del mismo trabajo para mantener calidad y poder revisar el resultado.
