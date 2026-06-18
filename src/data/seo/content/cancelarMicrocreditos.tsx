@@ -1,15 +1,9 @@
-import { Link } from "react-router-dom";
 import type { MoneyContent } from "./types";
+import { A, KeyCallout, FactGrid } from "@/components/seo/modules";
 import p1 from "@/assets/person-closeup-woman-3.jpg";
 import p2 from "@/assets/person-closeup-man-3.jpg";
 import p3 from "@/assets/person-closeup-woman-1.jpg";
 import p4 from "@/assets/person-closeup-man-1.jpg";
-
-const A = ({ to, children }: { to: string; children: React.ReactNode }) => (
-  <Link to={to} className="font-medium text-accent-deep underline-offset-4 hover:underline">
-    {children}
-  </Link>
-);
 
 /**
  * Money page "Cancelar microcréditos". Ángulo: deuda pequeña que se multiplica.
