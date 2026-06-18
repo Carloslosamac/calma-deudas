@@ -38,6 +38,8 @@ import ComparisonTable from "@/components/seo/interactive/ComparisonTable";
 import UrgencyTimeline from "@/components/seo/interactive/UrgencyTimeline";
 import LegalTimeline from "@/components/seo/interactive/LegalTimeline";
 import ExonerationLimits from "@/components/seo/interactive/ExonerationLimits";
+import ConceptGlossary from "@/components/seo/interactive/ConceptGlossary";
+import MythVsReality from "@/components/seo/interactive/MythVsReality";
 import type { MoneyModuleKey, MoneyTone } from "@/data/seo/content/types";
 
 const ICONS: Record<MoneyIcon, LucideIcon> = {
@@ -89,6 +91,8 @@ const DEFAULT_ORDER: MoneyModuleKey[] = [
   "debtTypes",
   "steps",
   "legalTimeline",
+  "conceptGlossary",
+  "mythVsReality",
   "quiz",
   "metrics",
   "teamCredentials",
@@ -398,6 +402,16 @@ const MoneyJourney = ({
     exonerationLimits: interactive?.exonerationLimits ? (
       <Reveal>
         <ExonerationLimits data={interactive.exonerationLimits} />
+      </Reveal>
+    ) : null,
+    conceptGlossary: interactive?.conceptGlossary ? (
+      <Reveal>
+        <ConceptGlossary data={interactive.conceptGlossary} />
+      </Reveal>
+    ) : null,
+    mythVsReality: interactive?.mythVsReality ? (
+      <Reveal>
+        <MythVsReality data={interactive.mythVsReality} />
       </Reveal>
     ) : null,
   };

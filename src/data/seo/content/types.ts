@@ -230,6 +230,22 @@ export type MoneyExonerationLimits = {
   note?: string;
 };
 
+/** Glosario de conceptos clave (acordeón educativo). */
+export type MoneyGlossaryTerm = { term: string; definition: ReactNode };
+export type MoneyConceptGlossary = {
+  title: string;
+  subtitle?: string;
+  terms: MoneyGlossaryTerm[];
+};
+
+/** Mitos vs realidad (tarjetas educativas que derriban bulos). */
+export type MoneyMythItem = { myth: string; reality: string };
+export type MoneyMythVsReality = {
+  title: string;
+  subtitle?: string;
+  items: MoneyMythItem[];
+};
+
 /** Conjunto de módulos interactivos de una money page. */
 export type MoneyInteractive = {
   simulator?: MoneySimulator;
@@ -245,6 +261,8 @@ export type MoneyInteractive = {
   urgencyTimeline?: MoneyUrgencyTimeline;
   legalTimeline?: MoneyLegalTimeline;
   exonerationLimits?: MoneyExonerationLimits;
+  conceptGlossary?: MoneyConceptGlossary;
+  mythVsReality?: MoneyMythVsReality;
 };
 
 /** Tono visual de la página (acento + energía). */
@@ -270,7 +288,9 @@ export type MoneyModuleKey =
   | "comparisonTable"
   | "urgencyTimeline"
   | "legalTimeline"
-  | "exonerationLimits";
+  | "exonerationLimits"
+  | "conceptGlossary"
+  | "mythVsReality";
 
 /** Copy comercial completo de una money page. */
 export type MoneyContent = {

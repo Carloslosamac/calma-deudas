@@ -24,10 +24,12 @@ export const cancelacionDeDeudas: MoneyContent = {
   tone: "calm",
   layout: [
     "sections",
-    "legalTimeline",
+    "conceptGlossary",
+    "mythVsReality",
     "benefits",
-    "eligibility",
+    "exonerationLimits",
     "debtTypes",
+    "eligibility",
     "steps",
     "metrics",
     "faq",
@@ -190,39 +192,87 @@ export const cancelacionDeDeudas: MoneyContent = {
     text: "Conocer las vías es el principio; aplicarlas a tu situación es lo que cancela la deuda. Pide tu estudio gratis y te decimos exactamente qué puedes cancelar y cómo.",
   },
   interactive: {
-    legalTimeline: {
-      title: "Vías legales para cancelar deudas y sus plazos",
-      subtitle: "Según tu caso, se elige la vía más adecuada. Estos son los caminos posibles.",
-      phases: [
+    conceptGlossary: {
+      title: "Conceptos clave para entenderlo",
+      subtitle:
+        "Los términos que aparecen una y otra vez al informarte, explicados sin jerga.",
+      terms: [
         {
-          title: "Reclamación por usura o cláusulas abusivas",
-          duration: "Meses",
-          text: "En tarjetas revolving y microcréditos con interés desproporcionado, la deuda puede anularse total o parcialmente.",
+          term: "Insolvencia",
+          definition:
+            "Situación en la que tus ingresos y bienes no alcanzan para pagar tus deudas. Es el punto de partida para poder cancelarlas legalmente.",
         },
         {
-          title: "Negociación con acreedores",
-          duration: "Variable",
-          text: "Quitas y acuerdos de pago cuando todavía hay margen para asumir parte de la deuda.",
+          term: "Buena fe",
+          definition:
+            "Haber actuado con honestidad: no ocultar bienes ni provocar el sobreendeudamiento de forma fraudulenta. Es un requisito imprescindible.",
         },
         {
-          title: "Acuerdo extrajudicial de pagos",
-          duration: "1-2 meses",
-          text: "Paso previo de la Ley de Segunda Oportunidad para intentar un acuerdo global con todos los acreedores.",
+          term: "Pasivo insatisfecho",
+          definition:
+            "El conjunto de deudas que quedan sin pagar. La Ley de Segunda Oportunidad permite su exoneración cuando se cumplen los requisitos.",
         },
         {
-          title: "Exoneración judicial (LSO)",
-          duration: "Resolución",
-          text: "Si no puedes pagar, el juez cancela las deudas pendientes y empiezas de cero.",
+          term: "Exoneración (EPI / BEPI)",
+          definition:
+            "La cancelación firme y definitiva de las deudas que dicta el juez. Una vez exoneradas, no se pueden volver a reclamar.",
+        },
+        {
+          term: "Acuerdo extrajudicial de pagos",
+          definition:
+            "Intento previo de pactar con todos los acreedores un plan de pago. Si fracasa, se abre la vía judicial de exoneración.",
         },
       ],
     },
-    simulator: {
-      title: "¿Cuánta deuda sería cancelable?",
-      subtitle: "Una estimación rápida. La cifra real la confirmamos en tu diagnóstico gratis.",
-      maxDebt: 120000,
-      maxMonthly: 2000,
-      defaultDebt: 28000,
-      defaultMonthly: 450,
+    mythVsReality: {
+      title: "Mitos sobre la cancelación de deudas",
+      subtitle: "Lo que se dice por ahí frente a lo que dice la ley.",
+      items: [
+        {
+          myth: "“Cancelar deudas es un timo, no es legal.”",
+          reality:
+            "Es un mecanismo regulado por la Ley de Segunda Oportunidad desde 2015 y por la normativa de consumo. Lo aplican los juzgados.",
+        },
+        {
+          myth: "“La deuda con Hacienda nunca se cancela.”",
+          reality:
+            "La deuda pública también se exonera, con unos límites establecidos por ley que se calculan según tu caso.",
+        },
+        {
+          myth: "“Perderé mi casa y todos mis bienes.”",
+          reality:
+            "No siempre. Existe la vía sin liquidación de patrimonio, y la vivienda puede protegerse en muchos casos según tu situación.",
+        },
+        {
+          myth: "“Quedaré marcado para siempre.”",
+          reality:
+            "Al cerrar el proceso sales de los ficheros de morosos como ASNEF y puedes reconstruir tu vida financiera.",
+        },
+      ],
+    },
+    exonerationLimits: {
+      title: "Hasta dónde se cancela la deuda pública",
+      subtitle:
+        "Hacienda y Seguridad Social también se exoneran, pero con límites concretos.",
+      items: [
+        {
+          label: "Hacienda (AEAT)",
+          text: "La deuda con la Agencia Tributaria es exonerable hasta el límite legal previsto; el resto puede aplazarse o fraccionarse.",
+        },
+        {
+          label: "Seguridad Social",
+          text: "Las deudas con la Seguridad Social se exoneran con el mismo criterio de límite máximo establecido por la reforma concursal.",
+        },
+        {
+          label: "Deuda privada",
+          text: "Préstamos, tarjetas y microcréditos no tienen ese tope: pueden exonerarse en su totalidad.",
+        },
+        {
+          label: "Cálculo en tu caso",
+          text: "El límite exacto depende del importe y del tipo de deuda. Te lo calculamos gratis en el diagnóstico.",
+        },
+      ],
+      note: "Los límites se actualizan según la última reforma concursal. Confirmamos las cifras vigentes aplicadas a tu situación.",
     },
     debtTypesTitle: "¿De qué tipo es tu deuda?",
     debtTypesSubtitle: "Cada tipo tiene su vía de cancelación. Elige el tuyo.",
@@ -270,44 +320,6 @@ export const cancelacionDeDeudas: MoneyContent = {
         linkLabel: "Reunificación de deudas",
       },
     ],
-    quiz: {
-      title: "¿Cumples los requisitos? Compruébalo",
-      subtitle: "4 preguntas rápidas. Sin dar tus datos.",
-      questions: [
-        { text: "¿Estás en situación de insolvencia (no puedes pagar)?", goodAnswer: "yes" },
-        { text: "¿Actúas de buena fe?", goodAnswer: "yes" },
-        { text: "¿Tus deudas vienen de préstamos, tarjetas o microcréditos?", goodAnswer: "yes" },
-        { text: "¿Tienes condenas por delitos económicos recientes?", goodAnswer: "no" },
-      ],
-      resultPass: {
-        title: "Cumples los requisitos clave",
-        text: "Tu caso encaja con las condiciones de la cancelación de deudas. Confírmalo gratis y te decimos cuánto puedes exonerar.",
-      },
-      resultDoubt: {
-        title: "Probablemente encajas",
-        text: "Tu perfil se parece al de muchos casos que cancelan deuda. Lo verificamos gratis en 24h, sin compromiso.",
-      },
-    },
-    beforeAfter: {
-      title: "Antes y después de la cancelación",
-      subtitle: "Lo que cambia cuando la deuda queda exonerada.",
-      beforeLabel: "Con la deuda activa",
-      afterLabel: "Tras la cancelación",
-      before: [
-        "Intereses que siguen creciendo",
-        "Presión de acreedores y recobro",
-        "Riesgo de embargo",
-        "Datos en ficheros de morosos",
-        "Sin capacidad de ahorro",
-      ],
-      after: [
-        "Deuda exonerada de forma firme",
-        "Sin llamadas ni reclamaciones",
-        "Embargos suspendidos en el proceso",
-        "Fuera del ASNEF al cerrar el caso",
-        "Margen para reconstruir tu economía",
-      ],
-    },
   },
   sections: [
     {
