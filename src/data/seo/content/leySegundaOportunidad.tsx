@@ -1,11 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, OptionCards, WarningCallout, CheckList, FactGrid } from "@/components/seo/modules";
-import lso1 from "@/assets/testimonios/lso-1.jpg";
-import lso2 from "@/assets/testimonios/lso-2.jpg";
-import lso3 from "@/assets/testimonios/lso-3.jpg";
-import lso4 from "@/assets/testimonios/lso-4.jpg";
-import lso5 from "@/assets/testimonios/lso-5.jpg";
-import lso6 from "@/assets/testimonios/lso-6.jpg";
+import lso1 from "@/assets/casos/lso-1.jpg";
+import lso2 from "@/assets/casos/lso-2.jpg";
+import lso3 from "@/assets/casos/lso-3.jpg";
+import lso4 from "@/assets/casos/lso-4.jpg";
+import lso5 from "@/assets/casos/lso-5.jpg";
+import lso6 from "@/assets/casos/lso-6.jpg";
 
 /**
  * Money page comercial de la Ley de Segunda Oportunidad.

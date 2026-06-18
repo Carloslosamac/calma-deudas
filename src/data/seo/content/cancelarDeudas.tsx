@@ -1,11 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, OptionCards, CheckList, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/person-closeup-man-1.jpg";
-import p2 from "@/assets/person-closeup-woman-1.jpg";
-import p3 from "@/assets/person-closeup-man-2.jpg";
-import p4 from "@/assets/person-closeup-woman-2.jpg";
-import p5 from "@/assets/person-closeup-man-3.jpg";
-import p6 from "@/assets/person-closeup-woman-3.jpg";
+import p1 from "@/assets/casos/cancelar-1.jpg";
+import p2 from "@/assets/casos/cancelar-2.jpg";
+import p3 from "@/assets/casos/cancelar-3.jpg";
+import p4 from "@/assets/casos/cancelar-4.jpg";
+import p5 from "@/assets/casos/cancelar-5.jpg";
+import p6 from "@/assets/casos/cancelar-6.jpg";
 import team1 from "@/assets/team-lawyer-1.jpg";
 import team2 from "@/assets/team-lawyer-2.jpg";
 import team3 from "@/assets/team-lawyer-3.jpg";

@@ -1,9 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/testimonial-1.jpg";
-import p2 from "@/assets/testimonial-2.jpg";
-import p3 from "@/assets/testimonial-3.jpg";
-import p4 from "@/assets/testimonial-4.jpg";
+import p1 from "@/assets/casos/revolving-1.jpg";
+import p2 from "@/assets/casos/revolving-2.jpg";
+import p3 from "@/assets/casos/revolving-3.jpg";
+import p4 from "@/assets/casos/revolving-4.jpg";
+import p5 from "@/assets/casos/revolving-5.jpg";
+import p6 from "@/assets/casos/revolving-6.jpg";
 
 /**
  * Money page "Cancelar tarjetas revolving". Ángulo usura: intereses abusivos.
@@ -66,10 +68,12 @@ export const cancelarTarjetasRevolving: MoneyContent = {
   testimonialsSubtitle: "Casos reales de tarjetas anuladas por intereses abusivos.",
   testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
   testimonials: [
-    { name: "David P.", amount: "9.300 €", location: "Madrid", text: "Pagaba y la deuda no bajaba. La anularon por usura y dejé de deber.", photo: p1 },
-    { name: "Cristina R.", amount: "6.750 €", location: "Valencia", text: "Tenía dos revolving. Recuperé parte de lo pagado de más.", photo: p2 },
-    { name: "Sergio M.", amount: "12.100 €", location: "Sevilla", text: "Llevaba años atrapado. La TAE era abusiva y se canceló.", photo: p3 },
-    { name: "Laura T.", amount: "4.980 €", location: "Bilbao", text: "No sabía que era ilegal cobrar tanto. La reclamación salió adelante.", photo: p4 },
+    { name: "Cristina R.", amount: "6.750 €", location: "Valencia", text: "Tenía dos revolving y pagaba sin que bajaran. Recuperé parte de lo pagado de más.", photo: p1 },
+    { name: "David P.", amount: "9.300 €", location: "Madrid", text: "Pagaba cada mes y la deuda seguía igual. La anularon por usura y dejé de deber.", photo: p2 },
+    { name: "Sergio M.", amount: "12.100 €", location: "Sevilla", text: "Llevaba años atrapado con la tarjeta. La TAE era abusiva y se canceló entera.", photo: p3 },
+    { name: "Laura T.", amount: "4.980 €", location: "Bilbao", text: "No sabía que era ilegal cobrar tanto interés. La reclamación salió adelante.", photo: p4 },
+    { name: "Marta D.", amount: "7.420 €", location: "Málaga", text: "Una sola tarjeta que no terminaba nunca. La declararon usuraria y respiré.", photo: p5 },
+    { name: "Antonio G.", amount: "11.250 €", location: "Zaragoza", text: "Devolví solo el capital prestado. Los intereses abusivos se anularon por completo.", photo: p6 },
   ],
   stepsTitle: "Cómo cancelamos tu tarjeta revolving",
   stepsSubtitle: "Cuatro pasos, empezando por revisar tu contrato",

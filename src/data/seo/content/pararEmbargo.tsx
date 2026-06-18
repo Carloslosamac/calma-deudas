@@ -1,9 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, OptionCards, KeyCallout, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/person-man-portrait.jpg";
-import p2 from "@/assets/person-woman-window.jpg";
-import p3 from "@/assets/person-woman-walking.jpg";
-import p4 from "@/assets/person-couple-sofa.jpg";
+import p1 from "@/assets/casos/embargo-1.jpg";
+import p2 from "@/assets/casos/embargo-2.jpg";
+import p3 from "@/assets/casos/embargo-3.jpg";
+import p4 from "@/assets/casos/embargo-4.jpg";
+import p5 from "@/assets/casos/embargo-5.jpg";
+import p6 from "@/assets/casos/embargo-6.jpg";
 
 /**
  * Money page "Parar un embargo". Ángulo urgente máximo: nómina, cuenta o vivienda.
@@ -69,6 +71,8 @@ export const pararEmbargo: MoneyContent = {
     { name: "Pilar G.", amount: "Embargo suspendido", location: "Valencia", text: "Frenaron el embargo de mi cuenta a tiempo. Hoy estoy libre de deudas.", photo: p2 },
     { name: "Antonio L.", amount: "Vivienda a salvo", location: "Sevilla", text: "Estaba en ejecución hipotecaria. Actuaron rápido y pudimos negociar.", photo: p3 },
     { name: "Marta S.", amount: "Sin embargos", location: "Bilbao", text: "Acumulaba varios embargos. Con la Segunda Oportunidad empecé de cero.", photo: p4 },
+    { name: "Francisco D.", amount: "Cuenta liberada", location: "Málaga", text: "Me bloquearon la cuenta de un día para otro. Pararon el embargo en 48 horas.", photo: p5 },
+    { name: "Rosa M.", amount: "Nómina protegida", location: "Zaragoza", text: "Me dejaban sin sueldo cada mes. Recuperé el mínimo inembargable enseguida.", photo: p6 },
   ],
   stepsTitle: "Qué hacemos para parar tu embargo",
   stepsSubtitle: "Cuatro pasos, empezando hoy",

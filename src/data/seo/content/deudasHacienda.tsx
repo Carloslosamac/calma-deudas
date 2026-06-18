@@ -1,9 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, OptionCards, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/avatar-3.jpg";
-import p2 from "@/assets/person-man-portrait.jpg";
-import p3 from "@/assets/person-woman-window.jpg";
-import p4 from "@/assets/person-couple-sofa.jpg";
+import p1 from "@/assets/casos/hacienda-1.jpg";
+import p2 from "@/assets/casos/hacienda-2.jpg";
+import p3 from "@/assets/casos/hacienda-3.jpg";
+import p4 from "@/assets/casos/hacienda-4.jpg";
+import p5 from "@/assets/casos/hacienda-5.jpg";
+import p6 from "@/assets/casos/hacienda-6.jpg";
 
 /**
  * Money page "Deudas con Hacienda". Ángulo: deuda pública con límites de exoneración.
@@ -68,6 +70,9 @@ export const deudasHacienda: MoneyContent = {
     { name: "Lucía R.", amount: "Parte exonerada", location: "Valencia", text: "Dentro de los límites, parte de mi deuda pública se canceló.", photo: p2 },
     { name: "Mateo L.", amount: "Recurrida", location: "Sevilla", text: "La liquidación tenía errores. La recurrimos con éxito.", photo: p3 },
     { name: "Eva C.", amount: "Plan global", location: "Bilbao", text: "Ordenamos deuda con Hacienda y bancos en un solo plan.", photo: p4 },
+    { name: "Raúl V.", amount: "Apremio frenado", location: "Málaga", text: "Me había llegado la providencia de apremio. La paramos y aplazamos el pago.", photo: p5 },
+    { name: "Marta D.", amount: "Embargo evitado", location: "Zaragoza", text: "Iban a embargarme la cuenta. Negociamos un fraccionamiento a tiempo.", photo: p6 },
+  ],
   ],
   stepsTitle: "Cómo gestionamos tu deuda con Hacienda",
   stepsSubtitle: "Cuatro pasos para ordenar tu situación",
