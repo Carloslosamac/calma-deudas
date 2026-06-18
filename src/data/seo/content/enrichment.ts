@@ -1,6 +1,6 @@
-import type { MoneyContent } from "./types";
+import type { MoneyContent, MoneyExtraSection } from "./types";
 
-type Enrichment = Pick<NonNullable<MoneyContent["interactive"]>, "conceptGlossary" | "mythVsReality"> & { faq?: MoneyContent["faq"] };
+type Enrichment = Pick<NonNullable<MoneyContent["interactive"]>, "conceptGlossary" | "mythVsReality"> & { faq?: MoneyContent["faq"]; extraSections?: MoneyExtraSection[] };
 
 export const enrichmentByPath: Record<string, Enrichment> = {
   "/ley-segunda-oportunidad": {
@@ -35,6 +35,153 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Mis deudas me perseguirán hasta la muerte si no puedo pagar nada”", reality: "La ley existe precisamente para evitar deudas perpetuas; si cumples los requisitos de buena fe, el juez puede cancelar legalmente aquello que es imposible que pagues." },
       ],
     },
+    extraSections: [
+      {
+            "title": "La Deuda Pública: Límites con Hacienda y Seguridad Social",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Uno de los cambios más importantes es el tratamiento de las deudas públicas. A diferencia de las deudas bancarias, que pueden cancelarse al 100%, las contraídas con la **Agencia Tributaria** y la **Seguridad Social** tienen un límite legal."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Tramo de Deuda",
+                              "Capacidad de Cancelación"
+                        ],
+                        "rows": [
+                              [
+                                    "Primeros 5.000 €",
+                                    "Cancelación del 100%"
+                              ],
+                              [
+                                    "Desde 5.001 € hasta 10.000 €",
+                                    "Cancelación del 50%"
+                              ],
+                              [
+                                    "Exceso sobre 10.000 €",
+                                    "No exonerable (se incluye en plan de pagos)"
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Hasta 20.000 € de ahorro",
+                        "body": "Sumando los límites de ambos organismos, puedes eliminar hasta 20.000 € de deuda pública mediante este procedimiento legal."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/deudas-hacienda-seguridad-social/deudas-hacienda",
+                        "text": "Más sobre cancelar deudas con Hacienda"
+                  }
+            ]
+      },
+      {
+            "title": "Deudas que la Ley NO permite borrar",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Aunque la Ley de Segunda Oportunidad es muy potente, el legislador protege ciertos derechos que no pueden ser cancelados bajo ninguna circunstancia."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Pensiones de alimentos por hijos o familiares.",
+                              "Responsabilidad civil por delitos o daños personales (lesiones).",
+                              "Multas en procesos penales o sanciones administrativas muy graves.",
+                              "Deudas por accidentes de trabajo.",
+                              "Costas judiciales generadas por el propio proceso de segunda oportunidad."
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "text": "La parte de la hipoteca que no se cubra con el valor del inmueble sí puede llegar a cancelarse, pero el préstamo principal mientras mantengas la vivienda sigue vigente."
+                  }
+            ]
+      },
+      {
+            "title": "Agilidad tras la Reforma de 2022",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La nueva normativa ha simplificado drásticamente el proceso eliminando costes y pasos que antes eran obligatorios, como el Acuerdo Extrajudicial de Pagos."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "ban",
+                                    "title": "Adiós a Notarios y Mediadores",
+                                    "text": "Ya no es necesario acudir a notaría ni contratar a un mediador concursal, lo que supone un ahorro directo de hasta 1.500 € en gastos de gestión."
+                              },
+                              {
+                                    "icon": "sparkles",
+                                    "title": "Trámite Directo",
+                                    "text": "El proceso es ahora 100% judicial desde el primer día, lo que permite acortar los plazos de resolución en casos sin bienes."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Documentación y Revocación del proceso",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para iniciar el camino necesitamos acreditar tu situación de insolvencia y tu buena fe ante el juzgado con documentación oficial."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Certificados de antecedentes penales.",
+                              "Listado exhaustivo de acreedores y cuantías.",
+                              "Inventario de bienes y derechos (nóminas, coches, propiedades).",
+                              "Certificados de deuda con AEAT y Tesorería."
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "Vigilancia de 5 años",
+                        "text": "La cancelación es efectiva desde la sentencia, pero los acreedores pueden pedir su revocación si en los siguientes 5 años mejoras de fortuna notablemente (herencias o loterías) o si se demuestra que ocultaste bienes."
+                  }
+            ]
+      },
+      {
+            "title": "Plazos de reentrada: ¿Se puede usar dos veces?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si ya has pasado por este proceso anteriormente y la vida te ha vuelto a poner en una situación difícil, debes conocer los tiempos de espera legales para volver a solicitarlo."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "2 años",
+                                    "label": "Tras Plan de Pagos",
+                                    "detail": "Si la primera vez lograste la exoneración mediante un calendario de pagos."
+                              },
+                              {
+                                    "value": "5 años",
+                                    "label": "Tras Liquidación",
+                                    "detail": "Si la primera vez entregaste tus bienes para cancelar las deudas."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/abogados-ley-segunda-oportunidad",
+                        "text": "Consultar con un abogado experto"
+                  }
+            ]
+      }
+],
   },
   "/abogados-ley-segunda-oportunidad": {
     faq: [
@@ -68,6 +215,193 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Es un proceso muy caro que no me puedo permitir”", reality: "En Calma adaptamos los pagos del proceso a tu situación actual. El ahorro final de cancelar tus deudas compensa con creces la inversión en tu tranquilidad futura." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Marco Legal: El derecho a empezar de cero",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La Ley de Segunda Oportunidad no es un invento reciente, sino un derecho consolidado en el **Texto Refundido de la Ley Concursal** (tras la reforma clave de la Ley 16/2022). Este mecanismo legal permite que particulares y autónomos insolventes soliciten el perdón de sus deudas ante el juez."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "Ley 16/2022",
+                                    "label": "Última reforma",
+                                    "detail": "Agiliza los plazos y elimina costes notariales."
+                              },
+                              {
+                                    "value": "Insolvencia",
+                                    "label": "Estado necesario",
+                                    "detail": "Ya sea actual o inminente (previsión de impago)."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Las dos vías para cancelar tus deudas",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Dependiendo de tu situación patrimonial, tu abogado diseñará una estrategia basada en una de estas dos modalidades de Exoneración del Pasivo Insatisfecho (EPI):"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "sparkles",
+                                    "title": "Exoneración con liquidación",
+                                    "text": "Ideal si no tienes bienes o estos carecen de valor. Se solicita el perdón directo de las deudas (concurso sin masa)."
+                              },
+                              {
+                                    "icon": "shield",
+                                    "title": "Plan de Pagos",
+                                    "text": "Permite proteger tu vivienda habitual o herramientas de trabajo a cambio de un plan de pagos de 3 a 5 años.",
+                                    "links": [
+                                          {
+                                                "to": "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
+                                                "label": "Saber más sobre el EPI"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Qué deudas se eliminan (y cuáles no)",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Aunque la Ley permite cancelar la gran mayoría de deudas, existen límites legales que tu abogado debe gestionar, especialmente con las administraciones públicas."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Tipo de Deuda",
+                              "¿Es cancelable?"
+                        ],
+                        "rows": [
+                              [
+                                    "Préstamos, tarjetas y microcréditos",
+                                    "Sí, al 100%"
+                              ],
+                              [
+                                    "Hacienda y Seguridad Social",
+                                    "Hasta 10.000 € por organismo"
+                              ],
+                              [
+                                    "Pensiones de alimentos y multas penales",
+                                    "No, por ley"
+                              ],
+                              [
+                                    "Hipotecas (deuda sobrante tras subasta)",
+                                    "Sí, el resto pendiente"
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/deudas-hacienda-seguridad-social/deudas-hacienda",
+                        "text": "Consultar límites de deuda con Hacienda"
+                  }
+            ]
+      },
+      {
+            "title": "Requisitos de Buena Fe: El estándar judicial",
+            "blocks": [
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Para que un juez dicte el auto de exoneración, debe quedar acreditado que el deudor es de buena fe."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "No haber sido condenado por delitos patrimoniales o contra Hacienda en los últimos 10 años.",
+                              "Colaborar activamente con el juzgado y el administrador concursal.",
+                              "No haber facilitado información falsa sobre tu situación económica.",
+                              "No haber obtenido otra exoneración en los últimos 2 a 5 años."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Efectos inmediatos de iniciar el proceso",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Tu tranquilidad empieza con la demanda",
+                        "body": "Desde el mismo momento en que tu abogado presenta la solicitud en el juzgado mercantil, tu situación cambia legalmente."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "icon": "ban",
+                                    "title": "Adiós embargos",
+                                    "text": "Se paralizan ejecuciones judiciales y embargos de nómina."
+                              },
+                              {
+                                    "icon": "phone-off",
+                                    "title": "Cese de acoso",
+                                    "text": "Las agencias de recobro ya no pueden llamarte legalmente."
+                              },
+                              {
+                                    "icon": "lock",
+                                    "title": "Sin intereses",
+                                    "text": "Se detiene el devengo de nuevos intereses y recargos de tus deudas."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/embargos/parar-embargo",
+                        "text": "Cómo parar un embargo legalmente"
+                  }
+            ]
+      },
+      {
+            "title": "Plazos y salida de ficheros (ASNEF)",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Un proceso de Segunda Oportunidad suele durar de **6 a 18 meses**. Una vez el juez firma el Auto de Exoneración (EPI), el último paso es limpiar tu historial crediticio."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Comunicación del auto judicial a los ficheros de morosidad.",
+                              "Borrado obligatorio de datos en ASNEF, RAI y Equifax.",
+                              "Recuperación de la capacidad para contratar suministros o financiación."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/asnef/salir-de-asnef",
+                        "text": "Guía para salir de ASNEF tras el juicio"
+                  }
+            ]
+      },
+      {
+            "title": "La Tercera Oportunidad",
+            "blocks": [
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "¿Se puede usar el mecanismo más de una vez?",
+                        "text": "Sí. La ley permite una nueva exoneración tras el paso de un tiempo determinado (normalmente 10 años), siempre que la nueva insolvencia sea de nuevo fruto de la buena fe y causas sobrevenidas."
+                  }
+            ]
+      }
+],
   },
   "/cancelar-deudas": {
     faq: [
@@ -101,6 +435,166 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Solo las empresas pueden acogerse a la Ley de Segunda Oportunidad.”", reality: "Realidad: Está diseñada específicamente para particulares y autónomos que actúan de buena fe y no tienen antecedentes por delitos económicos." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Antes de empezar: Control financiero básico",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para **cancelar deudas** de forma definitiva, el primer paso no es legal, sino analítico. Necesitas un mapa real de tu economía para saber qué vía de escape es viable."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "Gastos Fijos",
+                                    "label": "Supervivencia",
+                                    "detail": "Vivienda, suministros, seguros y alimentación básica."
+                              },
+                              {
+                                    "value": "Gastos Variables",
+                                    "label": "Prescindibles",
+                                    "detail": "Suscripciones, ocio y consumos hormiga que puedes recortar."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "El Fondo de Emergencia de Rescate",
+                        "body": "Antes de destinar cada euro a las deudas, intenta ahorrar un pequeño colchón de entre 500 € y 1.000 €. Esto evita que cualquier imprevisto (avería del coche o urgencia médica) te obligue a pedir un nuevo microcrédito."
+                  }
+            ]
+      },
+      {
+            "title": "Estrategias de pago para deudas pequeñas o manejables",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si aún tienes solvencia pero sientes que pierdes el control, existen dos métodos psicológicos y financieros para acelerar la limpieza de tus cuentas:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "sparkles",
+                                    "title": "Método Bola de Nieve",
+                                    "text": "Paga el mínimo de todas tus deudas excepto la más pequeña. Liquídala cuanto antes para ganar motivación emocional y suma ese dinero a la siguiente."
+                              },
+                              {
+                                    "icon": "scale",
+                                    "title": "Método Avalancha",
+                                    "text": "Ataca primero la deuda con el tipo de interés (TAE) más alto. Matemáticamente es lo más eficiente porque ahorras más dinero en intereses a largo plazo."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Consolidación y tarjetas de transferencia: ¿Cuándo funcionan?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si tu historial crediticio aún es bueno, puedes intentar agrupar deudas antes de que la situación sea crítica."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Préstamos de consolidación: Unificar todo en una sola cuota con un interés menor al promedio actual.",
+                              "Transferencia de saldo (0% TAE): Mover deuda de tarjetas caras a una nueva con interés promocional (suele durar 12-18 meses).",
+                              "Cuidado con las garantías: Si usas tu vivienda como aval en una [reunificación de deudas](/reunificar-deudas), el riesgo de pérdida patrimonial aumenta si fallas en el pago."
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "Riesgo de las tarjetas",
+                        "text": "Las tarjetas de transferencia suelen aplicar una comisión de apertura (3-5%). Si no liquidas el total antes de que acabe la promoción, el interés puede dispararse por encima del 20%."
+                  }
+            ]
+      },
+      {
+            "title": "La negociación directa y sus riesgos reales",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Hablar con el banco antes del impago puede abrir puertas, pero debes conocer las consecuencias de cada pacto."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Opción",
+                              "Efecto Real"
+                        ],
+                        "rows": [
+                              [
+                                    "Carencia",
+                                    "Solo pagas intereses durante unos meses; la deuda total no baja."
+                              ],
+                              [
+                                    "Quita (vía privada)",
+                                    "Acuerdas pagar una parte y que te perdonen el resto. Suele manchar tu historial crediticio."
+                              ],
+                              [
+                                    "Ampliación de plazo",
+                                    "Baja la cuota mensual, pero terminarás pagando mucho más dinero en intereses totales."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+                        "text": "Qué hacer si la negociación falla y recibes una demanda"
+                  }
+            ]
+      },
+      {
+            "title": "Tus derechos frente al acoso y la prescripción",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La ley protege tu dignidad y establece límites temporales a la reclamación de deudas."
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Protección contra el recobro",
+                        "body": "Ninguna agencia puede acosarte, llamar a tus vecinos o contactarte en horarios intempestivos. Estas prácticas son denunciables."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "Prescripción de deudas",
+                        "text": "En España, la mayoría de préstamos personales prescriben a los 5 años (según el Código Civil). Sin embargo, cualquier reclamación judicial o reconocimiento de deuda por tu parte 'pone a cero' el contador."
+                  }
+            ]
+      },
+      {
+            "title": "Cómo detectar estafas en la reparación de deuda",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No todas las empresas que prometen 'ayuda' son legítimas. Sospecha siempre si detectas estas señales:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Te piden cuotas de gestión elevadas antes de analizar tu caso o presupuesto.",
+                              "Prometen borrarte de ASNEF por arte de magia sin pagar la deuda ni iniciar un proceso legal.",
+                              "Dicen ser un 'servicio oficial del Gobierno' para cancelar tarjetas.",
+                              "Te aconsejan dejar de pagar sin explicarte el riesgo de embargo de nómina."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/asnef/salir-de-asnef",
+                        "text": "Aprende la vía legal para salir de ficheros de morosos"
+                  }
+            ]
+      }
+],
   },
   "/cancelacion-de-deudas": {
     faq: [
@@ -136,6 +630,152 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Mis deudas desaparecerán automáticamente sin pasar por el juzgado.”", reality: "No existe el borrado mágico. Para que la deuda sea legalmente inexistente, un juez debe firmar la sentencia de exoneración tras comprobar que cumples los requisitos." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Cómo proteger tu vivienda habitual durante el proceso",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Una de las mayores preocupaciones al buscar la **cancelación de deudas** es el miedo a perder la casa. Sin embargo, la jurisprudencia actual permite excluir la vivienda habitual de la liquidación si se cumplen ciertos criterios."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Estar al corriente de los pagos de la cuota hipotecaria.",
+                              "Que el valor de mercado del inmueble sea inferior o similar a la deuda pendiente (valor residual nulo).",
+                              "Que la vivienda sea la residencia habitual del deudor."
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Si se cumplen estos requisitos, la deuda hipotecaria se mantiene vigente y sigues pagando tu cuota, pero el resto de tus deudas (tarjetas, préstamos, etc.) se cancelan."
+                  }
+            ]
+      },
+      {
+            "title": "Situación de avalistas y prescripción de deudas",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Es fundamental entender qué ocurre con quienes te ayudaron a pedir el dinero y hasta cuándo pueden reclamarte legalmente si no inicias un proceso de cancelación."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Concepto",
+                              "Impacto Legal"
+                        ],
+                        "rows": [
+                              [
+                                    "Avalistas",
+                                    "La LSO libera al deudor, pero el acreedor puede dirigirse al avalista salvo que este también se acoja a la ley."
+                              ],
+                              [
+                                    "Prescripción",
+                                    "La mayoría de deudas prescriben a los 5 años, pero cualquier reclamación interrumpe el plazo y reinicia el contador."
+                              ],
+                              [
+                                    "Vigilancia",
+                                    "Tras el auto de cancelación, existe un periodo de 5 años donde la exoneración de deudas podría revocarse si mejora tu fortuna por herencia o azar."
+                              ]
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Impacto fiscal y financiero de la cancelación",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "eyebrow": "Obligaciones tributarias",
+                        "headline": "La deuda cancelada puede tributar como ganancia patrimonial",
+                        "body": "Según la normativa vigente, el ahorro obtenido por una quita o cancelación suele considerarse ingreso imponible en el IRPF."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "No obstante, si la cancelación se obtiene a través de la [Ley Segunda Oportunidad](/ley-segunda-oportunidad), la ley prevé exenciones para que el deudor insolvente no tenga que pagar impuestos por una deuda que no pudo abonar."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "0€",
+                                    "label": "Coste fiscal en LSO",
+                                    "detail": "Generalmente exento para deudores insolventes."
+                              },
+                              {
+                                    "value": "Favorable",
+                                    "label": "Score Crediticio",
+                                    "detail": "Mejora tras eliminar los registros en ASNEF."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Diferencia entre deudas garantizadas y no garantizadas",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No todas las deudas se tratan igual ante la ley. Entender la diferencia es clave para priorizar tu estrategia de defensa."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "wallet",
+                                    "title": "Deudas No Garantizadas",
+                                    "text": "Préstamos personales, tarjetas y facturas. Son las más sencillas de cancelar al 100% mediante exoneración judicial.",
+                                    "links": [
+                                          {
+                                                "to": "/tarjetas-revolving/cancelar-tarjetas-revolving",
+                                                "label": "Cancelar tarjetas"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "landmark",
+                                    "title": "Deudas Garantizadas",
+                                    "text": "Hipotecas o préstamos de coche. Si dejas de pagar, el acreedor puede ejecutar el bien de forma preferente.",
+                                    "links": [
+                                          {
+                                                "to": "/embargos/parar-embargo",
+                                                "label": "Evitar embargos"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Negociación directa vs. Vía Judicial",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si tu situación aún no es de insolvencia total, existen alternativas antes de llegar al juzgado mercantil."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Planes de administración: Mediación para bajar intereses a cambio de no usar más crédito.",
+                              "Quitas por pago único: Negociar pagar un 50% hoy para cerrar el expediente (requiere liquidez inmediata).",
+                              "Reunificación: Si tienes ingresos estables pero cuotas muy altas, agrupar deudas en una sola hipoteca."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/reunificar-deudas",
+                        "text": "Descubre si te conviene más la reunificación de deudas"
+                  }
+            ]
+      }
+],
   },
   "/reunificacion-deudas": {
     faq: [
@@ -170,6 +810,185 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Es la única solución si no llego a fin de mes”", reality: "Existen otras vías legales como la Ley de Segunda Oportunidad que, a diferencia de la reunificación, sí permite cancelar deudas legalmente si eres insolvente." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Modalidades de reunificación: ¿Con o sin hipoteca?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Dependiendo de tu perfil de solvencia y de las garantías de las que dispongas, existen dos vías principales para agrupar tus pagos:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "landmark",
+                                    "title": "Con garantía hipotecaria",
+                                    "text": "Utilizas tu vivienda como aval. Permite agrupar importes elevados (hasta el 70-80% del valor de tasación), con plazos de hasta 30 años e intereses mucho más bajos."
+                              },
+                              {
+                                    "icon": "wallet",
+                                    "title": "Sin garantía (Personal)",
+                                    "text": "Mediante un préstamo de reunificación común. Los importes suelen topar en 60.000 €, con tipos de interés algo más altos y plazos habitualmente hasta los 10 años."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Gastos y costes: qué pagarás por formalizar",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Agrupar deudas no es gratis; conlleva una serie de gastos asociados a la cancelación de los contratos antiguos y la apertura del nuevo que debemos calcular en tu estudio:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Comisiones por cancelación anticipada de los préstamos actuales (entre 0,5% y 1%).",
+                              "Comisión de apertura del nuevo préstamo unificado.",
+                              "Gastos de notaría, Registro de la Propiedad y gestoría (si hay hipoteca).",
+                              "Impuesto de Actos Jurídicos Documentados (IAJD) en procesos hipotecarios.",
+                              "Tasación oficial de la vivienda si se aporta como garantía."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Documentación necesaria para el estudio",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para que nuestro equipo analice la viabilidad de tu operación, necesitaremos que tengas preparada la siguiente documentación personal y financiera:"
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "Laboral",
+                                    "label": "Tus datos",
+                                    "detail": "Últimas 3 nóminas, contrato de trabajo y vida laboral."
+                              },
+                              {
+                                    "value": "Deudas",
+                                    "label": "Contratos",
+                                    "detail": "Recibos actuales de todos los préstamos y tarjetas."
+                              },
+                              {
+                                    "value": "Fiscal",
+                                    "label": "IRPF",
+                                    "detail": "Última declaración de la Renta presentada."
+                              },
+                              {
+                                    "value": "Inmueble",
+                                    "label": "Escrituras",
+                                    "detail": "Nota simple si vas a aportar vivienda como garantía."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Requisitos mínimos de solvencia",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para que una entidad bancaria o financiera apruebe la operación, se deben cumplir ciertos criterios de estabilidad según la normativa de consumo actual:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Requisito",
+                              "Criterio estándar"
+                        ],
+                        "rows": [
+                              [
+                                    "Ingresos",
+                                    "Deben ser estables y demostrables (nómina fija o autónomo con antigüedad)."
+                              ],
+                              [
+                                    "Capacidad de pago",
+                                    "La nueva cuota no debería superar el 35-40% de tus ingresos netos."
+                              ],
+                              [
+                                    "Situación en ASNEF",
+                                    "Si tienes impagos registrados, solo es viable con garantía inmobiliaria."
+                              ],
+                              [
+                                    "Edad",
+                                    "Normalmente se requiere que el préstamo finalice antes de los 75 años."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "Sobre los ficheros de morosidad",
+                        "text": "Si tu nombre aparece en ASNEF o RAI por impagos graves, la banca tradicional suele denegar la reunificación. En estos casos, es esencial valorar si te conviene más [salir de ASNEF](/asnef/salir-de-asnef) o acudir a la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad)."
+                  }
+            ]
+      },
+      {
+            "title": "Diferencia entre reunificar, refinanciar y cancelar",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Es común confundir estos términos, pero sus efectos legales y financieros son muy distintos:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "**Refinanciar:** Modificas las condiciones de un solo préstamo con tu mismo banco.",
+                              "**Reunificar:** Creas un contrato nuevo que cancela y absorbe todas tus deudas previas.",
+                              "**Cancelar (LSO):** No pagas la deuda, sino que un juez la extingue por insolvencia."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/cancelar-deudas",
+                        "text": "Si crees que tu situación es de insolvencia total, infórmate sobre cómo cancelar deudas."
+                  }
+            ]
+      },
+      {
+            "title": "Condiciones financieras estimadas",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Aunque cada caso es único, los tipos de interés en préstamos de reunificación suelen oscilar según el mercado actual y el perfil del cliente:"
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "9% - 14%",
+                                    "label": "TIN promedio",
+                                    "detail": "Para préstamos personales"
+                              },
+                              {
+                                    "value": "4% - 7%",
+                                    "label": "TIN promedio",
+                                    "detail": "Para préstamos con hipoteca"
+                              },
+                              {
+                                    "value": "Hasta 80%",
+                                    "label": "Ahorro cuota",
+                                    "detail": "Máximo ahorro mensual estimado"
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Recuerda que estas cifras son orientativas. Al alargar el plazo de devolución para bajar la cuota, el coste total de intereses a lo largo de la vida del préstamo será mayor que en los créditos originales."
+                  }
+            ]
+      }
+],
   },
   "/reunificar-deudas": {
     faq: [
@@ -203,6 +1022,211 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“La reunificación es la única salida al acoso telefónico”", reality: "No es la única. Si no puedes pagar ni siquiera una cuota unificada, existen medidas legales para paralizar embargos y llamadas de recobro de forma definitiva." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Modalidades: ¿Con o sin garantía hipotecaria?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Dependiendo de tu situación patrimonial y del volumen de deuda, existen dos caminos principales para agrupar tus pagos:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "landmark",
+                                    "title": "Con garantía hipotecaria",
+                                    "text": "Si tienes una vivienda en propiedad o con poca carga, puedes ampliar tu hipoteca o abrir una nueva (rehipoteca). Es ideal para deudas superiores a 60.000€ porque ofrece los intereses más bajos del mercado."
+                              },
+                              {
+                                    "icon": "wallet",
+                                    "title": "Sin garantía hipotecaria",
+                                    "text": "Se agrupan las deudas mediante un préstamo personal de reunificación. El límite suele rondar los 60.000€, el plazo es algo más corto (hasta 10-12 años) y no pones tu casa en riesgo directo."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Requisitos legales y solvencia en España",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para que una entidad financiera apruebe la operación bajo la normativa de consumo y el Banco de España, debes cumplir ciertos criterios de estabilidad:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Ser mayor de edad con DNI o NIE en vigor y residencia en España.",
+                              "Justificar ingresos recurrentes (nómina indefinida, pensión o autónomos con solvencia).",
+                              "Ratio de endeudamiento: la nueva cuota no debería superar el 35-40% de tus ingresos netos.",
+                              "Situación en ficheros: lo ideal es no estar en ASNEF, aunque existen opciones con aval o garantía inmobiliaria.",
+                              "Aportar vida laboral y los últimos extractos de tus movimientos bancarios."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Papeles que necesitaremos revisar",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para realizar el estudio de viabilidad sin compromiso, es necesario organizar la documentación que exigen las entidades bancarias:"
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "Ingresos",
+                                    "label": "Tus últimas 3 nóminas e IRPF."
+                              },
+                              {
+                                    "value": "Deudas",
+                                    "label": "Contratos o recibos de cada préstamo y tarjeta."
+                              },
+                              {
+                                    "value": "Vivienda",
+                                    "label": "Nota simple y tasación (si hay hipoteca)."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Costes asociados a la reunificación",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Reunificar implica cancelar préstamos antiguos y abrir uno nuevo. Esto genera una serie de gastos que se suelen incluir en la nueva financiación para que no tengas que aportarlos de golpe:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Concepto",
+                              "Descripción aproximada"
+                        ],
+                        "rows": [
+                              [
+                                    "Comisiones de cancelación",
+                                    "Penalización por pagar antes tus antiguos préstamos (0,5% - 1%)."
+                              ],
+                              [
+                                    "Gastos de apertura",
+                                    "Comisión por formalizar el nuevo préstamo de reunificación."
+                              ],
+                              [
+                                    "Notaría y Registro",
+                                    "Solo obligatorios si se realiza una operación hipotecaria."
+                              ],
+                              [
+                                    "Impuestos (IAJD)",
+                                    "Aplicable en el caso de escriturar nuevas garantías inmobiliarias."
+                              ]
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Riesgos que debes conocer",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "eyebrow": "Atención",
+                        "headline": "El coste del tiempo",
+                        "body": "Al reducir la cuota mensual, lo habitual es ampliar el plazo. Esto significa que estarás pagando intereses durante más años, por lo que el coste total de la deuda será superior al original."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "text": "Si utilizas tu vivienda como garantía, el riesgo en caso de impago es la ejecución hipotecaria. Por eso, en Calma solo recomendamos esta vía si tu solvencia futura es estable."
+                  }
+            ]
+      },
+      {
+            "title": "Escenarios especiales: ASNEF y Embargos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Estar en ficheros de morosidad dificulta el acceso a la banca tradicional, pero no cierra todas las puertas:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "ban",
+                                    "title": "Con ASNEF o RAI",
+                                    "text": "Es posible mediante financieras de capital privado o aportando un avalista solvente, aunque los intereses serán más altos que en un préstamo ordinario.",
+                                    "links": [
+                                          {
+                                                "to": "/asnef/salir-de-asnef",
+                                                "label": "Salir de ASNEF"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "gavel",
+                                    "title": "Con Embargos",
+                                    "text": "Si ya tienes una orden judicial, la prioridad es [parar el embargo](/embargos/parar-embargo). La reunificación puede ser una solución si existe una propiedad con margen de garantía suficiente.",
+                                    "links": [
+                                          {
+                                                "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+                                                "label": "Gestionar juicio monitorio"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Diferencias clave: Reunificar vs Segunda Oportunidad",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Es común confundir estos términos, pero legalmente son soluciones para perfiles opuestos:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Característica",
+                              "Reunificación",
+                              "Ley Segunda Oportunidad"
+                        ],
+                        "rows": [
+                              [
+                                    "Objetivo",
+                                    "Pagar una cuota más baja.",
+                                    "Eliminar la deuda legalmente."
+                              ],
+                              [
+                                    "Requisito",
+                                    "Ingresos o bienes suficientes.",
+                                    "Insolvencia demostrable."
+                              ],
+                              [
+                                    "Patrimonio",
+                                    "Se intenta proteger.",
+                                    "Puede liquidarse (salvo excepciones)."
+                              ],
+                              [
+                                    "Resultado",
+                                    "Sigues pagando la deuda.",
+                                    "La deuda desaparece (BEPI)."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
+                        "text": "Saber más sobre la cancelación total de deudas"
+                  }
+            ]
+      }
+],
   },
   "/asnef/salir-de-asnef": {
     faq: [
@@ -236,6 +1260,198 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“ASNEF es una lista pública que cualquiera puede consultar con mi nombre”", reality: "No es pública. Solo pueden consultarla las entidades que tienen un interés legítimo, normalmente cuando vas a solicitar un producto financiero o servicio." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Requisitos para que te metan en ASNEF de forma legal",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No cualquier impago justifica que tus datos terminen en un fichero de morosidad. La **Ley Orgánica de Protección de Datos** y la normativa de consumo establecen unos límites claros para proteger al ciudadano."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "La deuda debe ser cierta, vencida y exigible (no puede ser una estimación o algo no vencido).",
+                              "Importe mínimo de 50€ para personas físicas.",
+                              "Requerimiento previo de pago: la empresa debe haberte pedido el dinero de forma fehaciente (ej. burofax).",
+                              "Notificación de inclusión: el fichero tiene 30 días para avisarte de que has sido inscrito.",
+                              "Inexistencia de controversia: si has reclamado la deuda judicial o administrativamente, no pueden incluirte."
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "text": "Si te han metido en el fichero sin cumplir estos pasos, podrías tener derecho a una indemnización por vulneración del derecho al honor."
+                  }
+            ]
+      },
+      {
+            "title": "Derechos ARCO: solicita tu informe y limpia errores",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Tienes el control sobre tu información personal. Para consultar si estás en el fichero o corregir datos falsos, debes ejercer tus derechos ante Equifax (ASNEF) o Experian (BADEXCUG)."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "Acceso",
+                                    "label": "Consulta gratis",
+                                    "detail": "Derecho a saber qué deudas constan a tu nombre."
+                              },
+                              {
+                                    "value": "Cancelación",
+                                    "label": "Borrado de datos",
+                                    "detail": "Si la deuda no es real o ya ha sido pagada."
+                              },
+                              {
+                                    "value": "Rectificación",
+                                    "label": "Corrección",
+                                    "detail": "Para importes que no coinciden con la realidad."
+                              },
+                              {
+                                    "value": "Oposición",
+                                    "label": "Bloqueo",
+                                    "detail": "En casos de suplantación de identidad."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Para agilizar el trámite, puedes enviar una carta al **Apartado de Correos 10.546, Madrid 28080**, adjuntando copia de tu DNI y el justificante de pago si lo tuviesas."
+                  }
+            ]
+      },
+      {
+            "title": "Salir de ASNEF sin pagar: Plazos y Prescripción",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Existe un límite temporal para la permanencia de tus datos en estos registros, independientemente de si la deuda sigue existiendo civilmente."
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "5 años de caducidad máxima",
+                        "body": "Según la normativa actual, una anotación de morosidad no puede permanecer más de 5 años en el fichero. Una vez superado este plazo, el borrado debe ser automático y definitivo por parte de la entidad titular del fichero."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+                        "text": "Qué hacer si te demandan antes de que prescriba la deuda"
+                  }
+            ]
+      },
+      {
+            "title": "La Ley de la Segunda Oportunidad como salida definitiva",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Cuando la deuda no es un error y no tienes capacidad para pagarla, el borrado temporal no sirve. La [Ley de la Segunda Oportunidad](/ley-segunda-oportunidad) permite eliminar las deudas legalmente y, con ello, limpiar todos los ficheros."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Criterio",
+                              "Requisito LSO"
+                        ],
+                        "rows": [
+                              [
+                                    "Buena fe",
+                                    "No haber sido condenado por delitos socioeconómicos."
+                              ],
+                              [
+                                    "Insolvencia",
+                                    "No poder afrontar los pagos actuales o inminentes."
+                              ],
+                              [
+                                    "Efecto en ASNEF",
+                                    "Borrado inmediato tras el auto judicial de exoneración."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "shield",
+                                    "title": "Exoneración de Deudas",
+                                    "text": "Limpia tus deudas con bancos y financieras.",
+                                    "links": [
+                                          {
+                                                "to": "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
+                                                "label": "Ver proceso EPI"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "landmark",
+                                    "title": "Deudas Públicas",
+                                    "text": "También es posible cancelar parte de lo debido a la administración.",
+                                    "links": [
+                                          {
+                                                "to": "/deudas-hacienda-seguridad-social/deudas-hacienda",
+                                                "label": "Deudas Hacienda"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Indemnizaciones por inclusión indebida",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La justicia española es muy estricta con el uso de los ficheros de morosos. Si te han incluido por una deuda que habías reclamado o sin avisarte previamente, el Tribunal Supremo reconoce que se daña tu reputación (Derecho al Honor)."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "4 años",
+                                    "label": "Plazo reclamar",
+                                    "detail": "Tiempo para demandar desde la salida del fichero."
+                              },
+                              {
+                                    "value": "3.000€ - 10.000€",
+                                    "label": "Indemnización media",
+                                    "detail": "Según consultas y tiempo de permanencia."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Muchos afectados no solo consiguen salir del fichero, sino que la indemnización recibida compensa con creces la deuda que originó el problema."
+                  }
+            ]
+      },
+      {
+            "title": "Baja Cautelar: Una tregua necesaria",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si estás en medio de un proceso judicial para demostrar que una deuda es usuraria (como en las [tarjetas revolving](/tarjetas-revolving/cancelar-tarjetas-revolving)), puedes solicitar la baja cautelar de ASNEF."
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Borrado mientras se decide el juicio",
+                        "body": "Mientras el juez decide si la deuda es legal o no, tus datos deben ser retirados del fichero para que no te perjudiquen injustamente. Si ganamos el juicio, la baja pasará a ser definitiva."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/microcreditos-prestamos/cancelar-microcreditos",
+                        "text": "Limpiar ASNEF por microcréditos abusivos"
+                  }
+            ]
+      }
+],
   },
   "/embargos/parar-embargo": {
     faq: [
@@ -271,6 +1487,209 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“La Ley de Segunda Oportunidad es solo para empresas.”", reality: "Al contrario. Es una herramienta diseñada específicamente para particulares y autónomos que no pueden pagar sus deudas, permitiendo parar embargos de forma legal." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Base legal y plazos: La Ley de Enjuiciamiento Civil",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Un embargo en España no es un proceso arbitrario; está estrictamente regulado por la **Ley de Enjuiciamiento Civil (LEC)** y, si es con la Administración, por la **Ley General Tributaria**. Conocer tus derechos es el primer paso para defenderte."
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "eyebrow": "Derecho a la defensa",
+                        "headline": "El 'Aviso de Ejecución'",
+                        "body": "No abrir las notificaciones no detiene el proceso. Tienes plazos breves (normalmente entre 5 y 10 días) para oponerte legalmente antes de que el embargo sea firme."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Tipo de Notificación",
+                              "Plazo para actuar",
+                              "Acción recomendada"
+                        ],
+                        "rows": [
+                              [
+                                    "Orden de ejecución judicial",
+                                    "10 días hábiles",
+                                    "Consignación o Recurso de Oposición"
+                              ],
+                              [
+                                    "Diligencia de embargo (Hacienda)",
+                                    "Aprox. 20 días",
+                                    "Solicitud de fraccionamiento o alegaciones"
+                              ],
+                              [
+                                    "Monitorio de recobro",
+                                    "20 días hábiles",
+                                    "Oposición por usura o falta de documentación"
+                              ]
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Motivos legales para impugnar un embargo",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Existen errores de forma o de fondo que permiten que un juez tumbe la orden de embargo. Estas son las vías más comunes para ganar un **Recurso de Oposición**:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "**Defecto de forma:** Errores en la notificación o falta de datos esenciales.",
+                              "**Deuda prescrita:** Ha pasado el plazo legal (normalmente 5 años para deudas personales) y el acreedor ya no puede reclamarla.",
+                              "**Tercería de dominio:** Los bienes embargados no pertenecen al deudor sino a otra persona.",
+                              "**Embargo desproporcionado:** El valor de los bienes retenidos es excesivamente superior a la deuda real."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+                        "text": "Aprende cómo oponerte a un juicio monitorio"
+                  }
+            ]
+      },
+      {
+            "title": "Límites legales: Lo que nunca pueden quitarte",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La ley protege tu supervivencia mínima. Según el Art. 607 de la LEC, hay bienes y cantidades que son **inembargables** por ley."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "wallet",
+                                    "title": "El SMI es sagrado",
+                                    "text": "Es inembargable el Salario Mínimo Interprofesional (SMI) íntegro. Solo se puede embargar un porcentaje de lo que exceda esa cifra."
+                              },
+                              {
+                                    "icon": "shield",
+                                    "title": "Bienes de subsistencia",
+                                    "text": "Mobiliario y ajuar de la vivienda, ropa, y herramientas necesarias para ejercer tu oficio o profesión."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Si tienes cargas familiares, puedes solicitar al juez una reducción de los porcentajes de embargo aplicados sobre el tramo que supera el SMI."
+                  }
+            ]
+      },
+      {
+            "title": "Suspensión mediante la Ley de Segunda Oportunidad",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si tu situación es de insolvencia (no puedes pagar tus deudas y mantener una vida digna), la **Ley de Segunda Oportunidad** es la herramienta más potente para frenar embargos de forma inmediata."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "Paralización",
+                                    "label": "Inmediata",
+                                    "detail": "Al solicitar el concurso se detienen las ejecuciones"
+                              },
+                              {
+                                    "value": "Hacienda/SS",
+                                    "label": "Incluidas",
+                                    "detail": "Posibilidad de exonerar hasta 10.000€ de deudas públicas"
+                              },
+                              {
+                                    "value": "BEPI",
+                                    "label": "Cancelación",
+                                    "detail": "Eliminación total del resto de deudas privadas"
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/ley-segunda-oportunidad",
+                        "text": "Consulta si cumples los requisitos de la LSO"
+                  }
+            ]
+      },
+      {
+            "title": "Casos especiales: Hacienda y Seguridad Social",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La vía administrativa es más rápida que la judicial. Para frenar un embargo de la Agencia Tributaria o de la Seguridad Social, las opciones se reducen a tres caminos claros:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "icon": "clock",
+                                    "title": "Aplazamiento",
+                                    "text": "Solicitar un plan de pagos antes de que se ejecute la orden.",
+                                    "links": [
+                                          {
+                                                "to": "/deudas-hacienda-seguridad-social/deudas-hacienda",
+                                                "label": "Deudas con Hacienda"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "scale",
+                                    "title": "Reclamación E-A",
+                                    "text": "Presentar una reclamación económico-administrativa en el plazo de un mes."
+                              },
+                              {
+                                    "icon": "sparkles",
+                                    "title": "Ley 2ª Oportunidad",
+                                    "text": "Si eres autónomo o particular, frena sus embargos de raíz.",
+                                    "links": [
+                                          {
+                                                "to": "/deudas-hacienda-seguridad-social/deudas-seguridad-social",
+                                                "label": "Deudas Seg. Social"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Consejos de mediación y prioridades",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Antes de llegar a la ejecución forzosa, existen estrategias de mediación. Es vital priorizar pagos para evitar perder activos esenciales."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "Cuidado con las 'reparadoras' de deuda",
+                        "text": "Evita empresas que prometen 'limpiar' tus embargos sin un respaldo jurídico real. La única forma legal de parar un embargo judicial es mediante el juzgado o acogihéndose a la LSO."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Ahorra en gastos prescindibles para proponer una consignación judicial parcial.",
+                              "Busca asesoramiento legal senior para negociar con el procurador del acreedor.",
+                              "Si tienes bienes valiosos (segunda residencia), considera la reunificación antes de que se anote el embargo.",
+                              "Si no tienes bienes, la LSO es tu mejor defensa para salir de ficheros de morosidad."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/reunificacion-deudas",
+                        "text": "Analizar opción de reunificar deudas"
+                  }
+            ]
+      }
+],
   },
   "/tarjetas-revolving/cancelar-tarjetas-revolving": {
     faq: [
@@ -304,6 +1723,157 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "Reclamar al banco me costará más caro que lo que voy a recuperar.", reality: "En Calma trabajamos a éxito: si tú no ganas, nosotros no cobramos. Además, si hay condena en costas, el banco acaba pagando los gastos del proceso." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Novedades jurisprudencia 2025: ¿Cuándo es usura?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La viabilidad de tu reclamación depende de la fecha del contrato y la **TAE aplicada**. Tras las sentencias 154/2025 y 155/2025 del Tribunal Supremo, el criterio para determinar la usura se ha vuelto más preciso."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Criterio",
+                              "Referencia Legal"
+                        ],
+                        "rows": [
+                              [
+                                    "Usura por interés",
+                                    "Si la TAE supera en más de 6 puntos el tipo medio de mercado del Banco de España."
+                              ],
+                              [
+                                    "Falta de transparencia",
+                                    "Cláusulas ilegibles, falta de información sobre el coste real o el método de amortización."
+                              ],
+                              [
+                                    "Acuerdos previos",
+                                    "Se puede reclamar incluso si firmaste una reducción de intereses con el banco anteriormente."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Si tu situación es de insolvencia y no puedes pagar este ni otros préstamos, la reclamación judicial puede ser insuficiente. En esos casos, es más efectivo acogerse a la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad)."
+                  }
+            ]
+      },
+      {
+            "title": "Entidades y tarjetas con más reclamaciones",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Casi cualquier tarjeta con modalidad de pago aplazado contratada antes de 2021 es susceptible de ser anulada. Estas son las más comunes en los juzgados españoles:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "icon": "landmark",
+                                    "title": "Bancarias",
+                                    "text": "WiZink, Santander (Visa 123), BBVA (Aqua/Proyecta), CaixaBank (IKEA, Oro), Bankintercard."
+                              },
+                              {
+                                    "icon": "wallet",
+                                    "title": "Comerciales",
+                                    "text": "Carrefour PASS, Oney (Alcampo, Leroy Merlin), Tarjeta El Corte Inglés, Cetelem."
+                              },
+                              {
+                                    "icon": "scale",
+                                    "title": "Otras",
+                                    "text": "Cofidis, Vivus, tarjetas de fidelización de aerolíneas o gasolineras (Cepsa, Repsol)."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Documentación y plazos del proceso",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No te preocupes si no conservas los papeles; nustros abogados pueden solicitarlos por ti. Para agilizar el proceso, lo ideal es reunir:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Contrato original de la tarjeta (si lo tienes).",
+                              "Extractos mensuales de los últimos años.",
+                              "Cuadro de amortización actualizado.",
+                              "DNI o NIE en vigor."
+                        ]
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "1-2 meses",
+                                    "label": "Fase Extrajudicial",
+                                    "detail": "Negociación directa con el SAC del banco."
+                              },
+                              {
+                                    "value": "9-15 meses",
+                                    "label": "Fase Judicial",
+                                    "detail": "Tiempo medio si el banco no acepta el acuerdo."
+                              },
+                              {
+                                    "value": "Imprescriptible",
+                                    "label": "Nulidad",
+                                    "detail": "Puedes pedir la nulidad sin importar los años pasados."
+                              },
+                              {
+                                    "value": "5 años",
+                                    "label": "Restitución",
+                                    "detail": "Plazo para reclamar la devolución de dinero pagado."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Anatocismo: La trampa de la deuda perpetua",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "headline": "El efecto bola de nieve",
+                        "body": "El gran peligro de estas tarjetas es el anatocismo: los intereses no pagados se suman al capital pendiente, generando nuevos intereses. Esto crea una deuda infinita donde la cuota mensual apenas cubre los gastos financieros."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "text": "Si además de la revolving tienes nóminas o bienes en riesgo, es vital actuar antes de que lleguen los embargos. Puedes ver cómo [parar un embargo](/embargos/parar-embargo) aquí."
+                  }
+            ]
+      },
+      {
+            "title": "Honorarios y condiciones de éxito",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Trabajamos bajo el modelo de cuota de éxito. Si tú no ganas, nosotros tampoco cobranos honorarios de gestión."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Estudio de viabilidad 100% gratuito.",
+                              "Sin cuotas mensuales de socio.",
+                              "Honorarios basados en un porcentaje de lo recuperado (normalmente el 20%).",
+                              "Si el banco es condenado al pago de costas, el cliente no suele abonar nada."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/cancelacion-de-deudas",
+                        "text": "Consulta otros métodos legales para cancelar deudas"
+                  }
+            ]
+      }
+],
   },
   "/microcreditos-prestamos/cancelar-microcreditos": {
     faq: [
@@ -337,6 +1907,171 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Ir a juicio contra una financiera es más caro que lo que voy a recuperar.”", reality: "En la mayoría de casos de usura, la entidad es condenada a pagar las costas del proceso, por lo que el trámite puede salirte gratis mientras recuperas tu dinero." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Derechos de cancelación y revocación inmediata",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si acabas de solicitar un microcrédito y te has arrepentido, tienes herramientas legales para frenarlo antes de que la deuda se dispare. No siempre es necesario llegar a una reclamación judicial."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Acción",
+                              "Plazos y Condiciones",
+                              "Impacto"
+                        ],
+                        "rows": [
+                              [
+                                    "Desistimiento",
+                                    "14 días naturales desde la firma.",
+                                    "Devuelves el capital sin dar explicaciones."
+                              ],
+                              [
+                                    "Revocación ACH",
+                                    "En cualquier momento por escrito.",
+                                    "Frenas el cobro automático en tu cuenta."
+                              ],
+                              [
+                                    "Orden de suspensión",
+                                    "Mínimo 3 días antes del cobro.",
+                                    "El banco bloquea un cargo específico."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "Nota sobre el banco",
+                        "text": "Informar a la financiera no basta; comunica siempre a tu entidad bancaria la revocación de la autorización para evitar que sigan intentando domiciliar recibos."
+                  }
+            ]
+      },
+      {
+            "title": "La Ley de Segunda Oportunidad para microcréditos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Cuando los microcréditos superan tu capacidad de pago y la suma de deudas es inasumible, la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad) es la herramienta definitiva para obtener la [exoneración del pasivo insatisfecho](/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho)."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Insolvencia demostrable: No puedes pagar tus deudas actuales.",
+                              "Buena fe: No tener condenas por delitos económicos en los últimos 10 años.",
+                              "Deuda multiacreedor: Tener deudas con al menos dos entidades distintas.",
+                              "Sin bienes o liquidables: Ideal para quienes no tienen vivienda en propiedad pagada."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/abogados-ley-segunda-oportunidad",
+                        "text": "Consultar con abogados especialistas en LSO"
+                  }
+            ]
+      },
+      {
+            "title": "Intereses usurarios: Entidades con tipos abusivos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "El Tribunal Supremo considera usura cualquier préstamo con un interés notablemente superior al normal del dinero. En microcréditos, donde se ven TAEs de tres y cuatro cifras, la nulidad suele ser clara."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "> 25%",
+                                    "label": "Umbral de usura",
+                                    "detail": "Referencia habitual en jurisprudencia para préstamos al consumo."
+                              },
+                              {
+                                    "value": "Sólo Capital",
+                                    "label": "Consecuencia",
+                                    "detail": "Si se anula, solo devuelves lo prestado, sin intereses ni seguros."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Entidades como Cofidis, Creditea o Bondora han comercializado productos con TAEs que oscilan entre el 24% y más del 100%, siendo susceptibles de una [reclamación judicial por deuda](/juicio-monitorio-deuda)."
+                  }
+            ]
+      },
+      {
+            "title": "Estrategias de renegociación y protección",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si no quieres ir a juicio, existen vías intermedias para oxigenar tu economía mensual."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "wallet",
+                                    "title": "Reunificación",
+                                    "text": "Agrupar todas las cuotas en una sola para bajar el pago mensual.",
+                                    "links": [
+                                          {
+                                                "to": "/reunificar-deudas",
+                                                "label": "Ver opciones de reunificación"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "shield",
+                                    "title": "Congelamiento",
+                                    "text": "Solicitar el bloqueo de acceso a tu historial en ASNEF o Experian para evitar nueva deuda.",
+                                    "links": [
+                                          {
+                                                "to": "/asnef/salir-de-asnef",
+                                                "label": "Gestionar ficheros"
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "El peligro de los avalistas en préstamos rápidos",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "eyebrow": "Atención",
+                        "headline": "El 40% de los avalistas terminan asumiendo la deuda",
+                        "body": "En los microcréditos, si hay un avalista, la entidad irá contra sus bienes al primer impago."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Para proteger a un avalista, las opciones son limitadas pero vitales: solicitar una liberación formal por solvencia sobrevenida del titular, refinanciar el préstamo excluyendo al aval o, en casos extremos, acogerte a la [cancelación de deudas](/cancelacion-de-deudas) para liberar a ambas partes si se cumplen los requisitos legales."
+                  }
+            ]
+      },
+      {
+            "title": "Amortización y sostenibilidad financiera",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para salir definitivamente del bucle de los préstamos rápidos, una vez cancelados los intereses abusivos, es fundamental cambiar la estrategia de pagos."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Amortización anticipada: Reduce capital lo antes posible para evitar intereses compuestos.",
+                              "Fondo de emergencia: Priorizar un ahorro mínimo para no recurrir a dinero rápido ante imprevistos.",
+                              "Banca regulada: Buscar préstamos personales con garantía bancaria, cuyos tipos rara vez superan el 10-12% TAE."
+                        ]
+                  }
+            ]
+      }
+],
   },
   "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho": {
     faq: [
@@ -371,6 +2106,181 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Me voy a quedar sin nada, ni para comer”", reality: "La ley protege siempre el mínimo inembargable. El proceso garantiza que conserves lo necesario para vivir dignamente y, en muchos casos, permite salvar la vivienda habitual según el plan de pagos." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Un derecho ciudadano: el nuevo marco legal (TRLC)",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Desde la reforma de la Ley 16/2022, la **exoneración del pasivo insatisfecho** ha dejado de ser un beneficio que el juez puede otorgar, para convertirse en un **derecho del deudor insolvente**. Este cambio legal, impulsado por la Directiva Europea 2019/1023, busca el 'fresh start' o borrón y cuenta nueva para que las personas naturales puedan reinsertarse en la economía sin el estigma de la deuda perpetua."
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Personas naturales: las únicas beneficiarias",
+                        "body": "Este mecanismo es exclusivo para personas físicas (consumidores, autónomos y profesionales). Las sociedades (SL, SA) no pueden pedir la EPI, ya que estas se extinguen tras la liquidación mercantil."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/autonomos-concurso-acreedores/concurso-persona-fisica",
+                        "text": "Más información sobre el concurso para personas físicas"
+                  }
+            ]
+      },
+      {
+            "title": "El requisito de Buena Fe: qué es y cuándo se pierde",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para acceder a la EPI es imprescindible ser un deudor de buena fe. La ley establece supuestos objetivos donde esta condición se considera inexistente, bloqueando el acceso al procedimiento."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "Causas de exclusión por falta de buena fe",
+                        "text": "No podrás acogerte si en los últimos 10 años has sido condenado por delitos contra el patrimonio, Hacienda Pública o Seguridad Social con penas superiores a 3 años, o si has recibido sanciones administrativas muy graves."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Haber aportado información falsa al solicitar créditos.",
+                              "Tener un concurso declarado como 'culpable' por el juez.",
+                              "Haber actuado de forma temeraria o negligente al endeudarse.",
+                              "Haber sido sancionado por infracciones tributarias o laborales muy graves."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "La modalidad del Concurso sin Masa",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Es la vía más común para deudores que no tienen patrimonio o cuyo valor es tan bajo que ni siquiera cubriría los gastos del juicio. Permite una exoneración mucho más rápida."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "Sin liquidación",
+                                    "label": "Activos nulos",
+                                    "detail": "Si no hay bienes, no hay nada que vender."
+                              },
+                              {
+                                    "value": "15 días",
+                                    "label": "Plazo acreedores",
+                                    "detail": "Tiempo para que los acreedores soliciten un administrador."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/cancelacion-de-deudas",
+                        "text": "Consulta cómo cancelar deudas sin bienes"
+                  }
+            ]
+      },
+      {
+            "title": "Salvaguardar la vivienda habitual con el Plan de Pagos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La ley permite actualmente proteger tu casa. Esto sucede especialmente bajo dos supuestos claros avalados por la jurisprudencia actual:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "shield",
+                                    "title": "Plan de Pagos a 5 años",
+                                    "text": "Aceptas un calendario de pagos parciales para proteger la vivienda y no liquidarla."
+                              },
+                              {
+                                    "icon": "scale",
+                                    "title": "Vivienda sin valor de mercado",
+                                    "text": "Si la deuda hipotecaria es mayor que el valor real de la casa, el juez puede excluirla de la venta."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/embargos/parar-embargo",
+                        "text": "Cómo parar el embargo de tu vivienda"
+                  }
+            ]
+      },
+      {
+            "title": "Documentación indispensable para el juzgado",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para que el juez dicte el Auto de exoneración, debemos preparar un expediente riguroso. Sin estos documentos, la solicitud no será admitida a trámite:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Tipo de Documento",
+                              "Finalidad"
+                        ],
+                        "rows": [
+                              [
+                                    "Memoria Económica",
+                                    "Explicación de las causas que te han llevado a la insolvencia."
+                              ],
+                              [
+                                    "Inventario de Bienes",
+                                    "Listado detallado de propiedades, vehículos y saldos bancarios."
+                              ],
+                              [
+                                    "Relación de Acreedores",
+                                    "Listado con nombre, cuantía y tipo de deuda de cada acreedor."
+                              ],
+                              [
+                                    "Certificado de Penales",
+                                    "Documento que acredita la ausencia de delitos que impidan la buena fe."
+                              ]
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Plazos y costes del procedimiento",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Tras la reforma de 2022, el proceso se ha agilizado al eliminarse la necesidad de mediador concursal en la mayoría de casos, reduciendo costes y tiempos."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "6-18 meses",
+                                    "label": "Duración media",
+                                    "detail": "Depende de la carga del juzgado."
+                              },
+                              {
+                                    "value": "Obligatorio",
+                                    "label": "Abogado y Procurador",
+                                    "detail": "Intervención legal preceptiva."
+                              },
+                              {
+                                    "value": "0 €",
+                                    "label": "Mediador",
+                                    "detail": "Ya no es necesario en la vía directa."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/abogados-ley-segunda-oportunidad",
+                        "text": "Hablar con abogados especialistas en LSO"
+                  }
+            ]
+      }
+],
   },
   "/autonomos-concurso-acreedores/concurso-persona-fisica": {
     faq: [
@@ -407,6 +2317,176 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Las deudas con el banco nunca se perdonan”", reality: "Falso. Los préstamos personales, tarjetas y créditos rápidos son las deudas más fáciles de cancelar íntegramente de forma judicial." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Tipos de concurso: Voluntario vs. Necesario",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No todos los concursos se inician de la misma forma. La ley distingue quién toma la iniciativa y qué consecuencias tiene para el deudor."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "sparkles",
+                                    "title": "Concurso Voluntario",
+                                    "text": "Presentado por el propio deudor en un plazo de 2 meses desde que conoce su insolvencia. Permite mantener, por lo general, las facultades de administración bajo supervisión."
+                              },
+                              {
+                                    "icon": "gavel",
+                                    "title": "Concurso Necesario",
+                                    "text": "Instado por un acreedor ante impagos generalizados. Es más arriesgado, ya que el deudor suele ser suspendido de sus facultades de administración y sustituido por el administrador concursal."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Requisitos legales y exclusiones",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para acceder a este mecanismo y aspirar a la exoneración, el deudor debe cumplir estrictamente con el perfil de **buena fe** definido en el Texto Refundido de la Ley Concursal."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Deuda total inferior a 5 millones de euros.",
+                              "No haber sido condenado por delitos económicos o contra la Hacienda Pública en los últimos 10 años.",
+                              "Colaboración activa con el juzgado y la administración concursal.",
+                              "No haber acudido a este procedimiento en los últimos 2 a 5 años (según el caso).",
+                              "No haber rechazado ofertas de empleo adecuadas a su perfil en los meses previos."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Impacto en el patrimonio y la familia",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "El concurso no solo afecta a tus deudas, sino también a la gestión de tus bienes y tu entorno familiar, especialmente si hay un matrimonio de por medio."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "Sociedad de Gananciales",
+                        "text": "Si estás casado en gananciales, los bienes comunes pueden integrarse en la masa del concurso para pagar deudas comunes. El cónyuge no concursado tiene derecho a solicitar la disolución del régimen matrimonial o el uso preferente de la vivienda habitual previo pago de su valor."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Es fundamental asesorarse para proteger los derechos del cónyuge y evitar que las adquisiciones onerosas del último año sean impugnadas por presunción de donación."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/abogados-ley-segunda-oportunidad",
+                        "text": "Habla con un abogado experto en patrimonio familiar"
+                  }
+            ]
+      },
+      {
+            "title": "Quitas y Esperas: ¿Qué se puede negociar?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si el objetivo no es la liquidación total sino salvar ciertos activos, se puede proponer un plan de pagos basado en dos herramientas clave:"
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "40% - 50%",
+                                    "label": "Quita Media",
+                                    "detail": "Reducción del importe total de la deuda bancaria o comercial."
+                              },
+                              {
+                                    "value": "5 - 10 años",
+                                    "label": "Espera",
+                                    "detail": "Aplazamiento de los pagos para ajustarlos a tus ingresos reales."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Deudas que no se pueden cancelar",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Aunque la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad) es muy amplia, existen ciertos créditos que gozan de una protección especial por ley."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Tipo de Deuda",
+                              "Estado de Exoneración"
+                        ],
+                        "rows": [
+                              [
+                                    "Hacienda y Seguridad Social",
+                                    "Limitada (máximo 10.000€ en cada organismo)"
+                              ],
+                              [
+                                    "Pensiones de alimentos",
+                                    "No exonerable (protección al menor)"
+                              ],
+                              [
+                                    "Multas y sanciones penales",
+                                    "No exonerable"
+                              ],
+                              [
+                                    "Hipotecas",
+                                    "Solo la deuda sobrante tras la subasta del bien"
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/deudas-hacienda-seguridad-social/deudas-hacienda",
+                        "text": "Más info sobre deudas públicas"
+                  }
+            ]
+      },
+      {
+            "title": "Riesgos: La calificación del concurso",
+            "blocks": [
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "El riesgo del concurso culpable",
+                        "text": "Si el juez determina que has provocado o agravado tu insolvencia por dolo o culpa grave (ocultar bienes, contabilidad falsa, etc.), el concurso se declarará culpable."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Las consecuencias de un concurso culpable son severas e incluyen la inhabilitación para administrar bienes (de 2 a 15 años) y la pérdida del derecho a la [cancelación de deudas](/cancelar-deudas)."
+                  }
+            ]
+      },
+      {
+            "title": "Documentación obligatoria",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para iniciar el trámite con garantías, es necesario preparar un expediente exhaustivo que acredite tu situación real."
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Memoria jurídica y económica: explicación de por qué has llegado a esta situación.",
+                              "Inventario de bienes y derechos (viviendas, vehículos, cuentas, rentas).",
+                              "Lista de acreedores con importes exactos, vencimientos y datos de contacto.",
+                              "Certificado de antecedentes penales y certificado de empadronamiento.",
+                              "Certificación de ingresos (nóminas, pensiones o facturación)."
+                        ]
+                  }
+            ]
+      }
+],
   },
   "/juicio-monitorio-recobro/juicio-monitorio-deuda": {
     faq: [
@@ -442,6 +2522,219 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Si me opongo al juicio monitorio, la deuda desaparece automáticamente”", reality: "No desaparece. La oposición simplemente cierra el monitorio y obliga al acreedor a ir a un juicio posterior más completo donde un juez decidirá quién tiene razón." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Requisitos legales para que te demanden en un monitorio",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La Ley de Enjuiciamiento Civil (LEC) establece que no cualquier reclamación puede tramitarse por esta vía rápida. Para que un juzgado admita a trámite un juicio monitorio, la deuda debe cumplir cinco requisitos estrictos:"
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "Dineraria",
+                                    "label": "Debe ser dinero",
+                                    "detail": "Moneda de curso legal."
+                              },
+                              {
+                                    "value": "Líquida",
+                                    "label": "Importe exacto",
+                                    "detail": "Cifra numérica definida."
+                              },
+                              {
+                                    "value": "Determinada",
+                                    "label": "Deuda precisa",
+                                    "detail": "Se sabe qué se reclama."
+                              },
+                              {
+                                    "value": "Vencida",
+                                    "label": "Plazo pasado",
+                                    "detail": "Ya ha expirado el pago."
+                              },
+                              {
+                                    "value": "Exigible",
+                                    "label": "Sin condiciones",
+                                    "detail": "No depende de nada más."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Si la deuda no cumple estos puntos (por ejemplo, si te reclaman que entregues un coche o termines una obra), el proceso monitorio no es el cauce legal adecuado."
+                  }
+            ]
+      },
+      {
+            "title": "¿Qué deudas se suelen reclamar por esta vía?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "El monitorio es el procedimiento estrella para el recobro en España porque no tiene límite de cuantía. Estos son los casos más habituales:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Facturas impagadas de suministros o servicios.",
+                              "Cuotas impagadas de la Comunidad de Propietarios (LPH Art. 21).",
+                              "Préstamos personales, microcréditos o tarjetas revolving.",
+                              "Albaranes de entrega no abonados entre empresas o autónomos.",
+                              "Rentas de alquiler de vivienda o locales.",
+                              "Liquidaciones de deudas entre particulares con justificante documental."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/microcreditos-prestamos/cancelar-microcreditos",
+                        "text": "Si te reclaman un microcrédito, revisa si hay usura aquí"
+                  }
+            ]
+      },
+      {
+            "title": "Documentos que sirven como prueba",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para iniciar el monitorio, el acreedor debe aportar un principio de prueba. El juzgado aceptará documentos que, aunque sean creados por el acreedor, den apariencia de deuda real:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "shield",
+                                    "title": "Firma del deudor",
+                                    "text": "Contratos, recibos o cualquier documento físico o electrónico con tu firma o sello."
+                              },
+                              {
+                                    "icon": "landmark",
+                                    "title": "Documentos de tráfico",
+                                    "text": "Facturas, albaranes de entrega y certificaciones de impago bancario."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Incluso conversaciones de WhatsApp, correos electrónicos o telegramas pueden usarse para acreditar la relación comercial y el impago."
+                  }
+            ]
+      },
+      {
+            "title": "Cuándo necesitas abogado y procurador",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Muchos usuarios desconocen que la obligación de ir con profesionales depende del importe de la deuda y de tu reacción ante la demanda:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Fase del proceso",
+                              "Deuda < 2.000€",
+                              "Deuda > 2.000€"
+                        ],
+                        "rows": [
+                              [
+                                    "Solicitud inicial",
+                                    "No obligatorio",
+                                    "No obligatorio"
+                              ],
+                              [
+                                    "Escrito de oposición",
+                                    "No obligatorio",
+                                    "Obligatorio"
+                              ],
+                              [
+                                    "Ejecución (embargo)",
+                                    "No obligatorio",
+                                    "Obligatorio"
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "text": "Incluso si no es obligatorio, oponerte sin abogado experto suele terminar en derrota, ya que el acreedor (bancos o fondos buitre) siempre acude con especialistas."
+                  }
+            ]
+      },
+      {
+            "title": "Competencia: ¿Dónde se celebra el juicio?",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Por norma general, el demandante debe presentar la petición en el Juzgado de Primera Instancia del **domicilio del deudor**. Si no te localizan allí, se hará donde puedas ser hallado."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Existe una excepción: en deudas de comunidades de vecinos, el administrador puede elegir entre el juzgado de tu domicilio o el del lugar donde esté la finca."
+                  }
+            ]
+      },
+      {
+            "title": "¿Qué pasa si te opones? La transformación del juicio",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Al presentar tu escrito de oposición en los 20 días de plazo, el monitorio 'se rompe' y se convierte en un juicio ordinario para que el juez dicte sentencia:"
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "gavel",
+                                    "title": "Juicio Verbal",
+                                    "text": "Si la deuda es igual o inferior a 15.000€. Es un proceso más ágil con vista ante el juez.",
+                                    "links": [
+                                          {
+                                                "to": "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+                                                "label": "Saber más"
+                                          }
+                                    ]
+                              },
+                              {
+                                    "icon": "scale",
+                                    "title": "Juicio Ordinario",
+                                    "text": "Si la deuda supera los 15.000€. El acreedor tiene un mes para presentar demanda formal o el caso se archivará."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Costes, tasas y ejecución forzosa",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si eres una persona física (particular o autónomo), **estás exento de pagar tasas judiciales** en España para defenderte. Sin embargo, si pierdes el juicio o no pagas, te enfrentas a:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Intereses de demora procesal: El interés legal del dinero incrementado en dos puntos.",
+                              "Condena en costas: Pagar los gastos del abogado del acreedor (si la deuda supera los 2.000€).",
+                              "Ejecución forzosa: El título ejecutivo permite embargar cuentas, nómina e inmuebles."
+                        ]
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Si tu insolvencia es total, la solución no es oponerse",
+                        "body": "Cuando no hay argumentos para negar la deuda y el embargo es inminente, lo más inteligente es acudir a la [Ley de Segunda Oportunidad](/ley-segunda-oportunidad) para cancelar las deudas legalmente."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/embargos/parar-embargo",
+                        "text": "Aprende cómo frenar el embargo judicial"
+                  }
+            ]
+      }
+],
   },
   "/deudas-hacienda-seguridad-social/deudas-hacienda": {
     faq: [
@@ -476,6 +2769,159 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Si me declaro insolvente, la deuda desaparece sola”", reality: "Ser insolvente solo detiene el cobro temporalmente porque no hay de dónde rascar, pero los intereses siguen sumando hasta que se logre una cancelación judicial." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Origen de la deuda y cómo consultarla",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Una deuda con la Agencia Tributaria surge cuando no se liquida un impuesto en plazo (**IVA, IRPF, Sociedades**) o tras una inspección con resultado a ingresar. Estas deudas acumulan recargos e intereses de demora desde el primer día de retraso."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "landmark",
+                                    "title": "Sede Electrónica",
+                                    "text": "Accede a la sección Pagar, aplazar y consultar con tu Certificado Digital o Cl@ve PIN."
+                              },
+                              {
+                                    "icon": "shield",
+                                    "title": "Notificaciones",
+                                    "text": "Revisa tu Dirección Electrónica Habilitada o las notificaciones físicas recibidas por correo."
+                              }
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Fases de la deuda: del periodo voluntario al ejecutivo",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No es lo mismo deber dinero que estar en fase de apremio. Los tiempos marcan la gravedad y el coste de la sanción:"
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Periodo",
+                              "Estado",
+                              "Consecuencia"
+                        ],
+                        "rows": [
+                              [
+                                    "Voluntario",
+                                    "Dentro de plazo legal",
+                                    "Sin recargos. Certificados de estar al corriente positivos."
+                              ],
+                              [
+                                    "Ejecutivo",
+                                    "Plazo vencido",
+                                    "Se devengan recargos y empieza el riesgo de embargo."
+                              ],
+                              [
+                                    "Apremio",
+                                    "Notificación recibida",
+                                    "Fase final previa a la ejecución forzosa de bienes."
+                              ]
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Recargos e intereses por pagar tarde",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si presentas un impuesto tarde sin que Hacienda te lo pida (extemporánea), los recargos van del **5% al 20%** según los meses de retraso. Si esperas a la providencia de apremio, los costes suben significativamente:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "cross",
+                        "items": [
+                              "Recargo ejecutivo (5%): Antes de recibir la notificación de apremio.",
+                              "Recargo de apremio reducido (10%): Si pagas en el plazo indicado en la notificación.",
+                              "Recargo de apremio (20%): Si no pagas tras la notificación (sumando intereses de demora).",
+                              "Interés de demora: Se sitúa sobre el 4,06% anual y se calcula por cada día de retraso."
+                        ]
+                  }
+            ]
+      },
+      {
+            "title": "Condiciones para aplazamientos y fraccionamientos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Hacienda permite flexibilizar el pago para evitar el estrangulamiento financiero del contribuyente, siempre que se cumplan ciertos requisitos de solvencia y garantías."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "value": "50.000 €",
+                                    "label": "Límite sin aval",
+                                    "detail": "Por debajo de esta cifra no necesitas presentar garantías."
+                              },
+                              {
+                                    "value": "12-36 meses",
+                                    "label": "Plazo máximo",
+                                    "detail": "Varía según si eres persona física o empresa."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Los medios de pago admitidos incluyen domiciliación, tarjeta de crédito, Bizum o la compensación con devoluciones de otros impuestos (como la Renta)."
+                  }
+            ]
+      },
+      {
+            "title": "Consecuencias del impago: El orden de los embargos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "La AEAT tiene potestad para [parar embargos](/embargos/parar-embargo) ejecutando tus bienes sin pasar por un juzgado. Siguen un orden de prelación estricto según la Ley General Tributaria:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Dinero efectivo y cuentas bancarias (lo primero en ser bloqueado).",
+                              "Créditos, valores y títulos realizables a corto plazo.",
+                              "Sueldos y pensiones (respetando el SMI inembargable).",
+                              "Bienes inmuebles y establecimientos mercantiles.",
+                              "Joyas, objetos de arte y coches."
+                        ]
+                  },
+                  {
+                        "kind": "keyCallout",
+                        "headline": "Cuidado con la Lista de Morosos",
+                        "body": "Si tu deuda supera los 600.000 € y no está suspendida o aplazada, tus datos aparecerán en el listado público anual de la AEAT."
+                  }
+            ]
+      },
+      {
+            "title": "Prescripción y soluciones legales",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Por norma general, el derecho de la Administración para exigir el pago **prescribe a los 4 años**. Sin embargo, cualquier notificación oficial o reconocimiento de deuda reinicia el contador a cero."
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Si tu situación es de insolvencia total, la opción más sólida es acogerte a la [exoneración del pasivo insatisfecho](/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho), que permite cancelar hasta 10.000 € de deuda con Hacienda bajo ciertas condiciones."
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/ley-segunda-oportunidad",
+                        "text": "Descubre si cumples los requisitos para cancelar tus deudas"
+                  }
+            ]
+      }
+],
   },
   "/deudas-hacienda-seguridad-social/deudas-seguridad-social": {
     faq: [
@@ -513,5 +2959,174 @@ export const enrichmentByPath: Record<string, Enrichment> = {
         { myth: "“Es mejor esperar a que la deuda prescriba que intentar negociar”", reality: "Es muy arriesgado. La Seguridad Social tiene sistemas automatizados que interrumpen la prescripción enviando notificaciones, por lo que es extremadamente raro que una deuda caduque sin ser reclamada." },
       ],
     },
+    extraSections: [
+      {
+            "title": "Tipos de deudas y recargos por demora",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "No todas las deudas con la Tesorería General de la Seguridad Social (TGSS) tienen el mismo origen ni el mismo coste. Es fundamental distinguir el principal de los recargos, que crecen rápido si no se actúa a tiempo."
+                  },
+                  {
+                        "kind": "table",
+                        "headers": [
+                              "Concepto",
+                              "Impacto y detalle"
+                        ],
+                        "rows": [
+                              [
+                                    "Cuotas RETA",
+                                    "Cotizaciones impagadas por autónomos."
+                              ],
+                              [
+                                    "Cuotas Obreras",
+                                    "Descontadas a empleados pero no ingresadas (tienen trato especial)."
+                              ],
+                              [
+                                    "Prestaciones indebidas",
+                                    "Cobros de paro o bajas que la administración reclama de vuelta."
+                              ],
+                              [
+                                    "Sanciones",
+                                    "Multas derivadas de actas de infracción de la Inspección de Trabajo."
+                              ]
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "La escala de recargos",
+                        "text": "Si no pagas en plazo, el recargo es del 10% el primer mes. A partir del segundo mes, sube al 20%, a lo que hay que sumar los intereses de demora que se devengan diariamente sobre el principal."
+                  }
+            ]
+      },
+      {
+            "title": "Cómo consultar cuánto debes y obtener informes",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Para trazar una estrategia de [cancelación de deudas](/cancelacion-de-deudas), primero necesitamos el mapa exacto de lo pendiente. Puedes consultarlo de varias formas:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Import@ss: El portal de la Tesorería para el ciudadano.",
+                              "Certificado Digital o Cl@ve: Necesarios para descargar el documento de deuda al instante.",
+                              "Sede Electrónica: Sección Recaudación, donde puedes ver periodos y conceptos.",
+                              "Vía SMS: Si tienes tu móvil registrado en la TGSS, puedes obtener informes rápidos."
+                        ]
+                  },
+                  {
+                        "kind": "paragraph",
+                        "text": "Si necesitas contratar con terceros o pedir una subvención, lo que buscas es el **Certificado de estar al corriente de pago**, que acredita que no tienes deudas pendientes."
+                  }
+            ]
+      },
+      {
+            "title": "Aplazamiento de deudas: requisitos y plazos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Si no puedes acogerte a la [ley de segunda oportunidad](/ley-segunda-oportunidad), el aplazamiento administrativo permite pagar en cuotas mensuales (mínimo 100€) durante un máximo de 5 años."
+                  },
+                  {
+                        "kind": "optionCards",
+                        "columns": 2,
+                        "items": [
+                              {
+                                    "icon": "shield",
+                                    "title": "Deudas Aplazables",
+                                    "text": "Cuotas del RETA y cuotas empresariales. Requiere que la deuda supere el doble del SMI."
+                              },
+                              {
+                                    "icon": "ban",
+                                    "title": "No Aplazables",
+                                    "text": "Multas firmes, intereses ya vencidos y cuotas por accidentes de trabajo."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "info",
+                        "text": "Las deudas que superan los 150.000€ suelen requerir garantías adicionales, como avales bancarios o hipotecas mobiliarias."
+                  }
+            ]
+      },
+      {
+            "title": "Consecuencias legales de no pagar a la TGSS",
+            "blocks": [
+                  {
+                        "kind": "keyCallout",
+                        "headline": "La vía ejecutiva y los embargos",
+                        "body": "La Seguridad Social tiene potestad para embargar tus bienes sin necesidad de pasar por un juez."
+                  },
+                  {
+                        "kind": "factGrid",
+                        "columns": 3,
+                        "items": [
+                              {
+                                    "value": "Cuentas",
+                                    "label": "Barrido de saldo",
+                                    "detail": "Embargos en cuentas corrientes."
+                              },
+                              {
+                                    "value": "Prestaciones",
+                                    "label": "Bloqueo",
+                                    "detail": "No podrás cobrar jubilación o bajas si debes cuotas."
+                              },
+                              {
+                                    "value": "Herencias",
+                                    "label": "Derivación",
+                                    "detail": "La deuda puede pasar a tus herederos si no se gestiona."
+                              }
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/embargos/parar-embargo",
+                        "text": "Aprende cómo parar un embargo de la Seguridad Social aquí"
+                  }
+            ]
+      },
+      {
+            "title": "Prescripción de las deudas con la Seguridad Social",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Por norma general, el derecho de la Administración para determinar la deuda y exigir el pago **prescribe a los 4 años** desde que finalizó el plazo reglamentario de ingreso."
+                  },
+                  {
+                        "kind": "callout",
+                        "variant": "warning",
+                        "title": "La interrupción del plazo",
+                        "text": "Cualquier notificación oficial recibida por correo, una solicitud de aplazamiento firmada por ti o un inicio de expediente de embargo reinicia el contador de 4 años desde cero."
+                  }
+            ]
+      },
+      {
+            "title": "Gestiones para colectivos específicos",
+            "blocks": [
+                  {
+                        "kind": "paragraph",
+                        "text": "Dependiendo de tu sector cinematográfico, agrícola o taurino, existen peculiaridades en la regularización de cuotas:"
+                  },
+                  {
+                        "kind": "checkList",
+                        "variant": "check",
+                        "items": [
+                              "Autónomos: Regularización anual obligatoria basada en ingresos reales.",
+                              "Artistas y Taurinos: Devoluciones de cuotas tras el ajuste de retribuciones declaradas.",
+                              "Empleados de Hogar: Consulta de recibos emitidos para evitar responsabilidades del empleador."
+                        ]
+                  },
+                  {
+                        "kind": "actionLink",
+                        "to": "/autonomos-concurso-acreedores/concurso-persona-fisica",
+                        "text": "Consulta la solución para autónomos en situación de insolvencia"
+                  }
+            ]
+      }
+],
   },
 };
