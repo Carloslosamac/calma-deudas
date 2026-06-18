@@ -33,19 +33,19 @@ export const reunificarDeudas: MoneyContent = {
   intro: (
     <>
       ¿Pagas varios préstamos y no te aclaras? Te explicamos <strong>cómo reunificar tus
-      deudas hoy</strong> en una sola cuota más baja, paso a paso, y vemos gratis si es la
-      mejor opción para ti.
+      deudas hoy</strong>: negociamos con tus entidades para bajar la cuota <strong>y</strong> el
+      total, paso a paso. No es un préstamo nuevo. Vemos gratis si es lo mejor para ti.
     </>
   ),
   hero: {
     badge: "Reunificar deudas",
     titleLead: "Reunifica tus deudas",
-    titleAccent: "y paga una sola cuota.",
+    titleAccent: "negociando cuota y total.",
     subtitle: (
       <>
-        Junta tus préstamos y tarjetas en <strong>un único pago mensual</strong> más bajo.
-        Te guiamos paso a paso y, si en tu caso sale mejor cancelar, también te lo decimos.
-        Estudio gratis.
+        Negociamos extrajudicialmente con tus acreedores para rebajar <strong>la cuota y el
+        importe total</strong> que debes. No firmas otro préstamo. Te guiamos paso a paso y, si
+        sale mejor cancelar, también te lo decimos. Estudio gratis.
       </>
     ),
     trustNote: "Estudio gratis · Sin compromiso",
@@ -61,8 +61,8 @@ export const reunificarDeudas: MoneyContent = {
   benefits: [
     {
       icon: "wallet",
-      title: "Un único pago",
-      text: "Olvídate de varios recibos: una sola cuota al mes, fácil de controlar.",
+      title: "Menos total",
+      text: "Negociamos con tus entidades para rebajar el importe global, no solo aplazarlo.",
     },
     {
       icon: "clock",
@@ -71,8 +71,8 @@ export const reunificarDeudas: MoneyContent = {
     },
     {
       icon: "sparkles",
-      title: "Rápido de tramitar",
-      text: "Si encaja, la operación se gestiona en poco tiempo. Te acompañamos en cada paso.",
+      title: "Sin préstamo nuevo",
+      text: "No firmas otro crédito ni alargas el plazo: mejoramos la deuda que ya tienes.",
     },
     {
       icon: "scale",
@@ -82,7 +82,7 @@ export const reunificarDeudas: MoneyContent = {
     {
       icon: "users",
       title: "Un solo trato",
-      text: "Dejas de negociar con varios acreedores: lo centralizas todo.",
+      text: "Negociamos por ti con cada acreedor: dejas de lidiar con todos a la vez.",
     },
     {
       icon: "lock",
@@ -139,7 +139,7 @@ export const reunificarDeudas: MoneyContent = {
     },
   ],
   stepsTitle: "Cómo reunificar tus deudas paso a paso",
-  stepsSubtitle: "Cuatro pasos para pasar de varias cuotas a una sola",
+  stepsSubtitle: "Cuatro pasos para negociar y rebajar tu deuda",
   steps: [
     {
       title: "Reúne tus deudas",
@@ -150,18 +150,18 @@ export const reunificarDeudas: MoneyContent = {
       text: "Analizamos tus números y vemos si reunificar te conviene o si es mejor cancelar.",
     },
     {
-      title: "Propuesta a medida",
-      text: "Te presentamos la nueva cuota, el plazo y el coste total para que decidas.",
+      title: "Negociación con tus acreedores",
+      text: "Negociamos extrajudicialmente con cada entidad para rebajar cuota y total.",
     },
     {
-      title: "Una sola cuota",
-      text: "Firmas y unificas todo en un único pago mensual asumible.",
+      title: "Deuda rebajada",
+      text: "Pasas a un pago mensual más bajo y un importe total menor.",
       highlight: true,
     },
   ],
   metrics: [
     { value: "Paso a paso", label: "Te guiamos en todo el proceso" },
-    { value: "1 cuota", label: "En lugar de varios recibos al mes" },
+    { value: "Menos total", label: "Negociamos para rebajar lo que debes" },
     { value: "Gratis", label: "Estudiamos tu caso sin compromiso" },
   ],
   eligibility: {
@@ -177,7 +177,7 @@ export const reunificarDeudas: MoneyContent = {
     requirements: [
       "Tienes dos o más préstamos o deudas con cuotas distintas.",
       "Cuentas con ingresos para asumir una cuota única, o tienes patrimonio pagado que quieres proteger.",
-      "Quieres simplificar y reducir el pago mensual.",
+      "Quieres rebajar el pago mensual y el total negociando con tus entidades.",
       "Buscas una guía clara, paso a paso, para hacerlo bien.",
     ],
     trustTitle: "Asesoramiento honesto",
@@ -202,7 +202,7 @@ export const reunificarDeudas: MoneyContent = {
       {
         label: "Varios préstamos",
         message:
-          "El caso ideal para reunificar: juntamos todos tus préstamos en una sola cuota más baja.",
+          "El caso ideal para reunificar: negociamos con cada entidad para rebajar cuota y total.",
         to: "/reunificacion-deudas",
         linkLabel: "Más sobre reunificación de deudas",
       },
@@ -230,7 +230,7 @@ export const reunificarDeudas: MoneyContent = {
       {
         label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Si tienes vivienda o terreno totalmente pagados, cancelar con la LSO podría liquidarlos. Reunificar te permite proteger ese patrimonio agrupando todo en una cuota.",
+          "Si tienes vivienda o terreno totalmente pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio negociando una rebaja con tus acreedores.",
       },
       {
         label: "No lo tengo claro",
@@ -260,7 +260,7 @@ export const reunificarDeudas: MoneyContent = {
     },
     beforeAfter: {
       title: "Antes y después de reunificar",
-      subtitle: "Lo que cambia al juntar tus deudas en una sola cuota.",
+      subtitle: "Lo que cambia al negociar y rebajar tus deudas.",
       beforeLabel: "Hoy, con varias cuotas",
       afterLabel: "Después de reunificar",
       before: [
@@ -271,8 +271,8 @@ export const reunificarDeudas: MoneyContent = {
         "Cero margen a fin de mes",
       ],
       after: [
-        "Un único pago mensual",
-        "Cuota más baja y asumible",
+        "Pago mensual más bajo",
+        "Importe total rebajado",
         "Todo bajo control",
         "Un solo interlocutor",
         "Algo de margen recuperado",
@@ -289,7 +289,7 @@ export const reunificarDeudas: MoneyContent = {
             {[
               "Haz un listado de tus deudas, cuotas y plazos actuales.",
               "Calcula cuánto pagas en total cada mes.",
-              "Pide un estudio para ver tu nueva cuota única y el coste total.",
+              "Pide un estudio para ver cuánto podemos rebajar tu cuota y tu total.",
               "Compara reunificar con cancelar y elige con los números delante.",
             ].map((step, i) => (
               <li key={i} className="flex items-start gap-4 rounded-2xl border border-border bg-surface-elevated p-4 shadow-soft">
@@ -328,14 +328,14 @@ export const reunificarDeudas: MoneyContent = {
         <WarningCallout title="Reunificar no siempre es la mejor idea">
           <p>
             Si ya <strong>no puedes pagar ninguna cuota</strong> y <strong>no tienes bienes de
-            valor que perder</strong>, juntarlas solo alarga el problema y encarece la deuda. En
-            ese caso suele ser mejor cancelar con la <A to="/ley-segunda-oportunidad">Ley de
+            valor que perder</strong>, negociar una rebaja no basta: la deuda te seguirá superando.
+            En ese caso suele ser mejor cancelar con la <A to="/ley-segunda-oportunidad">Ley de
             Segunda Oportunidad</A>.
           </p>
           <p>
-            En cambio, si no puedes pagar pero sí tienes vivienda o terreno pagados, reunificar
-            es la vía que protege ese patrimonio. Evita reunificar poniendo tu vivienda como
-            garantía sin valorarlo bien.
+            Y desconfía de quien te ofrezca «reunificar» pidiendo un préstamo nuevo o poniendo tu
+            vivienda como garantía: eso es <strong>refinanciar</strong>, alarga el plazo y encarece
+            el total. Nosotros negociamos con tus entidades, sin crédito nuevo.
           </p>
         </WarningCallout>
       ),
@@ -346,7 +346,7 @@ export const reunificarDeudas: MoneyContent = {
         <div className="space-y-4 text-base leading-relaxed text-foreground/85">
           <p>
             El <strong>estudio es gratuito y sin compromiso</strong>. Te mostramos la cuota,
-            el plazo y el coste total, y lo comparamos con{" "}
+            la rebaja negociable y el coste total, y lo comparamos con{" "}
             <A to="/cancelar-deudas">cancelar tus deudas</A> para que elijas con seguridad.
           </p>
         </div>
@@ -357,10 +357,10 @@ export const reunificarDeudas: MoneyContent = {
     {
       q: "¿Cómo se reunifican las deudas?",
       a: (
-        <>Se juntan tus préstamos y deudas en una sola operación con una única cuota mensual. Hacemos un estudio, te proponemos la nueva cuota y, si encaja, se formaliza.</>
+        <>Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total. Hacemos un estudio, negociamos por ti y, si encaja, se formaliza el acuerdo. No es un préstamo nuevo.</>
       ),
       plain:
-        "Se juntan tus préstamos y deudas en una sola operación con una única cuota mensual. Hacemos un estudio, te proponemos la nueva cuota y, si encaja, se formaliza.",
+        "Negociamos extrajudicialmente con tus entidades para rebajar la cuota mensual y el importe total. Hacemos un estudio, negociamos por ti y, si encaja, se formaliza el acuerdo. No es un préstamo nuevo.",
     },
     {
       q: "¿Qué necesito para reunificar?",
@@ -373,10 +373,10 @@ export const reunificarDeudas: MoneyContent = {
     {
       q: "¿Cuándo no conviene reunificar?",
       a: (
-        <>Cuando ya no puedes pagar ninguna cuota: juntarlas solo alarga el problema. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.</>
+        <>Cuando ya no puedes pagar ninguna cuota: negociar una rebaja no basta. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.</>
       ),
       plain:
-        "Cuando ya no puedes pagar ninguna cuota: juntarlas solo alarga el problema. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
+        "Cuando ya no puedes pagar ninguna cuota: negociar una rebaja no basta. En ese caso suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
     },
     {
       q: "¿El estudio cuesta algo?",

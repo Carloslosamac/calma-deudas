@@ -9,8 +9,9 @@ import p6 from "@/assets/testimonios/lso-6.jpg";
 
 /**
  * Money page "Reunificación de deudas". Pilar del cluster, ángulo comparativo:
- * reunificar (sigues pagando, una sola cuota) vs cancelar (LSO). Deriva a
- * /reunificar-deudas (acción paso a paso) y al hub LSO, para no canibalizar.
+ * reunificar (negociamos extrajudicialmente con las entidades para bajar cuota
+ * Y total) vs cancelar (LSO). NO es refinanciar (préstamo nuevo que alarga el
+ * plazo). Deriva a /reunificar-deudas (acción paso a paso) y al hub LSO.
  */
 export const reunificacionDeudas: MoneyContent = {
   path: "/reunificacion-deudas",
@@ -33,20 +34,20 @@ export const reunificacionDeudas: MoneyContent = {
   ],
   intro: (
     <>
-      Si pagas varias cuotas cada mes y te asfixian, la <strong>reunificación de deudas</strong>{" "}
-      las junta en un solo pago más bajo. Te explicamos cuándo conviene y cuándo es mejor
-      cancelar, y lo aplicamos a tu caso gratis.
+      Si pagas varias cuotas cada mes y te asfixian, con la <strong>reunificación de deudas</strong>{" "}
+      negociamos con tus entidades para rebajar tu cuota mensual <strong>y</strong> el total que
+      debes. No es un préstamo nuevo. Te decimos gratis si te conviene o si es mejor cancelar.
     </>
   ),
   hero: {
     badge: "Reunificación de deudas",
-    titleLead: "Varias cuotas, un solo pago",
-    titleAccent: "que sí puedes asumir.",
+    titleLead: "Negociamos tu deuda:",
+    titleAccent: "menos cuota y menos total.",
     subtitle: (
       <>
-        La reunificación junta todos tus préstamos en <strong>una única cuota mensual</strong>,
-        más baja y manejable. Te decimos gratis si te conviene reunificar o si en tu caso
-        sale mejor cancelar la deuda.
+        Reunificar no es pedir un préstamo: <strong>negociamos extrajudicialmente</strong> con tus
+        acreedores para bajar la cuota mensual <strong>y</strong> el importe total que pagas. Te
+        decimos gratis si te conviene reunificar o si en tu caso sale mejor cancelar la deuda.
       </>
     ),
     trustNote: "Estudio gratis · Sin compromiso",
@@ -62,13 +63,13 @@ export const reunificacionDeudas: MoneyContent = {
   benefits: [
     {
       icon: "wallet",
-      title: "Una sola cuota",
-      text: "Juntas todos tus préstamos en un único pago mensual, más fácil de controlar.",
+      title: "Menos total a pagar",
+      text: "Negociamos con tus entidades para rebajar el importe global de tu deuda, no solo aplazarla.",
     },
     {
       icon: "clock",
       title: "Cuota más baja",
-      text: "Al alargar el plazo, la cuota mensual baja y recuperas oxígeno cada mes.",
+      text: "Reordenamos los pagos para bajar la cuota mensual y que recuperes oxígeno cada mes.",
     },
     {
       icon: "scale",
@@ -78,7 +79,7 @@ export const reunificacionDeudas: MoneyContent = {
     {
       icon: "users",
       title: "Un solo interlocutor",
-      text: "Dejas de lidiar con varios acreedores y gestionas todo en un único sitio.",
+      text: "Negociamos por ti con cada acreedor: dejas de lidiar con todos a la vez.",
     },
     {
       icon: "sparkles",
@@ -87,8 +88,8 @@ export const reunificacionDeudas: MoneyContent = {
     },
     {
       icon: "lock",
-      title: "Condiciones claras",
-      text: "Te explicamos el coste total y el plazo antes de decidir. Sin letra pequeña.",
+      title: "Sin préstamo nuevo",
+      text: "No firmas otro crédito ni pones tu vivienda en garantía: mejoramos la deuda que ya tienes.",
     },
   ],
   testimonialsTitle: "Personas que recuperaron el control",
@@ -112,7 +113,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
     {
       name: "Óscar L.",
-      amount: "4 cuotas → 1",
+      amount: "-30% del total",
       location: "Sevilla",
       text: "Me explicaron que en mi caso reunificar era lo mejor. Acertaron de pleno.",
       photo: p3,
@@ -140,7 +141,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
   ],
   stepsTitle: "Cómo funciona la reunificación",
-  stepsSubtitle: "Cuatro pasos para pasar de varias cuotas a una sola",
+  stepsSubtitle: "Cuatro pasos para negociar y rebajar tu deuda",
   steps: [
     {
       title: "Estudio gratuito",
@@ -151,17 +152,17 @@ export const reunificacionDeudas: MoneyContent = {
       text: "Te enseñamos reunificar vs cancelar para que elijas con información clara.",
     },
     {
-      title: "Propuesta a medida",
-      text: "Diseñamos la operación con la cuota y el plazo que encajan contigo.",
+      title: "Negociación con tus acreedores",
+      text: "Negociamos extrajudicialmente con cada entidad para rebajar cuota y total.",
     },
     {
-      title: "Una sola cuota",
-      text: "Unificas todo en un único pago mensual asumible.",
+      title: "Deuda rebajada",
+      text: "Pasas a un pago mensual más bajo y un importe total menor.",
       highlight: true,
     },
   ],
   metrics: [
-    { value: "1 cuota", label: "En lugar de varios recibos cada mes" },
+    { value: "Menos total", label: "Negociamos para rebajar lo que debes" },
     { value: "Comparativa", label: "Reunificar vs cancelar, siempre honesta" },
     { value: "Gratis", label: "Estudiamos tu caso sin compromiso" },
   ],
@@ -178,15 +179,15 @@ export const reunificacionDeudas: MoneyContent = {
     requirements: [
       "Tienes varias deudas o préstamos con cuotas que te cuesta asumir juntas.",
       "Cuentas con ingresos para una cuota única más baja, o tienes bienes pagados que quieres proteger.",
-      "Buscas simplificar y reducir el pago mensual, no necesariamente eliminar la deuda.",
+      "Buscas rebajar el pago mensual y el total negociando, no necesariamente eliminar la deuda.",
       "Quieres una comparativa honesta antes de decidir entre reunificar y cancelar.",
     ],
     trustTitle: "Asesoramiento honesto",
     trustText: "Si en tu caso es mejor cancelar, te lo diremos sin rodeos.",
   },
   closing: {
-    title: "Una cuota asumible o cancelar: te decimos qué te conviene",
-    text: "No todas las situaciones se resuelven igual. Pide tu estudio gratis y te diremos con honestidad si lo tuyo es reunificar o cancelar la deuda.",
+    title: "Negociar tu deuda o cancelar: te decimos qué te conviene",
+    text: "No todas las situaciones se resuelven igual. Pide tu estudio gratis y te diremos con honestidad si lo tuyo es reunificar (negociar y rebajar) o cancelar la deuda.",
   },
   interactive: {
     comparisonTable: {
@@ -198,13 +199,13 @@ export const reunificacionDeudas: MoneyContent = {
       ],
       rows: [
         { feature: "Sigues pagando la deuda", values: ["sí", "no"] },
-        { feature: "Una sola cuota mensual", values: ["sí", "no"] },
+        { feature: "Negociamos cuota y total con las entidades", values: ["sí", "no"] },
         { feature: "Elimina la deuda", values: ["no", "sí"] },
         { feature: "Ideal si aún puedes pagar", values: ["sí", "no"] },
         { feature: "Ideal si no puedes pagar y no tienes bienes", values: ["no", "sí"] },
         { feature: "Protege bienes de valor pagados", values: ["sí", "no"] },
         { feature: "Frena embargos", values: ["no", "sí"] },
-        { feature: "Coste total a largo plazo", values: ["Puede subir", "Se cancela"] },
+        { feature: "Coste total a largo plazo", values: ["Baja (negociado)", "Se cancela"] },
       ],
     },
     simulator: {
@@ -215,20 +216,20 @@ export const reunificacionDeudas: MoneyContent = {
       defaultDebt: 30000,
       defaultMonthly: 800,
     },
-    debtTypesTitle: "¿Qué cuotas quieres juntar?",
+    debtTypesTitle: "¿Qué deudas quieres negociar?",
     debtTypesSubtitle: "Elige tu situación y te orientamos.",
     debtTypes: [
       {
         label: "Varios préstamos",
         message:
-          "El caso típico de reunificación: varios préstamos personales en una sola cuota más baja.",
+          "El caso típico de reunificación: negociamos con cada entidad para rebajar cuota y total.",
         to: "/reunificar-deudas",
         linkLabel: "Cómo reunificar deudas",
       },
       {
         label: "Préstamos + tarjetas",
         message:
-          "Se pueden incluir tarjetas en la reunificación, aunque conviene revisar si hay usura.",
+          "También negociamos tarjetas, aunque antes conviene revisar si hay intereses abusivos.",
         to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
         linkLabel: "Revisar tarjetas revolving",
       },
@@ -242,7 +243,7 @@ export const reunificacionDeudas: MoneyContent = {
       {
         label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Si tienes vivienda o terreno pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio en una sola cuota.",
+          "Si tienes vivienda o terreno pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio negociando una rebaja con tus acreedores.",
       },
       {
         label: "Microcréditos",
@@ -270,7 +271,7 @@ export const reunificacionDeudas: MoneyContent = {
       ],
       resultPass: {
         title: "La reunificación encaja contigo",
-        text: "Tu perfil cuadra con reunificar: una sola cuota más baja. Pide tu estudio gratis y te damos la cifra real, sin compromiso.",
+        text: "Tu perfil cuadra con reunificar: negociamos para bajar tu cuota y tu total. Pide tu estudio gratis y te damos la cifra real, sin compromiso.",
       },
       resultDoubt: {
         title: "Quizá te convenga cancelar",
@@ -279,7 +280,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
     beforeAfter: {
       title: "Antes y después de reunificar",
-      subtitle: "Lo que cambia al juntar tus deudas en una sola cuota.",
+      subtitle: "Lo que cambia al negociar y rebajar tus deudas.",
       beforeLabel: "Hoy, con varias cuotas",
       afterLabel: "Después de reunificar",
       before: [
@@ -290,8 +291,8 @@ export const reunificacionDeudas: MoneyContent = {
         "Sin margen a fin de mes",
       ],
       after: [
-        "Un único pago mensual",
-        "Cuota más baja y asumible",
+        "Pago mensual más bajo",
+        "Importe total rebajado",
         "Calendario claro y bajo control",
         "Un solo interlocutor",
         "Algo de margen recuperado",
@@ -307,12 +308,12 @@ export const reunificacionDeudas: MoneyContent = {
             eyebrow="En una frase"
             headline={
               <>
-                Juntar varios préstamos en{" "}
-                <span className="text-accent-deep">una sola cuota más baja</span>.
+                Negociar con tus entidades para{" "}
+                <span className="text-accent-deep">bajar la cuota y el total</span>.
               </>
             }
           >
-            <p>Se alarga el plazo para reducir la cuota mensual. No elimina la deuda: la reorganiza para que puedas pagarla con más holgura.</p>
+            <p>No es un préstamo nuevo. Negociamos extrajudicialmente con cada acreedor para rebajar tanto tu pago mensual como el importe total que debes. No elimina la deuda, pero la mejora.</p>
           </KeyCallout>
           <ActionLink to="/reunificar-deudas">
             ¿Prefieres pasar directamente a la acción?{" "}
@@ -342,25 +343,26 @@ export const reunificacionDeudas: MoneyContent = {
             ]}
           />
           <p className="text-base leading-relaxed text-foreground/85">
-            Reunificar y seguir sin poder pagar solo alarga el problema y encarece la deuda.
-            Por eso te damos una comparativa honesta antes de decidir.
+            Ojo: reunificar (negociar y rebajar) no es <strong>refinanciar</strong>, que es pedir un
+            préstamo nuevo que alarga el plazo y encarece el total. Por eso te damos una comparativa
+            honesta antes de decidir.
           </p>
         </div>
       ),
     },
     {
-      title: "Ventajas y riesgos a tener en cuenta",
+      title: "Reunificar no es refinanciar",
       body: (
         <div className="space-y-5">
-          <p className="text-base leading-relaxed text-foreground/85">La reunificación tiene luces y sombras, y conviene conocerlas:</p>
+          <p className="text-base leading-relaxed text-foreground/85">Es la diferencia clave que casi nadie te explica:</p>
           <CheckList
-            items={[<><strong>A favor:</strong> una sola cuota, pago mensual más bajo, gestión más simple.</>]}
+            items={[<><strong>Reunificar (lo nuestro):</strong> negociamos con las entidades y baja tu cuota <strong>y</strong> el total que debes. Sin préstamo nuevo.</>]}
           />
           <CheckList
             variant="cross"
             items={[
-              <><strong>En contra:</strong> al alargar el plazo, puedes pagar más intereses totales.</>,
-              <><strong>Cuidado:</strong> evita reunificar con garantía sobre tu vivienda sin valorarlo bien.</>,
+              <><strong>Refinanciar (lo que evitamos):</strong> pedir un préstamo nuevo que agrupa todo, baja la cuota pero alarga el plazo y encarece el total.</>,
+              <><strong>Cuidado:</strong> desconfía de quien te ofrezca reunificar poniendo tu vivienda como garantía. Eso es refinanciar.</>,
             ]}
           />
         </div>
@@ -383,10 +385,10 @@ export const reunificacionDeudas: MoneyContent = {
     {
       q: "¿Qué es reunificar deudas?",
       a: (
-        <>Es juntar varios préstamos en uno solo, con una única cuota mensual normalmente más baja al alargar el plazo. No elimina la deuda, la reorganiza.</>
+        <>Es negociar extrajudicialmente con tus entidades para rebajar tu cuota mensual y el importe total que debes. No es un préstamo nuevo ni elimina la deuda: la mejora.</>
       ),
       plain:
-        "Es juntar varios préstamos en uno solo, con una única cuota mensual normalmente más baja al alargar el plazo. No elimina la deuda, la reorganiza.",
+        "Es negociar extrajudicialmente con tus entidades para rebajar tu cuota mensual y el importe total que debes. No es un préstamo nuevo ni elimina la deuda: la mejora.",
     },
     {
       q: "¿Es mejor reunificar o cancelar?",
@@ -397,12 +399,12 @@ export const reunificacionDeudas: MoneyContent = {
         "Reunificar conviene si aún puedes pagar y quieres bajar la cuota. Si no puedes asumir las cuotas, suele ser mejor cancelar con la Ley de Segunda Oportunidad.",
     },
     {
-      q: "¿Reunificar sale más caro a largo plazo?",
+      q: "¿Reunificar es lo mismo que refinanciar?",
       a: (
-        <>Puede salir más caro en intereses totales porque se alarga el plazo, aunque baja la cuota mensual. Te mostramos el coste total antes de decidir.</>
+        <>No. Refinanciar es pedir un préstamo nuevo que alarga el plazo y encarece el total. Reunificar, como lo hacemos nosotros, es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.</>
       ),
       plain:
-        "Puede salir más caro en intereses totales porque se alarga el plazo, aunque baja la cuota mensual. Te mostramos el coste total antes de decidir.",
+        "No. Refinanciar es pedir un préstamo nuevo que alarga el plazo y encarece el total. Reunificar, como lo hacemos nosotros, es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.",
     },
     {
       q: "¿El estudio tiene coste?",

@@ -78,15 +78,16 @@ const comparativaList: ComparativaContent[] = [
     slug: "reunificar-o-cancelar",
     cluster: "reunificacion-deudas",
     intro:
-      "Reunificar tus deudas y cancelarlas son dos caminos opuestos: uno junta todos tus préstamos en una sola cuota (sigues pagando) y el otro elimina legalmente lo que no puedes pagar. Aquí los comparamos para que elijas con criterio.",
+      "Reunificar tus deudas y cancelarlas son dos caminos distintos: en uno negociamos con tus entidades para rebajar la cuota y el total (sigues pagando, pero menos) y en el otro se elimina legalmente lo que no puedes pagar. Aquí los comparamos para que elijas con criterio.",
     sections: [
       {
         title: "Tabla comparativa (pros y contras)",
         body: (
           <>
             <P>
-              La diferencia de fondo es sencilla: la reunificación reorganiza la deuda y la
-              cancelación la extingue. Esto cambia el coste, los plazos y el resultado final.
+              La diferencia de fondo es sencilla: la reunificación negocia y rebaja la deuda y la
+              cancelación la extingue. Ojo, reunificar no es refinanciar (pedir un préstamo nuevo
+              que alarga el plazo y encarece el total).
             </P>
             <CompareTable
               optionA="Reunificar deudas"
@@ -94,32 +95,32 @@ const comparativaList: ComparativaContent[] = [
               rows={[
                 {
                   feature: "Qué hace",
-                  a: "Junta varios préstamos en uno con una sola cuota mensual.",
+                  a: "Negocia con tus entidades para bajar la cuota y el total. Sin préstamo nuevo.",
                   b: "Exonera legalmente la deuda que no puedes pagar.",
                 },
                 {
                   feature: "¿Sigues debiendo?",
-                  a: "Sí, pagas el total (a menudo más por los intereses).",
+                  a: "Sí, pero un importe rebajado tras la negociación.",
                   b: "No, la deuda exonerada desaparece.",
                 },
                 {
                   feature: "Cuota mensual",
-                  a: "Más baja, pero durante más años.",
+                  a: "Más baja, fruto de la negociación.",
                   b: "Desaparece la deuda exonerada.",
                 },
                 {
                   feature: "Coste real",
-                  a: "Más intereses y, a veces, nueva garantía hipotecaria.",
+                  a: "Menor: se rebaja el total. Sin garantía hipotecaria nueva.",
                   b: "Honorarios del proceso, sin intereses futuros.",
                 },
                 {
                   feature: "Plazo",
-                  a: "Inmediato, pero alarga la deuda muchos años.",
+                  a: "Negociación relativamente rápida; sigues pagando, pero menos.",
                   b: "Meses; al terminar quedas libre.",
                 },
                 {
                   feature: "Ideal si",
-                  a: "Tienes ingresos estables y puedes pagar el total.",
+                  a: "Tienes ingresos estables o bienes pagados que proteger.",
                   b: "La deuda supera lo que puedes asumir.",
                 },
               ]}
@@ -134,13 +135,13 @@ const comparativaList: ComparativaContent[] = [
             <P>
               <strong>Reunificar</strong> tiene sentido si el problema es de organización, no de
               solvencia: tienes ingresos estables, muchas cuotas pequeñas y solo necesitas
-              ordenarlas en un pago manejable.
+              negociar una rebaja de cuota y total con tus acreedores.
             </P>
             <P>
               <strong>Cancelar</strong> con la{" "}
               <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> es la vía cuando la
-              deuda ya no es asumible: por mucho que reorganices, no llegas. En ese caso
-              reunificar solo alarga el problema y encarece el total.
+              deuda ya no es asumible: por mucho que negocies, no llegas. En ese caso reunificar
+              no basta.
             </P>
           </>
         ),
@@ -150,8 +151,8 @@ const comparativaList: ComparativaContent[] = [
         body: (
           <UL
             items={[
-              "Reunificar suele aumentar el coste total: cuota más baja, pero muchos más años de intereses.",
-              "Algunas reunificaciones añaden una garantía hipotecaria: pones tu vivienda en riesgo.",
+              "No confundas reunificar (negociar y rebajar) con refinanciar (préstamo nuevo que alarga el plazo y encarece el total).",
+              "Desconfía de quien te ofrezca reunificar pidiendo un crédito nuevo o poniendo tu vivienda como garantía: eso es refinanciar.",
               "Reunificar no borra ASNEF si la deuda original ya estaba fichada.",
               <>
                 Esperar demasiado para cancelar puede traer embargos; si ya los tienes, mira{" "}
@@ -166,7 +167,7 @@ const comparativaList: ComparativaContent[] = [
         body: (
           <>
             <P>
-              Si puedes pagar el total y solo necesitas ordenar las cuotas, valora{" "}
+              Si puedes pagar pero necesitas aire, valora{" "}
               <A to="/reunificacion-deudas">reunificar tus deudas</A>. Si la deuda te supera, no
               la alargues: estudia <A to="/cancelar-deudas">cancelarla legalmente</A>. Lo más
               prudente es analizar tu caso antes de decidir; el diagnóstico es gratuito.
@@ -189,10 +190,10 @@ const comparativaList: ComparativaContent[] = [
           "Sí. Si tras reunificar sigues sin poder pagar, puedes acogerte a la Ley de Segunda Oportunidad; la reunificación no cierra esa puerta.",
       },
       {
-        q: "¿Reunificar deudas sale más barato?",
-        a: "La cuota mensual baja, pero el coste total suele subir porque pagas intereses durante más años. Baja el pago mensual, no la deuda.",
+        q: "¿Reunificar es lo mismo que refinanciar?",
+        a: "No. Refinanciar es pedir un préstamo nuevo que agrupa todo y alarga el plazo, encareciendo el total. Reunificar, como lo hacemos nosotros, es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.",
         plain:
-          "La cuota mensual baja, pero el coste total suele subir porque pagas intereses durante más años: baja el pago mensual, no la deuda.",
+          "No. Refinanciar es pedir un préstamo nuevo que alarga el plazo y encarece el total; reunificar es negociar con las entidades para bajar la cuota y el total sin firmar otro crédito.",
       },
       {
         q: "¿Cuál afecta menos a mi historial?",
