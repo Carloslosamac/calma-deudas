@@ -179,15 +179,15 @@ export const reunificacionDeudas: MoneyContent = {
     requirements: [
       "Tienes varias deudas o préstamos con cuotas que te cuesta asumir juntas.",
       "Cuentas con ingresos para una cuota única más baja, o tienes bienes pagados que quieres proteger.",
-      "Buscas simplificar y reducir el pago mensual, no necesariamente eliminar la deuda.",
+      "Buscas rebajar el pago mensual y el total negociando, no necesariamente eliminar la deuda.",
       "Quieres una comparativa honesta antes de decidir entre reunificar y cancelar.",
     ],
     trustTitle: "Asesoramiento honesto",
     trustText: "Si en tu caso es mejor cancelar, te lo diremos sin rodeos.",
   },
   closing: {
-    title: "Una cuota asumible o cancelar: te decimos qué te conviene",
-    text: "No todas las situaciones se resuelven igual. Pide tu estudio gratis y te diremos con honestidad si lo tuyo es reunificar o cancelar la deuda.",
+    title: "Negociar tu deuda o cancelar: te decimos qué te conviene",
+    text: "No todas las situaciones se resuelven igual. Pide tu estudio gratis y te diremos con honestidad si lo tuyo es reunificar (negociar y rebajar) o cancelar la deuda.",
   },
   interactive: {
     comparisonTable: {
@@ -199,13 +199,13 @@ export const reunificacionDeudas: MoneyContent = {
       ],
       rows: [
         { feature: "Sigues pagando la deuda", values: ["sí", "no"] },
-        { feature: "Una sola cuota mensual", values: ["sí", "no"] },
+        { feature: "Negociamos cuota y total con las entidades", values: ["sí", "no"] },
         { feature: "Elimina la deuda", values: ["no", "sí"] },
         { feature: "Ideal si aún puedes pagar", values: ["sí", "no"] },
         { feature: "Ideal si no puedes pagar y no tienes bienes", values: ["no", "sí"] },
         { feature: "Protege bienes de valor pagados", values: ["sí", "no"] },
         { feature: "Frena embargos", values: ["no", "sí"] },
-        { feature: "Coste total a largo plazo", values: ["Puede subir", "Se cancela"] },
+        { feature: "Coste total a largo plazo", values: ["Baja (negociado)", "Se cancela"] },
       ],
     },
     simulator: {
@@ -216,20 +216,20 @@ export const reunificacionDeudas: MoneyContent = {
       defaultDebt: 30000,
       defaultMonthly: 800,
     },
-    debtTypesTitle: "¿Qué cuotas quieres juntar?",
+    debtTypesTitle: "¿Qué deudas quieres negociar?",
     debtTypesSubtitle: "Elige tu situación y te orientamos.",
     debtTypes: [
       {
         label: "Varios préstamos",
         message:
-          "El caso típico de reunificación: varios préstamos personales en una sola cuota más baja.",
+          "El caso típico de reunificación: negociamos con cada entidad para rebajar cuota y total.",
         to: "/reunificar-deudas",
         linkLabel: "Cómo reunificar deudas",
       },
       {
         label: "Préstamos + tarjetas",
         message:
-          "Se pueden incluir tarjetas en la reunificación, aunque conviene revisar si hay usura.",
+          "También negociamos tarjetas, aunque antes conviene revisar si hay intereses abusivos.",
         to: "/tarjetas-revolving/cancelar-tarjetas-revolving",
         linkLabel: "Revisar tarjetas revolving",
       },
@@ -243,7 +243,7 @@ export const reunificacionDeudas: MoneyContent = {
       {
         label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Si tienes vivienda o terreno pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio en una sola cuota.",
+          "Si tienes vivienda o terreno pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio negociando una rebaja con tus acreedores.",
       },
       {
         label: "Microcréditos",
@@ -280,7 +280,7 @@ export const reunificacionDeudas: MoneyContent = {
     },
     beforeAfter: {
       title: "Antes y después de reunificar",
-      subtitle: "Lo que cambia al juntar tus deudas en una sola cuota.",
+      subtitle: "Lo que cambia al negociar y rebajar tus deudas.",
       beforeLabel: "Hoy, con varias cuotas",
       afterLabel: "Después de reunificar",
       before: [
@@ -291,8 +291,8 @@ export const reunificacionDeudas: MoneyContent = {
         "Sin margen a fin de mes",
       ],
       after: [
-        "Un único pago mensual",
-        "Cuota más baja y asumible",
+        "Pago mensual más bajo",
+        "Importe total rebajado",
         "Calendario claro y bajo control",
         "Un solo interlocutor",
         "Algo de margen recuperado",
