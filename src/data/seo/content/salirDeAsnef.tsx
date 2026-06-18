@@ -1,9 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, OptionCards, FactGrid } from "@/components/seo/modules";
-import p1 from "@/assets/person-closeup-man-1.jpg";
-import p2 from "@/assets/person-closeup-woman-1.jpg";
-import p3 from "@/assets/person-closeup-man-2.jpg";
-import p4 from "@/assets/person-closeup-woman-2.jpg";
+import p1 from "@/assets/casos/asnef-1.jpg";
+import p2 from "@/assets/casos/asnef-2.jpg";
+import p3 from "@/assets/casos/asnef-3.jpg";
+import p4 from "@/assets/casos/asnef-4.jpg";
+import p5 from "@/assets/casos/asnef-5.jpg";
+import p6 from "@/assets/casos/asnef-6.jpg";
 
 /**
  * Money page "Salir de ASNEF". Ángulo urgente: estar en un fichero de morosos
@@ -72,6 +74,8 @@ export const salirDeAsnef: MoneyContent = {
     { name: "Elena C.", amount: "Fuera de ASNEF", location: "Valencia", text: "No podía ni cambiar de compañía de móvil. Hoy vuelvo a tener crédito.", photo: p2 },
     { name: "Jorge M.", amount: "Fuera de ASNEF", location: "Sevilla", text: "Me incluyeron por una deuda que ni reconocía. La impugnamos y desapareció.", photo: p3 },
     { name: "Lucía F.", amount: "Fuera de ASNEF", location: "Bilbao", text: "Cancelé mis deudas y, con ellas, mi rastro en los ficheros de morosos.", photo: p4 },
+    { name: "Marcos R.", amount: "Fuera de ASNEF", location: "Málaga", text: "El banco me negaba la hipoteca por una anotación antigua. Hoy ya no aparezco.", photo: p5 },
+    { name: "Patricia L.", amount: "Fuera de ASNEF", location: "Zaragoza", text: "Resolvimos la deuda de origen y mis datos salieron del fichero en semanas.", photo: p6 },
   ],
   stepsTitle: "Cómo te ayudamos a salir de ASNEF",
   stepsSubtitle: "Cuatro pasos para limpiar tu historial",
