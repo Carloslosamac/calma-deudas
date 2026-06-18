@@ -504,7 +504,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                         "items": [
                               "Préstamos de consolidación: Unificar todo en una sola cuota con un interés menor al promedio actual.",
                               "Transferencia de saldo (0% TAE): Mover deuda de tarjetas caras a una nueva con interés promocional (suele durar 12-18 meses).",
-                              "Cuidado con las garantías: Si usas tu vivienda como aval en una [reunificación de deudas](/reunificar-deudas), el riesgo de pérdida patrimonial aumenta si fallas en el pago."
+                              "Mejor que endeudarte de nuevo: con la [reunificación de deudas](/reunificar-deudas) negociamos tu deuda actual para bajar cuota y total, sin pedir un crédito nuevo ni poner tu vivienda como garantía."
                         ]
                   },
                   {
