@@ -177,7 +177,7 @@ export const reunificarDeudas: MoneyContent = {
     requirements: [
       "Tienes dos o más préstamos o deudas con cuotas distintas.",
       "Cuentas con ingresos para asumir una cuota única, o tienes patrimonio pagado que quieres proteger.",
-      "Quieres simplificar y reducir el pago mensual.",
+      "Quieres rebajar el pago mensual y el total negociando con tus entidades.",
       "Buscas una guía clara, paso a paso, para hacerlo bien.",
     ],
     trustTitle: "Asesoramiento honesto",
@@ -202,7 +202,7 @@ export const reunificarDeudas: MoneyContent = {
       {
         label: "Varios préstamos",
         message:
-          "El caso ideal para reunificar: juntamos todos tus préstamos en una sola cuota más baja.",
+          "El caso ideal para reunificar: negociamos con cada entidad para rebajar cuota y total.",
         to: "/reunificacion-deudas",
         linkLabel: "Más sobre reunificación de deudas",
       },
@@ -230,7 +230,7 @@ export const reunificarDeudas: MoneyContent = {
       {
         label: "No puedo pagar, pero tengo bienes pagados",
         message:
-          "Si tienes vivienda o terreno totalmente pagados, cancelar con la LSO podría liquidarlos. Reunificar te permite proteger ese patrimonio agrupando todo en una cuota.",
+          "Si tienes vivienda o terreno totalmente pagados, cancelar con la LSO podría liquidarlos. Reunificar protege ese patrimonio negociando una rebaja con tus acreedores.",
       },
       {
         label: "No lo tengo claro",
@@ -260,7 +260,7 @@ export const reunificarDeudas: MoneyContent = {
     },
     beforeAfter: {
       title: "Antes y después de reunificar",
-      subtitle: "Lo que cambia al juntar tus deudas en una sola cuota.",
+      subtitle: "Lo que cambia al negociar y rebajar tus deudas.",
       beforeLabel: "Hoy, con varias cuotas",
       afterLabel: "Después de reunificar",
       before: [
@@ -271,8 +271,8 @@ export const reunificarDeudas: MoneyContent = {
         "Cero margen a fin de mes",
       ],
       after: [
-        "Un único pago mensual",
-        "Cuota más baja y asumible",
+        "Pago mensual más bajo",
+        "Importe total rebajado",
         "Todo bajo control",
         "Un solo interlocutor",
         "Algo de margen recuperado",
