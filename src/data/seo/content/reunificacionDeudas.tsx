@@ -1,11 +1,11 @@
 import type { MoneyContent } from "./types";
 import { A, KeyCallout, OptionCards, CheckList, ActionLink } from "@/components/seo/modules";
-import p1 from "@/assets/testimonios/lso-1.jpg";
-import p2 from "@/assets/testimonios/lso-2.jpg";
-import p3 from "@/assets/testimonios/lso-3.jpg";
-import p4 from "@/assets/testimonios/lso-4.jpg";
-import p5 from "@/assets/testimonios/lso-5.jpg";
-import p6 from "@/assets/testimonios/lso-6.jpg";
+import p1 from "@/assets/casos/reunificacion-2.jpg";
+import p2 from "@/assets/casos/reunificacion-1.jpg";
+import p3 from "@/assets/casos/reunificacion-4.jpg";
+import p4 from "@/assets/casos/reunificacion-3.jpg";
+import p5 from "@/assets/casos/reunificacion-6.jpg";
+import p6 from "@/assets/casos/reunificacion-5.jpg";
 
 /**
  * Money page "Reunificación de deudas". Pilar del cluster, ángulo comparativo:
