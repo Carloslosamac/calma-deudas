@@ -310,7 +310,7 @@ export const cancelarDeudas: MoneyContent = {
       {
         label: "No puedo pagar, pero tengo bienes (casa/terreno pagado)",
         message:
-          "Si tienes vivienda u otros bienes de valor totalmente pagados, la LSO podría liquidarlos: reunificar suele proteger ese patrimonio agrupando todo en una sola cuota.",
+          "Si tienes vivienda u otros bienes de valor totalmente pagados, la LSO podría liquidarlos: reunificar suele proteger ese patrimonio negociando con tus acreedores una rebaja de cuota y total.",
         to: "/reunificar-deudas",
         linkLabel: "Ver reunificación de deudas",
       },
