@@ -131,9 +131,17 @@ export const deudasSeguridadSocial: MoneyContent = {
     {
       title: "¿Se puede cancelar la deuda con la Seguridad Social?",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>Sí, con matices. La deuda pública se exonera <strong>con límites</strong> dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>: una parte puede cancelarse y el resto se reorganiza en un plan de pagos.</p>
-        </div>
+        <KeyCallout
+          eyebrow="En una frase"
+          headline={
+            <>
+              La deuda con la Seguridad Social se exonera{" "}
+              <span className="text-accent-deep">con límites</span>.
+            </>
+          }
+        >
+          <p>Dentro de la <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A>, una parte de la deuda pública puede cancelarse y el resto se reorganiza en un plan de pagos.</p>
+        </KeyCallout>
       ),
     },
     {
@@ -148,9 +156,13 @@ export const deudasSeguridadSocial: MoneyContent = {
     {
       title: "Coste y plazos",
       body: (
-        <div className="space-y-4 text-base leading-relaxed text-foreground/85">
-          <p>El <strong>diagnóstico es gratuito</strong>. La gestión depende de la vía elegida; trabajamos con presupuesto cerrado y opción de pago fraccionado.</p>
-        </div>
+        <FactGrid
+          items={[
+            { value: "Gratis", label: "Diagnóstico", detail: "Estudiamos tus cuotas pendientes sin coste." },
+            { value: "Según vía", label: "Gestión", detail: "Depende de si aplazamos o vamos a exoneración." },
+            { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
+          ]}
+        />
       ),
     },
   ],
