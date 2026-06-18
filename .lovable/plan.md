@@ -1,60 +1,42 @@
-## Por qué cambia el enfoque
+## Diagnóstico
 
-Tenías razón: `/cancelar-deudas` ya usa `comparisonTable`, `legalTimeline`, `simulator`, `quiz`, `debtTypes`, `urgencyTimeline` y `beforeAfter`. Reutilizar cualquiera de esos módulos en `/cancelacion-de-deudas` hace que las dos páginas se sientan iguales.
+El módulo `legalTimeline` se usa en 4 money pages. Los **títulos y subtítulos ya son distintos**, pero el contenido real (las `phases`) se solapa mucho, sobre todo entre:
 
-La solución no es reordenar módulos existentes, sino crear **módulos interactivos nuevos, exclusivamente educativos**, que por su naturaleza solo tienen sentido en la página-guía y nunca aparecerán en la landing de acción.
+- `/ley-segunda-oportunidad` y `/exoneracion-pasivo-insatisfecho` → casi idénticas (acuerdo extrajudicial → vía judicial → exoneración, con la misma redacción).
+- `/concurso-persona-fisica` → comparte la misma columna vertebral.
 
-## Reparto claro de roles
+`/cancelar-deudas` ya es la más diferenciada (enfoque comercial: diagnóstico → elegir vía → puesta en marcha → deuda eliminada), así que se deja como está.
 
-```text
-/cancelar-deudas      → herramientas de DECISIÓN/ACCIÓN
-  simulador, quiz, comparativa de soluciones, urgencia, antes/después
+El objetivo: que cada página que use el módulo cuente **el mismo proceso desde su propio ángulo**, con redacción, número de fases y énfasis distintos, para que no haya bloques calcados entre URLs.
 
-/cancelacion-de-deudas → herramientas de COMPRENSIÓN
-  glosario, mitos vs realidad, límites de exoneración pública
-```
+## Reescritura por página
 
-## Módulos nuevos (solo en la página informativa)
+**1. `/ley-segunda-oportunidad`** — *página pilar del procedimiento completo*
+Se mantiene como la línea de tiempo canónica de las fases de la LSO (diagnóstico → acuerdo extrajudicial → procedimiento judicial → exoneración BEPI). Es la referencia; las demás se diferencian de ella.
 
-1. **Glosario de conceptos clave** (componente nuevo `ConceptGlossary`)
-   Acordeón que define en lenguaje claro los términos que la gente busca para *entender* el tema: insolvencia, buena fe, pasivo insatisfecho, exoneración, acuerdo extrajudicial de pagos, BEPI. Pura pedagogía. No existe en la landing.
+**2. `/exoneracion-pasivo-insatisfecho`** — *ángulo: el mecanismo de exoneración en sí*
+Se reenfoca de "fases de un procedimiento" a "cómo se llega y qué cubre la exoneración". Nuevas fases centradas en el resultado, no en el trámite genérico:
+- Requisitos de acceso (insolvencia + buena fe)
+- Modalidad **con** plan de pagos vs **sin** liquidación (lo propio de la EPI)
+- Alcance: qué deudas se exoneran y límites de deuda pública
+- Resolución y efectos (firmeza, salida de ASNEF, posible revocación)
+Redacción totalmente distinta y específica de la EPI.
 
-2. **Mitos vs realidad** (componente nuevo `MythVsReality`)
-   Tarjetas con un "mito" frecuente ("la cancelación de deudas es un timo", "no se puede cancelar Hacienda", "perderé todos mis bienes") y su realidad legal. Refuerza confianza desde el ángulo informativo, sin discurso comercial.
+**3. `/concurso-persona-fisica`** — *ángulo: procedimiento concursal*
+Se reescriben las fases con terminología concursal propia (auto de declaración, administración concursal, fase común, convenio/liquidación, conclusión), separándola claramente de la redacción de la LSO genérica.
 
-3. **Límites de exoneración de deuda pública** (componente existente `exonerationLimits`, hoy sin usar en esta página y ausente en la landing)
-   Explica hasta dónde se cancela la deuda con Hacienda y Seguridad Social. Duda informativa muy buscada.
-
-## Qué se quita para no solapar con la landing
-
-- Se retira `legalTimeline` de `/cancelacion-de-deudas` (sigue viviendo en `/cancelar-deudas`). Su contenido de "vías y plazos" ya queda cubierto por las `sections` de texto + el glosario.
-- `debtTypes` se mantiene **solo** como puente de navegación (cada tipo enlaza a su solución), no como herramienta de conversión.
-
-## Layout final propuesto
-
-```text
-sections           (qué es, vías, requisitos, plazos)
-conceptGlossary    (nuevo · entender los términos)
-mythVsReality      (nuevo · derribar mitos)
-benefits           (qué permite)
-exonerationLimits  (límites deuda pública)
-debtTypes          (puente a la solución por tipo)
-eligibility        (requisitos)
-steps              (cómo es el proceso)
-metrics
-faq
-testimonials
-closing            (único enlace fuerte guía → acción)
-```
+**4. `/cancelar-deudas`** — sin cambios (ya diferenciada, enfoque acción/comercial).
 
 ## Detalle técnico
 
-- **Tipos** (`src/data/seo/content/types.ts`): añadir `MoneyConceptGlossary` y `MoneyMythVsReality`, y sus claves en `MoneyInteractive` y `MoneyModuleKey`.
-- **Componentes nuevos**: `src/components/seo/interactive/ConceptGlossary.tsx` y `MythVsReality.tsx`, siguiendo el estilo de los componentes existentes (tokens semánticos, `Reveal`, sin colores hardcodeados).
-- **`MoneyJourney.tsx`**: registrar los dos bloques nuevos en `blocks` y en `DEFAULT_ORDER`.
-- **`cancelacionDeDeudas.tsx`**: añadir el contenido de `conceptGlossary`, `mythVsReality` y `exonerationLimits` dentro de `interactive`; actualizar `layout`; quitar `legalTimeline`.
-- Sin tocar `/cancelar-deudas`, SEO ni rutas. Los módulos transaccionales ya retirados (simulator/quiz/beforeAfter) siguen fuera.
+- Solo se editan los objetos `interactive.legalTimeline` en:
+  - `src/data/seo/content/exoneracionPasivoInsatisfecho.tsx`
+  - `src/data/seo/content/concursoPersonaFisica.tsx`
+  - (revisión menor de wording en `leySegundaOportunidad.tsx` si hace falta para separarlo de la EPI)
+- Se variará también el número de fases entre páginas para reducir similitud estructural.
+- Sin cambios en el componente `LegalTimeline.tsx`, ni en tipos, rutas ni SEO.
+- `/cancelar-deudas` y `/cancelacion-de-deudas` no se tocan.
 
-## Anti-canibalización
+## Resultado
 
-Ningún módulo interactivo se comparte ya entre las dos páginas. La informativa enseña (glosario, mitos, límites); la landing convierte (simulador, quiz, comparativa). Se conserva el único enlace fuerte guía → acción en el cierre.
+Cada money page que muestra la línea de tiempo legal tendrá fases con título, duración y texto propios y un ángulo diferenciado, eliminando los bloques duplicados entre URLs.
