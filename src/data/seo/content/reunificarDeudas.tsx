@@ -33,19 +33,19 @@ export const reunificarDeudas: MoneyContent = {
   intro: (
     <>
       ¿Pagas varios préstamos y no te aclaras? Te explicamos <strong>cómo reunificar tus
-      deudas hoy</strong> en una sola cuota más baja, paso a paso, y vemos gratis si es la
-      mejor opción para ti.
+      deudas hoy</strong>: negociamos con tus entidades para bajar la cuota <strong>y</strong> el
+      total, paso a paso. No es un préstamo nuevo. Vemos gratis si es lo mejor para ti.
     </>
   ),
   hero: {
     badge: "Reunificar deudas",
     titleLead: "Reunifica tus deudas",
-    titleAccent: "y paga una sola cuota.",
+    titleAccent: "negociando cuota y total.",
     subtitle: (
       <>
-        Junta tus préstamos y tarjetas en <strong>un único pago mensual</strong> más bajo.
-        Te guiamos paso a paso y, si en tu caso sale mejor cancelar, también te lo decimos.
-        Estudio gratis.
+        Negociamos extrajudicialmente con tus acreedores para rebajar <strong>la cuota y el
+        importe total</strong> que debes. No firmas otro préstamo. Te guiamos paso a paso y, si
+        sale mejor cancelar, también te lo decimos. Estudio gratis.
       </>
     ),
     trustNote: "Estudio gratis · Sin compromiso",
@@ -61,8 +61,8 @@ export const reunificarDeudas: MoneyContent = {
   benefits: [
     {
       icon: "wallet",
-      title: "Un único pago",
-      text: "Olvídate de varios recibos: una sola cuota al mes, fácil de controlar.",
+      title: "Menos total",
+      text: "Negociamos con tus entidades para rebajar el importe global, no solo aplazarlo.",
     },
     {
       icon: "clock",
@@ -71,8 +71,8 @@ export const reunificarDeudas: MoneyContent = {
     },
     {
       icon: "sparkles",
-      title: "Rápido de tramitar",
-      text: "Si encaja, la operación se gestiona en poco tiempo. Te acompañamos en cada paso.",
+      title: "Sin préstamo nuevo",
+      text: "No firmas otro crédito ni alargas el plazo: mejoramos la deuda que ya tienes.",
     },
     {
       icon: "scale",
@@ -82,7 +82,7 @@ export const reunificarDeudas: MoneyContent = {
     {
       icon: "users",
       title: "Un solo trato",
-      text: "Dejas de negociar con varios acreedores: lo centralizas todo.",
+      text: "Negociamos por ti con cada acreedor: dejas de lidiar con todos a la vez.",
     },
     {
       icon: "lock",
@@ -139,7 +139,7 @@ export const reunificarDeudas: MoneyContent = {
     },
   ],
   stepsTitle: "Cómo reunificar tus deudas paso a paso",
-  stepsSubtitle: "Cuatro pasos para pasar de varias cuotas a una sola",
+  stepsSubtitle: "Cuatro pasos para negociar y rebajar tu deuda",
   steps: [
     {
       title: "Reúne tus deudas",
@@ -150,18 +150,18 @@ export const reunificarDeudas: MoneyContent = {
       text: "Analizamos tus números y vemos si reunificar te conviene o si es mejor cancelar.",
     },
     {
-      title: "Propuesta a medida",
-      text: "Te presentamos la nueva cuota, el plazo y el coste total para que decidas.",
+      title: "Negociación con tus acreedores",
+      text: "Negociamos extrajudicialmente con cada entidad para rebajar cuota y total.",
     },
     {
-      title: "Una sola cuota",
-      text: "Firmas y unificas todo en un único pago mensual asumible.",
+      title: "Deuda rebajada",
+      text: "Pasas a un pago mensual más bajo y un importe total menor.",
       highlight: true,
     },
   ],
   metrics: [
     { value: "Paso a paso", label: "Te guiamos en todo el proceso" },
-    { value: "1 cuota", label: "En lugar de varios recibos al mes" },
+    { value: "Menos total", label: "Negociamos para rebajar lo que debes" },
     { value: "Gratis", label: "Estudiamos tu caso sin compromiso" },
   ],
   eligibility: {
