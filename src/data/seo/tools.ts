@@ -402,14 +402,14 @@ const toolByKind = (kind: ToolKind): Tool | undefined =>
  * "Calcula tu caso". El orden importa: la primera es la más específica.
  */
 const CLUSTER_TOOL_KINDS: Record<string, ToolKind[]> = {
-  "ley-segunda-oportunidad": ["diagnosis", "cancelable"],
-  "cancelar-deudas": ["cancelable", "diagnosis"],
-  "reunificacion-deudas": ["cancelable", "diagnosis"],
+  "ley-segunda-oportunidad": ["diagnosis", "comparator"],
+  "cancelar-deudas": ["cancelable", "paymentPlan"],
+  "reunificacion-deudas": ["cancelable", "paymentPlan"],
   asnef: ["diagnosis", "cancelable"],
   embargos: ["salary", "diagnosis"],
   "tarjetas-revolving": ["revolving", "diagnosis"],
   "microcreditos-prestamos": ["revolving", "diagnosis"],
-  "autonomos-concurso-acreedores": ["diagnosis", "cancelable"],
+  "autonomos-concurso-acreedores": ["diagnosis", "comparator"],
   "juicio-monitorio-recobro": ["salary", "diagnosis"],
   "deudas-hacienda-seguridad-social": ["salary", "diagnosis"],
 };
