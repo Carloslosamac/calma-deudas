@@ -48,6 +48,8 @@ export const buildWebPage = (params: {
   name: string;
   description: string;
   hasBreadcrumb?: boolean;
+  /** Selectores CSS cuyo texto representa la "respuesta directa" (GEO/voz). */
+  speakableSelectors?: string[];
 }): JsonLd => {
   const pageUrl = absoluteUrl(params.url);
   return {
@@ -60,6 +62,14 @@ export const buildWebPage = (params: {
     inLanguage: "es-ES",
     isPartOf: { "@id": `${SITE_URL}#website` },
     about: { "@id": `${SITE_URL}#organization` },
+    ...(params.speakableSelectors?.length
+      ? {
+          speakable: {
+            "@type": "SpeakableSpecification",
+            cssSelector: params.speakableSelectors,
+          },
+        }
+      : {}),
     ...(params.hasBreadcrumb
       ? { breadcrumb: { "@id": `${pageUrl}#breadcrumb` } }
       : {}),
