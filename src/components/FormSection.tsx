@@ -312,7 +312,7 @@ const FormSection = () => {
                     key={opt.value}
                     type="button"
                     onClick={() => toggleEntity(opt.value)}
-                    className={`flex items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
+                    className={`flex w-full items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
                       active
                         ? "border-accent bg-accent/10"
                         : "border-border bg-background hover:border-accent/50"
