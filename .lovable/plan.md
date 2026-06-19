@@ -1,24 +1,22 @@
-# Make Andrés look as real as Noemi
+## Goal
+Replace 4 AI-generated case photos with your 4 externally-edited, natural front-camera photos (matching Noemi's real look).
 
-## The real problem
-Noemi's photo reads as authentic because it's a genuine front-camera selfie: **everything is in focus** (sharp background — mirror, coat rack, curtains), flat even selfie lighting, neutral phone-HDR color, square 1:1 framing, arm's-length angle.
+## Photo → Case mapping (my picks, since you asked me to decide)
+- **Man** (beard, dark t-shirt) → **Antonio R. (Sabadell)** — `antonio-sabadell.jpg`
+- **Woman, dark t-shirt, hair down** (photo 1) → **Carmen P. (Murcia)** — `carmen-murcia.jpg`
+- **Woman, black t-shirt + necklace, hair tied** (photo 3) → **Lorena S. (Valencia)** — `lorena-valencia.jpg`
+- **Woman, blue t-shirt, hair tied** (photo 4) → **Marina C. (Bilbao)** — `marina-bilbao.jpg`
 
-Andrés's photo reads as AI/stock because it has **shallow depth of field (blurred bokeh background)** plus soft cinematic directional lighting and over-rendered micro-detail. Phone front cameras don't produce that bokeh. This is the giveaway — not the light quality we've been chasing.
+Note: only one of the two male cases we worked on (Andrés / Antonio) can get a real photo, because you sent just one man. I'm assigning it to **Antonio**. **Andrés** keeps his current photo unless you send a man's photo for him too.
 
-## Fix
-Regenerate `src/assets/casos/andres-madrid.jpg` to match Noemi's selfie aesthetic, keeping the same man, face, and home so it stays consistent with prior approvals.
+## What I'll do
+1. Copy each uploaded image over the matching existing asset (same filenames, so no import/code changes needed):
+   - `src/assets/casos/antonio-sabadell.jpg`
+   - `src/assets/casos/carmen-murcia.jpg`
+   - `src/assets/casos/lorena-valencia.jpg`
+   - `src/assets/casos/marina-bilbao.jpg`
+2. Verify on `/casos-de-exito` that all four render correctly and read as natural phone selfies.
 
-Key prompt changes vs. previous attempts:
-- **Deep depth of field — entire frame in sharp focus**, background NOT blurred, no bokeh, no shallow DOF (this is the #1 fix).
-- Genuine arm's-length front-camera selfie, slight selfie wide-angle, one shoulder/arm slightly closer to camera.
-- Flat, even, uniform front-camera lighting with phone HDR; no directional/cinematic falloff, no creamy skin gradients.
-- Neutral/slightly cool flat phone color, ordinary auto white balance.
-- Mid-range smartphone front-camera quality: a bit flat, mild noise, no DSLR rendering, no beauty filter, authentic skin texture.
-- Lived-in but ordinary home background (sofa / room), naturally sharp like Noemi's.
-
-## Format
-- Aspect ratio **1:1 (square)** to mirror Noemi's framing — instead of the current tall 2:3.
-
-## Technical detail
-- Use `imagegen--edit_image` on the existing `src/assets/casos/andres-madrid.jpg` (or regenerate) with `aspect_ratio: "1:1"`, applying the deep-focus / flat-selfie prompt above. No code changes needed — the post already imports this path.
-- After generating, visually compare side by side with `lso-1.jpg` (Noemi) and confirm the background is in focus before locking in.
+## Notes
+- Pure asset swap — no layout or code logic changes.
+- If you'd prefer a different mapping (or want one assigned to Andrés instead), tell me and I'll adjust.
