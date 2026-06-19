@@ -15,7 +15,7 @@ const ComparativaPage = () => {
   if (!comparativa) return <NotFound />;
 
   const cluster = getCluster(comparativa.cluster);
-  const canonical = `${comparativa.path}/`;
+  const canonical = `${comparativa.path}`;
   const content = getComparativaContent(comparativa.cluster, comparativa.slug);
 
   const breadcrumbs = [

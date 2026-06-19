@@ -17,7 +17,7 @@ const ClusterHub = () => {
 
   if (!cluster) return <NotFound />;
 
-  const canonical = `/${cluster.slug}/`;
+  const canonical = `/${cluster.slug}`;
   const breadcrumbs = [{ name: "Inicio", to: "/" }, { name: cluster.label }];
   const content = getHubContent(cluster.slug);
 

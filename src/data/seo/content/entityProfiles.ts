@@ -18,7 +18,7 @@ export type EntityProfile = {
 
 export const entityProfiles: Record<string, EntityProfile> = {
   "kruk": {
-    "metaDescription": "¿Recibes llamadas de Kruk? Descubre cómo gestionar tus deudas con Kruk España, tus derechos ante sus recobros y cómo la Ley de Segunda Oportunidad puede ayudarte.",
+    "metaDescription": "¿Recibes llamadas de Kruk? Descubre cómo gestionar tus deudas con Kruk España, tus derechos ante sus recobros y cómo la Ley de Segunda Oportunidad puede…",
     "faqs": [
       {
         "a": "Casi siempre. Si la deuda proviene de una tarjeta revolving o un micropréstamo, nosotros podemos revisar si los intereses que te está reclamando Kruk son ilegales para anular esa parte o incluso la deuda entera.",
@@ -56,7 +56,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "detail": "Intrum se especializa en la compra de paquetes de deuda 'fallida' a bancos y teleoperadoras, intentando cobrar el importe íntegro mediante una gestión de recobro muy insistente. A menudo aplican comisiones de gestión o intereses que pueden ser objeto de reclamación si no estaban claramente estipulados en el contrato original.",
     "origin": "Intrum es una multinacional de origen sueco que se ha consolidado como uno de los mayores gestores de activos y recobro en España tras absorber a firmas como Lindorff o Aktua. Su modelo de negocio principal es la adquisición de carteras de impagos a entidades financieras para gestionarlas en su propio beneficio.",
-    "metaDescription": "¿Recibes llamadas de Intrum? Descubre cómo gestionar tus deudas con ellos, tus derechos legales y cómo la Ley de Segunda Oportunidad puede ayudarte a recuperar la paz.",
+    "metaDescription": "¿Recibes llamadas de Intrum? Descubre cómo gestionar tus deudas con ellos, tus derechos legales y cómo la Ley de Segunda Oportunidad puede ayudarte a…",
     "worries": [
       {
         "reality": "Solo un juez puede ordenar un embargo tras un proceso judicial donde tienes derecho a oponerte; Intrum no tiene potestad para quitarte el dinero directamente.",
@@ -116,7 +116,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "q": "¿Es obligatorio pagar la cantidad total que Axactor me reclama de golpe?"
       }
     ],
-    "metaDescription": "¿Recibes llamadas de Axactor? Descubre quiénes son, por qué tienen tu deuda y cómo negociar o cancelarla con la Ley de Segunda Oportunidad. Recupera tu tranquilidad.",
+    "metaDescription": "¿Recibes llamadas de Axactor? Descubre quiénes son, por qué tienen tu deuda y cómo negociar o cancelarla con la Ley de Segunda Oportunidad.",
     "detail": "Axactor se especializa en adquirir grandes carteras de deuda fallida a bancos como Santander, BBVA o CaixaBank, a menudo por una fracción de su valor nominal. Su modelo de negocio se basa en el recobro intensivo de créditos al consumo, descubiertos bancarios y deudas de tarjetas que las entidades originales ya dieron por perdidas.",
     "intro": "Si has recibido una carta o llamada de Axactor, es probable que tu antigua deuda bancaria haya cambiado de manos y ahora sientas la presión de un gigante del recobro europeo.",
     "origin": "Axactor es un grupo multinacional de origen noruego que opera en España como uno de los principales gestores de cobro y compradores de activos tóxicos. No son un banco, sino un \"servicer\" que adquiere paquetes de deudas impagadas para intentar rentabilizarlas mediante la reclamación amistosa o judicial."
@@ -145,7 +145,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "origin": "Link Finanzas es lo que se conoce formalmente como un fondo de adquisición de activos, especializado en comprar \"paquetes\" de deudas impagadas a bancos y entidades de crédito. Su modelo de negocio se basa en comprar estas carteras por un precio inferior al valor nominal para luego intentar recuperar el total de la deuda del consumidor.",
     "intro": "¿Te ha llegado una carta o llamada de Link Finanzas reclamándote una deuda que antes era de un banco o una financiera? No te asustes, es una situación más común de lo que crees y tiene soluciones legales definitivas.",
-    "metaDescription": "¿Te reclama una deuda Link Finanzas? Descubre cómo gestionar sus reclamaciones, defender tus derechos ante sus métodos de recobro y recuperar tu tranquilidad hoy."
+    "metaDescription": "¿Te reclama una deuda Link Finanzas? Descubre cómo gestionar sus reclamaciones, defender tus derechos ante sus métodos de recobro y recuperar tu tranquilidad…"
   },
   "gescobro": {
     "detail": "Esta entidad no concede préstamos, sino que adquiere deudas ya existentes de bancos para intentar cobrarlas mediante presión telefónica constante. Sus reclamaciones a menudo incluyen comisiones de posición deudora y cargos adicionales que pueden ser legalmente cuestionables o haber prescrito.",
@@ -278,7 +278,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "origin": "Procobro es una agencia de recobro española especializada en la gestión y mediación de impagos para grandes fondos y entidades financieras. Actúan como el \"rostro visible\" de deudas que han cambiado de manos, centrando su actividad en la recuperación por vía extrajudicial y judicial."
   },
   "iberia-collections": {
-    "metaDescription": "¿Te reclama Iberia Collections? Descubre quiénes son, cómo funcionan sus cobros y las opciones legales para reducir tu deuda o eliminarla con la Ley de Segunda Oportunidad.",
+    "metaDescription": "¿Te reclama Iberia Collections? Descubre quiénes son, cómo funcionan sus cobros y las opciones legales para reducir tu deuda o eliminarla con la Ley de…",
     "origin": "Iberia Collections es una agencia de gestión de cobros y recobro de deudas que opera en el mercado español, especializada en la recuperación de activos para terceros o la gestión de carteras adquiridas. Actúan como el nuevo titular de tu deuda o como gestores de fondos de inversión que compran paquetes de préstamos impagados a la banca tradicional.",
     "detail": "Iberia Collections gestiona carteras de deuda procedentes principalmente de préstamos personales, tarjetas y líneas de crédito que los bancos originales dieron por perdidas. Sus reclamaciones suelen incluir intereses de demora y comisiones por reclamación de posiciones deudoras que pueden ser legalmente cuestionables si se analiza el contrato original.",
     "intro": "Si estás recibiendo llamadas o cartas de Iberia Collections, es probable que hayan comprado una deuda que antes tenías con otra entidad. No te asustes: que tu expediente haya cambiado de manos no significa que hayas perdido tus derechos ni que no tenga solución.",
@@ -509,7 +509,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "origin": "Esta entidad es la división especializada del Grupo Abanca encargada de la gestión de cobros y la recuperación de créditos, tanto propios como de carteras adquiridas. Opera principalmente en territorio español, centralizando la reclamación de impagos de tarjetas y préstamos que originalmente se contrataron con el banco.",
     "detail": "Sus productos estrella suelen ser préstamos personales y tarjetas de crédito Abanca, cuyas condiciones pueden incluir intereses que la jurisprudencia actual permite revisar. Cuando las cuotas se vuelven impagables, la entidad gestiona el recobro de forma intensiva, lo que genera una presión constante a través de llamadas y cartas que agobian al usuario.",
-    "metaDescription": "¿Te reclama dinero Abanca Servicios Financieros? Descubre cómo gestionar tus deudas de forma segura y recuperar tu tranquilidad financiera con el apoyo de Calma."
+    "metaDescription": "¿Te reclama dinero Abanca Servicios Financieros? Descubre cómo gestionar tus deudas de forma segura y recuperar tu tranquilidad financiera con el apoyo de…"
   },
   "dovalue": {
     "faqs": [
@@ -638,7 +638,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "intro": "Si AN Cobros ha empezado a contactarte, es normal que sientas una mezcla de desconcierto y presión constante; pero recuerda que recibir sus cartas no significa que no tengas salida.",
     "detail": "Esta entidad se especializa en la gestión de expedientes fallidos, aplicando métodos de cobro intensivos que incluyen llamadas recurrentes y el envío de comunicaciones formales de impago. Sus reclamaciones suelen derivar de microcréditos o tarjetas revolving con altos intereses, lo que permite en muchos casos impugnar el saldo exigido si este incluye cláusulas abusivas.",
-    "metaDescription": "¿Recibes reclamaciones de AN Cobros? Descubre cómo gestionar tu deuda y recuperar la paz con la Ley de Segunda Oportunidad. Información clara y soluciones reales.",
+    "metaDescription": "¿Recibes reclamaciones de AN Cobros? Descubre cómo gestionar tu deuda y recuperar la paz con la Ley de Segunda Oportunidad.",
     "origin": "AN Cobros es una agencia de gestión de activos y recobro que opera en el mercado español, encargándose de recuperar impagos de terceros, principalmente de entidades financieras y telcos. Su modelo de negocio se basa en adquirir carteras de deuda a bajo coste para luego reclamar el importe total a los consumidores."
   },
   "norfin-holder": {
@@ -652,7 +652,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "reality": "La Ley establece límites de tiempo para estar en ficheros de morosidad y, además, si cancelas la deuda mediante una quita o la Ley de Segunda Oportunidad, tu nombre debe ser borrado definitivamente."
       }
     ],
-    "metaDescription": "¿Te reclama Norfin Holder una deuda? Descubre quiénes son, cómo gestionar sus reclamaciones y cómo cancelar tus deudas legalmente con Calma. Recupera tu tranquilidad.",
+    "metaDescription": "¿Te reclama Norfin Holder una deuda? Descubre quiénes son, cómo gestionar sus reclamaciones y cómo cancelar tus deudas legalmente con Calma.",
     "detail": "Esta entidad se especializa en la adquisición de paquetes de deuda procedentes de préstamos personales, tarjetas y facturas impagadas de otras empresas. El problema suele surgir porque aplican métodos de recobro insistentes y, en ocasiones, la deuda ha generado intereses que pueden ser considerados abusivos o difíciles de verificar tras tantos cambios de dueño.",
     "intro": "Si has recibido una carta o llamada de Norfin Holder reclamándote una deuda antigua, es normal sentir desconcierto, pero no estás ante un callejón sin salida.",
     "origin": "Norfin Holder es una entidad financiera dedicada a la gestión de activos y compra de carteras de deuda en el mercado español. Actúa como un \"fondo de recobro\" que adquiere créditos que los bancos originales ya no quieren gestionar para intentar cobrarlos por su cuenta.",
@@ -767,7 +767,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "origin": "Dineo Crédito es una entidad financiera española especializada en microcréditos rápidos, vinculada estrechamente al grupo Cash Converters. Su modelo de negocio se basa en la concesión de pequeñas cantidades de capital de forma casi instantánea, tanto de manera digital como presencial.",
-    "metaDescription": "¿Agobiado por una deuda con Dineo? Descubre cómo gestionar los intereses abusivos y recuperar tu tranquilidad con soluciones legales a tu medida. El fin del acoso empieza aquí.",
+    "metaDescription": "¿Agobiado por una deuda con Dineo? Descubre cómo gestionar los intereses abusivos y recuperar tu tranquilidad con soluciones legales a tu medida.",
     "detail": "Dineo destaca por ofrecer dinero inmediato a través de su plataforma online o físicamente en las tiendas Cash Converters, utilizando el sistema de minipréstamos de corta duración. El problema surge con sus altos costes por demora y la acumulación de intereses que, en muchos casos, pueden ser considerados abusivos por la justicia española al superar de forma desproporcionada el tipo de interés normal del dinero.",
     "intro": "Si el minipréstamo de Dineo que pediste para un apuro se ha convertido en una bola de nieve imparable, recuerda que no estás solo y que existen herramientas legales para frenarlo."
   },
@@ -975,7 +975,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "q": "¿Puedo incluir el préstamo de Kviku en un proceso de Ley de Segunda Oportunidad?"
       }
     ],
-    "metaDescription": "¿Debes dinero a Kviku? Descubre cómo gestionar tu deuda, evitar intereses abusivos y recuperar la tranquilidad. En Calma te ayudamos a encontrar una solución real.",
+    "metaDescription": "¿Debes dinero a Kviku? Descubre cómo gestionar tu deuda, evitar intereses abusivos y recuperar la tranquilidad.",
     "detail": "Kviku opera principalmente a través de microcréditos rápidos y líneas de crédito virtuales que suelen aplicar intereses abusivos escondidos tras el concepto de 'costes de gestión'. Su sistema de préstamos casi instantáneos facilita un sobreendeudamiento rápido, generando reclamaciones por la falta de transparencia en sus contratos y por la aplicación de comisiones de demora desproporcionadas.",
     "origin": "Kviku es una entidad de tecnología financiera (Fintech) que ofrece soluciones de crédito totalmente digitales, especializada en préstamos de pequeña cuantía y aprobación inmediata. Aunque tiene presencia internacional, en España actúa como un proveedor de microcréditos online para consumidores que necesitan liquidez urgente sin trámites bancarios."
   },
@@ -1003,7 +1003,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "origin": "Zaplo es una entidad financiera que opera de forma 100% online en España, formando parte del grupo internacional 4finance. Se posiciona como una alternativa rápida a la banca tradicional, ofreciendo disponibilidad de dinero inmediata a través de procesos de solicitud simplificados.",
-    "metaDescription": "¿Preocupado por tu deuda con Zaplo? Descubre cómo gestionar los intereses elevados y recuperar tu tranquilidad financiera con el apoyo de Calma. Tu solución empieza aquí."
+    "metaDescription": "¿Preocupado por tu deuda con Zaplo? Descubre cómo gestionar los intereses elevados y recuperar tu tranquilidad financiera con el apoyo de Calma."
   },
   "contante": {
     "origin": "Contante es una marca comercial gestionada por la entidad financiera Creamfinance Spain S.L.U., especializada en la concesión de préstamos de pequeña cuantía y corta duración a través de internet. Se presentan en el mercado español como una solución rápida para imprevistos urgentes mediante procesos 100% digitales.",
@@ -1372,7 +1372,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
   "oney": {
     "intro": "Si sientes que tu deuda con Oney nunca baja a pesar de no dejar de pagar, no es una sensación tuya: es el resultado de un sistema de intereses diseñado para perpetuarse.",
     "detail": "Sus tarjetas y líneas de crédito suelen estar vinculadas a compras en grandes establecimientos como Alcampo, Leroy Merlin o Decathlon, facilitando el fraccionamiento de pagos que a menudo se convierte en un sistema revolving. Este mecanismo puede hacer que los intereses se acumulen rápidamente, provocando que la deuda apenas disminuya a pesar de pagar las cuotas mensuales religiosamente.",
-    "metaDescription": "¿Tienes deudas con Oney que no dejan de crecer? Descubre cómo cancelar intereses abusivos o acogerte a la Ley de Segunda Oportunidad con Calma. Recupera tu tranquilidad.",
+    "metaDescription": "¿Tienes deudas con Oney que no dejan de crecer? Descubre cómo cancelar intereses abusivos o acogerte a la Ley de Segunda Oportunidad con Calma.",
     "faqs": [
       {
         "a": "Sí, es posible negociar una reducción o incluso la cancelación de intereses si se demuestra que el contrato contenía cláusulas abusivas o falta de transparencia.",
@@ -1553,7 +1553,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
   },
   "alcampo-oney": {
     "origin": "Oney Servicios Financieros es la entidad detrás de la tarjeta de fidelidad de Alcampo, nacida originalmente dentro del grupo francés Auchan. Se especializa en soluciones de pago aplazado y créditos al consumo en grandes superficies y establecimientos asociados.",
-    "metaDescription": "¿Debes dinero a la Tarjeta Alcampo (Oney)? Descubre cómo detener los intereses y solucionar tu deuda con calma y asesoramiento legal. Recupera tu tranquilidad hoy.",
+    "metaDescription": "¿Debes dinero a la Tarjeta Alcampo (Oney)? Descubre cómo detener los intereses y solucionar tu deuda con calma y asesoramiento legal.",
     "detail": "La Tarjeta Alcampo opera bajo el modelo Revolving de Oney, donde las cuotas bajas pueden hacer que la mayor parte del pago se destine a intereses y no a reducir el capital. Esto, sumado a seguros de protección de pagos a veces poco claros, puede atrapar al cliente en una deuda que parece no bajar nunca tras sus compras en hipermercados.",
     "intro": "¿Sientes que el ticket de tu tarjeta Alcampo nunca termina de pagarse a pesar de tus esfuerzos mensuales? No es solo una sensación: el sistema de Oney puede convertir una compra cotidiana en una carga financiera de años.",
     "faqs": [
@@ -1887,7 +1887,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "detail": "Sus tarjetas y líneas de crédito flexible permiten aplazar compras de forma automática, pero los intereses acumulados a menudo hacen que la deuda apenas disminuya a pesar de pagar las cuotas mensuales. En muchos casos, estos contratos incluyen cláusulas de intereses que la justicia española ha considerado desproporcionados, permitiendo reclamar la devolución de lo pagado de más.",
     "origin": "EVO Banco nació como una alternativa digital y moderna en el sector bancario español, actualmente integrada dentro del grupo Bankinter. Se especializa en productos de banca diaria y financiación al consumo, destacando por su 'Tarjeta Inteligente' que combina débito y crédito en un solo soporte.",
-    "metaDescription": "¿Atrapado por los intereses de EVO Banco? Descubre cómo reclamar tu tarjeta de pago aplazado y eliminar tus deudas con la Ley de Segunda Oportunidad. Recupera la calma."
+    "metaDescription": "¿Atrapado por los intereses de EVO Banco? Descubre cómo reclamar tu tarjeta de pago aplazado y eliminar tus deudas con la Ley de Segunda Oportunidad."
   },
   "imagin-card": {
     "origin": "imagin, perteneciente al Grupo CaixaBank, nació como la primera plataforma financiera solo para móviles en España, orientada principalmente a un público joven y digital. Ofrece servicios financieros ágiles que permiten gestionar cuentas, tarjetas y opciones de financiación flexible directamente desde su app oficial.",
@@ -2095,7 +2095,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "fear": "Me están llamando a todas horas de empresas de recobro en nombre del banco."
       }
     ],
-    "metaDescription": "¿Tienes deudas con Banco Sabadell? Recupera la paz con nuestra guía sobre cómo gestionar reclamaciones, negociar pagos o acogerte a la Ley de Segunda Oportunidad."
+    "metaDescription": "¿Tienes deudas con Banco Sabadell? Recupera la paz con nuestra guía sobre cómo gestionar reclamaciones, negociar pagos o acogerte a la Ley de Segunda…"
   },
   "abanca": {
     "faqs": [
@@ -2121,7 +2121,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
     "intro": "Si los recibos de Abanca han empezado a acumularse y las llamadas de recobro no te dejan dormir, es el momento de recuperar el control de tu economía.",
     "detail": "Abanca gestiona una amplia gama de productos que van desde préstamos personales y tarjetas de crédito hasta hipotecas variables y fijas. Sus reclamaciones suelen derivar de la aplicación de comisiones de descubierto repetitivas y, en ocasiones, por la falta de transparencia en la comercialización de tarjetas con intereses que rozan la usura.",
-    "metaDescription": "¿Tienes deudas con Abanca? Descubre cómo gestionar tus préstamos o tarjetas y encuentra el camino hacia la tranquilidad financiera con la Ley de Segunda Oportunidad."
+    "metaDescription": "¿Tienes deudas con Abanca? Descubre cómo gestionar tus préstamos o tarjetas y encuentra el camino hacia la tranquilidad financiera con la Ley de Segunda…"
   },
   "openbank": {
     "origin": "Openbank es la filial bancaria 100% digital del Grupo Santander, pionera en España en ofrecer banca telefónica y online desde mediados de los años 90. Aunque funciona de forma independiente, cuenta con el respaldo de uno de los grupos financieros más grandes del mundo.",
@@ -2215,7 +2215,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "detail": "Sus préstamos personales y tarjetas de crédito a menudo aplican comisiones por descubierto o intereses que superan la media del mercado financiero, lo que dificulta que el cliente amortice el capital principal. En muchos casos, las reclamaciones se centran en la falta de transparencia en las condiciones de sus préstamos hipotecarios y la aplicación de cláusulas de gastos que hoy se consideran abusivas en términos legales.",
-    "metaDescription": "¿Te preocupa tu deuda con Kutxabank? Descubre cómo gestionar tus préstamos, reclamar cláusulas abusivas y recuperar tu tranquilidad financiera con el apoyo de Calma.",
+    "metaDescription": "¿Te preocupa tu deuda con Kutxabank? Descubre cómo gestionar tus préstamos, reclamar cláusulas abusivas y recuperar tu tranquilidad financiera con el apoyo…",
     "faqs": [
       {
         "a": "Sí, como entidad bancaria tradicional, Kutxabank suele estar abierta a propuestas de refinanciación si se presentan de forma profesional y viable antes de que la deuda pase a vía judicial.",
@@ -2395,7 +2395,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "fear": "Siento que por ser un banco internacional pueden tomar medidas legales más agresivas contra mi patrimonio."
       }
     ],
-    "metaDescription": "¿Tienes deudas con Banco Pichincha? Descubre cómo gestionar tus pagos, evitar el acoso y acogerte a la Ley de Segunda Oportunidad para empezar de nuevo con Calma.",
+    "metaDescription": "¿Tienes deudas con Banco Pichincha? Descubre cómo gestionar tus pagos, evitar el acoso y acogerte a la Ley de Segunda Oportunidad para empezar de nuevo con…",
     "origin": "Banco Pichincha es la mayor entidad financiera de Ecuador y opera en España como banco comercial bajo la supervisión del Banco de España. En nuestro país, se ha especializado tanto en el servicio a la comunidad latinoamericana como en banca digital a través de su marca Pibank.",
     "faqs": [
       {
@@ -2411,7 +2411,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
   },
   "banca-march": {
     "origin": "Banca March es una entidad financiera española con sede en Palma de Mallorca, fundada en 1926 por Juan March Ordinas. Se distingue por ser uno de los pocos bancos familiares que quedan en España, centrando su modelo de negocio en la gestión de altos patrimonios y el asesoramiento a empresas.",
-    "metaDescription": "¿Tienes deudas con Banca March? Recupera tu tranquilidad: descubre cómo gestionar tus préstamos, evitar embargos y acogerte a la Ley de Segunda Oportunidad con Calma.",
+    "metaDescription": "¿Tienes deudas con Banca March? Recupera tu tranquilidad: descubre cómo gestionar tus préstamos, evitar embargos y acogerte a la Ley de Segunda Oportunidad…",
     "detail": "Ofrece principalmente servicios de banca privada y patrimonial, además de créditos personales e hipotecarios con estructuras de pago que pueden volverse rígidas ante un bache económico. Muchos usuarios reclaman por la falta de flexibilidad en el pago de préstamos y el cobro de comisiones de descubierto cuando los ahorros fallan, lo que acaba generando una espiral de deuda difícil de gestionar.",
     "faqs": [
       {
@@ -2448,7 +2448,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "fear": "Me da vergüenza que llamen a mi sucursal de toda la vida y se enteren mis vecinos."
       }
     ],
-    "metaDescription": "¿Problemas para pagar tus préstamos de Laboral Kutxa? Recupera la tranquilidad. Te explicamos cómo solucionar tus deudas y acogerte a la Ley de Segunda Oportunidad.",
+    "metaDescription": "¿Problemas para pagar tus préstamos de Laboral Kutxa? Recupera la tranquilidad. Te explicamos cómo solucionar tus deudas y acogerte a la Ley de Segunda…",
     "origin": "Laboral Kutxa es una cooperativa de crédito vasca surgida de la fusión entre Caja Laboral e Ipar Kutxa. Con una fuerte presencia en el norte de España, opera como una entidad bancaria tradicional que ofrece desde hipotecas hasta financiación al consumo para particulares y profesionales.",
     "faqs": [
       {
@@ -2484,7 +2484,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "detail": "Con una fuerte presencia en Andalucía y el País Vasco, Cajasur comercializa una amplia gama de productos que incluyen hipotecas con cláusulas complejas e intereses en tarjetas de crédito que pueden volverse insostenibles. Muchos clientes enfrentan reclamaciones por falta de transparencia en sus contratos o por comisiones de descubierto que disparan la deuda original sin previo aviso.",
-    "metaDescription": "¿Agobiado por una deuda con Cajasur? Descubre cómo gestionar tus impagos, evitar el acoso y acogerte a soluciones legales para recuperar tu tranquilidad económica.",
+    "metaDescription": "¿Agobiado por una deuda con Cajasur? Descubre cómo gestionar tus impagos, evitar el acoso y acogerte a soluciones legales para recuperar tu tranquilidad…",
     "origin": "Cajasur Banco es una entidad financiera española con sede en Córdoba, que forma parte del Grupo Kutxabank tras su integración en 2011. Históricamente vinculada a las cajas de ahorros andaluzas, hoy opera como un banco comercial convencional que ofrece servicios de financiación a particulares y empresas."
   },
   "bankoa-abanca": {
@@ -2644,7 +2644,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "detail": "Esta entidad se ha especializado en tarjetas de crédito revolving con intereses muy por encima de la media del mercado, lo que genera una deuda que apenas disminuye a pesar de pagar las cuotas mensuales. Muchas de sus reclamaciones se centran en la falta de transparencia en la contratación y en la aplicación de intereses que el Tribunal Supremo ha llegado a considerar usurarios en diversos casos."
   },
   "cooperativo-caja-rural": {
-    "metaDescription": "¿Agobiado por deudas con Caja Rural? Descubre cómo solucionar tus impagos y recuperar tu estabilidad financiera con la Ley de Segunda Oportunidad. Recupera tu calma.",
+    "metaDescription": "¿Agobiado por deudas con Caja Rural? Descubre cómo solucionar tus impagos y recuperar tu estabilidad financiera con la Ley de Segunda Oportunidad.",
     "detail": "Sus créditos personales, hipotecas y tarjetas de crédito suelen basarse en la cercanía, lo que hace que el impago genere una presión emocional mayor al ser la oficina de confianza. Sin embargo, muchas de estas operaciones incluyen comisiones por descubierto o intereses que en ocasiones han sido señalados judicialmente por su falta de transparencia.",
     "origin": "Caja Rural no es un único banco, sino un grupo de cooperativas de crédito españolas con un fuerte arraigo local y agrícola. Operan bajo una estructura de banca de proximidad, ofreciendo servicios financieros tradicionales a particulares y empresas en el ámbito rural y urbano.",
     "intro": "Si te sientes atrapado por los préstamos o tarjetas de Caja Rural, ese banco de \"toda la vida\", debes saber que recuperar tu tranquilidad financiera es un derecho legal.",

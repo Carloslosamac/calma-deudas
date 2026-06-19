@@ -35,6 +35,20 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Organization JSON-LD (fallback para crawlers sin JS; Helmet añade el resto por ruta) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Calma",
+        "legalName": "Calma Legal",
+        "url": "https://mi-calma.es",
+        "logo": "https://mi-calma.es/favicon-192.png",
+        "email": "hola@mi-calma.es",
+        "areaServed": "ES"
+      }
+    </script>
 </head>
 
   <body>

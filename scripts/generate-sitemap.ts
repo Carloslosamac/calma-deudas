@@ -27,6 +27,12 @@ const staticEntries: Entry[] = [
   { loc: "/blog", changefreq: "weekly", priority: "0.9", lastmod: today },
   { loc: "/servicios", changefreq: "weekly", priority: "0.8", lastmod: today },
   {
+    loc: "/ley-segunda-oportunidad/casos",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: today,
+  },
+  {
     loc: "/politica-de-privacidad",
     changefreq: "yearly",
     priority: "0.3",
@@ -49,7 +55,7 @@ const postEntries: Entry[] = blogPosts.map((p) => ({
 
 // Money pages (carpeta-cluster, prioridad SEO alta).
 const moneyEntries: Entry[] = moneyPages.map((p) => ({
-  loc: `${p.path}/`,
+  loc: `${p.path}`,
   lastmod: today,
   changefreq: "weekly",
   priority: p.priority === "critica" ? "0.9" : "0.8",
@@ -57,7 +63,7 @@ const moneyEntries: Entry[] = moneyPages.map((p) => ({
 
 // Índices de cluster satélite.
 const clusterEntries: Entry[] = satelliteClusters.map((c) => ({
-  loc: `/${c.slug}/`,
+  loc: `/${c.slug}`,
   lastmod: today,
   changefreq: "weekly",
   priority: "0.6",
@@ -65,7 +71,7 @@ const clusterEntries: Entry[] = satelliteClusters.map((c) => ({
 
 // Fichas de entidad.
 const entityEntries: Entry[] = entities.map((e) => ({
-  loc: `/${e.cluster}/${e.slug}/`,
+  loc: `/${e.cluster}/${e.slug}`,
   lastmod: today,
   changefreq: "monthly",
   priority: "0.5",
@@ -73,7 +79,7 @@ const entityEntries: Entry[] = entities.map((e) => ({
 
 // Comparativas.
 const comparativaEntries: Entry[] = comparativas.map((c) => ({
-  loc: `${c.path}/`,
+  loc: `${c.path}`,
   lastmod: today,
   changefreq: "monthly",
   priority: "0.6",
@@ -81,7 +87,7 @@ const comparativaEntries: Entry[] = comparativas.map((c) => ({
 
 // Guías de educación financiera.
 const guiaEntries: Entry[] = guias.map((g) => ({
-  loc: `${g.path}/`,
+  loc: `${g.path}`,
   lastmod: today,
   changefreq: "monthly",
   priority: "0.6",
@@ -89,7 +95,7 @@ const guiaEntries: Entry[] = guias.map((g) => ({
 
 // Cluster local: abogados LSO por ciudad.
 const localizacionEntries: Entry[] = localizaciones.map((l) => ({
-  loc: `${l.path}/`,
+  loc: `${l.path}`,
   lastmod: today,
   changefreq: "monthly",
   priority: "0.7",

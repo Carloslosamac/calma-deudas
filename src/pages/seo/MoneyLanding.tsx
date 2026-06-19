@@ -17,7 +17,7 @@ const MoneyLanding = () => {
   if (!page) return <NotFound />;
 
   const cluster = getCluster(page.cluster);
-  const canonical = `${page.path}/`;
+  const canonical = `${page.path}`;
   const content = getMoneyContent(page.path);
 
   const breadcrumbs = [

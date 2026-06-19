@@ -27,14 +27,14 @@ const casos: MoneyTestimonial[] = [
 ];
 
 const CasosLSO = () => {
-  const canonical = "/ley-segunda-oportunidad/casos/";
+  const canonical = "/ley-segunda-oportunidad/casos";
   const structuredData = [
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Inicio", item: absoluteUrl("/") },
-        { "@type": "ListItem", position: 2, name: "Ley de Segunda Oportunidad", item: absoluteUrl("/ley-segunda-oportunidad/") },
+        { "@type": "ListItem", position: 2, name: "Ley de Segunda Oportunidad", item: absoluteUrl("/ley-segunda-oportunidad") },
         { "@type": "ListItem", position: 3, name: "Casos reales", item: absoluteUrl(canonical) },
       ],
     },

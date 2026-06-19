@@ -1736,7 +1736,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                   },
                   {
                         "kind": "paragraph",
-                        "text": "Entidades como Cofidis, Creditea o Bondora han comercializado productos con TAEs que oscilan entre el 24% y más del 100%, siendo susceptibles de una [reclamación judicial por deuda](/juicio-monitorio-deuda)."
+                        "text": "Entidades como Cofidis, Creditea o Bondora han comercializado productos con TAEs que oscilan entre el 24% y más del 100%, siendo susceptibles de una [reclamación judicial por deuda](/juicio-monitorio-recobro/juicio-monitorio-deuda)."
                   }
             ]
       },

@@ -12,10 +12,17 @@ const LocalizacionPage = () => {
 
   if (!city) return <NotFound />;
 
-  const canonical = `${city.path}/`;
+  const canonical = `${city.path}`;
   const content = getLocalizacionContent(city);
 
-  const seoTitle = `Abogados Ley Segunda Oportunidad en ${city.name} | Calma`;
+  // Length-aware para no truncar en SERP con nombres de ciudad largos.
+  const titleCandidates = [
+    `Abogados Ley Segunda Oportunidad en ${city.name} | Calma`,
+    `Abogados Segunda Oportunidad en ${city.name} | Calma`,
+    `Abogados Segunda Oportunidad en ${city.name}`,
+  ];
+  const seoTitle =
+    titleCandidates.find((t) => t.length <= 60) ?? titleCandidates[2];
   const metaVariants = [
     `Abogados especialistas en la Ley de Segunda Oportunidad en ${city.name} (${city.provincia}). Cancela tus deudas legalmente. Diagnóstico gratis y sin compromiso.`,
     `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente en toda la provincia de ${city.provincia}. Primer diagnóstico gratuito.`,
@@ -23,7 +30,11 @@ const LocalizacionPage = () => {
   ];
   let h = 0;
   for (let i = 0; i < city.slug.length; i++) h = (h * 31 + city.slug.charCodeAt(i)) >>> 0;
-  const metaDescription = metaVariants[h % metaVariants.length];
+  const chosen = metaVariants[h % metaVariants.length];
+  const metaDescription =
+    chosen.length <= 160
+      ? chosen
+      : `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente. Diagnóstico gratuito y sin compromiso.`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
