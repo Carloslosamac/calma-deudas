@@ -136,16 +136,12 @@ const FormSection = () => {
         vehicle_paid: data.vehicle === "financiado" ? data.vehiclePaid : null,
       };
       const { error } = await supabase.functions.invoke("pipedrive-lead", { body: payload });
-      if (error) throw error;
-      setShowResult(true);
+      if (error) console.error("pipedrive-lead error:", error);
     } catch (e) {
+      // No bloqueamos al usuario: mostramos el diagnóstico igualmente.
       console.error(e);
-      toast({
-        title: "Error",
-        description: "Inténtalo de nuevo en unos minutos.",
-        variant: "destructive",
-      });
     } finally {
+      setShowResult(true);
       setSubmitting(false);
     }
   };
@@ -230,7 +226,7 @@ const FormSection = () => {
     switch (currentKey) {
       case "debt":
         return (
-          <SliderStep title="¿Cuánto debes en total?" valueKey="debtAmount" min={3000} max={80000} stepSize={500} />
+          <SliderStep title="¿Cuánto debes en total?" valueKey="debtAmount" min={3000} max={80000} stepSize={100} />
         );
       case "default":
         return (
@@ -314,7 +310,7 @@ const FormSection = () => {
         );
       case "mortgagePaid":
         return (
-          <SliderStep title="¿Cuánto llevas pagado de la hipoteca?" valueKey="mortgagePaid" min={0} max={300000} stepSize={5000} />
+          <SliderStep title="¿Cuánto llevas pagado de la hipoteca?" valueKey="mortgagePaid" min={0} max={300000} stepSize={1000} />
         );
       case "vehicle":
         return (
@@ -340,11 +336,11 @@ const FormSection = () => {
         );
       case "vehicleValue":
         return (
-          <SliderStep title="¿Valor estimado de tu vehículo?" valueKey="vehicleValue" min={0} max={60000} stepSize={1000} />
+          <SliderStep title="¿Valor estimado de tu vehículo?" valueKey="vehicleValue" min={0} max={60000} stepSize={500} />
         );
       case "vehiclePaid":
         return (
-          <SliderStep title="¿Cuánto llevas pagado del vehículo?" valueKey="vehiclePaid" min={0} max={60000} stepSize={1000} />
+          <SliderStep title="¿Cuánto llevas pagado del vehículo?" valueKey="vehiclePaid" min={0} max={60000} stepSize={500} />
         );
       case "contact":
         return (
