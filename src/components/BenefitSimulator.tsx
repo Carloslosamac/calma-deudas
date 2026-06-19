@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { TrendingDown, PiggyBank, CheckCircle2 } from "lucide-react";
+import { TrendingDown, PiggyBank } from "lucide-react";
 import type { TriageResult } from "@/lib/seo/triage";
 
 const eur = (n: number) =>
