@@ -109,7 +109,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "faqs": [
       {
         "a": "Como nuevos dueños de la deuda, legalmente pueden hacerlo incluso si no existe una sentencia judicial previa, aunque existen límites legales y procedimientos para salir de estos ficheros una vez resuelta la situación.",
-        "q": "¿Puede Axactor incluirme en ASNEF si acaban de comprar mi deuda? Ashner?"
+        "q": "¿Puede Axactor incluirme en ASNEF si acaban de comprar mi deuda?"
       },
       {
         "a": "No estás obligado a aceptar su primera oferta; de hecho, estas empresas suelen estar abiertas a negociaciones o quitas importantes si se demuestra incapacidad de pago o si existen cláusulas abusivas en el contrato original.",
