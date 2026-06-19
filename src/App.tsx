@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import Blog from "./pages/Blog";
@@ -21,7 +21,6 @@ import ClusterHub from "./pages/seo/ClusterHub";
 import EntityPage from "./pages/seo/EntityPage";
 import ComparativaPage from "./pages/seo/ComparativaPage";
 import GuiaPage from "./pages/seo/GuiaPage";
-import CasosLSO from "./pages/seo/CasosLSO";
 import CasosExito from "./pages/CasosExito";
 import CasoExitoPost from "./pages/CasoExitoPost";
 import Servicios from "./pages/seo/Servicios";
@@ -69,8 +68,8 @@ const App = () => (
           {moneyPages.map((p) => (
             <Route key={p.path} path={p.path} element={<MoneyLanding />} />
           ))}
-          {/* Casos reales de la Ley de Segunda Oportunidad */}
-          <Route path="/ley-segunda-oportunidad/casos" element={<CasosLSO />} />
+          {/* Página antigua de casos: redirige a la única página de casos */}
+          <Route path="/ley-segunda-oportunidad/casos" element={<Navigate to="/casos-de-exito" replace />} />
           {/* Cluster local: abogados LSO por ciudad (antes del catch-all de entidad) */}
           <Route
             path="/abogados-ley-segunda-oportunidad/:ciudad"
