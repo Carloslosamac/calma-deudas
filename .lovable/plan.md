@@ -1,50 +1,60 @@
-# Más herramientas (fase 2)
+# Formulario de diagnóstico v2
 
-Añadir dos herramientas nuevas a la sección `/herramientas`, siguiendo exactamente el mismo patrón ya en producción (datos en `tools.ts` → `ToolWidget` en `ToolPage.tsx` → componente interactivo). Cada una con resultado en pantalla, CTA al formulario, contenido SEO/GEO, FAQ, disclaimer YMYL y enlazado interno.
+Rehacer el wizard de `src/components/FormSection.tsx` con los nuevos campos, en un flujo fluido y atractivo, manteniendo el estilo actual (tarjeta clara, acento verde, animaciones Framer Motion) y la regla de marca (`#hero-form`). El envío al CRM se queda con los campos básicos actuales; los nuevos datos viajan también en el `body` pero la conexión completa de campos se deja para más adelante.
 
-## Herramienta 5 — Simulador de plan de pagos
+## Orden del flujo (optimizado para enganche → conversión)
 
-Ruta: `/herramientas/simulador-plan-pagos`
+```text
+1. Importe de deuda        → slider (arranque visual, bajo esfuerzo)
+2. Impago                  → Sí / No
+3. Entidades              → multiselección (chips): préstamos · tarjetas ·
+                             microcréditos · Hacienda · Seg. Social
+4. Vivienda               → en propiedad · hipoteca · alquiler
+   4b. Importe pagado hipoteca   → slider  (solo si "hipoteca")
+5. Vehículo               → en propiedad · financiado
+   5b. Valor estimado vehículo   → slider  (solo si "en propiedad")
+   5c. Importe pagado vehículo   → slider  (solo si "financiado")
+6. Contacto               → nombre · email · teléfono
+7. Diagnóstico            → vía recomendada (LSO / reunificar / reclamación)
+```
 
-Muestra lo lento (y caro) que es pagar deuda a base de cuotas, para empujar hacia una solución real.
+Los pasos condicionales (4b, 5b, 5c) se insertan dinámicamente en la secuencia según la respuesta previa, así la barra de progreso refleja el número real de pasos de cada usuario.
 
-- **Entradas**: deuda total (€), cuota mensual que puede pagar (€), TAE media aproximada (slider, por defecto ~22%).
-- **Salidas**: meses/años hasta liquidar, intereses totales pagados, y comparación visual "pagando cuotas" vs "con una solución de Calma" (cancelar/reunificar reduce plazo y total).
-- **Avisos**: estimación orientativa; si la cuota no cubre los intereses, mensaje claro de "deuda que nunca baja" → vía LSO/reunificación.
-- **CTA**: `CtaButton` + `scrollToForm`.
+## Comportamiento (según memoria del wizard)
 
-## Herramienta 6 — Comparador de soluciones de deuda
+- Selección de opción única: al elegir, avanza solo tras ~250ms; el botón seleccionado queda marcado pero re-clicable para avanzar.
+- Multiselección de entidades: chips toggle (se pueden marcar varias); avanza con un botón "Continuar" porque no hay autoavance.
+- Sliders: mismo patrón visual que `UsuryCalculator`/`DebtSimulator` (valor grande en acento, formato `14.000 €`), con botón "Continuar".
+- Sin navegación hacia atrás (regla actual). Barra de progreso "Paso X de N" recalculada con los pasos condicionales.
+- Transiciones suaves entre pasos (slide/fade con `AnimatePresence`, igual que ahora).
 
-Ruta: `/herramientas/comparador-soluciones-deuda`
+## Paso de diagnóstico (paso 7, tras contacto)
 
-Tabla interactiva que compara las 3 vías según la regla de triaje del proyecto, resaltando la recomendada según 2-3 toggles del usuario.
+Tras enviar el contacto, se muestra una pantalla de resultado con la vía probable, aplicando el triaje del proyecto:
 
-- **Toggles**: ¿puedes pagar tus deudas? (solvencia), ¿tienes vivienda/terreno pagado?, ¿hay tarjetas revolving / usura?
-- **Salida**: tabla comparando **Ley de Segunda Oportunidad**, **Reunificación** (negociación extrajudicial que baja cuota y total, sin préstamo nuevo) y **Reclamación judicial** por filas (qué hace, a quién conviene, qué pasa con los bienes, resultado, plazo orientativo), con la columna recomendada destacada.
-- Coherente con memoria: reunificar ≠ refinanciar; casa/terreno pagado bloquea LSO en la práctica → reunificar.
-- **CTA**: `CtaButton` + `scrollToForm`.
+- **LSO (Ley de Segunda Oportunidad)**: insolvente (impago / deuda alta respecto a capacidad) y SIN bienes pagados de valor (vivienda en propiedad pagada o vehículo en propiedad de valor → bloquean LSO en la práctica).
+- **Reunificar** (negociación extrajudicial que baja cuota y total, sin préstamo nuevo): insolvente PERO con bienes pagados de valor que conviene proteger.
+- **Reclamación judicial**: cuando hay tarjetas/microcréditos (usura) y deuda baja, al corriente.
+
+Es una orientación (con disclaimer YMYL) + `CtaButton` que sigue llevando a hablar con el equipo. Copys coherentes con memoria (reunificar ≠ refinanciar).
+
+## Envío al CRM (sin tocar campos nuevos del CRM)
+
+- Se mantiene `supabase.functions.invoke("pipedrive-lead", ...)` con los campos que el edge function ya entiende: `debt_amount`, `default`, `fullName`, `email`, `phone`, y `loan_number` derivado del nº de entidades seleccionadas.
+- Los datos nuevos (entidades, vivienda, vehículo, importes) se añaden al `body` y se reflejan en la **nota** del lead más adelante; en esta fase no se crean campos personalizados nuevos en el CRM (decisión del usuario: "solo cambio el formulario").
+- Validación con zod (todos los campos), igual de estricta que ahora.
 
 ## Cambios por archivo
 
-- `src/data/seo/tools.ts`
-  - Ampliar `ToolKind` con `"paymentPlan"` y `"comparator"`.
-  - Añadir 2 objetos `Tool` (slug, path, navLabel, cardTitle, cardDescription, eyebrow, h1, seoTitle <60, metaDescription <160, intro, sections, faq, related, disclaimer).
-  - Añadir las nuevas `ToolKind` a `CLUSTER_TOOL_KINDS` donde aporten (p. ej. `paymentPlan` en cancelar/reunificar; `comparator` en LSO/cancelar/reunificar).
-  - Centralizar constantes nuevas (TAE media de referencia para el plan de pagos) con fuente citada; sin inventar cifras de marca.
-- `src/components/seo/interactive/PaymentPlanSimulator.tsx` (nuevo) — cálculo de amortización con interés mensual; maneja el caso "cuota < intereses".
-- `src/components/seo/interactive/SolutionComparator.tsx` (nuevo) — toggles + tabla con columna recomendada destacada (reutiliza patrón visual de `ComparisonTable`).
-- `src/pages/seo/ToolPage.tsx` — añadir los dos `case` nuevos al `switch` de `ToolWidget`.
-- `src/pages/seo/HerramientasHub.tsx` — añadir iconos para `paymentPlan` y `comparator` en el mapa `ICONS` (las tarjetas se generan solas desde `tools`).
-- `public/sitemap.xml` y `public/llms.txt` — añadir las 2 URLs nuevas.
-
-## SEO por página
-
-- Title <60 y meta description <160, únicos, optimizados para CTR (estudiar top 10 y batirlo), sin "| Calma", con hook diferenciador.
-- JSON-LD: `WebPage` + `BreadcrumbList` + `WebApplication` + `FAQPage` (ya lo aplica `ToolPage` automáticamente).
-- H1 único y HTML semántico (heredado del scaffold de `ToolPage`).
+- `src/components/FormSection.tsx` — reescritura del wizard: nuevo `stepConfig` con tipos de paso (`single`, `multi`, `slider`, `contact`, `result`), lógica de pasos condicionales, estado de selección múltiple, sliders, y pantalla de diagnóstico. Reutiliza `Slider`, `Button`, `Form`, `Input` ya existentes.
+- (Opción) Extraer la lógica de triaje a un pequeño helper `src/lib/seo/triage.ts` reutilizable y testeable, alineado con la memoria de triaje.
 
 ## Fuera de alcance
 
-- Guardado de resultados o envío por email.
-- Tests automatizados de los cálculos.
-- Más herramientas adicionales más allá de estas dos.
+- Crear campos personalizados en el CRM y mapear cada dato (fase posterior).
+- Cambios en el edge function `pipedrive-lead`.
+- Persistir o reenviar el diagnóstico por email.
+
+## Verificación
+
+- Build + recorrer el formulario en preview (mobile 390px y desktop) comprobando: sliders, multiselección, ramas condicionales (hipoteca / vehículo propiedad vs financiado), envío y pantalla de diagnóstico.
