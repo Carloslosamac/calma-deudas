@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import {
   ArrowRight,
+  ArrowLeft,
   Lock,
   Check,
   Banknote,
@@ -99,6 +100,7 @@ const FormSection = () => {
   const currentKey = steps[Math.min(step, totalSteps - 1)];
 
   const goNext = () => setStep((s) => Math.min(s + 1, totalSteps - 1));
+  const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
   const selectAndAdvance = <K extends keyof Diagnosis>(key: K, value: Diagnosis[K]) => {
     setData((d) => ({ ...d, [key]: value }));
