@@ -61,7 +61,7 @@ const EntityPage = () => {
       h1={`Deudas con ${entity.name}: respira, tiene solución`}
       eyebrow={cluster?.label}
       intro={intro}
-      seoTitle={`Deudas con ${entity.name}: derechos, miedos y soluciones | Calma`}
+      seoTitle={seoTitle}
       metaDescription={
         profile?.metaDescription ??
         `¿Deuda o reclamación de ${entity.name}? Resolvemos tus miedos reales (embargo, ASNEF, llamadas) y te explicamos con calma cómo cancelarla. Análisis gratis.`
