@@ -100,6 +100,7 @@ const DEFAULT_ORDER: MoneyModuleKey[] = [
   "testimonials",
   "sections",
   "exonerationLimits",
+  "trustStats",
   "eligibility",
   "faq",
   "beforeAfter",
