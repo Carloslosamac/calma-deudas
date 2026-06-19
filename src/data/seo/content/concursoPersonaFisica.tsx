@@ -72,8 +72,8 @@ export const concursoPersonaFisica: MoneyContent = {
   testimonials: [
     { name: "Víctor R.", amount: "112.000 €", location: "Madrid", text: "Como autónomo lo perdí todo. El concurso me dio una salida ordenada.", photo: p1 },
     { name: "Sonia P.", amount: "47.300 €", location: "Valencia", text: "Pude reorganizar mis deudas con un plan que sí podía pagar.", photo: p2 },
-    { name: "Gonzalo L.", amount: "88.600 €", location: "Sevilla", text: "Frenaron los embargos y al final exoneraron lo pendiente.", photo: p3 },
-    { name: "Marina C.", amount: "61.400 €", location: "Bilbao", text: "Un solo procedimiento para todos mis acreedores. Un alivio.", photo: p4 },
+    { name: "Gonzalo L.", amount: "88.600 €", location: "Sevilla", text: "Frenaron los embargos y al final exoneraron lo pendiente.", photo: p4 },
+    { name: "Marina C.", amount: "61.400 €", location: "Bilbao", text: "Un solo procedimiento para todos mis acreedores. Un alivio.", photo: p3 },
   ],
   stepsTitle: "Cómo se tramita el concurso",
   stepsSubtitle: "Las etapas del procedimiento",
