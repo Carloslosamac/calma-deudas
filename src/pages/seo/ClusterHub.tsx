@@ -8,7 +8,13 @@ import { entitiesByCluster } from "@/data/seo/entities";
 import { comparativasByCluster } from "@/data/seo/comparativas";
 import { guiasByCluster } from "@/data/seo/guias";
 import { getHubContent } from "@/data/seo/content/hubContent";
-import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
+import {
+  buildBreadcrumb,
+  buildLegalService,
+  buildFaq,
+  buildOrganization,
+  buildWebPage,
+} from "@/lib/seo/structuredData";
 
 /** Índice de un cluster satélite (hub de sección). */
 const ClusterHub = () => {
@@ -20,6 +26,8 @@ const ClusterHub = () => {
   const canonical = `/${cluster.slug}`;
   const breadcrumbs = [{ name: "Inicio", to: "/" }, { name: cluster.label }];
   const content = getHubContent(cluster.slug);
+  const metaDescription = content?.metaDescription ?? cluster.description;
+  const seoTitle = content?.seoTitle ?? `${cluster.title} | Calma`;
 
   const related: RelatedLink[] = [
     ...moneyPagesByCluster(cluster.slug).map((p) => ({ label: p.h1, to: p.path })),
@@ -36,10 +44,20 @@ const ClusterHub = () => {
   ];
 
   const structuredData = [
-    buildBreadcrumb([
-      { name: "Inicio", url: "/" },
-      { name: cluster.label, url: canonical },
-    ]),
+    buildWebPage({
+      url: canonical,
+      name: seoTitle,
+      description: metaDescription,
+      hasBreadcrumb: true,
+    }),
+    buildOrganization(),
+    buildBreadcrumb(
+      [
+        { name: "Inicio", url: "/" },
+        { name: cluster.label, url: canonical },
+      ],
+      canonical,
+    ),
     buildLegalService(),
     ...(content?.faq?.length
       ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
@@ -47,8 +65,6 @@ const ClusterHub = () => {
   ];
 
   const intro = content?.intro ?? cluster.description;
-  const metaDescription = content?.metaDescription ?? cluster.description;
-  const seoTitle = content?.seoTitle ?? `${cluster.title} | Calma`;
   const hubEntityClusters = new Set([
     "empresas-de-recobro",
     "microcreditos-prestamos",
