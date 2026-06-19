@@ -101,9 +101,9 @@ type StepKey =
   | "contact";
 
 const FormSection = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  const [showResult, setShowResult] = useState(false);
   const [data, setData] = useState<Diagnosis>(initialDiagnosis);
 
   const form = useForm<ContactValues>({
