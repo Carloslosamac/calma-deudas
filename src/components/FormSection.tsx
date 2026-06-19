@@ -303,7 +303,7 @@ const FormSection = () => {
           <div>
             <QuestionTitle>¿Qué tipo de deudas tienes?</QuestionTitle>
             <p className="-mt-4 mb-6 text-sm text-muted-foreground">Puedes elegir varias.</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-3">
               {ENTITY_OPTIONS.map((opt) => {
                 const Icon = opt.icon;
                 const active = data.entities.includes(opt.value);
