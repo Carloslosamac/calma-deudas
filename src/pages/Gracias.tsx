@@ -6,16 +6,18 @@ import Footer from "@/components/Footer";
 import Seo from "@/components/seo/Seo";
 import { Button } from "@/components/ui/button";
 import type { TriageResult } from "@/lib/seo/triage";
+import BenefitSimulator from "@/components/BenefitSimulator";
 
 type GraciasState = {
   result?: TriageResult;
   name?: string;
+  debtAmount?: number;
 };
 
 const Gracias = () => {
   const location = useLocation();
   const state = (location.state ?? {}) as GraciasState;
-  const { result, name } = state;
+  const { result, name, debtAmount } = state;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -67,6 +69,10 @@ const Gracias = () => {
                   ))}
                 </ul>
               </div>
+            )}
+
+            {result && typeof debtAmount === "number" && (
+              <BenefitSimulator solution={result.solution} debtAmount={debtAmount} />
             )}
 
             <p className="text-xs text-muted-foreground mb-8">
