@@ -15,6 +15,11 @@ import lso6 from "@/assets/casos/lso-6.jpg";
  */
 export const leySegundaOportunidad: MoneyContent = {
   path: "/ley-segunda-oportunidad",
+  directAnswer: {
+    question: "¿Qué es la Ley de Segunda Oportunidad y a quién le sirve?",
+    answer: "La Ley de Segunda Oportunidad es un mecanismo legal en España que permite a particulares y autónomos de buena fe cancelar las deudas que no pueden pagar cuando son insolventes y no tienen bienes con los que afrontarlas. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
+    plain: "La Ley de Segunda Oportunidad es un mecanismo legal en España que permite a particulares y autónomos de buena fe cancelar las deudas que no pueden pagar cuando son insolventes y no tienen bienes con los que afrontarlas. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

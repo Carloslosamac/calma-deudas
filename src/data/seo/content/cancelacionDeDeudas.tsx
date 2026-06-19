@@ -14,6 +14,11 @@ import p6 from "@/assets/casos/cancelacion-6.jpg";
  */
 export const cancelacionDeDeudas: MoneyContent = {
   path: "/cancelacion-de-deudas",
+  directAnswer: {
+    question: "¿Cuándo se pueden cancelar las deudas en España?",
+    answer: "En España puedes cancelar tus deudas cuando eres insolvente, es decir, no puedes hacer frente a lo que debes, y actúas de buena fe, a través de la Ley de Segunda Oportunidad. También puedes anular deudas concretas si proceden de intereses usurarios. No todas las situaciones encajan igual; lo confirmamos con un análisis gratuito de tu caso.",
+    plain: "En España puedes cancelar tus deudas cuando eres insolvente, es decir, no puedes hacer frente a lo que debes, y actúas de buena fe, a través de la Ley de Segunda Oportunidad. También puedes anular deudas concretas si proceden de intereses usurarios. No todas las situaciones encajan igual; lo confirmamos con un análisis gratuito de tu caso.",
+  },
   reviewed: true,
   tone: "calm",
   layout: [

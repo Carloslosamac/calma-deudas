@@ -13,6 +13,11 @@ import p6 from "@/assets/casos/hacienda-6.jpg";
  */
 export const deudasHacienda: MoneyContent = {
   path: "/deudas-hacienda-seguridad-social/deudas-hacienda",
+  directAnswer: {
+    question: "¿Qué opciones tengo si tengo deudas con Hacienda?",
+    answer: "Si tienes deudas con Hacienda puedes solicitar un aplazamiento o fraccionamiento del pago, y en situaciones de insolvencia parte de la deuda pública puede incluirse, con límites, en la Ley de Segunda Oportunidad. La vía adecuada depende del importe y de tu situación; en Calma la analizamos gratis.",
+    plain: "Si tienes deudas con Hacienda puedes solicitar un aplazamiento o fraccionamiento del pago, y en situaciones de insolvencia parte de la deuda pública puede incluirse, con límites, en la Ley de Segunda Oportunidad. La vía adecuada depende del importe y de tu situación; en Calma la analizamos gratis.",
+  },
   reviewed: false,
   tone: "legal",
   layout: [

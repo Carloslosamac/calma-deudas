@@ -13,6 +13,11 @@ import p6 from "@/assets/casos/embargo-6.jpg";
  */
 export const pararEmbargo: MoneyContent = {
   path: "/embargos/parar-embargo",
+  directAnswer: {
+    question: "¿Qué puedo hacer hoy para parar un embargo?",
+    answer: "Para parar un embargo de nómina, cuenta o vivienda hay que actuar sobre la deuda que lo origina: revisar si el procedimiento es correcto, negociar con el acreedor o iniciar la vía legal que suspenda el embargo, como la Ley de Segunda Oportunidad. Cuanto antes actúes, más opciones tienes. En Calma estudiamos tu caso hoy y gratis.",
+    plain: "Para parar un embargo de nómina, cuenta o vivienda hay que actuar sobre la deuda que lo origina: revisar si el procedimiento es correcto, negociar con el acreedor o iniciar la vía legal que suspenda el embargo, como la Ley de Segunda Oportunidad. Cuanto antes actúes, más opciones tienes. En Calma estudiamos tu caso hoy y gratis.",
+  },
   reviewed: true,
   tone: "urgent",
   layout: [

@@ -15,6 +15,11 @@ import p6 from "@/assets/casos/reunificacion-5.jpg";
  */
 export const reunificacionDeudas: MoneyContent = {
   path: "/reunificacion-deudas",
+  directAnswer: {
+    question: "¿Qué es reunificar deudas y cuándo conviene?",
+    answer: "Reunificar deudas con Calma es negociar de forma extrajudicial con tus acreedores para reducir tanto tu cuota mensual como el total que debes, sin pedir un préstamo nuevo ni hipotecar tu casa. Conviene cuando tienes ingresos o bienes que quieres conservar pero las cuotas te ahogan. Estudiamos tu caso gratis para ver si es tu mejor opción.",
+    plain: "Reunificar deudas con Calma es negociar de forma extrajudicial con tus acreedores para reducir tanto tu cuota mensual como el total que debes, sin pedir un préstamo nuevo ni hipotecar tu casa. Conviene cuando tienes ingresos o bienes que quieres conservar pero las cuotas te ahogan. Estudiamos tu caso gratis para ver si es tu mejor opción.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

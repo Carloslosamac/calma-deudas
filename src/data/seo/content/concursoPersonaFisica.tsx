@@ -11,6 +11,11 @@ import p4 from "@/assets/avatar-2.jpg";
  */
 export const concursoPersonaFisica: MoneyContent = {
   path: "/autonomos-concurso-acreedores/concurso-persona-fisica",
+  directAnswer: {
+    question: "¿Cuándo y cómo se solicita el concurso de persona física?",
+    answer: "El concurso de acreedores de persona física se solicita cuando un particular o autónomo es insolvente y no puede pagar sus deudas. Tras la reforma concursal se tramita ante el juzgado y puede terminar con la exoneración de las deudas pendientes. Requiere abogado y reunir documentación; en Calma estudiamos tu caso gratis antes de iniciarlo.",
+    plain: "El concurso de acreedores de persona física se solicita cuando un particular o autónomo es insolvente y no puede pagar sus deudas. Tras la reforma concursal se tramita ante el juzgado y puede terminar con la exoneración de las deudas pendientes. Requiere abogado y reunir documentación; en Calma estudiamos tu caso gratis antes de iniciarlo.",
+  },
   reviewed: false,
   tone: "legal",
   layout: [

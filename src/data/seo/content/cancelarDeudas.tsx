@@ -20,6 +20,11 @@ import team6 from "@/assets/team-lawyer-6.jpg";
  */
 export const cancelarDeudas: MoneyContent = {
   path: "/cancelar-deudas",
+  directAnswer: {
+    question: "¿Cómo puedo cancelar mis deudas legalmente?",
+    answer: "Puedes cancelar tus deudas por varias vías legales según tu situación: la Ley de Segunda Oportunidad si eres insolvente y no tienes bienes, la reunificación si tienes ingresos o bienes que conservar pero la cuota te ahoga, o la reclamación por usura si tus intereses son abusivos. La vía adecuada depende de tu caso; en Calma te lo decimos gratis tras un diagnóstico.",
+    plain: "Puedes cancelar tus deudas por varias vías legales según tu situación: la Ley de Segunda Oportunidad si eres insolvente y no tienes bienes, la reunificación si tienes ingresos o bienes que conservar pero la cuota te ahoga, o la reclamación por usura si tus intereses son abusivos. La vía adecuada depende de tu caso; en Calma te lo decimos gratis tras un diagnóstico.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

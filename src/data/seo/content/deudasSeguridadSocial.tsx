@@ -11,6 +11,11 @@ import p4 from "@/assets/avatar-2.jpg";
  */
 export const deudasSeguridadSocial: MoneyContent = {
   path: "/deudas-hacienda-seguridad-social/deudas-seguridad-social",
+  directAnswer: {
+    question: "¿Qué puedo hacer si debo dinero a la Seguridad Social?",
+    answer: "Ante una deuda con la Seguridad Social puedes pedir un aplazamiento o fraccionamiento para pagarla poco a poco, y si eres insolvente parte de esa deuda pública puede tratarse, con límites, dentro de la Ley de Segunda Oportunidad. En Calma estudiamos tu caso gratis y te decimos qué opción real tienes.",
+    plain: "Ante una deuda con la Seguridad Social puedes pedir un aplazamiento o fraccionamiento para pagarla poco a poco, y si eres insolvente parte de esa deuda pública puede tratarse, con límites, dentro de la Ley de Segunda Oportunidad. En Calma estudiamos tu caso gratis y te decimos qué opción real tienes.",
+  },
   reviewed: false,
   tone: "legal",
   layout: [
