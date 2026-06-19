@@ -14,7 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      zoho_tokens: {
+        Row: {
+          id: number
+          refresh_token: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          refresh_token: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          refresh_token?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

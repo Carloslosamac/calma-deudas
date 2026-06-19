@@ -160,8 +160,8 @@ const FormSection = () => {
         vehicle_value: data.vehicle === "propiedad" ? data.vehicleValue : null,
         vehicle_paid: data.vehicle === "financiado" ? data.vehiclePaid : null,
       };
-      const { error } = await supabase.functions.invoke("pipedrive-lead", { body: payload });
-      if (error) console.error("pipedrive-lead error:", error);
+      const { error } = await supabase.functions.invoke("zoho-lead", { body: payload });
+      if (error) console.error("zoho-lead error:", error);
     } catch (e) {
       // No bloqueamos al usuario: igualmente le mostramos el diagnóstico.
       console.error(e);
