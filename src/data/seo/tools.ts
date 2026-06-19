@@ -274,3 +274,29 @@ export const toolsByPath: Record<string, Tool> = Object.fromEntries(
 
 export const getTool = (path: string): Tool | undefined =>
   toolsByPath[path.replace(/\/$/, "")];
+
+const toolByKind = (kind: ToolKind): Tool | undefined =>
+  tools.find((t) => t.kind === kind);
+
+/**
+ * Herramientas relevantes por cluster de money page, para el bloque
+ * "Calcula tu caso". El orden importa: la primera es la más específica.
+ */
+const CLUSTER_TOOL_KINDS: Record<string, ToolKind[]> = {
+  "ley-segunda-oportunidad": ["diagnosis", "cancelable"],
+  "cancelar-deudas": ["cancelable", "diagnosis"],
+  "reunificacion-deudas": ["cancelable", "diagnosis"],
+  asnef: ["diagnosis", "cancelable"],
+  embargos: ["salary", "diagnosis"],
+  "tarjetas-revolving": ["revolving", "diagnosis"],
+  "microcreditos-prestamos": ["revolving", "diagnosis"],
+  "autonomos-concurso-acreedores": ["diagnosis", "cancelable"],
+  "juicio-monitorio-recobro": ["salary", "diagnosis"],
+  "deudas-hacienda-seguridad-social": ["salary", "diagnosis"],
+};
+
+/** Devuelve las herramientas relevantes para un cluster de money page. */
+export const toolsForCluster = (cluster: string): Tool[] => {
+  const kinds = CLUSTER_TOOL_KINDS[cluster] ?? ["diagnosis", "cancelable"];
+  return kinds.map(toolByKind).filter((t): t is Tool => Boolean(t));
+};
