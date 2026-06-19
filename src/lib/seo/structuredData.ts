@@ -6,6 +6,7 @@ type JsonLd = Record<string, unknown>;
 export const buildOrganization = (): JsonLd => ({
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}#organization`,
   name: ORGANIZATION.name,
   legalName: ORGANIZATION.legalName,
   url: ORGANIZATION.url,
@@ -26,15 +27,44 @@ export const buildOrganization = (): JsonLd => ({
 export const buildWebSite = (): JsonLd => ({
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE_URL}#website`,
   name: SITE_NAME,
   url: SITE_URL,
   inLanguage: "es-ES",
+  publisher: { "@id": `${SITE_URL}#organization` },
   potentialAction: {
     "@type": "SearchAction",
     target: `${SITE_URL}/blog?q={search_term_string}`,
     "query-input": "required name=search_term_string",
   },
 });
+
+/**
+ * WebPage de una página concreta. Enlaza el grafo: pertenece al WebSite,
+ * trata sobre la Organization y referencia su BreadcrumbList por @id.
+ */
+export const buildWebPage = (params: {
+  url: string;
+  name: string;
+  description: string;
+  hasBreadcrumb?: boolean;
+}): JsonLd => {
+  const pageUrl = absoluteUrl(params.url);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: params.name,
+    description: params.description,
+    inLanguage: "es-ES",
+    isPartOf: { "@id": `${SITE_URL}#website` },
+    about: { "@id": `${SITE_URL}#organization` },
+    ...(params.hasBreadcrumb
+      ? { breadcrumb: { "@id": `${pageUrl}#breadcrumb` } }
+      : {}),
+  };
+};
 
 export const buildLegalService = (): JsonLd => ({
   "@context": "https://schema.org",
@@ -98,10 +128,12 @@ export const buildLocalLegalService = (city: Localizacion): JsonLd => ({
 });
 
 export const buildBreadcrumb = (
-  items: { name: string; url: string }[]
+  items: { name: string; url: string }[],
+  pageUrl?: string
 ): JsonLd => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
+  ...(pageUrl ? { "@id": `${absoluteUrl(pageUrl)}#breadcrumb` } : {}),
   itemListElement: items.map((it, i) => ({
     "@type": "ListItem",
     position: i + 1,
