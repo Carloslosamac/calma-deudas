@@ -30,7 +30,11 @@ const LocalizacionPage = () => {
   ];
   let h = 0;
   for (let i = 0; i < city.slug.length; i++) h = (h * 31 + city.slug.charCodeAt(i)) >>> 0;
-  const metaDescription = metaVariants[h % metaVariants.length];
+  const chosen = metaVariants[h % metaVariants.length];
+  const metaDescription =
+    chosen.length <= 160
+      ? chosen
+      : `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente. Diagnóstico gratuito y sin compromiso.`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
