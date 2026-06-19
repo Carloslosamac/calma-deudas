@@ -1305,7 +1305,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "reality": "La ley prohíbe el acoso; las empresas de recobro tienen límites legales y no pueden contactar con tu entorno ni presionarte de forma que vulnere tu intimidad."
       }
     ],
-    "intro": "Si un pequeño préstamo con Crédito Móvil se ha convertido en una montaña de intereses difícil de escalar, no estás solo; este es el día a día de muchos de nuestros clientes.",
+    "intro": "Un préstamo de Crédito Móvil que prometía resolverte el mes se ha convertido en una cuota que vuelve cada poco tiempo, más alta de lo que recordabas. No es una sensación tuya: sus plazos cortos y tasas de demora están pensados así, y por eso son tan a menudo reclamables.",
     "faqs": [
       {
         "q": "¿Puedo anular mi deuda con Crédito Móvil si los intereses son abusivos?",
