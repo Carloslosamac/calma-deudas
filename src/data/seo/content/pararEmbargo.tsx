@@ -70,7 +70,7 @@ export const pararEmbargo: MoneyContent = {
   ],
   testimonialsTitle: "Personas que frenaron su embargo",
   testimonialsSubtitle: "Casos reales de personas que pararon el embargo y resolvieron la deuda.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Manuel R.", amount: "Nómina protegida", location: "Madrid", text: "Me embargaban la nómina entera. Conseguimos respetar el mínimo y luego cancelar la deuda.", photo: p2 },
     { name: "Pilar G.", amount: "Embargo suspendido", location: "Valencia", text: "Frenaron el embargo de mi cuenta a tiempo. Hoy estoy libre de deudas.", photo: p1 },

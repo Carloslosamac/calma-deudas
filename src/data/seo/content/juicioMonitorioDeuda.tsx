@@ -68,7 +68,7 @@ export const juicioMonitorioDeuda: MoneyContent = {
   ],
   testimonialsTitle: "Personas que respondieron a tiempo",
   testimonialsSubtitle: "Casos reales de monitorios resueltos con la estrategia adecuada.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Hugo R.", amount: "Deuda anulada", location: "Madrid", text: "Reclamaban una revolving abusiva. Nos opusimos y se anuló.", photo: p1 },
     { name: "Clara P.", amount: "Monitorio frenado", location: "Valencia", text: "La deuda estaba prescrita. Lo demostramos a tiempo.", photo: p2 },

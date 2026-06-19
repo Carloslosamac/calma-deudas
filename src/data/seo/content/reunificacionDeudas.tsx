@@ -100,7 +100,7 @@ export const reunificacionDeudas: MoneyContent = {
   testimonialsTitle: "Personas que recuperaron el control",
   testimonialsSubtitle:
     "Casos reales de personas que pasaron de varias cuotas asfixiantes a un único pago asumible.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Daniel R.",

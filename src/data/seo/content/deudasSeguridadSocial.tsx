@@ -67,7 +67,7 @@ export const deudasSeguridadSocial: MoneyContent = {
   ],
   testimonialsTitle: "Autónomos que ordenaron su deuda",
   testimonialsSubtitle: "Casos reales de deuda con la Seguridad Social aplazada o exonerada con límites.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Rafa P.", amount: "Aplazada", location: "Madrid", text: "Arrastraba cuotas de autónomo. Las aplazamos y frené el apremio.", photo: p1 },
     { name: "Nuria R.", amount: "Parte exonerada", location: "Valencia", text: "Cerré mi negocio con deuda. Parte se canceló con la LSO.", photo: p2 },

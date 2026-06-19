@@ -73,7 +73,7 @@ export const salirDeAsnef: MoneyContent = {
   ],
   testimonialsTitle: "Personas que salieron de ASNEF",
   testimonialsSubtitle: "Casos reales de personas que limpiaron su historial al resolver la deuda.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Rubén A.", amount: "Fuera de ASNEF", location: "Madrid", text: "Un microcrédito impagado me bloqueaba todo. Lo resolví y salí del fichero.", photo: p2 },
     { name: "Elena C.", amount: "Fuera de ASNEF", location: "Valencia", text: "No podía ni cambiar de compañía de móvil. Hoy vuelvo a tener crédito.", photo: p1 },

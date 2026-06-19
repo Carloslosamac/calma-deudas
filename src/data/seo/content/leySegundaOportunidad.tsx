@@ -100,7 +100,7 @@ export const leySegundaOportunidad: MoneyContent = {
   testimonialsTitle: "Personas que ya empezaron de cero",
   testimonialsSubtitle:
     "Casos reales de personas que dejaron de pagar deudas que la ley les permitía cancelar. Tú puedes ser el próximo.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Noemí V.",

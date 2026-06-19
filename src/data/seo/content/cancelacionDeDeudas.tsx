@@ -98,7 +98,7 @@ export const cancelacionDeDeudas: MoneyContent = {
   testimonialsTitle: "Personas que entendieron sus opciones y actuaron",
   testimonialsSubtitle:
     "Casos reales de personas que se informaron, vieron que encajaban y cancelaron su deuda.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Jorge A.",
