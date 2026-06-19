@@ -1,64 +1,50 @@
-# Sección "Herramientas" para personas con deuda
+# Más herramientas (fase 2)
 
-Nueva sección con un hub en `/herramientas` y una página SEO independiente por cada herramienta. Cada herramienta es interactiva, muestra un resultado y termina con un CTA al formulario de lead (`#n`), siguiendo la regla de marca de que todos los CTA llevan al formulario.
+Añadir dos herramientas nuevas a la sección `/herramientas`, siguiendo exactamente el mismo patrón ya en producción (datos en `tools.ts` → `ToolWidget` en `ToolPage.tsx` → componente interactivo). Cada una con resultado en pantalla, CTA al formulario, contenido SEO/GEO, FAQ, disclaimer YMYL y enlazado interno.
 
-## Herramientas (4 en esta primera entrega)
+## Herramienta 5 — Simulador de plan de pagos
 
-1. **Test de diagnóstico de solución** — `/herramientas/test-solucion-deuda`
-   Cuestionario por pasos (insolvencia, activos pagados, usura, importe) que recomienda la vía adecuada según la regla de triaje del proyecto:
-   - Insolvente + sin activos pagados → **Ley de Segunda Oportunidad**
-   - Insolvente + con activos valiosos pagados (casa/terreno) → **Reunificación** (negociación extrajudicial)
-   - Solvente + usura + deuda baja → **Reclamación judicial**
-   El resultado enlaza a la money page correspondiente y al formulario.
+Ruta: `/herramientas/simulador-plan-pagos`
 
-2. **Calculadora de deuda cancelable** — `/herramientas/calculadora-deuda-cancelable`
-   El usuario introduce su deuda total y tipos de deuda; estima un rango orientativo de lo cancelable y el alivio mensual. Texto claro de que es una estimación, no asesoramiento.
+Muestra lo lento (y caro) que es pagar deuda a base de cuotas, para empujar hacia una solución real.
 
-3. **Calculadora de sueldo inembargable** — `/herramientas/calculadora-sueldo-inembargable`
-   Calcula el mínimo protegido frente a embargos según los tramos legales sobre el SMI (escala del art. 607 LEC). Entrada: salario neto mensual. Salida: cantidad embargable y cantidad protegida, con la fuente legal citada.
+- **Entradas**: deuda total (€), cuota mensual que puede pagar (€), TAE media aproximada (slider, por defecto ~22%).
+- **Salidas**: meses/años hasta liquidar, intereses totales pagados, y comparación visual "pagando cuotas" vs "con una solución de Calma" (cancelar/reunificar reduce plazo y total).
+- **Avisos**: estimación orientativa; si la cuota no cubre los intereses, mensaje claro de "deuda que nunca baja" → vía LSO/reunificación.
+- **CTA**: `CtaButton` + `scrollToForm`.
 
-4. **Simulador de tarjetas revolving / usura** — `/herramientas/simulador-revolving-usura`
-   Entrada: TAE y saldo. Detecta si la TAE es potencialmente usuraria comparándola con el tipo medio de referencia y estima el importe reclamable. Reutiliza la lógica del componente `UsuryCalculator` existente.
+## Herramienta 6 — Comparador de soluciones de deuda
 
-## Comportamiento común
+Ruta: `/herramientas/comparador-soluciones-deuda`
 
-- Cada herramienta muestra el resultado en pantalla y debajo un bloque CTA "Habla gratis con un experto" que hace scroll/redirige al formulario (`#n`) usando los helpers existentes (`scrollToForm`, `CtaButton`).
-- Cada página incluye contenido SEO explicativo alrededor de la herramienta (qué es, cómo se calcula, fuentes legales, preguntas frecuentes) para posicionar y para GEO, en módulos legibles (no muros de texto).
-- Avisos de "estimación orientativa, no constituye asesoramiento legal" donde aplica (páginas YMYL).
+Tabla interactiva que compara las 3 vías según la regla de triaje del proyecto, resaltando la recomendada según 2-3 toggles del usuario.
 
-## Hub `/herramientas`
+- **Toggles**: ¿puedes pagar tus deudas? (solvencia), ¿tienes vivienda/terreno pagado?, ¿hay tarjetas revolving / usura?
+- **Salida**: tabla comparando **Ley de Segunda Oportunidad**, **Reunificación** (negociación extrajudicial que baja cuota y total, sin préstamo nuevo) y **Reclamación judicial** por filas (qué hace, a quién conviene, qué pasa con los bienes, resultado, plazo orientativo), con la columna recomendada destacada.
+- Coherente con memoria: reunificar ≠ refinanciar; casa/terreno pagado bloquea LSO en la práctica → reunificar.
+- **CTA**: `CtaButton` + `scrollToForm`.
 
-Página índice con tarjetas a cada herramienta, intro orientada a "calculadoras y tests gratuitos para personas con deudas", enlazado interno hacia las money pages relevantes y CTA final al formulario.
+## Cambios por archivo
 
-## Navegación y descubribilidad
-
-- Añadir "Herramientas" al menú del `Header` (escritorio y móvil) y al `Footer`.
-- Añadir las nuevas URLs a `public/sitemap.xml`, `public/llms.txt` y verificar `public/robots.txt`.
+- `src/data/seo/tools.ts`
+  - Ampliar `ToolKind` con `"paymentPlan"` y `"comparator"`.
+  - Añadir 2 objetos `Tool` (slug, path, navLabel, cardTitle, cardDescription, eyebrow, h1, seoTitle <60, metaDescription <160, intro, sections, faq, related, disclaimer).
+  - Añadir las nuevas `ToolKind` a `CLUSTER_TOOL_KINDS` donde aporten (p. ej. `paymentPlan` en cancelar/reunificar; `comparator` en LSO/cancelar/reunificar).
+  - Centralizar constantes nuevas (TAE media de referencia para el plan de pagos) con fuente citada; sin inventar cifras de marca.
+- `src/components/seo/interactive/PaymentPlanSimulator.tsx` (nuevo) — cálculo de amortización con interés mensual; maneja el caso "cuota < intereses".
+- `src/components/seo/interactive/SolutionComparator.tsx` (nuevo) — toggles + tabla con columna recomendada destacada (reutiliza patrón visual de `ComparisonTable`).
+- `src/pages/seo/ToolPage.tsx` — añadir los dos `case` nuevos al `switch` de `ToolWidget`.
+- `src/pages/seo/HerramientasHub.tsx` — añadir iconos para `paymentPlan` y `comparator` en el mapa `ICONS` (las tarjetas se generan solas desde `tools`).
+- `public/sitemap.xml` y `public/llms.txt` — añadir las 2 URLs nuevas.
 
 ## SEO por página
 
-- Title < 60 y meta description < 160 únicos, optimizados para CTR (estudiando el top 10 y batiéndolo), sin "| Calma", con hook diferenciador.
-- Canonical, Open Graph, y JSON-LD: `WebApplication`/`WebPage` + `BreadcrumbList` + `FAQPage` cuando haya FAQ. El test usa `speakable` en pregunta/respuesta.
-- H1 único y HTML semántico por página.
+- Title <60 y meta description <160, únicos, optimizados para CTR (estudiar top 10 y batirlo), sin "| Calma", con hook diferenciador.
+- JSON-LD: `WebPage` + `BreadcrumbList` + `WebApplication` + `FAQPage` (ya lo aplica `ToolPage` automáticamente).
+- H1 único y HTML semántico (heredado del scaffold de `ToolPage`).
 
----
+## Fuera de alcance
 
-## Detalles técnicos
-
-- **Rutas**: nuevo array de datos `src/data/seo/tools.ts` (slug, path, title, metaDescription, h1, intro, FAQ, módulos). En `src/App.tsx` añadir `<Route path="/herramientas" element={<HerramientasHub />} />` y mapear `tools.map(... <Route path={t.path} element={<ToolPage />} />)`, por encima del catch-all `/:cluster`.
-- **Páginas nuevas**: `src/pages/seo/HerramientasHub.tsx` y `src/pages/seo/ToolPage.tsx` (resuelve la tool por pathname, como hace `MoneyLanding`), reutilizando `SeoPageScaffold`/`Seo` y las funciones de `src/lib/seo/structuredData.ts`.
-- **Componentes interactivos** en `src/components/seo/interactive/`:
-  - Reutilizar/extender `UsuryCalculator` (revolving) y la lógica de `EligibilityQuiz`/`DebtTypeSelector` para el test.
-  - Nuevos: `CancelableDebtCalculator`, `UnseizableSalaryCalculator`, `SolutionDiagnosisTool`.
-- **CTA**: usar `CtaButton` + `scrollToForm` (`#n`) ya existentes; sin gradientes en los CTA (regla de marca).
-- **structuredData**: añadir un helper `buildWebApplication` (o reutilizar `buildWebPage`) para las tools.
-- **Constantes legales** (tramos SMI art. 607 LEC, tipo medio de referencia revolving) centralizadas en el archivo de datos con fuente citada; sin inventar cifras de la marca.
-
-## Fuera de alcance (posible siguiente fase)
-
-- Más herramientas (simulador de plan de pagos, comparador de soluciones interactivo).
-- Guardado de resultados o envío del resultado por email.
-- Tests automatizados de los cálculos (se pueden añadir si lo deseas).
-</content>
-<summary>Hub /herramientas + una página SEO por herramienta (test de diagnóstico, calculadora de deuda cancelable, sueldo inembargable y simulador revolving/usura), cada una con resultado y CTA al formulario, navegación, sitemap y JSON-LD.</summary>
-</invoke>
+- Guardado de resultados o envío por email.
+- Tests automatizados de los cálculos.
+- Más herramientas adicionales más allá de estas dos.
