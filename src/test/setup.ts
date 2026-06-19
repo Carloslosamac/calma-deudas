@@ -29,3 +29,12 @@ class IO {
 }
 // @ts-expect-error - test shim
 window.IntersectionObserver = IO;
+
+// ResizeObserver: lo usan los componentes de Radix (Slider, etc.).
+class RO {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+// @ts-expect-error - test shim
+window.ResizeObserver = RO;
