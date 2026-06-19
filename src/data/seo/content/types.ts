@@ -16,6 +16,18 @@ export type MoneyFaq = {
   plain: string;
 };
 
+/**
+ * Respuesta directa transaccional (GEO). Bloque autocontenido y citable por
+ * motores generativos: `question` es la pregunta literal, `answer` el render
+ * visible (JSX) y `plain` el texto plano que alimenta QAPage/speakable.
+ */
+export type MoneyDirectAnswer = {
+  question: string;
+  answer: ReactNode;
+  /** texto plano (2-3 frases autocontenidas) para QAPage y speakable */
+  plain: string;
+};
+
 /** Nombre de icono (lucide) soportado en los módulos visuales. */
 export type MoneyIcon =
   | "shield"
