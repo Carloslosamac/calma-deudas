@@ -32,10 +32,36 @@ const ENTITY_OPTIONS = [
   { value: "seguridad_social", label: "Seguridad Social", icon: ShieldCheck },
 ] as const;
 
+const ALLOWED_EMAIL_DOMAINS = [
+  "gmail.com",
+  "outlook.com",
+  "outlook.es",
+  "hotmail.com",
+  "hotmail.es",
+  "yahoo.com",
+  "yahoo.es",
+  "icloud.com",
+  "live.com",
+];
+
 const formSchema = z.object({
   fullName: z.string().trim().min(2, "Mínimo 2 caracteres").max(100),
-  email: z.string().trim().email("Email inválido").max(255),
-  phone: z.string().trim().min(9, "Teléfono inválido").max(20),
+  email: z
+    .string()
+    .trim()
+    .email("Email inválido")
+    .max(255)
+    .refine(
+      (val) => ALLOWED_EMAIL_DOMAINS.includes(val.split("@")[1]?.toLowerCase() ?? ""),
+      "Usa un correo de un proveedor habitual (Gmail, Outlook, Hotmail…)",
+    ),
+  phone: z
+    .string()
+    .trim()
+    .refine(
+      (val) => /^[67]\d{8}$/.test(val.replace(/[\s-]/g, "")),
+      "Introduce un móvil válido (9 cifras, empieza por 6 o 7)",
+    ),
 });
 
 type ContactValues = z.infer<typeof formSchema>;
