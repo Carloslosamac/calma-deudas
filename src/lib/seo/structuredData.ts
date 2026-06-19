@@ -231,3 +231,46 @@ export const buildItemList = (
     url: absoluteUrl(it.url),
   })),
 });
+
+/**
+ * Service de una money page. Las IA usan esto para entender qué servicio
+ * ofrece la página y poder recomendarlo en respuestas transaccionales.
+ */
+export const buildService = (params: {
+  name: string;
+  description: string;
+  url: string;
+  serviceType?: string;
+}): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: params.name,
+  description: params.description,
+  url: absoluteUrl(params.url),
+  ...(params.serviceType ? { serviceType: params.serviceType } : {}),
+  areaServed: { "@type": "Country", name: "España" },
+  availableLanguage: ["Spanish"],
+  provider: { "@id": `${SITE_URL}#organization` },
+});
+
+/**
+ * QAPage para la "respuesta directa" transaccional (GEO). Modela una
+ * pregunta-respuesta autocontenida y citable por motores generativos.
+ */
+export const buildQAPage = (params: {
+  question: string;
+  answer: string;
+  url: string;
+}): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "QAPage",
+  mainEntity: {
+    "@type": "Question",
+    name: params.question,
+    url: absoluteUrl(params.url),
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: params.answer,
+    },
+  },
+});
