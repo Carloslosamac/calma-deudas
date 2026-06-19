@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import {
   ArrowRight,
+  ArrowLeft,
   Lock,
   Check,
   Banknote,
@@ -99,6 +100,7 @@ const FormSection = () => {
   const currentKey = steps[Math.min(step, totalSteps - 1)];
 
   const goNext = () => setStep((s) => Math.min(s + 1, totalSteps - 1));
+  const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
   const selectAndAdvance = <K extends keyof Diagnosis>(key: K, value: Diagnosis[K]) => {
     setData((d) => ({ ...d, [key]: value }));
@@ -134,16 +136,12 @@ const FormSection = () => {
         vehicle_paid: data.vehicle === "financiado" ? data.vehiclePaid : null,
       };
       const { error } = await supabase.functions.invoke("pipedrive-lead", { body: payload });
-      if (error) throw error;
-      setShowResult(true);
+      if (error) console.error("pipedrive-lead error:", error);
     } catch (e) {
+      // No bloqueamos al usuario: mostramos el diagnóstico igualmente.
       console.error(e);
-      toast({
-        title: "Error",
-        description: "Inténtalo de nuevo en unos minutos.",
-        variant: "destructive",
-      });
     } finally {
+      setShowResult(true);
       setSubmitting(false);
     }
   };
@@ -228,7 +226,7 @@ const FormSection = () => {
     switch (currentKey) {
       case "debt":
         return (
-          <SliderStep title="¿Cuánto debes en total?" valueKey="debtAmount" min={3000} max={80000} stepSize={500} />
+          <SliderStep title="¿Cuánto debes en total?" valueKey="debtAmount" min={3000} max={80000} stepSize={100} />
         );
       case "default":
         return (
@@ -312,7 +310,7 @@ const FormSection = () => {
         );
       case "mortgagePaid":
         return (
-          <SliderStep title="¿Cuánto llevas pagado de la hipoteca?" valueKey="mortgagePaid" min={0} max={300000} stepSize={5000} />
+          <SliderStep title="¿Cuánto llevas pagado de la hipoteca?" valueKey="mortgagePaid" min={0} max={300000} stepSize={1000} />
         );
       case "vehicle":
         return (
@@ -338,11 +336,11 @@ const FormSection = () => {
         );
       case "vehicleValue":
         return (
-          <SliderStep title="¿Valor estimado de tu vehículo?" valueKey="vehicleValue" min={0} max={60000} stepSize={1000} />
+          <SliderStep title="¿Valor estimado de tu vehículo?" valueKey="vehicleValue" min={0} max={60000} stepSize={500} />
         );
       case "vehiclePaid":
         return (
-          <SliderStep title="¿Cuánto llevas pagado del vehículo?" valueKey="vehiclePaid" min={0} max={60000} stepSize={1000} />
+          <SliderStep title="¿Cuánto llevas pagado del vehículo?" valueKey="vehiclePaid" min={0} max={60000} stepSize={500} />
         );
       case "contact":
         return (
@@ -493,9 +491,21 @@ const FormSection = () => {
               <>
                 {/* Progress */}
                 <div className="flex items-center justify-between mb-8">
-                  <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Paso {step + 1} de {totalSteps}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    {step > 0 && (
+                      <button
+                        type="button"
+                        onClick={goBack}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                        Atrás
+                      </button>
+                    )}
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Paso {step + 1} de {totalSteps}
+                    </span>
+                  </div>
                   <div className="flex gap-1.5">
                     {Array.from({ length: totalSteps }).map((_, i) => (
                       <div
