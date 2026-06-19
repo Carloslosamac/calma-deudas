@@ -164,11 +164,12 @@ const FormSection = () => {
       const { error } = await supabase.functions.invoke("pipedrive-lead", { body: payload });
       if (error) console.error("pipedrive-lead error:", error);
     } catch (e) {
-      // No bloqueamos al usuario: mostramos el diagnóstico igualmente.
+      // No bloqueamos al usuario: igualmente le mostramos el diagnóstico.
       console.error(e);
     } finally {
-      setShowResult(true);
       setSubmitting(false);
+      // Redirigimos a la página de gracias con el diagnóstico orientativo.
+      navigate("/gracias", { state: { result, name: contact.fullName } });
     }
   };
 
