@@ -27,6 +27,12 @@ const staticEntries: Entry[] = [
   { loc: "/blog", changefreq: "weekly", priority: "0.9", lastmod: today },
   { loc: "/servicios", changefreq: "weekly", priority: "0.8", lastmod: today },
   {
+    loc: "/ley-segunda-oportunidad/casos",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: today,
+  },
+  {
     loc: "/politica-de-privacidad",
     changefreq: "yearly",
     priority: "0.3",
