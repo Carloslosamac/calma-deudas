@@ -17,10 +17,10 @@ export const noemiBarcelona: CasoExito = {
   solution: "Ley de Segunda Oportunidad (exoneración total)",
   headline:
     "Cancela 48.310 € en Barcelona y vuelve a dormir tranquila tras años de deudas",
-  dek: "Arrastraba tarjetas, microcréditos y la hipoteca. Hoy no debe nada y ha recuperado el control de su vida. Así fue su caso, paso a paso.",
+  dek: "Arrastraba tarjetas, microcréditos y un préstamo personal que crecían cada mes. Hoy no debe nada y ha recuperado el control de su vida. Así fue su caso, paso a paso.",
   seoTitle: "Caso real: cancela 48.310 € de deuda en Barcelona",
   metaDescription:
-    "Noemí, de Barcelona, canceló 48.310 € en tarjetas, microcréditos e hipoteca con la Ley de Segunda Oportunidad. Te contamos su caso real paso a paso.",
+    "Noemí, de Barcelona, canceló 48.310 € en tarjetas, microcréditos y un préstamo personal con la Ley de Segunda Oportunidad. Te contamos su caso real paso a paso.",
   date: "19 junio 2026",
   readTime: "7 min",
   publishedAt: "2026-06-19",
@@ -38,7 +38,7 @@ export const noemiBarcelona: CasoExito = {
     {
       question: "¿Cuánta deuda canceló Noemí?",
       answer:
-        "Un total de 48.310 € repartidos entre tarjetas, microcréditos y deuda asociada a su vivienda, exonerados con la Ley de Segunda Oportunidad.",
+        "Un total de 48.310 € repartidos entre tarjetas revolving, microcréditos y un préstamo personal, exonerados con la Ley de Segunda Oportunidad.",
     },
     {
       question: "¿Cuánto tardó el proceso?",
@@ -46,9 +46,9 @@ export const noemiBarcelona: CasoExito = {
         "Su caso se resolvió en meses, no en años. Los plazos dependen del juzgado y de la documentación, pero la mayoría de procedimientos se completan dentro del mismo año.",
     },
     {
-      question: "¿Tener hipoteca impide acogerse a la Ley de Segunda Oportunidad?",
+      question: "¿Hace falta no tener ningún bien para acogerse a la Ley de Segunda Oportunidad?",
       answer:
-        "No de forma automática. Cada caso se estudia: hay soluciones distintas según si la vivienda está pagada, financiada o es imprescindible. Por eso el primer paso siempre es un análisis individual.",
+        "La ley está pensada para personas insolventes que actúan de buena fe. Noemí no tenía bienes de valor que pudieran cubrir la deuda, por lo que su caso encajaba en la exoneración total. Cada situación se estudia de forma individual antes de empezar.",
     },
   ],
   sections: [
@@ -59,8 +59,8 @@ export const noemiBarcelona: CasoExito = {
         <>
           <p>
             Durante meses, Noemí hizo lo que hacen miles de familias: tapar un agujero con otro.
-            Una tarjeta para llegar a fin de mes, un microcrédito para pagar la tarjeta, otro
-            préstamo para no caer en el impago de la hipoteca. Hasta que la cuenta dejó de dar de sí.
+            Una tarjeta para llegar a fin de mes, un microcrédito para pagar la tarjeta, un préstamo
+            personal para cubrir el microcrédito. Hasta que la cuenta dejó de dar de sí.
           </p>
           <p>
             "Llegó un mes en el que ingresaba la nómina y ya no quedaba nada", resume. Entre
@@ -176,8 +176,8 @@ export const noemiBarcelona: CasoExito = {
           <MythVsReality
             rows={[
               {
-                myth: "Con hipoteca no puedo acogerme",
-                reality: "Cada caso se estudia; hay soluciones según la situación de la vivienda",
+                myth: "Tengo que perderlo todo para acogerme",
+                reality: "La ley protege a quien es insolvente de buena fe, no busca dejarte sin nada",
               },
               {
                 myth: "Es un proceso eterno",
