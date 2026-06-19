@@ -147,6 +147,8 @@ export type MoneyJourneyProps = {
   breadcrumbs: Crumb[];
   structuredData?: Record<string, unknown>[];
   related?: RelatedLink[];
+  /** herramientas relevantes para el bloque "Calcula tu caso" */
+  tools?: Tool[];
 };
 
 const MoneyJourney = ({
