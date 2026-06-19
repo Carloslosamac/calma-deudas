@@ -111,6 +111,19 @@ serve(async (req) => {
   }
 
   try {
+    const url = new URL(req.url);
+    if (url.searchParams.has("fields")) {
+      const accessToken = await getAccessToken();
+      const r = await fetch(`${API_DOMAIN}/crm/v2/settings/fields?module=Leads`, {
+        headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
+      });
+      const j = await r.json();
+      const fields = (j.fields ?? []).map((f: any) => ({ label: f.field_label, api: f.api_name }));
+      return new Response(JSON.stringify(fields, null, 2), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const formData: FormData = await req.json();
     console.log("zoho-lead invoked", { ...formData, phone: "***", email: "***" });
 
