@@ -105,6 +105,19 @@ serve(async (req) => {
   }
 
   try {
+    const url = new URL(req.url);
+    const checkId = url.searchParams.get("check");
+    if (checkId) {
+      const accessToken = await getAccessToken();
+      const res = await fetch(`${API_DOMAIN}/crm/v2/Leads/${checkId}`, {
+        headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
+      });
+      return new Response(await res.text(), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
     const formData: FormData = await req.json();
     console.log("zoho-lead invoked", { ...formData, phone: "***", email: "***" });
 
