@@ -23,10 +23,13 @@ import GuiaPage from "./pages/seo/GuiaPage";
 import CasosLSO from "./pages/seo/CasosLSO";
 import Servicios from "./pages/seo/Servicios";
 import LocalizacionPage from "./pages/seo/LocalizacionPage";
+import HerramientasHub from "./pages/seo/HerramientasHub";
+import ToolPage from "./pages/seo/ToolPage";
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
 import { guias } from "./data/seo/guias";
+import { tools } from "./data/seo/tools";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +54,11 @@ const App = () => (
           <Route path="/call/lexitia" element={<CallRedirectLexitia />} />
           {/* Hub de servicios */}
           <Route path="/servicios" element={<Servicios />} />
+          {/* Herramientas: hub + una página por herramienta */}
+          <Route path="/herramientas" element={<HerramientasHub />} />
+          {tools.map((t) => (
+            <Route key={t.path} path={t.path} element={<ToolPage />} />
+          ))}
           {/* Money pages (paths explícitos, generados desde data) */}
           {moneyPages.map((p) => (
             <Route key={p.path} path={p.path} element={<MoneyLanding />} />
