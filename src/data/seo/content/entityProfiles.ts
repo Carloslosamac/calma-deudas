@@ -109,7 +109,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "faqs": [
       {
         "a": "Como nuevos dueños de la deuda, legalmente pueden hacerlo incluso si no existe una sentencia judicial previa, aunque existen límites legales y procedimientos para salir de estos ficheros una vez resuelta la situación.",
-        "q": "¿Puede Axactor incluirme en ASNEF si acaban de comprar mi deuda? Ashner?"
+        "q": "¿Puede Axactor incluirme en ASNEF si acaban de comprar mi deuda?"
       },
       {
         "a": "No estás obligado a aceptar su primera oferta; de hecho, estas empresas suelen estar abiertas a negociaciones o quitas importantes si se demuestra incapacidad de pago o si existen cláusulas abusivas en el contrato original.",
@@ -472,7 +472,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "metaDescription": "¿Te reclama Pepper Advantage? Descubre cómo gestionar tu deuda, detener el acoso y recuperar tu tranquilidad financiera con el asesoramiento de Calma.",
-    "intro": "Si has recibido una notificación de Pepper Advantage, es probable que tu antigua deuda haya cambiado de manos y ahora sientas la presión de una empresa especializada en recobros.",
+    "intro": "Recibir una notificación de Pepper Advantage suele significar que tu préstamo o hipoteca ahora la gestiona un servicer en nombre de un fondo, y eso despierta muchas dudas sobre quién manda realmente. Tranquilo: ese cambio de gestor no borra ni uno solo de tus derechos como deudor.",
     "origin": "Pepper Advantage es un \"servicer\" o gestor global de activos financieros que opera en España administrando carteras de crédito para terceros y fondos de inversión. Originalmente vinculada al grupo Pepper, su función principal es transformar préstamos impagados en dinero líquido mediante la gestión de cobro activa.",
     "faqs": [
       {
@@ -695,7 +695,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
   },
   "moneyman": {
     "origin": "Moneyman es una marca comercial operada por la entidad IDFinance España, centrada en el sector de los prestamistas privados online de respuesta rápida. Su modelo de negocio se basa en la tecnología para evaluar riesgos en segundos y ofrecer liquidez inmediata a particulares fuera del circuito bancario tradicional.",
-    "intro": "Si un pequeño préstamo con Moneyman se ha convertido en una montaña de intereses que no deja de crecer, no estás solo y, sobre todo, no es el fin del camino.",
+    "intro": "Pediste unos pocos cientos de euros a Moneyman para salir de un apuro y ahora la deuda parece tener vida propia, multiplicándose cada semana que pasa. Respira: la rapidez con la que te concedieron ese dinero es también la prueba de las prácticas que podemos revisar para ayudarte a frenarlo.",
     "detail": "Moneyman se especializa en minicréditos de concesión casi instantánea, un modelo que suele aplicar intereses y comisiones por demora muy elevados si no se devuelve el dinero en el plazo corto estipulado (normalmente 30 días). Es habitual que los usuarios se vean atrapados en una rueda de \"prórrogas\" pagadas solo para aplazar el vencimiento, lo que provoca que la deuda crezca exponencialmente respecto al dinero prestado originalmente.",
     "faqs": [
       {
@@ -720,7 +720,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ]
   },
   "mykredit": {
-    "intro": "Si un pequeño préstamo con MyKredit se ha convertido en una montaña de intereses que no deja de crecer, no estás solo y, sobre todo, no es el fin del mundo.",
+    "intro": "Lo que empezó como un microcrédito puntual de MyKredit para llegar a fin de mes se ha transformado en una bola de intereses y comisiones que no entiendes del todo. Queremos que sepas que esa falta de claridad juega a tu favor: muchos de estos contratos son revisables y reclamables.",
     "origin": "MyKredit es una marca comercial operada por Global Digital Finance Spain S.L., una entidad financiera tecnológica con sede en Madrid especializada en préstamos de consumo rápido. Se posicionan como una solución de liquidez urgente mediante procesos 100% digitales y sin apenas papeleo.",
     "metaDescription": "¿Debes dinero a MyKredit? Descubre cómo gestionar tus microcréditos, detener el acoso telefónico y eliminar intereses abusivos con el apoyo de Calma.",
     "detail": "MyKredit se especializa en minicréditos de concesión casi instantánea con plazos de devolución muy cortos, lo que frecuentemente deriva en intereses de demora y comisiones por impago elevados. Estos productos suelen presentar tipos de interés que superan con creces la media del mercado, facilitando un ciclo de sobreendeudamiento si no se liquidan a tiempo.",
@@ -824,7 +824,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "intro": "Si sientes que tu línea de crédito con Creditea se ha convertido en un pozo sin fondo donde pagas y pagas pero la deuda nunca baja, no estás solo."
   },
   "cashper": {
-    "intro": "Si un pequeño préstamo con Cashper se ha convertido en una montaña de intereses imposible de escalar, no estás solo y, sobre todo, no es el final del camino.",
+    "intro": "Si devolver el minicrédito de Cashper se ha vuelto imposible porque los honorarios e intereses superan con creces lo que pediste, no es culpa tuya: es el propio diseño del producto. Y precisamente por eso existe una vía legal para detener esa espiral hoy mismo.",
     "detail": "Sus minicréditos están diseñados para obtener liquidez inmediata, pero conllevan honorarios muy elevados que pueden superar el 2.000% TAE, lo que a menudo impide al usuario devolver el capital a tiempo. Esto genera una espiral de deudas donde los intereses de demora y las comisiones por impago multiplican la cantidad inicial en cuestión de semanas.",
     "origin": "Cashper es una marca comercial operada por Novum Bank Limited, una entidad financiera con sede en Malta que opera en el mercado español de microcréditos. Se especializan en conceder préstamos rápidos de pequeña cuantía, a menudo sin necesidad de nómina o aval, para solucionar urgencias puntuales.",
     "faqs": [
@@ -1305,7 +1305,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
         "reality": "La ley prohíbe el acoso; las empresas de recobro tienen límites legales y no pueden contactar con tu entorno ni presionarte de forma que vulnere tu intimidad."
       }
     ],
-    "intro": "Si un pequeño préstamo con Crédito Móvil se ha convertido en una montaña de intereses difícil de escalar, no estás solo; este es el día a día de muchos de nuestros clientes.",
+    "intro": "Un préstamo de Crédito Móvil que prometía resolverte el mes se ha convertido en una cuota que vuelve cada poco tiempo, más alta de lo que recordabas. No es una sensación tuya: sus plazos cortos y tasas de demora están pensados así, y por eso son tan a menudo reclamables.",
     "faqs": [
       {
         "q": "¿Puedo anular mi deuda con Crédito Móvil si los intereses son abusivos?",
@@ -1526,7 +1526,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "origin": "Bankinter Consumer Finance es la filial del Grupo Bankinter especializada en consumo, que gestiona principalmente tarjetas de crédito y préstamos rápidos. Es la entidad que está detrás de tarjetas tan conocidas como la Bankintercard Oro o las tarjetas de fidelización de grandes marcas."
   },
   "carrefour-pass": {
-    "intro": "¿Sientes que tu Tarjeta PASS Carrefour se ha convertido en una mochila que no deja de pesar, por más que intentas pagarla? No eres la única persona que se siente atrapada por una deuda que parece no tener fin, pero hay una salida real para recuperar tu tranquilidad.",
+    "intro": "Llevas meses, quizá años, pagando la Tarjeta PASS Carrefour y al mirar el saldo descubres que apenas ha bajado: cada cuota se va casi entera en intereses. Esa sensación de remar sin avanzar es el sello de las tarjetas revolving, y es exactamente lo que podemos reclamar por ti.",
     "detail": "La Tarjeta PASS ofrece una línea de crédito 'revolving' que permite aplazar las compras en sus hipermercados y otros establecimientos mediante cuotas mensuales reducidas. Estas cuotas suelen generar intereses elevados que se capitalizan, haciendo que la deuda se autoalimente y apenas disminuya a pesar de estar pagando años, lo que motiva frecuentes reclamaciones por falta de transparencia.",
     "origin": "Carrefour PASS es el servicio financiero del gigante de la distribución francés Carrefour, gestionado en España a través de su propia Entidad de Pago Híbrida. Su objetivo es facilitar el consumo mediante la financiación de compras y la concesión de préstamos personales a sus clientes habituales.",
     "faqs": [
