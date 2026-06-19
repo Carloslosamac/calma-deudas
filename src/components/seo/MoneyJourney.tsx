@@ -161,7 +161,19 @@ const MoneyJourney = ({
     content;
 
   const tone = TONE[content.tone ?? "transactional"];
-  const order = content.layout ?? DEFAULT_ORDER;
+  const baseOrder = content.layout ?? DEFAULT_ORDER;
+  // El bloque de confianza GEO debe aparecer siempre. Si la página define un
+  // layout propio que no lo incluye, lo insertamos antes de "eligibility"
+  // (o "closing"/"faq" si no existe) para no interferir con el inicio del journey.
+  const order = (() => {
+    if (baseOrder.includes("trustStats")) return baseOrder;
+    const anchor = ["eligibility", "closing", "faq"].find((k) =>
+      baseOrder.includes(k as MoneyModuleKey),
+    ) as MoneyModuleKey | undefined;
+    if (!anchor) return [...baseOrder, "trustStats" as MoneyModuleKey];
+    const idx = baseOrder.indexOf(anchor);
+    return [...baseOrder.slice(0, idx), "trustStats" as MoneyModuleKey, ...baseOrder.slice(idx)];
+  })();
 
   /** Registro de bloques renderizables por clave. Devuelve null si no hay datos. */
   const blocks: Record<MoneyModuleKey, React.ReactNode> = {
