@@ -387,13 +387,13 @@ const FormSection = () => {
         return renderSliderStep({ title: "¿Cuánto llevas pagado del vehículo?", valueKey: "vehiclePaid", min: 0, max: 60000, stepSize: 500 });
       case "contact":
         return (
-          <div className="space-y-5">
-            <div>
-              <h3 className="font-poppins text-2xl md:text-3xl font-semibold text-foreground mb-2">
+          <div className="space-y-3">
+            <div className="mb-1">
+              <h3 className="font-poppins text-xl md:text-2xl font-semibold text-foreground">
                 Ya casi está
               </h3>
-              <p className="text-muted-foreground">
-                Déjanos tus datos y verás tu diagnóstico al instante. Te llamamos sin compromiso.
+              <p className="text-sm text-muted-foreground">
+                Déjanos tus datos y verás tu diagnóstico al instante.
               </p>
             </div>
 
@@ -402,9 +402,8 @@ const FormSection = () => {
               name="fullName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm text-muted-foreground">Nombre completo</FormLabel>
                   <FormControl>
-                    <Input placeholder="María González" {...field} className="h-12 rounded-xl border-border bg-background" />
+                    <Input placeholder="Nombre completo" {...field} className="h-11 rounded-xl border-border bg-background" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -415,9 +414,8 @@ const FormSection = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm text-muted-foreground">Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="maria@ejemplo.com" {...field} className="h-12 rounded-xl border-border bg-background" />
+                    <Input type="email" inputMode="email" placeholder="Email" {...field} className="h-11 rounded-xl border-border bg-background" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -428,9 +426,8 @@ const FormSection = () => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm text-muted-foreground">Teléfono</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="612 345 678" {...field} className="h-12 rounded-xl border-border bg-background" />
+                    <Input type="tel" inputMode="tel" placeholder="Teléfono móvil" {...field} className="h-11 rounded-xl border-border bg-background" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -440,7 +437,7 @@ const FormSection = () => {
             <Button
               type="submit"
               disabled={submitting}
-              className="w-full h-14 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
+              className="w-full h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
             >
               {submitting ? "Analizando..." : "Ver mi diagnóstico"}
               <ArrowRight className="h-5 w-5 ml-2" />
