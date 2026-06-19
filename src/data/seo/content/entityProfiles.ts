@@ -824,7 +824,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "intro": "Si sientes que tu línea de crédito con Creditea se ha convertido en un pozo sin fondo donde pagas y pagas pero la deuda nunca baja, no estás solo."
   },
   "cashper": {
-    "intro": "Si un pequeño préstamo con Cashper se ha convertido en una montaña de intereses imposible de escalar, no estás solo y, sobre todo, no es el final del camino.",
+    "intro": "Si devolver el minicrédito de Cashper se ha vuelto imposible porque los honorarios e intereses superan con creces lo que pediste, no es culpa tuya: es el propio diseño del producto. Y precisamente por eso existe una vía legal para detener esa espiral hoy mismo.",
     "detail": "Sus minicréditos están diseñados para obtener liquidez inmediata, pero conllevan honorarios muy elevados que pueden superar el 2.000% TAE, lo que a menudo impide al usuario devolver el capital a tiempo. Esto genera una espiral de deudas donde los intereses de demora y las comisiones por impago multiplican la cantidad inicial en cuestión de semanas.",
     "origin": "Cashper es una marca comercial operada por Novum Bank Limited, una entidad financiera con sede en Malta que opera en el mercado español de microcréditos. Se especializan en conceder préstamos rápidos de pequeña cuantía, a menudo sin necesidad de nómina o aval, para solucionar urgencias puntuales.",
     "faqs": [
