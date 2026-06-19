@@ -5,7 +5,13 @@
  * con su fuente citada; no se inventan cifras de marca.
  */
 
-export type ToolKind = "diagnosis" | "cancelable" | "salary" | "revolving";
+export type ToolKind =
+  | "diagnosis"
+  | "cancelable"
+  | "salary"
+  | "revolving"
+  | "paymentPlan"
+  | "comparator";
 
 export type ToolFaq = { q: string; a: string };
 export type ToolSection = { title: string; body: string[] };
@@ -52,6 +58,13 @@ export const TRAMOS_EMBARGO = [
 /** TAE media de referencia para detectar usura en revolving (Banco de España). */
 export const REVOLVING_LEGAL_APR = 20; // referencia orientativa
 export const REVOLVING_CARD_APR = 26; // TAE típica de una revolving
+
+/**
+ * TAE media orientativa de la deuda al consumo (préstamos personales + tarjetas)
+ * usada como valor por defecto del simulador de plan de pagos. Referencia: tipos
+ * medios del crédito al consumo publicados por el Banco de España.
+ */
+export const CONSUMER_AVG_APR = 22;
 
 export const tools: Tool[] = [
   {
