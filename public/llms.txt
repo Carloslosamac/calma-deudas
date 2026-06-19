@@ -35,6 +35,14 @@
 
 ## Guía principal
 
+## Herramientas gratuitas
+
+- [Herramientas para personas con deudas](https://mi-calma.es/herramientas): Calculadoras y tests gratuitos para entender tu situación de deuda en minutos.
+- [Test: ¿qué solución necesito?](https://mi-calma.es/herramientas/test-solucion-deuda): Responde 3 preguntas y descubre si te conviene la Ley de Segunda Oportunidad, reunificar o reclamar por usura.
+- [Calculadora de deuda cancelable](https://mi-calma.es/herramientas/calculadora-deuda-cancelable): Estima cuánto de tu deuda podrías cancelar y el alivio mensual según el tipo de deuda.
+- [Calculadora de sueldo inembargable](https://mi-calma.es/herramientas/calculadora-sueldo-inembargable): Calcula qué parte de tu nómina protege la ley frente a un embargo (art. 607 LEC).
+- [Simulador de revolving / usura](https://mi-calma.es/herramientas/simulador-revolving-usura): Comprueba si la TAE de tu tarjeta o microcrédito es usuraria y cuánto pagas de más.
+
 - [Guía de la Ley de Segunda Oportunidad](https://mi-calma.es/blog/guia-ley-segunda-oportunidad): La guía más completa y actualizada para cancelar tus deudas: proceso, costes, embargos, vivienda, deuda pública y vida después.
 
 ## Artículos del blog
