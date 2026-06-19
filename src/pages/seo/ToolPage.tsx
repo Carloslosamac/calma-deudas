@@ -13,6 +13,8 @@ import SolutionDiagnosisTool from "@/components/seo/interactive/SolutionDiagnosi
 import CancelableDebtCalculator from "@/components/seo/interactive/CancelableDebtCalculator";
 import UnseizableSalaryCalculator from "@/components/seo/interactive/UnseizableSalaryCalculator";
 import UsuryCalculator from "@/components/seo/interactive/UsuryCalculator";
+import PaymentPlanSimulator from "@/components/seo/interactive/PaymentPlanSimulator";
+import SolutionComparator from "@/components/seo/interactive/SolutionComparator";
 import { getTool, REVOLVING_LEGAL_APR, REVOLVING_CARD_APR } from "@/data/seo/tools";
 import {
   buildWebApplication,
@@ -30,6 +32,10 @@ const ToolWidget = ({ kind }: { kind: string }) => {
       return <CancelableDebtCalculator />;
     case "salary":
       return <UnseizableSalaryCalculator />;
+    case "paymentPlan":
+      return <PaymentPlanSimulator />;
+    case "comparator":
+      return <SolutionComparator />;
     case "revolving":
       return (
         <UsuryCalculator

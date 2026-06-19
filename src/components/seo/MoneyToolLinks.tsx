@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Calculator, CreditCard, ShieldCheck, ClipboardCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Calculator,
+  CreditCard,
+  ShieldCheck,
+  ClipboardCheck,
+  TrendingDown,
+  Scale,
+} from "lucide-react";
 import type { Tool, ToolKind } from "@/data/seo/tools";
 
 const ICONS: Record<ToolKind, typeof Calculator> = {
@@ -7,6 +15,8 @@ const ICONS: Record<ToolKind, typeof Calculator> = {
   cancelable: Calculator,
   salary: ShieldCheck,
   revolving: CreditCard,
+  paymentPlan: TrendingDown,
+  comparator: Scale,
 };
 
 /**

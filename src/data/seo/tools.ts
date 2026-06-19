@@ -5,7 +5,13 @@
  * con su fuente citada; no se inventan cifras de marca.
  */
 
-export type ToolKind = "diagnosis" | "cancelable" | "salary" | "revolving";
+export type ToolKind =
+  | "diagnosis"
+  | "cancelable"
+  | "salary"
+  | "revolving"
+  | "paymentPlan"
+  | "comparator";
 
 export type ToolFaq = { q: string; a: string };
 export type ToolSection = { title: string; body: string[] };
@@ -52,6 +58,13 @@ export const TRAMOS_EMBARGO = [
 /** TAE media de referencia para detectar usura en revolving (Banco de España). */
 export const REVOLVING_LEGAL_APR = 20; // referencia orientativa
 export const REVOLVING_CARD_APR = 26; // TAE típica de una revolving
+
+/**
+ * TAE media orientativa de la deuda al consumo (préstamos personales + tarjetas)
+ * usada como valor por defecto del simulador de plan de pagos. Referencia: tipos
+ * medios del crédito al consumo publicados por el Banco de España.
+ */
+export const CONSUMER_AVG_APR = 22;
 
 export const tools: Tool[] = [
   {
@@ -266,6 +279,112 @@ export const tools: Tool[] = [
     disclaimer:
       "Estimación orientativa. La declaración de usura depende del contrato y del tipo medio de mercado en la fecha de contratación.",
   },
+  {
+    slug: "simulador-plan-pagos",
+    path: "/herramientas/simulador-plan-pagos",
+    kind: "paymentPlan",
+    navLabel: "Simulador de plan de pagos",
+    cardTitle: "Simulador de plan de pagos",
+    cardDescription:
+      "Descubre cuántos años y cuántos intereses te costaría liquidar tu deuda pagando solo cuotas mensuales.",
+    eyebrow: "Herramientas",
+    h1: "Simulador de plan de pagos: ¿cuánto tardarás en pagar tu deuda?",
+    seoTitle: "Plan de pagos: cuánto tardas y cuánto pagas de intereses",
+    metaDescription:
+      "Calcula gratis cuántos años y cuántos intereses te costaría saldar tu deuda pagando cuotas, y cuánto ahorrarías con una solución legal. Al instante.",
+    intro:
+      "Introduce tu deuda, la cuota que puedes pagar y la TAE media. Verás cuánto tardarías en liquidarla, los intereses totales y por qué a veces la deuda nunca baja.",
+    sections: [
+      {
+        title: "Por qué pagando cuotas la deuda apenas baja",
+        body: [
+          "Cuando pagas una cuota mensual, una parte se va en intereses y solo el resto reduce el capital. Con TAE altas (tarjetas revolving, microcréditos o préstamos al consumo), gran parte de cada cuota son intereses, así que el capital baja muy despacio y acabas pagando mucho más de lo que pediste.",
+          "Si la cuota que puedes asumir es inferior a los intereses que genera la deuda cada mes, el saldo no baja nunca: es la trampa de la deuda. En ese caso, pagar más cuotas no soluciona nada y conviene una vía legal como la Ley de Segunda Oportunidad o una reunificación.",
+        ],
+      },
+      {
+        title: "Cómo se calcula y qué hacer con el resultado",
+        body: [
+          "El simulador aplica el interés mensual sobre el saldo pendiente y descuenta tu cuota cada mes hasta liquidar la deuda, sumando los intereses pagados. Es una estimación: no incluye comisiones, seguros ni cambios de tipo.",
+          "Si ves que el plazo es enorme o que los intereses se comen casi todo, hay alternativas que reducen plazo y total: cancelar la deuda con la Ley de Segunda Oportunidad o reunificarla en una sola cuota más baja. Te lo estudiamos gratis y sin compromiso.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "¿Qué TAE pongo si no la conozco?",
+        a: "Usa la media que trae el simulador (en torno al 22%). Las tarjetas revolving suelen ir por encima del 24% y los préstamos personales entre el 8% y el 15%.",
+      },
+      {
+        q: "¿Qué significa que 'la deuda no baja nunca'?",
+        a: "Que tu cuota mensual no llega a cubrir ni los intereses que genera la deuda. El saldo se mantiene o crece, por mucho que pagues. Es señal de que necesitas una solución legal.",
+      },
+      {
+        q: "¿La simulación es exacta?",
+        a: "Es orientativa. No tiene en cuenta comisiones, seguros vinculados ni variaciones del tipo de interés. Sirve para ver el orden de magnitud.",
+      },
+    ],
+    related: [
+      { label: "Cancelar deudas", to: "/cancelar-deudas" },
+      { label: "Reunificar deudas", to: "/reunificacion-deudas" },
+      { label: "Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad" },
+    ],
+    disclaimer:
+      "Estimación orientativa. No incluye comisiones, seguros ni cambios de tipo de interés; no constituye asesoramiento financiero ni legal.",
+  },
+  {
+    slug: "comparador-soluciones-deuda",
+    path: "/herramientas/comparador-soluciones-deuda",
+    kind: "comparator",
+    navLabel: "Comparador de soluciones",
+    cardTitle: "Comparador de soluciones de deuda",
+    cardDescription:
+      "Compara la Ley de Segunda Oportunidad, la reunificación y la reclamación por usura y descubre cuál encaja contigo.",
+    eyebrow: "Herramientas",
+    h1: "Comparador de soluciones de deuda: LSO, reunificar o reclamar",
+    seoTitle: "LSO, reunificar o reclamar: compara qué te conviene",
+    metaDescription:
+      "Compara gratis la Ley de Segunda Oportunidad, la reunificación y la reclamación por usura según tu caso, y descubre cuál te conviene. Sin registro.",
+    intro:
+      "Marca tu situación y compara, lado a lado, las tres grandes vías para salir de deudas. El comparador resalta la opción que mejor encaja con tu caso.",
+    sections: [
+      {
+        title: "Las tres vías para salir de deudas",
+        body: [
+          "La Ley de Segunda Oportunidad cancela legalmente las deudas que no puedes pagar y te permite empezar de cero; encaja cuando eres insolvente y no tienes bienes valiosos que perder. La reunificación es una negociación extrajudicial que rebaja la cuota y el total a pagar sin pedir un préstamo nuevo, y suele encajar cuando eres insolvente pero tienes una vivienda o terreno ya pagado que quieres proteger.",
+          "La reclamación por usura anula los intereses abusivos de tarjetas revolving y microcréditos, recuperando lo pagado de más; tiene sentido cuando puedes pagar pero arrastras deuda cara por intereses desproporcionados.",
+        ],
+      },
+      {
+        title: "Cómo elegir la opción adecuada",
+        body: [
+          "La clave está en tres factores: si puedes o no pagar tus deudas, si tienes bienes valiosos ya pagados y si hay intereses usurarios de por medio. Tener una casa o terreno pagado, en la práctica, dificulta acogerse a la Ley de Segunda Oportunidad sin perderlo, por lo que muchas veces conviene reunificar antes.",
+          "El comparador te orienta, pero la decisión final depende de los detalles de cada deuda. Lo estudiamos gratis y te confirmamos qué vía te conviene, sin compromiso.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: "¿Reunificar es lo mismo que pedir un préstamo nuevo?",
+        a: "No. Reunificar con nosotros es una negociación extrajudicial que baja la cuota y el total a pagar, sin contratar un préstamo nuevo ni alargar el plazo indefinidamente.",
+      },
+      {
+        q: "¿Puedo acogerme a la Ley de Segunda Oportunidad si tengo una casa pagada?",
+        a: "Es más complicado: para exonerar la deuda podría tener que liquidarse el bien. Si quieres proteger una vivienda o terreno ya pagado, suele encajar mejor una reunificación.",
+      },
+      {
+        q: "¿Y si mi problema son los intereses de las tarjetas?",
+        a: "Si puedes pagar pero la deuda es cara por intereses abusivos, la vía es reclamar por usura para anular esos intereses y recuperar lo pagado de más.",
+      },
+    ],
+    related: [
+      { label: "Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad" },
+      { label: "Reunificar deudas", to: "/reunificacion-deudas" },
+      { label: "Cancelar deudas", to: "/cancelar-deudas" },
+    ],
+    disclaimer:
+      "Comparativa orientativa basada en criterios generales. La vía adecuada depende de tu caso concreto y debe confirmarse en un estudio.",
+  },
 ];
 
 export const toolsByPath: Record<string, Tool> = Object.fromEntries(
@@ -283,14 +402,14 @@ const toolByKind = (kind: ToolKind): Tool | undefined =>
  * "Calcula tu caso". El orden importa: la primera es la más específica.
  */
 const CLUSTER_TOOL_KINDS: Record<string, ToolKind[]> = {
-  "ley-segunda-oportunidad": ["diagnosis", "cancelable"],
-  "cancelar-deudas": ["cancelable", "diagnosis"],
-  "reunificacion-deudas": ["cancelable", "diagnosis"],
+  "ley-segunda-oportunidad": ["diagnosis", "comparator"],
+  "cancelar-deudas": ["cancelable", "paymentPlan"],
+  "reunificacion-deudas": ["cancelable", "paymentPlan"],
   asnef: ["diagnosis", "cancelable"],
   embargos: ["salary", "diagnosis"],
   "tarjetas-revolving": ["revolving", "diagnosis"],
   "microcreditos-prestamos": ["revolving", "diagnosis"],
-  "autonomos-concurso-acreedores": ["diagnosis", "cancelable"],
+  "autonomos-concurso-acreedores": ["diagnosis", "comparator"],
   "juicio-monitorio-recobro": ["salary", "diagnosis"],
   "deudas-hacienda-seguridad-social": ["salary", "diagnosis"],
 };
