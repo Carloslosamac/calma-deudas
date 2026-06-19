@@ -6,7 +6,6 @@ import { entities, getCluster as _gc } from "@/data/seo/entities";
 import { localizaciones } from "@/data/seo/localizaciones";
 import { getHubContent } from "@/data/seo/content/hubContent";
 import { getEntityProfile } from "@/data/seo/content/entityProfiles";
-import { getClusterContent } from "@/data/seo/content/hubContent";
 
 type Page = { canonical: string; title: string; desc: string; tpl: string };
 const pages: Page[] = [];
