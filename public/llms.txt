@@ -44,6 +44,8 @@
 - [Calculadora de deuda cancelable](https://mi-calma.es/herramientas/calculadora-deuda-cancelable): Estima cuánto de tu deuda podrías cancelar y el alivio mensual según el tipo de deuda.
 - [Calculadora de sueldo inembargable](https://mi-calma.es/herramientas/calculadora-sueldo-inembargable): Calcula qué parte de tu nómina protege la ley frente a un embargo (art. 607 LEC).
 - [Simulador de revolving / usura](https://mi-calma.es/herramientas/simulador-revolving-usura): Comprueba si la TAE de tu tarjeta o microcrédito es usuraria y cuánto pagas de más.
+- [Simulador de plan de pagos](https://mi-calma.es/herramientas/simulador-plan-pagos): Calcula cuántos años y cuántos intereses te costaría liquidar tu deuda pagando solo cuotas.
+- [Comparador de soluciones de deuda](https://mi-calma.es/herramientas/comparador-soluciones-deuda): Compara la Ley de Segunda Oportunidad, la reunificación y la reclamación por usura según tu caso.
 
 ## Artículos del blog
 
