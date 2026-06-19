@@ -10,6 +10,7 @@ import BlogPost from "./pages/BlogPost";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import CallRedirect from "./pages/CallRedirect";
+import Gracias from "./pages/Gracias";
 import CallRedirectRH from "./pages/CallRedirectRH";
 import CallRedirectAltaley from "./pages/CallRedirectAltaley";
 import CallRedirectQuitaDeudas from "./pages/CallRedirectQuitaDeudas";
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
           <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
+          <Route path="/gracias" element={<Gracias />} />
           <Route path="/call/smd" element={<CallRedirect />} />
           <Route path="/call/rh" element={<CallRedirectRH />} />
           <Route path="/call/altaley" element={<CallRedirectAltaley />} />

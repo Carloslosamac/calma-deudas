@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +17,6 @@ import {
   Smartphone,
   Landmark,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,10 +32,36 @@ const ENTITY_OPTIONS = [
   { value: "seguridad_social", label: "Seguridad Social", icon: ShieldCheck },
 ] as const;
 
+const ALLOWED_EMAIL_DOMAINS = [
+  "gmail.com",
+  "outlook.com",
+  "outlook.es",
+  "hotmail.com",
+  "hotmail.es",
+  "yahoo.com",
+  "yahoo.es",
+  "icloud.com",
+  "live.com",
+];
+
 const formSchema = z.object({
   fullName: z.string().trim().min(2, "Mínimo 2 caracteres").max(100),
-  email: z.string().trim().email("Email inválido").max(255),
-  phone: z.string().trim().min(9, "Teléfono inválido").max(20),
+  email: z
+    .string()
+    .trim()
+    .email("Email inválido")
+    .max(255)
+    .refine(
+      (val) => ALLOWED_EMAIL_DOMAINS.includes(val.split("@")[1]?.toLowerCase() ?? ""),
+      "Usa un correo de un proveedor habitual (Gmail, Outlook, Hotmail…)",
+    ),
+  phone: z
+    .string()
+    .trim()
+    .refine(
+      (val) => /^[67]\d{8}$/.test(val.replace(/[\s-]/g, "")),
+      "Introduce un móvil válido (9 cifras, empieza por 6 o 7)",
+    ),
 });
 
 type ContactValues = z.infer<typeof formSchema>;
@@ -74,9 +100,9 @@ type StepKey =
   | "contact";
 
 const FormSection = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
-  const [showResult, setShowResult] = useState(false);
   const [data, setData] = useState<Diagnosis>(initialDiagnosis);
 
   const form = useForm<ContactValues>({
@@ -137,11 +163,12 @@ const FormSection = () => {
       const { error } = await supabase.functions.invoke("pipedrive-lead", { body: payload });
       if (error) console.error("pipedrive-lead error:", error);
     } catch (e) {
-      // No bloqueamos al usuario: mostramos el diagnóstico igualmente.
+      // No bloqueamos al usuario: igualmente le mostramos el diagnóstico.
       console.error(e);
     } finally {
-      setShowResult(true);
       setSubmitting(false);
+      // Redirigimos a la página de gracias con el diagnóstico orientativo.
+      navigate("/gracias", { state: { result, name: contact.fullName } });
     }
   };
 
@@ -462,42 +489,7 @@ const FormSection = () => {
         {/* Right form card */}
         <div className="lg:col-span-3">
           <div className="bg-surface-elevated border border-border rounded-3xl shadow-large p-6 md:p-10 backdrop-blur-sm">
-            {showResult ? (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="flex items-center gap-2 text-accent-deep mb-4">
-                  <Sparkles className="h-5 w-5" />
-                  <span className="text-xs font-medium uppercase tracking-wider">Tu diagnóstico orientativo</span>
-                </div>
-                <h3 className="font-poppins text-2xl md:text-3xl font-semibold text-foreground mb-3">
-                  {result.title}
-                </h3>
-                <p className="text-muted-foreground mb-6">{result.description}</p>
-                <ul className="space-y-3 mb-8">
-                  {result.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent">
-                        <Check className="h-3.5 w-3.5 text-accent-foreground" strokeWidth={3} />
-                      </span>
-                      <span className="text-foreground/90">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="rounded-2xl border border-border bg-background p-5">
-                  <p className="text-foreground font-medium">
-                    Hemos recibido tu caso. Te llamamos en menos de 24h para confirmar tu mejor opción.
-                  </p>
-                </div>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Esta es una orientación automática basada en tus respuestas. El diagnóstico definitivo lo realiza
-                  nuestro equipo legal sin compromiso.
-                </p>
-              </motion.div>
-            ) : (
-              <>
+            <>
                 {/* Progress */}
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
@@ -542,8 +534,7 @@ const FormSection = () => {
                     </AnimatePresence>
                   </form>
                 </Form>
-              </>
-            )}
+            </>
           </div>
         </div>
       </div>
