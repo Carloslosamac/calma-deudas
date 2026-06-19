@@ -61,6 +61,7 @@ const SECTIONS: Record<TemplateType, string[]> = {
 
 export type RelatedLink = { label: string; to: string };
 
+
 /** Sección con copy real (sustituye al placeholder). */
 export type ContentSection = { title: string; body: React.ReactNode };
 /** FAQ para la UI. */
