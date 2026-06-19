@@ -21,6 +21,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { triage, type Housing, type Vehicle } from "@/lib/seo/triage";
+import { getUtms, getConversionSlug } from "@/lib/tracking";
 
 const eur = (n: number) => n.toLocaleString("es-ES", { maximumFractionDigits: 0 }) + " €";
 
