@@ -1526,7 +1526,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "origin": "Bankinter Consumer Finance es la filial del Grupo Bankinter especializada en consumo, que gestiona principalmente tarjetas de crédito y préstamos rápidos. Es la entidad que está detrás de tarjetas tan conocidas como la Bankintercard Oro o las tarjetas de fidelización de grandes marcas."
   },
   "carrefour-pass": {
-    "intro": "¿Sientes que tu Tarjeta PASS Carrefour se ha convertido en una mochila que no deja de pesar, por más que intentas pagarla? No eres la única persona que se siente atrapada por una deuda que parece no tener fin, pero hay una salida real para recuperar tu tranquilidad.",
+    "intro": "Llevas meses, quizá años, pagando la Tarjeta PASS Carrefour y al mirar el saldo descubres que apenas ha bajado: cada cuota se va casi entera en intereses. Esa sensación de remar sin avanzar es el sello de las tarjetas revolving, y es exactamente lo que podemos reclamar por ti.",
     "detail": "La Tarjeta PASS ofrece una línea de crédito 'revolving' que permite aplazar las compras en sus hipermercados y otros establecimientos mediante cuotas mensuales reducidas. Estas cuotas suelen generar intereses elevados que se capitalizan, haciendo que la deuda se autoalimente y apenas disminuya a pesar de estar pagando años, lo que motiva frecuentes reclamaciones por falta de transparencia.",
     "origin": "Carrefour PASS es el servicio financiero del gigante de la distribución francés Carrefour, gestionado en España a través de su propia Entidad de Pago Híbrida. Su objetivo es facilitar el consumo mediante la financiación de compras y la concesión de préstamos personales a sus clientes habituales.",
     "faqs": [
