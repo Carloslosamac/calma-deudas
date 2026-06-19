@@ -48,6 +48,7 @@ const UL = ({ items }: { items: ReactNode[] }) => (
 const hubs: HubContent[] = [
   {
     slug: "asnef",
+    metaDescription: "Sal de ASNEF para siempre: comprueba si estás fichado, conoce tus derechos y descubre cómo cancelar la deuda que te mantiene en el fichero. Análisis gratis.",
     intro:
       "Estar en ASNEF te cierra la puerta a financiación, hipotecas y hasta a contratos de móvil o luz. Aquí te explicamos qué significa, cómo comprobar si estás fichado y, sobre todo, cómo salir de forma definitiva.",
     sections: [
@@ -128,6 +129,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "embargos",
+    metaDescription: "¿Van a embargar tu nómina, cuenta o vivienda? Descubre cómo parar un embargo, qué parte es inembargable y cómo frenarlo legalmente. Te ayudamos gratis.",
     intro:
       "Un embargo puede llegar a tu nómina, tu cuenta o tu vivienda. Actuar a tiempo lo cambia todo: aquí tienes qué hacer hoy, qué parte de tus ingresos es inembargable y cómo frenarlo o cancelarlo.",
     sections: [
@@ -196,6 +198,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "tarjetas-revolving",
+    metaDescription: "Tarjetas revolving: cómo reclamar por usura, recuperar intereses pagados y cancelar la deuda que nunca baja. Estudiamos tu caso gratis y sin compromiso.",
     intro:
       "Las tarjetas revolving aplican intereses tan altos que la deuda casi no baja por mucho que pagues. Muchas son declaradas usurarias por los tribunales: aquí te explicamos cómo reclamar y cancelar.",
     sections: [
@@ -256,6 +259,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "microcreditos-prestamos",
+    metaDescription: "¿Atrapado en microcréditos y préstamos de alto interés? Descubre cómo cancelarlos, reclamar por usura y salir del bucle de deuda. Diagnóstico gratis con Calma.",
     intro:
       "Los microcréditos rápidos solucionan un apuro, pero devuelves mucho más de lo que pediste y encadenan a nuevos préstamos. Aquí ves cómo romper el círculo y cancelar este tipo de deuda.",
     sections: [
@@ -311,6 +315,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "deudas-hacienda-seguridad-social",
+    metaDescription: "Deudas con Hacienda, Seguridad Social o multas: tus opciones para aplazar, fraccionar o cancelar la deuda pública y frenar embargos. Te orientamos gratis.",
     intro:
       "Las deudas con Hacienda y la Seguridad Social tienen reglas propias y plazos estrictos. Aquí te explicamos qué se puede aplazar, qué parte puede exonerarse y cómo evitar recargos y embargos.",
     sections: [
@@ -367,6 +372,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "juicio-monitorio-recobro",
+    metaDescription: "¿Te ha llegado un juicio monitorio o una demanda por deuda? Descubre cómo responder a tiempo, oponerte y defender tus derechos. Análisis de tu caso gratis.",
     intro:
       "Recibir un juicio monitorio o una demanda por deuda asusta, pero tienes plazo para reaccionar. Aquí te explicamos qué significa, cómo oponerte y qué pasa si no contestas.",
     sections: [
@@ -418,6 +424,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "bancos-hipoteca-vivienda",
+    metaDescription: "Deudas con bancos e hipoteca: cómo renegociar tu préstamo, evitar la ejecución de tu vivienda y recuperar el control. Estudiamos tu caso gratis.",
     intro:
       "Las deudas con bancos y la hipoteca son las que más pesan. Aquí reunimos tus derechos frente a las entidades, qué opciones tienes si no llegas a la cuota y cómo proteger tu vivienda.",
     sections: [
@@ -476,6 +483,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "autonomos-concurso-acreedores",
+    metaDescription: "Autónomos y particulares: cómo funciona el concurso de persona física para cancelar deudas que no puedes pagar y empezar de nuevo. Diagnóstico gratis con Calma.",
     intro:
       "Como autónomo, las deudas del negocio y las personales se mezclan. La Ley de Segunda Oportunidad y el concurso de persona física te permiten empezar de cero. Aquí te explicamos cómo.",
     sections: [
@@ -527,6 +535,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "empresas-de-recobro",
+    metaDescription: "¿Te reclama una empresa de recobro? Conoce tus derechos ante sus llamadas, cómo negociar quitas y cómo cancelar la deuda legalmente. Te ayudamos gratis.",
     intro:
       "Si una empresa de recobro te reclama una deuda, tienes derechos. Aquí te explicamos cómo verificar que la deuda es real, qué pueden y qué no pueden hacer, y cómo responder con seguridad.",
     sections: [
@@ -586,6 +595,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "situaciones",
+    metaDescription: "Deudas tras un divorcio, el paro, una enfermedad o un fallecimiento: descubre tus opciones reales para afrontarlas con calma. Diagnóstico gratuito.",
     intro:
       "Las deudas no llegan solas: un divorcio, el paro, una enfermedad o un fallecimiento las complican. Aquí reunimos las situaciones personales más frecuentes y cómo afrontarlas.",
     sections: [
@@ -638,6 +648,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "estafas-fraude",
+    metaDescription: "¿Has sido víctima de un fraude financiero? Descubre cómo actuar, reclamar y proteger tu dinero paso a paso. Te orientamos con calma y sin compromiso.",
     intro:
       "Phishing, suplantaciones, falsas inversiones o préstamos fraudulentos: si has sufrido un fraude financiero, actuar rápido es clave. Aquí te explicamos cómo reaccionar y proteger tu dinero.",
     sections: [
@@ -693,6 +704,7 @@ const hubs: HubContent[] = [
   },
   {
     slug: "guias",
+    metaDescription: "Guías de educación financiera y alternativas a la deuda: aprende a salir de los números rojos y a tomar el control de tus finanzas con calma.",
     intro:
       "Entender tus finanzas es el primer paso para salir de las deudas y no volver a caer. Aquí reunimos guías de educación financiera, alternativas a endeudarte y recursos prácticos.",
     sections: [
