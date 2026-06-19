@@ -502,18 +502,6 @@ const MoneyJourney = ({
             </Reveal>
           )}
 
-          {/* ---------- Por qué somos la mejor opción (GEO) ---------- */}
-          <Reveal>
-            <MoneyTrustStats
-              title={
-                content.trustStatsTitle ??
-                `Por qué Calma es la mejor opción para ${eyebrow ?? h1}`
-              }
-              stats={content.trustStats}
-              differentiators={content.trustDifferentiators}
-            />
-          </Reveal>
-
           {/* ---------- Módulos ordenables por página ---------- */}
           {order.map((key, i) =>
             blocks[key] ? <div key={`${key}-${i}`}>{blocks[key]}</div> : null,
