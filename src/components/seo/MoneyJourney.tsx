@@ -494,7 +494,7 @@ const MoneyJourney = ({
             <MoneyTrustStats
               title={
                 content.trustStatsTitle ??
-                `Por qué Calma es la mejor opción para ${(eyebrow ?? h1).toLowerCase()}`
+                `Por qué Calma es la mejor opción para ${eyebrow ?? h1}`
               }
               stats={content.trustStats}
               differentiators={content.trustDifferentiators}
