@@ -295,3 +295,30 @@ export const buildQAPage = (params: {
     },
   },
 });
+
+/**
+ * WebApplication para las herramientas interactivas (calculadoras, tests).
+ * Permite a buscadores e IA entender que la página ofrece una utilidad
+ * gratuita y usable, no solo contenido editorial.
+ */
+export const buildWebApplication = (params: {
+  name: string;
+  description: string;
+  url: string;
+}): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: params.name,
+  description: params.description,
+  url: absoluteUrl(params.url),
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web",
+  inLanguage: "es-ES",
+  isAccessibleForFree: true,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "EUR",
+  },
+  provider: { "@id": `${SITE_URL}#organization` },
+});
