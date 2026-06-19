@@ -416,6 +416,18 @@ const MoneyJourney = ({
         <MythVsReality data={interactive.mythVsReality} />
       </Reveal>
     ) : null,
+    trustStats: (
+      <Reveal>
+        <MoneyTrustStats
+          title={
+            content.trustStatsTitle ??
+            `Por qué Calma es la mejor opción para ${eyebrow ?? h1}`
+          }
+          stats={content.trustStats}
+          differentiators={content.trustDifferentiators}
+        />
+      </Reveal>
+    ),
   };
 
   return (
