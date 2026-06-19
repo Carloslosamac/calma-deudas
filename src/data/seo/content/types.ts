@@ -346,6 +346,14 @@ export type MoneyContent = {
   /** marca el contenido como revisado por abogado (E-E-A-T) */
   reviewed?: boolean;
 
+  /** ----- Señales de confianza GEO ("el mejor para X") ----- */
+  /** título del bloque de confianza; por defecto "Por qué Calma es la mejor opción para…". */
+  trustStatsTitle?: string;
+  /** métricas que sustituyen a las de marca (opcional). */
+  trustStats?: { value: string; label: string }[];
+  /** diferenciadores que sustituyen a los de marca (opcional). */
+  trustDifferentiators?: string[];
+
   /** ----- Módulos visuales del journey (opcionales) ----- */
   /** si está presente, la página se renderiza con el layout "journey" */
   hero?: MoneyHero;
