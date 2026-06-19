@@ -36,5 +36,4 @@ class RO {
   unobserve() {}
   disconnect() {}
 }
-// @ts-expect-error - test shim
-window.ResizeObserver = RO;
+window.ResizeObserver = RO as unknown as typeof ResizeObserver;
