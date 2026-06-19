@@ -33,12 +33,6 @@ import {
 } from "@/lib/seo/structuredData";
 import { blogPosts } from "@/data/blog";
 import stepStrategy from "@/assets/step-strategy.jpg";
-import blogRequisitos from "@/assets/blog-requisitos.jpg";
-import blogEmbargos from "@/assets/blog-embargos.jpg";
-import blogAsnef from "@/assets/blog-asnef.jpg";
-import blogAutonomos from "@/assets/blog-autonomos.jpg";
-import blogRenegociar from "@/assets/blog-renegociar.jpg";
-import blogVidaDespues from "@/assets/blog-vida-despues.jpg";
 
 const categoryIcons: Record<string, LucideIcon> = {
   "Todos": LayoutGrid,
@@ -47,26 +41,16 @@ const categoryIcons: Record<string, LucideIcon> = {
   "ASNEF": ShieldBan,
   "Autónomos": Briefcase,
   "Deuda pública": Landmark,
+  "Deudas públicas": Landmark,
+  "Tarjetas revolving": Wallet,
+  "Microcréditos": Wallet,
+  "Juicio monitorio": Gavel,
   "Hipotecas": Home,
   "Tarjetas y créditos": Wallet,
   "Ahorro": PiggyBank,
   "Finanzas familiares": Banknote,
   "Consejos": Lightbulb,
 };
-
-const categories: { name: string; icon: LucideIcon }[] = [
-  { name: "Todos", icon: LayoutGrid },
-  { name: "Segunda oportunidad", icon: Scale },
-  { name: "Embargos", icon: Gavel },
-  { name: "ASNEF", icon: ShieldBan },
-  { name: "Autónomos", icon: Briefcase },
-  { name: "Deuda pública", icon: Landmark },
-  { name: "Hipotecas", icon: Home },
-  { name: "Tarjetas y créditos", icon: Wallet },
-  { name: "Ahorro", icon: PiggyBank },
-  { name: "Finanzas familiares", icon: Banknote },
-  { name: "Consejos", icon: Lightbulb },
-];
 
 const featuredArticle = {
   slug: "guia-ley-segunda-oportunidad",
@@ -80,76 +64,37 @@ const featuredArticle = {
   imageAlt: "Equipo legal revisando documentación para cancelar deudas",
 };
 
-const articles = [
-  {
-    slug: "cancelar-deudas-requisitos",
-    category: "Segunda oportunidad",
-    title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad",
-    excerpt:
-      "Las claves para entender si cumples los requisitos, qué documentación conviene preparar y qué señales indican que puedes acogerte al procedimiento.",
-    date: "8 mayo 2026",
-    readTime: "6 min",
-    image: blogRequisitos,
-    imageAlt: "Mujer revisando documentación de su deuda con un abogado",
-  },
-  {
-    slug: "embargos-segunda-oportunidad",
-    category: "Embargos",
-    title: "Qué ocurre con los embargos cuando inicias el proceso legal",
-    excerpt:
-      "Te explicamos cuándo pueden frenarse los embargos, qué pasa con la nómina y cómo se protege tu cuenta durante el expediente.",
-    date: "7 mayo 2026",
-    readTime: "5 min",
-    image: blogEmbargos,
-    imageAlt: "Hombre revisando una notificación de embargo en la cocina de su casa",
-  },
-  {
-    slug: "salir-asnef",
-    category: "ASNEF",
-    title: "ASNEF: cómo salir de un fichero de morosidad después de cancelar deuda",
-    excerpt:
-      "Estar en un fichero puede bloquearte durante años. Estos son los pasos para pedir la baja y recuperar acceso a financiación básica.",
-    date: "5 mayo 2026",
-    readTime: "4 min",
-    image: blogAsnef,
-    imageAlt: "Mujer comprobando su situación financiera en el portátil tras salir de ASNEF",
-  },
-  {
-    slug: "autonomos-con-deudas",
-    category: "Autónomos",
-    title: "Autónomos con deudas: cómo proteger tu actividad y empezar de nuevo",
-    excerpt:
-      "Si trabajas por cuenta propia, hay formas de ordenar deudas sin cerrar la persiana. Repasamos opciones legales y errores frecuentes.",
-    date: "30 abril 2026",
-    readTime: "7 min",
-    image: blogAutonomos,
-    imageAlt: "Autónomo revisando facturas y cuentas en su pequeño negocio",
-  },
-  {
-    slug: "renegociar-acreedores",
-    category: "Consejos",
-    title: "Cuándo conviene renegociar deudas y cuándo iniciar una vía legal",
-    excerpt:
-      "No todos los casos necesitan el mismo camino. Aprende a distinguir entre una renegociación viable y una deuda que ya exige protección legal.",
-    date: "24 abril 2026",
-    readTime: "5 min",
-    image: blogRenegociar,
-    imageAlt: "Mujer negociando con un acreedor por teléfono mientras toma notas",
-  },
-  {
-    slug: "vida-despues-deuda",
-    category: "Consejos",
-    title: "Después de cancelar deuda: hábitos sencillos para no volver al bloqueo",
-    excerpt:
-      "Una segunda oportunidad también necesita un plan tranquilo. Presupuesto, ahorro mínimo y decisiones prácticas para mantener la calma.",
-    date: "18 abril 2026",
-    readTime: "4 min",
-    image: blogVidaDespues,
-    imageAlt: "Pareja planificando su presupuesto familiar después de cancelar la deuda",
-  },
-];
+type BlogArticle = {
+  slug: string;
+  category: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  image: string;
+  imageAlt: string;
+};
 
-type BlogArticle = (typeof articles)[number];
+const articles: BlogArticle[] = blogPosts
+  .filter((post) => post.slug !== featuredArticle.slug)
+  .map((post) => ({
+    slug: post.slug,
+    category: post.category,
+    title: post.title,
+    excerpt: post.excerpt,
+    date: post.date,
+    readTime: post.readTime,
+    image: post.heroImage,
+    imageAlt: post.heroAlt,
+  }));
+
+const categories: { name: string; icon: LucideIcon }[] = [
+  { name: "Todos", icon: LayoutGrid },
+  ...Array.from(new Set(articles.map((a) => a.category))).map((name) => ({
+    name,
+    icon: categoryIcons[name] ?? Star,
+  })),
+];
 
 const normalize = (value: string) =>
   value
