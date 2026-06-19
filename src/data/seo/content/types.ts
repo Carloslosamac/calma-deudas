@@ -329,7 +329,8 @@ export type MoneyModuleKey =
   | "legalTimeline"
   | "exonerationLimits"
   | "conceptGlossary"
-  | "mythVsReality";
+  | "mythVsReality"
+  | "trustStats";
 
 /** Copy comercial completo de una money page. */
 export type MoneyContent = {
