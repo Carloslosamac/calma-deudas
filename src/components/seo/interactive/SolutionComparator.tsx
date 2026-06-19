@@ -138,7 +138,47 @@ const SolutionComparator = () => {
         />
       </div>
 
-      <div className="mt-8 overflow-x-auto">
+      {/* Vista de tarjetas apiladas para móvil */}
+      <div className="mt-8 grid gap-4 sm:hidden">
+        {SOLUTIONS.map((sol) => {
+          const isBest = sol.key === best;
+          return (
+            <div
+              key={sol.key}
+              className={`rounded-2xl border p-4 ${
+                isBest ? "border-accent bg-accent-soft/40" : "border-border bg-surface-elevated"
+              }`}
+            >
+              <div
+                className={`-mx-4 -mt-4 mb-4 flex items-center justify-center gap-1.5 rounded-t-2xl px-4 py-3 text-center font-poppins font-semibold ${
+                  isBest ? "bg-accent text-accent-foreground" : "text-foreground"
+                }`}
+              >
+                {isBest && <Star className="h-4 w-4" aria-hidden />}
+                {sol.label}
+              </div>
+              {isBest && (
+                <p className="mb-3 text-center text-xs font-medium text-accent-deep">
+                  Recomendada para tu caso
+                </p>
+              )}
+              <dl className="space-y-3">
+                {ROWS.map((row) => (
+                  <div key={row.feature}>
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {row.feature}
+                    </dt>
+                    <dd className="mt-0.5 text-sm text-foreground/80">{row.values[sol.key]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Tabla comparativa para pantallas medianas y grandes */}
+      <div className="mt-8 hidden overflow-x-auto sm:block">
         <table className="w-full min-w-[640px] border-collapse text-sm">
           <thead>
             <tr>
