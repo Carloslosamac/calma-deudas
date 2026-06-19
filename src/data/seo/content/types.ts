@@ -330,7 +330,8 @@ export type MoneyModuleKey =
   | "exonerationLimits"
   | "conceptGlossary"
   | "mythVsReality"
-  | "trustStats";
+  | "trustStats"
+  | "toolLinks";
 
 /** Copy comercial completo de una money page. */
 export type MoneyContent = {

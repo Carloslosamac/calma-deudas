@@ -25,7 +25,9 @@ import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import TrustBar from "@/components/seo/TrustBar";
 import MoneyTrustStats from "@/components/seo/MoneyTrustStats";
+import MoneyToolLinks from "@/components/seo/MoneyToolLinks";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
+import type { Tool } from "@/data/seo/tools";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
 import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
 import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
@@ -102,6 +104,7 @@ const DEFAULT_ORDER: MoneyModuleKey[] = [
   "exonerationLimits",
   "trustStats",
   "eligibility",
+  "toolLinks",
   "faq",
   "beforeAfter",
   "closing",
@@ -144,6 +147,8 @@ export type MoneyJourneyProps = {
   breadcrumbs: Crumb[];
   structuredData?: Record<string, unknown>[];
   related?: RelatedLink[];
+  /** herramientas relevantes para el bloque "Calcula tu caso" */
+  tools?: Tool[];
 };
 
 const MoneyJourney = ({
@@ -156,24 +161,28 @@ const MoneyJourney = ({
   breadcrumbs,
   structuredData,
   related,
+  tools,
 }: MoneyJourneyProps) => {
   const { hero, benefits, steps, metrics, eligibility, closing, sections, faq, interactive } =
     content;
 
   const tone = TONE[content.tone ?? "transactional"];
   const baseOrder = content.layout ?? DEFAULT_ORDER;
-  // El bloque de confianza GEO debe aparecer siempre. Si la página define un
-  // layout propio que no lo incluye, lo insertamos antes de "eligibility"
-  // (o "closing"/"faq" si no existe) para no interferir con el inicio del journey.
-  const order = (() => {
-    if (baseOrder.includes("trustStats")) return baseOrder;
+  // Inserta una clave de módulo "siempre presente" antes de un ancla
+  // (eligibility/closing/faq) si la página define un layout propio que no la
+  // incluye, para no interferir con el inicio del journey.
+  const ensureKey = (current: MoneyModuleKey[], key: MoneyModuleKey): MoneyModuleKey[] => {
+    if (current.includes(key)) return current;
     const anchor = ["eligibility", "closing", "faq"].find((k) =>
-      baseOrder.includes(k as MoneyModuleKey),
+      current.includes(k as MoneyModuleKey),
     ) as MoneyModuleKey | undefined;
-    if (!anchor) return [...baseOrder, "trustStats" as MoneyModuleKey];
-    const idx = baseOrder.indexOf(anchor);
-    return [...baseOrder.slice(0, idx), "trustStats" as MoneyModuleKey, ...baseOrder.slice(idx)];
-  })();
+    if (!anchor) return [...current, key];
+    const idx = current.indexOf(anchor);
+    return [...current.slice(0, idx), key, ...current.slice(idx)];
+  };
+  // El bloque de confianza GEO y el bloque "Calcula tu caso" deben aparecer
+  // siempre, aunque la página defina un layout propio.
+  const order = ensureKey(ensureKey(baseOrder, "trustStats"), "toolLinks");
 
   /** Registro de bloques renderizables por clave. Devuelve null si no hay datos. */
   const blocks: Record<MoneyModuleKey, React.ReactNode> = {
@@ -440,6 +449,12 @@ const MoneyJourney = ({
         />
       </Reveal>
     ),
+    toolLinks:
+      tools && tools.length > 0 ? (
+        <Reveal>
+          <MoneyToolLinks tools={tools} />
+        </Reveal>
+      ) : null,
   };
 
   return (

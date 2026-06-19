@@ -5,6 +5,7 @@ import NotFound from "@/pages/NotFound";
 import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
 import { getMoneyContent } from "@/data/seo/content";
+import { toolsForCluster } from "@/data/seo/tools";
 import {
   buildBreadcrumb,
   buildLegalService,
@@ -45,6 +46,9 @@ const MoneyLanding = () => {
     ...siblings.map((p) => ({ label: p.h1, to: p.path })),
     ...relatedClusters.map((c) => ({ label: c!.label, to: `/${c!.slug}` })),
   ];
+
+  // Herramientas relevantes para el bloque "Calcula tu caso".
+  const tools = toolsForCluster(page.cluster);
 
   const structuredData = [
     buildWebPage({
@@ -95,6 +99,7 @@ const MoneyLanding = () => {
         breadcrumbs={breadcrumbs}
         structuredData={structuredData}
         related={related}
+        tools={tools}
       />
     );
   }
@@ -113,6 +118,7 @@ const MoneyLanding = () => {
       related={related}
       sections={content?.sections}
       faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
+      tools={tools}
       needsLegalReview={
         content ? !content.reviewed : page.metaDescription.includes("revisión legal")
       }
