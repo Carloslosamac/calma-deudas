@@ -25,7 +25,9 @@ import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import TrustBar from "@/components/seo/TrustBar";
 import MoneyTrustStats from "@/components/seo/MoneyTrustStats";
+import MoneyToolLinks from "@/components/seo/MoneyToolLinks";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
+import type { Tool } from "@/data/seo/tools";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
 import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
 import DebtTypeSelector from "@/components/seo/interactive/DebtTypeSelector";
@@ -102,6 +104,7 @@ const DEFAULT_ORDER: MoneyModuleKey[] = [
   "exonerationLimits",
   "trustStats",
   "eligibility",
+  "toolLinks",
   "faq",
   "beforeAfter",
   "closing",
