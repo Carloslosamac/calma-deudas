@@ -325,7 +325,7 @@ const FormSection = () => {
                     >
                       {active ? <Check className="h-4 w-4" strokeWidth={3} /> : <Icon className="h-4 w-4" />}
                     </span>
-                    <span className="text-sm font-medium text-foreground text-left">{opt.label}</span>
+                    <span className="min-w-0 break-words text-sm font-medium leading-tight text-foreground text-left">{opt.label}</span>
                   </button>
                 );
               })}
