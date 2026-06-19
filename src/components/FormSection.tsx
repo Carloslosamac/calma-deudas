@@ -490,42 +490,7 @@ const FormSection = () => {
         {/* Right form card */}
         <div className="lg:col-span-3">
           <div className="bg-surface-elevated border border-border rounded-3xl shadow-large p-6 md:p-10 backdrop-blur-sm">
-            {showResult ? (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="flex items-center gap-2 text-accent-deep mb-4">
-                  <Sparkles className="h-5 w-5" />
-                  <span className="text-xs font-medium uppercase tracking-wider">Tu diagnóstico orientativo</span>
-                </div>
-                <h3 className="font-poppins text-2xl md:text-3xl font-semibold text-foreground mb-3">
-                  {result.title}
-                </h3>
-                <p className="text-muted-foreground mb-6">{result.description}</p>
-                <ul className="space-y-3 mb-8">
-                  {result.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent">
-                        <Check className="h-3.5 w-3.5 text-accent-foreground" strokeWidth={3} />
-                      </span>
-                      <span className="text-foreground/90">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="rounded-2xl border border-border bg-background p-5">
-                  <p className="text-foreground font-medium">
-                    Hemos recibido tu caso. Te llamamos en menos de 24h para confirmar tu mejor opción.
-                  </p>
-                </div>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Esta es una orientación automática basada en tus respuestas. El diagnóstico definitivo lo realiza
-                  nuestro equipo legal sin compromiso.
-                </p>
-              </motion.div>
-            ) : (
-              <>
+            <>
                 {/* Progress */}
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
@@ -570,8 +535,7 @@ const FormSection = () => {
                     </AnimatePresence>
                   </form>
                 </Form>
-              </>
-            )}
+            </>
           </div>
         </div>
       </div>
