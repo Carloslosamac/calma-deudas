@@ -11,6 +11,8 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "sitemap": "bun run scripts/generate-sitemap.ts"
   },
   "dependencies": {
