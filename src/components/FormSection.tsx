@@ -198,29 +198,35 @@ const FormSection = () => {
     min: number;
     max: number;
     stepSize: number;
-  }) => (
-    <div>
-      <QuestionTitle>{title}</QuestionTitle>
-      <div className="rounded-2xl border border-border bg-background p-6">
-        <p className="text-center font-poppins text-4xl font-bold text-accent-deep mb-6">
-          {eur(data[valueKey])}
-          {data[valueKey] >= max ? "+" : ""}
-        </p>
-        <Slider
-          value={[data[valueKey]]}
-          min={min}
-          max={max}
-          step={stepSize}
-          onValueChange={(v) => setData((d) => ({ ...d, [valueKey]: v[0] }))}
-        />
-        <div className="mt-3 flex justify-between text-xs text-muted-foreground">
-          <span>{eur(min)}</span>
-          <span>{eur(max)}+</span>
+  }) => {
+    const displayValue = Math.round(data[valueKey] / stepSize) * stepSize;
+    const updateValue = (value: number) => setData((d) => ({ ...d, [valueKey]: value }));
+
+    return (
+      <div>
+        <QuestionTitle>{title}</QuestionTitle>
+        <div className="rounded-2xl border border-border bg-background p-6">
+          <p className="text-center font-poppins text-4xl font-bold text-accent-deep mb-6">
+            {eur(displayValue)}
+            {data[valueKey] >= max ? "+" : ""}
+          </p>
+          <Slider
+            value={[data[valueKey]]}
+            min={min}
+            max={max}
+            step={1}
+            onValueChange={(v) => updateValue(v[0])}
+            onValueCommit={(v) => updateValue(Math.round(v[0] / stepSize) * stepSize)}
+          />
+          <div className="mt-3 flex justify-between text-xs text-muted-foreground">
+            <span>{eur(min)}</span>
+            <span>{eur(max)}+</span>
+          </div>
         </div>
+        <ContinueButton />
       </div>
-      <ContinueButton />
-    </div>
-  );
+    );
+  };
 
   const renderStep = () => {
     switch (currentKey) {
