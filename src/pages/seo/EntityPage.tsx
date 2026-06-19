@@ -5,6 +5,7 @@ import { getEntity, entitiesByCluster } from "@/data/seo/entities";
 import { getCluster } from "@/data/seo/architecture";
 import { moneyPagesByPath } from "@/data/seo/moneyPages";
 import { getEntityContent } from "@/data/seo/content/entityContent";
+import { getEntityProfile } from "@/data/seo/content/entityProfiles";
 import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
 
 /** Ficha de entidad: /<cluster>/<slug> (banco, financiera, recobro…). */
@@ -18,6 +19,7 @@ const EntityPage = () => {
   const solution = moneyPagesByPath[entity.solutionPath];
   const canonical = `/${entity.cluster}/${entity.slug}/`;
   const content = getEntityContent(entity);
+  const profile = getEntityProfile(entity.slug);
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
@@ -54,7 +56,10 @@ const EntityPage = () => {
       eyebrow={cluster?.label}
       intro={intro}
       seoTitle={`Deudas con ${entity.name}: derechos, miedos y soluciones | Calma`}
-      metaDescription={`¿Deuda o reclamación de ${entity.name}? Resolvemos tus miedos reales (embargo, ASNEF, llamadas) y te explicamos con calma cómo cancelarla. Análisis gratis.`}
+      metaDescription={
+        profile?.metaDescription ??
+        `¿Deuda o reclamación de ${entity.name}? Resolvemos tus miedos reales (embargo, ASNEF, llamadas) y te explicamos con calma cómo cancelarla. Análisis gratis.`
+      }
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}

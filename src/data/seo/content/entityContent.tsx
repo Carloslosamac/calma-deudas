@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Entity } from "@/data/seo/entities";
+import { getEntityProfile, type EntityProfile } from "@/data/seo/content/entityProfiles";
 import CtaButton from "@/components/seo/CtaButton";
 import KeyCallout from "@/components/seo/modules/KeyCallout";
 import CheckList from "@/components/seo/modules/CheckList";
@@ -568,19 +569,75 @@ const bancoContent = (e: Entity, note: string): EntityContent => ({
   ],
 });
 
+/** Sección única "Quién es {entidad}" a partir del perfil real generado. */
+const originSection = (e: Entity, profile: EntityProfile): EntitySection => ({
+  title: `Quién es ${e.name} y por qué te afecta`,
+  body: (
+    <>
+      <P>{profile.origin}</P>
+      <P>{profile.detail}</P>
+    </>
+  ),
+});
+
+/** Sección única de miedos específicos de la entidad. */
+const profileWorriesSection = (e: Entity, profile: EntityProfile): EntitySection => ({
+  title: `Tus dudas concretas sobre ${e.name}`,
+  body: (
+    <MythReality
+      items={profile.worries.map((w) => ({ myth: w.fear, reality: w.reality }))}
+    />
+  ),
+});
+
+/** FAQ únicas de la entidad (al principio del acordeón). */
+const profileFaqs = (profile: EntityProfile): EntityFaq[] =>
+  profile.faqs.map((f) => ({
+    q: f.q,
+    a: <P>{f.a}</P>,
+    plain: f.a,
+  }));
+
+/**
+ * Combina la estructura común de cada tipo con el contenido ÚNICO por entidad
+ * (intro, origen, prácticas, miedos y FAQ propios) para evitar duplicados.
+ * El bloque de origen se inserta tras el bloque de tranquilidad (índice 1) y
+ * los miedos específicos justo antes del cierre "Por qué confiar en Calma".
+ */
+const mergeProfile = (base: EntityContent, e: Entity, profile: EntityProfile): EntityContent => {
+  const sections = [...base.sections];
+  // tras calmSection (índice 0): origen único
+  sections.splice(1, 0, originSection(e, profile));
+  // antes de la última sección (calmaSection): miedos específicos
+  const insertAt = Math.max(1, sections.length - 1);
+  sections.splice(insertAt, 0, profileWorriesSection(e, profile));
+  return {
+    intro: profile.intro,
+    sections,
+    faq: [...profileFaqs(profile), ...base.faq],
+  };
+};
+
 export const getEntityContent = (entity?: Entity): EntityContent | undefined => {
   if (!entity) return undefined;
   const note = NOTES[entity.slug] ?? "";
+  let base: EntityContent | undefined;
   switch (entity.kind) {
     case "recobro":
-      return recobroContent(entity, note);
+      base = recobroContent(entity, note);
+      break;
     case "microcredito":
-      return microcreditoContent(entity, note);
+      base = microcreditoContent(entity, note);
+      break;
     case "revolving":
-      return revolvingContent(entity, note);
+      base = revolvingContent(entity, note);
+      break;
     case "banco":
-      return bancoContent(entity, note);
+      base = bancoContent(entity, note);
+      break;
     default:
       return undefined;
   }
+  const profile = getEntityProfile(entity.slug);
+  return profile ? mergeProfile(base, entity, profile) : base;
 };
