@@ -472,7 +472,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
       }
     ],
     "metaDescription": "¿Te reclama Pepper Advantage? Descubre cómo gestionar tu deuda, detener el acoso y recuperar tu tranquilidad financiera con el asesoramiento de Calma.",
-    "intro": "Si has recibido una notificación de Pepper Advantage, es probable que tu antigua deuda haya cambiado de manos y ahora sientas la presión de una empresa especializada en recobros.",
+    "intro": "Recibir una notificación de Pepper Advantage suele significar que tu préstamo o hipoteca ahora la gestiona un servicer en nombre de un fondo, y eso despierta muchas dudas sobre quién manda realmente. Tranquilo: ese cambio de gestor no borra ni uno solo de tus derechos como deudor.",
     "origin": "Pepper Advantage es un \"servicer\" o gestor global de activos financieros que opera en España administrando carteras de crédito para terceros y fondos de inversión. Originalmente vinculada al grupo Pepper, su función principal es transformar préstamos impagados en dinero líquido mediante la gestión de cobro activa.",
     "faqs": [
       {
