@@ -159,6 +159,7 @@ const MoneyJourney = ({
   breadcrumbs,
   structuredData,
   related,
+  tools,
 }: MoneyJourneyProps) => {
   const { hero, benefits, steps, metrics, eligibility, closing, sections, faq, interactive } =
     content;
