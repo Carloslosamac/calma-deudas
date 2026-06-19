@@ -88,13 +88,13 @@ export const marinaBilbao: CasoExito = {
             juzgado.
           </p>
           <DebtTypesDonut
-            data={[
-              { label: "Préstamos personales", value: 34200, color: "#7C6AF7" },
-              { label: "Tarjetas de crédito", value: 19400, color: "#F7A26A" },
-              { label: "Crédito al consumo", value: 7800, color: "#6AD4F7" },
+            segments={[
+              { label: "Préstamos personales", value: 34200, color: "hsl(145 60% 35%)" },
+              { label: "Tarjetas de crédito", value: 19400, color: "hsl(84 75% 55%)" },
+              { label: "Crédito al consumo", value: 7800, color: "hsl(25 90% 60%)" },
             ]}
-            total="61.400 €"
             title="Composición de la deuda de Marina"
+            subtitle="Total: 61.400 €"
           />
           <p>
             Más de la mitad procedía de préstamos personales contratados con

@@ -3,6 +3,7 @@ import {
   EmbargoFlowChart,
   ProcessTimeline,
 } from "@/components/blog/diagrams";
+import { FileText, Gavel, ShieldCheck, Sparkles } from "lucide-react";
 import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "@/data/blog/shared";
 import type { CasoExito } from "../types";
@@ -91,18 +92,22 @@ export const manuelGranada: CasoExito = {
             title="El camino del embargo de Manuel y dónde se cortó"
             nodes={[
               {
+                icon: FileText,
                 title: "Deuda impagada",
                 desc: "Varios meses de cuotas sin pagar; el acreedor inicia reclamación judicial",
               },
               {
+                icon: Gavel,
                 title: "Orden de embargo",
                 desc: "El juzgado autoriza la retención mensual sobre la nómina de Manuel",
               },
               {
+                icon: ShieldCheck,
                 title: "Protección del mínimo inembargable",
                 desc: "Se detecta que la retención supera el límite legal; se presenta escrito para corregirlo de inmediato",
               },
               {
+                icon: Sparkles,
                 title: "Inicio de la LSO",
                 desc: "Al ser insolvente sin bienes, se activa la Ley de Segunda Oportunidad y el embargo queda suspendido",
               },

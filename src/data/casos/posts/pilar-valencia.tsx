@@ -3,6 +3,7 @@ import {
   EmbargoFlowChart,
   ProcessTimeline,
 } from "@/components/blog/diagrams";
+import { FileText, Gavel, ShieldCheck, Sparkles } from "lucide-react";
 import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "@/data/blog/shared";
 import type { CasoExito } from "../types";
@@ -90,18 +91,22 @@ export const pilarValencia: CasoExito = {
             title="El camino del embargo de cuenta de Pilar"
             nodes={[
               {
+                icon: FileText,
                 title: "Deuda en manos del juzgado",
                 desc: "El acreedor obtuvo sentencia favorable; inició la ejecución judicial sobre los bienes de Pilar",
               },
               {
+                icon: Gavel,
                 title: "Orden de retención bancaria",
                 desc: "El juzgado ordenó al banco retener el saldo disponible; Pilar lo descubrió al pagar en el supermercado",
               },
               {
+                icon: ShieldCheck,
                 title: "Actuación urgente",
                 desc: "Se identificó el mínimo protegido y se presentó escrito solicitando la liberación parcial inmediata",
               },
               {
+                icon: Sparkles,
                 title: "Embargo suspendido · Deuda cancelada",
                 desc: "Retención levantada; inicio de LSO que culminó con la exoneración completa de la deuda",
               },
