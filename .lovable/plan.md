@@ -1,43 +1,46 @@
-# Tracking de origen (UTMs) y página de conversión → Zoho
+# Sección "Casos de éxito" tipo noticia
 
-## Objetivo
-Cada lead que entra en Zoho debe traer:
-- **source**: de dónde vino (parámetros UTM de la URL).
-- **page**: el slug de la página donde el usuario rellenó y envió el formulario.
+Crear una sección independiente del blog donde cada caso de éxito real (a partir de los testimonios existentes) se cuenta como una noticia única, cercana y atrapante. Esta entrega deja la estructura lista + 1 caso completo como modelo, para luego mantener el ritmo de 1-2/día simplemente añadiendo objetos de datos.
 
-## Cómo funciona el origen (persistencia)
-Los UTMs suelen venir en la primera URL de aterrizaje (ej. `mi-calma.es/?utm_source=google&utm_medium=cpc&utm_campaign=lso`), pero el usuario puede navegar antes de convertir. Por eso se capturan **una sola vez al cargar la web** y se guardan en `sessionStorage`, de modo que sigan disponibles aunque cambie de página antes de enviar.
+## Qué se construye
 
-## Cambios de Frontend
+```text
+/casos-de-exito            -> índice (listado de casos, tipo portada de noticias)
+/casos-de-exito/:slug      -> caso individual (artículo tipo noticia)
+```
 
-1. **Utilidad de tracking** (`src/lib/tracking.ts`, nuevo):
-   - Al cargarse, lee de la URL: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
-   - Si hay alguno, los guarda en `sessionStorage` (solo la primera vez; no se sobrescriben con navegaciones internas sin UTMs).
-   - `getUtms()`: devuelve los UTMs guardados.
-   - `getConversionSlug()`: devuelve `window.location.pathname` (la página donde se envía el formulario).
+1. **Modelo de datos** `src/data/casos/types.ts` + `src/data/casos/index.ts`
+   - Tipo `CasoExito`: `slug`, `category` (LSO, ASNEF, Revolving, Reunificación…), `name`, `location`, `debtAmount`, `solution`, `headline` (titular noticia), `dek` (entradilla), `date`, `readTime`, `heroImage`, `heroAlt`, `sections[]` (narrativa con módulos), `keywords`, `seoTitle`, `metaDescription`, `faq`.
+   - Helpers `getCasoBySlug` y array ordenado por fecha (igual patrón que `blog/index.ts`).
 
-2. **Inicialización**: llamar a la captura de UTMs al arrancar la app (en `App.tsx` o `main.tsx`).
+2. **Página índice** `src/pages/CasosExito.tsx`
+   - Hero corto + grid de tarjetas (titular, lugar, importe cancelado, categoría, foto).
+   - Diseño coherente con la marca Calma (sin gradientes en CTAs). CTA → `#hero-form`.
+   - `FormSection` + `Footer`. SEO con `Seo` + BreadcrumbList JSON-LD.
 
-3. **`src/components/FormSection.tsx`** (`onSubmit`): añadir al `payload`:
-   - `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` (desde `getUtms()`).
-   - `page`: slug de conversión (desde `getConversionSlug()`).
+3. **Página de caso** `src/pages/CasoExitoPost.tsx`
+   - Reutiliza los módulos existentes (`ProcessTimeline`, `BeforeAfterSplit`, `MythVsReality`, `DocumentsChecklist`, `InlineCTA`, `ReadingProgressBar`).
+   - Estructura tipo noticia: titular grande + entradilla + ficha del caso (importe, lugar, solución) + cuerpo narrativo en secciones + FAQ + CTA final.
+   - Respeta reglas de blog: nunca mezclar imagen y diagrama bajo el mismo H2; copy largo y SEO.
+   - JSON-LD `NewsArticle` + `BreadcrumbList`. Title <60 y meta <160 optimizados para CTR (sin "| Calma").
 
-## Cambios de Backend (`supabase/functions/zoho-lead/index.ts`)
+4. **Rutas** en `src/App.tsx`: `/casos-de-exito` y `/casos-de-exito/:slug`.
 
-1. Ampliar la interfaz `FormData` con los campos UTM y `page`.
-2. Construir el valor de **source** combinando los UTMs presentes en una cadena legible, p. ej.:
-   `source=google | medium=cpc | campaign=lso | content=banner-a`
-   (si no llega ningún UTM, se mantiene el valor por defecto `Calma Web`).
-3. Mapear:
-   - campo Zoho **`source`** ← cadena de UTMs.
-   - campo Zoho **`page`** ← slug de conversión.
-   - (Se mantiene `Fuente = "Calma Web"` como está, salvo que prefieras moverlo.)
-4. Verificar los **API names** reales de los campos nuevos `page` y `source` en Zoho (a veces Zoho genera `page1`/`source1` si el nombre choca). Se comprueba consultando la metadata de campos antes de mapear, para no enviar a un nombre incorrecto que Zoho ignoraría en silencio.
+5. **Enlace de acceso**: añadir entrada a "Casos de éxito" en el `Footer` para que la sección sea descubrible.
 
-## Validación
-- Enviar un lead de prueba con UTMs simulados y leer el registro creado en Zoho para confirmar que `page` y `source` se rellenan correctamente.
-- Limpiar el lead de prueba después.
+6. **Primer caso (modelo)** `src/data/casos/posts/noemi-barcelona-48310.tsx`
+   - Basado en el testimonio existente: Noemí V., Barcelona, 48.310 €, Ley de Segunda Oportunidad (foto `assets/testimonios/lso-1.jpg`).
+   - Redacción **narrativa realista**: contexto humano plausible, manteniendo cifras reales sin inventar estadísticas agregadas de Calma. Tono de reportaje cercano y atrapante.
+   - Secciones: el punto de quiebre → cómo era el día a día con la deuda → la decisión de pedir ayuda → el proceso paso a paso (timeline) → antes/después → mitos que la frenaban → vida hoy + CTA.
 
-## Notas / decisiones abiertas
-- **source** se guardará como cadena combinada de UTMs. Si prefieres solo `utm_source` "puro" (ej. `google`) en ese campo, dímelo y lo ajusto.
-- Si en el futuro quieres `gclid`/`fbclid` (Google/Meta Ads) o el `referrer`, se añaden con la misma mecánica.
+## Notas técnicas
+
+- Se crea un modelo `CasoExito` separado (no se reutiliza `BlogPost`) para tener campos propios de ficha (importe, lugar, solución) y schema `NewsArticle`.
+- Imágenes: se usan las de `src/assets/testimonios/` ya disponibles.
+- Todos los CTA hacen scroll a `#hero-form` (regla de proyecto), sin gradientes.
+- La página de caso valida slug y muestra `NotFound`/redirección si no existe.
+- Para mantener el ritmo 1-2/día: cada caso nuevo = un archivo en `src/data/casos/posts/` + registro en `index.ts`. Sin tocar componentes.
+
+## Pendiente de tu lado para los siguientes
+
+Cuando quieras los próximos casos, solo dime cuáles de los testimonios existentes priorizar (o pásame nuevos) y los voy generando 1-2/día con esta misma plantilla.
