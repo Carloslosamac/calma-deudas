@@ -424,6 +424,7 @@ const MoneyJourney = ({
         canonical={canonical}
         ogType="website"
         structuredData={structuredData}
+        appendSiteName={false}
       />
       <Header />
 
