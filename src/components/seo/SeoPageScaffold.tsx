@@ -6,6 +6,8 @@ import Seo from "@/components/seo/Seo";
 import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
+import MoneyToolLinks from "@/components/seo/MoneyToolLinks";
+import type { Tool } from "@/data/seo/tools";
 import type { TemplateType } from "@/data/seo/architecture";
 
 /**
@@ -82,6 +84,8 @@ export type SeoPageScaffoldProps = {
   sections?: ContentSection[];
   /** preguntas frecuentes (se renderiza un acordeón al final del contenido) */
   faq?: ScaffoldFaq[];
+  /** herramientas relevantes para el bloque "Calcula tu caso" */
+  tools?: Tool[];
   /** marca el contenido como pendiente de revisión legal */
   needsLegalReview?: boolean;
   children?: React.ReactNode;
@@ -100,6 +104,7 @@ const SeoPageScaffold = ({
   related,
   sections: contentSections,
   faq,
+  tools,
   needsLegalReview,
   children,
 }: SeoPageScaffoldProps) => {
@@ -177,6 +182,13 @@ const SeoPageScaffold = ({
           </div>
 
           {children}
+
+          {/* Calcula tu caso — enlaces a herramientas relevantes */}
+          {tools && tools.length > 0 && (
+            <div className="mt-14">
+              <MoneyToolLinks tools={tools} />
+            </div>
+          )}
 
           {/* Bloque editorial E-E-A-T obligatorio */}
           <div className="mt-14 rounded-3xl border border-border bg-surface p-6">
