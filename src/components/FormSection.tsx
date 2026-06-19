@@ -327,11 +327,12 @@ const FormSection = () => {
       case "vehicle":
         return (
           <div>
-            <QuestionTitle>¿Y tu vehículo?</QuestionTitle>
+            <QuestionTitle>¿Tienes un vehículo?</QuestionTitle>
             <div className="space-y-3">
               {[
                 { v: "propiedad" as Vehicle, label: "En propiedad (pagado)" },
                 { v: "financiado" as Vehicle, label: "Financiado" },
+                { v: "no" as Vehicle, label: "No tengo" },
               ].map((opt) => (
                 <button
                   key={opt.v}

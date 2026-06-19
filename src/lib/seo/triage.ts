@@ -7,7 +7,7 @@
  */
 
 export type Housing = "propiedad" | "hipoteca" | "alquiler";
-export type Vehicle = "propiedad" | "financiado";
+export type Vehicle = "propiedad" | "financiado" | "no";
 export type Solution = "lso" | "reunificar" | "reclamacion";
 
 export interface TriageInput {
