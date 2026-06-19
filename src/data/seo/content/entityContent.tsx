@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Entity } from "@/data/seo/entities";
+import { getEntityProfile, type EntityProfile } from "@/data/seo/content/entityProfiles";
 import CtaButton from "@/components/seo/CtaButton";
 import KeyCallout from "@/components/seo/modules/KeyCallout";
 import CheckList from "@/components/seo/modules/CheckList";
