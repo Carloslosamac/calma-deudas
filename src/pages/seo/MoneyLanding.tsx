@@ -5,7 +5,13 @@ import NotFound from "@/pages/NotFound";
 import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
 import { getMoneyContent } from "@/data/seo/content";
-import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
+import {
+  buildBreadcrumb,
+  buildLegalService,
+  buildFaq,
+  buildOrganization,
+  buildWebPage,
+} from "@/lib/seo/structuredData";
 import { absoluteUrl } from "@/lib/seo/config";
 
 /** Resuelve una money page a partir del pathname y la renderiza. */
@@ -39,8 +45,16 @@ const MoneyLanding = () => {
   ];
 
   const structuredData = [
+    buildWebPage({
+      url: canonical,
+      name: page.seoTitle,
+      description: page.metaDescription,
+      hasBreadcrumb: true,
+    }),
+    buildOrganization(),
     buildBreadcrumb(
       breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical })),
+      canonical,
     ),
     buildLegalService(),
     ...(content?.faq?.length

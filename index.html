@@ -36,17 +36,30 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Organization JSON-LD (fallback para crawlers sin JS; Helmet añade el resto por ruta) -->
+    <!-- Organization + WebSite JSON-LD (fallback para crawlers sin JS; Helmet añade WebPage/Breadcrumb/FAQ por ruta) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Calma",
-        "legalName": "Calma Legal",
-        "url": "https://mi-calma.es",
-        "logo": "https://mi-calma.es/favicon-192.png",
-        "email": "hola@mi-calma.es",
-        "areaServed": "ES"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://mi-calma.es#organization",
+            "name": "Calma",
+            "legalName": "Calma Legal",
+            "url": "https://mi-calma.es",
+            "logo": "https://mi-calma.es/favicon-192.png",
+            "email": "hola@mi-calma.es",
+            "areaServed": "ES"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://mi-calma.es#website",
+            "name": "Calma",
+            "url": "https://mi-calma.es",
+            "inLanguage": "es-ES",
+            "publisher": { "@id": "https://mi-calma.es#organization" }
+          }
+        ]
       }
     </script>
 </head>
