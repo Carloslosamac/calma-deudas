@@ -14,7 +14,7 @@ const GuiaPage = () => {
   if (!guia) return <NotFound />;
 
   const cluster = getCluster(guia.cluster);
-  const canonical = `${guia.path}/`;
+  const canonical = `${guia.path}`;
   const content = getGuiaContent(guia.cluster, guia.slug);
 
   const breadcrumbs = [

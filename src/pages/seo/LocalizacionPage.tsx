@@ -12,7 +12,7 @@ const LocalizacionPage = () => {
 
   if (!city) return <NotFound />;
 
-  const canonical = `${city.path}/`;
+  const canonical = `${city.path}`;
   const content = getLocalizacionContent(city);
 
   const seoTitle = `Abogados Ley Segunda Oportunidad en ${city.name} | Calma`;

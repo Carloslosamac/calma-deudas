@@ -27,7 +27,7 @@ const casos: MoneyTestimonial[] = [
 ];
 
 const CasosLSO = () => {
-  const canonical = "/ley-segunda-oportunidad/casos/";
+  const canonical = "/ley-segunda-oportunidad/casos";
   const structuredData = [
     {
       "@context": "https://schema.org",

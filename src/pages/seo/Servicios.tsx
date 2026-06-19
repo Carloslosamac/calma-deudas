@@ -12,7 +12,7 @@ import { buildBreadcrumb, buildItemList, buildLegalService } from "@/lib/seo/str
 
 /** Hub `/servicios`: índice navegable de todas las soluciones (money pages). */
 const Servicios = () => {
-  const canonical = "/servicios/";
+  const canonical = "/servicios";
 
   // Clusters que tienen al menos una money page, en el orden de la arquitectura.
   const groups = clusters
