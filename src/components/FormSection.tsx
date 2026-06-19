@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { scrollToForm } from "@/lib/seo/scrollToForm";
 import { triage, type Housing, type Vehicle } from "@/lib/seo/triage";
 
 const eur = (n: number) => n.toLocaleString("es-ES", { maximumFractionDigits: 0 }) + " €";
