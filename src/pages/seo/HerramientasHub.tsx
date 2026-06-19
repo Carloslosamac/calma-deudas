@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Calculator, CreditCard, ShieldCheck, ClipboardCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Calculator,
+  CreditCard,
+  ShieldCheck,
+  ClipboardCheck,
+  TrendingDown,
+  Scale,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormSection from "@/components/FormSection";
@@ -23,6 +31,8 @@ const ICONS: Record<ToolKind, typeof Calculator> = {
   cancelable: Calculator,
   salary: ShieldCheck,
   revolving: CreditCard,
+  paymentPlan: TrendingDown,
+  comparator: Scale,
 };
 
 const HerramientasHub = () => {
