@@ -17,9 +17,15 @@ const EntityPage = () => {
 
   const cluster = getCluster(entity.cluster);
   const solution = moneyPagesByPath[entity.solutionPath];
-  const canonical = `/${entity.cluster}/${entity.slug}/`;
+  const canonical = `/${entity.cluster}/${entity.slug}`;
   const content = getEntityContent(entity);
   const profile = getEntityProfile(entity.slug);
+
+  // Título length-aware: prioriza la versión rica y, si supera ~60 chars
+  // (nombres de entidad largos), cae a una versión corta para no truncar en SERP.
+  const richTitle = `Deudas con ${entity.name}: soluciones | Calma`;
+  const seoTitle =
+    richTitle.length <= 60 ? richTitle : `Deudas con ${entity.name} | Calma`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
