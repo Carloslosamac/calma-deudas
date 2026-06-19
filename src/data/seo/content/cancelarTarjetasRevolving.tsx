@@ -75,8 +75,8 @@ export const cancelarTarjetasRevolving: MoneyContent = {
   testimonials: [
     { name: "Cristina R.", amount: "6.750 €", location: "Valencia", text: "Tenía dos revolving y pagaba sin que bajaran. Recuperé parte de lo pagado de más.", photo: p1 },
     { name: "David P.", amount: "9.300 €", location: "Madrid", text: "Pagaba cada mes y la deuda seguía igual. La anularon por usura y dejé de deber.", photo: p2 },
-    { name: "Sergio M.", amount: "12.100 €", location: "Sevilla", text: "Llevaba años atrapado con la tarjeta. La TAE era abusiva y se canceló entera.", photo: p3 },
-    { name: "Laura T.", amount: "4.980 €", location: "Bilbao", text: "No sabía que era ilegal cobrar tanto interés. La reclamación salió adelante.", photo: p4 },
+    { name: "Sergio M.", amount: "12.100 €", location: "Sevilla", text: "Llevaba años atrapado con la tarjeta. La TAE era abusiva y se canceló entera.", photo: p4 },
+    { name: "Laura T.", amount: "4.980 €", location: "Bilbao", text: "No sabía que era ilegal cobrar tanto interés. La reclamación salió adelante.", photo: p3 },
     { name: "Marta D.", amount: "7.420 €", location: "Málaga", text: "Una sola tarjeta que no terminaba nunca. La declararon usuraria y respiré.", photo: p5 },
     { name: "Antonio G.", amount: "11.250 €", location: "Zaragoza", text: "Devolví solo el capital prestado. Los intereses abusivos se anularon por completo.", photo: p6 },
   ],
