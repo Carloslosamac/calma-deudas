@@ -491,9 +491,21 @@ const FormSection = () => {
               <>
                 {/* Progress */}
                 <div className="flex items-center justify-between mb-8">
-                  <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Paso {step + 1} de {totalSteps}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    {step > 0 && (
+                      <button
+                        type="button"
+                        onClick={goBack}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                        Atrás
+                      </button>
+                    )}
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Paso {step + 1} de {totalSteps}
+                    </span>
+                  </div>
                   <div className="flex gap-1.5">
                     {Array.from({ length: totalSteps }).map((_, i) => (
                       <div
