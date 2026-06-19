@@ -168,18 +168,21 @@ const MoneyJourney = ({
 
   const tone = TONE[content.tone ?? "transactional"];
   const baseOrder = content.layout ?? DEFAULT_ORDER;
-  // El bloque de confianza GEO debe aparecer siempre. Si la página define un
-  // layout propio que no lo incluye, lo insertamos antes de "eligibility"
-  // (o "closing"/"faq" si no existe) para no interferir con el inicio del journey.
-  const order = (() => {
-    if (baseOrder.includes("trustStats")) return baseOrder;
+  // Inserta una clave de módulo "siempre presente" antes de un ancla
+  // (eligibility/closing/faq) si la página define un layout propio que no la
+  // incluye, para no interferir con el inicio del journey.
+  const ensureKey = (current: MoneyModuleKey[], key: MoneyModuleKey): MoneyModuleKey[] => {
+    if (current.includes(key)) return current;
     const anchor = ["eligibility", "closing", "faq"].find((k) =>
-      baseOrder.includes(k as MoneyModuleKey),
+      current.includes(k as MoneyModuleKey),
     ) as MoneyModuleKey | undefined;
-    if (!anchor) return [...baseOrder, "trustStats" as MoneyModuleKey];
-    const idx = baseOrder.indexOf(anchor);
-    return [...baseOrder.slice(0, idx), "trustStats" as MoneyModuleKey, ...baseOrder.slice(idx)];
-  })();
+    if (!anchor) return [...current, key];
+    const idx = current.indexOf(anchor);
+    return [...current.slice(0, idx), key, ...current.slice(idx)];
+  };
+  // El bloque de confianza GEO y el bloque "Calcula tu caso" deben aparecer
+  // siempre, aunque la página defina un layout propio.
+  const order = ensureKey(ensureKey(baseOrder, "trustStats"), "toolLinks");
 
   /** Registro de bloques renderizables por clave. Devuelve null si no hay datos. */
   const blocks: Record<MoneyModuleKey, React.ReactNode> = {
