@@ -68,7 +68,7 @@ export const concursoPersonaFisica: MoneyContent = {
   ],
   testimonialsTitle: "Personas que salieron con el concurso",
   testimonialsSubtitle: "Casos reales de particulares y autónomos que reorganizaron o cancelaron su deuda.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Víctor R.", amount: "112.000 €", location: "Madrid", text: "Como autónomo lo perdí todo. El concurso me dio una salida ordenada.", photo: p1 },
     { name: "Sonia P.", amount: "47.300 €", location: "Valencia", text: "Pude reorganizar mis deudas con un plan que sí podía pagar.", photo: p2 },

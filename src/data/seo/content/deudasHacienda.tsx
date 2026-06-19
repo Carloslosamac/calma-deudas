@@ -69,7 +69,7 @@ export const deudasHacienda: MoneyContent = {
   ],
   testimonialsTitle: "Personas que ordenaron su deuda con Hacienda",
   testimonialsSubtitle: "Casos reales de deuda pública aplazada, recurrida o exonerada con límites.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Andrés P.", amount: "Aplazada", location: "Madrid", text: "Conseguimos fraccionar la deuda y frenar el apremio.", photo: p1 },
     { name: "Lucía R.", amount: "Parte exonerada", location: "Valencia", text: "Dentro de los límites, parte de mi deuda pública se canceló.", photo: p2 },

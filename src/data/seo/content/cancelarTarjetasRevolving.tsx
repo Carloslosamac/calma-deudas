@@ -71,7 +71,7 @@ export const cancelarTarjetasRevolving: MoneyContent = {
   ],
   testimonialsTitle: "Personas que cancelaron su revolving",
   testimonialsSubtitle: "Casos reales de tarjetas anuladas por intereses abusivos.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Cristina R.", amount: "6.750 €", location: "Valencia", text: "Tenía dos revolving y pagaba sin que bajaran. Recuperé parte de lo pagado de más.", photo: p1 },
     { name: "David P.", amount: "9.300 €", location: "Madrid", text: "Pagaba cada mes y la deuda seguía igual. La anularon por usura y dejé de deber.", photo: p2 },

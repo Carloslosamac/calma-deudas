@@ -98,7 +98,7 @@ export const reunificarDeudas: MoneyContent = {
   testimonialsTitle: "Personas que dieron el paso",
   testimonialsSubtitle:
     "Casos reales de personas que reunificaron sus deudas y volvieron a respirar.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Pablo S.",

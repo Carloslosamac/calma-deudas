@@ -71,7 +71,7 @@ export const cancelarMicrocreditos: MoneyContent = {
   ],
   testimonialsTitle: "Personas que cancelaron sus microcréditos",
   testimonialsSubtitle: "Casos reales de deuda rápida anulada por intereses abusivos.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     { name: "Noelia G.", amount: "8.400 €", location: "Madrid", text: "Pedí 600 € y acabé debiendo miles. Los anularon y salí del bucle.", photo: p1 },
     { name: "Raúl D.", amount: "11.200 €", location: "Valencia", text: "Tenía seis microcréditos encadenados. Hoy no debo nada.", photo: p2 },

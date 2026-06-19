@@ -121,7 +121,7 @@ export const abogadosLeySegundaOportunidad: MoneyContent = {
   testimonialsTitle: "Casos llevados por nuestros abogados",
   testimonialsSubtitle:
     "Personas reales que pusieron su caso en manos de abogados especialistas y hoy no deben nada.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Raúl P.",

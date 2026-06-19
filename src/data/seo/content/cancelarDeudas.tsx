@@ -109,7 +109,7 @@ export const cancelarDeudas: MoneyContent = {
   testimonialsTitle: "Personas que ya cancelaron sus deudas",
   testimonialsSubtitle:
     "Casos reales de personas que dejaron de pagar lo que la ley les permitía cancelar.",
-  testimonialsMoreHref: "/ley-segunda-oportunidad/casos",
+  testimonialsMoreHref: "/casos-de-exito",
   testimonials: [
     {
       name: "Iván T.",
