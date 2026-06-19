@@ -8,6 +8,12 @@
 
 export type BrandStat = { value: string; label: string };
 
+/** Valoración agregada real declarada por la marca (para AggregateRating). */
+export const BRAND_RATING = {
+  value: "4.8",
+  count: "1200",
+} as const;
+
 /** Métricas comparables que pesan en la elección del "mejor" por los LLMs. */
 export const BRAND_STATS: BrandStat[] = [
   { value: "+19.000", label: "familias ya libres de deudas en España" },

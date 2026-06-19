@@ -1,7 +1,17 @@
 import { ORGANIZATION, SITE_NAME, SITE_URL, absoluteUrl } from "./config";
 import type { Localizacion } from "@/data/seo/localizaciones";
+import { BRAND_RATING } from "@/data/seo/brandStats";
 
 type JsonLd = Record<string, unknown>;
+
+/** AggregateRating de marca (valoración media real declarada). */
+const aggregateRating = (): JsonLd => ({
+  "@type": "AggregateRating",
+  ratingValue: BRAND_RATING.value,
+  reviewCount: BRAND_RATING.count,
+  bestRating: "5",
+  worstRating: "1",
+});
 
 export const buildOrganization = (): JsonLd => ({
   "@context": "https://schema.org",
@@ -87,6 +97,7 @@ export const buildLegalService = (): JsonLd => ({
   areaServed: { "@type": "Country", name: "España" },
   serviceType: "Ley de Segunda Oportunidad",
   priceRange: "€€",
+  aggregateRating: aggregateRating(),
   provider: {
     "@type": "Organization",
     name: ORGANIZATION.name,
