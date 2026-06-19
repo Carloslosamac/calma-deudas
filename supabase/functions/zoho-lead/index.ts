@@ -23,6 +23,12 @@ interface FormData {
   vehicle?: string | null;
   vehicle_value?: string | null;
   vehicle_paid?: string | null;
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
+  utm_term?: string | null;
+  utm_content?: string | null;
+  page?: string | null;
 }
 
 const supabase = createClient(
@@ -131,6 +137,17 @@ serve(async (req) => {
       ? parseInt(String(formData.mortgage_paid).replace(/[^\d]/g, "")) || null
       : null;
 
+    // Build a readable source string from whichever UTMs arrived.
+    const utmParts = [
+      formData.utm_source ? `source=${formData.utm_source}` : null,
+      formData.utm_medium ? `medium=${formData.utm_medium}` : null,
+      formData.utm_campaign ? `campaign=${formData.utm_campaign}` : null,
+      formData.utm_term ? `term=${formData.utm_term}` : null,
+      formData.utm_content ? `content=${formData.utm_content}` : null,
+    ].filter(Boolean);
+    const sourceValue = utmParts.length ? utmParts.join(" | ").slice(0, 255) : "Calma Web";
+    const pageValue = formData.page ? String(formData.page).slice(0, 255) : null;
+
     // Extra detail that has no dedicated custom field goes to Description.
     const descriptionLines = [
       formData.vehicle_value ? `Valor vehículo: ${formData.vehicle_value}` : null,
@@ -145,6 +162,9 @@ serve(async (req) => {
       Phone: formData.phone.trim(),
       Company: name,
       Fuente: "Calma Web",
+      // Tracking
+      Source: sourceValue,
+      Page: pageValue,
       // Custom fields mapped from the form
       deuda: debtAmount,
       impago: inDefault ? "Sí" : "No",

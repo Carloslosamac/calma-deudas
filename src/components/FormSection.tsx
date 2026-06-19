@@ -21,6 +21,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { triage, type Housing, type Vehicle } from "@/lib/seo/triage";
+import { getUtms, getConversionSlug } from "@/lib/tracking";
 
 const eur = (n: number) => n.toLocaleString("es-ES", { maximumFractionDigits: 0 }) + " €";
 
@@ -144,6 +145,7 @@ const FormSection = () => {
   const onSubmit = async (contact: ContactValues) => {
     setSubmitting(true);
     try {
+      const utms = getUtms();
       const payload = {
         // Campos que el edge function ya entiende
         debt_amount: String(data.debtAmount),
@@ -159,6 +161,13 @@ const FormSection = () => {
         vehicle: data.vehicle,
         vehicle_value: data.vehicle === "propiedad" ? data.vehicleValue : null,
         vehicle_paid: data.vehicle === "financiado" ? data.vehiclePaid : null,
+        // Tracking de origen y página de conversión
+        utm_source: utms.utm_source ?? null,
+        utm_medium: utms.utm_medium ?? null,
+        utm_campaign: utms.utm_campaign ?? null,
+        utm_term: utms.utm_term ?? null,
+        utm_content: utms.utm_content ?? null,
+        page: getConversionSlug(),
       };
       const { error } = await supabase.functions.invoke("zoho-lead", { body: payload });
       if (error) console.error("zoho-lead error:", error);
