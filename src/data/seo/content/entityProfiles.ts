@@ -695,7 +695,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
   },
   "moneyman": {
     "origin": "Moneyman es una marca comercial operada por la entidad IDFinance España, centrada en el sector de los prestamistas privados online de respuesta rápida. Su modelo de negocio se basa en la tecnología para evaluar riesgos en segundos y ofrecer liquidez inmediata a particulares fuera del circuito bancario tradicional.",
-    "intro": "Si un pequeño préstamo con Moneyman se ha convertido en una montaña de intereses que no deja de crecer, no estás solo y, sobre todo, no es el fin del camino.",
+    "intro": "Pediste unos pocos cientos de euros a Moneyman para salir de un apuro y ahora la deuda parece tener vida propia, multiplicándose cada semana que pasa. Respira: la rapidez con la que te concedieron ese dinero es también la prueba de las prácticas que podemos revisar para ayudarte a frenarlo.",
     "detail": "Moneyman se especializa en minicréditos de concesión casi instantánea, un modelo que suele aplicar intereses y comisiones por demora muy elevados si no se devuelve el dinero en el plazo corto estipulado (normalmente 30 días). Es habitual que los usuarios se vean atrapados en una rueda de \"prórrogas\" pagadas solo para aplazar el vencimiento, lo que provoca que la deuda crezca exponencialmente respecto al dinero prestado originalmente.",
     "faqs": [
       {
