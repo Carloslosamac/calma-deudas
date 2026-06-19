@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { TrendingDown, PiggyBank, CheckCircle2 } from "lucide-react";
+import { TrendingDown, PiggyBank } from "lucide-react";
 import type { TriageResult } from "@/lib/seo/triage";
 
 const eur = (n: number) =>
@@ -92,28 +92,26 @@ const BenefitSimulator = ({
   const barPct = b.before > 0 ? Math.max((b.after / b.before) * 100, 2) : 2;
 
   return (
-    <div className="rounded-2xl border border-accent/40 bg-accent-soft/30 p-6 mb-8">
-      <div className="flex items-center gap-2 text-accent-deep mb-5">
-        <TrendingDown className="h-5 w-5" />
-        <span className="text-xs font-medium uppercase tracking-wider">
-          Simulación orientativa de tu beneficio
-        </span>
+    <div className="rounded-2xl border border-accent/40 bg-accent-soft/30 p-4 mb-5">
+      <div className="flex items-center gap-2 text-accent-deep mb-3">
+        <TrendingDown className="h-4 w-4" />
+        <span className="text-[11px] font-medium uppercase tracking-wider">Tu beneficio estimado</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="rounded-xl bg-background border border-border p-4">
-          <p className="text-xs text-muted-foreground mb-1">{b.beforeLabel}</p>
-          <p className="font-poppins text-2xl font-bold text-foreground line-through decoration-muted-foreground/40">
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <div className="rounded-xl bg-background border border-border p-3">
+          <p className="text-[11px] text-muted-foreground mb-0.5">{b.beforeLabel}</p>
+          <p className="font-poppins text-lg font-bold text-foreground line-through decoration-muted-foreground/40">
             {eur(before)}
           </p>
         </div>
-        <div className="rounded-xl bg-background border border-accent/40 p-4">
-          <p className="text-xs text-muted-foreground mb-1">{b.afterLabel}</p>
-          <p className="font-poppins text-2xl font-bold text-accent-deep">{eur(after)}</p>
+        <div className="rounded-xl bg-background border border-accent/40 p-3">
+          <p className="text-[11px] text-muted-foreground mb-0.5">{b.afterLabel}</p>
+          <p className="font-poppins text-lg font-bold text-accent-deep">{eur(after)}</p>
         </div>
       </div>
 
-      <div className="relative h-3 rounded-full bg-muted overflow-hidden mb-6">
+      <div className="relative h-2 rounded-full bg-muted overflow-hidden mb-3">
         <motion.div
           initial={{ width: "100%" }}
           animate={{ width: `${barPct}%` }}
@@ -122,18 +120,13 @@ const BenefitSimulator = ({
         />
       </div>
 
-      <div className="flex items-center justify-between rounded-xl bg-foreground text-background p-5">
-        <div className="flex items-center gap-3">
-          <PiggyBank className="h-6 w-6 shrink-0" />
-          <span className="text-sm font-medium">{b.highlightLabel}</span>
+      <div className="flex items-center justify-between rounded-xl bg-foreground text-background px-4 py-3">
+        <div className="flex items-center gap-2">
+          <PiggyBank className="h-5 w-5 shrink-0" />
+          <span className="text-xs font-medium">{b.highlightLabel}</span>
         </div>
-        <span className="font-poppins text-2xl md:text-3xl font-bold">{eur(highlight)}</span>
+        <span className="font-poppins text-xl font-bold">{eur(highlight)}</span>
       </div>
-
-      <p className="mt-4 flex items-start gap-2 text-xs text-muted-foreground">
-        <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-deep mt-0.5" />
-        {b.note}
-      </p>
     </div>
   );
 };
