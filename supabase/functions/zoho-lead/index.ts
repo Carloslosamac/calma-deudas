@@ -137,19 +137,17 @@ serve(async (req) => {
       ? parseInt(String(formData.mortgage_paid).replace(/[^\d]/g, "")) || null
       : null;
 
-    // Build a readable source string from whichever UTMs arrived.
-    const utmParts = [
-      formData.utm_source ? `source=${formData.utm_source}` : null,
-      formData.utm_medium ? `medium=${formData.utm_medium}` : null,
-      formData.utm_campaign ? `campaign=${formData.utm_campaign}` : null,
-      formData.utm_term ? `term=${formData.utm_term}` : null,
-      formData.utm_content ? `content=${formData.utm_content}` : null,
-    ].filter(Boolean);
-    const sourceValue = utmParts.length ? utmParts.join(" | ").slice(0, 255) : "Calma Web";
-    const pageValue = formData.page ? String(formData.page).slice(0, 255) : null;
+    // Map each UTM to its own dedicated Zoho field.
+    const clip = (v?: string | null) => (v ? String(v).slice(0, 255) : null);
+    const sourceValue = clip(formData.utm_source) ?? "Calma Web";
+    const mediumValue = clip(formData.utm_medium);
+    const campaignValue = clip(formData.utm_campaign);
+    const contentValue = clip(formData.utm_content);
+    const pageValue = clip(formData.page);
 
     // Extra detail that has no dedicated custom field goes to Description.
     const descriptionLines = [
+      formData.utm_term ? `utm_term: ${formData.utm_term}` : null,
       formData.vehicle_value ? `Valor vehículo: ${formData.vehicle_value}` : null,
       formData.vehicle_paid ? `Vehículo pagado: ${formData.vehicle_paid}` : null,
     ].filter(Boolean);
@@ -162,8 +160,11 @@ serve(async (req) => {
       Phone: formData.phone.trim(),
       Company: name,
       Fuente: "Calma Web",
-      // Tracking
+      // UTM tracking (each in its own field)
       Source: sourceValue,
+      medium: mediumValue,
+      campaign: campaignValue,
+      content: contentValue,
       Page: pageValue,
       // Custom fields mapped from the form
       deuda: debtAmount,
