@@ -446,6 +446,12 @@ const MoneyJourney = ({
         />
       </Reveal>
     ),
+    toolLinks:
+      tools && tools.length > 0 ? (
+        <Reveal>
+          <MoneyToolLinks tools={tools} />
+        </Reveal>
+      ) : null,
   };
 
   return (
