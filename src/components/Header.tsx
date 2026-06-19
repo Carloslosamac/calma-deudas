@@ -135,6 +135,9 @@ const Header = () => {
           <a href="/#como-funciona" className="text-foreground/70 hover:text-foreground transition-colors">
             Cómo funciona
           </a>
+          <Link to="/herramientas" className="text-foreground/70 hover:text-foreground transition-colors">
+            Herramientas
+          </Link>
           <Link to="/blog" className="text-foreground/70 hover:text-foreground transition-colors">
             Blog
           </Link>
@@ -202,6 +205,14 @@ const Header = () => {
                   >
                     Cómo funciona
                   </a>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    to="/herramientas"
+                    className="rounded-xl px-3 py-3 text-base font-medium text-foreground/80 hover:bg-accent-soft/50 hover:text-foreground transition-colors"
+                  >
+                    Herramientas
+                  </Link>
                 </SheetClose>
                 <SheetClose asChild>
                   <Link
