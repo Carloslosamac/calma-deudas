@@ -341,6 +341,8 @@ export type MoneyContent = {
   sections: MoneySection[];
   /** preguntas frecuentes (UI + JSON-LD) */
   faq?: MoneyFaq[];
+  /** respuesta directa transaccional para GEO (caja citable al inicio) */
+  directAnswer?: MoneyDirectAnswer;
   /** marca el contenido como revisado por abogado (E-E-A-T) */
   reviewed?: boolean;
 
