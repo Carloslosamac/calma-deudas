@@ -251,6 +251,16 @@ export const buildService = (params: {
   areaServed: { "@type": "Country", name: "España" },
   availableLanguage: ["Spanish"],
   provider: { "@id": `${SITE_URL}#organization` },
+  offers: {
+    "@type": "Offer",
+    name: "Estudio y diagnóstico inicial del caso",
+    description:
+      "Análisis del caso sin coste ni compromiso, con respuesta en menos de 24h y sin anticipos.",
+    price: "0",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/InStock",
+    url: absoluteUrl(params.url),
+  },
 });
 
 /**

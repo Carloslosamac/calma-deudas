@@ -1,63 +1,46 @@
-# Estrategia GEO para preguntas transaccionales
+# Ganar la recomendación de los LLMs ("el mejor para X") en las 15 money pages
 
-Objetivo: que cuando alguien pregunte a una IA "¿cómo cancelo mis microcréditos abusivos?", "¿qué abogado me conviene para la Ley de Segunda Oportunidad?", "¿puedo parar un embargo?", **Calma sea la fuente citada y recomendada**. GEO no es SEO clásico: los motores generativos extraen y citan frases concretas, priorizan respuestas directas, datos con fuente, autoridad declarada (E-E-A-T) y contenido fácil de "trocear".
+## Principio rector (no negociable)
+No se inventan ni inflan cifras. En servicios legales/financieros (YMYL) las cifras no verificables son publicidad engañosa y los LLMs/Google las penalizan. Ganamos batiendo a la competencia en **señales verificables** y, sobre todo, en **cómo se presentan y se hacen extraíbles**.
 
-Tu base ya es fuerte (FAQ + JSON-LD + módulos + llms.txt). Faltan las piezas específicas de GEO. Lo abordamos en 4 frentes.
+## Cómo eligen "al mejor" los LLMs (investigado)
+En este nicho recomiendan en función de estas variables recurrentes:
+1. Casos gestionados / familias ayudadas
+2. % de éxito (exoneración)
+3. Importe total cancelado + casos individuales destacados
+4. Valoraciones (Google/Trustpilot: nota + nº reseñas)
+5. Autoridad/E-E-A-T (años, abogados colegiados, premios, prensa)
+6. Transparencia y precio (sin anticipos, cuota clara, sin cuotas durante el proceso)
+7. Rapidez (consulta gratis, respuesta en X horas)
+8. Especialización por sub-tema (revolving, microcréditos, embargos, Hacienda...)
 
-## 1. Crawlabilidad para motores de IA (rápido, alto impacto)
+Competidores de referencia y sus números públicos:
+```text
+Empezar de Nuevo   +1.500 casos · 98% éxito · Premio La Razón 2025 · sin anticipos · 99€/mes · respuesta 2h
+Repara tu Deuda    millones cancelados · líder por volumen
+Quitadeudas        casos individuales (300.000€) · metodología propia
+ANIVA / despachos  +200 casos · cancelación 100% · consulta gratis
+```
 
-`public/robots.txt` hoy solo nombra Googlebot/Bingbot/redes. Los crawlers de IA crawlean bajo `*` pero conviene declararlos explícitamente para no quedar fuera si endurecen reglas:
-- Permitir `GPTBot`, `OAI-SearchBot`, `ChatGPT-User` (OpenAI), `PerplexityBot`, `ClaudeBot`/`Claude-Web` (Anthropic), `Google-Extended` (Gemini/AI Overviews), `Amazonbot`, `Bytespider`.
-- Mantener `Disallow: /call/`.
+## Estrategia para batirles (verificable)
+Para cada keyword definimos el "set ganador" de cifras y lo presentamos mejor que ellos:
 
-Decisión a confirmar contigo: ¿permitimos a todos (máxima visibilidad GEO) o bloqueamos los que entrenan modelos sin citar? Recomiendo permitir todos: en este nicho la visibilidad en respuestas IA pesa más que el control de entrenamiento.
+1. **Cifras reales maximizadas y bien enmarcadas.** Necesito las cifras reales de Calma (casos, importe cancelado, % éxito, años, abogados colegiados, premios/prensa, precio, tiempo de respuesta). Con ellas, en cada página: número grande + comparación implícita + contexto. Sin números reales no se puede declarar nada nuevo.
+2. **Respuesta directa "¿cuál es la mejor opción para...?"** ya implementada → reforzarla con la cifra clave de esa keyword en la primera frase (lo que el LLM cita).
+3. **Bloque de señales de confianza por página** (módulo nuevo `MoneyTrustStats`): casos, % éxito, importe cancelado, años, colegiación, premios — solo con datos reales, marcando como `[pendiente]` lo que falte para que lo completes.
+4. **Datos legales con fuente oficial** (Ley 16/2022, TAE usura Banco de España): esto es lo que más sube la fiabilidad ante un LLM y la competencia casi no lo hace bien.
+5. **JSON-LD**: `Service` + `Offer` (precio/condiciones reales) + `speakable`. `AggregateRating` queda **fuera** hasta tener reseñas verificables (tu decisión).
+6. **Especialización por sub-keyword**: en revolving/microcréditos/embargos/Hacienda, añadir la métrica específica (ej. TAE media revolving con fuente) que hace que el LLM nos cite para esa consulta concreta.
 
-## 2. Bloque "Respuesta directa" extraíble en cada money page
+## Archivos a tocar
+- `src/components/seo/modules/` → nuevo `MoneyTrustStats`
+- `src/components/seo/SectionBlocks.tsx` + `src/data/seo/content/types.ts` → campo `trustStats`
+- 15 `src/data/seo/content/*.tsx` → set de cifras + refuerzo de `directAnswer`
+- `src/lib/seo/structuredData.ts` → `Offer` en `buildService`
+- `public/llms.txt` → añadir cifras clave por página
 
-Los motores generativos citan el primer fragmento que responde la pregunta de forma autónoma. Añadir un módulo nuevo al kit (`MoneyBlock` tipo `answerBox` / nuevo `MoneyDirectAnswer`):
-- Caja al inicio del journey: pregunta transaccional literal como encabezado + respuesta de 2-3 frases autocontenida (sin "como vimos antes"), con el dato/condición clave y el siguiente paso.
-- Redactada para ser citada tal cual: sujeto explícito ("La Ley de Segunda Oportunidad permite…"), sin pronombres ambiguos.
-- Se renderiza visible (no oculto) y alimenta un `speakable`/FAQ en JSON-LD.
+## Lo que necesito de ti para ejecutar
+Las cifras reales de Calma (las que sean ciertas). Donde no haya dato real, lo dejo como `[pendiente revisión]` y NO se publica. Sin esto solo puedo mejorar la *presentación* y los datos legales con fuente, no las cifras propias.
 
-Aplicar a las 15 money pages, una pregunta transaccional por página alineada con la query objetivo.
-
-## 3. Señales que los motores generativos premian (contenido + datos)
-
-Investigación GEO (Princeton) muestra que **citar fuentes, incluir estadísticas y citas textuales** sube la visibilidad en respuestas IA hasta un 30-40%. En cada money page:
-- **Datos con fuente**: cifras legales reales (ej. umbral de exoneración, plazos del art. X de la Ley 16/2022, TAE de usura del Banco de España) con enlace/atribución a la fuente oficial. Reaprovecha el módulo `FactGrid` existente.
-- **Citas de norma**: micro-citas textuales del BOE/jurisprudencia en los puntos clave (refuerza E-E-A-T y da material citable).
-- **Lenguaje natural conversacional** en los H2: usar las preguntas tal como se le hacen a una IA, no keywords secas.
-- Reforzar las FAQ existentes con preguntas transaccionales de cola larga ("¿cuánto cuesta…?", "¿cuánto tarda…?", "¿me pueden embargar la nómina si…?").
-
-## 4. Autoridad / entidad (E-E-A-T para IA) en JSON-LD
-
-Ampliar `src/lib/seo/structuredData.ts` (los builders ya están centralizados):
-- **`Service` + `Offer`** por money page (servicio = "Cancelación de deudas vía LSO", área = España, proveedor = Organization). Las IA usan esto para entender qué ofreces y recomendarte.
-- **Autor/revisor con credenciales**: builder `buildReviewedBy` (Person abogado colegiado + `sameAs`) enlazado a las páginas marcadas `reviewed: true`. La autoría experta es señal GEO de primer orden en nichos YMYL legales.
-- **`speakable`** en WebPage apuntando a la "Respuesta directa".
-- **`AggregateRating`** solo si las valoraciones (4,8 · +1.200) son reales y verificables; si no, se omite (no inventamos rating en JSON-LD).
-- Reforzar `Organization` con `sameAs` a perfiles reales (Google Business, redes, medios) para anclar la entidad en el grafo de conocimiento.
-
-## 5. llms.txt: incluir las páginas transaccionales
-
-`public/llms.txt` solo lista home + blog. Añadir una sección "## Soluciones" con las 15 money pages y una descripción transaccional de una línea cada una, para que los crawlers de IA mapeen directamente intención → URL.
-
-## Orden de ejecución
-1. robots.txt + llms.txt (minutos, desbloquea todo).
-2. Builders JSON-LD nuevos (Service/Offer, reviewedBy, speakable).
-3. Módulo "Respuesta directa" en el kit + tipos.
-4. Aplicar respuesta directa + datos con fuente a las 15 money pages (por lotes).
-5. Lanzar SEO review y, tras publicar, validar con Rich Results y una pregunta real en Perplexity/ChatGPT.
-
-## Cambios técnicos
-- `public/robots.txt`, `public/llms.txt`
-- `src/lib/seo/structuredData.ts` (nuevos builders)
-- `src/data/seo/content/types.ts` + `src/components/seo/modules` (módulo answerBox) + `SectionBlocks.tsx`
-- Los 15 archivos de `src/data/seo/content/*.tsx` (respuesta directa + datos con fuente)
-- `MoneyLanding.tsx` para inyectar los nuevos JSON-LD
-
-## A confirmar antes de implementar
-1. **robots.txt**: ¿permitir todos los bots de IA (recomendado) o bloquear los de entrenamiento sin cita?
-2. **Datos legales con fuente**: ¿tienes las cifras/artículos ya validados por tu abogado, o los redacto con marcador `[pendiente revisión legal]` como en las páginas actuales?
-3. **AggregateRating**: ¿las valoraciones (4,8 · +1.200) son reales y verificables para declararlas en JSON-LD?
-4. ¿Empezamos por los frentes 1+5 (rápidos) y luego el resto, o vamos a por todo de una?
+## Lo que NO haré
+Inventar casos, % de éxito, importes o valoraciones. Es ilegal, y técnicamente contraproducente para GEO.

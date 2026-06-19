@@ -24,6 +24,7 @@ import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import TrustBar from "@/components/seo/TrustBar";
+import MoneyTrustStats from "@/components/seo/MoneyTrustStats";
 import type { RelatedLink } from "@/components/seo/SeoPageScaffold";
 import type { MoneyContent, MoneyIcon } from "@/data/seo/content/types";
 import DebtSimulator from "@/components/seo/interactive/DebtSimulator";
@@ -487,6 +488,18 @@ const MoneyJourney = ({
               </section>
             </Reveal>
           )}
+
+          {/* ---------- Por qué somos la mejor opción (GEO) ---------- */}
+          <Reveal>
+            <MoneyTrustStats
+              title={
+                content.trustStatsTitle ??
+                `Por qué Calma es la mejor opción para ${eyebrow ?? h1}`
+              }
+              stats={content.trustStats}
+              differentiators={content.trustDifferentiators}
+            />
+          </Reveal>
 
           {/* ---------- Módulos ordenables por página ---------- */}
           {order.map((key, i) =>
