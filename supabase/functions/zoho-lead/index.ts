@@ -23,6 +23,12 @@ interface FormData {
   vehicle?: string | null;
   vehicle_value?: string | null;
   vehicle_paid?: string | null;
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
+  utm_term?: string | null;
+  utm_content?: string | null;
+  page?: string | null;
 }
 
 const supabase = createClient(
