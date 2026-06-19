@@ -1,28 +1,43 @@
+# Tracking de origen (UTMs) y página de conversión → Zoho
+
 ## Objetivo
-Reforzar la validación del formulario y mover el resultado a una página de gracias dedicada (fuera de la landing).
+Cada lead que entra en Zoho debe traer:
+- **source**: de dónde vino (parámetros UTM de la URL).
+- **page**: el slug de la página donde el usuario rellenó y envió el formulario.
 
-## 1. Validación del móvil
-En el `formSchema` de `src/components/FormSection.tsx`, cambiar la regla de `phone` por:
-- Permitir espacios/guiones que el usuario escriba, pero validar el formato español: exactamente **9 cifras** que **empiecen por 6 o 7** (móviles).
-- Regex tipo `^[67]\d{8}$` tras limpiar espacios. Mensaje: "Introduce un móvil válido (9 cifras, empieza por 6 o 7)".
+## Cómo funciona el origen (persistencia)
+Los UTMs suelen venir en la primera URL de aterrizaje (ej. `mi-calma.es/?utm_source=google&utm_medium=cpc&utm_campaign=lso`), pero el usuario puede navegar antes de convertir. Por eso se capturan **una sola vez al cargar la web** y se guardan en `sessionStorage`, de modo que sigan disponibles aunque cambie de página antes de enviar.
 
-## 2. Validación del correo
-En el mismo schema, además del `.email()`, restringir el dominio a proveedores habituales:
-- Lista permitida: `gmail.com`, `outlook.com`, `outlook.es`, `hotmail.com`, `hotmail.es`, `yahoo.com`, `yahoo.es`, `icloud.com`, `live.com`.
-- Si el dominio no está en la lista, mensaje: "Usa un correo de un proveedor habitual (Gmail, Outlook, Hotmail…)".
+## Cambios de Frontend
 
-## 3. Página de gracias fuera de la landing
-- Crear nueva ruta `/gracias` con una página `src/pages/Gracias.tsx` y registrarla en `src/App.tsx`.
-- Al enviar el formulario (`onSubmit`), en vez de mostrar el diagnóstico inline (`showResult`), navegar a `/gracias` con `useNavigate`, pasando el resultado del triaje y los datos necesarios vía `state`.
-- La página `/gracias` mostrará:
-  - Mensaje de agradecimiento ("Hemos recibido tu caso. Te llamamos en menos de 24h…").
-  - El **diagnóstico orientativo** (título, descripción y highlights) — el mismo bloque que hoy aparece inline.
-  - Aviso legal de que es orientación automática.
-  - Botón para volver a la home.
-- Si alguien entra a `/gracias` directamente sin `state` (sin diagnóstico), mostrar un mensaje genérico de gracias con CTA a la home, sin romper.
-- Eliminar el render inline de `showResult` en `FormSection.tsx` (queda reemplazado por la redirección), manteniendo el envío al CRM intacto.
+1. **Utilidad de tracking** (`src/lib/tracking.ts`, nuevo):
+   - Al cargarse, lee de la URL: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`.
+   - Si hay alguno, los guarda en `sessionStorage` (solo la primera vez; no se sobrescriben con navegaciones internas sin UTMs).
+   - `getUtms()`: devuelve los UTMs guardados.
+   - `getConversionSlug()`: devuelve `window.location.pathname` (la página donde se envía el formulario).
 
-## Notas técnicas
-- Reutilizar el tipo `TriageResult` de `src/lib/seo/triage.ts` para tipar el `state` de navegación.
-- Mantener el comportamiento: si el envío al CRM falla, igualmente se redirige a `/gracias` para no bloquear al usuario.
-- SEO en `/gracias`: `noindex` (es página de conversión), título y meta propios.
+2. **Inicialización**: llamar a la captura de UTMs al arrancar la app (en `App.tsx` o `main.tsx`).
+
+3. **`src/components/FormSection.tsx`** (`onSubmit`): añadir al `payload`:
+   - `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` (desde `getUtms()`).
+   - `page`: slug de conversión (desde `getConversionSlug()`).
+
+## Cambios de Backend (`supabase/functions/zoho-lead/index.ts`)
+
+1. Ampliar la interfaz `FormData` con los campos UTM y `page`.
+2. Construir el valor de **source** combinando los UTMs presentes en una cadena legible, p. ej.:
+   `source=google | medium=cpc | campaign=lso | content=banner-a`
+   (si no llega ningún UTM, se mantiene el valor por defecto `Calma Web`).
+3. Mapear:
+   - campo Zoho **`source`** ← cadena de UTMs.
+   - campo Zoho **`page`** ← slug de conversión.
+   - (Se mantiene `Fuente = "Calma Web"` como está, salvo que prefieras moverlo.)
+4. Verificar los **API names** reales de los campos nuevos `page` y `source` en Zoho (a veces Zoho genera `page1`/`source1` si el nombre choca). Se comprueba consultando la metadata de campos antes de mapear, para no enviar a un nombre incorrecto que Zoho ignoraría en silencio.
+
+## Validación
+- Enviar un lead de prueba con UTMs simulados y leer el registro creado en Zoho para confirmar que `page` y `source` se rellenan correctamente.
+- Limpiar el lead de prueba después.
+
+## Notas / decisiones abiertas
+- **source** se guardará como cadena combinada de UTMs. Si prefieres solo `utm_source` "puro" (ej. `google`) en ese campo, dímelo y lo ajusto.
+- Si en el futuro quieres `gclid`/`fbclid` (Google/Meta Ads) o el `referrer`, se añaden con la misma mecánica.
