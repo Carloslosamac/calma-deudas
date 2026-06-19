@@ -105,25 +105,6 @@ serve(async (req) => {
   }
 
   try {
-    const url = new URL(req.url);
-    if (url.searchParams.get("action") === "fields") {
-      const accessToken = await getAccessToken();
-      const res = await fetch(`${API_DOMAIN}/crm/v2/settings/fields?module=Leads`, {
-        headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
-      });
-      const json = await res.json();
-      const fields = (json.fields ?? []).map((f: any) => ({
-        label: f.field_label,
-        api_name: f.api_name,
-        data_type: f.data_type,
-        custom: f.custom_field,
-      }));
-      return new Response(JSON.stringify({ fields }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
-    }
-
     const formData: FormData = await req.json();
     console.log("zoho-lead invoked", { ...formData, phone: "***", email: "***" });
 
@@ -144,28 +125,41 @@ serve(async (req) => {
 
     const debtAmount = parseInt(formData.debt_amount ?? "0") || 0;
     const inDefault = formData.default === "si";
+    const numEntities =
+      formData.entities?.length || parseInt(formData.loan_number ?? "") || null;
+    const mortgagePaid = formData.mortgage_paid
+      ? parseInt(String(formData.mortgage_paid).replace(/[^\d]/g, "")) || null
+      : null;
 
+    // Extra detail that has no dedicated custom field goes to Description.
     const descriptionLines = [
-      `Monto total de deuda: ${formData.debt_amount ?? "-"}€`,
-      `Nº de préstamos/entidades: ${formData.loan_number ?? "-"}`,
-      `En mora: ${inDefault ? "Sí" : "No"}`,
-      formData.entities?.length ? `Entidades: ${formData.entities.join(", ")}` : null,
-      formData.housing ? `Vivienda: ${formData.housing}` : null,
-      formData.mortgage_paid ? `Hipoteca pagada: ${formData.mortgage_paid}` : null,
-      formData.vehicle ? `Vehículo: ${formData.vehicle}` : null,
       formData.vehicle_value ? `Valor vehículo: ${formData.vehicle_value}` : null,
       formData.vehicle_paid ? `Vehículo pagado: ${formData.vehicle_paid}` : null,
     ].filter(Boolean);
 
-    const leadRecord = {
+    const leadRecord: Record<string, unknown> = {
+      // Standard fields
       Last_Name: lastName,
       First_Name: firstName,
       Email: formData.email.trim().toLowerCase(),
       Phone: formData.phone.trim(),
       Company: name,
-      Lead_Source: "Calma Web",
-      Description: descriptionLines.join("\n"),
+      Fuente: "Calma Web",
+      // Custom fields mapped from the form
+      deuda: debtAmount,
+      impago: inDefault ? "Sí" : "No",
+      entidades: numEntities,
+      lista_entidades: formData.entities?.length ? formData.entities.join(", ") : null,
+      vivienda: formData.housing ?? null,
+      importe_pagado_hipoteca: mortgagePaid,
+      vehiculo: formData.vehicle ?? null,
+      Description: descriptionLines.length ? descriptionLines.join("\n") : undefined,
     };
+
+    // Remove null/undefined so Zoho doesn't reject empty optional fields.
+    Object.keys(leadRecord).forEach((k) => {
+      if (leadRecord[k] === null || leadRecord[k] === undefined) delete leadRecord[k];
+    });
 
     const accessToken = await getAccessToken();
 
