@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Scale, Check, X, Star } from "lucide-react";
+import { Scale, Check, Star } from "lucide-react";
 import CtaButton from "@/components/seo/CtaButton";
 
 type SolutionKey = "lso" | "reunificar" | "reclamar";
