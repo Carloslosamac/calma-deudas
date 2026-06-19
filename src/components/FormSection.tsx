@@ -210,21 +210,24 @@ const FormSection = () => {
             {eur(displayValue)}
             {data[valueKey] >= max ? "+" : ""}
           </p>
-          <input
-            type="range"
-            value={data[valueKey]}
-            min={min}
-            max={max}
-            step={1}
-            onChange={(e) => updateValue(Number(e.currentTarget.value))}
-            onPointerUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
-            onKeyUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
-            className="h-10 w-full cursor-grab appearance-none bg-transparent outline-none active:cursor-grabbing [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-accent [&::-moz-range-thumb]:bg-background [&::-moz-range-thumb]:shadow-lg [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-full [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:-mt-2 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-accent [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:shadow-lg"
-            style={{
-              background: `linear-gradient(to right, hsl(var(--accent)) 0%, hsl(var(--accent)) ${progress}%, hsl(var(--muted)) ${progress}%, hsl(var(--muted)) 100%)`,
-              borderRadius: "9999px",
-            }}
-          />
+          <div className="relative flex h-7 items-center">
+            <div className="pointer-events-none absolute inset-x-0 h-2.5 rounded-full bg-muted" />
+            <div
+              className="pointer-events-none absolute left-0 h-2.5 rounded-full bg-accent"
+              style={{ width: `${progress}%` }}
+            />
+            <input
+              type="range"
+              value={data[valueKey]}
+              min={min}
+              max={max}
+              step={1}
+              onChange={(e) => updateValue(Number(e.currentTarget.value))}
+              onPointerUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
+              onKeyUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
+              className="relative z-10 h-7 w-full cursor-grab appearance-none bg-transparent outline-none active:cursor-grabbing [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:cursor-grab [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-[3px] [&::-moz-range-thumb]:border-accent [&::-moz-range-thumb]:bg-background [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-track]:bg-transparent [&::-webkit-slider-runnable-track]:bg-transparent [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:cursor-grab [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-accent [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform hover:[&::-webkit-slider-thumb]:scale-110"
+            />
+          </div>
           <div className="mt-3 flex justify-between text-xs text-muted-foreground">
             <span>{eur(min)}</span>
             <span>{eur(max)}+</span>
