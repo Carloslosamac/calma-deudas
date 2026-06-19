@@ -35,7 +35,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Ley de Segunda Oportunidad: cancela tus deudas | Calma",
+    seoTitle: "🕊️ Ley de Segunda Oportunidad: cancela tus deudas",
     metaDescription:
       "Cancela tus deudas legalmente con la Ley de Segunda Oportunidad. Analizamos tu caso gratis y sin compromiso. [Pendiente revisión legal]",
   },
@@ -48,7 +48,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Abogados Ley de Segunda Oportunidad en España | Calma",
+    seoTitle: "⚖️ Abogados de Segunda Oportunidad: análisis gratis",
     metaDescription:
       "Abogados especialistas en la Ley de Segunda Oportunidad. Estudiamos tu caso gratis y te acompañamos para cancelar tus deudas legalmente.",
   },
@@ -61,7 +61,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Cancelar deudas: qué solución te conviene | Calma",
+    seoTitle: "✅ Cancelar deudas: qué salida legal te conviene",
     metaDescription:
       "¿Quieres eliminar tu deuda pero no sabes cómo? Comparamos las vías legales y te decimos cuál es la tuya. Diagnóstico gratuito de tu caso.",
   },
@@ -74,7 +74,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "informativa",
     template: "money",
-    seoTitle: "Cancelación de deudas en España: guía completa | Calma",
+    seoTitle: "✅ Cancelación de deudas: cuándo puedes y cómo",
     metaDescription:
       "Todo sobre la cancelación de deudas en España: vías legales, requisitos, plazos y opciones para empezar con un diagnóstico gratuito.",
   },
@@ -87,7 +87,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Reunificación de deudas: unifica tus cuotas | Calma",
+    seoTitle: "🔗 Reunifica tus deudas sin pedir otro préstamo",
     metaDescription:
       "Reunifica tus deudas en una sola cuota mensual y compara si te conviene frente a la Ley de Segunda Oportunidad.",
   },
@@ -100,7 +100,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "critica",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Reunificar deudas: cómo hacerlo paso a paso | Calma",
+    seoTitle: "📉 Reunificar deudas: baja tu cuota y lo que debes",
     metaDescription:
       "Aprende a reunificar tus deudas, reducir tu cuota mensual y decidir si esta opción encaja con tu situación actual.",
   },
@@ -113,7 +113,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "urgente",
     template: "urgente",
-    seoTitle: "Cómo salir de ASNEF rápido y legalmente | Calma",
+    seoTitle: "🧹 Salir de ASNEF para siempre: pasos que funcionan",
     metaDescription:
       "Te explicamos cómo salir de ASNEF y otros ficheros de morosos de forma legal, según el origen de tu deuda.",
   },
@@ -126,7 +126,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "urgente",
     template: "urgente",
-    seoTitle: "Cómo parar un embargo: qué hacer hoy | Calma",
+    seoTitle: "🛑 Parar un embargo: qué hacer hoy para frenarlo",
     metaDescription:
       "Pasos para parar un embargo de nómina, cuenta o vivienda y revisar si puedes cancelar la deuda que lo provoca.",
   },
@@ -139,7 +139,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Cancelar tarjetas revolving por usura | Calma",
+    seoTitle: "💳 Cancela tu tarjeta revolving y recupera lo pagado",
     metaDescription:
       "Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisamos tu contrato gratis y sin compromiso.",
   },
@@ -152,7 +152,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Cancelar microcréditos abusivos en España | Calma",
+    seoTitle: "🔁 Cancelar microcréditos abusivos y salir del bucle",
     metaDescription:
       "Cancela microcréditos y préstamos rápidos con intereses abusivos. Analizamos si puedes reclamar o cancelar la deuda.",
   },
@@ -165,7 +165,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "informativa",
     template: "money",
-    seoTitle: "Exoneración del pasivo insatisfecho: qué es | Calma",
+    seoTitle: "🧾 Exoneración del pasivo: qué borra y cómo",
     metaDescription:
       "Qué es la exoneración del pasivo insatisfecho: deudas que cubre, modalidades, límites y revocación. Guía jurídica clara. [Pendiente revisión legal]",
   },
@@ -178,7 +178,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Concurso de persona física: guía y requisitos | Calma",
+    seoTitle: "⚖️ Concurso de persona física: cuándo y cómo pedirlo",
     metaDescription:
       "Concurso de acreedores de persona física tras la reforma concursal. [Pendiente revisión legal]",
   },
@@ -191,7 +191,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "urgente",
     template: "urgente",
-    seoTitle: "Juicio monitorio por deuda: cómo responder | Calma",
+    seoTitle: "⏳ Juicio monitorio: cómo responder antes de 20 días",
     metaDescription:
       "Te ha llegado un juicio monitorio por una deuda: conoce los plazos, opciones y cómo responder antes de que avance.",
   },
@@ -204,7 +204,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Deudas con Hacienda: opciones y soluciones | Calma",
+    seoTitle: "🏛️ Deudas con Hacienda: cómo aplazarlas o cancelarlas",
     metaDescription:
       "Qué hacer si tienes deudas con Hacienda: aplazamientos, límites y LSO. [Pendiente revisión legal]",
   },
@@ -217,7 +217,7 @@ export const moneyPages: MoneyPage[] = [
     priority: "alta",
     intent: "transaccional",
     template: "money",
-    seoTitle: "Deudas con la Seguridad Social: qué hacer | Calma",
+    seoTitle: "🏛️ Deudas con la Seguridad Social: opciones reales",
     metaDescription:
       "Soluciones para deudas con la Seguridad Social, especialmente autónomos. [Pendiente revisión legal]",
   },
