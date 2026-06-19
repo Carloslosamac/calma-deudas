@@ -19,10 +19,16 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mi-calma.es/ley-segunda-oportunidad/casos</loc>
+    <loc>https://mi-calma.es/casos-de-exito</loc>
+    <lastmod>2026-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mi-calma.es/casos-de-exito/noemi-barcelona-cancela-48310-euros</loc>
     <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://mi-calma.es/politica-de-privacidad</loc>
