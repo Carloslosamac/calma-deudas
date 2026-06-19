@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import {
   ArrowRight,
@@ -186,7 +185,7 @@ const FormSection = () => {
     </Button>
   );
 
-  const SliderStep = ({
+  const renderSliderStep = ({
     title,
     valueKey,
     min,
@@ -201,6 +200,7 @@ const FormSection = () => {
   }) => {
     const displayValue = Math.round(data[valueKey] / stepSize) * stepSize;
     const updateValue = (value: number) => setData((d) => ({ ...d, [valueKey]: value }));
+    const progress = ((data[valueKey] - min) / (max - min)) * 100;
 
     return (
       <div>
@@ -210,13 +210,20 @@ const FormSection = () => {
             {eur(displayValue)}
             {data[valueKey] >= max ? "+" : ""}
           </p>
-          <Slider
-            value={[data[valueKey]]}
+          <input
+            type="range"
+            value={data[valueKey]}
             min={min}
             max={max}
             step={1}
-            onValueChange={(v) => updateValue(v[0])}
-            onValueCommit={(v) => updateValue(Math.round(v[0] / stepSize) * stepSize)}
+            onChange={(e) => updateValue(Number(e.currentTarget.value))}
+            onPointerUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
+            onKeyUp={(e) => updateValue(Math.round(Number(e.currentTarget.value) / stepSize) * stepSize)}
+            className="h-10 w-full cursor-grab appearance-none bg-transparent outline-none active:cursor-grabbing [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-accent [&::-moz-range-thumb]:bg-background [&::-moz-range-thumb]:shadow-lg [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-full [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:-mt-2 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-accent [&::-webkit-slider-thumb]:bg-background [&::-webkit-slider-thumb]:shadow-lg"
+            style={{
+              background: `linear-gradient(to right, hsl(var(--accent)) 0%, hsl(var(--accent)) ${progress}%, hsl(var(--muted)) ${progress}%, hsl(var(--muted)) 100%)`,
+              borderRadius: "9999px",
+            }}
           />
           <div className="mt-3 flex justify-between text-xs text-muted-foreground">
             <span>{eur(min)}</span>
@@ -231,9 +238,7 @@ const FormSection = () => {
   const renderStep = () => {
     switch (currentKey) {
       case "debt":
-        return (
-          <SliderStep title="¿Cuánto debes en total?" valueKey="debtAmount" min={3000} max={80000} stepSize={100} />
-        );
+        return renderSliderStep({ title: "¿Cuánto debes en total?", valueKey: "debtAmount", min: 3000, max: 80000, stepSize: 100 });
       case "default":
         return (
           <div>
@@ -315,9 +320,7 @@ const FormSection = () => {
           </div>
         );
       case "mortgagePaid":
-        return (
-          <SliderStep title="¿Cuánto llevas pagado de la hipoteca?" valueKey="mortgagePaid" min={0} max={300000} stepSize={1000} />
-        );
+        return renderSliderStep({ title: "¿Cuánto llevas pagado de la hipoteca?", valueKey: "mortgagePaid", min: 0, max: 300000, stepSize: 1000 });
       case "vehicle":
         return (
           <div>
@@ -341,13 +344,9 @@ const FormSection = () => {
           </div>
         );
       case "vehicleValue":
-        return (
-          <SliderStep title="¿Valor estimado de tu vehículo?" valueKey="vehicleValue" min={0} max={60000} stepSize={500} />
-        );
+        return renderSliderStep({ title: "¿Valor estimado de tu vehículo?", valueKey: "vehicleValue", min: 0, max: 60000, stepSize: 500 });
       case "vehiclePaid":
-        return (
-          <SliderStep title="¿Cuánto llevas pagado del vehículo?" valueKey="vehiclePaid" min={0} max={60000} stepSize={500} />
-        );
+        return renderSliderStep({ title: "¿Cuánto llevas pagado del vehículo?", valueKey: "vehiclePaid", min: 0, max: 60000, stepSize: 500 });
       case "contact":
         return (
           <div className="space-y-5">
