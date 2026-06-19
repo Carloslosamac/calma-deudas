@@ -11,6 +11,8 @@ import {
   buildFaq,
   buildOrganization,
   buildWebPage,
+  buildService,
+  buildQAPage,
 } from "@/lib/seo/structuredData";
 import { absoluteUrl } from "@/lib/seo/config";
 
@@ -50,6 +52,9 @@ const MoneyLanding = () => {
       name: page.seoTitle,
       description: page.metaDescription,
       hasBreadcrumb: true,
+      ...(content?.directAnswer
+        ? { speakableSelectors: [".geo-direct-answer__q", ".geo-direct-answer__a"] }
+        : {}),
     }),
     buildOrganization(),
     buildBreadcrumb(
@@ -57,6 +62,21 @@ const MoneyLanding = () => {
       canonical,
     ),
     buildLegalService(),
+    buildService({
+      name: page.h1,
+      description: page.metaDescription,
+      url: canonical,
+      serviceType: cluster?.label ?? page.label,
+    }),
+    ...(content?.directAnswer
+      ? [
+          buildQAPage({
+            question: content.directAnswer.question,
+            answer: content.directAnswer.plain,
+            url: canonical,
+          }),
+        ]
+      : []),
     ...(content?.faq?.length
       ? [buildFaq(content.faq.map((f) => ({ question: f.q, answer: f.plain })))]
       : []),

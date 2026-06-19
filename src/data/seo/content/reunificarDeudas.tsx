@@ -14,6 +14,11 @@ import p6 from "@/assets/casos/reunificar-6.jpg";
  */
 export const reunificarDeudas: MoneyContent = {
   path: "/reunificar-deudas",
+  directAnswer: {
+    question: "¿Cómo se reunifican las deudas paso a paso?",
+    answer: "Para reunificar tus deudas primero analizamos todo lo que debes y a quién, después negociamos directamente con cada acreedor para rebajar la cuota mensual y el importe total, y por último firmas un único acuerdo de pago asumible. No es un préstamo nuevo ni alarga el plazo encareciendo la deuda. El estudio inicial es gratuito.",
+    plain: "Para reunificar tus deudas primero analizamos todo lo que debes y a quién, después negociamos directamente con cada acreedor para rebajar la cuota mensual y el importe total, y por último firmas un único acuerdo de pago asumible. No es un préstamo nuevo ni alarga el plazo encareciendo la deuda. El estudio inicial es gratuito.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

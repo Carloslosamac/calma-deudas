@@ -13,6 +13,11 @@ import p6 from "@/assets/casos/revolving-6.jpg";
  */
 export const cancelarTarjetasRevolving: MoneyContent = {
   path: "/tarjetas-revolving/cancelar-tarjetas-revolving",
+  directAnswer: {
+    question: "¿Puedo cancelar una tarjeta revolving y recuperar lo pagado?",
+    answer: "Sí. Si tu tarjeta revolving aplica un interés usurario, los tribunales pueden declararla nula y obligar al banco a devolverte lo pagado por encima del capital prestado. Solo tendrías que devolver el dinero que realmente usaste, sin intereses. En Calma revisamos tu contrato gratis para ver cuánto puedes reclamar.",
+    plain: "Sí. Si tu tarjeta revolving aplica un interés usurario, los tribunales pueden declararla nula y obligar al banco a devolverte lo pagado por encima del capital prestado. Solo tendrías que devolver el dinero que realmente usaste, sin intereses. En Calma revisamos tu contrato gratis para ver cuánto puedes reclamar.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

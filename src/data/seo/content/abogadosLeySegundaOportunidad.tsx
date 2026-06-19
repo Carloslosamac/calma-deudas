@@ -36,6 +36,11 @@ import team20 from "@/assets/team-lawyer-20.jpg";
  */
 export const abogadosLeySegundaOportunidad: MoneyContent = {
   path: "/abogados-ley-segunda-oportunidad",
+  directAnswer: {
+    question: "¿Necesito un abogado para la Ley de Segunda Oportunidad?",
+    answer: "Sí. La Ley de Segunda Oportunidad es un procedimiento judicial que requiere abogado para tramitarse correctamente y maximizar las deudas que se cancelan. Un abogado especialista revisa tu situación, prepara la documentación y te representa ante el juzgado. En Calma el estudio inicial de tu caso es gratuito y sin compromiso.",
+    plain: "Sí. La Ley de Segunda Oportunidad es un procedimiento judicial que requiere abogado para tramitarse correctamente y maximizar las deudas que se cancelan. Un abogado especialista revisa tu situación, prepara la documentación y te representa ante el juzgado. En Calma el estudio inicial de tu caso es gratuito y sin compromiso.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

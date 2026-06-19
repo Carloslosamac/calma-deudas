@@ -14,6 +14,11 @@ import p6 from "@/assets/casos/asnef-6.jpg";
  */
 export const salirDeAsnef: MoneyContent = {
   path: "/asnef/salir-de-asnef",
+  directAnswer: {
+    question: "¿Cómo puedo salir de ASNEF?",
+    answer: "Para salir de ASNEF debes resolver el origen de la deuda que te incluyó: pagándola, demostrando que es errónea o cancelándola por la vía legal correspondiente. Una vez extinguida la deuda, la entidad está obligada a retirar tus datos del fichero. En Calma analizamos gratis por qué estás en ASNEF y la forma más rápida y legal de salir.",
+    plain: "Para salir de ASNEF debes resolver el origen de la deuda que te incluyó: pagándola, demostrando que es errónea o cancelándola por la vía legal correspondiente. Una vez extinguida la deuda, la entidad está obligada a retirar tus datos del fichero. En Calma analizamos gratis por qué estás en ASNEF y la forma más rápida y legal de salir.",
+  },
   reviewed: true,
   tone: "urgent",
   layout: [

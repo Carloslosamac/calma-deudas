@@ -13,6 +13,11 @@ import p6 from "@/assets/casos/microcreditos-6.jpg";
  */
 export const cancelarMicrocreditos: MoneyContent = {
   path: "/microcreditos-prestamos/cancelar-microcreditos",
+  directAnswer: {
+    question: "¿Se pueden cancelar los microcréditos con intereses abusivos?",
+    answer: "Sí. Muchos microcréditos y préstamos rápidos aplican intereses tan altos que se consideran usurarios, y cuando es así pueden anularse: dejas de pagar los intereses abusivos y solo devuelves el capital que recibiste. En Calma revisamos tus microcréditos gratis para decirte cuáles puedes dejar de pagar.",
+    plain: "Sí. Muchos microcréditos y préstamos rápidos aplican intereses tan altos que se consideran usurarios, y cuando es así pueden anularse: dejas de pagar los intereses abusivos y solo devuelves el capital que recibiste. En Calma revisamos tus microcréditos gratis para decirte cuáles puedes dejar de pagar.",
+  },
   reviewed: true,
   tone: "transactional",
   layout: [

@@ -12,6 +12,11 @@ import p4 from "@/assets/person-closeup-woman-3.jpg";
  */
 export const juicioMonitorioDeuda: MoneyContent = {
   path: "/juicio-monitorio-recobro/juicio-monitorio-deuda",
+  directAnswer: {
+    question: "Me ha llegado un juicio monitorio, ¿qué hago y en qué plazo?",
+    answer: "Si recibes un juicio monitorio por una deuda, tienes 20 días hábiles para responder: pagar, oponerte si la deuda es incorrecta o no estás de acuerdo, o no hacer nada, lo que permite al acreedor seguir con el embargo. Oponerse en plazo es clave para defenderte. En Calma revisamos tu caso gratis para decidir la mejor respuesta.",
+    plain: "Si recibes un juicio monitorio por una deuda, tienes 20 días hábiles para responder: pagar, oponerte si la deuda es incorrecta o no estás de acuerdo, o no hacer nada, lo que permite al acreedor seguir con el embargo. Oponerse en plazo es clave para defenderte. En Calma revisamos tu caso gratis para decidir la mejor respuesta.",
+  },
   reviewed: false,
   tone: "urgent",
   layout: [

@@ -424,6 +424,7 @@ const MoneyJourney = ({
         canonical={canonical}
         ogType="website"
         structuredData={structuredData}
+        appendSiteName={false}
       />
       <Header />
 
@@ -470,6 +471,23 @@ const MoneyJourney = ({
         <TrustBar data={content.socialProof} />
 
         <div className="mx-auto max-w-4xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
+          {/* ---------- Respuesta directa (GEO) ---------- */}
+          {content.directAnswer && (
+            <Reveal>
+              <section
+                className="geo-direct-answer scroll-mt-28 rounded-3xl border border-accent/30 bg-accent-soft/40 p-7 md:p-9"
+                aria-label="Respuesta rápida"
+              >
+                <h2 className="geo-direct-answer__q font-poppins text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                  {content.directAnswer.question}
+                </h2>
+                <div className="geo-direct-answer__a mt-3 text-base leading-relaxed text-foreground/85">
+                  {content.directAnswer.answer}
+                </div>
+              </section>
+            </Reveal>
+          )}
+
           {/* ---------- Módulos ordenables por página ---------- */}
           {order.map((key, i) =>
             blocks[key] ? <div key={`${key}-${i}`}>{blocks[key]}</div> : null,

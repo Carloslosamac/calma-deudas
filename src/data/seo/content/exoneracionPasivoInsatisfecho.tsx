@@ -10,6 +10,11 @@ import { A, KeyCallout, OptionCards, WarningCallout, CheckList } from "@/compone
  */
 export const exoneracionPasivoInsatisfecho: MoneyContent = {
   path: "/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho",
+  directAnswer: {
+    question: "¿Qué es la exoneración del pasivo insatisfecho y qué deudas borra?",
+    answer: "La exoneración del pasivo insatisfecho es la resolución de la Ley de Segunda Oportunidad por la que un juez cancela las deudas que no puedes pagar. Borra la mayoría de deudas privadas, como bancos, financieras y microcréditos, y con límites parte de la deuda pública. Para concederla debes ser insolvente y actuar de buena fe. En Calma lo valoramos gratis.",
+    plain: "La exoneración del pasivo insatisfecho es la resolución de la Ley de Segunda Oportunidad por la que un juez cancela las deudas que no puedes pagar. Borra la mayoría de deudas privadas, como bancos, financieras y microcréditos, y con límites parte de la deuda pública. Para concederla debes ser insolvente y actuar de buena fe. En Calma lo valoramos gratis.",
+  },
   reviewed: false,
   tone: "legal",
   layout: [
