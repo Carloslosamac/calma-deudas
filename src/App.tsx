@@ -22,6 +22,8 @@ import EntityPage from "./pages/seo/EntityPage";
 import ComparativaPage from "./pages/seo/ComparativaPage";
 import GuiaPage from "./pages/seo/GuiaPage";
 import CasosLSO from "./pages/seo/CasosLSO";
+import CasosExito from "./pages/CasosExito";
+import CasoExitoPost from "./pages/CasoExitoPost";
 import Servicios from "./pages/seo/Servicios";
 import LocalizacionPage from "./pages/seo/LocalizacionPage";
 import HerramientasHub from "./pages/seo/HerramientasHub";
@@ -46,6 +48,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/casos-de-exito" element={<CasosExito />} />
+          <Route path="/casos-de-exito/:slug" element={<CasoExitoPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
           <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
           <Route path="/gracias" element={<Gracias />} />
