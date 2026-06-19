@@ -6,7 +6,7 @@ import {
 import InlineCTA from "@/components/blog/InlineCTA";
 import { ExtLink, InternalLink } from "@/data/blog/shared";
 import type { CasoExito } from "../types";
-import casoFoto from "@/assets/testimonios/lso-1.jpg";
+import casoFoto from "@/assets/casos/noemi-barcelona.jpg";
 
 export const noemiBarcelona: CasoExito = {
   slug: "noemi-barcelona-cancela-48310-euros",
