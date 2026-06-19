@@ -720,7 +720,7 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ]
   },
   "mykredit": {
-    "intro": "Si un pequeño préstamo con MyKredit se ha convertido en una montaña de intereses que no deja de crecer, no estás solo y, sobre todo, no es el fin del mundo.",
+    "intro": "Lo que empezó como un microcrédito puntual de MyKredit para llegar a fin de mes se ha transformado en una bola de intereses y comisiones que no entiendes del todo. Queremos que sepas que esa falta de claridad juega a tu favor: muchos de estos contratos son revisables y reclamables.",
     "origin": "MyKredit es una marca comercial operada por Global Digital Finance Spain S.L., una entidad financiera tecnológica con sede en Madrid especializada en préstamos de consumo rápido. Se posicionan como una solución de liquidez urgente mediante procesos 100% digitales y sin apenas papeleo.",
     "metaDescription": "¿Debes dinero a MyKredit? Descubre cómo gestionar tus microcréditos, detener el acoso telefónico y eliminar intereses abusivos con el apoyo de Calma.",
     "detail": "MyKredit se especializa en minicréditos de concesión casi instantánea con plazos de devolución muy cortos, lo que frecuentemente deriva en intereses de demora y comisiones por impago elevados. Estos productos suelen presentar tipos de interés que superan con creces la media del mercado, facilitando un ciclo de sobreendeudamiento si no se liquidan a tiempo.",
