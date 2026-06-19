@@ -168,7 +168,14 @@ const FormSection = () => {
     } finally {
       setSubmitting(false);
       // Redirigimos a la página de gracias con el diagnóstico orientativo.
-      navigate("/gracias", { state: { result, name: contact.fullName } });
+      navigate("/gracias", {
+        state: {
+          result,
+          name: contact.fullName,
+          debtAmount: data.debtAmount,
+          entities: data.entities,
+        },
+      });
     }
   };
 
