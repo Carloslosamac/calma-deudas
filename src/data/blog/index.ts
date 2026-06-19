@@ -6,9 +6,17 @@ import { autonomosConDeudas } from "./posts/autonomos-con-deudas";
 import { renegociarAcreedores } from "./posts/renegociar-acreedores";
 import { vidaDespuesDeuda } from "./posts/vida-despues-deuda";
 import { guiaLeySegundaOportunidad } from "./posts/guia-ley-segunda-oportunidad";
+import { reclamarTarjetaRevolving } from "./posts/reclamar-tarjeta-revolving";
+import { cancelarMicrocreditos } from "./posts/cancelar-microcreditos";
+import { juicioMonitorioDeuda } from "./posts/juicio-monitorio-deuda";
+import { deudasHaciendaSeguridadSocial } from "./posts/deudas-hacienda-seguridad-social";
 
 export const blogPosts: BlogPost[] = [
   guiaLeySegundaOportunidad,
+  reclamarTarjetaRevolving,
+  cancelarMicrocreditos,
+  juicioMonitorioDeuda,
+  deudasHaciendaSeguridadSocial,
   cancelarDeudasRequisitos,
   embargosSegundaOportunidad,
   salirAsnef,
