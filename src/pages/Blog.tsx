@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAuthors } from "@/data/team";
 import {
   ArrowRight,
   Banknote,
