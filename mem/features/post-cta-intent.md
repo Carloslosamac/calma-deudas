@@ -7,6 +7,8 @@ Every blog post must include at least one `<InlineCTA>` whose `title`, `descript
 
 The CTA always links to `#hero-form` (handled by the InlineCTA component, core rule).
 
+This applies to the STICKY sidebar too. Every post defines a `sidebar` field (`{ ctaTitle, ctaDescription, ctaLabel, benefits[] }`) on its `BlogPost`, consumed by `BlogSidebar`. The sticky CTA (title/description/label) AND the "¿Por qué Calma?" benefits list must both be aligned to the post's intent (e.g. juicio monitorio → "Expertos en oposición a juicios monitorios", revolving → "Especialistas en reclamación de revolving"). Never leave the generic default ("¿Quieres saber cuánto costaría tu procedimiento?" / "Analizar mi caso" / generic benefits) on a real post. `BlogSidebar` keeps a default only as fallback.
+
 Intent → buttonLabel mapping in use (reuse/extend for new posts):
 - microcréditos → "Cancelar mis microcréditos"
 - deudas Hacienda/Seguridad Social → "Resolver mi deuda pública"
