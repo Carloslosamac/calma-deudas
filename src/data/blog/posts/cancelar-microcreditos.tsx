@@ -15,7 +15,7 @@ export const cancelarMicrocreditos: BlogPost = {
   category: "Microcréditos",
   title:
     "Microcréditos que no puedes pagar: cómo salir del bucle de préstamos rápidos",
-  seoTitle: "📉 No puedo pagar mis microcréditos: cómo cancelarlos",
+  seoTitle: "📉 Cancela tus microcréditos y frena la bola YA",
   metaDescription:
     "Frena la bola de los microcréditos: cómo parar el bucle, reclamar intereses abusivos y cancelar la deuda legalmente.",
   excerpt:

@@ -13,7 +13,7 @@ export const renegociarAcreedores: BlogPost = {
   slug: "renegociar-acreedores",
   category: "Consejos",
   title: "Cuándo conviene renegociar deudas y cuándo iniciar una vía legal",
-  seoTitle: "🤝 Renegociar deudas o ir por la vía legal: qué elegir",
+  seoTitle: "🤝 ¿Renegociar o vía legal? Lo que de verdad funciona",
   metaDescription:
     "Cuándo conviene renegociar con tus acreedores y cuándo iniciar la vía legal: ventajas, límites y cómo preparar una propuesta realista.",
   faq: [

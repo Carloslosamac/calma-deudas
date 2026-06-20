@@ -15,7 +15,7 @@ export const deudasHaciendaSeguridadSocial: BlogPost = {
   category: "Deudas públicas",
   title:
     "Deudas con Hacienda y Seguridad Social: opciones reales para resolverlas",
-  seoTitle: "🏛️ Deudas con Hacienda y Seguridad Social: cómo pagarlas",
+  seoTitle: "🏛️ Deudas con Hacienda: págalas y evita el embargo",
   metaDescription:
     "Aplazamientos, fraccionamientos y qué entra en la Ley de Segunda Oportunidad para resolver deudas con Hacienda y la Seguridad Social.",
   excerpt:

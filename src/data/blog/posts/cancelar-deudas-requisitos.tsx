@@ -22,7 +22,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
   slug: "cancelar-deudas-requisitos",
   category: "Segunda oportunidad",
   title: "Cómo saber si puedes cancelar tus deudas con la Segunda Oportunidad",
-  seoTitle: "✅ Cancelar deudas: ¿cumples los requisitos en 2026?",
+  seoTitle: "✅ Cancela tus deudas en 2026: mira si calificas",
   metaDescription:
     "Comprueba si cumples los requisitos para cancelar tus deudas: buena fe, insolvencia, deudas incluidas, coste y plazos reales.",
   faq: [
