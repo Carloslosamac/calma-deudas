@@ -196,6 +196,11 @@ const ToolPage = () => {
               </ul>
             </nav>
           )}
+
+          <RelatedResources
+            groups={crossLinks}
+            heading="Sigue avanzando con tu caso"
+          />
         </div>
       </main>
 
