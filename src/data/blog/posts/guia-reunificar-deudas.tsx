@@ -524,7 +524,7 @@ export const guiaReunificarDeudas: BlogPost = {
           <p>
             Recuerda: si la deuda es baja y los intereses son abusivos (típico en revolving), antes
             de reunificar conviene revisar si esa deuda es{" "}
-            <InternalLink to="/blog/guia-cancelar-tarjetas-revolving">reclamable</InternalLink>.
+            <InternalLink to="/blog/guia-cancelar-revolving">reclamable</InternalLink>.
           </p>
         </>
       ),
