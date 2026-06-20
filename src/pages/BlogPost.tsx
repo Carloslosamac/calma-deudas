@@ -73,6 +73,7 @@ const BlogPost = () => {
   }
 
   const structured: Record<string, unknown>[] = [
+    // Nombre de autoría: abogados del equipo si están definidos, si no el campo legacy.
     buildBreadcrumb([
       { name: "Inicio", url: "/" },
       { name: "Blog", url: "/blog" },
@@ -83,7 +84,7 @@ const BlogPost = () => {
       description: post.metaDescription ?? post.excerpt,
       url: `/blog/${post.slug}`,
       image: absoluteUrl(post.ogImage ?? post.heroImage),
-      author: post.author,
+      author: authorsToName(post.authors, post.author),
       publishedAt: post.publishedAt,
       updatedAt: post.updatedAt,
       keywords: post.keywords,
