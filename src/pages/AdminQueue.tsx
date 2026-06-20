@@ -245,6 +245,11 @@ const AdminQueue = () => {
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Descartados</p>
             <p className="mt-1 text-2xl font-semibold text-foreground">{stats.descartados}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A {stats.descartadosPrioridad?.["Alta"] ?? 0} · M{" "}
+              {stats.descartadosPrioridad?.["Media"] ?? 0} · B{" "}
+              {stats.descartadosPrioridad?.["Baja"] ?? 0} · duplicados, no pendientes
+            </p>
           </Card>
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Prioridad en cola</p>
@@ -254,6 +259,30 @@ const AdminQueue = () => {
               <span className="text-muted-foreground">B {stats.prioridad["Baja"] ?? 0}</span>
             </p>
           </Card>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <Button
+            variant={filter === "todas" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("todas")}
+          >
+            Todas
+          </Button>
+          <Button
+            variant={filter === "alta" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("alta")}
+          >
+            Alta
+          </Button>
+          <Button
+            variant={filter === "lso-alta" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("lso-alta")}
+          >
+            LSO Alta
+          </Button>
         </div>
 
         <Card className="mt-8 overflow-hidden">
@@ -273,7 +302,7 @@ const AdminQueue = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {sorted.slice(0, 300).map((r) => (
+                {filtered.slice(0, 300).map((r) => (
                   <TableRow key={r.id}>
                     <TableCell className={`font-medium ${prioridadColor(r.prioridad)}`}>
                       {r.prioridad ?? "—"}
