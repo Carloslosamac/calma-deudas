@@ -17,7 +17,7 @@ export const cancelarMicrocreditos: BlogPost = {
     "Microcréditos que no puedes pagar: cómo salir del bucle de préstamos rápidos",
   seoTitle: "📉 No puedo pagar mis microcréditos: cómo cancelarlos",
   metaDescription:
-    "🛑 Frena la bola de los microcréditos: cómo parar el bucle, reclamar intereses abusivos y cancelar la deuda legalmente.",
+    "Frena la bola de los microcréditos: cómo parar el bucle, reclamar intereses abusivos y cancelar la deuda legalmente.",
   excerpt:
     "Pedir un préstamo rápido para tapar otro es el inicio de un bucle peligroso. Te explicamos cómo frenarlo y qué opciones legales tienes.",
   date: "19 junio 2026",
