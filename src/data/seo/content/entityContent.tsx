@@ -5,6 +5,8 @@ import { getEntityProfile, type EntityProfile } from "@/data/seo/content/entityP
 import CtaButton from "@/components/seo/CtaButton";
 import KeyCallout from "@/components/seo/modules/KeyCallout";
 import CheckList from "@/components/seo/modules/CheckList";
+import EntityRating from "@/components/seo/modules/EntityRating";
+import { getEntityRating } from "@/data/seo/content/entityRatings";
 import { ShieldCheck, XCircle, CheckCircle2 } from "lucide-react";
 
 /**
@@ -598,6 +600,12 @@ const originSection = (e: Entity, profile: EntityProfile): EntitySection => ({
   ),
 });
 
+/** Ficha visual de valoración (semáforo) por entidad. */
+const ratingSection = (e: Entity): EntitySection => ({
+  title: `Valoración rápida de ${e.name}`,
+  body: <EntityRating kind={e.kind} indicators={getEntityRating(e)} />,
+});
+
 /** Sección única de miedos específicos de la entidad. */
 const profileWorriesSection = (e: Entity, profile: EntityProfile): EntitySection => ({
   title: `Tus dudas concretas sobre ${e.name}`,
@@ -628,6 +636,8 @@ const mergeProfile = (base: EntityContent, e: Entity, profile: EntityProfile): E
   const sections = base.sections.filter((s) => s.title !== "Tus miedos, resueltos");
   // tras calmSection (índice 0): origen único
   sections.splice(1, 0, originSection(e, profile));
+  // tras el origen: ficha de valoración semáforo
+  sections.splice(2, 0, ratingSection(e));
   // antes de la última sección (calmaSection): miedos específicos
   const insertAt = Math.max(1, sections.length - 1);
   sections.splice(insertAt, 0, profileWorriesSection(e, profile));
