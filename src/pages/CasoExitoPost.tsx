@@ -166,7 +166,14 @@ const CasoExitoPost = () => {
                   {section.title}
                 </h2>
                 <div className="mt-5 space-y-6 text-base leading-relaxed text-foreground/85 [&_p]:text-base [&_p]:leading-relaxed">
-                  {section.body}
+                  {section.html !== undefined ? (
+                    <div
+                      className="space-y-6 [&_h3]:font-poppins [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mt-1"
+                      dangerouslySetInnerHTML={{ __html: section.html }}
+                    />
+                  ) : (
+                    section.body
+                  )}
                 </div>
               </section>
             ))}
