@@ -14,6 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
+      generated_posts: {
+        Row: {
+          authors: string[]
+          category: string
+          created_at: string
+          excerpt: string
+          faq: Json
+          hero_alt: string | null
+          hero_image: string | null
+          id: string
+          keywords: string[] | null
+          meta_description: string | null
+          published_at: string | null
+          read_time: string | null
+          roadmap_id: number | null
+          sections: Json
+          seo_title: string | null
+          sidebar: Json | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          authors?: string[]
+          category: string
+          created_at?: string
+          excerpt: string
+          faq?: Json
+          hero_alt?: string | null
+          hero_image?: string | null
+          id?: string
+          keywords?: string[] | null
+          meta_description?: string | null
+          published_at?: string | null
+          read_time?: string | null
+          roadmap_id?: number | null
+          sections?: Json
+          seo_title?: string | null
+          sidebar?: Json | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          authors?: string[]
+          category?: string
+          created_at?: string
+          excerpt?: string
+          faq?: Json
+          hero_alt?: string | null
+          hero_image?: string | null
+          id?: string
+          keywords?: string[] | null
+          meta_description?: string | null
+          published_at?: string | null
+          read_time?: string | null
+          roadmap_id?: number | null
+          sections?: Json
+          seo_title?: string | null
+          sidebar?: Json | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_posts_roadmap_id_fkey"
+            columns: ["roadmap_id"]
+            isOneToOne: false
+            referencedRelation: "seo_roadmap"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seo_roadmap: {
+        Row: {
+          cluster: string | null
+          created_at: string
+          entidad: string | null
+          estado: string
+          id: number
+          intencion: string | null
+          keywords: string[] | null
+          post_slug: string | null
+          prioridad: string | null
+          sprint: string | null
+          tipo_pagina: string | null
+          titulo: string
+          updated_at: string
+          url_sugerida: string | null
+        }
+        Insert: {
+          cluster?: string | null
+          created_at?: string
+          entidad?: string | null
+          estado?: string
+          id: number
+          intencion?: string | null
+          keywords?: string[] | null
+          post_slug?: string | null
+          prioridad?: string | null
+          sprint?: string | null
+          tipo_pagina?: string | null
+          titulo: string
+          updated_at?: string
+          url_sugerida?: string | null
+        }
+        Update: {
+          cluster?: string | null
+          created_at?: string
+          entidad?: string | null
+          estado?: string
+          id?: number
+          intencion?: string | null
+          keywords?: string[] | null
+          post_slug?: string | null
+          prioridad?: string | null
+          sprint?: string | null
+          tipo_pagina?: string | null
+          titulo?: string
+          updated_at?: string
+          url_sugerida?: string | null
+        }
+        Relationships: []
+      }
       zoho_tokens: {
         Row: {
           id: number

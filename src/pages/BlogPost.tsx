@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
+import { fetchGeneratedPostBySlug } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
 import AuthorChips from "@/components/blog/AuthorChips";
@@ -23,7 +25,13 @@ import { absoluteUrl } from "@/lib/seo/config";
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const post = getPostBySlug(slug);
+  const staticPost = getPostBySlug(slug);
+  const { data: dbPost, isLoading } = useQuery({
+    queryKey: ["generated-post", slug],
+    queryFn: () => fetchGeneratedPostBySlug(slug!),
+    enabled: !!slug && !staticPost,
+  });
+  const post = staticPost ?? dbPost ?? undefined;
 
   const toc: TocItem[] = useMemo(
     () => (post ? post.sections.map((s) => ({ id: s.id, label: s.title })) : []),
@@ -46,6 +54,16 @@ const BlogPost = () => {
   }, [post]);
 
   if (!post) {
+    if (isLoading) {
+      return (
+        <div className="min-h-screen bg-background text-foreground">
+          <Header />
+          <main className="mx-auto max-w-3xl px-6 pb-24 pt-36 text-center">
+            <p className="text-muted-foreground">Cargando artículo…</p>
+          </main>
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Seo
@@ -170,7 +188,14 @@ const BlogPost = () => {
                       {section.title}
                     </h2>
                     <div className="mt-5 space-y-6 text-base leading-relaxed text-foreground/85 [&_p]:text-base [&_p]:leading-relaxed">
-                      {section.body}
+                      {section.html !== undefined ? (
+                        <div
+                          className="space-y-6 [&_a]:font-medium [&_a]:text-accent-deep [&_a]:underline [&_h3]:mt-8 [&_h3]:font-poppins [&_h3]:text-xl [&_h3]:font-semibold [&_li]:ml-1 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-accent [&_blockquote]:pl-4 [&_blockquote]:italic"
+                          dangerouslySetInnerHTML={{ __html: section.html }}
+                        />
+                      ) : (
+                        section.body
+                      )}
                     </div>
                   </section>
                 ))}

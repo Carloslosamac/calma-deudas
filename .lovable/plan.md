@@ -1,40 +1,53 @@
-# Ficha de valoración por entidad (semáforo)
+## Auditoría: qué hay hecho ya (para no duplicar)
 
-Cada una de las 102 fichas de entidad mostrará un módulo visual nuevo que la valora en varios aspectos con etiquetas semáforo (verde / ámbar / rojo) y una frase corta de contexto. Los valores son **curados por entidad** (criterio editorial, no cifras numéricas inventadas), respetando la regla del proyecto de no fabricar estadísticas.
+Crucé el masterplan `Mapa_SEO_Total` con el código actual. Resumen real de cobertura:
 
-## Aspectos valorados
-Para cada entidad, 4 indicadores:
+**Roadmap del masterplan:** 1.879 temas únicos → Alta 78 · Media 493 · Baja 1.308.
+Tipos: Artículo satélite 847 · Comparativa 516 · Long-tail entidad 321 · Guía urgente 161 · Money page 34.
 
-1. **Tipología de entidad** — chip informativo neutro (no semáforo): "Empresa de recobro", "Microcréditos", "Tarjeta revolving", "Banco". Da contexto inmediato del tipo de reclamación.
-2. **Presión de recobro** — qué tan insistentes/agresivas suelen ser sus comunicaciones (verde = baja, ámbar = media, rojo = alta).
-3. **Margen de negociación** — probabilidad real de cerrar con quita/descuento (verde = alto, ámbar = medio, rojo = bajo).
-4. **Riesgo de intereses abusivos / usura** — probabilidad de que la deuda incluya intereses reclamables o nulos (verde = bajo, ámbar = medio, rojo = alto). Aquí el color rojo es *bueno para el usuario* (más opciones de defensa), por eso cada indicador lleva su frase de contexto para evitar lecturas equívocas.
+**Ya publicado en el proyecto:**
+- **16 money pages** (LSO, cancelar deudas, reunificación, salir de ASNEF, parar embargo, revolving, microcréditos, exoneración, concurso, monitorio, Hacienda, Seguridad Social…)
+- **102 fichas de entidad** (con módulo de valoración semáforo)
+- **8 comparativas** + **10 guías** + **6 herramientas interactivas**
+- **11 posts de blog** + **16 casos de éxito**
+- **15 cluster hubs** alineados con los clusters del Excel
 
-Cada indicador combina: nivel (color) + etiqueta corta + una frase explicativa de una línea, escrita por entidad.
+**Hallazgo crítico para la automatización:** el cruce por URL exacta da **0 coincidencias**, porque nuestros slugs son limpios (`/blog/salir-asnef`) y los del Excel son los scrapeados del competidor (`/asnef/salir-asnef-misolvencia/`). Es decir: **no se puede deduplicar por URL**. Hay solapamiento real de *intención* que el Excel no detecta (ej. "Salir de ASNEF" ya está cubierto como money page + post). Si la automatización publica por roadmap a ciegas, **canibalizaríamos** páginas que ya rankean.
 
-## Diseño visual
-- Tarjeta `rounded-3xl border border-border bg-surface-elevated shadow-soft` coherente con `FactGrid`/módulos existentes.
-- Cabecera con el chip de tipología.
-- Lista de 3 indicadores, cada uno con: punto/pastilla de color semáforo, etiqueta del aspecto, badge de nivel ("Bajo/Medio/Alto") y la frase de contexto.
-- Colores vía tokens existentes (`accent`/`accent-deep` para verde positivo, `orange-deep` para alerta, ámbar derivado) — sin hardcodear `text-white`/hex; se añadirán tokens si hace falta un ámbar dedicado.
-- Pequeña nota al pie: "Valoración orientativa del equipo de Calma según el perfil de la entidad; cada caso se estudia de forma individual." (transparencia + coherencia con E-E-A-T).
+```text
+Masterplan (1.879)
+   │  cruce por URL  → 0  (slugs distintos)
+   │  cruce por intención → decenas ya cubiertas en money pages / posts / guías
+   ▼
+Cola de publicación = roadmap  MENOS  lo ya cubierto por intención
+```
 
-## Dónde aparece
-- Se inserta como una sección con su `H2` ("Valoración rápida de {entidad}") justo después de la sección de origen ("Quién es… y por qué te afecta"), al principio de la ficha, donde aporta más valor de escaneo rápido.
+## Plan de automatización (3–7 posts/día, media 5)
 
-## Implementación técnica
-1. **Componente** `src/components/seo/modules/EntityRating.tsx`: recibe `{ kind, indicators }` y renderiza la tarjeta semáforo. Reutilizable y exportado desde `src/components/seo/modules/index.ts`.
-2. **Datos curados** `src/data/seo/content/entityRatings.ts`:
-   - Tipo `EntityRating` con los 3 indicadores (`level: "verde"|"ambar"|"rojo"`, `label`, `note`).
-   - `Record<slug, EntityRating>` con entrada **única por cada una de las 102 entidades**, redactada según su perfil real (recobro agresivo vs. banco, revolving con alto riesgo de usura, microcréditos con TAE elevada, etc.).
-   - Helper `getEntityRating(entity)` con *fallback* por `kind` por si faltara alguna entrada, para no romper nunca el render.
-3. **Integración** en `src/data/seo/content/entityContent.tsx`: nueva `ratingSection(entity)` insertada en `mergeProfile` tras `originSection`. La tarjeta se renderiza dentro del `body` de esa sección, así hereda el render existente del scaffold (H2 + contenido) sin tocar `SeoPageScaffold` ni `EntityPage`.
-4. **Tokens (si necesario)**: añadir un token ámbar semáforo en `index.css` + `tailwind.config.ts` si no hay uno adecuado; reutilizar `accent`/`orange-deep` para verde/rojo.
+### 1. Importar el roadmap como cola en base de datos
+- Nueva tabla `seo_roadmap` (Lovable Cloud) con los 1.879 temas: id, título, cluster, intención, tipo, prioridad, sprint, url_sugerida, **estado** (`backlog | en_cola | descartado_duplicado | publicado`).
+- Script de importación one-off desde el Excel.
 
-## Verificación
-- Revisar 3-4 fichas representativas (`/empresas-de-recobro/axactor`, una de microcrédito, una revolving, un banco) con screenshot del preview.
-- Confirmar que no hay regresión de build y que el error runtime actual ("Importing a module script failed") queda resuelto tras los cambios/refresh.
+### 2. Deduplicar contra lo existente (clave para "no liarla")
+- Marcar como `descartado_duplicado` toda fila cuya intención ya esté cubierta por una money page, guía, comparativa, post o ficha de entidad actual (matching por cluster + keywords/slug normalizado + intención, no por URL).
+- Las **Money pages del Excel** (34) NO se publican como blog: o ya existen, o son decisiones de arquitectura, no posts diarios.
+- Resultado: una cola limpia de temas **informacionales/satélite** seguros para blog.
 
-## Notas
-- No se añaden cifras numéricas ni porcentajes (regla anti-stats): solo niveles cualitativos + texto.
-- No altera títulos/metadatos SEO existentes ni el contenido único anti-duplicado ya implementado; añade contenido diferenciado adicional por entidad.
+### 3. Modelo de publicación
+- **Posts en base de datos**, no en TSX. El blog pasa a leer de Cloud + fallback a los 11 posts en código (se mantienen).
+- Tabla `posts` con todos los campos actuales (`BlogPost`): slug, título, secciones (HTML), excerpt, autores, hero, FAQ, sidebar, meta, enlaces internos, `published_at`, `status`.
+
+### 4. Generación de contenido (a decidir contigo — ver abajo)
+- Por cada tema de la cola: generar post largo respetando TODAS las reglas del proyecto (sin cifras inventadas, triaje de soluciones correcto, CTA alineado a intención, autores reales del equipo, hero premium, enlazado interno por intención).
+
+### 5. Programación 3–7/día (media 5)
+- Cron diario (`pg_cron` + edge function). Cada día elige un número aleatorio 3–7 con media≈5, toma N temas de la cola por prioridad (Alta→Media→Baja), genera y publica con horas escalonadas.
+- Sitemap se regenera con cada publicación.
+
+## Necesito que decidas antes de construir
+
+1. **Generación del contenido:** (a) **cola pre-redactada** revisada por lotes (máxima calidad/control), (b) **IA 100% automática** diaria (cero esfuerzo, riesgo calidad/precisión legal y SEO), o (c) **IA con borrador + tu aprobación**.
+2. **Arquitectura:** ¿OK migrar el blog a base de datos (necesario para publicar sin redeploy)? Si prefieres mantener TSX, la "automatización" solo puede prepararte archivos para revisar, no publicar sola.
+3. **Calidad por defecto:** ¿cada post auto-publicado con autores reales + enlazado interno + hero, igual que ahora?
+
+Dime las 3 respuestas y dejo el plan cerrado para implementar.
