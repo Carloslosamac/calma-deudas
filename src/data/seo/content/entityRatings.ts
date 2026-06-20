@@ -32,7 +32,7 @@ const OVERRIDES: Record<string, Partial<Levels>> = {
   eos: { presion: "rojo", negociacion: "verde", usura: "ambar" },
   axactor: { presion: "rojo", negociacion: "verde", usura: "ambar" },
   gescobro: { presion: "rojo", negociacion: "verde", usura: "verde" },
-  hoist_finance: { presion: "ambar", negociacion: "verde", usura: "ambar" },
+  "hoist-finance": { presion: "ambar", negociacion: "verde", usura: "ambar" },
   // Microcréditos con TAE típicamente desorbitada → usura muy reclamable
   vivus: { presion: "ambar", negociacion: "verde", usura: "rojo" },
   moneyman: { presion: "ambar", negociacion: "verde", usura: "rojo" },
