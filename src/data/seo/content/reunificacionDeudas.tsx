@@ -324,6 +324,10 @@ export const reunificacionDeudas: MoneyContent = {
             ¿Prefieres pasar directamente a la acción?{" "}
             <span className="text-accent-deep">Reunificar deudas paso a paso</span>
           </ActionLink>
+          <ActionLink to="/blog/guia-reunificar-deudas">
+            Lee la guía pilar completa:{" "}
+            <span className="text-accent-deep">Reunificar deudas en 2026 paso a paso</span>
+          </ActionLink>
         </div>
       ),
     },
