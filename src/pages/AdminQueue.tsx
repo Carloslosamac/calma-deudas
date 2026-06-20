@@ -118,6 +118,7 @@ const AdminQueue = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [triggering, setTriggering] = useState(false);
+  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta">("todas");
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -130,7 +131,13 @@ const AdminQueue = () => {
   });
 
   const rows = data?.rows ?? [];
-  const stats = data?.stats ?? { enCola: 0, publicados: 0, descartados: 0, prioridad: {} };
+  const stats = data?.stats ?? {
+    enCola: 0,
+    publicados: 0,
+    descartados: 0,
+    prioridad: {},
+    descartadosPrioridad: {},
+  };
 
   const sorted = useMemo(
     () =>
@@ -143,6 +150,15 @@ const AdminQueue = () => {
       }),
     [rows]
   );
+
+  const filtered = useMemo(() => {
+    if (filter === "alta") return sorted.filter((r) => r.prioridad === "Alta");
+    if (filter === "lso-alta")
+      return sorted.filter(
+        (r) => r.prioridad === "Alta" && r.cluster === "ley-segunda-oportunidad"
+      );
+    return sorted;
+  }, [sorted, filter]);
 
   const handleTrigger = async () => {
     setTriggering(true);
