@@ -45,6 +45,8 @@ export default {
         },
         "orange-soft": "hsl(var(--orange-soft))",
         "orange-deep": "hsl(var(--orange-deep))",
+        "amber-soft": "hsl(var(--amber-soft))",
+        "amber-deep": "hsl(var(--amber-deep))",
         "legal-soft": "hsl(var(--legal-soft))",
         "legal-deep": "hsl(var(--legal-deep))",
         "calm-soft": "hsl(var(--calm-soft))",
