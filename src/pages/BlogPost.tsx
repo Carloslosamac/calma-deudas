@@ -188,7 +188,7 @@ const BlogPost = () => {
             </div>
 
             <div className="hidden lg:block">
-              <BlogSidebar toc={toc} />
+              <BlogSidebar toc={toc} sidebar={post.sidebar} />
             </div>
           </div>
         </article>
