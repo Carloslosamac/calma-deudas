@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 import { Activity, LogOut, Play, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
 import Seo from "@/components/seo/Seo";
 
 type RoadmapRow = {
