@@ -10,7 +10,7 @@ export const vidaDespuesDeuda: BlogPost = {
   title: "Después de cancelar deuda: hábitos sencillos para no volver al bloqueo",
   seoTitle: "🌱 Vida después de cancelar tu deuda: hábitos clave",
   metaDescription:
-    "🌱 Vida después de cancelar tus deudas: hábitos para rehacer tu presupuesto, crear un colchón y recuperar tu historial crediticio.",
+    "Vida después de cancelar tus deudas: hábitos para rehacer tu presupuesto, crear un colchón y recuperar tu historial crediticio.",
   faq: [
     {
       question: "¿Qué hago los primeros meses sin deuda?",

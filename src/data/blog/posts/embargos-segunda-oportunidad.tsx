@@ -17,7 +17,7 @@ export const embargosSegundaOportunidad: BlogPost = {
   title: "Qué ocurre con los embargos cuando inicias el proceso legal",
   seoTitle: "🛡️ Cómo parar un embargo con la Ley de Segunda Oportunidad",
   metaDescription:
-    "🛡️ Embargo de nómina, cuenta o bienes: cómo se frena paso a paso con la Ley de Segunda Oportunidad, fases y documentación necesaria.",
+    "Embargo de nómina, cuenta o bienes: cómo se frena paso a paso con la Ley de Segunda Oportunidad, fases y documentación necesaria.",
   faq: [
     {
       question: "¿Se pueden frenar los embargos con la Ley de Segunda Oportunidad?",
