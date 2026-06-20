@@ -15,7 +15,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
-import { LogOut, Play, RefreshCw } from "lucide-react";
+import { Activity, LogOut, Play, RefreshCw } from "lucide-react";
+import { Link } from "react-router-dom";
 import Seo from "@/components/seo/Seo";
 
 type RoadmapRow = {
@@ -148,6 +149,11 @@ const AdminQueue = () => {
             <p className="mt-1 text-sm text-muted-foreground">Masterplan SEO · estado y prioridad</p>
           </div>
           <div className="flex items-center gap-2">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/health">
+                <Activity className="mr-2 h-4 w-4" /> Estado
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
               <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
             </Button>
