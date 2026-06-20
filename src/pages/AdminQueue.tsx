@@ -33,6 +33,7 @@ type QueueStats = {
   publicados: number;
   descartados: number;
   prioridad: Record<string, number>;
+  descartadosPrioridad: Record<string, number>;
 };
 
 type QueueData = {
@@ -68,11 +69,24 @@ const countBy = async (estado: string, prioridad?: string) => {
 };
 
 const fetchQueue = async (): Promise<QueueData> => {
-  const [rowsResult, enCola, publicados, descartados, alta, media, baja] = await Promise.all([
+  const [
+    rowsResult,
+    enCola,
+    publicados,
+    descartados,
+    alta,
+    media,
+    baja,
+    descAlta,
+    descMedia,
+    descBaja,
+  ] = await Promise.all([
     supabase
       .from("seo_roadmap")
       .select("id,titulo,cluster,tipo_pagina,prioridad,estado,post_slug")
       .eq("estado", "en_cola")
+      .order("prioridad", { ascending: true })
+      .order("id", { ascending: false })
       .limit(300),
     countBy("en_cola"),
     countBy("publicado"),
@@ -80,6 +94,9 @@ const fetchQueue = async (): Promise<QueueData> => {
     countBy("en_cola", "Alta"),
     countBy("en_cola", "Media"),
     countBy("en_cola", "Baja"),
+    countBy("descartado_duplicado", "Alta"),
+    countBy("descartado_duplicado", "Media"),
+    countBy("descartado_duplicado", "Baja"),
   ]);
 
   if (rowsResult.error) throw rowsResult.error;
@@ -91,6 +108,7 @@ const fetchQueue = async (): Promise<QueueData> => {
       publicados,
       descartados,
       prioridad: { Alta: alta, Media: media, Baja: baja },
+      descartadosPrioridad: { Alta: descAlta, Media: descMedia, Baja: descBaja },
     },
   };
 };
