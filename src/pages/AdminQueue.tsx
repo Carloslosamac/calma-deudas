@@ -28,6 +28,18 @@ type RoadmapRow = {
   post_slug: string | null;
 };
 
+type QueueStats = {
+  enCola: number;
+  publicados: number;
+  descartados: number;
+  prioridad: Record<string, number>;
+};
+
+type QueueData = {
+  rows: RoadmapRow[];
+  stats: QueueStats;
+};
+
 const PRIORITY_RANK: Record<string, number> = { Alta: 0, Media: 1, Baja: 2 };
 
 const estadoVariant = (estado: string): "default" | "secondary" | "outline" => {
@@ -42,14 +54,45 @@ const prioridadColor = (p: string | null) => {
   return "text-muted-foreground";
 };
 
-const fetchQueue = async (): Promise<RoadmapRow[]> => {
-  const { data, error } = await supabase
+const countBy = async (estado: string, prioridad?: string) => {
+  let query = supabase
     .from("seo_roadmap")
-    .select("id,titulo,cluster,tipo_pagina,prioridad,estado,post_slug")
-    .order("estado", { ascending: true })
-    .limit(500);
+    .select("id", { count: "exact", head: true })
+    .eq("estado", estado);
+
+  if (prioridad) query = query.eq("prioridad", prioridad);
+
+  const { count, error } = await query;
   if (error) throw error;
-  return (data as RoadmapRow[]) ?? [];
+  return count ?? 0;
+};
+
+const fetchQueue = async (): Promise<QueueData> => {
+  const [rowsResult, enCola, publicados, descartados, alta, media, baja] = await Promise.all([
+    supabase
+      .from("seo_roadmap")
+      .select("id,titulo,cluster,tipo_pagina,prioridad,estado,post_slug")
+      .eq("estado", "en_cola")
+      .limit(300),
+    countBy("en_cola"),
+    countBy("publicado"),
+    countBy("descartado_duplicado"),
+    countBy("en_cola", "Alta"),
+    countBy("en_cola", "Media"),
+    countBy("en_cola", "Baja"),
+  ]);
+
+  if (rowsResult.error) throw rowsResult.error;
+
+  return {
+    rows: (rowsResult.data as RoadmapRow[]) ?? [],
+    stats: {
+      enCola,
+      publicados,
+      descartados,
+      prioridad: { Alta: alta, Media: media, Baja: baja },
+    },
+  };
 };
 
 const AdminQueue = () => {
@@ -62,24 +105,14 @@ const AdminQueue = () => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [session, loading, navigate]);
 
-  const { data: rows = [], isLoading, refetch, isFetching } = useQuery({
+  const { data, isLoading, refetch, isFetching, error } = useQuery({
     queryKey: ["admin-queue"],
     queryFn: fetchQueue,
     enabled: !!session && isAdmin,
   });
 
-  const stats = useMemo(() => {
-    const byEstado: Record<string, number> = {};
-    const enColaByPrioridad: Record<string, number> = {};
-    for (const r of rows) {
-      byEstado[r.estado] = (byEstado[r.estado] ?? 0) + 1;
-      if (r.estado === "en_cola") {
-        const p = r.prioridad ?? "Baja";
-        enColaByPrioridad[p] = (enColaByPrioridad[p] ?? 0) + 1;
-      }
-    }
-    return { byEstado, enColaByPrioridad };
-  }, [rows]);
+  const rows = data?.rows ?? [];
+  const stats = data?.stats ?? { enCola: 0, publicados: 0, descartados: 0, prioridad: {} };
 
   const sorted = useMemo(
     () =>
@@ -169,22 +202,22 @@ const AdminQueue = () => {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">En cola</p>
-            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.byEstado["en_cola"] ?? 0}</p>
+            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.enCola}</p>
           </Card>
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Publicados</p>
-            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.byEstado["publicado"] ?? 0}</p>
+            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.publicados}</p>
           </Card>
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Descartados</p>
-            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.byEstado["descartado_duplicado"] ?? 0}</p>
+            <p className="mt-1 text-2xl font-semibold text-foreground">{stats.descartados}</p>
           </Card>
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Prioridad en cola</p>
             <p className="mt-1 text-sm text-foreground">
-              <span className="text-destructive">A {stats.enColaByPrioridad["Alta"] ?? 0}</span>{" · "}
-              <span className="text-accent-deep">M {stats.enColaByPrioridad["Media"] ?? 0}</span>{" · "}
-              <span className="text-muted-foreground">B {stats.enColaByPrioridad["Baja"] ?? 0}</span>
+              <span className="text-destructive">A {stats.prioridad["Alta"] ?? 0}</span>{" · "}
+              <span className="text-accent-deep">M {stats.prioridad["Media"] ?? 0}</span>{" · "}
+              <span className="text-muted-foreground">B {stats.prioridad["Baja"] ?? 0}</span>
             </p>
           </Card>
         </div>
@@ -192,6 +225,8 @@ const AdminQueue = () => {
         <Card className="mt-8 overflow-hidden">
           {isLoading ? (
             <p className="p-6 text-sm text-muted-foreground">Cargando cola…</p>
+          ) : error ? (
+            <p className="p-6 text-sm text-destructive">No se pudo cargar la cola: {(error as Error).message}</p>
           ) : (
             <Table>
               <TableHeader>
@@ -238,7 +273,7 @@ const AdminQueue = () => {
             </Table>
           )}
         </Card>
-        <p className="mt-3 text-xs text-muted-foreground">Mostrando hasta 300 filas (de {rows.length}).</p>
+        <p className="mt-3 text-xs text-muted-foreground">Mostrando hasta 300 filas en cola (de {stats.enCola}).</p>
       </div>
     </div>
   );
