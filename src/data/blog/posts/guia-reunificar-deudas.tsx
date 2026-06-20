@@ -17,6 +17,8 @@ export const guiaReunificarDeudas: BlogPost = {
   seoTitle: "🔗 Reunificar deudas 2026: baja cuota y total",
   metaDescription:
     "Guía 2026 para reunificar deudas: qué es de verdad, en qué se diferencia de refinanciar, cuándo conviene frente a la Ley de Segunda Oportunidad y cómo empezar.",
+  excerpt:
+    "Reunificar deudas es dejar una sola cuota más baja y reducir el total, sin pedir un préstamo nuevo. Te contamos cuándo conviene y en qué se diferencia de refinanciar.",
   date: "20 junio 2026",
   readTime: "11 min",
   publishedAt: "2026-06-20",
