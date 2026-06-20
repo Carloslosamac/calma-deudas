@@ -272,6 +272,11 @@ const BlogPost = () => {
             </div>
           )}
         </aside>
+
+        <RelatedResources
+          groups={crossLinks}
+          heading="Da el siguiente paso"
+        />
       </main>
 
       <Footer />
