@@ -15,7 +15,7 @@ export const reclamarTarjetaRevolving: BlogPost = {
   category: "Tarjetas revolving",
   title:
     "Reclamar una tarjeta revolving por usura: cómo recuperar los intereses pagados",
-  seoTitle: "💳 Reclamar tarjeta revolving: recupera lo pagado de más",
+  seoTitle: "💳 Tarjeta revolving: reclama y recupera TODO lo pagado",
   metaDescription:
     "¿TAE abusivo en tu revolving? Reclama por usura y recupera lo pagado de más: cuándo procede, qué pruebas necesitas y cómo empezar.",
   excerpt:
