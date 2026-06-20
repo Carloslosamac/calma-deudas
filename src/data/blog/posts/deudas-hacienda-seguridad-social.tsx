@@ -215,7 +215,7 @@ export const deudasHaciendaSeguridadSocial: BlogPost = {
           <InlineCTA
             title="¿Tienes deudas con Hacienda o la Seguridad Social?"
             description="Analizamos tu caso gratis y te decimos si te conviene aplazar, fraccionar o cancelar parte con la Ley de Segunda Oportunidad."
-            buttonLabel="Analizar mi caso gratis"
+            buttonLabel="Resolver mi deuda pública"
           />
         </>
       ),
