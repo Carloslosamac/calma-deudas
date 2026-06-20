@@ -15,9 +15,9 @@ export const juicioMonitorioDeuda: BlogPost = {
   category: "Juicio monitorio",
   title:
     "Me ha llegado un juicio monitorio por una deuda: qué hacer en cada plazo",
-  seoTitle: "Juicio monitorio por deuda: qué hacer en 20 días",
+  seoTitle: "⏳ Juicio monitorio por deuda: qué hacer en 20 días",
   metaDescription:
-    "Si te notifican un juicio monitorio tienes 20 días para reaccionar. Te explicamos qué significa, qué pasa si no respondes y cómo oponerte para evitar el embargo.",
+    "📩 ¿Te notifican un juicio monitorio? Tienes 20 días para reaccionar: qué significa, qué pasa si no respondes y cómo oponerte al embargo.",
   excerpt:
     "Un juicio monitorio no es una sentencia, pero ignorarlo puede acabar en embargo. Esto es lo que debes hacer dentro del plazo.",
   date: "19 junio 2026",

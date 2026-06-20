@@ -15,9 +15,9 @@ export const deudasHaciendaSeguridadSocial: BlogPost = {
   category: "Deudas públicas",
   title:
     "Deudas con Hacienda y Seguridad Social: opciones reales para resolverlas",
-  seoTitle: "Deudas con Hacienda y Seguridad Social: cómo pagarlas",
+  seoTitle: "🏛️ Deudas con Hacienda y Seguridad Social: cómo pagarlas",
   metaDescription:
-    "Aplazamientos, fraccionamientos y qué parte entra en la Ley de Segunda Oportunidad. Te explicamos cómo resolver deudas con Hacienda y la Seguridad Social y evitar el embargo.",
+    "✅ Aplazamientos, fraccionamientos y qué entra en la Ley de Segunda Oportunidad para resolver deudas con Hacienda y la Seguridad Social.",
   excerpt:
     "La deuda pública tiene reglas propias: apremios, recargos y embargos rápidos. Estas son tus opciones reales para resolverla.",
   date: "19 junio 2026",
