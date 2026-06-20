@@ -22,12 +22,12 @@ const AuthorChips = ({
   const photo = size === "sm" ? "h-6 w-6" : "h-8 w-8";
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2">
-      <span className="text-sm text-muted-foreground">Por</span>
+    <div className="flex items-center justify-center gap-2">
+      <span className="shrink-0 text-sm text-muted-foreground">Por</span>
       {authors.map((a) => (
         <span
           key={a.id}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-elevated py-1 pl-1 pr-3 shadow-soft"
+          className="inline-flex min-w-0 items-center gap-2 rounded-full border border-border bg-surface-elevated py-1 pl-1 pr-2 shadow-soft sm:pr-3"
           title={a.role}
         >
           <img
@@ -38,7 +38,9 @@ const AuthorChips = ({
             height={32}
             className={`${photo} rounded-full object-cover`}
           />
-          <span className="text-sm font-medium text-foreground">{a.name}</span>
+          <span className="truncate text-xs font-medium text-foreground sm:text-sm">
+            {a.name}
+          </span>
         </span>
       ))}
     </div>
