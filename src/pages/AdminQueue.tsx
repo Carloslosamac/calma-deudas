@@ -33,6 +33,7 @@ type QueueStats = {
   publicados: number;
   descartados: number;
   prioridad: Record<string, number>;
+  descartadosPrioridad: Record<string, number>;
 };
 
 type QueueData = {
@@ -68,11 +69,24 @@ const countBy = async (estado: string, prioridad?: string) => {
 };
 
 const fetchQueue = async (): Promise<QueueData> => {
-  const [rowsResult, enCola, publicados, descartados, alta, media, baja] = await Promise.all([
+  const [
+    rowsResult,
+    enCola,
+    publicados,
+    descartados,
+    alta,
+    media,
+    baja,
+    descAlta,
+    descMedia,
+    descBaja,
+  ] = await Promise.all([
     supabase
       .from("seo_roadmap")
       .select("id,titulo,cluster,tipo_pagina,prioridad,estado,post_slug")
       .eq("estado", "en_cola")
+      .order("prioridad", { ascending: true })
+      .order("id", { ascending: false })
       .limit(300),
     countBy("en_cola"),
     countBy("publicado"),
@@ -80,6 +94,9 @@ const fetchQueue = async (): Promise<QueueData> => {
     countBy("en_cola", "Alta"),
     countBy("en_cola", "Media"),
     countBy("en_cola", "Baja"),
+    countBy("descartado_duplicado", "Alta"),
+    countBy("descartado_duplicado", "Media"),
+    countBy("descartado_duplicado", "Baja"),
   ]);
 
   if (rowsResult.error) throw rowsResult.error;
@@ -91,6 +108,7 @@ const fetchQueue = async (): Promise<QueueData> => {
       publicados,
       descartados,
       prioridad: { Alta: alta, Media: media, Baja: baja },
+      descartadosPrioridad: { Alta: descAlta, Media: descMedia, Baja: descBaja },
     },
   };
 };
@@ -100,6 +118,7 @@ const AdminQueue = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [triggering, setTriggering] = useState(false);
+  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta">("todas");
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -112,7 +131,13 @@ const AdminQueue = () => {
   });
 
   const rows = data?.rows ?? [];
-  const stats = data?.stats ?? { enCola: 0, publicados: 0, descartados: 0, prioridad: {} };
+  const stats = data?.stats ?? {
+    enCola: 0,
+    publicados: 0,
+    descartados: 0,
+    prioridad: {},
+    descartadosPrioridad: {},
+  };
 
   const sorted = useMemo(
     () =>
@@ -125,6 +150,15 @@ const AdminQueue = () => {
       }),
     [rows]
   );
+
+  const filtered = useMemo(() => {
+    if (filter === "alta") return sorted.filter((r) => r.prioridad === "Alta");
+    if (filter === "lso-alta")
+      return sorted.filter(
+        (r) => r.prioridad === "Alta" && r.cluster === "ley-segunda-oportunidad"
+      );
+    return sorted;
+  }, [sorted, filter]);
 
   const handleTrigger = async () => {
     setTriggering(true);
@@ -211,6 +245,11 @@ const AdminQueue = () => {
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Descartados</p>
             <p className="mt-1 text-2xl font-semibold text-foreground">{stats.descartados}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A {stats.descartadosPrioridad?.["Alta"] ?? 0} · M{" "}
+              {stats.descartadosPrioridad?.["Media"] ?? 0} · B{" "}
+              {stats.descartadosPrioridad?.["Baja"] ?? 0} · duplicados, no pendientes
+            </p>
           </Card>
           <Card className="p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Prioridad en cola</p>
@@ -220,6 +259,30 @@ const AdminQueue = () => {
               <span className="text-muted-foreground">B {stats.prioridad["Baja"] ?? 0}</span>
             </p>
           </Card>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <Button
+            variant={filter === "todas" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("todas")}
+          >
+            Todas
+          </Button>
+          <Button
+            variant={filter === "alta" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("alta")}
+          >
+            Alta
+          </Button>
+          <Button
+            variant={filter === "lso-alta" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("lso-alta")}
+          >
+            LSO Alta
+          </Button>
         </div>
 
         <Card className="mt-8 overflow-hidden">
@@ -239,7 +302,7 @@ const AdminQueue = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {sorted.slice(0, 300).map((r) => (
+                {filtered.slice(0, 300).map((r) => (
                   <TableRow key={r.id}>
                     <TableCell className={`font-medium ${prioridadColor(r.prioridad)}`}>
                       {r.prioridad ?? "—"}
@@ -273,7 +336,10 @@ const AdminQueue = () => {
             </Table>
           )}
         </Card>
-        <p className="mt-3 text-xs text-muted-foreground">Mostrando hasta 300 filas en cola (de {stats.enCola}).</p>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Mostrando {filtered.length} filas (de {stats.enCola} en cola). Las de prioridad Alta se
+          cargan siempre primero.
+        </p>
       </div>
     </div>
   );
