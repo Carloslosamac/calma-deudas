@@ -15,9 +15,9 @@ export const reclamarTarjetaRevolving: BlogPost = {
   category: "Tarjetas revolving",
   title:
     "Reclamar una tarjeta revolving por usura: cómo recuperar los intereses pagados",
-  seoTitle: "Reclamar tarjeta revolving por usura: pasos y derechos",
+  seoTitle: "💳 Reclamar tarjeta revolving: recupera lo pagado de más",
   metaDescription:
-    "Si tu tarjeta revolving tiene un TAE desproporcionado, puedes reclamarla por usura y recuperar lo pagado de más. Te explicamos cuándo procede, qué pruebas necesitas y cómo iniciar el proceso.",
+    "⚖️ ¿TAE abusivo en tu revolving? Reclama por usura y recupera lo pagado de más: cuándo procede, qué pruebas necesitas y cómo empezar.",
   excerpt:
     "Pagas cada mes y la deuda casi no baja: así funciona la trampa revolving. Si el interés es usurario, puedes reclamar y recuperar lo pagado de más.",
   date: "19 junio 2026",

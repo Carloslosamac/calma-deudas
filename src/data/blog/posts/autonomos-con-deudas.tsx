@@ -16,9 +16,9 @@ export const autonomosConDeudas: BlogPost = {
   slug: "autonomos-con-deudas",
   category: "Autónomos",
   title: "Autónomos con deudas: cómo proteger tu actividad y empezar de nuevo",
-  seoTitle: "Autónomos con deudas: cómo empezar de nuevo",
+  seoTitle: "💼 Autónomos con deudas: cómo empezar de nuevo",
   metaDescription:
-    "Autónomos con deudas: opciones legales para proteger tu actividad, qué deudas se pueden cancelar (IVA, IRPF, Seguridad Social) y cómo empezar de nuevo.",
+    "💼 Autónomos con deudas: opciones legales para proteger tu actividad, qué se puede cancelar (IVA, IRPF, Seguridad Social) y empezar de nuevo.",
   faq: [
     {
       question: "¿Un autónomo puede acogerse a la Ley de Segunda Oportunidad?",
