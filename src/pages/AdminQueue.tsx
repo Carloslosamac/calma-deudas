@@ -336,7 +336,10 @@ const AdminQueue = () => {
             </Table>
           )}
         </Card>
-        <p className="mt-3 text-xs text-muted-foreground">Mostrando hasta 300 filas en cola (de {stats.enCola}).</p>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Mostrando {filtered.length} filas (de {stats.enCola} en cola). Las de prioridad Alta se
+          cargan siempre primero.
+        </p>
       </div>
     </div>
   );
