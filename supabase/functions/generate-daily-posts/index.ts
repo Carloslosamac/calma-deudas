@@ -147,6 +147,29 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
+  // Auth gate: cron calls without a user token are allowed (trusted scheduler).
+  // Any call carrying a real user JWT must belong to an admin.
+  const authHeader = req.headers.get("Authorization") ?? "";
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  if (token && token !== Deno.env.get("SUPABASE_ANON_KEY")) {
+    const { data: userData } = await supabase.auth.getUser(token);
+    const user = userData?.user;
+    if (user) {
+      const { data: roleRow } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (!roleRow) {
+        return new Response(JSON.stringify({ ok: false, error: "Solo administradores" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+  }
+
   try {
     const target = pickDailyCount();
 
