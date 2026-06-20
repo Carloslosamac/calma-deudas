@@ -227,6 +227,8 @@ const CasoExitoPost = () => {
             </div>
           </aside>
         )}
+
+        <RelatedResources groups={crossLinks} heading="Da el siguiente paso" />
       </main>
 
       <FormSection />
