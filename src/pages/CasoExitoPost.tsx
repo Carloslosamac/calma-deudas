@@ -8,6 +8,8 @@ import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import FaqList from "@/components/blog/FaqList";
 import CtaButton from "@/components/seo/CtaButton";
 import Seo from "@/components/seo/Seo";
+import RelatedResources from "@/components/seo/RelatedResources";
+import { buildCrossLinks, resolveCasoTopic } from "@/data/seo/internalLinks";
 import { casosExito, getCasoBySlug } from "@/data/casos";
 import {
   buildArticle,
@@ -23,6 +25,13 @@ const CasoExitoPost = () => {
   const relatedCasos = useMemo(() => {
     if (!caso) return [];
     return casosExito.filter((c) => c.slug !== caso.slug).slice(0, 3);
+  }, [caso]);
+
+  const crossLinks = useMemo(() => {
+    if (!caso) return [];
+    const topic = resolveCasoTopic(caso.category);
+    if (!topic) return [];
+    return buildCrossLinks({ topic, origin: "caso", excludeSlug: caso.slug });
   }, [caso]);
 
   if (!caso) {
@@ -218,6 +227,8 @@ const CasoExitoPost = () => {
             </div>
           </aside>
         )}
+
+        <RelatedResources groups={crossLinks} heading="Da el siguiente paso" />
       </main>
 
       <FormSection />
