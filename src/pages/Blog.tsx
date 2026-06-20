@@ -160,10 +160,7 @@ const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [showAll, setShowAll] = useState(false);
 
-  // Show every post until the catalog grows past this threshold. Below it the
-  // full list renders at once (best UX + SEO for a small blog); above it we
-  // collapse the tail behind "Ver más" so the page stays scannable.
-  const INITIAL_VISIBLE = 12;
+  const INITIAL_VISIBLE = 6;
 
   const filteredArticles = useMemo(() => {
     const cleanQuery = normalize(query.trim());
