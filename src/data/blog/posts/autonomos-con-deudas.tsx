@@ -46,6 +46,7 @@ export const autonomosConDeudas: BlogPost = {
   date: "30 abril 2026",
   readTime: "10 min",
   author: "Equipo legal Calma",
+  authors: ["javier-ferrer", "lucia-ordonez"],
   heroImage: blogAutonomos,
   heroAlt: "Autónomo revisando facturas y cuentas en su pequeño negocio",
   keywords: [

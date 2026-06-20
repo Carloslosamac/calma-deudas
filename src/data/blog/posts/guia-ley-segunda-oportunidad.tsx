@@ -88,6 +88,7 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   date: "11 mayo 2026",
   readTime: "28 min",
   author: "Equipo legal Calma",
+  authors: ["marta-belmonte", "javier-ferrer"],
   heroImage,
   heroAlt:
     "Mujer leyendo con tranquilidad un documento sobre la Ley Segunda Oportunidad junto a una ventana iluminada",

@@ -52,6 +52,7 @@ export const cancelarDeudasRequisitos: BlogPost = {
   date: "11 mayo 2026",
   readTime: "14 min",
   author: "Equipo legal Calma",
+  authors: ["javier-ferrer", "lucia-ordonez"],
   heroImage: blogRequisitos,
   heroAlt:
     "Mujer revisando con un abogado la documentación para cancelar sus deudas mediante la Ley de Segunda Oportunidad",

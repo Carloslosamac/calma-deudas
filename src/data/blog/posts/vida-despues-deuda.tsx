@@ -33,6 +33,7 @@ export const vidaDespuesDeuda: BlogPost = {
   date: "18 abril 2026",
   readTime: "7 min",
   author: "Equipo legal Calma",
+  authors: ["marta-belmonte"],
   heroImage: blogVidaDespues,
   heroAlt: "Pareja planificando su presupuesto familiar después de cancelar la deuda",
   keywords: [

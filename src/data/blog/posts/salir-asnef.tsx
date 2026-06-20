@@ -43,6 +43,7 @@ export const salirAsnef: BlogPost = {
   date: "5 mayo 2026",
   readTime: "8 min",
   author: "Equipo legal Calma",
+  authors: ["lucia-ordonez", "carlos-rivas"],
   heroImage: blogAsnef,
   heroAlt: "Mujer comprobando en el portátil su situación financiera tras salir de ASNEF",
   keywords: [

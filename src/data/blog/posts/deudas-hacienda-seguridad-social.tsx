@@ -23,6 +23,7 @@ export const deudasHaciendaSeguridadSocial: BlogPost = {
   date: "19 junio 2026",
   readTime: "9 min",
   author: "Equipo legal Calma",
+  authors: ["javier-ferrer", "andres-solis"],
   publishedAt: "2026-06-19",
   heroImage: blogDeudasPublicas,
   heroAlt:

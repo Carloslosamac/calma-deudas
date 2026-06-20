@@ -45,6 +45,7 @@ export const embargosSegundaOportunidad: BlogPost = {
   date: "7 mayo 2026",
   readTime: "9 min",
   author: "Equipo legal Calma",
+  authors: ["andres-solis", "sara-belda"],
   heroImage: blogEmbargos,
   heroAlt: "Hombre revisando en su cocina una notificación de embargo",
   keywords: [
