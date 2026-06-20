@@ -1,32 +1,31 @@
 ## Objetivo
 
-Hacer los `seoTitle` de los 11 posts más agresivos para CTR: power words, urgencia, beneficio explícito, números/año y separadores 【 】 al estilo de los competidores que dominan el SERP (Reparatudeuda). Manteniendo keyword principal al inicio y largo razonable (<60 caracteres visuales, vigilando truncado).
+Que el CTA de cada post (título, descripción y, sobre todo, el `buttonLabel`) esté siempre orientado al intent del artículo, y dejarlo como regla de sistema para futuros posts.
 
-## Nuevos títulos propuestos
+## Diagnóstico
+
+Casi todos los CTA ya tienen título/descripción específicos del intent. Solo 3 posts usan el `buttonLabel` genérico "Analizar mi caso gratis":
 
 ```text
-guia-ley-segunda-oportunidad   ⚖️ Ley de Segunda Oportunidad 【 ACTUALIZACIÓN 2026 】
-reclamar-tarjeta-revolving     💳 Tarjeta revolving: reclama y recupera TODO lo pagado
-cancelar-microcreditos         📉 Cancela tus microcréditos y frena la bola YA
-juicio-monitorio-deuda         ⏳ Juicio monitorio: 20 días para frenar el embargo
-deudas-hacienda-seguridad-social  🏛️ Deudas con Hacienda: págalas y evita el embargo
-embargos-segunda-oportunidad   🛡️ Frena tu embargo YA con la Segunda Oportunidad
-cancelar-deudas-requisitos     ✅ Cancela tus deudas en 2026: mira si calificas
-salir-asnef                    🧾 Sal de ASNEF YA: limpia tu nombre paso a paso
-autonomos-con-deudas           💼 Autónomos con deudas: cancela y vuelve a empezar
-renegociar-acreedores          🤝 ¿Renegociar o vía legal? Lo que de verdad funciona
-vida-despues-deuda             🌱 Vida sin deudas: los hábitos que evitan recaer
+cancelar-microcreditos            -> Cancelar mis microcréditos
+deudas-hacienda-seguridad-social  -> Resolver mi deuda pública
+juicio-monitorio-deuda            -> Frenar el juicio monitorio
 ```
 
-## Reglas aplicadas
+El resto ya están bien orientados (Parar mi embargo, Revisar mi tarjeta gratis, Salir de ASNEF, Renegociar mi deuda, Salvar mi negocio, Comprobar requisitos, Cancelar mi deuda, Empezar de cero, etc.) y no se tocan.
 
-- Keyword principal al inicio (tras el emoji) para no perder relevancia.
-- Power/urgency words ("YA", "TODO", "ACTUALIZACIÓN", cifras) sin caer en clickbait falso.
-- 1 emoji al inicio + 【 】 solo donde aporta gancho real (año/actualización).
-- Vigilar longitud real para evitar truncado en SERP.
-- Las `metaDescription` NO se tocan (siguen sin emoji, como pediste).
+## Cambios
+
+1. En esos 3 archivos `src/data/blog/posts/*.tsx`, cambiar el `buttonLabel` del `<InlineCTA>` por la versión orientada al intent (lista de arriba). Título y descripción se mantienen.
+2. Verificar que todos los CTA siguen apuntando a `#hero-form` (ya es el comportamiento del componente `InlineCTA`, que enlaza a `/#hero-form`).
+
+## Regla de sistema (memoria)
+
+Guardar/actualizar una memoria de tipo `feature`/`preference`:
+- Todo post debe incluir al menos un `InlineCTA` cuyo `buttonLabel`, título y descripción reflejen el intent específico del post (la acción que el lector quiere realizar), nunca un CTA genérico tipo "Analizar mi caso gratis".
+- El CTA sigue apuntando siempre a `#hero-form` (regla core ya existente).
+- Ejemplos de mapping intent → label para reutilizar en nuevos posts.
 
 ## Notas técnicas
 
-- Solo se edita el campo `seoTitle` en `src/data/blog/posts/*.tsx`.
-- Sin cambios en cuerpo, descripciones, imágenes ni lógica.
+- Solo se edita el campo `buttonLabel` en 3 posts y se añade una memoria. Sin cambios en el componente `InlineCTA` ni en la lógica.

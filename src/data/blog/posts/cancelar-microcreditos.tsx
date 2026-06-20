@@ -220,7 +220,7 @@ export const cancelarMicrocreditos: BlogPost = {
           <InlineCTA
             title="¿Atrapado en un bucle de préstamos rápidos?"
             description="Analizamos tu caso gratis y te decimos cómo parar la bola y qué deuda puedes reclamar o cancelar."
-            buttonLabel="Analizar mi caso gratis"
+            buttonLabel="Cancelar mis microcréditos"
           />
         </>
       ),

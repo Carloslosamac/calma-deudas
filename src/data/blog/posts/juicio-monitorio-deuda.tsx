@@ -222,7 +222,7 @@ export const juicioMonitorioDeuda: BlogPost = {
           <InlineCTA
             title="¿Te ha llegado un juicio monitorio?"
             description="No dejes pasar el plazo. Analizamos tu caso gratis y te decimos si conviene oponerte, negociar o cancelar la deuda."
-            buttonLabel="Analizar mi caso gratis"
+            buttonLabel="Frenar el juicio monitorio"
           />
         </>
       ),
