@@ -73,6 +73,8 @@ type BlogArticle = {
   readTime: string;
   image: string;
   imageAlt: string;
+  authors?: string[];
+  author: string;
 };
 
 const articles: BlogArticle[] = blogPosts
@@ -86,6 +88,8 @@ const articles: BlogArticle[] = blogPosts
     readTime: post.readTime,
     image: post.heroImage,
     imageAlt: post.heroAlt,
+    authors: post.authors,
+    author: post.author,
   }));
 
 const categories: { name: string; icon: LucideIcon }[] = [
