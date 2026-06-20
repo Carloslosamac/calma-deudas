@@ -100,6 +100,7 @@ const BlogPost = () => {
         publishedAt={post.publishedAt}
         updatedAt={post.updatedAt}
         robots={post.noindex ? "noindex,follow" : undefined}
+        appendSiteName={false}
         structuredData={structured}
       />
       <ReadingProgressBar />

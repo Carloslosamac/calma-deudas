@@ -1,40 +1,49 @@
-## Goal
-Start populating the blog following the master plan (the **Mapa SEO Total**, encoded in `src/data/seo/architecture.ts`: 3 money hubs + 12 satellite clusters). The blog's job is to add **informational/long-form** support content that feeds the money/landing pages, without cannibalizing existing posts.
+## Objetivo
 
-## Current state
-Blog has 7 posts (`src/data/blog/posts/*.tsx`), registered in `src/data/blog/index.ts`:
-- `guia-ley-segunda-oportunidad` (pillar), `cancelar-deudas-requisitos`, `embargos-segunda-oportunidad`, `salir-asnef`, `autonomos-con-deudas`, `renegociar-acreedores`, `vida-despues-deuda`.
+Alinear los 11 posts del blog al estándar SEO/CTR de las money pages, e incorporar recursos visuales de CTR en el SERP (emoji + separadores decorativos) como hacen competidores como Reparatudeuda (ej. "🥇 Ley segunda oportunidad 【 ACTUALIZACIÓN 2026 】").
 
-Clusters with **no dedicated blog post yet**: tarjetas-revolving, microcréditos, deudas-hacienda-seguridad-social, juicio-monitorio-recobro, bancos-hipoteca-vivienda, empresas-de-recobro, situaciones personales, estafas-fraude, guías (educación financiera).
+## 1. Eliminar el sufijo "| Calma" en los posts
 
-## Approach
-Map each new blog post to a cluster gap, with one clear unique search intent each. Blog posts stay **informational** and interlink to the matching **money landing page** (transactional) + 2+ existing posts — so the blog feeds conversions instead of competing with the money pages.
+En `src/pages/BlogPost.tsx`, pasar `appendSiteName={false}` al `<Seo>` del artículo (línea ~93). Así liberamos caracteres para hook + decoración y el `seoTitle` es exactamente lo que ve Google.
 
-### First batch (this round): 4 posts
-Prioritizing highest-volume / highest-intent gaps:
-1. **Tarjetas revolving** (cluster topics: 255) — "Cómo reclamar y cancelar una tarjeta revolving por usura" → links to revolving money page + salir-asnef.
-2. **Microcréditos** (561) — "Cancelar microcréditos y préstamos rápidos: qué hacer cuando no puedes pagar" → links to microcréditos money page + revolving post.
-3. **Juicio monitorio / embargos** (66/123) — "Me ha llegado un juicio monitorio por una deuda: qué hacer en cada plazo" → links to parar-embargo money page + embargos post.
-4. **Deudas con Hacienda y Seguridad Social** (50) — "Deudas con Hacienda y Seguridad Social: opciones reales para resolverlas" → links to autónomos post + relevant money page.
+## 2. Reescribir cada title/description contra el SERP real
 
-(After your review of batch 1, continue ~1–2/day through the remaining cluster gaps.)
+Para cada post, estudiar el top 10 de su keyword principal (SERP analysis) e integrar+batir. Reglas: title <60 (contando emoji/símbolos), description <160, único, con hook diferenciador.
 
-### Each post follows the established rules (blog-strategy memory)
-- One unique intent, long-form SEO copy, multiple paragraphs per H2 (never an H2 with only a diagram).
-- Diagrams adapted per-article from the existing library; **no image + diagram in the same H2**; no gradients in CTAs.
-- Min 2 internal links + relevant external authority links (BOE, AEAT, Seguridad Social, Banco de España…) opening in new tab.
-- CTA buttons scroll to `#hero-form` (via existing `InlineCTA`).
-- Triage respected (LSO vs reunificar vs reclamación). Reunificar described as negociación extrajudicial, never refinanciar.
-- Hero image = same image used on the blog index card; generated with `standard` model, photojournalism prompt (real camera, natural light, Spanish setting, unretouched).
-- **SEO title <60 chars, meta desc <160**, unique, no "| Calma" branding, each with a differentiating CTR hook (study top results per keyword before finalizing).
+```text
+guia-ley-segunda-oportunidad        -> ley de segunda oportunidad
+reclamar-tarjeta-revolving          -> reclamar tarjeta revolving  (desc 195 -> recortar)
+cancelar-microcreditos              -> cancelar microcreditos      (desc 163 -> recortar)
+juicio-monitorio-deuda              -> juicio monitorio deuda      (desc 165 -> recortar)
+deudas-hacienda-seguridad-social    -> deudas hacienda seguridad social (desc 176 -> recortar)
+embargos-segunda-oportunidad        -> parar embargo               (desc 161 -> recortar)
+cancelar-deudas-requisitos          -> cancelar deudas requisitos
+salir-asnef                         -> salir de asnef
+autonomos-con-deudas                -> autonomos con deudas
+renegociar-acreedores               -> renegociar deudas
+vida-despues-deuda                  -> vida despues de las deudas
+```
 
-## Technical details
-- New files: `src/data/blog/posts/<slug>.tsx` (4), each exporting a `BlogPost` per `src/data/blog/types.ts`.
-- Register each in `src/data/blog/index.ts` (`blogPosts` array).
-- Generate 4 hero images into `src/assets/blog/` and import them into the posts.
-- Update `public/sitemap.xml` (run `scripts/generate-sitemap.ts` if it covers blog routes) so the new posts are discoverable.
-- No backend/schema changes; pure content + assets.
+Cada cambio toca solo `seoTitle` y `metaDescription` en `src/data/blog/posts/*.tsx`.
 
-## Verification
-- Build passes; visit `/blog` (cards render with hero images) and each new `/blog/<slug>` (sidebar, reading bar, diagrams, CTAs to `#hero-form`, interlinks resolve).
-- Confirm titles/meta length limits and no cannibalization vs existing slugs.
+## 3. Recursos visuales de CTR en el title (emoji + separadores)
+
+Confirmado por el SERP del competidor: Google sí muestra emoji y separadores 【 】 en titles. Aplicar con criterio:
+- **Emoji**: 1 al inicio del title, temático y sobrio (⚖️ legal, 🛡️ embargo, ✅ requisitos, 📉 deuda, 🥇 guía de referencia). No abusar ni encadenar.
+- **Separador decorativo**: usar 【 】 (u otro como «») para destacar el gancho de actualidad/valor, ej. "Ley de Segunda Oportunidad 【 2026 】". Solo cuando aporte (actualización, año, cifra), no en todos.
+- **Aviso**: Google los renderiza de forma inconsistente y puede recortarlos; por eso el title debe leerse perfectamente igual aunque los quite. Nunca depender del emoji/símbolo para el significado.
+- Vigilar la longitud real: emoji y 【 】 cuentan y pueden empujar al truncado.
+
+## 4. Emoji también en la meta description
+
+Un emoji relevante por description (Google los muestra), contando dentro de los 160 caracteres. Uno solo, temático, discreto.
+
+## 5. Recorte inmediato de las 5 descriptions >160
+
+reclamar-revolving (195), hacienda (176), monitorio (165), microcreditos (163), embargos (161) se recortan sí o sí, ya con emoji incluido en el conteo.
+
+## Alcance / notas técnicas
+
+- Se editan `BlogPost.tsx` (1 línea) y los campos `seoTitle`/`metaDescription` de los posts. No se toca cuerpo, imágenes ni lógica.
+- Memoria respetada: sin marca "| Calma" en titles, hook diferenciador, title<60 / desc<160.
+- Opcional: lanzar SEO scan tras los cambios para validar.
