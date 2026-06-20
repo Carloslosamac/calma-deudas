@@ -9,6 +9,8 @@ import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
+import AuthorChips from "@/components/blog/AuthorChips";
+import { authorsToName } from "@/data/team";
 import { buildCrossLinks, resolvePostTopic } from "@/data/seo/internalLinks";
 import {
   buildArticle,
@@ -71,6 +73,7 @@ const BlogPost = () => {
   }
 
   const structured: Record<string, unknown>[] = [
+    // Nombre de autoría: abogados del equipo si están definidos, si no el campo legacy.
     buildBreadcrumb([
       { name: "Inicio", url: "/" },
       { name: "Blog", url: "/blog" },
@@ -81,7 +84,7 @@ const BlogPost = () => {
       description: post.metaDescription ?? post.excerpt,
       url: `/blog/${post.slug}`,
       image: absoluteUrl(post.ogImage ?? post.heroImage),
-      author: post.author,
+      author: authorsToName(post.authors, post.author),
       publishedAt: post.publishedAt,
       updatedAt: post.updatedAt,
       keywords: post.keywords,
@@ -105,7 +108,7 @@ const BlogPost = () => {
         canonical={post.canonicalUrl ?? `/blog/${post.slug}`}
         ogType="article"
         keywords={post.keywords}
-        author={post.author}
+        author={authorsToName(post.authors, post.author)}
         publishedAt={post.publishedAt}
         updatedAt={post.updatedAt}
         robots={post.noindex ? "noindex,follow" : undefined}
@@ -137,16 +140,18 @@ const BlogPost = () => {
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {post.excerpt}
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <CalendarDays className="h-4 w-4" />
-                {post.date}
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Clock3 className="h-4 w-4" />
-                {post.readTime}
-              </span>
-              <span>· {post.author}</span>
+            <div className="mt-6 flex flex-col items-center gap-4">
+              <AuthorChips authorIds={post.authors} fallback={post.author} />
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <CalendarDays className="h-4 w-4" />
+                  {post.date}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock3 className="h-4 w-4" />
+                  {post.readTime}
+                </span>
+              </div>
             </div>
           </header>
 

@@ -38,6 +38,7 @@ export const renegociarAcreedores: BlogPost = {
   date: "24 abril 2026",
   readTime: "8 min",
   author: "Equipo legal Calma",
+  authors: ["lucia-ordonez", "marta-belmonte"],
   heroImage: blogRenegociar,
   heroAlt: "Mujer negociando con un acreedor por teléfono mientras toma notas",
   keywords: [

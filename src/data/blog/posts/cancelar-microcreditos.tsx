@@ -23,6 +23,7 @@ export const cancelarMicrocreditos: BlogPost = {
   date: "19 junio 2026",
   readTime: "9 min",
   author: "Equipo legal Calma",
+  authors: ["carlos-rivas", "sara-belda"],
   publishedAt: "2026-06-19",
   heroImage: blogMicrocreditos,
   heroAlt:

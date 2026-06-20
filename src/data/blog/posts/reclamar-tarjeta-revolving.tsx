@@ -23,6 +23,7 @@ export const reclamarTarjetaRevolving: BlogPost = {
   date: "19 junio 2026",
   readTime: "9 min",
   author: "Equipo legal Calma",
+  authors: ["carlos-rivas", "javier-ferrer"],
   publishedAt: "2026-06-19",
   heroImage: blogRevolving,
   heroAlt:

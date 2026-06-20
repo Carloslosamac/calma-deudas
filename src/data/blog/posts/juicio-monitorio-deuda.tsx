@@ -23,6 +23,7 @@ export const juicioMonitorioDeuda: BlogPost = {
   date: "19 junio 2026",
   readTime: "8 min",
   author: "Equipo legal Calma",
+  authors: ["andres-solis", "sara-belda"],
   publishedAt: "2026-06-19",
   heroImage: blogJuicio,
   heroAlt:
