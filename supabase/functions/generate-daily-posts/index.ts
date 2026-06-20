@@ -170,6 +170,24 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Determine the call source for the run log.
+  let runSource = "cron";
+  try {
+    const cloned = req.clone();
+    const parsed = await cloned.json();
+    if (parsed?.source) runSource = String(parsed.source);
+  } catch (_e) {
+    // no body / not JSON — keep default
+  }
+
+  // Open a run record so the health dashboard can track every execution.
+  const { data: runRow } = await supabase
+    .from("generator_runs")
+    .insert({ status: "running", source: runSource })
+    .select("id")
+    .single();
+  const runId = runRow?.id as string | undefined;
+
   try {
     const target = pickDailyCount();
 
@@ -183,6 +201,18 @@ Deno.serve(async (req) => {
 
     if (selErr) throw selErr;
     if (!rows || rows.length === 0) {
+      if (runId) {
+        await supabase
+          .from("generator_runs")
+          .update({
+            status: "success",
+            finished_at: new Date().toISOString(),
+            target,
+            published_count: 0,
+            failed_count: 0,
+          })
+          .eq("id", runId);
+      }
       return new Response(JSON.stringify({ ok: true, published: 0, reason: "cola vacía" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -246,12 +276,36 @@ Deno.serve(async (req) => {
       published.push(slug);
     }
 
+    if (runId) {
+      await supabase
+        .from("generator_runs")
+        .update({
+          status: failed.length && published.length === 0 ? "failed" : "success",
+          finished_at: new Date().toISOString(),
+          target,
+          published_count: published.length,
+          failed_count: failed.length,
+          error: failed.length ? `Fallaron roadmap ids: ${failed.join(", ")}` : null,
+        })
+        .eq("id", runId);
+    }
+
     return new Response(
       JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
     console.error("generate-daily-posts error:", e);
+    if (runId) {
+      await supabase
+        .from("generator_runs")
+        .update({
+          status: "failed",
+          finished_at: new Date().toISOString(),
+          error: String(e),
+        })
+        .eq("id", runId);
+    }
     return new Response(JSON.stringify({ ok: false, error: String(e) }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
