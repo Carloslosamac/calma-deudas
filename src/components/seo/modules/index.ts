@@ -4,6 +4,7 @@ export { default as ActionLink } from "./ActionLink";
 export { default as Callout, InfoCallout, WarningCallout } from "./Callout";
 export { default as FactGrid } from "./FactGrid";
 export { default as CheckList } from "./CheckList";
+export { default as EntityRating } from "./EntityRating";
 export { A } from "./Link";
 export { ICONS } from "./icons";
 export type { OptionCard } from "./OptionCards";
