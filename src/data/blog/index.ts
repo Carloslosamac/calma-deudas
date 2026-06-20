@@ -10,9 +10,17 @@ import { reclamarTarjetaRevolving } from "./posts/reclamar-tarjeta-revolving";
 import { cancelarMicrocreditos } from "./posts/cancelar-microcreditos";
 import { juicioMonitorioDeuda } from "./posts/juicio-monitorio-deuda";
 import { deudasHaciendaSeguridadSocial } from "./posts/deudas-hacienda-seguridad-social";
+import { guiaReunificarDeudas } from "./posts/guia-reunificar-deudas";
+import { guiaCancelarDeudas } from "./posts/guia-cancelar-deudas";
+import { guiaCancelarRevolving } from "./posts/guia-cancelar-revolving";
+import { guiaCancelarMicrocreditos } from "./posts/guia-cancelar-microcreditos";
 
 export const blogPosts: BlogPost[] = [
   guiaLeySegundaOportunidad,
+  guiaReunificarDeudas,
+  guiaCancelarDeudas,
+  guiaCancelarRevolving,
+  guiaCancelarMicrocreditos,
   reclamarTarjetaRevolving,
   cancelarMicrocreditos,
   juicioMonitorioDeuda,

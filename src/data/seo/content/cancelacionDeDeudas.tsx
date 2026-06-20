@@ -344,6 +344,10 @@ export const cancelacionDeDeudas: MoneyContent = {
             ¿Prefieres pasar directamente a la acción?{" "}
             <span className="text-accent-deep">Cancelar deudas</span>
           </ActionLink>
+          <ActionLink to="/blog/guia-cancelar-deudas">
+            Lee la guía pilar completa:{" "}
+            <span className="text-accent-deep">Cancelar deudas en 2026: qué vía te conviene</span>
+          </ActionLink>
         </div>
       ),
     },

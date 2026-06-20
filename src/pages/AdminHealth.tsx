@@ -146,6 +146,7 @@ const AdminHealth = () => {
               Estado del generador
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">Salud de generate-daily-posts</p>
+            <p className="text-xs text-muted-foreground">Incluye blog (generate-daily-posts) y casos de éxito (generate-daily-casos)</p>
           </div>
           <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
             <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar

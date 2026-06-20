@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      generated_casos: {
+        Row: {
+          category: string
+          created_at: string
+          debt_amount: string
+          dek: string
+          faq: Json
+          headline: string
+          hero_alt: string | null
+          id: string
+          keywords: string[]
+          location: string
+          meta_description: string | null
+          name: string
+          published_at: string | null
+          read_time: string | null
+          sections: Json
+          seo_title: string | null
+          slug: string
+          solution: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          debt_amount: string
+          dek: string
+          faq?: Json
+          headline: string
+          hero_alt?: string | null
+          id?: string
+          keywords?: string[]
+          location: string
+          meta_description?: string | null
+          name: string
+          published_at?: string | null
+          read_time?: string | null
+          sections?: Json
+          seo_title?: string | null
+          slug: string
+          solution: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          debt_amount?: string
+          dek?: string
+          faq?: Json
+          headline?: string
+          hero_alt?: string | null
+          id?: string
+          keywords?: string[]
+          location?: string
+          meta_description?: string | null
+          name?: string
+          published_at?: string | null
+          read_time?: string | null
+          sections?: Json
+          seo_title?: string | null
+          slug?: string
+          solution?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       generated_posts: {
         Row: {
           authors: string[]

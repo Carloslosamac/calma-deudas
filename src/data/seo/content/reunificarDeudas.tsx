@@ -309,6 +309,10 @@ export const reunificarDeudas: MoneyContent = {
             ¿Quieres entender ventajas y riesgos a fondo?{" "}
             <span className="text-accent-deep">Guía de reunificación de deudas</span>
           </ActionLink>
+          <ActionLink to="/blog/guia-reunificar-deudas">
+            Lee la guía pilar completa:{" "}
+            <span className="text-accent-deep">Reunificar deudas en 2026 paso a paso</span>
+          </ActionLink>
         </div>
       ),
     },

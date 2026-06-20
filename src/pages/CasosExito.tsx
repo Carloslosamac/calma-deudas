@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormSection from "@/components/FormSection";
@@ -7,17 +8,28 @@ import Seo from "@/components/seo/Seo";
 import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import { casosExito } from "@/data/casos";
+import { fetchGeneratedCasos } from "@/data/casos/dbCasos";
 import { buildBreadcrumb, buildItemList } from "@/lib/seo/structuredData";
 
 const CasosExito = () => {
   const canonical = "/casos-de-exito";
+
+  const { data: dbCasos = [] } = useQuery({
+    queryKey: ["generated-casos"],
+    queryFn: fetchGeneratedCasos,
+  });
+
+  // Casos estáticos primero, luego los generados (sin duplicar slugs).
+  const staticSlugs = new Set(casosExito.map((c) => c.slug));
+  const allCasos = [...casosExito, ...dbCasos.filter((c) => !staticSlugs.has(c.slug))];
+
   const structuredData = [
     buildBreadcrumb([
       { name: "Inicio", url: "/" },
       { name: "Casos de éxito", url: canonical },
     ]),
     buildItemList(
-      casosExito.map((c) => ({
+      allCasos.map((c) => ({
         name: c.headline,
         url: `${canonical}/${c.slug}`,
       }))
@@ -61,7 +73,7 @@ const CasosExito = () => {
 
         <div className="mx-auto max-w-5xl px-6 py-14 md:py-20">
           <div className="grid gap-8 md:grid-cols-2">
-            {casosExito.map((c) => (
+            {allCasos.map((c) => (
               <Link
                 key={c.slug}
                 to={`/casos-de-exito/${c.slug}`}

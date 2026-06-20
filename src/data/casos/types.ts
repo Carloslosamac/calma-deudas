@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 export type CasoSection = {
   id: string;
   title: string;
-  body: ReactNode;
+  /** Cuerpo como nodos React (casos redactados a mano). */
+  body?: ReactNode;
+  /** Cuerpo como HTML (casos generados y guardados en base de datos). */
+  html?: string;
 };
 
 export type CasoExito = {

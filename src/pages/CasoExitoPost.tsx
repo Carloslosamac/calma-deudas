@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CalendarDays, Clock3, MapPin, Wallet } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,6 +12,7 @@ import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
 import { buildCrossLinks, resolveCasoTopic } from "@/data/seo/internalLinks";
 import { casosExito, getCasoBySlug } from "@/data/casos";
+import { fetchGeneratedCasoBySlug } from "@/data/casos/dbCasos";
 import {
   buildArticle,
   buildBreadcrumb,
@@ -20,7 +22,15 @@ import { absoluteUrl } from "@/lib/seo/config";
 
 const CasoExitoPost = () => {
   const { slug } = useParams();
-  const caso = getCasoBySlug(slug);
+  const staticCaso = getCasoBySlug(slug);
+
+  const { data: dbCaso, isLoading: dbLoading } = useQuery({
+    queryKey: ["generated-caso", slug],
+    queryFn: () => fetchGeneratedCasoBySlug(slug as string),
+    enabled: !!slug && !staticCaso,
+  });
+
+  const caso = staticCaso ?? dbCaso ?? undefined;
 
   const relatedCasos = useMemo(() => {
     if (!caso) return [];
@@ -35,6 +45,13 @@ const CasoExitoPost = () => {
   }, [caso]);
 
   if (!caso) {
+    if (dbLoading) {
+      return (
+        <div className="flex min-h-screen items-center justify-center text-muted-foreground">
+          Cargando caso…
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Seo
@@ -166,7 +183,14 @@ const CasoExitoPost = () => {
                   {section.title}
                 </h2>
                 <div className="mt-5 space-y-6 text-base leading-relaxed text-foreground/85 [&_p]:text-base [&_p]:leading-relaxed">
-                  {section.body}
+                  {section.html !== undefined ? (
+                    <div
+                      className="space-y-6 [&_h3]:font-poppins [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mt-1"
+                      dangerouslySetInnerHTML={{ __html: section.html }}
+                    />
+                  ) : (
+                    section.body
+                  )}
                 </div>
               </section>
             ))}
