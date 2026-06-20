@@ -9,6 +9,8 @@ import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
+import AuthorChips from "@/components/blog/AuthorChips";
+import { authorsToName } from "@/data/team";
 import { buildCrossLinks, resolvePostTopic } from "@/data/seo/internalLinks";
 import {
   buildArticle,
