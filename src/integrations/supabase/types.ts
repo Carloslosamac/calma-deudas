@@ -24,6 +24,7 @@ export type Database = {
           hero_alt: string | null
           hero_image: string | null
           id: string
+          key_takeaways: string[] | null
           keywords: string[] | null
           meta_description: string | null
           published_at: string | null
@@ -35,6 +36,7 @@ export type Database = {
           slug: string
           status: string
           title: string
+          tldr: string | null
           updated_at: string
         }
         Insert: {
@@ -46,6 +48,7 @@ export type Database = {
           hero_alt?: string | null
           hero_image?: string | null
           id?: string
+          key_takeaways?: string[] | null
           keywords?: string[] | null
           meta_description?: string | null
           published_at?: string | null
@@ -57,6 +60,7 @@ export type Database = {
           slug: string
           status?: string
           title: string
+          tldr?: string | null
           updated_at?: string
         }
         Update: {
@@ -68,6 +72,7 @@ export type Database = {
           hero_alt?: string | null
           hero_image?: string | null
           id?: string
+          key_takeaways?: string[] | null
           keywords?: string[] | null
           meta_description?: string | null
           published_at?: string | null
@@ -79,6 +84,7 @@ export type Database = {
           slug?: string
           status?: string
           title?: string
+          tldr?: string | null
           updated_at?: string
         }
         Relationships: [
