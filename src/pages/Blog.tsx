@@ -108,6 +108,7 @@ const normalize = (value: string) =>
 
 const BlogCard = ({ article }: { article: BlogArticle }) => {
   const CategoryIcon = categoryIcons[article.category] ?? Star;
+  const cardAuthors = getAuthors(article.authors);
   return (
   <Link
     to={`/blog/${article.slug}`}
@@ -137,6 +138,27 @@ const BlogCard = ({ article }: { article: BlogArticle }) => {
       <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
         {article.excerpt}
       </p>
+
+      {cardAuthors.length > 0 && (
+        <div className="mt-5 flex items-center gap-2">
+          <div className="flex -space-x-2">
+            {cardAuthors.map((a) => (
+              <img
+                key={a.id}
+                src={a.photo}
+                alt={a.name}
+                loading="lazy"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-full border-2 border-surface-elevated object-cover"
+              />
+            ))}
+          </div>
+          <span className="text-xs font-medium text-foreground/80">
+            {cardAuthors.map((a) => a.name).join(", ")}
+          </span>
+        </div>
+      )}
 
       <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-6 text-sm text-muted-foreground">
         <div className="flex flex-wrap items-center gap-4">
