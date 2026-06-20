@@ -7,6 +7,8 @@ import { resolve } from "node:path";
 import { blogPosts } from "../src/data/blog";
 import { SITE_URL } from "../src/lib/seo/config";
 import { moneyPages } from "../src/data/seo/moneyPages";
+import { tools } from "../src/data/seo/tools";
+import { casosExito } from "../src/data/casos";
 import { satelliteClusters } from "../src/data/seo/architecture";
 import { entities } from "../src/data/seo/entities";
 import { comparativas } from "../src/data/seo/comparativas";
@@ -27,11 +29,12 @@ const staticEntries: Entry[] = [
   { loc: "/blog", changefreq: "weekly", priority: "0.9", lastmod: today },
   { loc: "/servicios", changefreq: "weekly", priority: "0.8", lastmod: today },
   {
-    loc: "/ley-segunda-oportunidad/casos",
-    changefreq: "monthly",
-    priority: "0.7",
+    loc: "/casos-de-exito",
+    changefreq: "weekly",
+    priority: "0.8",
     lastmod: today,
   },
+  { loc: "/herramientas", changefreq: "weekly", priority: "0.7", lastmod: today },
   {
     loc: "/politica-de-privacidad",
     changefreq: "yearly",
@@ -51,6 +54,22 @@ const postEntries: Entry[] = blogPosts.map((p) => ({
   lastmod: (p.updatedAt ?? p.publishedAt ?? today).slice(0, 10),
   changefreq: "monthly",
   priority: p.slug === "guia-ley-segunda-oportunidad" ? "0.9" : "0.7",
+}));
+
+// Casos de éxito (prueba social, contenido indexable).
+const casoEntries: Entry[] = casosExito.map((c) => ({
+  loc: `/casos-de-exito/${c.slug}`,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.6",
+}));
+
+// Herramientas interactivas.
+const toolEntries: Entry[] = tools.map((t) => ({
+  loc: t.path,
+  lastmod: today,
+  changefreq: "monthly",
+  priority: "0.6",
 }));
 
 // Money pages (carpeta-cluster, prioridad SEO alta).
@@ -109,6 +128,8 @@ const entries = [
   ...comparativaEntries,
   ...guiaEntries,
   ...localizacionEntries,
+  ...toolEntries,
+  ...casoEntries,
   ...postEntries,
 ];
 
