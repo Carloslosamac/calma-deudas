@@ -3,6 +3,26 @@ import { MessageCircle, ShieldCheck } from "lucide-react";
 
 export type TocItem = { id: string; label: string };
 
+export type SidebarContent = {
+  ctaTitle: string;
+  ctaDescription: string;
+  ctaLabel: string;
+  benefits: string[];
+};
+
+const DEFAULT_SIDEBAR: SidebarContent = {
+  ctaTitle: "¿Quieres saber cuánto costaría tu procedimiento?",
+  ctaDescription:
+    "Te hacemos un análisis gratuito y te decimos con claridad qué solución encaja contigo.",
+  ctaLabel: "Analizar mi caso",
+  benefits: [
+    "Especialistas en Ley de Segunda Oportunidad",
+    "Consulta gratuita y sin compromiso",
+    "Si no ganamos, no cobramos",
+    "Más de 500 casos gestionados",
+  ],
+};
+
 const useActiveSection = (ids: string[]) => {
   const [active, setActive] = useState(ids[0] ?? "");
 
@@ -27,8 +47,15 @@ const useActiveSection = (ids: string[]) => {
   return active;
 };
 
-const BlogSidebar = ({ toc }: { toc: TocItem[] }) => {
+const BlogSidebar = ({
+  toc,
+  sidebar,
+}: {
+  toc: TocItem[];
+  sidebar?: SidebarContent;
+}) => {
   const active = useActiveSection(toc.map((t) => t.id));
+  const content = sidebar ?? DEFAULT_SIDEBAR;
 
   return (
     <aside className="sticky top-28 space-y-6">
@@ -68,17 +95,17 @@ const BlogSidebar = ({ toc }: { toc: TocItem[] }) => {
       {/* CTA principal */}
       <div className="rounded-3xl border border-accent/30 bg-accent-soft/40 p-6 shadow-soft">
         <h3 className="font-poppins text-lg font-semibold leading-snug text-foreground">
-          ¿Quieres saber cuánto costaría tu procedimiento?
+          {content.ctaTitle}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Te hacemos un análisis gratuito y te decimos con claridad qué solución encaja contigo.
+          {content.ctaDescription}
         </p>
         <a
           href="/#hero-form"
           className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 font-semibold text-accent-foreground transition-all hover:bg-accent/90 hover:shadow-glow"
         >
           <MessageCircle className="h-4 w-4" />
-          Analizar mi caso
+          {content.ctaLabel}
         </a>
       </div>
 
@@ -86,12 +113,7 @@ const BlogSidebar = ({ toc }: { toc: TocItem[] }) => {
       <div className="rounded-3xl border border-border bg-surface-elevated p-6 shadow-soft">
         <p className="mb-4 font-poppins font-semibold text-foreground">¿Por qué Calma?</p>
         <ul className="space-y-3 text-sm">
-          {[
-            "Especialistas en Ley de Segunda Oportunidad",
-            "Consulta gratuita y sin compromiso",
-            "Si no ganamos, no cobramos",
-            "Más de 500 casos gestionados",
-          ].map((item) => (
+          {content.benefits.map((item) => (
             <li key={item} className="flex items-start gap-2">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent-deep" />
               <span className="text-foreground">{item}</span>
