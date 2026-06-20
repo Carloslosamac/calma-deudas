@@ -204,6 +204,7 @@ export const buildArticle = (params: {
   publishedAt?: string;
   updatedAt?: string;
   keywords?: string[];
+  abstract?: string;
 }): JsonLd => ({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -211,6 +212,11 @@ export const buildArticle = (params: {
   description: params.description,
   image: params.image,
   inLanguage: "es-ES",
+  ...(params.abstract ? { abstract: params.abstract } : {}),
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["[data-geo-summary]", "[data-geo-takeaways]"],
+  },
   author: {
     "@type": "Organization",
     name: params.author ?? ORGANIZATION.name,

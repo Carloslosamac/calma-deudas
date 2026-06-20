@@ -36,6 +36,10 @@ export type BlogPost = {
   faq?: { question: string; answer: string }[];
   howToSteps?: { name: string; text: string }[];
   noindex?: boolean;
+  /** Resumen "answer-first" para motores generativos (GEO/AEO). */
+  tldr?: string;
+  /** Puntos clave extraíbles del artículo (GEO/AEO). */
+  keyTakeaways?: string[];
   /** CTA y beneficios del sidebar, alineados con la intención del post. */
   sidebar?: {
     ctaTitle: string;

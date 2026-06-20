@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
+import AnswerSummary from "@/components/blog/AnswerSummary";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import { fetchGeneratedPostBySlug } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
@@ -107,6 +108,7 @@ const BlogPost = () => {
       publishedAt: post.publishedAt,
       updatedAt: post.updatedAt,
       keywords: post.keywords,
+      abstract: post.tldr,
     }),
   ];
   if (post.faq?.length) structured.push(buildFaq(post.faq));
@@ -177,6 +179,8 @@ const BlogPost = () => {
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
             <img src={post.heroImage} alt={post.heroAlt} className="aspect-[16/9] w-full object-cover" />
           </figure>
+
+          <AnswerSummary tldr={post.tldr} takeaways={post.keyTakeaways} />
 
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div className="min-w-0">
