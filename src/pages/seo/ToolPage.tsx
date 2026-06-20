@@ -9,6 +9,8 @@ import Breadcrumbs from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
 import NotFound from "@/pages/NotFound";
+import RelatedResources from "@/components/seo/RelatedResources";
+import { buildCrossLinks, resolveToolTopic } from "@/data/seo/internalLinks";
 import SolutionDiagnosisTool from "@/components/seo/interactive/SolutionDiagnosisTool";
 import CancelableDebtCalculator from "@/components/seo/interactive/CancelableDebtCalculator";
 import UnseizableSalaryCalculator from "@/components/seo/interactive/UnseizableSalaryCalculator";
@@ -67,6 +69,11 @@ const ToolPage = () => {
     { name: "Herramientas", to: "/herramientas" },
     { name: tool.navLabel },
   ];
+
+  const toolTopic = resolveToolTopic(tool.path);
+  const crossLinks = toolTopic
+    ? buildCrossLinks({ topic: toolTopic, origin: "tool" })
+    : [];
 
   const structuredData = [
     buildWebPage({
