@@ -8,6 +8,8 @@ import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import Seo from "@/components/seo/Seo";
+import RelatedResources from "@/components/seo/RelatedResources";
+import { buildCrossLinks, resolvePostTopic } from "@/data/seo/internalLinks";
 import {
   buildArticle,
   buildBreadcrumb,
@@ -31,6 +33,13 @@ const BlogPost = () => {
     const sameCategory = others.filter((p) => p.category === post.category);
     const rest = others.filter((p) => p.category !== post.category);
     return [...sameCategory, ...rest].slice(0, 3);
+  }, [post]);
+
+  const crossLinks = useMemo(() => {
+    if (!post) return [];
+    const topic = resolvePostTopic(post.slug);
+    if (!topic) return [];
+    return buildCrossLinks({ topic, origin: "post", excludeSlug: post.slug });
   }, [post]);
 
   if (!post) {
