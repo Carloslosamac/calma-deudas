@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
+import { toast } from "sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
@@ -177,19 +178,36 @@ const BlogPost = () => {
                 <div className="mt-16 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-border bg-surface p-6">
                   <div>
                     <p className="font-poppins font-semibold text-foreground">
-                      ¿Te ha sido útil este artículo?
+                      ¿Crees que alguien necesita ver esto?
                     </p>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Compártelo con alguien que pueda necesitarlo.
+                      Ayuda a tus familiares y amigos a salir del ciclo de las deudas.
                     </p>
                   </div>
                   <button
                     type="button"
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({ title: post.title, url: window.location.href });
-                      } else {
-                        navigator.clipboard?.writeText(window.location.href);
+                    onClick={async () => {
+                      const shareData = {
+                        title: post.title,
+                        text: post.excerpt ?? post.title,
+                        url: window.location.href,
+                      };
+                      try {
+                        if (navigator.share) {
+                          await navigator.share(shareData);
+                        } else if (navigator.clipboard) {
+                          await navigator.clipboard.writeText(window.location.href);
+                          toast.success("Enlace copiado al portapapeles");
+                        }
+                      } catch (err) {
+                        if ((err as DOMException)?.name !== "AbortError") {
+                          try {
+                            await navigator.clipboard?.writeText(window.location.href);
+                            toast.success("Enlace copiado al portapapeles");
+                          } catch {
+                            toast.error("No se pudo compartir el artículo");
+                          }
+                        }
                       }
                     }}
                     className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 font-semibold text-background hover:bg-foreground/90"
