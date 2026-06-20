@@ -97,6 +97,45 @@ export type Database = {
           },
         ]
       }
+      generator_runs: {
+        Row: {
+          created_at: string
+          error: string | null
+          failed_count: number
+          finished_at: string | null
+          id: string
+          published_count: number
+          source: string
+          started_at: string
+          status: string
+          target: number | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          failed_count?: number
+          finished_at?: string | null
+          id?: string
+          published_count?: number
+          source?: string
+          started_at?: string
+          status?: string
+          target?: number | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          failed_count?: number
+          finished_at?: string | null
+          id?: string
+          published_count?: number
+          source?: string
+          started_at?: string
+          status?: string
+          target?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
