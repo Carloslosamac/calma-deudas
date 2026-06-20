@@ -623,7 +623,9 @@ const profileFaqs = (profile: EntityProfile): EntityFaq[] =>
  * los miedos específicos justo antes del cierre "Por qué confiar en Calma".
  */
 const mergeProfile = (base: EntityContent, e: Entity, profile: EntityProfile): EntityContent => {
-  const sections = [...base.sections];
+  // Quitamos el bloque genérico "Tus miedos, resueltos" (clónico entre fichas):
+  // el perfil aporta una sección de miedos ÚNICA por entidad que lo sustituye.
+  const sections = base.sections.filter((s) => s.title !== "Tus miedos, resueltos");
   // tras calmSection (índice 0): origen único
   sections.splice(1, 0, originSection(e, profile));
   // antes de la última sección (calmaSection): miedos específicos
