@@ -180,6 +180,8 @@ const BlogPost = () => {
             <img src={post.heroImage} alt={post.heroAlt} className="aspect-[16/9] w-full object-cover" />
           </figure>
 
+          <AnswerSummary tldr={post.tldr} takeaways={post.keyTakeaways} />
+
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div className="min-w-0">
               <div className="max-w-none">
