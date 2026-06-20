@@ -108,7 +108,7 @@ const BlogPost = () => {
         canonical={post.canonicalUrl ?? `/blog/${post.slug}`}
         ogType="article"
         keywords={post.keywords}
-        author={post.author}
+        author={authorsToName(post.authors, post.author)}
         publishedAt={post.publishedAt}
         updatedAt={post.updatedAt}
         robots={post.noindex ? "noindex,follow" : undefined}
