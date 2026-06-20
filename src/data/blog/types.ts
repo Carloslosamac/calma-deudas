@@ -14,6 +14,11 @@ export type BlogPost = {
   date: string;
   readTime: string;
   author: string;
+  /**
+   * Autores del equipo jurídico que firman el post (ids de src/data/team.ts),
+   * máximo 3. Si se define, sustituye al campo `author` en la UI y el SEO.
+   */
+  authors?: string[];
   heroImage: string;
   heroAlt: string;
   sections: BlogSection[];
