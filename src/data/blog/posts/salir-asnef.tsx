@@ -55,6 +55,18 @@ export const salirAsnef: BlogPost = {
     "derecho de acceso",
     "historial crediticio",
   ],
+  sidebar: {
+    ctaTitle: "¿Estás en ASNEF y quieres salir?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te decimos cómo limpiar tu nombre de los ficheros de morosos.",
+    ctaLabel: "Salir de ASNEF",
+    benefits: [
+      "Especialistas en salir de ficheros de morosos",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es-asnef",

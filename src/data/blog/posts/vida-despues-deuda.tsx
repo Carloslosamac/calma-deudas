@@ -45,6 +45,18 @@ export const vidaDespuesDeuda: BlogPost = {
     "finanzas personales",
     "hábitos financieros",
   ],
+  sidebar: {
+    ctaTitle: "¿Quieres empezar de cero sin deudas?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te ayudamos a cancelar tu deuda para empezar una nueva etapa.",
+    ctaLabel: "Empezar de cero",
+    benefits: [
+      "Especialistas en Ley de Segunda Oportunidad",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "primeros-meses",

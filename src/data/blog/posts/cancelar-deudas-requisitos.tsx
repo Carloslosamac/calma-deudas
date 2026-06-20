@@ -66,6 +66,18 @@ export const cancelarDeudasRequisitos: BlogPost = {
     "buena fe",
     "deudor",
   ],
+  sidebar: {
+    ctaTitle: "¿Cumples los requisitos para cancelar tus deudas?",
+    ctaDescription:
+      "Comprobamos gratis tu caso y te decimos si calificas para cancelar tu deuda en 2026.",
+    ctaLabel: "Comprobar requisitos",
+    benefits: [
+      "Especialistas en Ley de Segunda Oportunidad",
+      "Comprobación gratuita de requisitos",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es",

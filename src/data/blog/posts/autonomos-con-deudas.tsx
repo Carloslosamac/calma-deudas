@@ -59,6 +59,18 @@ export const autonomosConDeudas: BlogPost = {
     "avales personales",
     "segunda oportunidad",
   ],
+  sidebar: {
+    ctaTitle: "¿Eres autónomo y las deudas ahogan tu negocio?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te decimos cómo cancelar tus deudas y volver a empezar.",
+    ctaLabel: "Salvar mi negocio",
+    benefits: [
+      "Especialistas en deudas de autónomos",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "panorama",

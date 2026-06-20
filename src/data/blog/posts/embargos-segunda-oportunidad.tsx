@@ -57,6 +57,18 @@ export const embargosSegundaOportunidad: BlogPost = {
     "agencia tributaria",
     "seguridad social",
   ],
+  sidebar: {
+    ctaTitle: "¿Tienes un embargo en marcha?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te decimos cómo parar el embargo con la Ley de Segunda Oportunidad.",
+    ctaLabel: "Parar mi embargo",
+    benefits: [
+      "Especialistas en frenar embargos",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es-embargo",
