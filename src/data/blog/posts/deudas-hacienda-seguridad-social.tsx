@@ -53,6 +53,18 @@ export const deudasHaciendaSeguridadSocial: BlogPost = {
         "Entra en vía de apremio: se aplican recargos y, si no se atiende, la Administración puede embargar cuentas, nómina, devoluciones o bienes sin necesidad de acudir a un juez.",
     },
   ],
+  sidebar: {
+    ctaTitle: "¿Tienes deudas con Hacienda o la Seguridad Social?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te decimos cómo evitar el embargo y resolver tu deuda pública.",
+    ctaLabel: "Resolver mi deuda pública",
+    benefits: [
+      "Especialistas en deudas con la administración",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "por-que-distinta",

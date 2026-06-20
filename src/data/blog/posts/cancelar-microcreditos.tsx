@@ -53,6 +53,18 @@ export const cancelarMicrocreditos: BlogPost = {
         "Algunos productos aplican TAE desproporcionados que pueden declararse usurarios y, por tanto, nulos. En esos casos solo se devuelve el capital prestado, no los intereses.",
     },
   ],
+  sidebar: {
+    ctaTitle: "¿Los microcréditos se te han ido de las manos?",
+    ctaDescription:
+      "Analizamos gratis tu situación y te decimos cómo frenar la bola y cancelar tus microcréditos.",
+    ctaLabel: "Cancelar mis microcréditos",
+    benefits: [
+      "Especialistas en deudas de microcréditos",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "el-bucle",

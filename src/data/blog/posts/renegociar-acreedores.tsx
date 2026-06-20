@@ -50,6 +50,18 @@ export const renegociarAcreedores: BlogPost = {
     "código civil",
     "vía amistosa",
   ],
+  sidebar: {
+    ctaTitle: "¿Quieres renegociar tu deuda con los acreedores?",
+    ctaDescription:
+      "Analizamos gratis tu caso y te decimos si conviene negociar o ir por la vía legal.",
+    ctaLabel: "Renegociar mi deuda",
+    benefits: [
+      "Especialistas en negociación con acreedores",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es-renegociar",

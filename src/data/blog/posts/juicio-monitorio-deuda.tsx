@@ -53,6 +53,18 @@ export const juicioMonitorioDeuda: BlogPost = {
         "Sí. Puedes oponerte si discutes el importe, si hay intereses abusivos, si la deuda ha prescrito o si no estás de acuerdo con la reclamación. La oposición transforma el monitorio en un juicio ordinario o verbal según la cuantía.",
     },
   ],
+  sidebar: {
+    ctaTitle: "¿Te han notificado un juicio monitorio?",
+    ctaDescription:
+      "Tienes solo 20 días hábiles. Analizamos gratis tu caso y te decimos si conviene oponerte, negociar o cancelar la deuda.",
+    ctaLabel: "Frenar el juicio monitorio",
+    benefits: [
+      "Expertos en oposición a juicios monitorios",
+      "Actuamos dentro del plazo de 20 días",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es",

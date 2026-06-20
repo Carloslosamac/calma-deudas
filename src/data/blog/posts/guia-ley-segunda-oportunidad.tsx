@@ -119,6 +119,18 @@ export const guiaLeySegundaOportunidad: BlogPost = {
     "particulares",
     "asnef",
   ],
+  sidebar: {
+    ctaTitle: "¿Quieres cancelar tus deudas con la Ley de Segunda Oportunidad?",
+    ctaDescription:
+      "Analizamos gratis si cumples los requisitos y te explicamos con claridad cómo cancelar tu deuda.",
+    ctaLabel: "Cancelar mi deuda",
+    benefits: [
+      "Especialistas en Ley de Segunda Oportunidad",
+      "Consulta gratuita y sin compromiso",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "introduccion",

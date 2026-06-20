@@ -54,6 +54,18 @@ export const reclamarTarjetaRevolving: BlogPost = {
         "La reclamación por usura reduce o elimina lo que debes. Si aun así no puedes asumir el resto de tus deudas, conviene valorar la Ley de Segunda Oportunidad para cancelarlas de forma legal.",
     },
   ],
+  sidebar: {
+    ctaTitle: "¿Tienes una tarjeta revolving con intereses abusivos?",
+    ctaDescription:
+      "Revisamos gratis tu contrato y te decimos cuánto puedes recuperar de lo pagado de más.",
+    ctaLabel: "Revisar mi tarjeta gratis",
+    benefits: [
+      "Especialistas en reclamación de revolving",
+      "Revisión gratuita de tu contrato",
+      "Si no ganamos, no cobramos",
+      "Más de 500 casos gestionados",
+    ],
+  },
   sections: [
     {
       id: "que-es-revolving",
