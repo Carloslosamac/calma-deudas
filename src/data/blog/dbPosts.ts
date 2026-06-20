@@ -44,6 +44,8 @@ export type GeneratedPostRow = {
   meta_description: string | null;
   sidebar: BlogPost["sidebar"] | null;
   published_at: string | null;
+  tldr: string | null;
+  key_takeaways: string[] | null;
 };
 
 const formatDate = (iso?: string | null): string => {
@@ -78,13 +80,15 @@ export const rowToBlogPost = (row: GeneratedPostRow): BlogPost => ({
   updatedAt: row.published_at ?? undefined,
   faq: row.faq ?? undefined,
   sidebar: row.sidebar ?? undefined,
+  tldr: row.tldr ?? undefined,
+  keyTakeaways: row.key_takeaways ?? undefined,
 });
 
 export const fetchGeneratedPosts = async (): Promise<BlogPost[]> => {
   const { data, error } = await supabase
     .from("generated_posts")
     .select(
-      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at"
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways"
     )
     .eq("status", "published")
     .order("published_at", { ascending: false });
@@ -96,7 +100,7 @@ export const fetchGeneratedPostBySlug = async (slug: string): Promise<BlogPost |
   const { data, error } = await supabase
     .from("generated_posts")
     .select(
-      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at"
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways"
     )
     .eq("status", "published")
     .eq("slug", slug)
