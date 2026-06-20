@@ -140,16 +140,18 @@ const BlogPost = () => {
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {post.excerpt}
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <CalendarDays className="h-4 w-4" />
-                {post.date}
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Clock3 className="h-4 w-4" />
-                {post.readTime}
-              </span>
-              <span>· {post.author}</span>
+            <div className="mt-6 flex flex-col items-center gap-4">
+              <AuthorChips authorIds={post.authors} fallback={post.author} />
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <CalendarDays className="h-4 w-4" />
+                  {post.date}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock3 className="h-4 w-4" />
+                  {post.readTime}
+                </span>
+              </div>
             </div>
           </header>
 
