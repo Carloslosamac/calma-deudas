@@ -37,6 +37,10 @@ export type ResourceLink = {
 /** Topic principal de cada post (por slug). */
 const POST_TOPIC: Record<string, LinkTopic> = {
   "guia-ley-segunda-oportunidad": "lso",
+  "guia-reunificar-deudas": "reunificar",
+  "guia-cancelar-deudas": "requisitos",
+  "guia-cancelar-tarjetas-revolving": "revolving",
+  "guia-cancelar-microcreditos": "microcreditos",
   "cancelar-deudas-requisitos": "requisitos",
   "reclamar-tarjeta-revolving": "revolving",
   "cancelar-microcreditos": "microcreditos",
