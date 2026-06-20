@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getAuthors } from "@/data/team";
 import {
@@ -33,6 +34,7 @@ import {
   buildOrganization,
 } from "@/lib/seo/structuredData";
 import { blogPosts } from "@/data/blog";
+import { fetchGeneratedPosts } from "@/data/blog/dbPosts";
 import stepStrategy from "@/assets/step-strategy.jpg";
 
 const categoryIcons: Record<string, LucideIcon> = {
@@ -78,7 +80,7 @@ type BlogArticle = {
   author: string;
 };
 
-const articles: BlogArticle[] = blogPosts
+const staticArticles: BlogArticle[] = blogPosts
   .filter((post) => post.slug !== featuredArticle.slug)
   .map((post) => ({
     slug: post.slug,
@@ -92,14 +94,6 @@ const articles: BlogArticle[] = blogPosts
     authors: post.authors,
     author: post.author,
   }));
-
-const categories: { name: string; icon: LucideIcon }[] = [
-  { name: "Todos", icon: LayoutGrid },
-  ...Array.from(new Set(articles.map((a) => a.category))).map((name) => ({
-    name,
-    icon: categoryIcons[name] ?? Star,
-  })),
-];
 
 const normalize = (value: string) =>
   value
@@ -189,6 +183,41 @@ const Blog = () => {
 
   const INITIAL_VISIBLE = 6;
 
+  const { data: dbPosts } = useQuery({
+    queryKey: ["generated-posts"],
+    queryFn: fetchGeneratedPosts,
+  });
+
+  const articles = useMemo<BlogArticle[]>(() => {
+    const seen = new Set(staticArticles.map((a) => a.slug));
+    const dbArticles = (dbPosts ?? [])
+      .filter((post) => post.slug !== featuredArticle.slug && !seen.has(post.slug))
+      .map((post) => ({
+        slug: post.slug,
+        category: post.category,
+        title: post.title,
+        excerpt: post.excerpt,
+        date: post.date,
+        readTime: post.readTime,
+        image: post.heroImage,
+        imageAlt: post.heroAlt,
+        authors: post.authors,
+        author: post.author,
+      }));
+    return [...staticArticles, ...dbArticles];
+  }, [dbPosts]);
+
+  const categories = useMemo<{ name: string; icon: LucideIcon }[]>(
+    () => [
+      { name: "Todos", icon: LayoutGrid },
+      ...Array.from(new Set(articles.map((a) => a.category))).map((name) => ({
+        name,
+        icon: categoryIcons[name] ?? Star,
+      })),
+    ],
+    [articles]
+  );
+
   const filteredArticles = useMemo(() => {
     const cleanQuery = normalize(query.trim());
 
@@ -202,7 +231,7 @@ const Blog = () => {
 
       return matchesCategory && matchesQuery;
     });
-  }, [activeCategory, query]);
+  }, [activeCategory, query, articles]);
 
   const isFiltering = query.trim().length > 0 || activeCategory !== "Todos";
   // When filtering/searching we always show every match. Otherwise we reveal

@@ -3,7 +3,10 @@ import type { ReactNode } from "react";
 export type BlogSection = {
   id: string;
   title: string;
-  body: ReactNode;
+  /** Cuerpo como nodos React (posts redactados a mano en código). */
+  body?: ReactNode;
+  /** Cuerpo como HTML (posts generados y guardados en base de datos). */
+  html?: string;
 };
 
 export type BlogPost = {
