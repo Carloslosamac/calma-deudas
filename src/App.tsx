@@ -32,6 +32,8 @@ const Servicios = lazy(() => import("./pages/seo/Servicios"));
 const LocalizacionPage = lazy(() => import("./pages/seo/LocalizacionPage"));
 const HerramientasHub = lazy(() => import("./pages/seo/HerramientasHub"));
 const ToolPage = lazy(() => import("./pages/seo/ToolPage"));
+const AdminAuth = lazy(() => import("./pages/AdminAuth"));
+const AdminQueue = lazy(() => import("./pages/AdminQueue"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -53,6 +55,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin/auth" element={<AdminAuth />} />
+          <Route path="/admin" element={<AdminQueue />} />
           <Route path="/casos-de-exito" element={<CasosExito />} />
           <Route path="/casos-de-exito/:slug" element={<CasoExitoPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
