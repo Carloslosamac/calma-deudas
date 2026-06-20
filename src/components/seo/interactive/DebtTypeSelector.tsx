@@ -34,7 +34,7 @@ const DebtTypeSelector = ({ title, subtitle, options }: Props) => {
               type="button"
               onClick={() => setActive(i)}
               aria-pressed={selected}
-              className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+              className={`max-w-full whitespace-normal rounded-full border px-4 py-2 text-center text-sm font-medium transition-all sm:whitespace-nowrap ${
                 selected
                   ? "border-primary bg-primary text-primary-foreground shadow-soft"
                   : "border-border bg-surface-elevated text-muted-foreground hover:border-foreground/30 hover:text-foreground"
