@@ -71,54 +71,72 @@ const MythReality = ({ items }: { items: Myth[] }) => (
 );
 
 /** Bloque de tranquilidad emocional: primera sección de toda ficha. */
-const calmSection = (e: Entity): EntitySection => ({
-  title: "Respira: tu deuda tiene solución",
-  body: (
-    <>
-      <KeyCallout
-        eyebrow="No estás solo/a"
-        headline={
-          <>
-            Deber dinero a {e.name} <span className="text-accent-deep">no te define</span>, y
-            tampoco es el final del camino.
-          </>
-        }
-      >
-        <p>
-          Sabemos el nudo en el estómago cada vez que suena el teléfono o llega una carta. Miles de
-          personas han pasado por exactamente lo mismo y hoy duermen tranquilas. Tu situación tiene
-          salida y nosotros te acompañamos en cada paso.
-        </p>
-      </KeyCallout>
-      <InlineCta />
-    </>
-  ),
-});
+/**
+ * Hash determinista por slug para rotar variantes de copy y evitar que los
+ * bloques emocionales sean clones literales entre las 100+ fichas (duplicate content).
+ */
+const slugIndex = (slug: string, mod: number): number => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h % mod;
+};
+
+/** Bloque de tranquilidad emocional: primera sección de toda ficha (con variantes). */
+const calmSection = (e: Entity): EntitySection => {
+  const headlines: ReactNode[] = [
+    <>Deber dinero a {e.name} <span className="text-accent-deep">no te define</span>, y tampoco es el final del camino.</>,
+    <>Tener una deuda con {e.name} no te convierte en mal pagador: <span className="text-accent-deep">te convierte en alguien que busca soluciones</span>.</>,
+    <>El problema con {e.name} <span className="text-accent-deep">tiene salida</span>, aunque ahora mismo no la veas.</>,
+  ];
+  const bodies: ReactNode[] = [
+    "Sabemos el nudo en el estómago cada vez que suena el teléfono o llega una carta. Miles de personas han pasado por exactamente lo mismo y hoy duermen tranquilas. Tu situación tiene salida y nosotros te acompañamos en cada paso.",
+    "Vivir pendiente del teléfono y del buzón agota. No estás solo/a: cada día acompañamos a personas en tu misma situación que hoy han recuperado la calma. Lo primero es entender tus opciones reales, sin presión.",
+    "El agobio que sientes es normal, pero no significa que no haya salida. Personas con deudas iguales o mayores que la tuya las han dejado atrás. Te explicamos con calma qué se puede hacer en tu caso concreto.",
+  ];
+  const i = slugIndex(e.slug, 3);
+  return {
+    title: "Respira: tu deuda tiene solución",
+    body: (
+      <>
+        <KeyCallout eyebrow="No estás solo/a" headline={headlines[i]}>
+          <p>{bodies[i]}</p>
+        </KeyCallout>
+        <InlineCta />
+      </>
+    ),
+  };
+};
 
 /** Bloque de autoridad "Por qué Calma": cierre persuasivo de toda ficha. */
-const calmaSection = (e: Entity): EntitySection => ({
-  title: "Por qué confiar en Calma",
-  body: (
-    <>
-      <div className="mb-5 flex items-start gap-3 rounded-3xl border border-accent/30 bg-accent-soft/40 p-6">
-        <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-accent-deep" aria-hidden />
-        <p className="text-base leading-relaxed text-foreground/85">
-          Llevamos años ayudando a personas con deudas como la tuya con {e.name}. No vendemos humo:
-          analizamos tu caso, te decimos la verdad y solo seguimos si de verdad podemos ayudarte.
-        </p>
-      </div>
-      <CheckList
-        items={[
-          "Especialistas en Ley de Segunda Oportunidad y deuda bancaria, no una gestoría improvisada.",
-          "Acompañamiento humano y cercano: una persona contigo de principio a fin.",
-          "Cientos de casos resueltos y deudas canceladas de forma definitiva.",
-          "Primer análisis gratuito y sin compromiso: tú decides después.",
-        ]}
-      />
-      <InlineCta label="Empezar mi análisis gratuito" />
-    </>
-  ),
-});
+/** Bloque de autoridad "Por qué Calma": cierre persuasivo de toda ficha (con variantes). */
+const calmaSection = (e: Entity): EntitySection => {
+  const intros: string[] = [
+    `Llevamos años ayudando a personas con deudas como la tuya con ${e.name}. No vendemos humo: analizamos tu caso, te decimos la verdad y solo seguimos si de verdad podemos ayudarte.`,
+    `Frente a ${e.name}, lo que marca la diferencia es saber exactamente qué se puede hacer. Estudiamos tu situación, te explicamos tus opciones reales y solo damos el paso si tiene sentido para ti.`,
+    `Con ${e.name} no improvisamos: revisamos tu caso a fondo, te contamos con sinceridad qué esperar y te acompañamos en cada decisión. Sin letra pequeña ni promesas vacías.`,
+  ];
+  const i = slugIndex(e.slug, 3);
+  return {
+    title: "Por qué confiar en Calma",
+    body: (
+      <>
+        <div className="mb-5 flex items-start gap-3 rounded-3xl border border-accent/30 bg-accent-soft/40 p-6">
+          <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-accent-deep" aria-hidden />
+          <p className="text-base leading-relaxed text-foreground/85">{intros[i]}</p>
+        </div>
+        <CheckList
+          items={[
+            "Especialistas en Ley de Segunda Oportunidad y deuda bancaria, no una gestoría improvisada.",
+            "Acompañamiento humano y cercano: una persona contigo de principio a fin.",
+            "Cientos de casos resueltos y deudas canceladas de forma definitiva.",
+            "Primer análisis gratuito y sin compromiso: tú decides después.",
+          ]}
+        />
+        <InlineCta label="Empezar mi análisis gratuito" />
+      </>
+    ),
+  };
+};
 
 /** Nota corta y específica por entidad (aporta detalle real al copy). */
 const NOTES: Record<string, string> = {
