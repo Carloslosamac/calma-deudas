@@ -158,6 +158,9 @@ const BlogCard = ({ article }: { article: BlogArticle }) => {
 const Blog = () => {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Todos");
+  const [showAll, setShowAll] = useState(false);
+
+  const INITIAL_VISIBLE = 6;
 
   const filteredArticles = useMemo(() => {
     const cleanQuery = normalize(query.trim());
@@ -173,6 +176,15 @@ const Blog = () => {
       return matchesCategory && matchesQuery;
     });
   }, [activeCategory, query]);
+
+  const isFiltering = query.trim().length > 0 || activeCategory !== "Todos";
+  // When filtering/searching we always show every match. Otherwise we reveal
+  // the full list progressively for UX — but every card stays rendered in the
+  // DOM (hidden via CSS) so crawlers always see every internal link.
+  const collapsed = !isFiltering && !showAll;
+  const hiddenCount = collapsed
+    ? Math.max(0, filteredArticles.length - INITIAL_VISIBLE)
+    : 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -294,10 +306,31 @@ const Blog = () => {
           </div>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-2" aria-live="polite">
-            {filteredArticles.map((article) => (
-              <BlogCard key={article.slug} article={article} />
-            ))}
+            {filteredArticles.map((article, index) => {
+              const isHidden = collapsed && index >= INITIAL_VISIBLE;
+              return (
+                <div key={article.slug} className={isHidden ? "hidden" : "contents"}>
+                  <BlogCard article={article} />
+                </div>
+              );
+            })}
           </div>
+
+          {hiddenCount > 0 && (
+            <div className="mt-12 flex justify-center">
+              <Button
+                type="button"
+                onClick={() => setShowAll(true)}
+                variant="outline"
+                className="rounded-full border-accent/40 px-7 py-6 text-base font-semibold text-foreground hover:bg-accent-soft"
+              >
+                Ver más artículos
+                <span className="ml-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-accent px-2 text-sm text-accent-foreground">
+                  {hiddenCount}
+                </span>
+              </Button>
+            </div>
+          )}
 
           {filteredArticles.length === 0 && (
             <div className="mx-auto mt-12 max-w-2xl rounded-[2rem] border border-border bg-surface p-8 text-center">
