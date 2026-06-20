@@ -4,29 +4,34 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { lazy, Suspense } from "react";
+// La home se importa de forma eager: es la ruta LCP crítica y evita un
+// round-trip extra de chunk en la primera carga.
 import Index from "./pages/Index";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsAndConditions from "./pages/TermsAndConditions";
-import CallRedirect from "./pages/CallRedirect";
-import Gracias from "./pages/Gracias";
-import CallRedirectRH from "./pages/CallRedirectRH";
-import CallRedirectAltaley from "./pages/CallRedirectAltaley";
-import CallRedirectQuitaDeudas from "./pages/CallRedirectQuitaDeudas";
-import CallRedirectLexitia from "./pages/CallRedirectLexitia";
-import NotFound from "./pages/NotFound";
-import MoneyLanding from "./pages/seo/MoneyLanding";
-import ClusterHub from "./pages/seo/ClusterHub";
-import EntityPage from "./pages/seo/EntityPage";
-import ComparativaPage from "./pages/seo/ComparativaPage";
-import GuiaPage from "./pages/seo/GuiaPage";
-import CasosExito from "./pages/CasosExito";
-import CasoExitoPost from "./pages/CasoExitoPost";
-import Servicios from "./pages/seo/Servicios";
-import LocalizacionPage from "./pages/seo/LocalizacionPage";
-import HerramientasHub from "./pages/seo/HerramientasHub";
-import ToolPage from "./pages/seo/ToolPage";
+// El resto de rutas se cargan bajo demanda (code-splitting) para que el
+// bundle inicial no arrastre posts, casos ni los datos SEO pesados.
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const CallRedirect = lazy(() => import("./pages/CallRedirect"));
+const Gracias = lazy(() => import("./pages/Gracias"));
+const CallRedirectRH = lazy(() => import("./pages/CallRedirectRH"));
+const CallRedirectAltaley = lazy(() => import("./pages/CallRedirectAltaley"));
+const CallRedirectQuitaDeudas = lazy(() => import("./pages/CallRedirectQuitaDeudas"));
+const CallRedirectLexitia = lazy(() => import("./pages/CallRedirectLexitia"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const MoneyLanding = lazy(() => import("./pages/seo/MoneyLanding"));
+const ClusterHub = lazy(() => import("./pages/seo/ClusterHub"));
+const EntityPage = lazy(() => import("./pages/seo/EntityPage"));
+const ComparativaPage = lazy(() => import("./pages/seo/ComparativaPage"));
+const GuiaPage = lazy(() => import("./pages/seo/GuiaPage"));
+const CasosExito = lazy(() => import("./pages/CasosExito"));
+const CasoExitoPost = lazy(() => import("./pages/CasoExitoPost"));
+const Servicios = lazy(() => import("./pages/seo/Servicios"));
+const LocalizacionPage = lazy(() => import("./pages/seo/LocalizacionPage"));
+const HerramientasHub = lazy(() => import("./pages/seo/HerramientasHub"));
+const ToolPage = lazy(() => import("./pages/seo/ToolPage"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -43,6 +48,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
         <ScrollToTop />
+        <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
@@ -90,6 +96,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
