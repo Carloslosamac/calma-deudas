@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
+import AnswerSummary from "@/components/blog/AnswerSummary";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import { fetchGeneratedPostBySlug } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
@@ -107,6 +108,7 @@ const BlogPost = () => {
       publishedAt: post.publishedAt,
       updatedAt: post.updatedAt,
       keywords: post.keywords,
+      abstract: post.tldr,
     }),
   ];
   if (post.faq?.length) structured.push(buildFaq(post.faq));
