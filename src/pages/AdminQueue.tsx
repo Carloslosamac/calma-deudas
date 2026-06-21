@@ -41,6 +41,13 @@ type QueueData = {
   stats: QueueStats;
 };
 
+type PublishedRow = {
+  slug: string;
+  title: string;
+  category: string;
+  published_at: string | null;
+};
+
 const PRIORITY_RANK: Record<string, number> = { Alta: 0, Media: 1, Baja: 2 };
 
 const estadoVariant = (estado: string): "default" | "secondary" | "outline" => {
@@ -113,12 +120,36 @@ const fetchQueue = async (): Promise<QueueData> => {
   };
 };
 
+const fetchPublished = async (): Promise<PublishedRow[]> => {
+  const { data, error } = await supabase
+    .from("generated_posts")
+    .select("slug,title,category,published_at")
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(500);
+  if (error) throw error;
+  return (data as PublishedRow[]) ?? [];
+};
+
+const formatDate = (iso: string | null): string => {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  } catch {
+    return "—";
+  }
+};
+
 const AdminQueue = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [triggering, setTriggering] = useState(false);
-  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta">("todas");
+  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta" | "publicados">("todas");
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -128,6 +159,16 @@ const AdminQueue = () => {
     queryKey: ["admin-queue"],
     queryFn: fetchQueue,
     enabled: !!session && isAdmin,
+  });
+
+  const {
+    data: publishedRows,
+    isLoading: publishedLoading,
+    error: publishedError,
+  } = useQuery({
+    queryKey: ["admin-published"],
+    queryFn: fetchPublished,
+    enabled: !!session && isAdmin && filter === "publicados",
   });
 
   const rows = data?.rows ?? [];
@@ -283,8 +324,58 @@ const AdminQueue = () => {
           >
             LSO Alta
           </Button>
+          <Button
+            variant={filter === "publicados" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("publicados")}
+          >
+            Publicados
+          </Button>
         </div>
 
+        {filter === "publicados" ? (
+          <Card className="mt-8 overflow-hidden">
+            {publishedLoading ? (
+              <p className="p-6 text-sm text-muted-foreground">Cargando publicados…</p>
+            ) : publishedError ? (
+              <p className="p-6 text-sm text-destructive">
+                No se pudieron cargar los publicados: {(publishedError as Error).message}
+              </p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Título</TableHead>
+                    <TableHead className="hidden md:table-cell">Categoría</TableHead>
+                    <TableHead className="w-[140px]">Publicado</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {(publishedRows ?? []).map((r) => (
+                    <TableRow key={r.slug}>
+                      <TableCell className="max-w-md">
+                        <a
+                          href={`/blog/${r.slug}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-accent-deep underline-offset-2 hover:underline"
+                        >
+                          {r.title}
+                        </a>
+                      </TableCell>
+                      <TableCell className="hidden text-sm text-muted-foreground md:table-cell">
+                        {r.category}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {formatDate(r.published_at)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </Card>
+        ) : (
         <Card className="mt-8 overflow-hidden">
           {isLoading ? (
             <p className="p-6 text-sm text-muted-foreground">Cargando cola…</p>
@@ -336,10 +427,17 @@ const AdminQueue = () => {
             </Table>
           )}
         </Card>
+        )}
+        {filter === "publicados" ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            Mostrando {publishedRows?.length ?? 0} artículos publicados.
+          </p>
+        ) : (
         <p className="mt-3 text-xs text-muted-foreground">
           Mostrando {filtered.length} filas (de {stats.enCola} en cola). Las de prioridad Alta se
           cargan siempre primero.
         </p>
+        )}
       </div>
     </div>
   );
