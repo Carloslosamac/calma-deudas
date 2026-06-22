@@ -78,6 +78,7 @@ type BlogArticle = {
   imageAlt: string;
   authors?: string[];
   author: string;
+  publishedAt?: string;
 };
 
 const staticArticles: BlogArticle[] = blogPosts
@@ -93,6 +94,7 @@ const staticArticles: BlogArticle[] = blogPosts
     imageAlt: post.heroAlt,
     authors: post.authors,
     author: post.author,
+    publishedAt: post.publishedAt,
   }));
 
 const normalize = (value: string) =>
@@ -203,8 +205,12 @@ const Blog = () => {
         imageAlt: post.heroAlt,
         authors: post.authors,
         author: post.author,
+        publishedAt: post.publishedAt,
       }));
-    return [...staticArticles, ...dbArticles];
+    return [...staticArticles, ...dbArticles].sort(
+      (a, b) =>
+        new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
+    );
   }, [dbPosts]);
 
   const categories = useMemo<{ name: string; icon: LucideIcon }[]>(
