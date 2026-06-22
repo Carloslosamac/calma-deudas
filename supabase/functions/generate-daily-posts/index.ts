@@ -151,6 +151,60 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
   }
 }
 
+// Genera una imagen de portada ÚNICA por artículo (estilo fotoperiodístico
+// hiperrealista) y la sube al bucket público blog-images. Devuelve la URL
+// pública o null si algo falla (en cuyo caso se usa el fallback por categoría).
+async function generateAndUploadHero(
+  supabase: ReturnType<typeof createClient>,
+  slug: string,
+  title: string,
+  category: string,
+): Promise<string | null> {
+  try {
+    const prompt = `Fotografía editorial hiperrealista, estilo fotoperiodismo premium, para un artículo sobre "${title}" (tema: ${category}, finanzas personales y deudas en España). Luz natural realista, composición cinematográfica, sin texto, sin logos, sin marcas de agua, sin collage. Escena humana o documental concreta y evocadora, no genérica.`;
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [{ role: "user", content: prompt }],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!res.ok) {
+      console.error(`Image AI error ${res.status} for ${slug}: ${await res.text()}`);
+      return null;
+    }
+    const data = await res.json();
+    const dataUrl: string | undefined =
+      data?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    if (!dataUrl || !dataUrl.includes(",")) {
+      console.error(`No image returned for ${slug}`);
+      return null;
+    }
+    const base64 = dataUrl.split(",")[1];
+    const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+    const path = `${slug}.png`;
+    const { error: upErr } = await supabase.storage
+      .from("blog-images")
+      .upload(path, bytes, { contentType: "image/png", upsert: true });
+    if (upErr) {
+      console.error(`Upload failed for ${slug}: ${upErr.message}`);
+      return null;
+    }
+    const { data: signed } = await supabase.storage
+      .from("blog-images")
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10); // 10 años
+    return signed?.signedUrl ?? null;
+  } catch (e) {
+    console.error(`generateAndUploadHero error for ${slug}: ${String(e)}`);
+    return null;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -253,6 +307,7 @@ Deno.serve(async (req) => {
       const now = new Date().toISOString();
       const cleanTitle = sanitizeTitle(row.titulo);
       const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
+      const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,
@@ -261,6 +316,7 @@ Deno.serve(async (req) => {
         excerpt: (article.excerpt as string) ?? "",
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
+        hero_image: heroUrl,
         hero_alt: (article.heroAlt as string) ?? cleanTitle,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
