@@ -56,6 +56,17 @@ function slugFromUrl(url: string | null, titulo: string): string {
     .slice(0, 80);
 }
 
+// El roadmap se importó scrapeando SERPs, así que muchos títulos arrastran el
+// sufijo de marca del competidor de origen. Nunca debe aparecer en NUESTRO blog.
+function sanitizeTitle(raw: string): string {
+  let t = (raw ?? "").trim();
+  const brandSuffix =
+    /\s*[-–—|·:]\s*(MiSolvencia(\.es)?|Abogados\s+para\s+tus\s+deudas|Repara\s+tu\s+Deuda|Quita\s+Deudas|Deudae|MundoJur[ií]dico|MundoJuridico)\s*$/i;
+  // Aplica dos veces por si hay sufijos encadenados.
+  t = t.replace(brandSuffix, "").replace(brandSuffix, "").trim();
+  return t;
+}
+
 interface RoadmapRow {
   id: number;
   titulo: string;
