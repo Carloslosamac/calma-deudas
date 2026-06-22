@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -151,6 +152,25 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
   }
 }
 
+// Redimensiona a un ancho máximo razonable para web (1200px) y recomprime a
+// JPEG de calidad alta (82) para que las portadas carguen rápido sin pérdida
+// de calidad visible. Devuelve los bytes JPEG o null si falla (entonces se
+// sube el PNG original).
+const MAX_WIDTH = 1200;
+const JPEG_QUALITY = 82;
+async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
+  try {
+    const img = await Image.decode(pngBytes);
+    if (img.width > MAX_WIDTH) {
+      img.resize(MAX_WIDTH, Image.RESIZE_AUTO);
+    }
+    return await img.encodeJPEG(JPEG_QUALITY);
+  } catch (e) {
+    console.error(`optimizeImage failed: ${String(e)}`);
+    return null;
+  }
+}
+
 // Genera una imagen de portada ÚNICA por artículo (estilo fotoperiodístico
 // hiperrealista) y la sube al bucket público blog-images. Devuelve la URL
 // pública o null si algo falla (en cuyo caso se usa el fallback por categoría).
@@ -186,11 +206,18 @@ async function generateAndUploadHero(
       return null;
     }
     const base64 = dataUrl.split(",")[1];
-    const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-    const path = `${slug}.png`;
+    const rawBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+    const optimized = await optimizeImage(rawBytes);
+    const isJpeg = optimized !== null;
+    const bytes = optimized ?? rawBytes;
+    const path = `${slug}.${isJpeg ? "jpg" : "png"}`;
     const { error: upErr } = await supabase.storage
       .from("blog-images")
-      .upload(path, bytes, { contentType: "image/png", upsert: true });
+      .upload(path, bytes, {
+        contentType: isJpeg ? "image/jpeg" : "image/png",
+        upsert: true,
+        cacheControl: "31536000",
+      });
     if (upErr) {
       console.error(`Upload failed for ${slug}: ${upErr.message}`);
       return null;
