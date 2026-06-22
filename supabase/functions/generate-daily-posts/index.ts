@@ -56,6 +56,17 @@ function slugFromUrl(url: string | null, titulo: string): string {
     .slice(0, 80);
 }
 
+// El roadmap se importó scrapeando SERPs, así que muchos títulos arrastran el
+// sufijo de marca del competidor de origen. Nunca debe aparecer en NUESTRO blog.
+function sanitizeTitle(raw: string): string {
+  let t = (raw ?? "").trim();
+  const brandSuffix =
+    /\s*[-–—|·:]\s*(MiSolvencia(\.es)?|Abogados\s+para\s+tus\s+deudas|Repara\s+tu\s+Deuda|Quita\s+Deudas|Deudae|MundoJur[ií]dico|MundoJuridico)\s*$/i;
+  // Aplica dos veces por si hay sufijos encadenados.
+  t = t.replace(brandSuffix, "").replace(brandSuffix, "").trim();
+  return t;
+}
+
 interface RoadmapRow {
   id: number;
   titulo: string;
@@ -240,19 +251,21 @@ Deno.serve(async (req) => {
         : "Consejos";
       const slug = slugFromUrl(row.url_sugerida, row.titulo);
       const now = new Date().toISOString();
+      const cleanTitle = sanitizeTitle(row.titulo);
+      const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,
         category,
-        title: row.titulo,
+        title: cleanTitle,
         excerpt: (article.excerpt as string) ?? "",
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
-        hero_alt: (article.heroAlt as string) ?? row.titulo,
+        hero_alt: (article.heroAlt as string) ?? cleanTitle,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
-        seo_title: (article.seoTitle as string) ?? row.titulo,
+        seo_title: cleanSeoTitle,
         meta_description: (article.metaDescription as string) ?? "",
         tldr: (article.tldr as string) ?? null,
         key_takeaways: article.keyTakeaways ?? [],
