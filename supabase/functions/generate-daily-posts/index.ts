@@ -251,19 +251,21 @@ Deno.serve(async (req) => {
         : "Consejos";
       const slug = slugFromUrl(row.url_sugerida, row.titulo);
       const now = new Date().toISOString();
+      const cleanTitle = sanitizeTitle(row.titulo);
+      const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,
         category,
-        title: row.titulo,
+        title: cleanTitle,
         excerpt: (article.excerpt as string) ?? "",
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
-        hero_alt: (article.heroAlt as string) ?? row.titulo,
+        hero_alt: (article.heroAlt as string) ?? cleanTitle,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
-        seo_title: (article.seoTitle as string) ?? row.titulo,
+        seo_title: cleanSeoTitle,
         meta_description: (article.metaDescription as string) ?? "",
         tldr: (article.tldr as string) ?? null,
         key_takeaways: article.keyTakeaways ?? [],
