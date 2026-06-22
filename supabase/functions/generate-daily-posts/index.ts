@@ -195,8 +195,10 @@ async function generateAndUploadHero(
       console.error(`Upload failed for ${slug}: ${upErr.message}`);
       return null;
     }
-    const { data: pub } = supabase.storage.from("blog-images").getPublicUrl(path);
-    return pub?.publicUrl ?? null;
+    const { data: signed } = await supabase.storage
+      .from("blog-images")
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10); // 10 años
+    return signed?.signedUrl ?? null;
   } catch (e) {
     console.error(`generateAndUploadHero error for ${slug}: ${String(e)}`);
     return null;
