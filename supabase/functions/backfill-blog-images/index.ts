@@ -29,7 +29,8 @@ async function generateAndUploadHero(
     const path = `${slug}.png`;
     const { error: upErr } = await supabase.storage.from("blog-images").upload(path, bytes, { contentType: "image/png", upsert: true });
     if (upErr) { console.error(`upload err ${slug}: ${upErr.message}`); return null; }
-    return supabase.storage.from("blog-images").getPublicUrl(path).data?.publicUrl ?? null;
+    const { data: signed } = await supabase.storage.from("blog-images").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    return signed?.signedUrl ?? null;
   } catch (e) { console.error(`hero err ${slug}: ${String(e)}`); return null; }
 }
 
