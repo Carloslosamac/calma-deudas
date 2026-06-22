@@ -305,6 +305,7 @@ Deno.serve(async (req) => {
       const now = new Date().toISOString();
       const cleanTitle = sanitizeTitle(row.titulo);
       const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
+      const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,
@@ -313,6 +314,7 @@ Deno.serve(async (req) => {
         excerpt: (article.excerpt as string) ?? "",
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
+        hero_image: heroUrl,
         hero_alt: (article.heroAlt as string) ?? cleanTitle,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
