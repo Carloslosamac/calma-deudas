@@ -29,7 +29,7 @@ const Gracias = () => {
       />
       <Header />
 
-      <main className="flex-1 bg-gradient-to-br from-background via-secondary/5 to-accent/5">
+      <main className="flex-1 bg-gradient-to-br from-background via-secondary/5 to-accent/5 pt-24 md:pt-28">
         <div className="container mx-auto px-4 py-16 md:py-20 max-w-xl">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
