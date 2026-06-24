@@ -37,8 +37,8 @@ interface GuideFields {
 const ENGAGEMENT_GUIDE: Record<number, string> = {
   0: "ENGAGEMENT 0 (LISTÍSIMO – quiere empezar/pagar ya): NO satures de dolor. Sé directo y breve, confirma que es la decisión correcta y ve al cierre y al siguiente paso de inmediato. Tono seguro y resolutivo.",
   1: "ENGAGEMENT 1 (MUY INTERESADO/A): Refuerza el valor y resuelve dudas con seguridad. Algo de urgencia, cierre suave pero firme. Mensajes claros y motivadores.",
-  2: "ENGAGEMENT 2 (DUDOSO/A): Más empatía y menos presión. Genera confianza, aterriza UNA objeción clave a la vez y demuestra control de la situación. Evita abrumar.",
-  3: "ENGAGEMENT 3 (QUIERE LIBRARSE DE LA LLAMADA): Mensajes MUY breves y baja presión. Reconecta con su dolor principal sin agobiar, no enumeres muchas consecuencias, ofrece UN único siguiente paso muy pequeño y fácil de aceptar. Prioriza no perder el contacto sobre cerrar ya.",
+  2: "ENGAGEMENT 2 (DUDOSO/A): Aplica un diagnóstico MÁS DURO. Todo tiene que sonar URGENTE: el tiempo juega en su contra, cada día que pasa empeora su situación (intereses, embargos, demandas más cerca). Rompe la duda con consecuencias concretas e inmediatas, deja claro que esperar es la peor decisión. Empatía mínima, urgencia máxima.",
+  3: "ENGAGEMENT 3 (QUIERE LIBRARSE DE LA LLAMADA): Sé TOTALMENTE TAJANTE. Plantéalo como un punto de no retorno: o asume la responsabilidad de actuar AHORA, o lo da todo por perdido y las consecuencias caerán enteras sobre ella (embargos, deuda creciendo, sin salida). Mensajes cortos, directos y sin rodeos, sin suavizar. Confronta la evasión: no actuar es elegir perderlo todo.",
 };
 
 // --- Triaje de marca (réplica de src/lib/seo/triage.ts) ---
