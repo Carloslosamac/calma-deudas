@@ -20,7 +20,6 @@ import {
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  ArrowRight,
   Copy,
   Loader2,
   Plus,
@@ -74,6 +73,8 @@ type AiResult = {
   diagnosis_client: string;
   solution_internal: ScriptCard[];
   solution_client: string;
+  approach?: string;
+  engagement?: number;
 };
 
 type SalesCaseRow = {
@@ -106,6 +107,29 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "desempleado", label: "Desempleado/a" },
   { value: "pension", label: "Pensionista" },
   { value: "otros", label: "Otros" },
+];
+
+// Engagement: 0 = listísimo para empezar/pagar; 3 = quiere librarse de la llamada.
+// Colores tomados de la referencia del cliente (morado, verde, amarillo, rojo).
+const ENGAGEMENT_LEVELS: {
+  value: number;
+  color: string;
+  label: string;
+  hint: string;
+}[] = [
+  { value: 0, color: "#8b5cf6", label: "Quiere empezar ya", hint: "Listísimo. «Quiero pagar / empezar ahora mismo.»" },
+  { value: 1, color: "#6ec07a", label: "Muy interesado/a", hint: "Engancha, pregunta y escucha. Hay que reforzar valor." },
+  { value: 2, color: "#e8c84d", label: "Dudoso/a", hint: "Tiene reservas. Más empatía, menos presión." },
+  { value: 3, color: "#d9534f", label: "Quiere colgar", hint: "«Me gustaría librarme de esta llamada cuanto antes.»" },
+];
+
+// Señales de observación que ayudan al comercial a fijar el score.
+const ENGAGEMENT_SIGNALS = [
+  "Pregunta por precio o por cómo empezar",
+  "Hace preguntas sobre el proceso y los plazos",
+  "Comparte su situación con detalle y abre el tema",
+  "Pone pegas de tiempo o intenta acortar la llamada",
+  "Se muestra distante, con prisa o a la defensiva",
 ];
 
 const emptyGuide = (): GuideFields => ({
@@ -249,6 +273,98 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
 
 const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
 
+type EngagementGateProps = {
+  value: number;
+  onChange: (v: number) => void;
+  title: string;
+  ctaLabel: string;
+  onContinue: () => void;
+  loading?: boolean;
+};
+
+// Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
+// para que la IA prepare el siguiente paso con más o menos intensidad.
+const EngagementGate = ({
+  value,
+  onChange,
+  title,
+  ctaLabel,
+  onContinue,
+  loading,
+}: EngagementGateProps) => {
+  const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
+  return (
+    <div className="space-y-4 rounded-xl border border-border bg-muted/40 p-4">
+      <div>
+        <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
+        <p className="text-xs text-muted-foreground">
+          Marca lo lista que ves a la persona para empezar. El siguiente paso se
+          preparará con un discurso más fuerte o más suave según este nivel.
+        </p>
+      </div>
+
+      <ul className="space-y-1">
+        {ENGAGEMENT_SIGNALS.map((s) => (
+          <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
+            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+            {s}
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {ENGAGEMENT_LEVELS.map((l) => {
+          const selected = value === l.value;
+          return (
+            <button
+              key={l.value}
+              type="button"
+              onClick={() => onChange(l.value)}
+              className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors ${
+                selected
+                  ? "border-foreground/40 bg-background shadow-sm"
+                  : "border-border bg-background/60 hover:bg-background"
+              }`}
+            >
+              <span
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold text-white"
+                style={{ backgroundColor: l.color }}
+              >
+                {l.value}
+              </span>
+              <span className="text-[11px] font-semibold leading-tight text-foreground">
+                {l.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {active && (
+        <p className="text-xs text-foreground/80">
+          <span
+            className="mr-1.5 inline-block h-2 w-2 rounded-full align-middle"
+            style={{ backgroundColor: active.color }}
+          />
+          {active.hint}
+        </p>
+      )}
+
+      <Button onClick={onContinue} disabled={loading} className="w-full">
+        {loading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando...
+          </>
+        ) : (
+          <>
+            <Sparkles className="mr-2 h-4 w-4" /> {ctaLabel}
+          </>
+        )}
+      </Button>
+    </div>
+  );
+};
+
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
@@ -341,6 +457,7 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
+  const [engagement, setEngagement] = useState(1);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -359,6 +476,7 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
+    setEngagement(1);
   };
 
   const loadTestCase = () => {
@@ -368,6 +486,7 @@ const AdminVentas = () => {
     setResult(TEST_CASE.result);
     setSavedId(null);
     setStep(0);
+    setEngagement(1);
     toast.success("Caso de prueba cargado");
   };
 
@@ -388,13 +507,12 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
-  const generate = async () => {
+  const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
       return;
     }
     setGenerating(true);
-    setResult(null);
     try {
       const derivedEntities = Array.from(
         new Set(guide.debts.map((d) => d.type).filter(Boolean)),
@@ -405,7 +523,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement },
       });
       if (error) throw error;
       if (data?.error) {
@@ -414,7 +532,7 @@ const AdminVentas = () => {
       }
       setResult(data as AiResult);
       setSavedId(null);
-      setStep(1);
+      setStep(nextStep);
     } catch (e) {
       toast.error("No se pudo generar el diagnóstico. Inténtalo de nuevo.");
       console.error(e);
@@ -422,6 +540,16 @@ const AdminVentas = () => {
       setGenerating(false);
     }
   };
+
+  // Paso 0 → 1: prepara el diagnóstico según el engagement.
+  const generate = () => {
+    setResult(null);
+    void runGeneration(1);
+  };
+
+  // Paso 1 → 2: re-prepara TODO el discurso (incl. solución) con el
+  // engagement actualizado, para que el siguiente paso encaje con él.
+  const proceedToSolution = () => void runGeneration(2);
 
   const saveCase = async () => {
     if (!result) return;
@@ -438,6 +566,7 @@ const AdminVentas = () => {
               new Set(guide.debts.map((d) => d.type).filter(Boolean)),
             ),
             debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+            engagement,
           } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
@@ -465,6 +594,11 @@ const AdminVentas = () => {
     setLabel(c.label);
     setCaseText(c.case_text);
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
+    setEngagement(
+      typeof (c.guide_fields as { engagement?: number })?.engagement === "number"
+        ? (c.guide_fields as { engagement?: number }).engagement!
+        : 1,
+    );
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
       diagnosis_internal: parseCards(c.diagnosis_internal),
@@ -838,17 +972,14 @@ const AdminVentas = () => {
               )}
             </div>
 
-            <Button onClick={generate} disabled={generating} className="w-full">
-              {generating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generando...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" /> Generar diagnóstico
-                </>
-              )}
-            </Button>
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes del diagnóstico"
+              ctaLabel="Generar diagnóstico"
+              onContinue={generate}
+              loading={generating}
+            />
           </Card>
         )}
 
@@ -883,12 +1014,23 @@ const AdminVentas = () => {
               client={result.diagnosis_client}
               tone="alert"
             />
-            <div className="flex justify-between pt-2">
+            {result.approach && (
+              <div className="rounded-lg border border-destructive/30 bg-background/60 p-3 text-xs text-foreground/90">
+                <span className="font-semibold text-destructive">Cómo abordar el siguiente paso: </span>
+                {result.approach}
+              </div>
+            )}
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Re-evalúa el engagement antes de la solución"
+              ctaLabel="Preparar solución"
+              onContinue={proceedToSolution}
+              loading={generating}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
-              </Button>
-              <Button onClick={() => setStep(2)}>
-                Ver solución <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
           </Card>
@@ -906,6 +1048,12 @@ const AdminVentas = () => {
               internal={result.solution_internal}
               client={result.solution_client}
             />
+            {result.approach && (
+              <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 text-xs text-foreground/90">
+                <span className="font-semibold text-foreground">Cómo abordar el siguiente paso: </span>
+                {result.approach}
+              </div>
+            )}
             <div className="flex justify-between pt-2">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
