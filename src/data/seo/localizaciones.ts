@@ -1,6 +1,6 @@
 /**
  * Cluster local de "Abogados de la Ley de Segunda Oportunidad" por ciudad.
- * 20 ciudades más grandes de España. Cada ciudad genera una landing local
+ * 26 capitales/ciudades de España. Cada ciudad genera una landing local
  * /abogados-ley-segunda-oportunidad/<ciudad> con la plantilla LocalizacionPage.
  *
  * El hub maestro local es la money page /abogados-ley-segunda-oportunidad,
@@ -293,6 +293,78 @@ const cities: Omit<
     lat: 38.2699,
     lng: -0.7126,
   },
+  {
+    slug: "oviedo",
+    name: "Oviedo",
+    rank: 21,
+    provincia: "Asturias",
+    comunidad: "Principado de Asturias",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Oviedo",
+    localNote:
+      "Oviedo es referencia judicial del centro de Asturias, donde llevamos casos de funcionarios, pensionistas y autónomos con deudas de consumo acumuladas.",
+    lat: 43.3619,
+    lng: -5.8494,
+  },
+  {
+    slug: "santander",
+    name: "Santander",
+    rank: 22,
+    provincia: "Cantabria",
+    comunidad: "Cantabria",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Santander",
+    localNote:
+      "En Santander damos servicio a toda Cantabria, con casos frecuentes de autónomos del comercio y los servicios y familias con préstamos en varias entidades.",
+    lat: 43.4623,
+    lng: -3.8099,
+  },
+  {
+    slug: "pamplona",
+    name: "Pamplona",
+    rank: 23,
+    provincia: "Navarra",
+    comunidad: "Comunidad Foral de Navarra",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Pamplona",
+    localNote:
+      "En Pamplona llevamos expedientes de toda Navarra, coordinando el proceso de segunda oportunidad con las particularidades del derecho foral navarro cuando aplica.",
+    lat: 42.8125,
+    lng: -1.6458,
+  },
+  {
+    slug: "donostia",
+    name: "Donostia-San Sebastián",
+    rank: 24,
+    provincia: "Gipuzkoa",
+    comunidad: "País Vasco",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Donostia-San Sebastián",
+    localNote:
+      "En Donostia atendemos a particulares y autónomos de toda Gipuzkoa, con casos habituales en el comercio, la hostelería y el sector servicios.",
+    lat: 43.3183,
+    lng: -1.9812,
+  },
+  {
+    slug: "burgos",
+    name: "Burgos",
+    rank: 25,
+    provincia: "Burgos",
+    comunidad: "Castilla y León",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Burgos",
+    localNote:
+      "Burgos es referencia judicial del norte de Castilla y León, donde llevamos casos de particulares y pequeños autónomos del comercio y la industria.",
+    lat: 42.3439,
+    lng: -3.6969,
+  },
+  {
+    slug: "almeria",
+    name: "Almería",
+    rank: 26,
+    provincia: "Almería",
+    comunidad: "Andalucía",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Almería",
+    localNote:
+      "En Almería damos servicio a toda la provincia, con casos frecuentes de autónomos de la agricultura intensiva, el comercio y la hostelería.",
+    lat: 36.834,
+    lng: -2.4637,
+  },
 ];
 
 /**
@@ -425,6 +497,42 @@ const localExtra: Record<
     perfilDeuda: "En Elche predominan las deudas de autónomos del calzado y la industria, y de familias con varias deudas.",
     prefijo: "966",
   },
+  oviedo: {
+    zonas: ["Centro", "La Tenderina", "Ventanielles", "Pumarín", "Mieres", "Langreo", "Siero", "Llanera"],
+    sedeJudicial: "el Palacio de Justicia de Oviedo, en la calle Comandante Caballero",
+    perfilDeuda: "En Oviedo abundan las deudas de consumo de funcionarios y pensionistas y los préstamos personales de familias.",
+    prefijo: "985",
+  },
+  santander: {
+    zonas: ["Centro", "Cazoña", "El Alisal", "Torrelavega", "Camargo", "Castro-Urdiales", "Laredo"],
+    sedeJudicial: "el Palacio de Justicia de Santander, en la avenida Pedro San Martín",
+    perfilDeuda: "En Santander predominan las deudas de autónomos del comercio y los servicios y los préstamos en varias entidades.",
+    prefijo: "942",
+  },
+  pamplona: {
+    zonas: ["Casco Viejo", "Iturrama", "San Juan", "Rochapea", "Barañáin", "Burlada", "Tudela", "Estella"],
+    sedeJudicial: "el Palacio de Justicia de Pamplona, en la avenida de Navarra",
+    perfilDeuda: "En Pamplona son frecuentes las deudas de consumo de familias y de autónomos del comercio y la industria.",
+    prefijo: "948",
+  },
+  donostia: {
+    zonas: ["Centro", "Gros", "Amara", "Antiguo", "Irún", "Errenteria", "Eibar", "Tolosa"],
+    sedeJudicial: "el Palacio de Justicia de Donostia-San Sebastián, en el paseo de los Fueros (Atotxa)",
+    perfilDeuda: "En Donostia pesan las deudas de autónomos del comercio y la hostelería y los préstamos personales acumulados.",
+    prefijo: "943",
+  },
+  burgos: {
+    zonas: ["Centro", "Gamonal", "San Pedro de la Fuente", "Miranda de Ebro", "Aranda de Duero", "Villarcayo"],
+    sedeJudicial: "el Palacio de Justicia de Burgos, en la avenida Reyes Católicos",
+    perfilDeuda: "En Burgos predominan las deudas de particulares y de pequeños autónomos del comercio y la industria.",
+    prefijo: "947",
+  },
+  almeria: {
+    zonas: ["Centro", "Zapillo", "Nueva Almería", "El Ejido", "Roquetas de Mar", "Níjar", "Vícar"],
+    sedeJudicial: "la Ciudad de la Justicia de Almería, en la carretera de Ronda",
+    perfilDeuda: "En Almería abundan las deudas de autónomos de la agricultura intensiva, el comercio y la hostelería.",
+    prefijo: "950",
+  },
 };
 
 /**
@@ -516,6 +624,30 @@ const localCases: Record<
   elche: {
     audienciaProvincial: "la Audiencia Provincial de Alicante",
     ejemploCaso: "Un caso habitual en Elche: un autónomo del calzado o la industria local que quedó con deudas tras una mala temporada y préstamos del negocio.",
+  },
+  oviedo: {
+    audienciaProvincial: "la Audiencia Provincial de Asturias",
+    ejemploCaso: "Un caso habitual en Oviedo: un pensionista o funcionario que avaló a un familiar y arrastra préstamos y tarjetas que no puede asumir.",
+  },
+  santander: {
+    audienciaProvincial: "la Audiencia Provincial de Cantabria",
+    ejemploCaso: "Un caso habitual en Santander: un autónomo del comercio que, tras bajar las ventas, quedó con préstamos del negocio y deudas en varias entidades.",
+  },
+  pamplona: {
+    audienciaProvincial: "la Audiencia Provincial de Navarra",
+    ejemploCaso: "Un caso habitual en Pamplona: una familia que fue sumando microcréditos y préstamos personales para imprevistos hasta perder el control de las cuotas.",
+  },
+  donostia: {
+    audienciaProvincial: "la Audiencia Provincial de Gipuzkoa",
+    ejemploCaso: "Un caso habitual en Donostia: un autónomo de la hostelería que cerró el negocio y quedó con préstamos y avales difíciles de asumir con su nuevo empleo.",
+  },
+  burgos: {
+    audienciaProvincial: "la Audiencia Provincial de Burgos",
+    ejemploCaso: "Un caso habitual en Burgos: un pequeño autónomo del comercio o la industria que arrastra deudas con proveedores tras una caída de actividad.",
+  },
+  almeria: {
+    audienciaProvincial: "la Audiencia Provincial de Almería",
+    ejemploCaso: "Un caso habitual en Almería: un autónomo de la agricultura intensiva que, tras una mala campaña, quedó con deudas a proveedores y préstamos del negocio.",
   },
 };
 
