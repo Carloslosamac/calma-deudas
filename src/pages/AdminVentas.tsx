@@ -150,6 +150,25 @@ const formatDate = (iso: string): string => {
 const cardsToText = (cards: ScriptCard[]): string =>
   cards.map((c) => `${c.emoji} ${c.title}\n${c.body}`).join("\n\n");
 
+const parseCards = (raw: string | null): ScriptCard[] => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .filter((c) => c && typeof c === "object")
+        .map((c) => ({
+          emoji: String(c.emoji ?? "•"),
+          title: String(c.title ?? ""),
+          body: String(c.body ?? ""),
+        }));
+    }
+  } catch {
+    /* legacy plain-text case */
+  }
+  return [{ emoji: "📝", title: "Guion", body: raw }];
+};
+
 type ResultBlockProps = {
   internal: ScriptCard[];
   client: string;
