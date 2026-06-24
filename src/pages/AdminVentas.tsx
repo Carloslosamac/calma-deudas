@@ -274,6 +274,98 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
 
 const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
 
+type EngagementGateProps = {
+  value: number;
+  onChange: (v: number) => void;
+  title: string;
+  ctaLabel: string;
+  onContinue: () => void;
+  loading?: boolean;
+};
+
+// Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
+// para que la IA prepare el siguiente paso con más o menos intensidad.
+const EngagementGate = ({
+  value,
+  onChange,
+  title,
+  ctaLabel,
+  onContinue,
+  loading,
+}: EngagementGateProps) => {
+  const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
+  return (
+    <div className="space-y-4 rounded-xl border border-border bg-muted/40 p-4">
+      <div>
+        <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
+        <p className="text-xs text-muted-foreground">
+          Marca lo lista que ves a la persona para empezar. El siguiente paso se
+          preparará con un discurso más fuerte o más suave según este nivel.
+        </p>
+      </div>
+
+      <ul className="space-y-1">
+        {ENGAGEMENT_SIGNALS.map((s) => (
+          <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
+            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+            {s}
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {ENGAGEMENT_LEVELS.map((l) => {
+          const selected = value === l.value;
+          return (
+            <button
+              key={l.value}
+              type="button"
+              onClick={() => onChange(l.value)}
+              className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors ${
+                selected
+                  ? "border-foreground/40 bg-background shadow-sm"
+                  : "border-border bg-background/60 hover:bg-background"
+              }`}
+            >
+              <span
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold text-white"
+                style={{ backgroundColor: l.color }}
+              >
+                {l.value}
+              </span>
+              <span className="text-[11px] font-semibold leading-tight text-foreground">
+                {l.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {active && (
+        <p className="text-xs text-foreground/80">
+          <span
+            className="mr-1.5 inline-block h-2 w-2 rounded-full align-middle"
+            style={{ backgroundColor: active.color }}
+          />
+          {active.hint}
+        </p>
+      )}
+
+      <Button onClick={onContinue} disabled={loading} className="w-full">
+        {loading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando...
+          </>
+        ) : (
+          <>
+            <Sparkles className="mr-2 h-4 w-4" /> {ctaLabel}
+          </>
+        )}
+      </Button>
+    </div>
+  );
+};
+
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
