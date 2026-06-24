@@ -229,7 +229,7 @@ const AdminVentas = () => {
         .insert([{
           label: label.trim() || `Caso ${new Date().toLocaleDateString("es-ES")}`,
           case_text: caseText.trim(),
-          guide_fields: guide as unknown as Record<string, unknown>,
+          guide_fields: guide as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
           diagnosis_internal: result.diagnosis_internal,
