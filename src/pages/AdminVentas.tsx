@@ -429,22 +429,77 @@ const AdminVentas = () => {
               />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="debt">Deuda total (€)</Label>
-                <Input
-                  id="debt"
-                  type="number"
-                  value={guide.debtAmount ?? ""}
-                  onChange={(e) =>
-                    setGuide((g) => ({
-                      ...g,
-                      debtAmount: e.target.value ? Number(e.target.value) : undefined,
-                    }))
-                  }
-                  placeholder="15000"
-                />
+            {/* Deudas por entidad */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label>Deudas por entidad</Label>
+                <Button type="button" variant="outline" size="sm" onClick={addDebt}>
+                  <Plus className="mr-1 h-4 w-4" /> Añadir entidad
+                </Button>
               </div>
+              {guide.debts.length === 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Añade cada entidad con su tipo y el importe que se le debe.
+                </p>
+              )}
+              <div className="space-y-3">
+                {guide.debts.map((d, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-1 gap-2 rounded-lg border border-border p-3 sm:grid-cols-[1fr_1fr_auto]"
+                  >
+                    <div className="space-y-1">
+                      <Select
+                        value={d.type}
+                        onValueChange={(v) => updateDebt(i, { type: v })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Tipo de deuda" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ENTITY_OPTIONS.map((o) => (
+                            <SelectItem key={o.value} value={o.value}>
+                              {o.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        value={d.entity}
+                        onChange={(e) => updateDebt(i, { entity: e.target.value })}
+                        placeholder="Entidad (ej. WiZink, Cetelem...)"
+                      />
+                    </div>
+                    <Input
+                      type="number"
+                      value={d.amount ?? ""}
+                      onChange={(e) =>
+                        updateDebt(i, {
+                          amount: e.target.value ? Number(e.target.value) : undefined,
+                        })
+                      }
+                      placeholder="Importe (€)"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeDebt(i)}
+                      aria-label="Eliminar entidad"
+                    >
+                      <Trash2 className="h-4 w-4 text-muted-foreground" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              {guide.debts.length > 0 && (
+                <p className="text-sm font-semibold text-foreground">
+                  Deuda total: {debtsTotal.toLocaleString("es-ES")} €
+                </p>
+              )}
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="income">Ingresos mensuales (€)</Label>
                 <Input
@@ -459,6 +514,26 @@ const AdminVentas = () => {
                   }
                   placeholder="1200"
                 />
+              </div>
+              <div className="space-y-2">
+                <Label>Situación laboral</Label>
+                <Select
+                  value={guide.employment ?? ""}
+                  onValueChange={(v) =>
+                    setGuide((g) => ({ ...g, employment: v as Employment }))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {EMPLOYMENT_OPTIONS.map((o) => (
+                      <SelectItem key={o.value} value={o.value}>
+                        {o.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -482,60 +557,144 @@ const AdminVentas = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Tipo de deudas</Label>
+            {/* Vivienda */}
+            <div className="space-y-3 rounded-lg border border-border p-3">
+              <Label>Vivienda</Label>
               <div className="flex flex-wrap gap-2">
-                {ENTITY_OPTIONS.map((o) => (
+                {(["propiedad", "hipoteca", "alquiler"] as const).map((h) => (
                   <Button
-                    key={o.value}
+                    key={h}
                     type="button"
-                    variant={guide.entities.includes(o.value) ? "default" : "outline"}
+                    variant={guide.housing === h ? "default" : "outline"}
                     size="sm"
-                    onClick={() => toggleEntity(o.value)}
+                    onClick={() =>
+                      setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))
+                    }
                   >
-                    {o.label}
+                    {h}
                   </Button>
                 ))}
               </div>
+              {(guide.housing === "propiedad" || guide.housing === "hipoteca") && (
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs">Valor estimado (€)</Label>
+                    <Input
+                      type="number"
+                      value={guide.housingValue ?? ""}
+                      onChange={(e) =>
+                        setGuide((g) => ({
+                          ...g,
+                          housingValue: e.target.value ? Number(e.target.value) : undefined,
+                        }))
+                      }
+                      placeholder="180000"
+                    />
+                  </div>
+                  {guide.housing === "hipoteca" && (
+                    <>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Pagado (€)</Label>
+                        <Input
+                          type="number"
+                          value={guide.mortgagePaid ?? ""}
+                          onChange={(e) =>
+                            setGuide((g) => ({
+                              ...g,
+                              mortgagePaid: e.target.value ? Number(e.target.value) : undefined,
+                            }))
+                          }
+                          placeholder="40000"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Pendiente (€)</Label>
+                        <Input
+                          type="number"
+                          value={guide.mortgageRemaining ?? ""}
+                          onChange={(e) =>
+                            setGuide((g) => ({
+                              ...g,
+                              mortgageRemaining: e.target.value ? Number(e.target.value) : undefined,
+                            }))
+                          }
+                          placeholder="120000"
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Vivienda</Label>
-                <div className="flex flex-wrap gap-2">
-                  {(["propiedad", "hipoteca", "alquiler"] as const).map((h) => (
-                    <Button
-                      key={h}
-                      type="button"
-                      variant={guide.housing === h ? "default" : "outline"}
-                      size="sm"
-                      onClick={() =>
-                        setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))
-                      }
-                    >
-                      {h}
-                    </Button>
-                  ))}
-                </div>
+            {/* Vehículo */}
+            <div className="space-y-3 rounded-lg border border-border p-3">
+              <Label>Vehículo</Label>
+              <div className="flex flex-wrap gap-2">
+                {(["propiedad", "financiado", "no"] as const).map((v) => (
+                  <Button
+                    key={v}
+                    type="button"
+                    variant={guide.vehicle === v ? "default" : "outline"}
+                    size="sm"
+                    onClick={() =>
+                      setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))
+                    }
+                  >
+                    {v}
+                  </Button>
+                ))}
               </div>
-              <div className="space-y-2">
-                <Label>Vehículo</Label>
-                <div className="flex flex-wrap gap-2">
-                  {(["propiedad", "financiado", "no"] as const).map((v) => (
-                    <Button
-                      key={v}
-                      type="button"
-                      variant={guide.vehicle === v ? "default" : "outline"}
-                      size="sm"
-                      onClick={() =>
-                        setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))
+              {(guide.vehicle === "propiedad" || guide.vehicle === "financiado") && (
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs">Valor estimado (€)</Label>
+                    <Input
+                      type="number"
+                      value={guide.vehicleValue ?? ""}
+                      onChange={(e) =>
+                        setGuide((g) => ({
+                          ...g,
+                          vehicleValue: e.target.value ? Number(e.target.value) : undefined,
+                        }))
                       }
-                    >
-                      {v}
-                    </Button>
-                  ))}
+                      placeholder="9000"
+                    />
+                  </div>
+                  {guide.vehicle === "financiado" && (
+                    <>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Pagado (€)</Label>
+                        <Input
+                          type="number"
+                          value={guide.vehiclePaid ?? ""}
+                          onChange={(e) =>
+                            setGuide((g) => ({
+                              ...g,
+                              vehiclePaid: e.target.value ? Number(e.target.value) : undefined,
+                            }))
+                          }
+                          placeholder="3000"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Pendiente (€)</Label>
+                        <Input
+                          type="number"
+                          value={guide.vehicleRemaining ?? ""}
+                          onChange={(e) =>
+                            setGuide((g) => ({
+                              ...g,
+                              vehicleRemaining: e.target.value ? Number(e.target.value) : undefined,
+                            }))
+                          }
+                          placeholder="6000"
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
 
             <Button onClick={generate} disabled={generating} className="w-full">
