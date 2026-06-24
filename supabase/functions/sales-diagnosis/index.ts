@@ -137,20 +137,20 @@ ${campos || "(sin datos estructurados adicionales)"}
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
 
-Genera CUATRO textos en español de España:
+Genera CUATRO salidas en español de España:
 
-1. diagnosis_internal (GUION INTERNO para el comercial): puntos de dolor y consecuencias REALES de NO actuar (embargos de nómina/cuentas, inclusión en ASNEF, intereses de demora que disparan la deuda, llamadas y presión de acreedores, posibles demandas/monitorios, estrés familiar). Tono directo, con argumentos y posibles objeciones a anticipar. Crea urgencia con la realidad, sin mentir ni inventar cifras.
+1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos. Cada objeto tiene { "emoji": string, "title": string, "body": string }. Cada tarjeta cubre un bloque de dolor/consecuencia REAL de NO actuar (p. ej. embargos de nómina/cuentas, inclusión en ASNEF, intereses de demora que disparan la deuda, presión y llamadas de acreedores, demandas/monitorios, desgaste familiar y emocional). El "emoji" debe ser relevante (⚠️ 🏦 📉 📞 ⚖️ 😟 etc.). El "title" es corto y contundente. El "body" es el argumento para el comercial, con la objeción a anticipar incluida. Crea urgencia con la realidad, sin mentir ni inventar cifras.
 
-2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): mismas consecuencias pero en segunda persona ("tú"), empático pero honesto sobre la gravedad. Listo para copiar y pegar.
+2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string. Mismas consecuencias pero en segunda persona ("tú"), empático pero honesto sobre la gravedad. Listo para copiar y pegar.
 
-3. solution_internal (GUION INTERNO): cómo presentar la solución (${t.title}), el alivio que aporta, qué hacemos exactamente y los siguientes pasos. Incluye cómo conectar el dolor del diagnóstico con el alivio.
+3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 3 a 5 objetos con la misma forma { "emoji", "title", "body" }. Cubre cómo presentar la solución (${t.title}), el alivio que aporta, qué hacemos exactamente y los siguientes pasos. Conecta el dolor del diagnóstico con el alivio. Usa emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀 etc.).
 
-4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): en segunda persona, transmite alivio y esperanza realista, explica qué podemos hacer y el siguiente paso (análisis gratuito). Listo para copiar y pegar.
+4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string. En segunda persona, transmite alivio y esperanza realista, explica qué podemos hacer y el siguiente paso (análisis gratuito). Listo para copiar y pegar.
 
 REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, etc.).
 - Respeta estrictamente la descripción de la solución recomendada.
-- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal, diagnosis_client, solution_internal, solution_client. Sin markdown, sin texto extra.`;
+- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string). Sin markdown, sin texto extra.`;
 }
 
 Deno.serve(async (req) => {
