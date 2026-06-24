@@ -762,16 +762,17 @@ const AdminVentas = () => {
 
         {/* Step 2: Diagnóstico */}
         {step === 1 && result && (
-          <Card className="space-y-4 p-6">
+          <Card className="space-y-4 border-destructive/30 bg-destructive/5 p-6">
             <div className="flex items-center justify-between">
-              <h2 className="font-poppins text-lg font-bold text-foreground">
-                Diagnóstico · consecuencias de no actuar
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
+                <AlertTriangle className="h-5 w-5" /> Diagnóstico · consecuencias de no actuar
               </h2>
-              <Badge variant="secondary">{result.triage.title}</Badge>
+              <Badge variant="destructive">{result.triage.title}</Badge>
             </div>
             <ResultBlock
               internal={result.diagnosis_internal}
               client={result.diagnosis_client}
+              tone="alert"
             />
             <div className="flex justify-between pt-2">
               <Button variant="outline" onClick={() => setStep(0)}>
