@@ -20,7 +20,6 @@ import {
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  ArrowRight,
   Copy,
   Loader2,
   Plus,
