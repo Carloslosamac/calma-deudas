@@ -89,6 +89,7 @@ REGLAS EDITORIALES INNEGOCIABLES:
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo (eso es refinanciar, que es lo contrario).
 - Tono empático, claro, sin tecnicismos innecesarios. Cero promesas garantizadas.
 - Todo CTA invita a la valoración gratuita; el botón lleva al formulario (#hero-form).
+- TÍTULOS (seoTitle) AGRESIVOS PARA CTR (innegociable): patrón = 1 emoji temático al inicio + keyword principal + palabra de urgencia/poder (YA, TODO, CERO, así, sin…, paso a paso). Máximo 60 caracteres VISUALES contando el emoji. Sin marca. Emojis sugeridos: ⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores. Prohibido empezar con «Guía», «Requisitos», «Documentación» u otros arranques planos.
 
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown, sin comentarios) con esta forma exacta:
 {
