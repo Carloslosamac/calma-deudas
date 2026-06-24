@@ -5,6 +5,27 @@ import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+
+// Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget:
+// nunca debe romper la generación si falla.
+async function notifyIndexNow(slugs: string[]): Promise<void> {
+  if (!slugs.length) return;
+  try {
+    const urls = slugs.map((s) => `/blog/${s}`);
+    await fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: ANON_KEY,
+        Authorization: `Bearer ${ANON_KEY}`,
+      },
+      body: JSON.stringify({ urls }),
+    });
+  } catch (e) {
+    console.error("notifyIndexNow (posts) error:", String(e));
+  }
+}
 
 const AUTHOR_IDS = [
   "marta-belmonte",
