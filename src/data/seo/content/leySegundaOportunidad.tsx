@@ -514,5 +514,61 @@ export const leySegundaOportunidad: MoneyContent = {
       plain:
         "Sí. La ley está pensada tanto para particulares como para autónomos de buena fe en situación de insolvencia. Valoramos también el concurso de persona física cuando encaja mejor.",
     },
+    {
+      q: "¿Qué es exactamente la Ley de Segunda Oportunidad?",
+      a: (
+        <>Es un mecanismo legal en España que permite a particulares y autónomos de buena fe e insolventes cancelar las deudas que no pueden pagar. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos.</>
+      ),
+      plain:
+        "Es un mecanismo legal en España que permite a particulares y autónomos de buena fe e insolventes cancelar las deudas que no pueden pagar. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos.",
+    },
+    {
+      q: "¿Qué requisitos hay que cumplir?",
+      a: (
+        <>Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haberte beneficiado de la exoneración en los últimos años. En el diagnóstico gratuito confirmamos si cumples.</>
+      ),
+      plain:
+        "Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haberte beneficiado de la exoneración en los últimos años. En el diagnóstico gratuito confirmamos si cumples.",
+    },
+    {
+      q: "¿Es fiable la Ley de Segunda Oportunidad?",
+      a: (
+        <>Sí. Es una ley estatal en vigor desde 2015 (y reforzada por la reforma concursal de 2022) que han aplicado miles de personas en España a través de los juzgados. No es una promesa comercial: es un procedimiento judicial real.</>
+      ),
+      plain:
+        "Sí. Es una ley estatal en vigor desde 2015 (y reforzada por la reforma concursal de 2022) que han aplicado miles de personas en España a través de los juzgados. No es una promesa comercial: es un procedimiento judicial real.",
+    },
+    {
+      q: "¿Quién puede acogerse a la Ley de Segunda Oportunidad?",
+      a: (
+        <>Cualquier persona física —particular o autónomo— que sea insolvente, actúe de buena fe y no tenga bienes suficientes con los que afrontar sus deudas. No es necesario ser empresario ni tener un tipo concreto de deuda.</>
+      ),
+      plain:
+        "Cualquier persona física —particular o autónomo— que sea insolvente, actúe de buena fe y no tenga bienes suficientes con los que afrontar sus deudas. No es necesario ser empresario ni tener un tipo concreto de deuda.",
+    },
+    {
+      q: "¿Me pueden embargar el coche o la nómina durante el proceso?",
+      a: (
+        <>Al iniciar el procedimiento se pueden suspender los embargos en curso, incluidos los de nómina y los bienes. Lo valoramos caso a caso para frenar la presión de los acreedores cuanto antes.</>
+      ),
+      plain:
+        "Al iniciar el procedimiento se pueden suspender los embargos en curso, incluidos los de nómina y los bienes. Lo valoramos caso a caso para frenar la presión de los acreedores cuanto antes.",
+    },
+    {
+      q: "¿Puedo acogerme dos veces a la Ley de Segunda Oportunidad?",
+      a: (
+        <>Sí. La ley no impide acogerse más de una vez, aunque deben respetarse los plazos legales entre una exoneración y la siguiente. Lo revisamos en el diagnóstico según tu historial.</>
+      ),
+      plain:
+        "Sí. La ley no impide acogerse más de una vez, aunque deben respetarse los plazos legales entre una exoneración y la siguiente. Lo revisamos en el diagnóstico según tu historial.",
+    },
+    {
+      q: "¿Qué pasa después de la Ley de Segunda Oportunidad?",
+      a: (
+        <>Quedas libre de las deudas exoneradas y sales de los ficheros de morosos vinculados a ellas, lo que te permite reconstruir tu vida financiera: abrir cuentas, ahorrar y volver a tener acceso al crédito con el tiempo.</>
+      ),
+      plain:
+        "Quedas libre de las deudas exoneradas y sales de los ficheros de morosos vinculados a ellas, lo que te permite reconstruir tu vida financiera: abrir cuentas, ahorrar y volver a tener acceso al crédito con el tiempo.",
+    },
   ],
 };
