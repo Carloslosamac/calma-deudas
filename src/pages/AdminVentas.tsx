@@ -595,6 +595,11 @@ const AdminVentas = () => {
     setLabel(c.label);
     setCaseText(c.case_text);
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
+    setEngagement(
+      typeof (c.guide_fields as { engagement?: number })?.engagement === "number"
+        ? (c.guide_fields as { engagement?: number }).engagement!
+        : 1,
+    );
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
       diagnosis_internal: parseCards(c.diagnosis_internal),
