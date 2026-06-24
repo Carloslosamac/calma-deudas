@@ -478,9 +478,10 @@ Deno.serve(async (req) => {
         })
         .eq("id", runId);
     }
+    console.log(`Títulos reescritos para cumplir el patrón CTR: ${titlesRewritten}/${published.length}`);
 
     return new Response(
-      JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed }),
+      JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed, titlesRewritten }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
