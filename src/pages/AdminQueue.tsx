@@ -261,6 +261,11 @@ const AdminQueue = () => {
                 <Activity className="mr-2 h-4 w-4" /> Estado
               </Link>
             </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/indexacion">
+                <Search className="mr-2 h-4 w-4" /> Indexación
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
               <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
             </Button>
