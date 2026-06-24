@@ -216,7 +216,7 @@ Deno.serve(async (req) => {
 
     const aiData = await aiRes.json();
     const content = aiData?.choices?.[0]?.message?.content ?? "{}";
-    let parsed: Record<string, string> = {};
+    let parsed: Record<string, unknown> = {};
     try {
       parsed = JSON.parse(content);
     } catch (_e) {
@@ -224,13 +224,25 @@ Deno.serve(async (req) => {
       parsed = match ? JSON.parse(match[0]) : {};
     }
 
+    const asCards = (v: unknown) =>
+      Array.isArray(v)
+        ? v
+            .filter((c) => c && typeof c === "object")
+            .map((c) => ({
+              emoji: String((c as Record<string, unknown>).emoji ?? "•"),
+              title: String((c as Record<string, unknown>).title ?? ""),
+              body: String((c as Record<string, unknown>).body ?? ""),
+            }))
+        : [];
+    const asText = (v: unknown) => (typeof v === "string" ? v : "");
+
     return new Response(
       JSON.stringify({
         triage: t,
-        diagnosis_internal: parsed.diagnosis_internal ?? "",
-        diagnosis_client: parsed.diagnosis_client ?? "",
-        solution_internal: parsed.solution_internal ?? "",
-        solution_client: parsed.solution_client ?? "",
+        diagnosis_internal: asCards(parsed.diagnosis_internal),
+        diagnosis_client: asText(parsed.diagnosis_client),
+        solution_internal: asCards(parsed.solution_internal),
+        solution_client: asText(parsed.solution_client),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
