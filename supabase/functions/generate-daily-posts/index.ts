@@ -501,6 +501,8 @@ Deno.serve(async (req) => {
     }
     console.log(`Títulos reescritos para cumplir el patrón CTR: ${titlesRewritten}/${published.length}`);
 
+    await notifyIndexNow(published);
+
     return new Response(
       JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed, titlesRewritten }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
