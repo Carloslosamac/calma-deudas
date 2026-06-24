@@ -69,6 +69,9 @@ export const entities: Entity[] = [
   { slug: "cashgo", name: "CashGo", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
   { slug: "money24", name: "Money24", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
   { slug: "creditomovil", name: "Crédito Móvil", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
+  { slug: "younited", name: "Younited Credit", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
+  { slug: "creditstart", name: "Creditstart", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
+  { slug: "plazo", name: "Plazo", kind: "microcredito", cluster: "microcreditos-prestamos", solutionPath: "/microcreditos-prestamos/cancelar-microcreditos" },
   // Tarjetas revolving
   { slug: "wizink", name: "WiZink", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { slug: "cetelem", name: "Cetelem", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
@@ -95,6 +98,8 @@ export const entities: Entity[] = [
   { slug: "imagin-card", name: "imagin (Pago a plazos)", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { slug: "repsol-mastercard", name: "Repsol Mastercard", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   { slug: "cepsa-starresa", name: "Tarjeta Cepsa StarRessa", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
+  { slug: "el-corte-ingles", name: "Tarjeta de Compra El Corte Inglés", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
+  { slug: "vueling-iberia-card", name: "Tarjeta Iberia / Vueling (Avios)", kind: "revolving", cluster: "tarjetas-revolving", solutionPath: "/tarjetas-revolving/cancelar-tarjetas-revolving" },
   // Bancos
   { slug: "santander", name: "Banco Santander", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
   { slug: "bbva", name: "BBVA", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
@@ -123,6 +128,9 @@ export const entities: Entity[] = [
   { slug: "n26", name: "N26", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
   { slug: "wizink-bank", name: "WiZink Bank", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
   { slug: "cooperativo-caja-rural", name: "Caja Rural", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
+  { slug: "targobank", name: "TargoBank", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
+  { slug: "pibank", name: "Pibank", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
+  { slug: "banco-cetelem", name: "Banco Cetelem", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
 ];
 
 export const entitiesByCluster = (clusterSlug: string): Entity[] =>
