@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Activity, LogOut, Play, RefreshCw } from "lucide-react";
+import { Activity, LogOut, Play, RefreshCw, Search } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
 type RoadmapRow = {
