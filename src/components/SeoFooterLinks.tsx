@@ -50,16 +50,23 @@ const SeoFooterLinks = () => {
     label: c.label,
   }));
 
-  const entidades: Item[] = entities.map((e) => ({
-    to: `/${e.cluster}/${e.slug}`,
-    label: e.name,
-  }));
-
   const recursos: Item[] = [
     ...comparativas.map((c) => ({ to: c.path, label: c.label })),
     ...guias.map((g) => ({ to: g.path, label: g.label })),
     ...tools.map((t) => ({ to: t.path, label: t.navLabel })),
   ];
+
+  // Selección de entidades destacadas (las fichas completas se enlazan desde
+  // cada hub de cluster; aquí mostramos solo las de mayor búsqueda para no
+  // inflar el footer con 100+ enlaces).
+  const entidadesDestacadas = [
+    "cofidis", "cetelem", "wizink", "vivus", "creditea", "moneyman",
+    "kruk", "intrum", "santander", "bbva", "caixabank", "sabadell",
+  ];
+  const entidades: Item[] = entidadesDestacadas
+    .map((slug) => entities.find((e) => e.slug === slug))
+    .filter((e): e is (typeof entities)[number] => Boolean(e))
+    .map((e) => ({ to: `/${e.cluster}/${e.slug}`, label: e.name }));
 
   const ciudades: Item[] = [...localizaciones]
     .sort((a, b) => a.rank - b.rank)
