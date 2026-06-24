@@ -289,7 +289,12 @@ const AdminVentas = () => {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <Seo title="Ventas · Diagnóstico" description="Herramienta interna de ventas" noindex />
+      <Seo
+        title="Ventas · Diagnóstico"
+        description="Herramienta interna de ventas"
+        canonical="/admin/ventas"
+        robots="noindex,nofollow"
+      />
       <div className="mx-auto max-w-3xl">
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
