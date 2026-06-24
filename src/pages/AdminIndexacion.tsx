@@ -1,0 +1,257 @@
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import {
+  ArrowLeft,
+  ExternalLink,
+  RefreshCw,
+  Search,
+  LogOut,
+} from "lucide-react";
+import Seo from "@/components/seo/Seo";
+
+const SITEMAP_URL = "https://mi-calma.es/sitemap.xml";
+const GSC_INSPECT = "https://search.google.com/search-console/inspect?resource_id=" +
+  encodeURIComponent("sc-domain:mi-calma.es") + "&id=";
+
+type IndexItem = {
+  url: string;
+  priority: number;
+};
+
+type PriorityGroup = {
+  label: string;
+  hint: string;
+  badgeClass: string;
+  items: IndexItem[];
+};
+
+const groupFor = (p: number): "alta" | "media" | "baja" => {
+  if (p >= 0.8) return "alta";
+  if (p >= 0.6) return "media";
+  return "baja";
+};
+
+const GROUP_META: Record<string, { label: string; hint: string; badgeClass: string }> = {
+  alta: {
+    label: "Prioridad alta",
+    hint: "Páginas de dinero y servicios principales. Pídelas primero.",
+    badgeClass: "bg-destructive/10 text-destructive border-destructive/20",
+  },
+  media: {
+    label: "Prioridad media",
+    hint: "Guías, comparativas, localizaciones y herramientas.",
+    badgeClass: "bg-accent/10 text-accent-deep border-accent/20",
+  },
+  baja: {
+    label: "Prioridad baja",
+    hint: "Resto de contenido. Google las descubrirá por el sitemap.",
+    badgeClass: "bg-muted text-muted-foreground border-border",
+  },
+};
+
+async function fetchSitemap(): Promise<IndexItem[]> {
+  const res = await fetch(SITEMAP_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error("No se pudo leer el sitemap");
+  const xml = await res.text();
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  const urls = Array.from(doc.querySelectorAll("url"));
+  const items: IndexItem[] = urls.map((u) => {
+    const loc = u.querySelector("loc")?.textContent?.trim() ?? "";
+    const priorityText = u.querySelector("priority")?.textContent?.trim();
+    const priority = priorityText ? parseFloat(priorityText) : 0.5;
+    return { url: loc, priority: Number.isFinite(priority) ? priority : 0.5 };
+  }).filter((i) => i.url);
+  // Orden por prioridad descendente y luego alfabético
+  items.sort((a, b) => b.priority - a.priority || a.url.localeCompare(b.url));
+  return items;
+}
+
+const AdminIndexacion = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { session, isAdmin, loading } = useAdminAuth();
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    if (!loading && !session) navigate("/admin/auth", { replace: true });
+  }, [loading, session, navigate]);
+
+  const { data: items = [], isFetching, refetch } = useQuery({
+    queryKey: ["sitemap-index"],
+    queryFn: fetchSitemap,
+    enabled: !!session && isAdmin,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: checks = {} } = useQuery({
+    queryKey: ["index-checks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("seo_index_checks")
+        .select("url, done");
+      if (error) throw error;
+      const map: Record<string, boolean> = {};
+      (data ?? []).forEach((row) => {
+        map[row.url] = row.done;
+      });
+      return map;
+    },
+    enabled: !!session && isAdmin,
+  });
+
+  const toggle = async (url: string, done: boolean) => {
+    // Optimista
+    queryClient.setQueryData<Record<string, boolean>>(["index-checks"], (prev) => ({
+      ...(prev ?? {}),
+      [url]: done,
+    }));
+    const { error } = await supabase
+      .from("seo_index_checks")
+      .upsert(
+        { url, done, done_at: done ? new Date().toISOString() : null },
+        { onConflict: "url" },
+      );
+    if (error) {
+      toast.error("No se pudo guardar el cambio");
+      queryClient.invalidateQueries({ queryKey: ["index-checks"] });
+    }
+  };
+
+  const groups = useMemo<PriorityGroup[]>(() => {
+    const q = query.trim().toLowerCase();
+    const filtered = q ? items.filter((i) => i.url.toLowerCase().includes(q)) : items;
+    const buckets: Record<string, IndexItem[]> = { alta: [], media: [], baja: [] };
+    filtered.forEach((i) => buckets[groupFor(i.priority)].push(i));
+    return (["alta", "media", "baja"] as const).map((key) => ({
+      ...GROUP_META[key],
+      items: buckets[key],
+    }));
+  }, [items, query]);
+
+  const total = items.length;
+  const doneCount = items.filter((i) => checks[i.url]).length;
+  const pct = total ? Math.round((doneCount / total) * 100) : 0;
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/admin/auth", { replace: true });
+  };
+
+  if (loading) {
+    return <div className="flex min-h-screen items-center justify-center text-muted-foreground">Cargando…</div>;
+  }
+
+  if (session && !isAdmin) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
+        <Seo title="Sin permisos" description="Acceso restringido." robots="noindex,nofollow" canonical="/admin/indexacion" />
+        <h1 className="font-poppins text-2xl font-semibold text-foreground">Sin permisos de administrador</h1>
+        <Button variant="outline" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" /> Cerrar sesión
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background px-6 py-10">
+      <Seo title="Indexación en Google" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/indexacion" />
+      <div className="mx-auto max-w-4xl">
+        <Link to="/admin" className="mb-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" /> Volver a la cola
+        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-poppins text-3xl font-semibold tracking-tight text-foreground">
+              Indexación en Google
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Lista de páginas por prioridad para «Solicitar indexación» en Search Console. Marca cada una al pedirla.
+            </p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
+            <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
+          </Button>
+        </div>
+
+        <Card className="mt-6 p-5">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm font-medium text-foreground">
+              {doneCount} de {total} solicitadas
+            </p>
+            <span className="text-sm font-semibold text-foreground">{pct}%</span>
+          </div>
+          <Progress value={pct} className="mt-3" />
+        </Card>
+
+        <div className="relative mt-6">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Filtrar por URL…"
+            className="w-full rounded-md border border-input bg-background py-2 pl-9 pr-3 text-sm outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+          />
+        </div>
+
+        {groups.map((group) =>
+          group.items.length === 0 ? null : (
+            <div key={group.label} className="mt-8">
+              <div className="flex items-center gap-3">
+                <Badge variant="outline" className={group.badgeClass}>
+                  {group.label}
+                </Badge>
+                <span className="text-xs text-muted-foreground">{group.hint}</span>
+                <span className="ml-auto text-xs text-muted-foreground">
+                  {group.items.filter((i) => checks[i.url]).length}/{group.items.length}
+                </span>
+              </div>
+              <Card className="mt-3 divide-y divide-border">
+                {group.items.map((item) => {
+                  const done = !!checks[item.url];
+                  const path = item.url.replace("https://mi-calma.es", "") || "/";
+                  return (
+                    <label
+                      key={item.url}
+                      className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-muted/40"
+                    >
+                      <Checkbox
+                        checked={done}
+                        onCheckedChange={(v) => toggle(item.url, v === true)}
+                      />
+                      <span
+                        className={`flex-1 truncate text-sm ${done ? "text-muted-foreground line-through" : "text-foreground"}`}
+                      >
+                        {path}
+                      </span>
+                      <a
+                        href={GSC_INSPECT + encodeURIComponent(item.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-xs text-accent-deep hover:underline"
+                      >
+                        Inspeccionar <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </label>
+                  );
+                })}
+              </Card>
+            </div>
+          ),
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AdminIndexacion;
