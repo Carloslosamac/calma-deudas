@@ -1,6 +1,6 @@
 /**
  * Cluster local de "Abogados de la Ley de Segunda Oportunidad" por ciudad.
- * 20 ciudades más grandes de España. Cada ciudad genera una landing local
+ * 26 capitales/ciudades de España. Cada ciudad genera una landing local
  * /abogados-ley-segunda-oportunidad/<ciudad> con la plantilla LocalizacionPage.
  *
  * El hub maestro local es la money page /abogados-ley-segunda-oportunidad,
