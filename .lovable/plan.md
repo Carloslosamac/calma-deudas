@@ -1,61 +1,53 @@
-## Objetivo
+# Objetivo: meter todo el catálogo en el índice de Google
 
-Convertir Calma en una "bestia SEO" para deudas/Ley de Segunda Oportunidad: maximizar indexación, autoridad temática y CTR para arrebatar tráfico al líder (reparatudeuda), que hoy concentra ~50% de su tráfico en 2 páginas. No reinventamos la arquitectura (ya es sólida): la reforzamos por capas, de mayor a menor impacto.
+Diagnóstico confirmado vía Google Search Console:
+- Search Console verificado ✅, sitemap enviado ✅, **home indexada** ✅.
+- **Resto de páginas: "URL desconocida para Google"** (ni rastreadas ni indexadas).
+- Solo apareces para búsquedas de marca. Cero keywords no-marca.
 
-## Diagnóstico de partida
+El cuello de botella NO es producir más contenido: es que Google solo conoce 1 de tus ~200 páginas. Este plan ataca eso.
 
-- Scanner técnico: 0 findings (base limpia).
-- `mi-calma.es` aún sin datos en Semrush → falta indexación/autoridad, no estructura.
-- Término cabecera "ley de segunda oportunidad": 14.800/mes, KD 52.
-- Competidor saca el grueso del tráfico de su money page LSO + home, y rankea #1 en marcas de financieras (cofidis, cetelem, creditea, moneyman) y combos ciudad+banco.
-- Calma ya tiene: 103 entidades, 21 localizaciones, 7 tools, 5 guías, 4 comparativas, blog autogenerado + casos.
+## 1. Auditar y reforzar el sitemap
 
-## Fase 1 — Fundas técnicas de indexación y datos estructurados (máxima prioridad)
+- Verificar que `public/sitemap.xml` lista las ~214 URLs reales (en vivo se leen ~200; cuadrar la diferencia).
+- Añadir `<lastmod>` real y `<priority>` coherente a cada URL (las páginas dinámicas deben llevar fecha para que Google priorice rastreo).
+- Confirmar que el sitemap de blog (`sitemap-blog` edge function) devuelve todas las URLs de posts y está bien formado.
+- Reenviar ambos sitemaps a Search Console vía API tras los cambios.
 
-1. **Auditar sitemap**: confirmar que `scripts/generate-sitemap.ts` incluye TODAS las rutas dinámicas reales (blog generado en BD, casos generados, 103 entidades, localizaciones, tools, guías, comparativas). Si el sitemap es estático o se queda corto, migrar a generación completa que lea también `generated_posts` y `generated_casos`.
-2. **Datos estructurados por plantilla** (JSON-LD vía Helmet, apilables):
-   - `Article` + `BreadcrumbList` en cada post de blog y caso.
-   - `FAQPage` en toda página con FAQ (blog, money, guías).
-   - `LegalService`/`LocalBusiness` en money pages y localizaciones (ciudad).
-   - `WebSite` + `Organization` sitewide en `index.html` (verificar que existe).
-3. **Verificar canonical + og:url self-referenciales** en todas las plantillas dinámicas (que no apunten a home).
+## 2. Maximizar la descubribilidad de enlaces internos (clave en una SPA)
 
-## Fase 2 — Reforzar la money page cabecera (la que mueve el dinero)
+Google descubre páginas siguiendo enlaces, no solo el sitemap. En una SPA React esto es crítico:
 
-La página LSO es la que decide la guerra. Elevar `/ley-segunda-oportunidad` (hub money) al máximo:
-- Cobertura answer-first (TLDR + key takeaways) para las question keywords de alto volumen ("qué es", "requisitos", "pierdo mi casa", "cuánto cuesta", "es fiable").
-- Módulos interactivos ya existentes bien colocados (simulador, quiz de elegibilidad, comparador) para tiempo de permanencia y AEO.
-- Bloque FAQ ampliado con las 10-15 preguntas reales de Semrush.
-- Enlazado interno potente hacia entidades, localizaciones y blog LSO (topical authority).
+- Asegurar que desde la **home y el footer** haya enlaces `<a href>` reales (no solo `onClick`) hacia los hubs principales: Ley Segunda Oportunidad, blog, reunificación, y los índices de ciudades/entidades.
+- Crear/verificar **páginas índice rastreables** que enlacen a las 200+ páginas hijas (ej. `/abogados-segunda-oportunidad` listando todas las ciudades, índice de entidades), para que Googlebot las alcance en 1-2 saltos desde la home.
+- Revisar que los enlaces internos existentes usen `<Link>`/`<a href>` que renderizan a `<a>` con href crawleable.
 
-## Fase 3 — Capturar GEO/AEO (motores de IA + answer boxes)
+## 3. Forzar indexación de las páginas prioritarias
 
-- Revisar `public/llms.txt` y ampliarlo con las entidades y páginas clave.
-- Asegurar que cada money/guía tiene un `tldr` answer-first y `FAQPage` schema (ya estándar en blog; extender a money pages que falten).
-- Crear/mejorar un bloque de "respuesta directa" arriba en las plantillas money y guía.
+- Usar la inspección de URL de Search Console para comprobar el estado de un lote de páginas clave (money pages + top ciudades).
+- Entregarte la lista exacta de URLs prioritarias para que pulses **"Solicitar indexación"** en Search Console (la API de indexación no está disponible por el gateway; este paso es manual pero rapidísimo para 10-15 URLs top).
 
-## Fase 4 — Explotar las dos minas del competidor
+## 4. Verificar render para Googlebot
 
-1. **Entidades de financieras**: verificar que las 103 entidades cubren las marcas que rankea el competidor (cofidis, cetelem, creditea, moneyman, etc.) con intención correcta (reclamación de intereses / inclusión en LSO). Rellenar huecos detectados.
-2. **Localización ciudad + intención**: el competidor rankea combos "segunda oportunidad + ciudad". Confirmar las 21 localizaciones y plantear ampliación a las ciudades top que falten, con contenido único (no duplicado) por ciudad.
+- Confirmar que las money pages devuelven `<title>`, meta description y contenido en el HTML renderizado (react-helmet-async es client-side: validar que Googlebot, que sí ejecuta JS, ve el contenido correcto).
+- Comprobar que cada página tiene canonical auto-referente y JSON-LD válido (ya implementado en fases previas; revalidar en 3-4 páginas).
 
-## Fase 5 — Cohesión de enlazado interno y títulos
+## 5. Medición
 
-- Auditar `internalLinks.ts` + `RelatedResources` para que cada tipo (post/caso/tool/entidad/localización) enlace de forma cruzada e intencional, sin canibalización.
-- Aplicar el patrón de título agresivo de CTR (emoji + keyword + gancho, <60) ya implementado en blog también a money pages, guías y entidades donde aún no esté.
+- Dejar establecida una comprobación periódica (vía Search Console API) de:
+  - nº de páginas indexadas (objetivo: pasar de 1 hacia las 200),
+  - primeras impresiones de keywords no-marca.
+- Repetir inspección en 1-2 semanas para confirmar que el rastreo avanza.
 
-## Fase 6 — Verificación
+## Expectativa realista
 
-- Build verde.
-- Re-ejecutar el SEO scan y resolver lo que aparezca.
-- Confirmar sitemap cuenta total de URLs y que las nuevas plantillas emiten JSON-LD válido (revisión manual del head en 2-3 rutas con Playwright).
+- Indexación del grueso del catálogo: días a pocas semanas tras estos cambios.
+- Primeras impresiones no-marca: 2-6 semanas.
+- Rankings competitivos (LSO, reunificación): meses, a medida que el dominio gana autoridad.
 
-## Notas técnicas
+---
 
-- Trabajo mayoritariamente en frontend/datos: plantillas SEO (`src/pages/seo/*`, `src/components/seo/*`), datos (`src/data/seo/*`), `scripts/generate-sitemap.ts`, `index.html`, `public/llms.txt`.
-- Posible ampliación de sitemap para leer contenido de BD (blog/casos generados).
-- Sin cambios de backend salvo que la generación de sitemap necesite consultar `generated_posts`/`generated_casos`.
-
-## Decisión previa
-
-Esto es amplio. Propongo ejecutar **Fase 1 + Fase 2 primero** (lo de mayor impacto: indexación, datos estructurados y money page cabecera) y luego seguir con el resto. Si prefieres otro orden o centrarte solo en una fase, lo ajusto.
+### Detalles técnicos
+- Archivos probables a tocar: `scripts/` o generador de `public/sitemap.xml`, `supabase/functions/sitemap-blog/index.ts`, componentes de footer/home e índices de ciudades/entidades (`src/pages/seo/*`, `src/data/seo/*`).
+- Sin cambios de lógica de negocio: solo SEO técnico (sitemap, enlazado interno, validación de render).
+- Búsquedas de marca actuales: posición ~3.4 — conviene también reforzar la consistencia de marca para captar esas navegacionales.
