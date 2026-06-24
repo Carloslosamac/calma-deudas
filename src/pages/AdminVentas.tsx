@@ -226,7 +226,7 @@ const AdminVentas = () => {
     try {
       const { data, error } = await supabase
         .from("sales_cases")
-        .insert({
+        .insert([{
           label: label.trim() || `Caso ${new Date().toLocaleDateString("es-ES")}`,
           case_text: caseText.trim(),
           guide_fields: guide as unknown as Record<string, unknown>,
@@ -237,7 +237,7 @@ const AdminVentas = () => {
           solution_internal: result.solution_internal,
           solution_client: result.solution_client,
           created_by: session?.user.id ?? null,
-        })
+        }])
         .select("id")
         .single();
       if (error) throw error;
