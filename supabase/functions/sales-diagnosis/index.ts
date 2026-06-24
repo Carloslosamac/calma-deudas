@@ -32,6 +32,15 @@ interface GuideFields {
   monthlyIncome?: number;
 }
 
+// Nivel de engagement: 0 = listísimo para contratar/pagar ya,
+// 3 = quiere colgar / librarse de la llamada cuanto antes.
+const ENGAGEMENT_GUIDE: Record<number, string> = {
+  0: "ENGAGEMENT 0 (LISTÍSIMO – quiere empezar/pagar ya): NO satures de dolor. Sé directo y breve, confirma que es la decisión correcta y ve al cierre y al siguiente paso de inmediato. Tono seguro y resolutivo.",
+  1: "ENGAGEMENT 1 (MUY INTERESADO/A): Refuerza el valor y resuelve dudas con seguridad. Algo de urgencia, cierre suave pero firme. Mensajes claros y motivadores.",
+  2: "ENGAGEMENT 2 (DUDOSO/A): Más empatía y menos presión. Genera confianza, aterriza UNA objeción clave a la vez y demuestra control de la situación. Evita abrumar.",
+  3: "ENGAGEMENT 3 (QUIERE LIBRARSE DE LA LLAMADA): Mensajes MUY breves y baja presión. Reconecta con su dolor principal sin agobiar, no enumeres muchas consecuencias, ofrece UN único siguiente paso muy pequeño y fácil de aceptar. Prioriza no perder el contacto sobre cerrar ya.",
+};
+
 // --- Triaje de marca (réplica de src/lib/seo/triage.ts) ---
 const USURY_ENTITIES = ["tarjetas", "microcreditos"];
 
@@ -137,7 +146,11 @@ ${campos || "(sin datos estructurados adicionales)"}
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
 
-Genera CUATRO salidas en español de España:
+NIVEL DE ENGAGEMENT DE LA PERSONA (cómo de lista está para empezar el proceso):
+${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
+Adapta la INTENSIDAD del discurso (más fuerte o más suave), la longitud y el número de tarjetas a este nivel de engagement. El siguiente paso debe estar preparado en función de él.
+
+Genera CINCO salidas en español de España:
 
 1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos. Cada objeto tiene { "emoji": string, "title": string, "body": string }. Cada tarjeta cubre un bloque de dolor/consecuencia REAL de NO actuar (p. ej. embargos de nómina/cuentas, inclusión en ASNEF, intereses de demora que disparan la deuda, presión y llamadas de acreedores, demandas/monitorios, desgaste familiar y emocional). El "emoji" debe ser relevante (⚠️ 🏦 📉 📞 ⚖️ 😟 etc.). El "title" es corto y contundente. El "body" es el argumento para el comercial, con la objeción a anticipar incluida. Crea urgencia con la realidad, sin mentir ni inventar cifras.
 
@@ -147,10 +160,12 @@ Genera CUATRO salidas en español de España:
 
 4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string. En segunda persona, transmite alivio y esperanza realista, explica qué podemos hacer y el siguiente paso (análisis gratuito). Listo para copiar y pegar.
 
+5. approach (string corto, máx 2 frases): instrucción táctica para el comercial sobre CÓMO abordar el siguiente paso con esta persona según su nivel de engagement (tono, ritmo, qué evitar y qué pedir).
+
 REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, etc.).
 - Respeta estrictamente la descripción de la solución recomendada.
-- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string). Sin markdown, sin texto extra.`;
+- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
 
 Deno.serve(async (req) => {
