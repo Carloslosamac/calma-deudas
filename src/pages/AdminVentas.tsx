@@ -28,6 +28,7 @@ import {
   Save,
   ClipboardList,
   Trash2,
+  AlertTriangle,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
@@ -65,11 +66,13 @@ type GuideFields = {
   monthlyIncome?: number;
 };
 
+type ScriptCard = { emoji: string; title: string; body: string };
+
 type AiResult = {
   triage: { solution: string; title: string };
-  diagnosis_internal: string;
+  diagnosis_internal: ScriptCard[];
   diagnosis_client: string;
-  solution_internal: string;
+  solution_internal: ScriptCard[];
   solution_client: string;
 };
 
@@ -145,48 +148,104 @@ const formatDate = (iso: string): string => {
   }
 };
 
-type ResultBlockProps = { internal: string; client: string };
+const cardsToText = (cards: ScriptCard[]): string =>
+  cards.map((c) => `${c.emoji} ${c.title}\n${c.body}`).join("\n\n");
 
-const ResultBlock = ({ internal, client }: ResultBlockProps) => (
-  <Tabs defaultValue="internal" className="w-full">
-    <TabsList>
-      <TabsTrigger value="internal">Guion comercial</TabsTrigger>
-      <TabsTrigger value="client">Para el cliente</TabsTrigger>
-    </TabsList>
-    <TabsContent value="internal">
-      <div className="relative">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          className="absolute right-0 top-0"
-          onClick={() => copyText(internal)}
-        >
-          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
-        </Button>
-        <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
-          {internal || "—"}
-        </p>
-      </div>
-    </TabsContent>
-    <TabsContent value="client">
-      <div className="relative">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          className="absolute right-0 top-0"
-          onClick={() => copyText(client)}
-        >
-          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
-        </Button>
-        <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
-          {client || "—"}
-        </p>
-      </div>
-    </TabsContent>
-  </Tabs>
-);
+const parseCards = (raw: string | null): ScriptCard[] => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .filter((c) => c && typeof c === "object")
+        .map((c) => ({
+          emoji: String(c.emoji ?? "•"),
+          title: String(c.title ?? ""),
+          body: String(c.body ?? ""),
+        }));
+    }
+  } catch {
+    /* legacy plain-text case */
+  }
+  return [{ emoji: "📝", title: "Guion", body: raw }];
+};
+
+type ResultBlockProps = {
+  internal: ScriptCard[];
+  client: string;
+  tone?: "alert" | "calm";
+};
+
+const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
+  const isAlert = tone === "alert";
+  return (
+    <Tabs defaultValue="internal" className="w-full">
+      <TabsList>
+        <TabsTrigger value="internal">Guion comercial</TabsTrigger>
+        <TabsTrigger value="client">Para el cliente</TabsTrigger>
+      </TabsList>
+      <TabsContent value="internal">
+        <div className="space-y-3">
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => copyText(cardsToText(internal))}
+            >
+              <Copy className="mr-1 h-3.5 w-3.5" /> Copiar todo
+            </Button>
+          </div>
+          {internal.length === 0 && (
+            <p className="text-sm text-muted-foreground">—</p>
+          )}
+          <div className="grid gap-3 sm:grid-cols-2">
+            {internal.map((card, i) => (
+              <div
+                key={i}
+                className={`rounded-xl border p-4 ${
+                  isAlert
+                    ? "border-destructive/30 bg-destructive/5"
+                    : "border-accent/30 bg-accent/5"
+                }`}
+              >
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-xl leading-none">{card.emoji}</span>
+                  <h3
+                    className={`font-poppins text-sm font-bold ${
+                      isAlert ? "text-destructive" : "text-foreground"
+                    }`}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+                  {card.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </TabsContent>
+      <TabsContent value="client">
+        <div className="relative">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="absolute right-0 top-0"
+            onClick={() => copyText(client)}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+          </Button>
+          <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
+            {client || "—"}
+          </p>
+        </div>
+      </TabsContent>
+    </Tabs>
+  );
+};
 
 const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
 
@@ -293,9 +352,9 @@ const AdminVentas = () => {
           } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
-          diagnosis_internal: result.diagnosis_internal,
+          diagnosis_internal: JSON.stringify(result.diagnosis_internal),
           diagnosis_client: result.diagnosis_client,
-          solution_internal: result.solution_internal,
+          solution_internal: JSON.stringify(result.solution_internal),
           solution_client: result.solution_client,
           created_by: session?.user.id ?? null,
         }])
@@ -319,9 +378,9 @@ const AdminVentas = () => {
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
-      diagnosis_internal: c.diagnosis_internal ?? "",
+      diagnosis_internal: parseCards(c.diagnosis_internal),
       diagnosis_client: c.diagnosis_client ?? "",
-      solution_internal: c.solution_internal ?? "",
+      solution_internal: parseCards(c.solution_internal),
       solution_client: c.solution_client ?? "",
     });
     setSavedId(c.id);
@@ -704,16 +763,17 @@ const AdminVentas = () => {
 
         {/* Step 2: Diagnóstico */}
         {step === 1 && result && (
-          <Card className="space-y-4 p-6">
+          <Card className="space-y-4 border-destructive/30 bg-destructive/5 p-6">
             <div className="flex items-center justify-between">
-              <h2 className="font-poppins text-lg font-bold text-foreground">
-                Diagnóstico · consecuencias de no actuar
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
+                <AlertTriangle className="h-5 w-5" /> Diagnóstico · consecuencias de no actuar
               </h2>
-              <Badge variant="secondary">{result.triage.title}</Badge>
+              <Badge variant="destructive">{result.triage.title}</Badge>
             </div>
             <ResultBlock
               internal={result.diagnosis_internal}
               client={result.diagnosis_client}
+              tone="alert"
             />
             <div className="flex justify-between pt-2">
               <Button variant="outline" onClick={() => setStep(0)}>
