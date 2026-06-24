@@ -497,6 +497,42 @@ const localExtra: Record<
     perfilDeuda: "En Elche predominan las deudas de autónomos del calzado y la industria, y de familias con varias deudas.",
     prefijo: "966",
   },
+  oviedo: {
+    zonas: ["Centro", "La Tenderina", "Ventanielles", "Pumarín", "Mieres", "Langreo", "Siero", "Llanera"],
+    sedeJudicial: "el Palacio de Justicia de Oviedo, en la calle Comandante Caballero",
+    perfilDeuda: "En Oviedo abundan las deudas de consumo de funcionarios y pensionistas y los préstamos personales de familias.",
+    prefijo: "985",
+  },
+  santander: {
+    zonas: ["Centro", "Cazoña", "El Alisal", "Torrelavega", "Camargo", "Castro-Urdiales", "Laredo"],
+    sedeJudicial: "el Palacio de Justicia de Santander, en la avenida Pedro San Martín",
+    perfilDeuda: "En Santander predominan las deudas de autónomos del comercio y los servicios y los préstamos en varias entidades.",
+    prefijo: "942",
+  },
+  pamplona: {
+    zonas: ["Casco Viejo", "Iturrama", "San Juan", "Rochapea", "Barañáin", "Burlada", "Tudela", "Estella"],
+    sedeJudicial: "el Palacio de Justicia de Pamplona, en la avenida de Navarra",
+    perfilDeuda: "En Pamplona son frecuentes las deudas de consumo de familias y de autónomos del comercio y la industria.",
+    prefijo: "948",
+  },
+  donostia: {
+    zonas: ["Centro", "Gros", "Amara", "Antiguo", "Irún", "Errenteria", "Eibar", "Tolosa"],
+    sedeJudicial: "el Palacio de Justicia de Donostia-San Sebastián, en el paseo de los Fueros (Atotxa)",
+    perfilDeuda: "En Donostia pesan las deudas de autónomos del comercio y la hostelería y los préstamos personales acumulados.",
+    prefijo: "943",
+  },
+  burgos: {
+    zonas: ["Centro", "Gamonal", "San Pedro de la Fuente", "Miranda de Ebro", "Aranda de Duero", "Villarcayo"],
+    sedeJudicial: "el Palacio de Justicia de Burgos, en la avenida Reyes Católicos",
+    perfilDeuda: "En Burgos predominan las deudas de particulares y de pequeños autónomos del comercio y la industria.",
+    prefijo: "947",
+  },
+  almeria: {
+    zonas: ["Centro", "Zapillo", "Nueva Almería", "El Ejido", "Roquetas de Mar", "Níjar", "Vícar"],
+    sedeJudicial: "la Ciudad de la Justicia de Almería, en la carretera de Ronda",
+    perfilDeuda: "En Almería abundan las deudas de autónomos de la agricultura intensiva, el comercio y la hostelería.",
+    prefijo: "950",
+  },
 };
 
 /**
