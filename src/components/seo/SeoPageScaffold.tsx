@@ -121,6 +121,7 @@ const SeoPageScaffold = ({
         canonical={canonical}
         ogType={template === "guia" || template === "entidad" ? "article" : "website"}
         structuredData={structuredData}
+        appendSiteName={false}
       />
       <Header />
 
