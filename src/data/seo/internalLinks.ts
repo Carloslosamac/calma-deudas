@@ -201,7 +201,7 @@ export type CrossLinkGroup = { title: string; links: ResourceLink[] };
 export function buildCrossLinks(params: {
   topic: LinkTopic;
   /** Tipo de la página de origen: se excluye de los grupos. */
-  origin: ResourceKind;
+  origin: ResourceKind | "none";
   excludeSlug?: string;
 }): CrossLinkGroup[] {
   const { topic, origin, excludeSlug } = params;
