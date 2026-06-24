@@ -223,6 +223,54 @@ export type Database = {
         }
         Relationships: []
       }
+      sales_cases: {
+        Row: {
+          case_text: string
+          created_at: string
+          created_by: string | null
+          diagnosis_client: string | null
+          diagnosis_internal: string | null
+          guide_fields: Json
+          id: string
+          label: string
+          solution_client: string | null
+          solution_internal: string | null
+          triage_solution: string | null
+          triage_title: string | null
+          updated_at: string
+        }
+        Insert: {
+          case_text: string
+          created_at?: string
+          created_by?: string | null
+          diagnosis_client?: string | null
+          diagnosis_internal?: string | null
+          guide_fields?: Json
+          id?: string
+          label: string
+          solution_client?: string | null
+          solution_internal?: string | null
+          triage_solution?: string | null
+          triage_title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          case_text?: string
+          created_at?: string
+          created_by?: string | null
+          diagnosis_client?: string | null
+          diagnosis_internal?: string | null
+          guide_fields?: Json
+          id?: string
+          label?: string
+          solution_client?: string | null
+          solution_internal?: string | null
+          triage_solution?: string | null
+          triage_title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       seo_index_checks: {
         Row: {
           created_at: string
