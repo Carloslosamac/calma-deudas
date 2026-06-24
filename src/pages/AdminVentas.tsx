@@ -257,8 +257,16 @@ const AdminVentas = () => {
     setGenerating(true);
     setResult(null);
     try {
+      const derivedEntities = Array.from(
+        new Set(guide.debts.map((d) => d.type).filter(Boolean)),
+      );
+      const payloadGuide: GuideFields = {
+        ...guide,
+        entities: derivedEntities.length ? derivedEntities : guide.entities,
+        debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+      };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide },
+        body: { caseText: caseText.trim(), guide: payloadGuide },
       });
       if (error) throw error;
       if (data?.error) {
