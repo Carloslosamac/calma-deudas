@@ -89,12 +89,13 @@ REGLAS EDITORIALES INNEGOCIABLES:
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo (eso es refinanciar, que es lo contrario).
 - Tono empático, claro, sin tecnicismos innecesarios. Cero promesas garantizadas.
 - Todo CTA invita a la valoración gratuita; el botón lleva al formulario (#hero-form).
+- TÍTULOS (seoTitle) AGRESIVOS PARA CTR (innegociable): patrón = 1 emoji temático al inicio + keyword principal + palabra de urgencia/poder (YA, TODO, CERO, así, sin…, paso a paso). Máximo 60 caracteres VISUALES contando el emoji. Sin marca. Emojis sugeridos: ⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores. Prohibido empezar con «Guía», «Requisitos», «Documentación» u otros arranques planos.
 
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown, sin comentarios) con esta forma exacta:
 {
   "category": "una de las categorías permitidas",
-  "seoTitle": "título SEO < 60 caracteres, con gancho diferenciador, SIN marca/«| Calma»",
-  "metaDescription": "meta descripción < 160 caracteres, persuasiva para CTR",
+  "seoTitle": "TÍTULO AGRESIVO DE CTR: empieza SIEMPRE con 1 emoji temático + keyword principal + gancho de urgencia/poder. Máx 60 caracteres VISUALES (contando el emoji). SIN marca/«| Calma». Decoradores 【 】 opcionales (año, GUÍA, 2026). Nada de patrones planos tipo «Guía de…», «Requisitos de…», «Documentación de…»",
+  "metaDescription": "meta descripción < 160 caracteres, persuasiva para CTR, que EMPIECE con 1 emoji temático",
   "excerpt": "entradilla de 1-2 frases",
   "readTime": "p.ej. '7 min'",
   "heroAlt": "texto alternativo descriptivo de la imagen",
@@ -150,6 +151,91 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
     console.error(`JSON parse failed for roadmap ${row.id}`);
     return null;
   }
+}
+
+// ---- Validación dura del seoTitle (patrón agresivo de CTR) ----
+// Cuenta caracteres VISUALES (grafemas) para respetar el límite de 60 con emojis.
+const graphemeSeg = typeof Intl !== "undefined" && "Segmenter" in Intl
+  ? new Intl.Segmenter("es", { granularity: "grapheme" })
+  : null;
+function visualLength(s: string): number {
+  if (graphemeSeg) return [...graphemeSeg.segment(s)].length;
+  return [...s].length;
+}
+// ¿Empieza por emoji? (símbolos/pictogramas fuera del rango ASCII/letras)
+const EMOJI_START = /^(?:\p{Extended_Pictographic}|\p{Emoji_Presentation})/u;
+function startsWithEmoji(s: string): boolean {
+  return EMOJI_START.test(s.trim());
+}
+const FLAT_START = /^\s*(gu[ií]a|requisitos|documentaci[oó]n|introducci[oó]n|c[oó]mo\b)/i;
+function isCompliantTitle(t: string): boolean {
+  const clean = (t ?? "").trim();
+  if (!clean) return false;
+  if (!startsWithEmoji(clean)) return false;
+  if (visualLength(clean) > 60) return false;
+  // El arranque plano se evalúa tras el emoji.
+  const afterEmoji = clean.replace(EMOJI_START, "").trim();
+  if (FLAT_START.test(afterEmoji)) return false;
+  return true;
+}
+
+// Reescribe un título no conforme con una llamada corta al modelo.
+async function rewriteTitle(rawTitle: string, topic: string, category: string): Promise<string | null> {
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Eres copywriter de SEO. Devuelve SOLO el título reescrito, sin comillas ni explicación. Patrón obligatorio: 1 emoji temático al inicio + keyword principal + gancho de urgencia/poder. Máximo 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma», sin arranques planos (Guía/Requisitos/Documentación/Cómo).",
+          },
+          {
+            role: "user",
+            content: `Tema: ${topic}\nCategoría: ${category}\nTítulo actual (no conforme): ${rawTitle}\nReescríbelo cumpliendo el patrón.`,
+          },
+        ],
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const out = (data?.choices?.[0]?.message?.content ?? "").trim().replace(/^["“”']|["“”']$/g, "").trim();
+    return out || null;
+  } catch (_e) {
+    return null;
+  }
+}
+
+// Recorte seguro como último recurso: no parte palabras y conserva el emoji.
+function safeTruncate(t: string, max = 60): string {
+  if (visualLength(t) <= max) return t;
+  const words = t.split(/\s+/);
+  let acc = "";
+  for (const w of words) {
+    const candidate = acc ? `${acc} ${w}` : w;
+    if (visualLength(candidate) > max) break;
+    acc = candidate;
+  }
+  return (acc || t).trim();
+}
+
+// Garantiza un seoTitle conforme: valida → reescribe → recorta.
+async function enforceTitle(rawTitle: string, topic: string, category: string): Promise<{ title: string; rewritten: boolean }> {
+  const sanitized = sanitizeTitle(rawTitle ?? "").trim();
+  if (isCompliantTitle(sanitized)) return { title: sanitized, rewritten: false };
+  const rewritten = await rewriteTitle(sanitized || topic, topic, category);
+  if (rewritten) {
+    const clean = sanitizeTitle(rewritten);
+    if (isCompliantTitle(clean)) return { title: clean, rewritten: true };
+    return { title: safeTruncate(clean, 60), rewritten: true };
+  }
+  return { title: safeTruncate(sanitized || topic, 60), rewritten: true };
 }
 
 // Redimensiona a un ancho máximo razonable para web (1200px) y recomprime a
@@ -319,6 +405,7 @@ Deno.serve(async (req) => {
 
     const published: string[] = [];
     const failed: number[] = [];
+    let titlesRewritten = 0;
 
     for (const row of batch) {
       const article = await generateArticle(row);
@@ -333,7 +420,13 @@ Deno.serve(async (req) => {
       const slug = slugFromUrl(row.url_sugerida, row.titulo);
       const now = new Date().toISOString();
       const cleanTitle = sanitizeTitle(row.titulo);
-      const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
+      const enforced = await enforceTitle(
+        (article.seoTitle as string) ?? row.titulo,
+        cleanTitle,
+        category,
+      );
+      const cleanSeoTitle = enforced.title;
+      if (enforced.rewritten) titlesRewritten++;
       const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
@@ -385,9 +478,10 @@ Deno.serve(async (req) => {
         })
         .eq("id", runId);
     }
+    console.log(`Títulos reescritos para cumplir el patrón CTR: ${titlesRewritten}/${published.length}`);
 
     return new Response(
-      JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed }),
+      JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed, titlesRewritten }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
