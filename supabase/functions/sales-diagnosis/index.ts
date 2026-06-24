@@ -190,6 +190,10 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const caseText = typeof body.caseText === "string" ? body.caseText.trim() : "";
     const guide: GuideFields = (body.guide && typeof body.guide === "object") ? body.guide : {};
+    const engagement = (() => {
+      const n = Number(body.engagement);
+      return Number.isFinite(n) && n >= 0 && n <= 3 ? Math.round(n) : 1;
+    })();
 
     if (!caseText || caseText.length < 10) {
       return new Response(JSON.stringify({ error: "Describe el caso (mínimo 10 caracteres)." }), {
@@ -199,7 +203,7 @@ Deno.serve(async (req) => {
     }
 
     const t = triage(guide);
-    const prompt = buildPrompt(caseText, guide, t);
+    const prompt = buildPrompt(caseText, guide, t, engagement);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -259,10 +263,12 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         triage: t,
+        engagement,
         diagnosis_internal: asCards(parsed.diagnosis_internal),
         diagnosis_client: asText(parsed.diagnosis_client),
         solution_internal: asCards(parsed.solution_internal),
         solution_client: asText(parsed.solution_client),
+        approach: asText(parsed.approach),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
