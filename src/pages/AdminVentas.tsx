@@ -973,17 +973,14 @@ const AdminVentas = () => {
               )}
             </div>
 
-            <Button onClick={generate} disabled={generating} className="w-full">
-              {generating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generando...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" /> Generar diagnóstico
-                </>
-              )}
-            </Button>
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes del diagnóstico"
+              ctaLabel="Generar diagnóstico"
+              onContinue={generate}
+              loading={generating}
+            />
           </Card>
         )}
 
