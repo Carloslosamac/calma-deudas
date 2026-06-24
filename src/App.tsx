@@ -60,6 +60,7 @@ const App = () => (
           <Route path="/admin/auth" element={<AdminAuth />} />
           <Route path="/admin" element={<AdminQueue />} />
           <Route path="/admin/health" element={<AdminHealth />} />
+          <Route path="/admin/indexacion" element={<AdminIndexacion />} />
           <Route path="/casos-de-exito" element={<CasosExito />} />
           <Route path="/casos-de-exito/:slug" element={<CasoExitoPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
