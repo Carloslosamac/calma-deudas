@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import calmaLogo from "@/assets/calma-logo.png";
+import SeoFooterLinks from "./SeoFooterLinks";
 
 const Footer = () => {
   return (
+    <>
+    <SeoFooterLinks />
     <footer className="bg-surface border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
@@ -51,6 +54,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 
