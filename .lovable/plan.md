@@ -1,53 +1,40 @@
-# Objetivo: meter todo el catálogo en el índice de Google
+# Automatizar la indexación: lo que se puede y lo que no
 
-Diagnóstico confirmado vía Google Search Console:
-- Search Console verificado ✅, sitemap enviado ✅, **home indexada** ✅.
-- **Resto de páginas: "URL desconocida para Google"** (ni rastreadas ni indexadas).
-- Solo apareces para búsquedas de marca. Cero keywords no-marca.
+## La realidad, por buscador (sin humo)
 
-El cuello de botella NO es producir más contenido: es que Google solo conoce 1 de tus ~200 páginas. Este plan ataca eso.
+**Google — NO se puede automatizar la "solicitud de indexación":**
+- La **Indexing API** de Google existe, pero **solo** está permitida para páginas de tipo `JobPosting` (ofertas de empleo) y `BroadcastEvent` (directos de vídeo). Usarla para páginas normales **incumple las políticas de Google**: los envíos se ignoran y puede acarrear penalización. No es un atajo válido para tu web.
+- El antiguo "ping de sitemap" a Google fue **deprecado en 2023**.
+- Para Google, la única automatización legítima es: **sitemap siempre actualizado + buen enlazado interno** (ambos ya hechos). El "Solicitar indexación" página a página sigue siendo **manual** y limitado (~10-15/día). No hay forma legal de saltarse eso.
 
-## 1. Auditar y reforzar el sitemap
+**Bing, Yandex, Seznam, Naver — SÍ se puede, vía IndexNow:**
+- IndexNow es un protocolo abierto para **enviar URLs nuevas/actualizadas al instante** y que las rastreen en horas, no semanas. Es totalmente legítimo y automatizable.
+- No lo usa Google, pero **Bing alimenta a ChatGPT, Copilot y otros buscadores/IA**, así que para tu estrategia GEO/AEO tiene valor real.
+- Encaja perfecto con tu generación diaria de posts: cada post nuevo se puede enviar automáticamente.
 
-- Verificar que `public/sitemap.xml` lista las ~214 URLs reales (en vivo se leen ~200; cuadrar la diferencia).
-- Añadir `<lastmod>` real y `<priority>` coherente a cada URL (las páginas dinámicas deben llevar fecha para que Google priorice rastreo).
-- Confirmar que el sitemap de blog (`sitemap-blog` edge function) devuelve todas las URLs de posts y está bien formado.
-- Reenviar ambos sitemaps a Search Console vía API tras los cambios.
+## Plan propuesto
 
-## 2. Maximizar la descubribilidad de enlaces internos (clave en una SPA)
+### 1. Implementar IndexNow (automatización real para Bing y cía.)
+- Generar una clave IndexNow y publicar el fichero de verificación en `public/<clave>.txt`.
+- Crear una edge function `indexnow-submit` que reciba un lote de URLs y las envíe a `https://api.indexnow.org/indexnow` con la clave (con validación de entrada y CORS).
 
-Google descubre páginas siguiendo enlaces, no solo el sitemap. En una SPA React esto es crítico:
+### 2. Disparadores automáticos
+- **Tras generar posts diarios**: enganchar `generate-daily-posts` (y `generate-daily-casos`) para que, al crear contenido nuevo, llamen a `indexnow-submit` con las URLs recién creadas.
+- **Reenvío completo bajo demanda**: un endpoint que envíe todo el sitemap a IndexNow (útil tras cada publicación grande).
 
-- Asegurar que desde la **home y el footer** haya enlaces `<a href>` reales (no solo `onClick`) hacia los hubs principales: Ley Segunda Oportunidad, blog, reunificación, y los índices de ciudades/entidades.
-- Crear/verificar **páginas índice rastreables** que enlacen a las 200+ páginas hijas (ej. `/abogados-segunda-oportunidad` listando todas las ciudades, índice de entidades), para que Googlebot las alcance en 1-2 saltos desde la home.
-- Revisar que los enlaces internos existentes usen `<Link>`/`<a href>` que renderizan a `<a>` con href crawleable.
+### 3. Google: mantener el canal automático que sí funciona
+- El sitemap ya se regenera en cada build (`predev`/`prebuild`) y el footer rastreable ya está. Eso es la "automatización" válida para Google.
+- Para empujar las money pages prioritarias, la solicitud manual en Search Console sigue siendo necesaria (te dejo la lista de 10 URLs).
+- Opcional: tras publicar, reenvío automático del sitemap a Search Console vía API (solo fuerza la **relectura**, no la indexación).
 
-## 3. Forzar indexación de las páginas prioritarias
-
-- Usar la inspección de URL de Search Console para comprobar el estado de un lote de páginas clave (money pages + top ciudades).
-- Entregarte la lista exacta de URLs prioritarias para que pulses **"Solicitar indexación"** en Search Console (la API de indexación no está disponible por el gateway; este paso es manual pero rapidísimo para 10-15 URLs top).
-
-## 4. Verificar render para Googlebot
-
-- Confirmar que las money pages devuelven `<title>`, meta description y contenido en el HTML renderizado (react-helmet-async es client-side: validar que Googlebot, que sí ejecuta JS, ve el contenido correcto).
-- Comprobar que cada página tiene canonical auto-referente y JSON-LD válido (ya implementado en fases previas; revalidar en 3-4 páginas).
-
-## 5. Medición
-
-- Dejar establecida una comprobación periódica (vía Search Console API) de:
-  - nº de páginas indexadas (objetivo: pasar de 1 hacia las 200),
-  - primeras impresiones de keywords no-marca.
-- Repetir inspección en 1-2 semanas para confirmar que el rastreo avanza.
-
-## Expectativa realista
-
-- Indexación del grueso del catálogo: días a pocas semanas tras estos cambios.
-- Primeras impresiones no-marca: 2-6 semanas.
-- Rankings competitivos (LSO, reunificación): meses, a medida que el dominio gana autoridad.
+## Expectativa
+- Bing/IndexNow: indexación de URLs nuevas en **horas a pocos días**, automática.
+- Google: días-semanas para el grueso (sitemap + enlazado) + las prioritarias aceleradas a mano.
 
 ---
 
 ### Detalles técnicos
-- Archivos probables a tocar: `scripts/` o generador de `public/sitemap.xml`, `supabase/functions/sitemap-blog/index.ts`, componentes de footer/home e índices de ciudades/entidades (`src/pages/seo/*`, `src/data/seo/*`).
-- Sin cambios de lógica de negocio: solo SEO técnico (sitemap, enlazado interno, validación de render).
-- Búsquedas de marca actuales: posición ~3.4 — conviene también reforzar la consistencia de marca para captar esas navegacionales.
+- Nuevos archivos: `supabase/functions/indexnow-submit/index.ts`, `public/<clave>.txt`.
+- Edits: `supabase/functions/generate-daily-posts/index.ts` y `generate-daily-casos/index.ts` para invocar IndexNow tras insertar contenido.
+- La clave IndexNow es pública por diseño (se publica en el dominio), no es un secreto sensible.
+- Sin cambios de lógica de negocio ni de UI.
