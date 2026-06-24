@@ -147,48 +147,85 @@ const formatDate = (iso: string): string => {
   }
 };
 
-type ResultBlockProps = { internal: string; client: string };
+const cardsToText = (cards: ScriptCard[]): string =>
+  cards.map((c) => `${c.emoji} ${c.title}\n${c.body}`).join("\n\n");
 
-const ResultBlock = ({ internal, client }: ResultBlockProps) => (
-  <Tabs defaultValue="internal" className="w-full">
-    <TabsList>
-      <TabsTrigger value="internal">Guion comercial</TabsTrigger>
-      <TabsTrigger value="client">Para el cliente</TabsTrigger>
-    </TabsList>
-    <TabsContent value="internal">
-      <div className="relative">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          className="absolute right-0 top-0"
-          onClick={() => copyText(internal)}
-        >
-          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
-        </Button>
-        <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
-          {internal || "—"}
-        </p>
-      </div>
-    </TabsContent>
-    <TabsContent value="client">
-      <div className="relative">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          className="absolute right-0 top-0"
-          onClick={() => copyText(client)}
-        >
-          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
-        </Button>
-        <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
-          {client || "—"}
-        </p>
-      </div>
-    </TabsContent>
-  </Tabs>
-);
+type ResultBlockProps = {
+  internal: ScriptCard[];
+  client: string;
+  tone?: "alert" | "calm";
+};
+
+const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
+  const isAlert = tone === "alert";
+  return (
+    <Tabs defaultValue="internal" className="w-full">
+      <TabsList>
+        <TabsTrigger value="internal">Guion comercial</TabsTrigger>
+        <TabsTrigger value="client">Para el cliente</TabsTrigger>
+      </TabsList>
+      <TabsContent value="internal">
+        <div className="space-y-3">
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => copyText(cardsToText(internal))}
+            >
+              <Copy className="mr-1 h-3.5 w-3.5" /> Copiar todo
+            </Button>
+          </div>
+          {internal.length === 0 && (
+            <p className="text-sm text-muted-foreground">—</p>
+          )}
+          <div className="grid gap-3 sm:grid-cols-2">
+            {internal.map((card, i) => (
+              <div
+                key={i}
+                className={`rounded-xl border p-4 ${
+                  isAlert
+                    ? "border-destructive/30 bg-destructive/5"
+                    : "border-accent/30 bg-accent/5"
+                }`}
+              >
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-xl leading-none">{card.emoji}</span>
+                  <h3
+                    className={`font-poppins text-sm font-bold ${
+                      isAlert ? "text-destructive" : "text-foreground"
+                    }`}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
+                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+                  {card.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </TabsContent>
+      <TabsContent value="client">
+        <div className="relative">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="absolute right-0 top-0"
+            onClick={() => copyText(client)}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+          </Button>
+          <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
+            {client || "—"}
+          </p>
+        </div>
+      </TabsContent>
+    </Tabs>
+  );
+};
 
 const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
 
