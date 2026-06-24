@@ -515,6 +515,9 @@ const AdminVentas = () => {
             </p>
           </div>
           <div className="flex gap-2">
+            <Button variant="orange" size="sm" onClick={loadTestCase}>
+              <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
+            </Button>
             <Button variant="outline" size="sm" onClick={resetForm}>
               <Plus className="mr-1 h-4 w-4" /> Nuevo caso
             </Button>
@@ -532,13 +535,12 @@ const AdminVentas = () => {
             <button
               key={s}
               type="button"
-              onClick={() => (i === 0 || result) && setStep(i)}
-              disabled={i > 0 && !result}
+              onClick={() => setStep(i)}
               className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
                 step === i
                   ? "bg-accent text-accent-foreground"
                   : "bg-muted text-muted-foreground"
-              } ${i > 0 && !result ? "cursor-not-allowed opacity-50" : ""}`}
+              }`}
             >
               {i + 1}. {s}
             </button>
