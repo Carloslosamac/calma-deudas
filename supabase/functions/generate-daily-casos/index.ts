@@ -260,6 +260,8 @@ Deno.serve(async (req) => {
         .eq("id", runId);
     }
 
+    await notifyIndexNow(published);
+
     return new Response(
       JSON.stringify({ ok: true, target, published: published.length, slugs: published, failed }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
