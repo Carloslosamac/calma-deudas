@@ -36,6 +36,7 @@ const AdminAuth = lazy(() => import("./pages/AdminAuth"));
 const AdminQueue = lazy(() => import("./pages/AdminQueue"));
 const AdminHealth = lazy(() => import("./pages/AdminHealth"));
 const AdminIndexacion = lazy(() => import("./pages/AdminIndexacion"));
+const AdminVentas = lazy(() => import("./pages/AdminVentas"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -61,6 +62,7 @@ const App = () => (
           <Route path="/admin" element={<AdminQueue />} />
           <Route path="/admin/health" element={<AdminHealth />} />
           <Route path="/admin/indexacion" element={<AdminIndexacion />} />
+          <Route path="/admin/ventas" element={<AdminVentas />} />
           <Route path="/casos-de-exito" element={<CasosExito />} />
           <Route path="/casos-de-exito/:slug" element={<CasoExitoPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
