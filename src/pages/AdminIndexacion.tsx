@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
-const SITEMAP_URL = "https://mi-calma.es/sitemap.xml";
+const SITEMAP_URL = "/sitemap.xml";
 const GSC_INSPECT = "https://search.google.com/search-console/inspect?resource_id=" +
   encodeURIComponent("sc-domain:mi-calma.es") + "&id=";
 
