@@ -477,6 +477,7 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
+    setEngagement(1);
   };
 
   const loadTestCase = () => {
@@ -486,6 +487,7 @@ const AdminVentas = () => {
     setResult(TEST_CASE.result);
     setSavedId(null);
     setStep(0);
+    setEngagement(1);
     toast.success("Caso de prueba cargado");
   };
 
