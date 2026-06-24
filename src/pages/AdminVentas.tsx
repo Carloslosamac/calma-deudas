@@ -567,6 +567,7 @@ const AdminVentas = () => {
               new Set(guide.debts.map((d) => d.type).filter(Boolean)),
             ),
             debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+            engagement,
           } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
