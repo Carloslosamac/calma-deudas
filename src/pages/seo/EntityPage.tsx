@@ -62,9 +62,7 @@ const EntityPage = () => {
 
   const crossLinks = buildCrossLinks({ topic: KIND_TOPIC[entity.kind], origin: "none" });
 
-  const tldr =
-    content?.tldr ??
-    `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
+  const tldr = `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
 
   const structuredData = [
     buildBreadcrumb(
