@@ -232,6 +232,23 @@ const AdminVentas = () => {
     }));
   };
 
+  const addDebt = () =>
+    setGuide((g) => ({
+      ...g,
+      debts: [...g.debts, { type: "prestamos", entity: "", amount: undefined }],
+    }));
+
+  const updateDebt = (idx: number, patch: Partial<DebtEntry>) =>
+    setGuide((g) => ({
+      ...g,
+      debts: g.debts.map((d, i) => (i === idx ? { ...d, ...patch } : d)),
+    }));
+
+  const removeDebt = (idx: number) =>
+    setGuide((g) => ({ ...g, debts: g.debts.filter((_, i) => i !== idx) }));
+
+  const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
+
   const generate = async () => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
