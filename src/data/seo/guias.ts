@@ -24,7 +24,7 @@ export const guias: Guia[] = [
     h1: "Cómo hacer un presupuesto familiar paso a paso",
     label: "Cómo hacer un presupuesto",
     template: "guia",
-    seoTitle: "Cómo hacer un presupuesto familiar paso a paso | Calma",
+    seoTitle: "📊 Presupuesto familiar: el método simple que funciona",
     metaDescription:
       "Aprende a hacer un presupuesto familiar realista paso a paso: ingresos, gastos, regla 50/30/20 y cómo recuperar el control de tu dinero.",
   },
@@ -35,7 +35,7 @@ export const guias: Guia[] = [
     h1: "Qué es la TAE y por qué importa antes de pedir un préstamo",
     label: "Qué es la TAE",
     template: "guia",
-    seoTitle: "Qué es la TAE y por qué importa | Calma",
+    seoTitle: "📉 TAE: el dato que te ahorra cientos en intereses",
     metaDescription:
       "Qué es la TAE, en qué se diferencia del TIN y cómo usarla para comparar préstamos y tarjetas sin caer en intereses abusivos.",
   },
@@ -46,7 +46,7 @@ export const guias: Guia[] = [
     h1: "Fondo de emergencia: cuánto ahorrar y cómo crearlo",
     label: "Fondo de emergencia",
     template: "guia",
-    seoTitle: "Fondo de emergencia: cuánto ahorrar | Calma",
+    seoTitle: "🛟 Fondo de emergencia: cuánto necesitas de verdad",
     metaDescription:
       "Qué es un fondo de emergencia, cuánto deberías ahorrar y cómo crearlo desde cero para no volver a depender de créditos rápidos.",
   },
@@ -57,7 +57,7 @@ export const guias: Guia[] = [
     h1: "Alternativas a los microcréditos cuando necesitas dinero",
     label: "Alternativas a los microcréditos",
     template: "guia",
-    seoTitle: "Alternativas a los microcréditos | Calma",
+    seoTitle: "🚫 Microcréditos: 5 alternativas más baratas y seguras",
     metaDescription:
       "Antes de pedir un microcrédito, conoce las alternativas más baratas y seguras para conseguir liquidez y evitar la espiral de deuda.",
   },

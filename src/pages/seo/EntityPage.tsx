@@ -7,6 +7,25 @@ import { moneyPagesByPath } from "@/data/seo/moneyPages";
 import { getEntityContent } from "@/data/seo/content/entityContent";
 import { getEntityProfile } from "@/data/seo/content/entityProfiles";
 import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structuredData";
+import { buildCrossLinks, type LinkTopic } from "@/data/seo/internalLinks";
+import RelatedResources from "@/components/seo/RelatedResources";
+import type { EntityKind } from "@/data/seo/entities";
+
+/** Emoji + topic de enlazado según el tipo de entidad. */
+const KIND_EMOJI: Record<EntityKind, string> = {
+  recobro: "🛑",
+  microcredito: "💸",
+  revolving: "💳",
+  banco: "🏦",
+  publica: "🧾",
+};
+const KIND_TOPIC: Record<EntityKind, LinkTopic> = {
+  recobro: "embargos",
+  microcredito: "microcreditos",
+  revolving: "revolving",
+  banco: "lso",
+  publica: "hacienda",
+};
 
 /** Ficha de entidad: /<cluster>/<slug> (banco, financiera, recobro…). */
 const EntityPage = () => {
@@ -21,11 +40,11 @@ const EntityPage = () => {
   const content = getEntityContent(entity);
   const profile = getEntityProfile(entity.slug);
 
-  // Título length-aware: prioriza la versión rica y, si supera ~60 chars
-  // (nombres de entidad largos), cae a una versión corta para no truncar en SERP.
-  const richTitle = `Deudas con ${entity.name}: soluciones | Calma`;
+  // Título CTR (emoji + keyword + gancho), sin branding, length-aware (<60).
+  const emoji = KIND_EMOJI[entity.kind];
+  const richTitle = `${emoji} Deudas con ${entity.name}: cómo cancelarlas`;
   const seoTitle =
-    richTitle.length <= 60 ? richTitle : `Deudas con ${entity.name} | Calma`;
+    richTitle.length <= 60 ? richTitle : `${emoji} Deudas con ${entity.name}`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
@@ -40,6 +59,10 @@ const EntityPage = () => {
       .slice(0, 5)
       .map((e) => ({ label: e.name, to: `/${e.cluster}/${e.slug}` })),
   ];
+
+  const crossLinks = buildCrossLinks({ topic: KIND_TOPIC[entity.kind], origin: "none" });
+
+  const tldr = `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
 
   const structuredData = [
     buildBreadcrumb(
@@ -70,9 +93,12 @@ const EntityPage = () => {
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
       related={related}
+      tldr={tldr}
       sections={content?.sections}
       faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
-    />
+    >
+      <RelatedResources groups={crossLinks} />
+    </SeoPageScaffold>
   );
 };
 
