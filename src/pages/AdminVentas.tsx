@@ -25,14 +25,35 @@ import Seo from "@/components/seo/Seo";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
+type Employment =
+  | ""
+  | "empleado_indefinido"
+  | "empleado_temporal"
+  | "autonomo"
+  | "desempleado"
+  | "pension"
+  | "otros";
+
+type DebtEntry = {
+  type: string;
+  entity: string;
+  amount?: number;
+};
 
 type GuideFields = {
   debtAmount?: number;
   isDefault?: boolean;
   entities: string[];
+  debts: DebtEntry[];
   housing: Housing;
+  housingValue?: number;
+  mortgagePaid?: number;
+  mortgageRemaining?: number;
   vehicle: Vehicle;
   vehicleValue?: number;
+  vehiclePaid?: number;
+  vehicleRemaining?: number;
+  employment?: Employment;
   monthlyIncome?: number;
 };
 
@@ -67,8 +88,18 @@ const ENTITY_OPTIONS = [
   { value: "otros", label: "Otros" },
 ];
 
+const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
+  { value: "empleado_indefinido", label: "Empleado/a (indefinido)" },
+  { value: "empleado_temporal", label: "Empleado/a (temporal)" },
+  { value: "autonomo", label: "Autónomo/a" },
+  { value: "desempleado", label: "Desempleado/a" },
+  { value: "pension", label: "Pensionista" },
+  { value: "otros", label: "Otros" },
+];
+
 const emptyGuide = (): GuideFields => ({
   entities: [],
+  debts: [],
   housing: "",
   vehicle: "",
 });
