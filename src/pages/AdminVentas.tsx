@@ -458,6 +458,7 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
+  const [engagement, setEngagement] = useState(1);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
