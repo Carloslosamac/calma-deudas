@@ -249,6 +249,85 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
 
 const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
 
+// Caso de prueba para la fase de testing: rellena el formulario y un
+// resultado simulado para poder navegar libremente entre secciones.
+const TEST_CASE: {
+  label: string;
+  caseText: string;
+  guide: GuideFields;
+  result: AiResult;
+} = {
+  label: "PRUEBA · María · revolving 18.000€",
+  caseText:
+    "María, 42 años, separada con dos hijos. Trabaja como administrativa con contrato indefinido y cobra unos 1.350€ al mes. Arrastra varias tarjetas revolving y un par de microcréditos que pidió para llegar a fin de mes. Ya no puede pagar las cuotas, ha empezado a recibir llamadas de los acreedores y está muy agobiada porque teme que le embarguen la nómina.",
+  guide: {
+    debts: [
+      { type: "tarjetas", entity: "WiZink", amount: 8000 },
+      { type: "tarjetas", entity: "Cetelem", amount: 5000 },
+      { type: "microcreditos", entity: "Vivus", amount: 3000 },
+      { type: "prestamos", entity: "Banco Santander", amount: 2000 },
+    ],
+    entities: ["tarjetas", "microcreditos", "prestamos"],
+    debtAmount: 18000,
+    isDefault: true,
+    employment: "empleado_indefinido",
+    monthlyIncome: 1350,
+    housing: "alquiler",
+    vehicle: "no",
+  },
+  result: {
+    triage: { solution: "lso", title: "Ley de Segunda Oportunidad" },
+    diagnosis_internal: [
+      {
+        emoji: "⚠️",
+        title: "Embargo de nómina inminente",
+        body: "Con impago confirmado y acreedores llamando, el siguiente paso habitual es la demanda y el embargo de la parte embargable de la nómina. Anticipa la objeción «aún puedo ir pagando»: cada mes que pasa sube el riesgo.",
+      },
+      {
+        emoji: "📉",
+        title: "La deuda crece sola",
+        body: "Los intereses de demora y comisiones de las revolving disparan el saldo. Lo que hoy son 18.000€ puede ser bastante más en unos meses sin actuar.",
+      },
+      {
+        emoji: "📞",
+        title: "Presión y desgaste emocional",
+        body: "Las llamadas constantes y el miedo al embargo afectan a su día a día y a sus hijos. Conecta con el agobio que ya ha expresado.",
+      },
+      {
+        emoji: "⚖️",
+        title: "Riesgo de ASNEF y demandas",
+        body: "La inclusión en ficheros de morosos le cerrará el acceso a cualquier financiación y los monitorios pueden acumularse. Cuanto antes se actúe, mejor posición.",
+      },
+    ],
+    diagnosis_client:
+      "María, por lo que me cuentas, tu situación es seria pero tiene salida. Con las cuotas impagadas y las llamadas que ya estás recibiendo, el riesgo real es que la deuda siga creciendo por los intereses y que se inicie un proceso de embargo sobre tu nómina. Sé que es agotador convivir con esa presión cada día. Lo importante es que no estás sola y que actuar ahora cambia mucho el desenlace.",
+    solution_internal: [
+      {
+        emoji: "✅",
+        title: "Ley de Segunda Oportunidad",
+        body: "Cumple el perfil: insolvencia real y sin bienes de valor que proteger. Se puede cancelar legalmente la deuda y empezar de cero.",
+      },
+      {
+        emoji: "🛡️",
+        title: "Frena embargos y llamadas",
+        body: "Al iniciar el proceso se paraliza la presión de los acreedores. Es el alivio inmediato que más le importa ahora mismo.",
+      },
+      {
+        emoji: "📋",
+        title: "Qué hacemos exactamente",
+        body: "Analizamos su caso gratis, preparamos la documentación y la acompañamos en todo el procedimiento judicial hasta la exoneración.",
+      },
+      {
+        emoji: "🚀",
+        title: "Siguiente paso",
+        body: "Agendar el análisis gratuito hoy mismo para no perder más tiempo ni dejar que crezca la deuda.",
+      },
+    ],
+    solution_client:
+      "María, hay una solución pensada exactamente para casos como el tuyo: la Ley de Segunda Oportunidad. Te permite cancelar legalmente las deudas que no puedes pagar y volver a empezar sin esa carga. Al iniciar el proceso se frenan las llamadas y la amenaza de embargo. El primer paso es un análisis gratuito de tu caso, sin compromiso, para confirmar que cumples los requisitos y explicarte el camino con claridad.",
+  },
+};
+
 const AdminVentas = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -280,6 +359,16 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
+  };
+
+  const loadTestCase = () => {
+    setLabel(TEST_CASE.label);
+    setCaseText(TEST_CASE.caseText);
+    setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
+    setResult(TEST_CASE.result);
+    setSavedId(null);
+    setStep(0);
+    toast.success("Caso de prueba cargado");
   };
 
   const addDebt = () =>
@@ -426,6 +515,9 @@ const AdminVentas = () => {
             </p>
           </div>
           <div className="flex gap-2">
+            <Button variant="orange" size="sm" onClick={loadTestCase}>
+              <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
+            </Button>
             <Button variant="outline" size="sm" onClick={resetForm}>
               <Plus className="mr-1 h-4 w-4" /> Nuevo caso
             </Button>
@@ -443,13 +535,12 @@ const AdminVentas = () => {
             <button
               key={s}
               type="button"
-              onClick={() => (i === 0 || result) && setStep(i)}
-              disabled={i > 0 && !result}
+              onClick={() => setStep(i)}
               className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
                 step === i
                   ? "bg-accent text-accent-foreground"
                   : "bg-muted text-muted-foreground"
-              } ${i > 0 && !result ? "cursor-not-allowed opacity-50" : ""}`}
+              }`}
             >
               {i + 1}. {s}
             </button>
@@ -762,6 +853,23 @@ const AdminVentas = () => {
         )}
 
         {/* Step 2: Diagnóstico */}
+        {(step === 1 || step === 2) && !result && (
+          <Card className="space-y-3 p-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
+              caso de prueba para navegar entre secciones.
+            </p>
+            <div className="flex justify-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => setStep(0)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
+              </Button>
+              <Button variant="orange" size="sm" onClick={loadTestCase}>
+                <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
+              </Button>
+            </div>
+          </Card>
+        )}
+
         {step === 1 && result && (
           <Card className="space-y-4 border-destructive/30 bg-destructive/5 p-6">
             <div className="flex items-center justify-between">
