@@ -405,6 +405,7 @@ Deno.serve(async (req) => {
 
     const published: string[] = [];
     const failed: number[] = [];
+    let titlesRewritten = 0;
 
     for (const row of batch) {
       const article = await generateArticle(row);
@@ -419,7 +420,13 @@ Deno.serve(async (req) => {
       const slug = slugFromUrl(row.url_sugerida, row.titulo);
       const now = new Date().toISOString();
       const cleanTitle = sanitizeTitle(row.titulo);
-      const cleanSeoTitle = sanitizeTitle((article.seoTitle as string) ?? row.titulo);
+      const enforced = await enforceTitle(
+        (article.seoTitle as string) ?? row.titulo,
+        cleanTitle,
+        category,
+      );
+      const cleanSeoTitle = enforced.title;
+      if (enforced.rewritten) titlesRewritten++;
       const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
