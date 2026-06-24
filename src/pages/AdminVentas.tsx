@@ -74,6 +74,8 @@ type AiResult = {
   diagnosis_client: string;
   solution_internal: ScriptCard[];
   solution_client: string;
+  approach?: string;
+  engagement?: number;
 };
 
 type SalesCaseRow = {
@@ -106,6 +108,29 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "desempleado", label: "Desempleado/a" },
   { value: "pension", label: "Pensionista" },
   { value: "otros", label: "Otros" },
+];
+
+// Engagement: 0 = listísimo para empezar/pagar; 3 = quiere librarse de la llamada.
+// Colores tomados de la referencia del cliente (morado, verde, amarillo, rojo).
+const ENGAGEMENT_LEVELS: {
+  value: number;
+  color: string;
+  label: string;
+  hint: string;
+}[] = [
+  { value: 0, color: "#8b5cf6", label: "Quiere empezar ya", hint: "Listísimo. «Quiero pagar / empezar ahora mismo.»" },
+  { value: 1, color: "#6ec07a", label: "Muy interesado/a", hint: "Engancha, pregunta y escucha. Hay que reforzar valor." },
+  { value: 2, color: "#e8c84d", label: "Dudoso/a", hint: "Tiene reservas. Más empatía, menos presión." },
+  { value: 3, color: "#d9534f", label: "Quiere colgar", hint: "«Me gustaría librarme de esta llamada cuanto antes.»" },
+];
+
+// Señales de observación que ayudan al comercial a fijar el score.
+const ENGAGEMENT_SIGNALS = [
+  "Pregunta por precio o por cómo empezar",
+  "Hace preguntas sobre el proceso y los plazos",
+  "Comparte su situación con detalle y abre el tema",
+  "Pone pegas de tiempo o intenta acortar la llamada",
+  "Se muestra distante, con prisa o a la defensiva",
 ];
 
 const emptyGuide = (): GuideFields => ({
