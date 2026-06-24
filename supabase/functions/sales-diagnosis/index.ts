@@ -9,13 +9,26 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 type Housing = "propiedad" | "hipoteca" | "alquiler" | "";
 type Vehicle = "propiedad" | "financiado" | "no" | "";
 
+interface DebtEntry {
+  type?: string;
+  entity?: string;
+  amount?: number;
+}
+
 interface GuideFields {
   debtAmount?: number;
   isDefault?: boolean;
   entities?: string[];
+  debts?: DebtEntry[];
   housing?: Housing;
+  housingValue?: number;
+  mortgagePaid?: number;
+  mortgageRemaining?: number;
   vehicle?: Vehicle;
   vehicleValue?: number;
+  vehiclePaid?: number;
+  vehicleRemaining?: number;
+  employment?: string;
   monthlyIncome?: number;
 }
 
@@ -23,7 +36,15 @@ interface GuideFields {
 const USURY_ENTITIES = ["tarjetas", "microcreditos"];
 
 function hasValuableAssets(g: GuideFields): boolean {
+  // Vivienda en propiedad sin deuda = bien de valor que bloquea la LSO.
   if (g.housing === "propiedad") return true;
+  // Hipoteca con patrimonio neto positivo (valor > pendiente) también es bien de valor.
+  if (
+    g.housing === "hipoteca" &&
+    (g.housingValue ?? 0) - (g.mortgageRemaining ?? 0) >= 20000
+  ) {
+    return true;
+  }
   if (g.vehicle === "propiedad" && (g.vehicleValue ?? 0) >= 4000) return true;
   return false;
 }
@@ -53,12 +74,51 @@ const SOLUTION_BRIEF: Record<string, string> = {
 };
 
 function buildPrompt(caseText: string, g: GuideFields, t: { solution: string; title: string }): string {
+  const labels: Record<string, string> = {
+    prestamos: "Préstamos",
+    tarjetas: "Tarjetas / revolving",
+    microcreditos: "Microcréditos",
+    hacienda: "Hacienda / Seguridad Social",
+    hipoteca: "Hipoteca",
+    otros: "Otros",
+  };
+  const empLabels: Record<string, string> = {
+    empleado_indefinido: "Empleado/a (indefinido)",
+    empleado_temporal: "Empleado/a (temporal)",
+    autonomo: "Autónomo/a",
+    desempleado: "Desempleado/a",
+    pension: "Pensionista",
+    otros: "Otros",
+  };
+  const debtsList = (g.debts ?? [])
+    .filter((d) => d.entity || d.amount != null)
+    .map(
+      (d) =>
+        `  - ${labels[d.type ?? ""] ?? d.type ?? "Deuda"}${
+          d.entity ? ` (${d.entity})` : ""
+        }: ${d.amount != null ? `${d.amount} €` : "importe sin definir"}`,
+    )
+    .join("\n");
+
   const campos = [
     g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
+    debtsList ? `Desglose de deudas:\n${debtsList}` : null,
     g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
-    g.entities?.length ? `Tipo de deudas: ${g.entities.join(", ")}` : null,
-    g.housing ? `Vivienda: ${g.housing}` : null,
-    g.vehicle ? `Vehículo: ${g.vehicle}${g.vehicleValue ? ` (valor ~${g.vehicleValue} €)` : ""}` : null,
+    g.employment ? `Situación laboral: ${empLabels[g.employment] ?? g.employment}` : null,
+    g.housing === "hipoteca"
+      ? `Vivienda: hipoteca (valor ~${g.housingValue ?? "?"} €, pagado ~${g.mortgagePaid ?? "?"} €, pendiente ~${g.mortgageRemaining ?? "?"} €)`
+      : g.housing === "propiedad"
+        ? `Vivienda: en propiedad (valor ~${g.housingValue ?? "?"} €, sin hipoteca)`
+        : g.housing
+          ? `Vivienda: ${g.housing}`
+          : null,
+    g.vehicle === "financiado"
+      ? `Vehículo: financiado (valor ~${g.vehicleValue ?? "?"} €, pagado ~${g.vehiclePaid ?? "?"} €, pendiente ~${g.vehicleRemaining ?? "?"} €)`
+      : g.vehicle === "propiedad"
+        ? `Vehículo: en propiedad (valor ~${g.vehicleValue ?? "?"} €)`
+        : g.vehicle === "no"
+          ? "Vehículo: no tiene"
+          : null,
     g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
   ]
     .filter(Boolean)
