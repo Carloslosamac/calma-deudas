@@ -332,9 +332,9 @@ const AdminVentas = () => {
           } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
-          diagnosis_internal: result.diagnosis_internal,
+          diagnosis_internal: JSON.stringify(result.diagnosis_internal),
           diagnosis_client: result.diagnosis_client,
-          solution_internal: result.solution_internal,
+          solution_internal: JSON.stringify(result.solution_internal),
           solution_client: result.solution_client,
           created_by: session?.user.id ?? null,
         }])
@@ -358,9 +358,9 @@ const AdminVentas = () => {
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
-      diagnosis_internal: c.diagnosis_internal ?? "",
+      diagnosis_internal: parseCards(c.diagnosis_internal),
       diagnosis_client: c.diagnosis_client ?? "",
-      solution_internal: c.solution_internal ?? "",
+      solution_internal: parseCards(c.solution_internal),
       solution_client: c.solution_client ?? "",
     });
     setSavedId(c.id);
