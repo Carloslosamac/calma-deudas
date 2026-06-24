@@ -82,7 +82,12 @@ const SOLUTION_BRIEF: Record<string, string> = {
     "Reclamación judicial por usura: si la TAE de tarjetas revolving o microcréditos es desproporcionada, la deuda puede anularse por usura y se recupera lo pagado de más.",
 };
 
-function buildPrompt(caseText: string, g: GuideFields, t: { solution: string; title: string }): string {
+function buildPrompt(
+  caseText: string,
+  g: GuideFields,
+  t: { solution: string; title: string },
+  engagement: number,
+): string {
   const labels: Record<string, string> = {
     prestamos: "Préstamos",
     tarjetas: "Tarjetas / revolving",
