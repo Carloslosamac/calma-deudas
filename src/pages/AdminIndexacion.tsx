@@ -11,7 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  ExternalLink,
+  Copy,
   RefreshCw,
   Search,
   LogOut,
@@ -19,8 +19,6 @@ import {
 import Seo from "@/components/seo/Seo";
 
 const SITEMAP_URL = "/sitemap.xml";
-const GSC_INSPECT = "https://search.google.com/search-console/inspect?resource_id=" +
-  encodeURIComponent("sc-domain:mi-calma.es") + "&id=";
 
 type IndexItem = {
   url: string;
@@ -233,15 +231,18 @@ const AdminIndexacion = () => {
                       >
                         {path}
                       </span>
-                      <a
-                        href={GSC_INSPECT + encodeURIComponent(item.url)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          navigator.clipboard.writeText(item.url);
+                          toast.success("URL copiada · pégala en Inspección de URLs");
+                        }}
                         className="inline-flex items-center gap-1 text-xs text-accent-deep hover:underline"
                       >
-                        Inspeccionar <ExternalLink className="h-3 w-3" />
-                      </a>
+                        Copiar URL <Copy className="h-3 w-3" />
+                      </button>
                     </label>
                   );
                 })}
