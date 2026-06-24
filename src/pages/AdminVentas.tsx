@@ -853,6 +853,23 @@ const AdminVentas = () => {
         )}
 
         {/* Step 2: Diagnóstico */}
+        {(step === 1 || step === 2) && !result && (
+          <Card className="space-y-3 p-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
+              caso de prueba para navegar entre secciones.
+            </p>
+            <div className="flex justify-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => setStep(0)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
+              </Button>
+              <Button variant="orange" size="sm" onClick={loadTestCase}>
+                <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
+              </Button>
+            </div>
+          </Card>
+        )}
+
         {step === 1 && result && (
           <Card className="space-y-4 border-destructive/30 bg-destructive/5 p-6">
             <div className="flex items-center justify-between">
