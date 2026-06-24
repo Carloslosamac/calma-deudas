@@ -223,15 +223,6 @@ const AdminVentas = () => {
     setSavedId(null);
   };
 
-  const toggleEntity = (value: string) => {
-    setGuide((g) => ({
-      ...g,
-      entities: g.entities.includes(value)
-        ? g.entities.filter((e) => e !== value)
-        : [...g.entities, value],
-    }));
-  };
-
   const addDebt = () =>
     setGuide((g) => ({
       ...g,
