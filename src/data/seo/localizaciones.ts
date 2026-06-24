@@ -625,6 +625,30 @@ const localCases: Record<
     audienciaProvincial: "la Audiencia Provincial de Alicante",
     ejemploCaso: "Un caso habitual en Elche: un autónomo del calzado o la industria local que quedó con deudas tras una mala temporada y préstamos del negocio.",
   },
+  oviedo: {
+    audienciaProvincial: "la Audiencia Provincial de Asturias",
+    ejemploCaso: "Un caso habitual en Oviedo: un pensionista o funcionario que avaló a un familiar y arrastra préstamos y tarjetas que no puede asumir.",
+  },
+  santander: {
+    audienciaProvincial: "la Audiencia Provincial de Cantabria",
+    ejemploCaso: "Un caso habitual en Santander: un autónomo del comercio que, tras bajar las ventas, quedó con préstamos del negocio y deudas en varias entidades.",
+  },
+  pamplona: {
+    audienciaProvincial: "la Audiencia Provincial de Navarra",
+    ejemploCaso: "Un caso habitual en Pamplona: una familia que fue sumando microcréditos y préstamos personales para imprevistos hasta perder el control de las cuotas.",
+  },
+  donostia: {
+    audienciaProvincial: "la Audiencia Provincial de Gipuzkoa",
+    ejemploCaso: "Un caso habitual en Donostia: un autónomo de la hostelería que cerró el negocio y quedó con préstamos y avales difíciles de asumir con su nuevo empleo.",
+  },
+  burgos: {
+    audienciaProvincial: "la Audiencia Provincial de Burgos",
+    ejemploCaso: "Un caso habitual en Burgos: un pequeño autónomo del comercio o la industria que arrastra deudas con proveedores tras una caída de actividad.",
+  },
+  almeria: {
+    audienciaProvincial: "la Audiencia Provincial de Almería",
+    ejemploCaso: "Un caso habitual en Almería: un autónomo de la agricultura intensiva que, tras una mala campaña, quedó con deudas a proveedores y préstamos del negocio.",
+  },
 };
 
 export const localizaciones: Localizacion[] = cities.map((c) => ({
