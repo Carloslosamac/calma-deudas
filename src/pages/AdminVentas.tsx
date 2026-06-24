@@ -508,13 +508,12 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
-  const generate = async () => {
+  const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
       return;
     }
     setGenerating(true);
-    setResult(null);
     try {
       const derivedEntities = Array.from(
         new Set(guide.debts.map((d) => d.type).filter(Boolean)),
@@ -525,7 +524,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement },
       });
       if (error) throw error;
       if (data?.error) {
@@ -534,7 +533,7 @@ const AdminVentas = () => {
       }
       setResult(data as AiResult);
       setSavedId(null);
-      setStep(1);
+      setStep(nextStep);
     } catch (e) {
       toast.error("No se pudo generar el diagnóstico. Inténtalo de nuevo.");
       console.error(e);
@@ -542,6 +541,16 @@ const AdminVentas = () => {
       setGenerating(false);
     }
   };
+
+  // Paso 0 → 1: prepara el diagnóstico según el engagement.
+  const generate = () => {
+    setResult(null);
+    void runGeneration(1);
+  };
+
+  // Paso 1 → 2: re-prepara TODO el discurso (incl. solución) con el
+  // engagement actualizado, para que el siguiente paso encaje con él.
+  const proceedToSolution = () => void runGeneration(2);
 
   const saveCase = async () => {
     if (!result) return;
