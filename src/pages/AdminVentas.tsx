@@ -293,7 +293,13 @@ const AdminVentas = () => {
         .insert([{
           label: label.trim() || `Caso ${new Date().toLocaleDateString("es-ES")}`,
           case_text: caseText.trim(),
-          guide_fields: guide as never,
+          guide_fields: {
+            ...guide,
+            entities: Array.from(
+              new Set(guide.debts.map((d) => d.type).filter(Boolean)),
+            ),
+            debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+          } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
           diagnosis_internal: result.diagnosis_internal,
