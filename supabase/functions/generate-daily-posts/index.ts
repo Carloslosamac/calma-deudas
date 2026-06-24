@@ -153,6 +153,91 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
   }
 }
 
+// ---- Validación dura del seoTitle (patrón agresivo de CTR) ----
+// Cuenta caracteres VISUALES (grafemas) para respetar el límite de 60 con emojis.
+const graphemeSeg = typeof Intl !== "undefined" && "Segmenter" in Intl
+  ? new Intl.Segmenter("es", { granularity: "grapheme" })
+  : null;
+function visualLength(s: string): number {
+  if (graphemeSeg) return [...graphemeSeg.segment(s)].length;
+  return [...s].length;
+}
+// ¿Empieza por emoji? (símbolos/pictogramas fuera del rango ASCII/letras)
+const EMOJI_START = /^(?:\p{Extended_Pictographic}|\p{Emoji_Presentation})/u;
+function startsWithEmoji(s: string): boolean {
+  return EMOJI_START.test(s.trim());
+}
+const FLAT_START = /^\s*(gu[ií]a|requisitos|documentaci[oó]n|introducci[oó]n|c[oó]mo\b)/i;
+function isCompliantTitle(t: string): boolean {
+  const clean = (t ?? "").trim();
+  if (!clean) return false;
+  if (!startsWithEmoji(clean)) return false;
+  if (visualLength(clean) > 60) return false;
+  // El arranque plano se evalúa tras el emoji.
+  const afterEmoji = clean.replace(EMOJI_START, "").trim();
+  if (FLAT_START.test(afterEmoji)) return false;
+  return true;
+}
+
+// Reescribe un título no conforme con una llamada corta al modelo.
+async function rewriteTitle(rawTitle: string, topic: string, category: string): Promise<string | null> {
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Eres copywriter de SEO. Devuelve SOLO el título reescrito, sin comillas ni explicación. Patrón obligatorio: 1 emoji temático al inicio + keyword principal + gancho de urgencia/poder. Máximo 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma», sin arranques planos (Guía/Requisitos/Documentación/Cómo).",
+          },
+          {
+            role: "user",
+            content: `Tema: ${topic}\nCategoría: ${category}\nTítulo actual (no conforme): ${rawTitle}\nReescríbelo cumpliendo el patrón.`,
+          },
+        ],
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const out = (data?.choices?.[0]?.message?.content ?? "").trim().replace(/^["“”']|["“”']$/g, "").trim();
+    return out || null;
+  } catch (_e) {
+    return null;
+  }
+}
+
+// Recorte seguro como último recurso: no parte palabras y conserva el emoji.
+function safeTruncate(t: string, max = 60): string {
+  if (visualLength(t) <= max) return t;
+  const words = t.split(/\s+/);
+  let acc = "";
+  for (const w of words) {
+    const candidate = acc ? `${acc} ${w}` : w;
+    if (visualLength(candidate) > max) break;
+    acc = candidate;
+  }
+  return (acc || t).trim();
+}
+
+// Garantiza un seoTitle conforme: valida → reescribe → recorta.
+async function enforceTitle(rawTitle: string, topic: string, category: string): Promise<{ title: string; rewritten: boolean }> {
+  const sanitized = sanitizeTitle(rawTitle ?? "").trim();
+  if (isCompliantTitle(sanitized)) return { title: sanitized, rewritten: false };
+  const rewritten = await rewriteTitle(sanitized || topic, topic, category);
+  if (rewritten) {
+    const clean = sanitizeTitle(rewritten);
+    if (isCompliantTitle(clean)) return { title: clean, rewritten: true };
+    return { title: safeTruncate(clean, 60), rewritten: true };
+  }
+  return { title: safeTruncate(sanitized || topic, 60), rewritten: true };
+}
+
 // Redimensiona a un ancho máximo razonable para web (1200px) y recomprime a
 // JPEG de calidad alta (82) para que las portadas carguen rápido sin pérdida
 // de calidad visible. Devuelve los bytes JPEG o null si falla (entonces se
