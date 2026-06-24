@@ -4,6 +4,26 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+
+// Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget.
+async function notifyIndexNow(slugs: string[]): Promise<void> {
+  if (!slugs.length) return;
+  try {
+    const urls = slugs.map((s) => `/casos-de-exito/${s}`);
+    await fetch(`${SUPABASE_URL}/functions/v1/indexnow-submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: ANON_KEY,
+        Authorization: `Bearer ${ANON_KEY}`,
+      },
+      body: JSON.stringify({ urls }),
+    });
+  } catch (e) {
+    console.error("notifyIndexNow (casos) error:", String(e));
+  }
+}
 
 // Categorías de caso y su solución típica. La mitad de los casos deben ser LSO.
 const LSO_CATEGORY = "Ley de Segunda Oportunidad";
