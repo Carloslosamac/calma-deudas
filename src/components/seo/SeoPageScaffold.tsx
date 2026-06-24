@@ -80,6 +80,8 @@ export type SeoPageScaffoldProps = {
   breadcrumbs: Crumb[];
   structuredData?: Record<string, unknown>[];
   related?: RelatedLink[];
+  /** respuesta directa (answer-first) para AEO/GEO; se muestra destacada bajo el H1 */
+  tldr?: React.ReactNode;
   /** secciones con copy real; si se omite, se muestran placeholders */
   sections?: ContentSection[];
   /** preguntas frecuentes (se renderiza un acordeón al final del contenido) */
@@ -102,6 +104,7 @@ const SeoPageScaffold = ({
   breadcrumbs,
   structuredData,
   related,
+  tldr,
   sections: contentSections,
   faq,
   tools,
@@ -138,6 +141,14 @@ const SeoPageScaffold = ({
               <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
                 {intro}
               </p>
+            )}
+            {tldr && (
+              <div className="mt-6 rounded-2xl border border-accent/30 bg-accent-soft/40 p-5">
+                <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-accent-deep">
+                  Respuesta directa
+                </p>
+                <div className="text-base leading-relaxed text-foreground">{tldr}</div>
+              </div>
             )}
             <div className="mt-7">
               <CtaButton />
