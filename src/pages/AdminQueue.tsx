@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toast } from "sonner";
-import { Activity, LogOut, Play, RefreshCw } from "lucide-react";
+import { Activity, LogOut, Play, RefreshCw, Search } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
 type RoadmapRow = {
@@ -259,6 +259,11 @@ const AdminQueue = () => {
             <Button asChild variant="outline" size="sm">
               <Link to="/admin/health">
                 <Activity className="mr-2 h-4 w-4" /> Estado
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/indexacion">
+                <Search className="mr-2 h-4 w-4" /> Indexación
               </Link>
             </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
