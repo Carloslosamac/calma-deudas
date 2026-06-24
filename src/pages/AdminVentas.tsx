@@ -65,11 +65,13 @@ type GuideFields = {
   monthlyIncome?: number;
 };
 
+type ScriptCard = { emoji: string; title: string; body: string };
+
 type AiResult = {
   triage: { solution: string; title: string };
-  diagnosis_internal: string;
+  diagnosis_internal: ScriptCard[];
   diagnosis_client: string;
-  solution_internal: string;
+  solution_internal: ScriptCard[];
   solution_client: string;
 };
 
