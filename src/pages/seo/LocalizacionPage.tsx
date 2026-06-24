@@ -15,10 +15,13 @@ const LocalizacionPage = () => {
   const canonical = `${city.path}`;
   const content = getLocalizacionContent(city);
 
-  // Length-aware para no truncar en SERP con nombres de ciudad largos.
+  // Length-aware (sin marca "| Calma": resta caracteres y no aporta CTR) para
+  // no truncar en SERP con nombres de ciudad largos. Gancho diferenciador.
   const titleCandidates = [
-    `Abogados Ley Segunda Oportunidad en ${city.name} | Calma`,
-    `Abogados Segunda Oportunidad en ${city.name} | Calma`,
+    `⚖️ Abogados Segunda Oportunidad en ${city.name}: cancela deudas`,
+    `Abogados Segunda Oportunidad en ${city.name}: cancela tus deudas`,
+    `Abogados Segunda Oportunidad en ${city.name}: cancela deudas`,
+    `Abogados Ley Segunda Oportunidad en ${city.name}`,
     `Abogados Segunda Oportunidad en ${city.name}`,
   ];
   const seoTitle =
