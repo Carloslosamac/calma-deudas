@@ -293,6 +293,78 @@ const cities: Omit<
     lat: 38.2699,
     lng: -0.7126,
   },
+  {
+    slug: "oviedo",
+    name: "Oviedo",
+    rank: 21,
+    provincia: "Asturias",
+    comunidad: "Principado de Asturias",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Oviedo",
+    localNote:
+      "Oviedo es referencia judicial del centro de Asturias, donde llevamos casos de funcionarios, pensionistas y autónomos con deudas de consumo acumuladas.",
+    lat: 43.3619,
+    lng: -5.8494,
+  },
+  {
+    slug: "santander",
+    name: "Santander",
+    rank: 22,
+    provincia: "Cantabria",
+    comunidad: "Cantabria",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Santander",
+    localNote:
+      "En Santander damos servicio a toda Cantabria, con casos frecuentes de autónomos del comercio y los servicios y familias con préstamos en varias entidades.",
+    lat: 43.4623,
+    lng: -3.8099,
+  },
+  {
+    slug: "pamplona",
+    name: "Pamplona",
+    rank: 23,
+    provincia: "Navarra",
+    comunidad: "Comunidad Foral de Navarra",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Pamplona",
+    localNote:
+      "En Pamplona llevamos expedientes de toda Navarra, coordinando el proceso de segunda oportunidad con las particularidades del derecho foral navarro cuando aplica.",
+    lat: 42.8125,
+    lng: -1.6458,
+  },
+  {
+    slug: "donostia",
+    name: "Donostia-San Sebastián",
+    rank: 24,
+    provincia: "Gipuzkoa",
+    comunidad: "País Vasco",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Donostia-San Sebastián",
+    localNote:
+      "En Donostia atendemos a particulares y autónomos de toda Gipuzkoa, con casos habituales en el comercio, la hostelería y el sector servicios.",
+    lat: 43.3183,
+    lng: -1.9812,
+  },
+  {
+    slug: "burgos",
+    name: "Burgos",
+    rank: 25,
+    provincia: "Burgos",
+    comunidad: "Castilla y León",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Burgos",
+    localNote:
+      "Burgos es referencia judicial del norte de Castilla y León, donde llevamos casos de particulares y pequeños autónomos del comercio y la industria.",
+    lat: 42.3439,
+    lng: -3.6969,
+  },
+  {
+    slug: "almeria",
+    name: "Almería",
+    rank: 26,
+    provincia: "Almería",
+    comunidad: "Andalucía",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Almería",
+    localNote:
+      "En Almería damos servicio a toda la provincia, con casos frecuentes de autónomos de la agricultura intensiva, el comercio y la hostelería.",
+    lat: 36.834,
+    lng: -2.4637,
+  },
 ];
 
 /**
