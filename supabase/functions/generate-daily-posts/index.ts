@@ -93,8 +93,8 @@ REGLAS EDITORIALES INNEGOCIABLES:
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown, sin comentarios) con esta forma exacta:
 {
   "category": "una de las categorías permitidas",
-  "seoTitle": "título SEO < 60 caracteres, con gancho diferenciador, SIN marca/«| Calma»",
-  "metaDescription": "meta descripción < 160 caracteres, persuasiva para CTR",
+  "seoTitle": "TÍTULO AGRESIVO DE CTR: empieza SIEMPRE con 1 emoji temático + keyword principal + gancho de urgencia/poder. Máx 60 caracteres VISUALES (contando el emoji). SIN marca/«| Calma». Decoradores 【 】 opcionales (año, GUÍA, 2026). Nada de patrones planos tipo «Guía de…», «Requisitos de…», «Documentación de…»",
+  "metaDescription": "meta descripción < 160 caracteres, persuasiva para CTR, que EMPIECE con 1 emoji temático",
   "excerpt": "entradilla de 1-2 frases",
   "readTime": "p.ej. '7 min'",
   "heroAlt": "texto alternativo descriptivo de la imagen",
