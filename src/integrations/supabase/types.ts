@@ -223,6 +223,30 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_index_checks: {
+        Row: {
+          created_at: string
+          done: boolean
+          done_at: string | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          done_at?: string | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          done_at?: string | null
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       seo_roadmap: {
         Row: {
           cluster: string | null
