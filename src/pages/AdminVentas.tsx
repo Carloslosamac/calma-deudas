@@ -1015,12 +1015,23 @@ const AdminVentas = () => {
               client={result.diagnosis_client}
               tone="alert"
             />
-            <div className="flex justify-between pt-2">
+            {result.approach && (
+              <div className="rounded-lg border border-destructive/30 bg-background/60 p-3 text-xs text-foreground/90">
+                <span className="font-semibold text-destructive">Cómo abordar el siguiente paso: </span>
+                {result.approach}
+              </div>
+            )}
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Re-evalúa el engagement antes de la solución"
+              ctaLabel="Preparar solución"
+              onContinue={proceedToSolution}
+              loading={generating}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
-              </Button>
-              <Button onClick={() => setStep(2)}>
-                Ver solución <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
           </Card>
@@ -1038,6 +1049,12 @@ const AdminVentas = () => {
               internal={result.solution_internal}
               client={result.solution_client}
             />
+            {result.approach && (
+              <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 text-xs text-foreground/90">
+                <span className="font-semibold text-foreground">Cómo abordar el siguiente paso: </span>
+                {result.approach}
+              </div>
+            )}
             <div className="flex justify-between pt-2">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
