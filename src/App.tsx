@@ -35,6 +35,7 @@ const ToolPage = lazy(() => import("./pages/seo/ToolPage"));
 const AdminAuth = lazy(() => import("./pages/AdminAuth"));
 const AdminQueue = lazy(() => import("./pages/AdminQueue"));
 const AdminHealth = lazy(() => import("./pages/AdminHealth"));
+const AdminIndexacion = lazy(() => import("./pages/AdminIndexacion"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
