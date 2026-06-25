@@ -802,6 +802,12 @@ const AdminVentas = () => {
     setStep(3);
   };
 
+  // Paso 3 → 4: pasa a firma (el guion de cierre se pre-genera solo al entrar).
+  const goToSign = () => {
+    autoGenRef.current[4] = false;
+    setStep(4);
+  };
+
   // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
   // sin sobreescribir el diagnóstico/solución ya generados.
   const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
