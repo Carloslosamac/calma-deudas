@@ -1634,6 +1634,50 @@ const AdminVentas = () => {
               </h2>
               <Badge variant="destructive">{result.triage.title}</Badge>
             </div>
+            {paymentCapacity != null && (
+              <div className="rounded-lg border border-border bg-background/70 p-4">
+                <p className="mb-2 text-sm font-semibold text-foreground">
+                  Capacidad de pago mensual
+                </p>
+                <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Ingresos</p>
+                    <p className="font-semibold text-foreground">
+                      {(guide.monthlyIncome ?? 0).toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Gastos esenciales</p>
+                    <p className="font-semibold text-foreground">
+                      {essentialOutflow.toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Capacidad libre</p>
+                    <p
+                      className={`font-semibold ${
+                        paymentCapacity < 0 ? "text-destructive" : "text-phase-solution"
+                      }`}
+                    >
+                      {paymentCapacity.toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Cuota asumible</p>
+                    <p className="font-semibold text-accent">
+                      {(affordablePayment ?? 0).toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Capacidad = ingresos − gastos esenciales (vivienda, vehículo y gastos de vida),
+                  sin contar las cuotas de deudas. La cuota asumible es el 60 % de esa capacidad,
+                  como margen prudente para una propuesta sostenible.
+                  {debtsMonthly > 0 &&
+                    ` Hoy paga ${debtsMonthly.toLocaleString("es-ES")} €/mes en cuotas de deudas.`}
+                </p>
+              </div>
+            )}
             <ResultBlock
               internal={result.diagnosis_internal}
               client={result.diagnosis_client}
