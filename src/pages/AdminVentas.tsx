@@ -1477,6 +1477,7 @@ const AdminVentas = () => {
                 <PenLine className="h-5 w-5" /> Firma · cierre online
               </h2>
             </div>
+            <TierSelector value={engagement} onChange={setEngagement} />
 
             {result.signing_internal && result.signing_internal.length > 0 ? (
               <ResultBlock
