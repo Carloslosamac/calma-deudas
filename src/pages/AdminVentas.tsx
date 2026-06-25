@@ -684,6 +684,7 @@ const AdminVentas = () => {
   };
 
   const loadTestCase = () => {
+    setReinforceByStep({});
     setLabel(TEST_CASE.label);
     setCaseText(TEST_CASE.caseText);
     setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
