@@ -1598,9 +1598,12 @@ const AdminVentas = () => {
                 <PenLine className="h-5 w-5" /> Firma · cierre online
               </h2>
             </div>
-            <TierSelector value={engagement} onChange={setEngagement} />
 
-            {result.signing_internal && result.signing_internal.length > 0 ? (
+            {generating && !(result.signing_internal?.length) ? (
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
+              </div>
+            ) : result.signing_internal && result.signing_internal.length > 0 ? (
               <ResultBlock
                 internal={result.signing_internal}
                 client={result.signing_client ?? ""}
@@ -1620,6 +1623,18 @@ const AdminVentas = () => {
                 </div>
               </div>
             )}
+
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement en la firma"
+              ctaLabel="Regenerar guion de cierre"
+              onContinue={() => void runPhase("signing")}
+              loading={generating}
+              phrases={REACTION_PHRASES_SIGN}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
               <Label>Estado de la firma</Label>
