@@ -747,6 +747,7 @@ const AdminVentas = () => {
             ),
             debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
             engagement,
+            engagementByPhase,
             reactions,
             contract,
             signatureStatus,
