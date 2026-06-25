@@ -1346,7 +1346,10 @@ const AdminVentas = () => {
 
         {/* Step 4: Contrato */}
         {step === 3 && result && (
-          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}>
+          <Card
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
+            style={phaseStyle(3)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
