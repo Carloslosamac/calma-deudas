@@ -576,7 +576,15 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
-  const [engagement, setEngagement] = useState(1);
+  const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
+    1, 1, 1, 1, 1,
+  ]);
+  // El engagement "activo" es el tier registrado en la fase actual.
+  const engagement = engagementByPhase[step] ?? 1;
+  const setEngagement = (v: number) =>
+    setEngagementByPhase((prev) =>
+      prev.map((x, i) => (i === step ? v : x)),
+    );
   const [reactions, setReactions] = useState<string[]>([]);
   const [contract, setContract] = useState<ContractFields>(emptyContract());
   const [signatureStatus, setSignatureStatus] = useState("pendiente");
