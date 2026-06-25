@@ -1,22 +1,27 @@
-Contexto: la herramienta de ventas pinta cada fase con un color propio aplicado al borde/fondo de la card. El usuario quiere mantener esa identidad cromática por fase pero mejorar la legibilidad de los elementos interactivos dentro de la card.
+# Coherencia de color por fase en la herramienta de ventas
 
-Cambios a realizar en `src/pages/AdminVentas.tsx`:
+Ahora mismo varios elementos ignoran el color de la fase y usan el negro/blanco por defecto de shadcn. Hay que engancharlos a la variable `--phase` que ya existe en cada card.
 
-1. Chips de reacción (reaction phrases)
-   - En estado NO seleccionado: reemplazar el fondo neutro (`bg-background/60`) por un tinte del color de fase a mayor saturación (ej. `bg-phase-{name}/15` + `text-phase-{name}`).
-   - En estado seleccionado: aumentar la opacidad del fondo de fase (ej. `bg-phase-{name}/25` o `/30`) y mantener el borde sutil.
-   - Eliminar comillas angulares (« ») de los labels para que ocupen menos y se lean como chips en vez de cita.
+## Qué se cambia
 
-2. Inputs, selectores y textareas dentro de la card de fase
-   - Cambiar fondo blanco sólido (`bg-background`) por transparente o `bg-card/80` para que no formen "islas" de contraste sobre el color de fase.
-   - Aumentar levemente el grosor o contraste del borde (`border-phase-{name}/30` o `border-border/60`) para mantener legibilidad sin romper la superficie.
+### 1. Selectores tipo toggle (Sí/No, Vivienda, Vehículo, etc.)
+En `src/pages/AdminVentas.tsx`, los botones que usan `variant={... ? "default" : "outline"}` (impago, vivienda, vehículo, y cualquier otro toggle del paso de cualificación) pintan el estado seleccionado en negro.
 
-3. Botones de acción dentro de la card
-   - El botón principal (ej. "Continuar", "Generar contrato") debe conservar fondo del color de fase (`bg-phase-{name}`) con texto blanco para máximo contraste.
-   - Los botones secundarios (copiar, añadir deuda, etc.) usar borde sutil del color de fase en vez de neutro.
+- Estado seleccionado: fondo `hsl(var(--phase))`, texto blanco, borde `hsl(var(--phase))`.
+- Estado no seleccionado: se mantiene el tinte suave de fase ya aplicado a los fields (fondo `hsl(var(--phase)/0.06–0.16)`, borde `hsl(var(--phase)/0.4)`, texto de fase).
 
-4. Comprobación visual rápida
-   - Verificar que los chips se distinguen claramente del fondo de la card en todas las 5 fases.
-   - Confirmar que inputs y selects siguen siendo legibles (sin fundirse con el fondo).
+Se implementa con un pequeño componente/estilo inline reutilizable (mismo patrón que ya usan las chips de "¿Cómo ha reaccionado?") en lugar de `variant="default"`.
 
-Nota técnica: como los colores de fase ya existen como tokens HSL en `index.css` y como clases utilitarias en `tailwind.config.ts`, se usan directamente vía `bg-phase-{name}/xx` y `text-phase-{name}` sin crear nuevos tokens.
+### 2. Selector de engagement (gate) y TierSelector
+- Gate (líneas ~417-443): el estado seleccionado usa `border-foreground/40 bg-background`. Se cambia a borde + leve fondo de fase (`hsl(var(--phase))` / `hsl(var(--phase)/0.1)`).
+- TierSelector (líneas ~515-538): el `ring-foreground/40` del círculo seleccionado se cambia a `ring` con color de fase. Los círculos de número conservan su color semántico de tier (morado/verde/amarillo/rojo) porque comunican el nivel; solo cambia el anillo de selección.
+
+### 3. CTA principal de cada fase
+Los botones principales (`onContinue` de la línea ~491, y los "Continuar/Generar" de Solución, Contrato y Firma) usan el `Button` por defecto (negro). Se les aplica el color de la fase:
+- Fondo `hsl(var(--phase))`, texto blanco, hover ligeramente más oscuro.
+- Los botones secundarios (`variant="outline"`, "Atrás") se quedan como están (ya heredan el borde de fase).
+
+## Detalle técnico
+- Toda la lógica de color se apoya en la variable CSS `--phase` que ya se setea por fase en la card contenedora; no hay que tocar `ConversionChart` ni el edge function.
+- Se centraliza el estilo de "pill seleccionable" y de "CTA de fase" en helpers locales dentro de `AdminVentas.tsx` para no repetir estilos inline.
+- Sin cambios de lógica de negocio ni de datos: solo presentación.
