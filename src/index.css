@@ -204,4 +204,30 @@ All colors MUST be HSL.
   .phase-card .bg-primary:hover {
     background-color: hsl(var(--phase) / 0.88) !important;
   }
+
+  /* Botones outline/secundarios e iconos (Añadir entidad, Atrás, Copiar,
+     papelera) y toggles NO seleccionados: tinte de fase en vez de blanco. */
+  .phase-card .border-input,
+  .phase-card .bg-secondary {
+    background-color: hsl(var(--phase) / 0.07) !important;
+    border-color: hsl(var(--phase) / 0.35) !important;
+    color: hsl(var(--phase)) !important;
+  }
+  .phase-card .border-input:hover,
+  .phase-card .bg-secondary:hover {
+    background-color: hsl(var(--phase) / 0.16) !important;
+  }
+
+  /* Tabs (Guion comercial / Para el cliente): pista y pestaña activa con
+     el color de la fase en lugar del blanco neutro. */
+  .phase-card [role="tablist"] {
+    background-color: hsl(var(--phase) / 0.1) !important;
+  }
+  .phase-card [role="tab"][data-state="active"] {
+    background-color: hsl(var(--phase)) !important;
+    color: hsl(var(--phase-fg, 0 0% 100%)) !important;
+  }
+  .phase-card [role="tab"][data-state="inactive"] {
+    color: hsl(var(--phase) / 0.75) !important;
+  }
 }
