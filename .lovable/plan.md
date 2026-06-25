@@ -1,27 +1,28 @@
-# Coherencia de color por fase en la herramienta de ventas
+# Fix: la IA debe usar los datos editados, no las cifras del texto libre
 
-Ahora mismo varios elementos ignoran el color de la fase y usan el negro/blanco por defecto de shadcn. Hay que engancharlos a la variable `--phase` que ya existe en cada card.
+## Problema
+El edge function `sales-diagnosis` envía a la IA dos fuentes:
+1. El texto libre del caso (resumen narrativo del comercial / caso de prueba).
+2. Los "DATOS GUÍA" estructurados (deuda, entidades, ingresos, vivienda…).
 
-## Qué se cambia
+Cuando ambas tienen cifras distintas (p.ej. el texto dice 1.350€ pero el campo Ingresos dice 1.100€), la IA usa la del texto libre. Resultado: el guion menciona 1.350€ aunque el comercial puso 1.100€.
 
-### 1. Selectores tipo toggle (Sí/No, Vivienda, Vehículo, etc.)
-En `src/pages/AdminVentas.tsx`, los botones que usan `variant={... ? "default" : "outline"}` (impago, vivienda, vehículo, y cualquier otro toggle del paso de cualificación) pintan el estado seleccionado en negro.
+## Solución
+Establecer jerarquía explícita: **los DATOS GUÍA son la única fuente de verdad** para cifras y entidades. El texto libre sirve solo para contexto cualitativo (situación personal, emociones, tono), nunca para números.
 
-- Estado seleccionado: fondo `hsl(var(--phase))`, texto blanco, borde `hsl(var(--phase))`.
-- Estado no seleccionado: se mantiene el tinte suave de fase ya aplicado a los fields (fondo `hsl(var(--phase)/0.06–0.16)`, borde `hsl(var(--phase)/0.4)`, texto de fase).
+### Cambios en `supabase/functions/sales-diagnosis/index.ts`
+1. En el prompt principal (`buildPrompt`) y en los demás prompts que incluyen el caso (firma `buildSigningPrompt` y contrato), reordenar y etiquetar:
+   - Poner los DATOS GUÍA marcados como **FUENTE DE VERDAD (prioridad absoluta)**.
+   - Marcar el texto libre como **CONTEXTO CUALITATIVO** (situación, emociones), aclarando que NO debe usarse para importes, salario ni entidades si entran en conflicto con los datos guía.
+2. Añadir una regla en el bloque REGLAS:
+   - "Si una cifra (deuda, cuota, ingresos) o una entidad aparece en el texto libre pero difiere de los DATOS GUÍA, usa SIEMPRE el valor de los DATOS GUÍA. Los DATOS GUÍA reflejan lo que el comercial ha confirmado y editado."
+3. Aplicar la misma regla/etiquetado a `buildSigningPrompt` y al prompt de contrato para que contrato y firma también respeten los datos editados.
 
-Se implementa con un pequeño componente/estilo inline reutilizable (mismo patrón que ya usan las chips de "¿Cómo ha reaccionado?") en lugar de `variant="default"`.
+### Despliegue
+- Redesplegar `sales-diagnosis`.
 
-### 2. Selector de engagement (gate) y TierSelector
-- Gate (líneas ~417-443): el estado seleccionado usa `border-foreground/40 bg-background`. Se cambia a borde + leve fondo de fase (`hsl(var(--phase))` / `hsl(var(--phase)/0.1)`).
-- TierSelector (líneas ~515-538): el `ring-foreground/40` del círculo seleccionado se cambia a `ring` con color de fase. Los círculos de número conservan su color semántico de tier (morado/verde/amarillo/rojo) porque comunican el nivel; solo cambia el anillo de selección.
+### Verificación
+- Regenerar el diagnóstico del caso de prueba con Ingresos = 1.100 y confirmar que el guion ya cita 1.100€ y no 1.350€.
 
-### 3. CTA principal de cada fase
-Los botones principales (`onContinue` de la línea ~491, y los "Continuar/Generar" de Solución, Contrato y Firma) usan el `Button` por defecto (negro). Se les aplica el color de la fase:
-- Fondo `hsl(var(--phase))`, texto blanco, hover ligeramente más oscuro.
-- Los botones secundarios (`variant="outline"`, "Atrás") se quedan como están (ya heredan el borde de fase).
-
-## Detalle técnico
-- Toda la lógica de color se apoya en la variable CSS `--phase` que ya se setea por fase en la card contenedora; no hay que tocar `ConversionChart` ni el edge function.
-- Se centraliza el estilo de "pill seleccionable" y de "CTA de fase" en helpers locales dentro de `AdminVentas.tsx` para no repetir estilos inline.
-- Sin cambios de lógica de negocio ni de datos: solo presentación.
+## Nota
+No hace falta tocar el frontend ni la base de datos: el campo Ingresos ya se envía correctamente; el problema es solo de priorización en el prompt.
