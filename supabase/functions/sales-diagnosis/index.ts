@@ -250,6 +250,10 @@ const ANTI_VAGUE_RULE =
 const SOURCE_OF_TRUTH_RULE =
   "JERARQUÍA DE DATOS (OBLIGATORIA): los DATOS GUÍA son la ÚNICA FUENTE DE VERDAD para cifras (deuda, cuotas, ingresos/salario), entidades, vivienda y vehículo, porque reflejan lo que el comercial ha confirmado y editado. El texto del caso es solo CONTEXTO CUALITATIVO (situación personal, emociones, tono). Si una cifra o entidad aparece en el texto libre pero difiere de los DATOS GUÍA (o no está en ellos), usa SIEMPRE el valor de los DATOS GUÍA e IGNORA el del texto libre. Nunca cites un salario, deuda o entidad que contradiga los DATOS GUÍA.";
 
+// Regla clave: las cuotas YA impagadas no liberan/inyectan dinero al dejar de pagarlas.
+const DEFAULT_DEBTS_RULE =
+  "REGLA DE IMPAGOS (OBLIGATORIA): una cuota marcada EN IMPAGO ya NO se está pagando, así que dejar de pagarla NO 'libera', NO 'inyecta' ni 'ahorra' dinero — ese importe no salía de su bolsillo. El alivio de caja REAL solo proviene de las cuotas que SÍ paga hoy (las marcadas 'al día'). Las deudas en impago se usan para el DIAGNÓSTICO (intereses de demora que crecen, ASNEF, costas, posible demanda/embargo), nunca como ahorro mensual. Si hablas de cuánto se libera/mejora al mes, usa SOLO la suma de las cuotas que actualmente paga; jamás sumes cuotas impagadas a una supuesta 'inyección' o 'ahorro'.";
+
 function buildPrompt(
   caseText: string,
   g: GuideFields,
