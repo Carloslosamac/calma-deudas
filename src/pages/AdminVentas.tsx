@@ -728,6 +728,14 @@ const AdminVentas = () => {
         ? (c.guide_fields as { engagement?: number }).engagement!
         : 1,
     );
+    const gf = (c.guide_fields || {}) as {
+      reactions?: string[];
+      contract?: ContractFields;
+      signatureStatus?: string;
+    };
+    setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
+    setContract({ ...emptyContract(), ...(gf.contract || {}) });
+    setSignatureStatus(gf.signatureStatus || "pendiente");
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
       diagnosis_internal: parseCards(c.diagnosis_internal),
