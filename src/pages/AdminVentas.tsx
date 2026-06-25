@@ -680,6 +680,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    setReinforceByStep({});
     autoGenRef.current = {};
   };
 
