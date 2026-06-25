@@ -1,26 +1,27 @@
-# Gráfico de conversión + color de fase en la card
+# Gráfico de conversión: tier × fase, con tier por fase
 
-## 1. Quitar la banda y colorear la card de la fase
-- Eliminar el bloque "Banda de color de la fase actual" (`src/pages/AdminVentas.tsx`, líneas ~871-879).
-- Aplicar el color de la fase activa a la `Card` de cada paso: añadir `border-l-4` + `border`/`soft` del `PHASE_THEMES[step]` a las tarjetas de los 5 pasos, de modo que el borde izquierdo y un fondo muy sutil identifiquen la fase (igual que muestra la captura: card con borde azul a la izquierda).
-- Para no repetir clases en cada `Card`, definir una constante con las clases de la fase actual y aplicarla a cada `<Card>` de paso.
+## Modelo nuevo
+La cercanía a convertir de cada fase = `tierFraction × phaseWeight`, donde el tier (engagement 0-3) se registra **por separado en cada fase**.
 
-## 2. Gráfico "cercanía a convertir" por fase (encima del stepper)
-Nuevo componente (en el mismo archivo o `src/components/ventas/ConversionChart.tsx`) que se renderiza justo encima del stepper.
+- `phaseWeight` (peso/avance de cada fase hacia el cierre): F1=0.2, F2=0.4, F3=0.6, F4=0.8, F5=1.0
+- `tierFraction` (engagement 0-3 → fracción): 0→0, 1→0.33, 2→0.66, 3→1.0
+- `conversión% = round(phaseWeight × tierFraction × 100)`
 
-**Modelo (Progreso de fase + engagement):**
-- Cada fase tiene un progreso base creciente hacia la conversión:
-  - Cualificación 15%, Diagnóstico 35%, Solución 60%, Contrato 85%, Firma 100%.
-- El engagement actual (0-3) modula la altura: factor `0 → ×0.6`, `1 → ×0.85`, `2 → ×1.0`, `3 → ×1.1` (con tope 100%).
-- Se calcula un valor para cada fase **hasta la fase actual incluida** (las fases futuras se muestran atenuadas/punteadas como proyección).
+Ejemplos: Fase 1 con tier 3 (100% engagement) → 20%. Fase 4 con tier 1 (~33%) → ~26%. Refleja que avanzar de fase con buen tier sube la curva y un mal tier la hunde aunque la fase sea avanzada.
 
-**Visual (recharts, ya instalado):**
-- `AreaChart` o `LineChart` con eje X = nombres de fase, eje Y = % de cercanía a convertir (0-100).
-- Punto destacado en la fase actual; relleno con gradiente usando el color de la fase activa.
-- Altura compacta (~140px), responsive, con `ChartContainer` existente o `ResponsiveContainer`.
-- Tooltip mostrando "X% cerca de convertir".
+## Registro del tier por fase (`src/pages/AdminVentas.tsx`)
+- Sustituir el estado único `engagement` por `engagementByPhase: (number|null)[]` de longitud 5 (null = aún no valorado en esa fase).
+- Derivar `engagement = engagementByPhase[step] ?? 1` para mantener intactas las llamadas a la IA (diagnóstico, solución, contrato, firma) y el guardado.
+- Los dos `EngagementGate` actuales (en fase 0 y fase 1) escriben en su índice de fase correspondiente.
+- Añadir un selector de tier compacto (reutilizando el mismo control de 0-3) en las fases que hoy no tienen gate: Solución (2), Contrato (3) y Firma (4), para que el comercial registre el tier de esas fases.
+- Persistir `engagementByPhase` en `guide_fields` (y leerlo al cargar un caso; migrar el valor antiguo `engagement` al índice 0 si solo existe ese).
 
-## Detalles técnicos
-- Reutilizar `PHASE_THEMES`, `STEPS`, `step` y `engagement` ya existentes en `AdminVentas.tsx`.
-- Colores vía tokens `--phase-*` ya definidos en `index.css` (no hardcodear colores).
-- El gráfico es puramente presentacional; no cambia lógica de IA ni guardado.
+## Gráfico (`src/components/ventas/ConversionChart.tsx`)
+- Cambiar props: recibir `engagementByPhase` y `currentStep`.
+- Calcular el array de datos con la fórmula `tier × fase`.
+- Solo se dibuja con trazo sólido hasta la fase actual; las fases futuras se muestran punteadas como proyección usando el tier que tengan (o el último conocido) — manteniendo el estilo actual.
+- El punto/etiqueta de cabecera muestra la conversión% de la fase actual.
+- Colores siguen usando los tokens `--phase-*` de la fase actual.
+
+## Notas
+- Sin cambios en la lógica de IA ni en los prompts; solo presentación y registro del tier por fase.
