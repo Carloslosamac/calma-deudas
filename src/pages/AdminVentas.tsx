@@ -558,6 +558,9 @@ const AdminVentas = () => {
     setResult(null);
     setSavedId(null);
     setEngagement(1);
+    setReactions([]);
+    setContract(emptyContract());
+    setSignatureStatus("pendiente");
   };
 
   const loadTestCase = () => {
@@ -568,6 +571,9 @@ const AdminVentas = () => {
     setSavedId(null);
     setStep(0);
     setEngagement(1);
+    setReactions([]);
+    setContract(emptyContract());
+    setSignatureStatus("pendiente");
     toast.success("Caso de prueba cargado");
   };
 
