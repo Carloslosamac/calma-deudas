@@ -193,4 +193,15 @@ All colors MUST be HSL.
   .phase-card .bg-background\/70 {
     background-color: hsl(var(--phase) / 0.05) !important;
   }
+
+  /* Toggles seleccionados (variant=default) y CTA principal de la fase:
+     usan el color de la fase en lugar del negro/blanco por defecto. */
+  .phase-card .bg-primary {
+    background-color: hsl(var(--phase)) !important;
+    color: hsl(0 0% 100%) !important;
+    border-color: hsl(var(--phase)) !important;
+  }
+  .phase-card .bg-primary:hover {
+    background-color: hsl(var(--phase) / 0.88) !important;
+  }
 }
