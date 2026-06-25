@@ -29,7 +29,7 @@ const SERVICE_DESCRIPTIONS: Record<string, string> = {
 };
 
 const serviceLine = (service: string): string =>
-  SERVICE_DESCRIPTIONS[service] ??
+  SERVICE_DESCRIPTIONS[service] ||
   service ||
   "servicios profesionales de asesoramiento en materia de deudas";
 
