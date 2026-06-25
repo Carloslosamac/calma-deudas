@@ -1244,7 +1244,10 @@ const AdminVentas = () => {
 
         {/* Step 2: Diagnóstico */}
         {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
-          <Card className={`space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}>
+          <Card
+            className={`phase-card space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
+            style={phaseStyle(step)}
+          >
             <p className="text-sm text-muted-foreground">
               Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
               caso de prueba para navegar entre secciones.
