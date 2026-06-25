@@ -1438,6 +1438,26 @@ const AdminVentas = () => {
                   )}
                 </div>
               )}
+              {(guide.housing === "alquiler" || guide.housing === "hipoteca") && (
+                <div className="space-y-1">
+                  <Label className="text-xs">
+                    {guide.housing === "alquiler"
+                      ? "Cuota de alquiler (€/mes)"
+                      : "Cuota de hipoteca (€/mes)"}
+                  </Label>
+                  <Input
+                    type="number"
+                    value={guide.housingPayment ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        housingPayment: e.target.value ? Number(e.target.value) : undefined,
+                      }))
+                    }
+                    placeholder="650"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Vehículo */}
