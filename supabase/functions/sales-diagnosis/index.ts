@@ -323,6 +323,14 @@ Deno.serve(async (req) => {
           .filter((r: string) => r.length > 0)
           .slice(0, 12)
       : [];
+    const engagementByPhase: number[] = Array.isArray(body.engagementByPhase)
+      ? body.engagementByPhase
+          .map((n: unknown) => {
+            const v = Number(n);
+            return Number.isFinite(v) && v >= 0 && v <= 3 ? Math.round(v) : 1;
+          })
+          .slice(0, 5)
+      : [];
     const phase = typeof body.phase === "string" ? body.phase : "";
 
     if (!caseText || caseText.length < 10) {
@@ -335,9 +343,9 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, guide, t, engagement, reactions)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
           : buildPrompt(caseText, guide, t, engagement, reactions);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
