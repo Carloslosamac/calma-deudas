@@ -948,7 +948,7 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions, contract },
       });
       if (error) throw error;
       if (data?.error) {
