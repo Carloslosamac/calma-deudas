@@ -673,6 +673,8 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
+  // Evita re-disparar la pre-generación automática del guion de contrato/firma.
+  const autoGenRef = useRef<Record<number, boolean>>({});
   const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
     1, 1, 1, 1, 1,
   ]);
