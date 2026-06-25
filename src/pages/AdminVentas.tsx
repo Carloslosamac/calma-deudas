@@ -1459,6 +1459,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_QUALIFICATION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(0)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[0]}
             />
           </Card>
         )}
@@ -1516,6 +1519,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_DIAGNOSIS}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(1)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[1]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
@@ -1556,6 +1562,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SOLUTION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(2)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[2]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(1)}>
@@ -1709,6 +1718,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_CONTRACT}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(3)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[3]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
@@ -1765,6 +1777,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SIGN}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(4)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[4]}
             />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
