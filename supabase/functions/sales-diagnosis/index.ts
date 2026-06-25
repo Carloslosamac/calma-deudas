@@ -186,10 +186,18 @@ function buildCaseData(g: GuideFields): string {
     )
     .join("\n");
 
-  // Cuota mensual total que la persona destina hoy a deudas y cargas fijas.
-  const debtsMonthly = (g.debts ?? []).reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Cuotas que la persona REALMENTE paga hoy (solo deudas NO impagadas):
+  // es lo único que sale de su bolsillo y lo único que se "libera" al reestructurar.
+  const debtsMonthlyPaying = (g.debts ?? [])
+    .filter((d) => d.isDefault !== true)
+    .reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Cuotas YA impagadas: no salen de su bolsillo (no liberan caja), pero pesan en el diagnóstico.
+  const debtsMonthlyDefaulted = (g.debts ?? [])
+    .filter((d) => d.isDefault === true)
+    .reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Salida real mensual = solo lo que de verdad paga + cargas fijas.
   const monthlyOutflow =
-    debtsMonthly +
+    debtsMonthlyPaying +
     (g.housingPayment ?? 0) +
     (g.vehiclePayment ?? 0) +
     (g.monthlyExpenses ?? 0);
@@ -197,7 +205,12 @@ function buildCaseData(g: GuideFields): string {
   const campos = [
     g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
     debtsList ? `Desglose de deudas:\n${debtsList}` : null,
-    debtsMonthly > 0 ? `Cuotas mensuales de deudas: ${debtsMonthly} €/mes` : null,
+    debtsMonthlyPaying > 0
+      ? `Cuotas que SÍ paga hoy (al día): ${debtsMonthlyPaying} €/mes — esto es lo único que deja de pagar (libera caja) al reestructurar.`
+      : null,
+    debtsMonthlyDefaulted > 0
+      ? `Cuotas YA impagadas: ${debtsMonthlyDefaulted} €/mes — NO salen de su bolsillo, así que NO se "liberan" ni "inyectan" al dejar de pagarlas; cuentan para el diagnóstico (intereses, ASNEF, costas, embargos), no como ahorro.`
+      : null,
     g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
     g.employment ? `Situación laboral: ${EMP_LABELS[g.employment] ?? g.employment}` : null,
     g.housing === "hipoteca"
@@ -219,7 +232,7 @@ function buildCaseData(g: GuideFields): string {
     g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
     g.monthlyExpenses != null ? `Gastos mensuales de vida aprox: ${g.monthlyExpenses} €` : null,
     monthlyOutflow > 0
-      ? `Total que paga al mes (deudas + vivienda + vehículo + gastos): ${monthlyOutflow} €${g.monthlyIncome != null ? ` sobre ${g.monthlyIncome} € de ingresos${g.monthlyIncome - monthlyOutflow < 0 ? ` → DÉFICIT de ${Math.abs(g.monthlyIncome - monthlyOutflow)} €/mes (no llega a fin de mes)` : ` → le quedan ${g.monthlyIncome - monthlyOutflow} €/mes`}` : ""}`
+      ? `Total que REALMENTE paga al mes (solo cuotas al día + vivienda + vehículo + gastos): ${monthlyOutflow} €${g.monthlyIncome != null ? ` sobre ${g.monthlyIncome} € de ingresos${g.monthlyIncome - monthlyOutflow < 0 ? ` → DÉFICIT de ${Math.abs(g.monthlyIncome - monthlyOutflow)} €/mes (no llega a fin de mes)` : ` → le quedan ${g.monthlyIncome - monthlyOutflow} €/mes`}` : ""}`
       : null,
   ]
     .filter(Boolean)
@@ -236,6 +249,10 @@ const ANTI_VAGUE_RULE =
 // comercial) mandan sobre cualquier cifra/entidad del texto libre.
 const SOURCE_OF_TRUTH_RULE =
   "JERARQUÍA DE DATOS (OBLIGATORIA): los DATOS GUÍA son la ÚNICA FUENTE DE VERDAD para cifras (deuda, cuotas, ingresos/salario), entidades, vivienda y vehículo, porque reflejan lo que el comercial ha confirmado y editado. El texto del caso es solo CONTEXTO CUALITATIVO (situación personal, emociones, tono). Si una cifra o entidad aparece en el texto libre pero difiere de los DATOS GUÍA (o no está en ellos), usa SIEMPRE el valor de los DATOS GUÍA e IGNORA el del texto libre. Nunca cites un salario, deuda o entidad que contradiga los DATOS GUÍA.";
+
+// Regla clave: las cuotas YA impagadas no liberan/inyectan dinero al dejar de pagarlas.
+const DEFAULT_DEBTS_RULE =
+  "REGLA DE IMPAGOS (OBLIGATORIA): una cuota marcada EN IMPAGO ya NO se está pagando, así que dejar de pagarla NO 'libera', NO 'inyecta' ni 'ahorra' dinero — ese importe no salía de su bolsillo. El alivio de caja REAL solo proviene de las cuotas que SÍ paga hoy (las marcadas 'al día'). Las deudas en impago se usan para el DIAGNÓSTICO (intereses de demora que crecen, ASNEF, costas, posible demanda/embargo), nunca como ahorro mensual. Si hablas de cuánto se libera/mejora al mes, usa SOLO la suma de las cuotas que actualmente paga; jamás sumes cuotas impagadas a una supuesta 'inyección' o 'ahorro'.";
 
 function buildPrompt(
   caseText: string,
@@ -285,6 +302,7 @@ REGLAS:
 - Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
 
@@ -356,6 +374,7 @@ Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON 
 REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 Sin markdown, sin texto extra.`;
 }
 
@@ -445,6 +464,7 @@ Devuelve SOLO un objeto JSON válido con estas claves:
 REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 Sin markdown, sin texto extra.`;
 }
 

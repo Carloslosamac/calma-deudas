@@ -897,10 +897,18 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
-  // Cuota mensual total: suma de cuotas por entidad + alquiler/hipoteca + vehículo.
-  const debtsMonthly = guide.debts.reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Cuotas que la persona REALMENTE paga hoy (solo deudas NO impagadas):
+  // es lo único que sale de su bolsillo y lo único que se libera al reestructurar.
+  const debtsMonthlyPaying = guide.debts
+    .filter((d) => d.isDefault !== true)
+    .reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Cuotas YA impagadas: no salen de su bolsillo (no liberan caja), solo contexto del diagnóstico.
+  const debtsMonthlyDefaulted = guide.debts
+    .filter((d) => d.isDefault === true)
+    .reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Salida real mensual: solo lo que de verdad paga + cargas fijas.
   const monthlyOutflow =
-    debtsMonthly +
+    debtsMonthlyPaying +
     (guide.housingPayment ?? 0) +
     (guide.vehiclePayment ?? 0) +
     (guide.monthlyExpenses ?? 0);
@@ -1365,8 +1373,13 @@ const AdminVentas = () => {
               {guide.debts.length > 0 && (
                 <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
                   <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
-                  {debtsMonthly > 0 && (
-                    <span>Cuotas de deudas: {debtsMonthly.toLocaleString("es-ES")} €/mes</span>
+                  {debtsMonthlyPaying > 0 && (
+                    <span>Cuotas que paga: {debtsMonthlyPaying.toLocaleString("es-ES")} €/mes</span>
+                  )}
+                  {debtsMonthlyDefaulted > 0 && (
+                    <span className="text-muted-foreground">
+                      Cuotas impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes
+                    </span>
                   )}
                 </div>
               )}
@@ -1608,11 +1621,16 @@ const AdminVentas = () => {
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {debtsMonthly > 0 && `Cuotas de deudas ${debtsMonthly.toLocaleString("es-ES")} € · `}
+                  {debtsMonthlyPaying > 0 && `Cuotas que paga ${debtsMonthlyPaying.toLocaleString("es-ES")} € · `}
                   {(guide.housingPayment ?? 0) > 0 && `Vivienda ${(guide.housingPayment ?? 0).toLocaleString("es-ES")} € · `}
                   {(guide.vehiclePayment ?? 0) > 0 && `Vehículo ${(guide.vehiclePayment ?? 0).toLocaleString("es-ES")} € · `}
                   {(guide.monthlyExpenses ?? 0) > 0 && `Gastos de vida ${(guide.monthlyExpenses ?? 0).toLocaleString("es-ES")} €`}
                 </p>
+                {debtsMonthlyDefaulted > 0 && (
+                  <p className="text-xs text-muted-foreground/80">
+                    Cuotas ya impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes — no salen de su bolsillo, pero generan intereses/ASNEF.
+                  </p>
+                )}
                 {guide.monthlyIncome != null && (
                   <p
                     className={`text-xs font-medium ${
@@ -1717,8 +1735,8 @@ const AdminVentas = () => {
                   Capacidad = ingresos − gastos esenciales (vivienda, vehículo y gastos de vida),
                   sin contar las cuotas de deudas. La cuota asumible es el 60 % de esa capacidad,
                   como margen prudente para una propuesta sostenible.
-                  {debtsMonthly > 0 &&
-                    ` Hoy paga ${debtsMonthly.toLocaleString("es-ES")} €/mes en cuotas de deudas.`}
+                  {debtsMonthlyPaying > 0 &&
+                    ` Hoy paga de verdad ${debtsMonthlyPaying.toLocaleString("es-ES")} €/mes en cuotas (las impagadas no salen de su bolsillo).`}
                 </p>
               </div>
             )}
