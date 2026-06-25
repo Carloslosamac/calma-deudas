@@ -4,6 +4,76 @@ import { BRAND_RATING } from "@/data/seo/brandStats";
 
 type JsonLd = Record<string, unknown>;
 
+const SCHEMA_DATE_FALLBACK = "2024-01-01";
+
+const isJsonObject = (value: unknown): value is JsonLd =>
+  Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+const schemaAuthor = (): JsonLd => ({ "@id": `${SITE_URL}#organization` });
+
+const asAbsoluteSchemaUrl = (value: unknown, fallback = SITE_URL): string => {
+  if (typeof value !== "string" || !value.trim()) return fallback;
+  return absoluteUrl(value.trim());
+};
+
+const asSchemaText = (...values: unknown[]): string =>
+  values.find((value): value is string => typeof value === "string" && value.trim().length > 0)?.trim() ?? "";
+
+const normalizeQAPage = (data: JsonLd): JsonLd => {
+  const mainEntity = isJsonObject(data.mainEntity) ? data.mainEntity : {};
+  const acceptedAnswer = isJsonObject(mainEntity.acceptedAnswer) ? mainEntity.acceptedAnswer : {};
+
+  const questionText = asSchemaText(mainEntity.text, mainEntity.name, data.name);
+  const answerText = asSchemaText(acceptedAnswer.text, data.text);
+  const questionUrl = asAbsoluteSchemaUrl(mainEntity.url ?? data.url);
+  const publishedAt = asSchemaText(mainEntity.datePublished, data.datePublished) || SCHEMA_DATE_FALLBACK;
+
+  return {
+    ...data,
+    "@type": "QAPage",
+    mainEntity: {
+      ...mainEntity,
+      "@type": "Question",
+      name: asSchemaText(mainEntity.name, questionText),
+      text: questionText,
+      url: questionUrl,
+      answerCount: typeof mainEntity.answerCount === "number" ? mainEntity.answerCount : 1,
+      author: mainEntity.author ?? schemaAuthor(),
+      datePublished: publishedAt,
+      acceptedAnswer: {
+        ...acceptedAnswer,
+        "@type": "Answer",
+        text: answerText,
+        url: asAbsoluteSchemaUrl(acceptedAnswer.url, questionUrl),
+        upvoteCount: typeof acceptedAnswer.upvoteCount === "number" ? acceptedAnswer.upvoteCount : 1,
+        author: acceptedAnswer.author ?? schemaAuthor(),
+        datePublished: asSchemaText(acceptedAnswer.datePublished, publishedAt) || publishedAt,
+      },
+    },
+  };
+};
+
+/**
+ * Cinturón de seguridad antes de emitir JSON-LD. Así, aunque una página futura
+ * construya un QAPage a mano, Google no vuelve a ver Question/Answer incompletos.
+ */
+export const normalizeStructuredData = (data: JsonLd): JsonLd => {
+  const type = data["@type"];
+
+  if (type === "QAPage") return normalizeQAPage(data);
+
+  if (Array.isArray(data["@graph"])) {
+    return {
+      ...data,
+      "@graph": data["@graph"].map((node) =>
+        isJsonObject(node) ? normalizeStructuredData(node) : node,
+      ),
+    };
+  }
+
+  return data;
+};
+
 /** AggregateRating de marca (valoración media real declarada). */
 const aggregateRating = (): JsonLd => ({
   "@type": "AggregateRating",
