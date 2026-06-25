@@ -843,6 +843,18 @@ const AdminVentas = () => {
     (guide.vehiclePayment ?? 0) +
     (guide.monthlyExpenses ?? 0);
 
+  // Capacidad de pago: ingresos menos gastos esenciales (vivienda + vehículo + gastos de vida),
+  // sin contar las cuotas de deudas (que es justo lo que se reestructura).
+  const essentialOutflow =
+    (guide.housingPayment ?? 0) +
+    (guide.vehiclePayment ?? 0) +
+    (guide.monthlyExpenses ?? 0);
+  const paymentCapacity =
+    guide.monthlyIncome != null ? guide.monthlyIncome - essentialOutflow : null;
+  // Importe asumible: cuota recomendada y prudente (60% de la capacidad libre).
+  const affordablePayment =
+    paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
+
   const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
@@ -1622,6 +1634,50 @@ const AdminVentas = () => {
               </h2>
               <Badge variant="destructive">{result.triage.title}</Badge>
             </div>
+            {paymentCapacity != null && (
+              <div className="rounded-lg border border-border bg-background/70 p-4">
+                <p className="mb-2 text-sm font-semibold text-foreground">
+                  Capacidad de pago mensual
+                </p>
+                <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Ingresos</p>
+                    <p className="font-semibold text-foreground">
+                      {(guide.monthlyIncome ?? 0).toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Gastos esenciales</p>
+                    <p className="font-semibold text-foreground">
+                      {essentialOutflow.toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Capacidad libre</p>
+                    <p
+                      className={`font-semibold ${
+                        paymentCapacity < 0 ? "text-destructive" : "text-phase-solution"
+                      }`}
+                    >
+                      {paymentCapacity.toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Cuota asumible</p>
+                    <p className="font-semibold text-accent">
+                      {(affordablePayment ?? 0).toLocaleString("es-ES")} €
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Capacidad = ingresos − gastos esenciales (vivienda, vehículo y gastos de vida),
+                  sin contar las cuotas de deudas. La cuota asumible es el 60 % de esa capacidad,
+                  como margen prudente para una propuesta sostenible.
+                  {debtsMonthly > 0 &&
+                    ` Hoy paga ${debtsMonthly.toLocaleString("es-ES")} €/mes en cuotas de deudas.`}
+                </p>
+              </div>
+            )}
             <ResultBlock
               internal={result.diagnosis_internal}
               client={result.diagnosis_client}
