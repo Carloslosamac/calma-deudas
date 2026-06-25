@@ -542,46 +542,6 @@ const EngagementGate = ({
   );
 };
 
-// Selector compacto de tier para las fases que no tienen gate (Solución,
-// Contrato, Firma), para registrar el engagement de esa fase en el gráfico.
-const TierSelector = ({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-}) => (
-  <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
-    <span className="text-xs font-semibold text-foreground">
-      Engagement en esta fase
-    </span>
-    <div className="flex gap-1.5">
-      {ENGAGEMENT_LEVELS.map((l) => {
-        const selected = value === l.value;
-        return (
-          <button
-            key={l.value}
-            type="button"
-            onClick={() => onChange(l.value)}
-            title={l.label}
-            className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform ${
-              selected ? "ring-2 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
-            }`}
-            style={{
-              backgroundColor: l.color,
-              ...(selected
-                ? ({ ["--tw-ring-color" as string]: "hsl(var(--phase))" } as React.CSSProperties)
-                : {}),
-            }}
-          >
-            {l.value}
-          </button>
-        );
-      })}
-    </div>
-  </div>
-);
-
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
