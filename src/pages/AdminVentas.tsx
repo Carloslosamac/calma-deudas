@@ -761,7 +761,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, reactions },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions },
       });
       if (error) throw error;
       if (data?.error) {
@@ -799,7 +799,7 @@ const AdminVentas = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide, engagement, reactions, phase },
+        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase },
       });
       if (error) throw error;
       if (data?.error) {
