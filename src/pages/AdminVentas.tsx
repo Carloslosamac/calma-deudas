@@ -788,7 +788,7 @@ const AdminVentas = () => {
               Herramienta de ventas
             </h1>
             <p className="text-sm text-muted-foreground">
-              Cualificación → Diagnóstico → Solución
+              Cualificación → Diagnóstico → Solución → Contrato → Firma
             </p>
           </div>
           <div className="flex gap-2">
