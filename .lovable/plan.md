@@ -1,34 +1,26 @@
-# Un color propio por cada fase de la herramienta de ventas
+# Gráfico de conversión + color de fase en la card
 
-## Objetivo
-Que las 5 fases (Cualificación → Diagnóstico → Solución → Contrato → Firma) tengan cada una un color distintivo y coherente, aplicado en el stepper y en la cabecera de cada paso, para que el comercial sepa de un vistazo en qué fase está.
+## 1. Quitar la banda y colorear la card de la fase
+- Eliminar el bloque "Banda de color de la fase actual" (`src/pages/AdminVentas.tsx`, líneas ~871-879).
+- Aplicar el color de la fase activa a la `Card` de cada paso: añadir `border-l-4` + `border`/`soft` del `PHASE_THEMES[step]` a las tarjetas de los 5 pasos, de modo que el borde izquierdo y un fondo muy sutil identifiquen la fase (igual que muestra la captura: card con borde azul a la izquierda).
+- Para no repetir clases en cada `Card`, definir una constante con las clases de la fase actual y aplicarla a cada `<Card>` de paso.
 
-## Paleta propuesta (semántica, vía tokens)
-- **Cualificación** — Azul (recogida de datos / información)
-- **Diagnóstico** — Rojo/coral (dolor, urgencia, consecuencias)
-- **Solución** — Verde (alivio, salida)
-- **Contrato** — Ámbar (documento, paso previo a la firma)
-- **Firma** — Violeta/accent (cierre final)
+## 2. Gráfico "cercanía a convertir" por fase (encima del stepper)
+Nuevo componente (en el mismo archivo o `src/components/ventas/ConversionChart.tsx`) que se renderiza justo encima del stepper.
 
-## Cambios
+**Modelo (Progreso de fase + engagement):**
+- Cada fase tiene un progreso base creciente hacia la conversión:
+  - Cualificación 15%, Diagnóstico 35%, Solución 60%, Contrato 85%, Firma 100%.
+- El engagement actual (0-3) modula la altura: factor `0 → ×0.6`, `1 → ×0.85`, `2 → ×1.0`, `3 → ×1.1` (con tope 100%).
+- Se calcula un valor para cada fase **hasta la fase actual incluida** (las fases futuras se muestran atenuadas/punteadas como proyección).
 
-### 1. Tokens de color por fase (`src/index.css`)
-Añadir variables HSL en `:root` y su equivalente en el bloque `.dark`:
-`--phase-qualify`, `--phase-diagnosis`, `--phase-solution`, `--phase-contract`, `--phase-sign` (+ sus `*-foreground`). Registrarlos en `tailwind.config.ts` como colores (`phase.qualify`, etc.) para poder usarlos como utilidades.
+**Visual (recharts, ya instalado):**
+- `AreaChart` o `LineChart` con eje X = nombres de fase, eje Y = % de cercanía a convertir (0-100).
+- Punto destacado en la fase actual; relleno con gradiente usando el color de la fase activa.
+- Altura compacta (~140px), responsive, con `ChartContainer` existente o `ResponsiveContainer`.
+- Tooltip mostrando "X% cerca de convertir".
 
-### 2. Mapa de fase → color en `AdminVentas.tsx`
-Definir un array `PHASE_THEMES` (paralelo a `STEPS`) con las clases de cada fase: color de fondo activo, texto, y un tono suave para acentos.
-
-### 3. Stepper
-En el botón activo, usar el color de su fase (`PHASE_THEMES[i]`) en vez de `bg-accent` fijo. Los inactivos siguen en `bg-muted`. Opcional: un punto/indicador de color en cada botón aunque esté inactivo, para reforzar la identidad de color.
-
-### 4. Cabecera de cada paso
-Aplicar el color de la fase a la cabecera del Card de cada paso (título de sección / icono / borde superior) usando el tema correspondiente, de modo que el contenido de cada fase quede tintado con su color.
-
-## Sección técnica
-- Archivos: `src/index.css`, `tailwind.config.ts`, `src/pages/AdminVentas.tsx`.
-- Solo cambios de presentación; sin tocar la edge function ni la lógica de pasos.
-- Colores como tokens HSL (sin hex hardcodeado en componentes), respetando dark mode.
-
-## Pregunta
-¿Te vale la paleta propuesta (azul/rojo/verde/ámbar/violeta) o prefieres elegir colores concretos para alguna fase?
+## Detalles técnicos
+- Reutilizar `PHASE_THEMES`, `STEPS`, `step` y `engagement` ya existentes en `AdminVentas.tsx`.
+- Colores vía tokens `--phase-*` ya definidos en `index.css` (no hardcodear colores).
+- El gráfico es puramente presentacional; no cambia lógica de IA ni guardado.

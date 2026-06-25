@@ -33,6 +33,7 @@ import {
   PenLine,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
+import ConversionChart from "@/components/ventas/ConversionChart";
 import {
   ContractFields,
   emptyContract,
@@ -845,6 +846,9 @@ const AdminVentas = () => {
           </div>
         </div>
 
+        {/* Gráfico de cercanía a convertir */}
+        <ConversionChart steps={STEPS} currentStep={step} engagement={engagement} />
+
         {/* Stepper */}
         <div className="mb-6 flex items-center gap-2">
           {STEPS.map((s, i) => (
@@ -868,19 +872,9 @@ const AdminVentas = () => {
           ))}
         </div>
 
-        {/* Banda de color de la fase actual */}
-        <div
-          className={`mb-5 flex items-center gap-2 rounded-lg border-l-4 px-4 py-2.5 ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
-        >
-          <span className={`h-2.5 w-2.5 rounded-full ${PHASE_THEMES[step].dot}`} />
-          <span className={`text-sm font-bold ${PHASE_THEMES[step].text}`}>
-            Fase {step + 1}: {STEPS[step]}
-          </span>
-        </div>
-
         {/* Step 1: Cualificación */}
         {step === 0 && (
-          <Card className="space-y-5 p-6">
+          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}>
             <div className="space-y-2">
               <Label htmlFor="label">Etiqueta del caso</Label>
               <Input
@@ -1185,7 +1179,7 @@ const AdminVentas = () => {
 
         {/* Step 2: Diagnóstico */}
         {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
-          <Card className="space-y-3 p-6 text-center">
+          <Card className={`space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}>
             <p className="text-sm text-muted-foreground">
               Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
               caso de prueba para navegar entre secciones.
@@ -1202,7 +1196,7 @@ const AdminVentas = () => {
         )}
 
         {step === 1 && result && (
-          <Card className="space-y-4 border-destructive/30 bg-destructive/5 p-6">
+          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}>
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
                 <AlertTriangle className="h-5 w-5" /> Diagnóstico · consecuencias de no actuar
@@ -1241,7 +1235,7 @@ const AdminVentas = () => {
 
         {/* Step 3: Solución */}
         {step === 2 && result && (
-          <Card className="space-y-4 p-6">
+          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}>
             <div className="flex items-center justify-between">
               <h2 className="font-poppins text-lg font-bold text-foreground">
                 Solución · {result.triage.title}
@@ -1277,7 +1271,7 @@ const AdminVentas = () => {
 
         {/* Step 4: Contrato */}
         {step === 3 && result && (
-          <Card className="space-y-5 p-6">
+          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}>
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
@@ -1427,7 +1421,7 @@ const AdminVentas = () => {
 
         {/* Step 5: Firma */}
         {step === 4 && result && (
-          <Card className="space-y-4 p-6">
+          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}>
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <PenLine className="h-5 w-5" /> Firma · cierre online
