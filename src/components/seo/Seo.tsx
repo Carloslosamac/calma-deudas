@@ -8,6 +8,7 @@ import {
   TWITTER_SITE,
   absoluteUrl,
 } from "@/lib/seo/config";
+import { normalizeStructuredData } from "@/lib/seo/structuredData";
 
 type StructuredData = Record<string, unknown>;
 
@@ -95,7 +96,7 @@ const Seo = ({
 
       {structuredData?.map((data, i) => (
         <script key={i} type="application/ld+json">
-          {JSON.stringify(data)}
+          {JSON.stringify(normalizeStructuredData(data))}
         </script>
       ))}
     </Helmet>
