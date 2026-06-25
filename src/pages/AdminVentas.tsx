@@ -311,7 +311,13 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
   );
 };
 
-const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
+const STEPS = [
+  "Cualificación",
+  "Diagnóstico",
+  "Solución",
+  "Contrato",
+  "Firma",
+] as const;
 
 type EngagementGateProps = {
   value: number;
