@@ -788,7 +788,10 @@ const AdminVentas = () => {
                     signing_internal: data.signing_internal ?? [],
                     signing_client: data.signing_client ?? "",
                   }
-                : { contract_message: data.contract_message ?? "" }),
+                : {
+                    contract_internal: data.contract_internal ?? [],
+                    contract_message: data.contract_message ?? "",
+                  }),
             }
           : prev,
       );
