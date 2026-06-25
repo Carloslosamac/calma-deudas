@@ -320,6 +320,9 @@ type EngagementGateProps = {
   ctaLabel: string;
   onContinue: () => void;
   loading?: boolean;
+  phrases?: string[];
+  selectedPhrases?: string[];
+  onTogglePhrase?: (p: string) => void;
 };
 
 // Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
@@ -331,6 +334,9 @@ const EngagementGate = ({
   ctaLabel,
   onContinue,
   loading,
+  phrases,
+  selectedPhrases,
+  onTogglePhrase,
 }: EngagementGateProps) => {
   const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
   return (
@@ -388,6 +394,33 @@ const EngagementGate = ({
           />
           {active.hint}
         </p>
+      )}
+
+      {phrases && phrases.length > 0 && onTogglePhrase && (
+        <div className="space-y-2 border-t border-border pt-3">
+          <p className="text-xs font-semibold text-foreground">
+            ¿Cómo ha reaccionado? <span className="font-normal text-muted-foreground">(marca las frases que apliquen)</span>
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {phrases.map((p) => {
+              const on = (selectedPhrases ?? []).includes(p);
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => onTogglePhrase(p)}
+                  className={`rounded-full border px-3 py-1.5 text-[11px] leading-tight transition-colors ${
+                    on
+                      ? "border-foreground/40 bg-background font-semibold text-foreground shadow-sm"
+                      : "border-border bg-background/60 text-muted-foreground hover:bg-background"
+                  }`}
+                >
+                  «{p}»
+                </button>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       <Button onClick={onContinue} disabled={loading} className="w-full">
