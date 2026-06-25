@@ -931,6 +931,8 @@ const AdminVentas = () => {
         ...guide,
         entities: derivedEntities.length ? derivedEntities : guide.entities,
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+        // Derivado de las deudas: en impago si alguna entidad lo está.
+        isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
         body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions },
