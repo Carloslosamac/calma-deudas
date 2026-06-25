@@ -152,6 +152,11 @@ function buildCaseData(g: GuideFields): string {
 const ANTI_VAGUE_RULE =
   "REGLA ANTIVAGUEDAD (OBLIGATORIA): cada afirmación debe apoyarse en un DATO REAL del caso (importe, entidad, cuota, nómina, vivienda/vehículo) o en un argumento concreto y accionable. PROHIBIDO el relleno administrativo y las frases de catálogo ('estamos para ayudarte', 'tranquilidad', 'empezar de cero', 'situación complicada', 'cuanto antes mejor') si no van seguidas de un dato o consecuencia concreta. Habla como un cierre comercial afilado, no como un folleto. Nombra las entidades y cifras del caso siempre que existan.";
 
+// Regla de jerarquía de datos: los DATOS GUÍA estructurados (editados por el
+// comercial) mandan sobre cualquier cifra/entidad del texto libre.
+const SOURCE_OF_TRUTH_RULE =
+  "JERARQUÍA DE DATOS (OBLIGATORIA): los DATOS GUÍA son la ÚNICA FUENTE DE VERDAD para cifras (deuda, cuotas, ingresos/salario), entidades, vivienda y vehículo, porque reflejan lo que el comercial ha confirmado y editado. El texto del caso es solo CONTEXTO CUALITATIVO (situación personal, emociones, tono). Si una cifra o entidad aparece en el texto libre pero difiere de los DATOS GUÍA (o no está en ellos), usa SIEMPRE el valor de los DATOS GUÍA e IGNORA el del texto libre. Nunca cites un salario, deuda o entidad que contradiga los DATOS GUÍA.";
+
 function buildPrompt(
   caseText: string,
   g: GuideFields,
@@ -163,13 +168,13 @@ function buildPrompt(
 
   return `Eres el MEJOR closer de ventas de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y tu trabajo es darle munición CONCRETA para cerrar, no rellenar fichas.
 
-CASO DE LA PERSONA (escrito por el comercial):
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${campos}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · situación, emociones, tono; NO usar sus cifras si difieren de los DATOS GUÍA):
 """
 ${caseText}
 """
-
-DATOS GUÍA:
-${campos}
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
@@ -195,6 +200,7 @@ Genera CINCO salidas en español de España:
 REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
 - Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
+- ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
@@ -242,13 +248,13 @@ function buildSigningPrompt(
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
-CASO DE LA PERSONA:
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${buildCaseData(g)}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
 ${caseText}
 """
-
-DATOS GUÍA:
-${buildCaseData(g)}
 
 SERVICIO CONTRATADO: ${t.title}
 
@@ -262,6 +268,7 @@ Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON 
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
+- ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 Sin markdown, sin texto extra.`;
 }
@@ -277,13 +284,13 @@ function buildContractMessagePrompt(
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
-CASO DE LA PERSONA:
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${buildCaseData(g)}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
 ${caseText}
 """
-
-DATOS GUÍA:
-${buildCaseData(g)}
 
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
@@ -292,7 +299,7 @@ ${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
 Devuelve SOLO un objeto JSON válido con la clave:
 Devuelve SOLO un objeto JSON válido con las claves:
 1. contract_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
-2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${ANTI_VAGUE_RULE} Sin markdown.`;
+2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${SOURCE_OF_TRUTH_RULE} ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
 Deno.serve(async (req) => {
