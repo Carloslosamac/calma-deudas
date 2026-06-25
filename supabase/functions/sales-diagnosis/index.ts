@@ -383,6 +383,7 @@ Deno.serve(async (req) => {
         JSON.stringify({
           triage: t,
           engagement,
+          contract_internal: asCards(parsed.contract_internal),
           contract_message: asText(parsed.contract_message),
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } },
