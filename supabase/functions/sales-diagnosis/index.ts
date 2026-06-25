@@ -463,6 +463,10 @@ Deno.serve(async (req) => {
           .slice(0, 5)
       : [];
     const phase = typeof body.phase === "string" ? body.phase : "";
+    const currentStep = (() => {
+      const n = Number(body.currentStep);
+      return Number.isFinite(n) && n >= 0 && n <= 4 ? Math.round(n) : 1;
+    })();
 
     if (!caseText || caseText.length < 10) {
       return new Response(JSON.stringify({ error: "Describe el caso (mínimo 10 caracteres)." }), {
@@ -477,7 +481,9 @@ Deno.serve(async (req) => {
         ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
         : phase === "contract_message"
           ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
-          : buildPrompt(caseText, guide, t, engagement, reactions);
+          : phase === "reinforce"
+            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep)
+            : buildPrompt(caseText, guide, t, engagement, reactions);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -552,6 +558,18 @@ Deno.serve(async (req) => {
           engagement,
           contract_internal: asCards(parsed.contract_internal),
           contract_message: asText(parsed.contract_message),
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    if (phase === "reinforce") {
+      return new Response(
+        JSON.stringify({
+          triage: t,
+          engagement,
+          step: currentStep,
+          reinforce_internal: asCards(parsed.reinforce_internal),
+          reinforce_client: asText(parsed.reinforce_client),
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
