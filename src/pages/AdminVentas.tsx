@@ -1173,6 +1173,9 @@ const AdminVentas = () => {
               ctaLabel="Preparar solución"
               onContinue={proceedToSolution}
               loading={generating}
+              phrases={REACTION_PHRASES_DIAGNOSIS}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
