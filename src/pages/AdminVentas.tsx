@@ -1306,7 +1306,10 @@ const AdminVentas = () => {
 
         {/* Step 3: Solución */}
         {step === 2 && result && (
-          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}>
+          <Card
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
+            style={phaseStyle(2)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="font-poppins text-lg font-bold text-foreground">
                 Solución · {result.triage.title}
