@@ -319,13 +319,16 @@ ${caseText}
 
 SERVICIO CONTRATADO: ${t.title}
 
+ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 4)}${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
-1. signing_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos del caso: qué pierde por cada día que no firma, los X € en juego, el embargo que sigue corriendo. Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
+1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos REALES del caso: qué pierde por cada día que no firma, los X € en juego, los intereses/costas que siguen corriendo (y el embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
