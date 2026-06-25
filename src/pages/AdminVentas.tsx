@@ -778,16 +778,20 @@ const AdminVentas = () => {
     setLabel(c.label);
     setCaseText(c.case_text);
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
-    setEngagement(
-      typeof (c.guide_fields as { engagement?: number })?.engagement === "number"
-        ? (c.guide_fields as { engagement?: number }).engagement!
-        : 1,
-    );
     const gf = (c.guide_fields || {}) as {
+      engagement?: number;
+      engagementByPhase?: number[];
       reactions?: string[];
       contract?: ContractFields;
       signatureStatus?: string;
     };
+    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+      setEngagementByPhase(gf.engagementByPhase.map((v) => v ?? 1));
+    } else {
+      // Compatibilidad: solo existía el tier global → al índice 0.
+      const old = typeof gf.engagement === "number" ? gf.engagement : 1;
+      setEngagementByPhase([old, 1, 1, 1, 1]);
+    }
     setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
     setContract({ ...emptyContract(), ...(gf.contract || {}) });
     setSignatureStatus(gf.signatureStatus || "pendiente");
