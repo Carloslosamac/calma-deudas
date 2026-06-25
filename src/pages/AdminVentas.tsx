@@ -1001,7 +1001,7 @@ const AdminVentas = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase },
+        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase, contract },
       });
       if (error) throw error;
       if (data?.error) {
