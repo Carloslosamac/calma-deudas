@@ -465,13 +465,22 @@ const EngagementGate = ({
                   key={p}
                   type="button"
                   onClick={() => onTogglePhrase(p)}
-                  className={`rounded-full border px-3 py-1.5 text-[11px] leading-tight transition-colors ${
+                  className="rounded-full border px-3 py-1.5 text-[11px] font-medium leading-tight transition-colors"
+                  style={
                     on
-                      ? "border-foreground/40 bg-background font-semibold text-foreground shadow-sm"
-                      : "border-border bg-background/60 text-muted-foreground hover:bg-background"
-                  }`}
+                      ? {
+                          backgroundColor: "hsl(var(--phase) / 0.9)",
+                          borderColor: "hsl(var(--phase))",
+                          color: "hsl(0 0% 100%)",
+                        }
+                      : {
+                          backgroundColor: "hsl(var(--phase) / 0.16)",
+                          borderColor: "hsl(var(--phase) / 0.4)",
+                          color: "hsl(var(--phase))",
+                        }
+                  }
                 >
-                  «{p}»
+                  {p}
                 </button>
               );
             })}
