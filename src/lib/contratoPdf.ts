@@ -7,7 +7,16 @@ export type ContractFields = {
   email: string;
   phone: string;
   service: string;
+  /** Honorarios libres (texto). Respaldo si no hay desglose de pago. */
   fee: string;
+  /** Pago inicial / provisión de fondos (€). */
+  initialPayment: string;
+  /** Número de cuotas mensuales. */
+  installments: string;
+  /** Importe de cada cuota mensual (€). */
+  installmentAmount: string;
+  /** Localidad de firma. */
+  signCity: string;
 };
 
 export const emptyContract = (): ContractFields => ({
@@ -18,7 +27,50 @@ export const emptyContract = (): ContractFields => ({
   phone: "",
   service: "",
   fee: "",
+  initialPayment: "150",
+  installments: "30",
+  installmentAmount: "99",
+  signCity: "",
 });
+
+// Datos del despacho (entidad jurídica real detrás de Calma).
+const FIRM = {
+  brand: "LEXITIA",
+  legal: "NOVA INITIA SERVICIOS JURIDICOS, S.L.",
+  nif: "B22497283",
+  address: "C/ Litio, 10, 28946 Fuenlabrada (Madrid)",
+  email: "hola@lexitia.com",
+};
+
+const eur = (n: number): string =>
+  new Intl.NumberFormat("es-ES", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(n);
+
+const num = (v: string): number => {
+  const n = parseFloat(
+    String(v).replace(/[^\d.,-]/g, "").replace(/\./g, "").replace(",", "."),
+  );
+  return Number.isFinite(n) ? n : 0;
+};
+
+/** Calcula el total del encargo: pago inicial + (nº cuotas × importe cuota). */
+export const computeContractTotal = (c: ContractFields) => {
+  const initial = num(c.initialPayment);
+  const installments = Math.max(0, Math.round(num(c.installments)));
+  const amount = num(c.installmentAmount);
+  const installmentsTotal = installments * amount;
+  const total = initial + installmentsTotal;
+  return { initial, installments, amount, installmentsTotal, total };
+};
+
+/** Texto legible de la modalidad de pago. */
+export const paymentSummary = (c: ContractFields): string => {
+  const { initial, installments, amount, total } = computeContractTotal(c);
+  if (total <= 0) return c.fee || "según condiciones acordadas entre las partes";
+  return `${eur(total)} € IVA incluido — ${eur(initial)} € iniciales y ${installments} cuotas mensuales de ${eur(amount)} €`;
+};
 
 const SERVICE_DESCRIPTIONS: Record<string, string> = {
   lso: "tramitación del procedimiento de la Ley de Segunda Oportunidad (mecanismo de segunda oportunidad para la exoneración del pasivo insatisfecho)",
@@ -33,8 +85,8 @@ const serviceLine = (service: string): string =>
   service ||
   "servicios profesionales de asesoramiento en materia de deudas";
 
-// Genera un PDF base de contrato de prestación de servicios profesionales
-// con los datos del caso. Es una PLANTILLA editable, no asesoría legal final.
+// Genera la HOJA DE ENCARGO PROFESIONAL (Ley de Segunda Oportunidad)
+// con los datos del caso, replicando la plantilla legal de LEXITIA.
 export const generateContractPdf = (c: ContractFields): jsPDF => {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const margin = 56;
@@ -48,119 +100,205 @@ export const generateContractPdf = (c: ContractFields): jsPDF => {
     year: "numeric",
   });
 
-  const heading = (text: string) => {
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    if (y > 760) {
+  const ensureSpace = (needed = 60) => {
+    if (y > 800 - needed) {
       doc.addPage();
       y = margin;
     }
-    y += 8;
+  };
+
+  const heading = (text: string) => {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    ensureSpace(46);
+    y += 10;
     doc.text(text, margin, y);
     y += 16;
   };
 
-  const paragraph = (text: string) => {
-    doc.setFont("helvetica", "normal");
+  const paragraph = (
+    text: string,
+    opts?: { bullet?: boolean; bold?: boolean },
+  ) => {
+    doc.setFont("helvetica", opts?.bold ? "bold" : "normal");
     doc.setFontSize(10);
-    const lines = doc.splitTextToSize(text, maxWidth) as string[];
-    lines.forEach((line) => {
-      if (y > 780) {
-        doc.addPage();
-        y = margin;
-      }
-      doc.text(line, margin, y);
+    const indent = opts?.bullet ? 14 : 0;
+    const lines = doc.splitTextToSize(text, maxWidth - indent) as string[];
+    lines.forEach((line, i) => {
+      ensureSpace(24);
+      if (opts?.bullet && i === 0) doc.text("•", margin, y);
+      doc.text(line, margin + indent, y);
       y += 14;
     });
     y += 6;
   };
 
+  // Encabezado del despacho
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+  doc.text(`${FIRM.brand} — ${FIRM.legal}`, margin, y);
+  y += 13;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8.5);
+  doc.text(`${FIRM.address} | NIF ${FIRM.nif} | ${FIRM.email}`, margin, y);
+  y += 24;
+
   // Título
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text("Calma", margin, y);
-  doc.setFontSize(13);
-  y += 26;
-  doc.text("CONTRATO DE PRESTACIÓN DE SERVICIOS PROFESIONALES", margin, y);
+  doc.setFontSize(14);
+  doc.text("HOJA DE ENCARGO PROFESIONAL", margin, y);
+  y += 18;
+  doc.text("LEY DE SEGUNDA OPORTUNIDAD", margin, y);
   y += 22;
 
-  paragraph(`En España, a ${today}.`);
-
-  heading("REUNIDOS");
+  // Encabezado del encargo (datos del cliente)
   paragraph(
-    "De una parte, Calma (en adelante, «el Prestador»), con domicilio profesional en España, que presta servicios de asesoramiento y gestión en materia de deudas.",
-  );
-  paragraph(
-    `Y de otra parte, D./Dª. ${c.fullName || "_____________________"}, con DNI/NIE ${
-      c.dni || "_____________"
-    }, con domicilio en ${c.address || "_____________________"}, teléfono ${
-      c.phone || "___________"
-    } y correo electrónico ${c.email || "___________"} (en adelante, «el Cliente»).`,
-  );
-  paragraph(
-    "Ambas partes se reconocen mutuamente capacidad legal suficiente para contratar y obligarse y, a tal efecto,",
-  );
-
-  heading("EXPONEN");
-  paragraph(
-    `Que el Cliente está interesado en contratar los servicios profesionales del Prestador consistentes en la ${serviceLine(
+    `D./Dña. ${c.fullName || "_____________________"}, mayor de edad, con domicilio en ${
+      c.address || "_____________________"
+    }, teléfono ${c.phone || "___________"}, correo electrónico ${
+      c.email || "___________"
+    } y NIF nº ${c.dni || "_____________"}, encarga profesionalmente a ${FIRM.legal} (${
+      FIRM.brand
+    }), con NIF ${FIRM.nif} y domicilio social en ${FIRM.address}, la asistencia jurídica para la ${serviceLine(
       c.service,
     )}.`,
   );
+
+  heading("OBJETO DEL ENCARGO");
   paragraph(
-    "Que ambas partes acuerdan suscribir el presente contrato con arreglo a las siguientes",
+    "La prestación se realiza en régimen de arrendamiento de servicios profesionales y comprende el análisis de viabilidad, revisión documental, preparación de la demanda, presentación ante el juzgado competente y asesoramiento durante la fase principal del procedimiento hasta su resolución judicial, de conformidad con la normativa concursal aplicable.",
   );
 
-  heading("CLÁUSULAS");
+  heading("DECLARACIONES Y OBLIGACIONES DEL CLIENTE");
   paragraph(
-    `PRIMERA. Objeto. El Prestador se compromete a realizar para el Cliente la ${serviceLine(
-      c.service,
-    )}, con la diligencia profesional exigible.`,
+    "El CLIENTE declara encontrarse en situación de insolvencia actual o inminente y haber sido informado de los requisitos, límites y consecuencias del procedimiento.",
+    { bullet: true },
   );
   paragraph(
-    `SEGUNDA. Honorarios. El Cliente abonará al Prestador en concepto de honorarios la cantidad de ${
-      c.fee || "_____________"
-    }, en las condiciones y plazos que se acuerden entre las partes.`,
+    "El CLIENTE se compromete a facilitar información completa, veraz y actualizada sobre sus ingresos, bienes, deudas, antecedentes y documentación requerida.",
+    { bullet: true },
   );
   paragraph(
-    "TERCERA. Obligaciones del Cliente. El Cliente facilitará al Prestador toda la documentación e información veraz necesaria para la correcta prestación del servicio y colaborará activamente durante todo el procedimiento.",
+    "El CLIENTE asume la responsabilidad sobre la autenticidad e integridad de la documentación aportada y se obliga a colaborar diligentemente durante toda la tramitación.",
+    { bullet: true },
   );
   paragraph(
-    "CUARTA. Duración. El presente contrato estará vigente desde su firma hasta la finalización del servicio contratado.",
+    "El CLIENTE reconoce que determinadas deudas pueden no ser exonerables conforme a la Ley Concursal, entre ellas las legalmente excluidas y los créditos públicos en los límites establecidos.",
+    { bullet: true },
+  );
+
+  heading("HONORARIOS PROFESIONALES");
+  paragraph(
+    "Los honorarios incluyen la asistencia letrada y el asesoramiento profesional en la fase principal del procedimiento, conforme a la siguiente modalidad de pago:",
+  );
+  const pay = computeContractTotal(c);
+  if (pay.total > 0) {
+    paragraph(`Importe total: ${eur(pay.total)} € (IVA incluido).`, {
+      bullet: true,
+      bold: true,
+    });
+    paragraph(
+      `Forma de pago: ${eur(pay.initial)} € iniciales (provisión de fondos) y ${pay.installments} cuotas mensuales de ${eur(
+        pay.amount,
+      )} € (total cuotas: ${eur(pay.installmentsTotal)} €).`,
+      { bullet: true },
+    );
+  } else {
+    paragraph(`Honorarios: ${c.fee || "_____________"}.`, { bullet: true });
+  }
+
+  heading("CONDICIONES DE PAGO");
+  paragraph(
+    `El pago inicial de ${pay.initial > 0 ? eur(pay.initial) : "___"} € tendrá la consideración de provisión de fondos para apertura de expediente y primeras actuaciones, y no será reembolsable una vez iniciadas las actuaciones, salvo supuestos legalmente previstos.`,
+    { bullet: true },
   );
   paragraph(
-    "QUINTA. Protección de datos. Los datos personales facilitados serán tratados por el Prestador conforme al Reglamento (UE) 2016/679 (RGPD) y la normativa española de protección de datos, con la finalidad de prestar el servicio contratado.",
+    "Las cuotas se cargarán dentro de los cinco primeros días de cada mes mediante tarjeta bancaria o domiciliación bancaria SEPA, según el método autorizado por el CLIENTE.",
+    { bullet: true },
   );
   paragraph(
-    "SEXTA. Desistimiento. El Cliente podrá ejercer su derecho de desistimiento en los términos previstos en la normativa de consumidores y usuarios aplicable.",
+    "En caso de impago o devolución de cuotas, LEXITIA podrá suspender el servicio, resolver el encargo y reclamar las cantidades vencidas o pendientes que correspondan.",
+    { bullet: true },
+  );
+
+  heading("GASTOS, SUPLIDOS Y PROFESIONALES EXTERNOS");
+  paragraph(
+    "Quedan excluidos y se facturan aparte los costes de obtención de documentos oficiales, certificados, notas registrales, burofaxes u otros gastos necesarios para el expediente.",
+    { bullet: true },
   );
   paragraph(
-    "Y en prueba de conformidad, ambas partes firman el presente contrato por duplicado y a un solo efecto en el lugar y fecha indicados.",
+    "No se incluyen los honorarios de profesionales externos a LEXITIA, tales como procurador, notario o administrador concursal, si fueran necesarios o fueran designados durante la tramitación.",
+    { bullet: true },
   );
+  paragraph(
+    "Los honorarios del letrado, procurador y administrador concursal, si lo hubiere, tendrán la consideración que corresponda conforme a la normativa concursal y deberán satisfacerse según lo pactado.",
+    { bullet: true },
+  );
+
+  heading("DURACIÓN, DESISTIMIENTO Y ALCANCE");
+  paragraph(
+    "El encargo se mantendrá vigente durante la tramitación del procedimiento hasta su finalización, sin perjuicio del cumplimiento íntegro de las obligaciones económicas asumidas por el CLIENTE.",
+    { bullet: true },
+  );
+  paragraph(
+    "Si el contrato se formaliza a distancia o fuera de establecimiento mercantil, el CLIENTE podrá ejercitar el derecho de desistimiento en el plazo legal de catorce días naturales desde la firma.",
+    { bullet: true },
+  );
+  paragraph(
+    "Una vez presentada la demanda ante el juzgado competente, el desistimiento unilateral del CLIENTE no extingue la obligación de pago del precio pactado, salvo acuerdo expreso o causa legal aplicable.",
+    { bullet: true },
+  );
+  paragraph(
+    "Quedan excluidos los incidentes concursales, procedimientos accesorios y recursos que pudieran plantearse, salvo pacto escrito específico entre las partes.",
+    { bullet: true },
+  );
+
+  heading("GARANTÍA COMERCIAL DE ÉXITO");
+  paragraph(
+    "LEXITIA ofrece una garantía comercial vinculada al cumplimiento diligente del encargo y al resultado jurídicamente viable previamente informado al CLIENTE según su situación personal, patrimonial y económica.",
+    { bullet: true },
+  );
+  paragraph(
+    "La garantía no constituye una obligación de resultado absoluto ni asegura necesariamente la exoneración total del pasivo, al depender el procedimiento de requisitos legales, resoluciones judiciales y circunstancias propias del CLIENTE.",
+    { bullet: true },
+  );
+  paragraph(
+    "En todo caso, tendrá carácter no reembolsable la cantidad de 500 €, correspondiente a costes administrativos, análisis de viabilidad, preparación documental inicial y gastos estructurales del expediente.",
+    { bullet: true },
+  );
+
+  heading("PROTECCIÓN DE DATOS DE CARÁCTER PERSONAL");
+  paragraph(
+    `En cumplimiento del Reglamento (UE) 2016/679 y de la Ley Orgánica 3/2018, los datos facilitados serán tratados por ${FIRM.legal}, con NIF ${FIRM.nif} y domicilio en ${FIRM.address}, como responsable del tratamiento, con la finalidad de gestionar la relación contractual, tramitar el expediente, realizar la facturación y cumplir las obligaciones legales aplicables. Los datos podrán comunicarse, cuando resulte necesario, a órganos judiciales, notarios, procuradores, administradores concursales y otros profesionales intervinientes. El CLIENTE podrá ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad dirigiéndose al domicilio social indicado o al correo ${FIRM.email}.`,
+  );
+
+  heading("JURISDICCIÓN");
+  paragraph(
+    "Para cualquier controversia derivada del presente encargo, las partes se someten a los juzgados y tribunales que resulten competentes conforme a la normativa aplicable, con preferencia por los del domicilio del CLIENTE cuando proceda legalmente.",
+  );
+
+  ensureSpace(110);
+  y += 6;
+  paragraph(`En ${c.signCity || "____________________"}, a ${today}.`);
 
   y += 24;
-  if (y > 720) {
-    doc.addPage();
-    y = margin;
-  }
+  ensureSpace(80);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(10);
-  doc.text("El Prestador (Calma)", margin, y);
-  doc.text("El Cliente", pageWidth / 2 + 20, y);
+  doc.text("EL CLIENTE", margin, y);
+  doc.text("LEXITIA", pageWidth / 2 + 20, y);
   y += 50;
   doc.setFont("helvetica", "normal");
-  doc.text("Fdo.: ____________________", margin, y);
-  doc.text(
-    `Fdo.: ${c.fullName || "____________________"}`,
-    pageWidth / 2 + 20,
-    y,
-  );
+  doc.text(`Fdo.: ${c.fullName || "____________________"}`, margin, y);
+  doc.text(`Fdo.: ${FIRM.legal}`, pageWidth / 2 + 20, y);
 
   return doc;
 };
 
 export const downloadContractPdf = (c: ContractFields) => {
   const doc = generateContractPdf(c);
-  const safe = (c.fullName || "cliente").replace(/[^\p{L}\p{N}]+/gu, "-").toLowerCase();
-  doc.save(`contrato-calma-${safe}.pdf`);
+  const safe = (c.fullName || "cliente")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .toLowerCase();
+  doc.save(`hoja-encargo-${safe}.pdf`);
 };
