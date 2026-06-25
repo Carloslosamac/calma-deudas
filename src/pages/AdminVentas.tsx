@@ -144,6 +144,33 @@ const REACTION_PHRASES_DIAGNOSIS = [
   "Quiero empezar ya",
 ];
 
+const REACTION_PHRASES_SOLUTION = [
+  "Esto me convence",
+  "¿Y cuánto tarda?",
+  "Me lo tengo que pensar",
+  "¿Seguro que me sirve a mí?",
+  "¿Qué pasa si no cumplo?",
+  "Vale, ¿cómo empezamos?",
+];
+
+const REACTION_PHRASES_CONTRACT = [
+  "Déjame leerlo con calma",
+  "¿Esto a qué me compromete?",
+  "¿Y si luego me arrepiento?",
+  "El precio me echa para atrás",
+  "Mándamelo y ya te digo",
+  "Vale, lo firmo ahora",
+];
+
+const REACTION_PHRASES_SIGN = [
+  "Me lo pienso esta noche",
+  "Lo consulto con mi pareja",
+  "No sé si es buen momento",
+  "No me aclaro con la firma online",
+  "¿Es seguro firmar así?",
+  "Listo, ya he firmado",
+];
+
 const SIGNATURE_STATUS_OPTIONS: { value: string; label: string }[] = [
   { value: "pendiente", label: "Pendiente de envío" },
   { value: "enviado", label: "Enviado" },
