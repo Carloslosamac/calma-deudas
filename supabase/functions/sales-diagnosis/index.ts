@@ -168,13 +168,13 @@ function buildPrompt(
 
   return `Eres el MEJOR closer de ventas de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y tu trabajo es darle munición CONCRETA para cerrar, no rellenar fichas.
 
-CASO DE LA PERSONA (escrito por el comercial):
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${campos}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · situación, emociones, tono; NO usar sus cifras si difieren de los DATOS GUÍA):
 """
 ${caseText}
 """
-
-DATOS GUÍA:
-${campos}
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
@@ -200,6 +200,7 @@ Genera CINCO salidas en español de España:
 REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
 - Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
+- ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
