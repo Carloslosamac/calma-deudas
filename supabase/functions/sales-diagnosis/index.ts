@@ -13,6 +13,8 @@ interface DebtEntry {
   type?: string;
   entity?: string;
   amount?: number;
+  monthlyPayment?: number;
+  isDefault?: boolean;
 }
 
 interface GuideFields {
@@ -24,12 +26,15 @@ interface GuideFields {
   housingValue?: number;
   mortgagePaid?: number;
   mortgageRemaining?: number;
+  housingPayment?: number;
   vehicle?: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
+  vehiclePayment?: number;
   employment?: string;
   monthlyIncome?: number;
+  monthlyExpenses?: number;
 }
 
 // Nivel de engagement: 0 = listísimo para contratar/pagar ya,
@@ -175,30 +180,47 @@ function buildCaseData(g: GuideFields): string {
       (d) =>
         `  - ${TYPE_LABELS[d.type ?? ""] ?? d.type ?? "Deuda"}${
           d.entity ? ` (${d.entity})` : ""
-        }: ${d.amount != null ? `${d.amount} €` : "importe sin definir"}`,
+        }: ${d.amount != null ? `${d.amount} €` : "importe sin definir"}${
+          d.monthlyPayment != null ? `, cuota ${d.monthlyPayment} €/mes` : ""
+        }${d.isDefault != null ? `, ${d.isDefault ? "EN IMPAGO" : "al día"}` : ""}`,
     )
     .join("\n");
+
+  // Cuota mensual total que la persona destina hoy a deudas y cargas fijas.
+  const debtsMonthly = (g.debts ?? []).reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  const monthlyOutflow =
+    debtsMonthly +
+    (g.housingPayment ?? 0) +
+    (g.vehiclePayment ?? 0) +
+    (g.monthlyExpenses ?? 0);
 
   const campos = [
     g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
     debtsList ? `Desglose de deudas:\n${debtsList}` : null,
+    debtsMonthly > 0 ? `Cuotas mensuales de deudas: ${debtsMonthly} €/mes` : null,
     g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
     g.employment ? `Situación laboral: ${EMP_LABELS[g.employment] ?? g.employment}` : null,
     g.housing === "hipoteca"
-      ? `Vivienda: hipoteca (valor ~${g.housingValue ?? "?"} €, pagado ~${g.mortgagePaid ?? "?"} €, pendiente ~${g.mortgageRemaining ?? "?"} €)`
+      ? `Vivienda: hipoteca (valor ~${g.housingValue ?? "?"} €, pagado ~${g.mortgagePaid ?? "?"} €, pendiente ~${g.mortgageRemaining ?? "?"} €${g.housingPayment != null ? `, cuota ${g.housingPayment} €/mes` : ""})`
       : g.housing === "propiedad"
         ? `Vivienda: en propiedad (valor ~${g.housingValue ?? "?"} €, sin hipoteca)`
-        : g.housing
+        : g.housing === "alquiler"
+          ? `Vivienda: alquiler${g.housingPayment != null ? ` (${g.housingPayment} €/mes)` : ""}`
+          : g.housing
           ? `Vivienda: ${g.housing}`
           : null,
     g.vehicle === "financiado"
-      ? `Vehículo: financiado (valor ~${g.vehicleValue ?? "?"} €, pagado ~${g.vehiclePaid ?? "?"} €, pendiente ~${g.vehicleRemaining ?? "?"} €)`
+      ? `Vehículo: financiado (valor ~${g.vehicleValue ?? "?"} €, pagado ~${g.vehiclePaid ?? "?"} €, pendiente ~${g.vehicleRemaining ?? "?"} €${g.vehiclePayment != null ? `, cuota ${g.vehiclePayment} €/mes` : ""})`
       : g.vehicle === "propiedad"
         ? `Vehículo: en propiedad (valor ~${g.vehicleValue ?? "?"} €)`
         : g.vehicle === "no"
           ? "Vehículo: no tiene"
           : null,
     g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
+    g.monthlyExpenses != null ? `Gastos mensuales de vida aprox: ${g.monthlyExpenses} €` : null,
+    monthlyOutflow > 0
+      ? `Total que paga al mes (deudas + vivienda + vehículo + gastos): ${monthlyOutflow} €${g.monthlyIncome != null ? ` sobre ${g.monthlyIncome} € de ingresos${g.monthlyIncome - monthlyOutflow < 0 ? ` → DÉFICIT de ${Math.abs(g.monthlyIncome - monthlyOutflow)} €/mes (no llega a fin de mes)` : ` → le quedan ${g.monthlyIncome - monthlyOutflow} €/mes`}` : ""}`
+      : null,
   ]
     .filter(Boolean)
     .join("\n");

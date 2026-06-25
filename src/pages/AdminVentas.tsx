@@ -56,6 +56,8 @@ type DebtEntry = {
   type: string;
   entity: string;
   amount?: number;
+  monthlyPayment?: number;
+  isDefault?: boolean;
 };
 
 type GuideFields = {
@@ -67,12 +69,15 @@ type GuideFields = {
   housingValue?: number;
   mortgagePaid?: number;
   mortgageRemaining?: number;
+  housingPayment?: number;
   vehicle: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
+  vehiclePayment?: number;
   employment?: Employment;
   monthlyIncome?: number;
+  monthlyExpenses?: number;
 };
 
 type ScriptCard = { emoji: string; title: string; body: string };
@@ -830,6 +835,14 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
+  // Cuota mensual total: suma de cuotas por entidad + alquiler/hipoteca + vehículo.
+  const debtsMonthly = guide.debts.reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  const monthlyOutflow =
+    debtsMonthly +
+    (guide.housingPayment ?? 0) +
+    (guide.vehiclePayment ?? 0) +
+    (guide.monthlyExpenses ?? 0);
+
   const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
@@ -1198,9 +1211,9 @@ const AdminVentas = () => {
                 {guide.debts.map((d, i) => (
                   <div
                     key={i}
-                    className="grid grid-cols-1 gap-2 rounded-lg border border-border p-3 sm:grid-cols-[1fr_1fr_auto]"
+                    className="space-y-2 rounded-lg border border-border p-3"
                   >
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_auto]">
                       <Select
                         value={d.type}
                         onValueChange={(v) => updateDebt(i, { type: v })}
@@ -1216,38 +1229,70 @@ const AdminVentas = () => {
                           ))}
                         </SelectContent>
                       </Select>
-                      <Input
-                        value={d.entity}
-                        onChange={(e) => updateDebt(i, { entity: e.target.value })}
-                        placeholder="Entidad (ej. WiZink, Cetelem...)"
-                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeDebt(i)}
+                        aria-label="Eliminar entidad"
+                      >
+                        <Trash2 className="h-4 w-4 text-muted-foreground" />
+                      </Button>
                     </div>
                     <Input
-                      type="number"
-                      value={d.amount ?? ""}
-                      onChange={(e) =>
-                        updateDebt(i, {
-                          amount: e.target.value ? Number(e.target.value) : undefined,
-                        })
-                      }
-                      placeholder="Importe (€)"
+                      value={d.entity}
+                      onChange={(e) => updateDebt(i, { entity: e.target.value })}
+                      placeholder="Entidad (ej. WiZink, Cetelem...)"
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeDebt(i)}
-                      aria-label="Eliminar entidad"
-                    >
-                      <Trash2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input
+                        type="number"
+                        value={d.amount ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, {
+                            amount: e.target.value ? Number(e.target.value) : undefined,
+                          })
+                        }
+                        placeholder="Importe total (€)"
+                      />
+                      <Input
+                        type="number"
+                        value={d.monthlyPayment ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, {
+                            monthlyPayment: e.target.value ? Number(e.target.value) : undefined,
+                          })
+                        }
+                        placeholder="Cuota mensual (€)"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">¿En impago?</span>
+                      {[
+                        { v: true, l: "Sí" },
+                        { v: false, l: "No" },
+                      ].map((o) => (
+                        <Button
+                          key={o.l}
+                          type="button"
+                          size="sm"
+                          variant={d.isDefault === o.v ? "default" : "outline"}
+                          onClick={() => updateDebt(i, { isDefault: o.v })}
+                        >
+                          {o.l}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
               {guide.debts.length > 0 && (
-                <p className="text-sm font-semibold text-foreground">
-                  Deuda total: {debtsTotal.toLocaleString("es-ES")} €
-                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
+                  <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
+                  {debtsMonthly > 0 && (
+                    <span>Cuotas de deudas: {debtsMonthly.toLocaleString("es-ES")} €/mes</span>
+                  )}
+                </div>
               )}
             </div>
 
@@ -1287,6 +1332,22 @@ const AdminVentas = () => {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="expenses">Gastos mensuales de vida (€)</Label>
+              <Input
+                id="expenses"
+                type="number"
+                value={guide.monthlyExpenses ?? ""}
+                onChange={(e) =>
+                  setGuide((g) => ({
+                    ...g,
+                    monthlyExpenses: e.target.value ? Number(e.target.value) : undefined,
+                  }))
+                }
+                placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
+              />
             </div>
 
             <div className="space-y-2">
@@ -1377,6 +1438,26 @@ const AdminVentas = () => {
                   )}
                 </div>
               )}
+              {(guide.housing === "alquiler" || guide.housing === "hipoteca") && (
+                <div className="space-y-1">
+                  <Label className="text-xs">
+                    {guide.housing === "alquiler"
+                      ? "Cuota de alquiler (€/mes)"
+                      : "Cuota de hipoteca (€/mes)"}
+                  </Label>
+                  <Input
+                    type="number"
+                    value={guide.housingPayment ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        housingPayment: e.target.value ? Number(e.target.value) : undefined,
+                      }))
+                    }
+                    placeholder="650"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Vehículo */}
@@ -1447,7 +1528,50 @@ const AdminVentas = () => {
                   )}
                 </div>
               )}
+              {guide.vehicle === "financiado" && (
+                <div className="space-y-1">
+                  <Label className="text-xs">Cuota del vehículo (€/mes)</Label>
+                  <Input
+                    type="number"
+                    value={guide.vehiclePayment ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        vehiclePayment: e.target.value ? Number(e.target.value) : undefined,
+                      }))
+                    }
+                    placeholder="220"
+                  />
+                </div>
+              )}
             </div>
+
+            {monthlyOutflow > 0 && (
+              <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
+                <p className="text-sm font-semibold text-foreground">
+                  Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {debtsMonthly > 0 && `Cuotas de deudas ${debtsMonthly.toLocaleString("es-ES")} € · `}
+                  {(guide.housingPayment ?? 0) > 0 && `Vivienda ${(guide.housingPayment ?? 0).toLocaleString("es-ES")} € · `}
+                  {(guide.vehiclePayment ?? 0) > 0 && `Vehículo ${(guide.vehiclePayment ?? 0).toLocaleString("es-ES")} € · `}
+                  {(guide.monthlyExpenses ?? 0) > 0 && `Gastos de vida ${(guide.monthlyExpenses ?? 0).toLocaleString("es-ES")} €`}
+                </p>
+                {guide.monthlyIncome != null && (
+                  <p
+                    className={`text-xs font-medium ${
+                      guide.monthlyIncome - monthlyOutflow < 0
+                        ? "text-destructive"
+                        : "text-foreground/80"
+                    }`}
+                  >
+                    {guide.monthlyIncome - monthlyOutflow < 0
+                      ? `Le faltan ${Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes para llegar (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`
+                      : `Le quedan ${(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes tras pagos (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`}
+                  </p>
+                )}
+              </div>
+            )}
 
             <EngagementGate
               value={engagement}
