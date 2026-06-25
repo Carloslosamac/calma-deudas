@@ -868,6 +868,16 @@ const AdminVentas = () => {
           ))}
         </div>
 
+        {/* Banda de color de la fase actual */}
+        <div
+          className={`mb-5 flex items-center gap-2 rounded-lg border-l-4 px-4 py-2.5 ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
+        >
+          <span className={`h-2.5 w-2.5 rounded-full ${PHASE_THEMES[step].dot}`} />
+          <span className={`text-sm font-bold ${PHASE_THEMES[step].text}`}>
+            Fase {step + 1}: {STEPS[step]}
+          </span>
+        </div>
+
         {/* Step 1: Cualificación */}
         {step === 0 && (
           <Card className="space-y-5 p-6">
