@@ -411,6 +411,82 @@ type EngagementGateProps = {
   phrases?: string[];
   selectedPhrases?: string[];
   onTogglePhrase?: (p: string) => void;
+  onReinforce?: () => void;
+  reinforceLoading?: boolean;
+  reinforceData?: { internal: ScriptCard[]; client: string };
+};
+
+// Bloque "Si aún no quiere avanzar": argumentario de manejo de objeciones para
+// quedarse en la fase actual. Usa el color de la fase activa (--phase).
+const ReinforceBlock = ({
+  data,
+}: {
+  data?: { internal: ScriptCard[]; client: string };
+}) => {
+  if (!data || (!data.internal.length && !data.client)) return null;
+  return (
+    <div
+      className="space-y-3 rounded-xl border p-4"
+      style={{
+        borderColor: "hsl(var(--phase) / 0.4)",
+        backgroundColor: "hsl(var(--phase) / 0.05)",
+      }}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <h3
+          className="font-poppins text-sm font-bold"
+          style={{ color: "hsl(var(--phase))" }}
+        >
+          Si aún no quiere avanzar
+        </h3>
+        {data.internal.length > 0 && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => copyText(cardsToText(data.internal))}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar todo
+          </Button>
+        )}
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {data.internal.map((card, i) => (
+          <div
+            key={i}
+            className="rounded-xl border bg-background/60 p-4"
+            style={{ borderColor: "hsl(var(--phase) / 0.3)" }}
+          >
+            <div className="mb-1.5 flex items-center gap-2">
+              <span className="text-xl leading-none">{card.emoji}</span>
+              <h4 className="font-poppins text-sm font-bold text-foreground">
+                {card.title}
+              </h4>
+            </div>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+              {card.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      {data.client && (
+        <div className="relative rounded-lg border border-border bg-background/60 p-3 pr-24">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="absolute right-2 top-2"
+            onClick={() => copyText(data.client)}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+          </Button>
+          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+            {data.client}
+          </p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 // Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
@@ -425,6 +501,9 @@ const EngagementGate = ({
   phrases,
   selectedPhrases,
   onTogglePhrase,
+  onReinforce,
+  reinforceLoading,
+  reinforceData,
 }: EngagementGateProps) => {
   const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
   return (
@@ -524,6 +603,39 @@ const EngagementGate = ({
               );
             })}
           </div>
+        </div>
+      )}
+
+      {onReinforce && (
+        <div className="space-y-3 border-t border-border pt-3">
+          <p className="text-xs text-muted-foreground">
+            ¿No quiere avanzar todavía (se lo piensa, lo consulta, quiere
+            colgar)? Genera argumentario para rebatir la objeción y reintentar el
+            paso sin presionar.
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onReinforce}
+            disabled={reinforceLoading}
+            className="w-full"
+            style={{
+              borderColor: "hsl(var(--phase) / 0.5)",
+              color: "hsl(var(--phase))",
+            }}
+          >
+            {reinforceLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando
+                refuerzo...
+              </>
+            ) : (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4" /> Reforzar esta fase
+              </>
+            )}
+          </Button>
+          <ReinforceBlock data={reinforceData} />
         </div>
       )}
 
