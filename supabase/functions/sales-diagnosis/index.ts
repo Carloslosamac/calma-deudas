@@ -304,6 +304,7 @@ REGLAS:
 - ${ANTI_VAGUE_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
+}
 
 function reactionsBlock(reactions: string[]): string {
   if (!reactions.length) return "";
