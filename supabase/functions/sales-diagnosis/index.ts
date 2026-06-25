@@ -248,13 +248,13 @@ function buildSigningPrompt(
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
-CASO DE LA PERSONA:
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${buildCaseData(g)}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
 ${caseText}
 """
-
-DATOS GUÍA:
-${buildCaseData(g)}
 
 SERVICIO CONTRATADO: ${t.title}
 
@@ -268,6 +268,7 @@ Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON 
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
+- ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 Sin markdown, sin texto extra.`;
 }
