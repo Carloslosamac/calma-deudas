@@ -931,6 +931,8 @@ const AdminVentas = () => {
         ...guide,
         entities: derivedEntities.length ? derivedEntities : guide.entities,
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+        // Derivado de las deudas: en impago si alguna entidad lo está.
+        isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
         body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions },
@@ -1422,26 +1424,6 @@ const AdminVentas = () => {
                 }
                 placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label>¿Está en impago?</Label>
-              <div className="flex gap-2">
-                {[
-                  { v: true, l: "Sí" },
-                  { v: false, l: "No" },
-                ].map((o) => (
-                  <Button
-                    key={o.l}
-                    type="button"
-                    variant={guide.isDefault === o.v ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setGuide((g) => ({ ...g, isDefault: o.v }))}
-                  >
-                    {o.l}
-                  </Button>
-                ))}
-              </div>
             </div>
 
             {/* Vivienda */}
