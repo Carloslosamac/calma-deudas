@@ -254,12 +254,54 @@ const SOURCE_OF_TRUTH_RULE =
 const DEFAULT_DEBTS_RULE =
   "REGLA DE IMPAGOS (OBLIGATORIA): una cuota marcada EN IMPAGO ya NO se está pagando, así que dejar de pagarla NO 'libera', NO 'inyecta' ni 'ahorra' dinero — ese importe no salía de su bolsillo. El alivio de caja REAL solo proviene de las cuotas que SÍ paga hoy (las marcadas 'al día'). Las deudas en impago se usan para el DIAGNÓSTICO (intereses de demora que crecen, ASNEF, costas, posible demanda/embargo), nunca como ahorro mensual. Si hablas de cuánto se libera/mejora al mes, usa SOLO la suma de las cuotas que actualmente paga; jamás sumes cuotas impagadas a una supuesta 'inyección' o 'ahorro'.";
 
+// Datos del contrato (hoja de encargo) que el comercial debe poder citar.
+interface ContractInput {
+  initialPayment?: string;
+  installments?: string;
+  installmentAmount?: string;
+  fee?: string;
+  service?: string;
+}
+
+const cnum = (v?: string): number => {
+  if (v == null) return 0;
+  const n = parseFloat(
+    String(v).replace(/[^\d.,-]/g, "").replace(/\./g, "").replace(",", "."),
+  );
+  return Number.isFinite(n) ? n : 0;
+};
+
+// Bloque con las condiciones REALES del contrato, para que los guiones de
+// solución / contrato / firma / refuerzo manejen precio, pago, garantía,
+// gastos y desistimiento con datos exactos (no inventados).
+function buildContractTerms(c?: ContractInput): string {
+  const initial = cnum(c?.initialPayment) || 150;
+  const installments = Math.round(cnum(c?.installments)) || 30;
+  const amount = cnum(c?.installmentAmount) || 99;
+  const total = initial + installments * amount;
+  const honorarios =
+    total > 0
+      ? `${total} € IVA incluido (${initial} € iniciales + ${installments} cuotas mensuales de ${amount} €)`
+      : c?.fee || "según condiciones acordadas entre las partes";
+  return `CONDICIONES REALES DEL CONTRATO (HOJA DE ENCARGO — cítalas con naturalidad cuando toque hablar de precio, pago, garantía, gastos o compromiso; NO inventes ni cambies estas cifras):
+- HONORARIOS: ${honorarios}. Compáralo con lo que hoy le ahogan las deudas: la cuota de ${amount} €/mes es asumible y previsible.
+- PAGO INICIAL: ${initial} € como provisión de fondos para abrir el expediente y arrancar las primeras actuaciones (no reembolsable una vez iniciadas las actuaciones, salvo supuestos legales). Es el paso que pone el caso en marcha HOY.
+- FORMA DE COBRO: cuotas en los 5 primeros días de cada mes por tarjeta o domiciliación SEPA, según autorice la persona.
+- GARANTÍA COMERCIAL DE ÉXITO: vinculada al cumplimiento diligente y al resultado jurídicamente viable informado según su caso. NO prometas exoneración total garantizada (depende de requisitos legales y resolución judicial). Solo 500 € tienen carácter no reembolsable (costes administrativos, análisis de viabilidad y preparación documental inicial).
+- QUÉ INCLUYE: análisis de viabilidad, revisión documental, preparación y presentación de la demanda ante el juzgado y asesoramiento en la fase principal hasta resolución judicial.
+- QUÉ NO INCLUYE (se factura aparte, dilo con transparencia si pregunta): documentos oficiales, certificados, notas registrales, burofaxes y honorarios de profesionales externos (procurador, notario, administrador concursal) si fueran necesarios.
+- DESISTIMIENTO: 14 días naturales desde la firma si se contrata a distancia. Tras presentar la demanda, el desistimiento no extingue la obligación de pago. Úsalo para BAJAR el miedo a comprometerse ("tienes 14 días para echarte atrás"), nunca como excusa para aplazar la firma.
+- COMPROMISO Y DURACIÓN: el encargo sigue vigente hasta finalizar el procedimiento; las obligaciones de pago se mantienen.
+REGLA DE USO: no sueltes la lista entera de golpe; integra SOLO el dato que rebate la objeción o refuerza el cierre en ese momento (precio, "qué me compromete", "y si me arrepiento", "qué pasa si no funciona", urgencia de la provisión inicial).`;
+}
+
 function buildPrompt(
   caseText: string,
   g: GuideFields,
   t: { solution: string; title: string },
   engagement: number,
   reactions: string[],
+  contract?: ContractInput,
 ): string {
   const campos = buildCaseData(g);
 
@@ -280,6 +322,8 @@ ${SOLUTION_BENEFITS[t.solution] ?? ""}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (OBLIGATORIO RESPETARLO — no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${buildContractTerms(contract)}
+
 NIVEL DE ENGAGEMENT DE LA PERSONA (cómo de lista está para empezar el proceso):
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 Adapta la INTENSIDAD del discurso (más fuerte o más suave), la longitud y el número de tarjetas a este nivel de engagement. El siguiente paso debe estar preparado en función de él.
@@ -291,7 +335,7 @@ Genera CINCO salidas en español de España:
 
 2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
 
-3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji", "title", "body" }, los máximos reales para este caso. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "se frenan los intereses de demora", "sales de ASNEF y vuelves a poder alquilar/financiar", "se paran las costas de la demanda"). Cada beneficio debe responder a una consecuencia del diagnóstico. Incluye qué hace Calma exactamente y el siguiente paso. Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
+3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji", "title", "body" }, los máximos reales para este caso. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "se frenan los intereses de demora", "sales de ASNEF y vuelves a poder alquilar/financiar", "se paran las costas de la demanda"). Cada beneficio debe responder a una consecuencia del diagnóstico. Incluye qué hace Calma exactamente y el siguiente paso. AL MENOS UNA tarjeta debe presentar el PRECIO y la GARANTÍA con las CONDICIONES REALES DEL CONTRATO (honorarios y cuota mensual frente a lo que hoy paga, provisión inicial, garantía comercial sin prometer exoneración total). Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
 
 4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string en segunda persona que cita el importe total y/o las entidades del caso y describe el resultado CONCRETO en su situación, además del siguiente paso (análisis gratuito). Esperanza realista anclada en datos, no en clichés. Listo para copiar y pegar.
 
@@ -346,6 +390,7 @@ function buildSigningPrompt(
   engagement: number,
   reactions: string[],
   engByPhase: number[],
+  contract?: ContractInput,
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
@@ -362,13 +407,15 @@ SERVICIO CONTRATADO: ${t.title}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${buildContractTerms(contract)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 4)}${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
-1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos REALES del caso: qué pierde por cada día que no firma, los X € en juego, los intereses/costas que siguen corriendo (y el embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
+1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento", "el precio", "y si me arrepiento") apoyados en los datos REALES del caso y en las CONDICIONES REALES DEL CONTRATO: la provisión inicial que arranca el caso HOY, la cuota mensual asumible, los 14 días de desistimiento para quitar miedo, la garantía comercial, y qué pierde por cada día que no firma (intereses/costas que siguen corriendo, embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
@@ -386,6 +433,7 @@ function buildContractMessagePrompt(
   engagement: number,
   reactions: string[],
   engByPhase: number[],
+  contract?: ContractInput,
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
@@ -400,13 +448,15 @@ ${caseText}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${buildContractTerms(contract)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
 Devuelve SOLO un objeto JSON válido con las claves:
-1. contract_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
+1. contract_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato, apoyados en los datos del caso y en las CONDICIONES REALES DEL CONTRATO: "déjame leerlo con calma" → resume tú los puntos clave (honorarios, provisión inicial, garantía, 14 días de desistimiento); "esto qué me compromete" → explica objeto, duración y desistimiento; "y si luego me arrepiento" → 14 días naturales; "el precio" → desglosa honorarios vs. lo que hoy paga y la cuota mensual; "qué pasa si no funciona" → garantía comercial real (sin prometer exoneración total, solo 500 € no reembolsables). Anticipa además que ciertos gastos externos (procurador, notario, administrador concursal) se facturan aparte. Frases literales. Adapta la intensidad al engagement.
 2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${SOURCE_OF_TRUTH_RULE} ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
@@ -430,6 +480,7 @@ function buildReinforcePrompt(
   reactions: string[],
   engByPhase: number[],
   currentStep: number,
+  contract?: ContractInput,
 ): string {
   const phaseName = PHASE_NAMES[currentStep] ?? "la fase actual";
   const goal = PHASE_GOAL[currentStep] ?? PHASE_GOAL[1];
@@ -451,6 +502,7 @@ ${SOLUTION_BRIEF[t.solution]}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${currentStep >= 2 ? buildContractTerms(contract) + "\n" : ""}
 NIVEL DE ENGAGEMENT ACTUAL:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, currentStep)}${reactionsBlock(reactions)}
@@ -505,6 +557,8 @@ Deno.serve(async (req) => {
           .slice(0, 5)
       : [];
     const phase = typeof body.phase === "string" ? body.phase : "";
+    const contract: ContractInput =
+      body.contract && typeof body.contract === "object" ? body.contract : {};
     const currentStep = (() => {
       const n = Number(body.currentStep);
       return Number.isFinite(n) && n >= 0 && n <= 4 ? Math.round(n) : 1;
@@ -520,12 +574,12 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
           : phase === "reinforce"
-            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep)
-            : buildPrompt(caseText, guide, t, engagement, reactions);
+            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract)
+            : buildPrompt(caseText, guide, t, engagement, reactions, contract);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
