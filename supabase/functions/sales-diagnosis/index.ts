@@ -305,9 +305,9 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, t, engagement, reactions)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, t, engagement, reactions)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions)
           : buildPrompt(caseText, guide, t, engagement, reactions);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
