@@ -9,10 +9,10 @@ import {
   YAxis,
 } from "recharts";
 
-// Progreso base hacia la conversión por fase (0-100).
-const PHASE_BASE = [15, 35, 60, 85, 100];
-// Factor según el engagement actual (0-3).
-const ENGAGEMENT_FACTOR = [0.6, 0.85, 1, 1.1];
+// Peso/avance de cada fase hacia el cierre (fracción 0-1).
+const PHASE_WEIGHT = [0.2, 0.4, 0.6, 0.8, 1.0];
+// Tier de engagement (0-3) → fracción 0-1.
+const TIER_FRACTION = [0, 0.33, 0.66, 1];
 
 const PHASE_VARS = [
   "--phase-qualify",
@@ -25,19 +25,22 @@ const PHASE_VARS = [
 type ConversionChartProps = {
   steps: readonly string[];
   currentStep: number;
-  engagement: number;
+  engagementByPhase: number[];
 };
 
 const ConversionChart = ({
   steps,
   currentStep,
-  engagement,
+  engagementByPhase,
 }: ConversionChartProps) => {
-  const factor = ENGAGEMENT_FACTOR[engagement] ?? 1;
   const color = `hsl(var(${PHASE_VARS[currentStep] ?? PHASE_VARS[0]}))`;
 
   const data = steps.map((name, i) => {
-    const value = Math.min(100, Math.round(PHASE_BASE[i] * factor));
+    const tier = engagementByPhase[i] ?? 1;
+    // Conversión = tier (engagement) × peso de la fase.
+    const value = Math.round(
+      (TIER_FRACTION[tier] ?? 0.33) * (PHASE_WEIGHT[i] ?? 0) * 100,
+    );
     return {
       name,
       short: `F${i + 1}`,

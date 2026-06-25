@@ -484,6 +484,41 @@ const EngagementGate = ({
   );
 };
 
+// Selector compacto de tier para las fases que no tienen gate (Solución,
+// Contrato, Firma), para registrar el engagement de esa fase en el gráfico.
+const TierSelector = ({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) => (
+  <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
+    <span className="text-xs font-semibold text-foreground">
+      Engagement en esta fase
+    </span>
+    <div className="flex gap-1.5">
+      {ENGAGEMENT_LEVELS.map((l) => {
+        const selected = value === l.value;
+        return (
+          <button
+            key={l.value}
+            type="button"
+            onClick={() => onChange(l.value)}
+            title={l.label}
+            className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform ${
+              selected ? "ring-2 ring-foreground/40 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
+            }`}
+            style={{ backgroundColor: l.color }}
+          >
+            {l.value}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+);
+
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
@@ -576,7 +611,15 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
-  const [engagement, setEngagement] = useState(1);
+  const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
+    1, 1, 1, 1, 1,
+  ]);
+  // El engagement "activo" es el tier registrado en la fase actual.
+  const engagement = engagementByPhase[step] ?? 1;
+  const setEngagement = (v: number) =>
+    setEngagementByPhase((prev) =>
+      prev.map((x, i) => (i === step ? v : x)),
+    );
   const [reactions, setReactions] = useState<string[]>([]);
   const [contract, setContract] = useState<ContractFields>(emptyContract());
   const [signatureStatus, setSignatureStatus] = useState("pendiente");
@@ -603,7 +646,7 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
-    setEngagement(1);
+    setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
@@ -616,7 +659,7 @@ const AdminVentas = () => {
     setResult(TEST_CASE.result);
     setSavedId(null);
     setStep(0);
-    setEngagement(1);
+    setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
@@ -739,6 +782,7 @@ const AdminVentas = () => {
             ),
             debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
             engagement,
+            engagementByPhase,
             reactions,
             contract,
             signatureStatus,
@@ -769,16 +813,20 @@ const AdminVentas = () => {
     setLabel(c.label);
     setCaseText(c.case_text);
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
-    setEngagement(
-      typeof (c.guide_fields as { engagement?: number })?.engagement === "number"
-        ? (c.guide_fields as { engagement?: number }).engagement!
-        : 1,
-    );
     const gf = (c.guide_fields || {}) as {
+      engagement?: number;
+      engagementByPhase?: number[];
       reactions?: string[];
       contract?: ContractFields;
       signatureStatus?: string;
     };
+    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+      setEngagementByPhase(gf.engagementByPhase.map((v) => v ?? 1));
+    } else {
+      // Compatibilidad: solo existía el tier global → al índice 0.
+      const old = typeof gf.engagement === "number" ? gf.engagement : 1;
+      setEngagementByPhase([old, 1, 1, 1, 1]);
+    }
     setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
     setContract({ ...emptyContract(), ...(gf.contract || {}) });
     setSignatureStatus(gf.signatureStatus || "pendiente");
@@ -847,7 +895,11 @@ const AdminVentas = () => {
         </div>
 
         {/* Gráfico de cercanía a convertir */}
-        <ConversionChart steps={STEPS} currentStep={step} engagement={engagement} />
+        <ConversionChart
+          steps={STEPS}
+          currentStep={step}
+          engagementByPhase={engagementByPhase}
+        />
 
         {/* Stepper */}
         <div className="mb-6 flex items-center gap-2">
@@ -1241,6 +1293,7 @@ const AdminVentas = () => {
                 Solución · {result.triage.title}
               </h2>
             </div>
+            <TierSelector value={engagement} onChange={setEngagement} />
             <ResultBlock
               internal={result.solution_internal}
               client={result.solution_client}
@@ -1282,6 +1335,7 @@ const AdminVentas = () => {
               Rellena los datos del firmante para generar el contrato. Es una
               plantilla base de prestación de servicios; revísala antes de enviarla.
             </p>
+            <TierSelector value={engagement} onChange={setEngagement} />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
@@ -1427,6 +1481,7 @@ const AdminVentas = () => {
                 <PenLine className="h-5 w-5" /> Firma · cierre online
               </h2>
             </div>
+            <TierSelector value={engagement} onChange={setEngagement} />
 
             {result.signing_internal && result.signing_internal.length > 0 ? (
               <ResultBlock
