@@ -648,6 +648,11 @@ const AdminVentas = () => {
   const [reactions, setReactions] = useState<string[]>([]);
   const [contract, setContract] = useState<ContractFields>(emptyContract());
   const [signatureStatus, setSignatureStatus] = useState("pendiente");
+  // Refuerzo de la fase actual cuando la persona no quiere avanzar.
+  const [reinforcing, setReinforcing] = useState(false);
+  const [reinforceByStep, setReinforceByStep] = useState<
+    Record<number, { internal: ScriptCard[]; client: string }>
+  >({});
 
   const togglePhrase = (p: string) =>
     setReactions((prev) =>
