@@ -262,7 +262,9 @@ ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
-- contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${ANTI_VAGUE_RULE} Sin markdown.`;
+Devuelve SOLO un objeto JSON válido con las claves:
+1. contract_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
+2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
 Deno.serve(async (req) => {
