@@ -852,12 +852,17 @@ const AdminVentas = () => {
               key={s}
               type="button"
               onClick={() => setStep(i)}
-              className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
                 step === i
-                  ? "bg-accent text-accent-foreground"
+                  ? PHASE_THEMES[i].active
                   : "bg-muted text-muted-foreground"
               }`}
             >
+              <span
+                className={`h-2 w-2 shrink-0 rounded-full ${
+                  step === i ? "bg-current opacity-80" : PHASE_THEMES[i].dot
+                }`}
+              />
               {i + 1}. {s}
             </button>
           ))}
