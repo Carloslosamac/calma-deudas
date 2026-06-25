@@ -1489,25 +1489,16 @@ const AdminVentas = () => {
                 ) : (
                   <Sparkles className="mr-2 h-4 w-4" />
                 )}
-                Mensaje de envío
+                Guion + mensaje de envío
               </Button>
             </div>
 
-            {result.contract_message && (
-              <div className="relative rounded-xl border border-accent/30 bg-accent/5 p-4">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="absolute right-3 top-3"
-                  onClick={() => copyText(result.contract_message ?? "")}
-                >
-                  <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
-                </Button>
-                <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
-                  {result.contract_message}
-                </p>
-              </div>
+            {((result.contract_internal && result.contract_internal.length > 0) ||
+              result.contract_message) && (
+              <ResultBlock
+                internal={result.contract_internal ?? []}
+                client={result.contract_message ?? ""}
+              />
             )}
 
             <div className="flex justify-between pt-2">
