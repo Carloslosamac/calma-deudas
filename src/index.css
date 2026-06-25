@@ -38,6 +38,23 @@ All colors MUST be HSL.
     --orange-soft: 25 90% 92%;
     --orange-deep: 18 85% 42%;
 
+    /* Colores por fase de la herramienta de ventas */
+    --phase-qualify: 214 84% 56%;
+    --phase-qualify-foreground: 0 0% 100%;
+    --phase-qualify-soft: 214 90% 95%;
+    --phase-diagnosis: 0 78% 58%;
+    --phase-diagnosis-foreground: 0 0% 100%;
+    --phase-diagnosis-soft: 0 85% 96%;
+    --phase-solution: 152 60% 42%;
+    --phase-solution-foreground: 0 0% 100%;
+    --phase-solution-soft: 152 60% 94%;
+    --phase-contract: 38 92% 50%;
+    --phase-contract-foreground: 0 0% 100%;
+    --phase-contract-soft: 38 95% 94%;
+    --phase-sign: 266 70% 58%;
+    --phase-sign-foreground: 0 0% 100%;
+    --phase-sign-soft: 266 80% 96%;
+
     --amber: 38 92% 50%;
     --amber-soft: 42 95% 90%;
     --amber-deep: 32 80% 38%;
@@ -108,6 +125,23 @@ All colors MUST be HSL.
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+
+    /* Colores por fase (dark) */
+    --phase-qualify: 214 84% 62%;
+    --phase-qualify-foreground: 0 0% 100%;
+    --phase-qualify-soft: 214 50% 20%;
+    --phase-diagnosis: 0 78% 62%;
+    --phase-diagnosis-foreground: 0 0% 100%;
+    --phase-diagnosis-soft: 0 45% 22%;
+    --phase-solution: 152 55% 48%;
+    --phase-solution-foreground: 0 0% 100%;
+    --phase-solution-soft: 152 40% 18%;
+    --phase-contract: 38 90% 55%;
+    --phase-contract-foreground: 0 0% 10%;
+    --phase-contract-soft: 38 50% 20%;
+    --phase-sign: 266 70% 65%;
+    --phase-sign-foreground: 0 0% 100%;
+    --phase-sign-soft: 266 40% 24%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;

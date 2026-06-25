@@ -319,6 +319,45 @@ const STEPS = [
   "Firma",
 ] as const;
 
+// Color propio por fase (clases literales para que Tailwind las detecte).
+const PHASE_THEMES = [
+  {
+    active: "bg-phase-qualify text-phase-qualify-foreground",
+    dot: "bg-phase-qualify",
+    text: "text-phase-qualify",
+    soft: "bg-phase-qualify-soft",
+    border: "border-phase-qualify",
+  },
+  {
+    active: "bg-phase-diagnosis text-phase-diagnosis-foreground",
+    dot: "bg-phase-diagnosis",
+    text: "text-phase-diagnosis",
+    soft: "bg-phase-diagnosis-soft",
+    border: "border-phase-diagnosis",
+  },
+  {
+    active: "bg-phase-solution text-phase-solution-foreground",
+    dot: "bg-phase-solution",
+    text: "text-phase-solution",
+    soft: "bg-phase-solution-soft",
+    border: "border-phase-solution",
+  },
+  {
+    active: "bg-phase-contract text-phase-contract-foreground",
+    dot: "bg-phase-contract",
+    text: "text-phase-contract",
+    soft: "bg-phase-contract-soft",
+    border: "border-phase-contract",
+  },
+  {
+    active: "bg-phase-sign text-phase-sign-foreground",
+    dot: "bg-phase-sign",
+    text: "text-phase-sign",
+    soft: "bg-phase-sign-soft",
+    border: "border-phase-sign",
+  },
+] as const;
+
 type EngagementGateProps = {
   value: number;
   onChange: (v: number) => void;
@@ -813,15 +852,30 @@ const AdminVentas = () => {
               key={s}
               type="button"
               onClick={() => setStep(i)}
-              className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
                 step === i
-                  ? "bg-accent text-accent-foreground"
+                  ? PHASE_THEMES[i].active
                   : "bg-muted text-muted-foreground"
               }`}
             >
+              <span
+                className={`h-2 w-2 shrink-0 rounded-full ${
+                  step === i ? "bg-current opacity-80" : PHASE_THEMES[i].dot
+                }`}
+              />
               {i + 1}. {s}
             </button>
           ))}
+        </div>
+
+        {/* Banda de color de la fase actual */}
+        <div
+          className={`mb-5 flex items-center gap-2 rounded-lg border-l-4 px-4 py-2.5 ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
+        >
+          <span className={`h-2.5 w-2.5 rounded-full ${PHASE_THEMES[step].dot}`} />
+          <span className={`text-sm font-bold ${PHASE_THEMES[step].text}`}>
+            Fase {step + 1}: {STEPS[step]}
+          </span>
         </div>
 
         {/* Step 1: Cualificación */}
