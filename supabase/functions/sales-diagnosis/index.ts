@@ -87,6 +87,7 @@ function buildPrompt(
   g: GuideFields,
   t: { solution: string; title: string },
   engagement: number,
+  reactions: string[],
 ): string {
   const labels: Record<string, string> = {
     prestamos: "Préstamos",
@@ -154,6 +155,7 @@ ${SOLUTION_BRIEF[t.solution]}
 NIVEL DE ENGAGEMENT DE LA PERSONA (cómo de lista está para empezar el proceso):
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 Adapta la INTENSIDAD del discurso (más fuerte o más suave), la longitud y el número de tarjetas a este nivel de engagement. El siguiente paso debe estar preparado en función de él.
+${reactionsBlock(reactions)}
 
 Genera CINCO salidas en español de España:
 
@@ -171,6 +173,62 @@ REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, etc.).
 - Respeta estrictamente la descripción de la solución recomendada.
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
+}
+
+function reactionsBlock(reactions: string[]): string {
+  if (!reactions.length) return "";
+  const list = reactions.map((r) => `  - «${r}»`).join("\n");
+  return `\nFRASES TEXTUALES DE LA PERSONA EN LA FASE ANTERIOR (úsalas para afinar el tono, anticipar y rebatir sus objeciones concretas, y conectar con lo que ha dicho; respeta el nivel de engagement):\n${list}\n`;
+}
+
+// Prompt para el guion de cierre de la FIRMA del contrato online.
+function buildSigningPrompt(
+  caseText: string,
+  t: { solution: string; title: string },
+  engagement: number,
+  reactions: string[],
+): string {
+  return `Eres un consultor experto de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo.
+
+CASO DE LA PERSONA:
+"""
+${caseText}
+"""
+
+SERVICIO CONTRATADO: ${t.title}
+
+NIVEL DE ENGAGEMENT:
+${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
+${reactionsBlock(reactions)}
+
+Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
+
+1. signing_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial: cómo guiar paso a paso a la persona a firmar online en la propia llamada, cómo crear urgencia sana, cómo rebatir las objeciones de último momento típicas ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") y cómo confirmar la firma. Adapta la intensidad al engagement.
+2. signing_client: STRING. Mensaje claro y sencillo para enviar al cliente con las instrucciones para firmar el contrato en línea (qué va a recibir, cómo firmarlo y por qué hacerlo ya). Listo para copiar y pegar, en segunda persona y tono cercano.
+
+Sin markdown, sin texto extra.`;
+}
+
+// Prompt para el mensaje de acompañamiento al ENVIAR el contrato.
+function buildContractMessagePrompt(
+  caseText: string,
+  t: { solution: string; title: string },
+  engagement: number,
+  reactions: string[],
+): string {
+  return `Eres un consultor de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
+
+CASO DE LA PERSONA:
+"""
+${caseText}
+"""
+
+NIVEL DE ENGAGEMENT:
+${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
+${reactionsBlock(reactions)}
+
+Devuelve SOLO un objeto JSON válido con la clave:
+- contract_message: STRING. Mensaje breve, cálido y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la buena decisión y empuja con naturalidad a firmarlo cuanto antes. Segunda persona, listo para copiar y pegar. Sin markdown.`;
 }
 
 Deno.serve(async (req) => {
