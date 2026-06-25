@@ -873,7 +873,7 @@ const AdminVentas = () => {
     setStep(0);
     setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
-    setContract(emptyContract());
+    setContract({ ...emptyContract(), ...TEST_CASE.contract });
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
