@@ -1528,6 +1528,22 @@ const AdminVentas = () => {
                   )}
                 </div>
               )}
+              {guide.vehicle === "financiado" && (
+                <div className="space-y-1">
+                  <Label className="text-xs">Cuota del vehículo (€/mes)</Label>
+                  <Input
+                    type="number"
+                    value={guide.vehiclePayment ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        vehiclePayment: e.target.value ? Number(e.target.value) : undefined,
+                      }))
+                    }
+                    placeholder="220"
+                  />
+                </div>
+              )}
             </div>
 
             <EngagementGate
