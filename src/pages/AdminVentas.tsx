@@ -819,6 +819,56 @@ const AdminVentas = () => {
     }
   };
 
+  // Refuerza la fase ACTUAL sin avanzar: cuando la persona duda, dice que se lo
+  // tiene que pensar o quiere colgar, genera argumentario de manejo de
+  // objeciones anclado en el caso y las reacciones marcadas.
+  const reinforcePhase = async (currentStep: number) => {
+    if (caseText.trim().length < 10) {
+      toast.error("Describe el caso (mínimo 10 caracteres).");
+      return;
+    }
+    setReinforcing(true);
+    try {
+      const derivedEntities = Array.from(
+        new Set(guide.debts.map((d) => d.type).filter(Boolean)),
+      );
+      const payloadGuide: GuideFields = {
+        ...guide,
+        entities: derivedEntities.length ? derivedEntities : guide.entities,
+        debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+      };
+      const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
+        body: {
+          caseText: caseText.trim(),
+          guide: payloadGuide,
+          engagement,
+          engagementByPhase,
+          reactions,
+          phase: "reinforce",
+          currentStep,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) {
+        toast.error(data.error);
+        return;
+      }
+      setReinforceByStep((prev) => ({
+        ...prev,
+        [currentStep]: {
+          internal: data.reinforce_internal ?? [],
+          client: data.reinforce_client ?? "",
+        },
+      }));
+      toast.success("Argumentario para no perder a la persona listo");
+    } catch (e) {
+      toast.error("No se pudo generar el refuerzo. Inténtalo de nuevo.");
+      console.error(e);
+    } finally {
+      setReinforcing(false);
+    }
+  };
+
   // Pre-genera automáticamente el guion al entrar en Contrato (envío) y Firma,
   // usando el itinerario de engagements + reacciones acumulado. El comercial
   // puede regenerarlo después si reajusta el engagement o las reacciones.
