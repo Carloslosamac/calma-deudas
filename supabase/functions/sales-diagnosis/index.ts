@@ -152,6 +152,11 @@ function buildCaseData(g: GuideFields): string {
 const ANTI_VAGUE_RULE =
   "REGLA ANTIVAGUEDAD (OBLIGATORIA): cada afirmación debe apoyarse en un DATO REAL del caso (importe, entidad, cuota, nómina, vivienda/vehículo) o en un argumento concreto y accionable. PROHIBIDO el relleno administrativo y las frases de catálogo ('estamos para ayudarte', 'tranquilidad', 'empezar de cero', 'situación complicada', 'cuanto antes mejor') si no van seguidas de un dato o consecuencia concreta. Habla como un cierre comercial afilado, no como un folleto. Nombra las entidades y cifras del caso siempre que existan.";
 
+// Regla de jerarquía de datos: los DATOS GUÍA estructurados (editados por el
+// comercial) mandan sobre cualquier cifra/entidad del texto libre.
+const SOURCE_OF_TRUTH_RULE =
+  "JERARQUÍA DE DATOS (OBLIGATORIA): los DATOS GUÍA son la ÚNICA FUENTE DE VERDAD para cifras (deuda, cuotas, ingresos/salario), entidades, vivienda y vehículo, porque reflejan lo que el comercial ha confirmado y editado. El texto del caso es solo CONTEXTO CUALITATIVO (situación personal, emociones, tono). Si una cifra o entidad aparece en el texto libre pero difiere de los DATOS GUÍA (o no está en ellos), usa SIEMPRE el valor de los DATOS GUÍA e IGNORA el del texto libre. Nunca cites un salario, deuda o entidad que contradiga los DATOS GUÍA.";
+
 function buildPrompt(
   caseText: string,
   g: GuideFields,
