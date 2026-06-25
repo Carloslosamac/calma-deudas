@@ -1902,14 +1902,66 @@ const AdminVentas = () => {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="c-fee">Honorarios</Label>
+                <Label htmlFor="c-signcity">Localidad de firma</Label>
                 <Input
-                  id="c-fee"
-                  value={contract.fee}
-                  onChange={(e) => setContract((c) => ({ ...c, fee: e.target.value }))}
-                  placeholder="Ej. 1.500 € en 12 cuotas"
+                  id="c-signcity"
+                  value={contract.signCity}
+                  onChange={(e) => setContract((c) => ({ ...c, signCity: e.target.value }))}
+                  placeholder="Ej. Madrid"
                 />
               </div>
+            </div>
+
+            {/* Modalidad de pago + cálculo automático */}
+            <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-3">
+              <Label className="text-sm font-semibold">Modalidad de pago</Label>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="c-initial" className="text-xs">Pago inicial (€)</Label>
+                  <Input
+                    id="c-initial"
+                    inputMode="decimal"
+                    value={contract.initialPayment}
+                    onChange={(e) => setContract((c) => ({ ...c, initialPayment: e.target.value }))}
+                    placeholder="150"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="c-ninst" className="text-xs">Nº de cuotas</Label>
+                  <Input
+                    id="c-ninst"
+                    inputMode="numeric"
+                    value={contract.installments}
+                    onChange={(e) => setContract((c) => ({ ...c, installments: e.target.value }))}
+                    placeholder="30"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="c-amount" className="text-xs">Cuota mensual (€)</Label>
+                  <Input
+                    id="c-amount"
+                    inputMode="decimal"
+                    value={contract.installmentAmount}
+                    onChange={(e) => setContract((c) => ({ ...c, installmentAmount: e.target.value }))}
+                    placeholder="99"
+                  />
+                </div>
+              </div>
+              {(() => {
+                const pay = computeContractTotal(contract);
+                return (
+                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-background p-3 text-sm">
+                    <span className="text-muted-foreground">
+                      {pay.initial.toLocaleString("es-ES")} € iniciales + {pay.installments} ×{" "}
+                      {pay.amount.toLocaleString("es-ES")} € ={" "}
+                      {pay.installmentsTotal.toLocaleString("es-ES")} € en cuotas
+                    </span>
+                    <span className="font-bold text-foreground">
+                      Total: {pay.total.toLocaleString("es-ES")} € IVA incl.
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="flex flex-wrap gap-2">
