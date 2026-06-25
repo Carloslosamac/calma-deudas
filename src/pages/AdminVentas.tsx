@@ -28,8 +28,16 @@ import {
   ClipboardList,
   Trash2,
   AlertTriangle,
+  FileText,
+  Download,
+  PenLine,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
+import {
+  ContractFields,
+  emptyContract,
+  downloadContractPdf,
+} from "@/lib/contratoPdf";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -75,6 +83,9 @@ type AiResult = {
   solution_client: string;
   approach?: string;
   engagement?: number;
+  signing_internal?: ScriptCard[];
+  signing_client?: string;
+  contract_message?: string;
 };
 
 type SalesCaseRow = {
@@ -107,6 +118,35 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "desempleado", label: "Desempleado/a" },
   { value: "pension", label: "Pensionista" },
   { value: "otros", label: "Otros" },
+];
+
+// Frases con las que la persona ha respondido a la fase anterior. El comercial
+// marca las que encajan y la IA cincela el tono del siguiente paso.
+const REACTION_PHRASES_QUALIFICATION = [
+  "Me da vergüenza haber llegado a esto",
+  "No es para tanto, lo controlo",
+  "Llevo meses sin dormir por esto",
+  "No tengo tiempo para esto ahora",
+  "¿Esto cuánto me va a costar?",
+  "No me fío de estas cosas",
+  "Quiero solucionarlo ya",
+];
+
+const REACTION_PHRASES_DIAGNOSIS = [
+  "No sabía que podía perder la nómina",
+  "Ya he intentado de todo",
+  "Suena bien pero no me fío",
+  "Necesito pensarlo",
+  "¿Y si no funciona?",
+  "Lo tengo que consultar con mi pareja",
+  "Quiero empezar ya",
+];
+
+const SIGNATURE_STATUS_OPTIONS: { value: string; label: string }[] = [
+  { value: "pendiente", label: "Pendiente de envío" },
+  { value: "enviado", label: "Enviado" },
+  { value: "firmado", label: "Firmado" },
+  { value: "rechazado", label: "Rechazado" },
 ];
 
 // Engagement: 0 = listísimo para empezar/pagar; 3 = quiere librarse de la llamada.
@@ -271,7 +311,13 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
   );
 };
 
-const STEPS = ["Cualificación", "Diagnóstico", "Solución"] as const;
+const STEPS = [
+  "Cualificación",
+  "Diagnóstico",
+  "Solución",
+  "Contrato",
+  "Firma",
+] as const;
 
 type EngagementGateProps = {
   value: number;
@@ -280,6 +326,9 @@ type EngagementGateProps = {
   ctaLabel: string;
   onContinue: () => void;
   loading?: boolean;
+  phrases?: string[];
+  selectedPhrases?: string[];
+  onTogglePhrase?: (p: string) => void;
 };
 
 // Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
@@ -291,6 +340,9 @@ const EngagementGate = ({
   ctaLabel,
   onContinue,
   loading,
+  phrases,
+  selectedPhrases,
+  onTogglePhrase,
 }: EngagementGateProps) => {
   const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
   return (
@@ -348,6 +400,33 @@ const EngagementGate = ({
           />
           {active.hint}
         </p>
+      )}
+
+      {phrases && phrases.length > 0 && onTogglePhrase && (
+        <div className="space-y-2 border-t border-border pt-3">
+          <p className="text-xs font-semibold text-foreground">
+            ¿Cómo ha reaccionado? <span className="font-normal text-muted-foreground">(marca las frases que apliquen)</span>
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {phrases.map((p) => {
+              const on = (selectedPhrases ?? []).includes(p);
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => onTogglePhrase(p)}
+                  className={`rounded-full border px-3 py-1.5 text-[11px] leading-tight transition-colors ${
+                    on
+                      ? "border-foreground/40 bg-background font-semibold text-foreground shadow-sm"
+                      : "border-border bg-background/60 text-muted-foreground hover:bg-background"
+                  }`}
+                >
+                  «{p}»
+                </button>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       <Button onClick={onContinue} disabled={loading} className="w-full">
@@ -458,6 +537,14 @@ const AdminVentas = () => {
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
   const [engagement, setEngagement] = useState(1);
+  const [reactions, setReactions] = useState<string[]>([]);
+  const [contract, setContract] = useState<ContractFields>(emptyContract());
+  const [signatureStatus, setSignatureStatus] = useState("pendiente");
+
+  const togglePhrase = (p: string) =>
+    setReactions((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
+    );
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -477,6 +564,9 @@ const AdminVentas = () => {
     setResult(null);
     setSavedId(null);
     setEngagement(1);
+    setReactions([]);
+    setContract(emptyContract());
+    setSignatureStatus("pendiente");
   };
 
   const loadTestCase = () => {
@@ -487,6 +577,9 @@ const AdminVentas = () => {
     setSavedId(null);
     setStep(0);
     setEngagement(1);
+    setReactions([]);
+    setContract(emptyContract());
+    setSignatureStatus("pendiente");
     toast.success("Caso de prueba cargado");
   };
 
@@ -523,7 +616,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, reactions },
       });
       if (error) throw error;
       if (data?.error) {
@@ -551,6 +644,45 @@ const AdminVentas = () => {
   // engagement actualizado, para que el siguiente paso encaje con él.
   const proceedToSolution = () => void runGeneration(2);
 
+  // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
+  // sin sobreescribir el diagnóstico/solución ya generados.
+  const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
+    if (caseText.trim().length < 10) {
+      toast.error("Describe el caso (mínimo 10 caracteres).");
+      return;
+    }
+    setGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
+        body: { caseText: caseText.trim(), guide, engagement, reactions, phase },
+      });
+      if (error) throw error;
+      if (data?.error) {
+        toast.error(data.error);
+        return;
+      }
+      setResult((prev) =>
+        prev
+          ? {
+              ...prev,
+              ...(phase === "signing"
+                ? {
+                    signing_internal: data.signing_internal ?? [],
+                    signing_client: data.signing_client ?? "",
+                  }
+                : { contract_message: data.contract_message ?? "" }),
+            }
+          : prev,
+      );
+      if (typeof nextStep === "number") setStep(nextStep);
+    } catch (e) {
+      toast.error("No se pudo generar. Inténtalo de nuevo.");
+      console.error(e);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   const saveCase = async () => {
     if (!result) return;
     setSaving(true);
@@ -567,6 +699,9 @@ const AdminVentas = () => {
             ),
             debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
             engagement,
+            reactions,
+            contract,
+            signatureStatus,
           } as never,
           triage_solution: result.triage.solution,
           triage_title: result.triage.title,
@@ -599,6 +734,14 @@ const AdminVentas = () => {
         ? (c.guide_fields as { engagement?: number }).engagement!
         : 1,
     );
+    const gf = (c.guide_fields || {}) as {
+      reactions?: string[];
+      contract?: ContractFields;
+      signatureStatus?: string;
+    };
+    setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
+    setContract({ ...emptyContract(), ...(gf.contract || {}) });
+    setSignatureStatus(gf.signatureStatus || "pendiente");
     setResult({
       triage: { solution: c.triage_solution ?? "", title: c.triage_title ?? "" },
       diagnosis_internal: parseCards(c.diagnosis_internal),
@@ -645,7 +788,7 @@ const AdminVentas = () => {
               Herramienta de ventas
             </h1>
             <p className="text-sm text-muted-foreground">
-              Cualificación → Diagnóstico → Solución
+              Cualificación → Diagnóstico → Solución → Contrato → Firma
             </p>
           </div>
           <div className="flex gap-2">
@@ -979,12 +1122,15 @@ const AdminVentas = () => {
               ctaLabel="Generar diagnóstico"
               onContinue={generate}
               loading={generating}
+              phrases={REACTION_PHRASES_QUALIFICATION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
             />
           </Card>
         )}
 
         {/* Step 2: Diagnóstico */}
-        {(step === 1 || step === 2) && !result && (
+        {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
           <Card className="space-y-3 p-6 text-center">
             <p className="text-sm text-muted-foreground">
               Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
@@ -1027,6 +1173,9 @@ const AdminVentas = () => {
               ctaLabel="Preparar solución"
               onContinue={proceedToSolution}
               loading={generating}
+              phrases={REACTION_PHRASES_DIAGNOSIS}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
@@ -1057,6 +1206,221 @@ const AdminVentas = () => {
             <div className="flex justify-between pt-2">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
+              </Button>
+              <Button
+                onClick={() => {
+                  setContract((c) =>
+                    c.service ? c : { ...c, service: result.triage.solution },
+                  );
+                  setStep(3);
+                }}
+              >
+                <FileText className="mr-2 h-4 w-4" /> Ir a contrato
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 4: Contrato */}
+        {step === 3 && result && (
+          <Card className="space-y-5 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
+                <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
+              </h2>
+              <Badge variant="outline">{result.triage.title}</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Rellena los datos del firmante para generar el contrato. Es una
+              plantilla base de prestación de servicios; revísala antes de enviarla.
+            </p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="c-name">Nombre completo</Label>
+                <Input
+                  id="c-name"
+                  value={contract.fullName}
+                  onChange={(e) => setContract((c) => ({ ...c, fullName: e.target.value }))}
+                  placeholder="Nombre y apellidos"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-dni">DNI / NIE</Label>
+                <Input
+                  id="c-dni"
+                  value={contract.dni}
+                  onChange={(e) => setContract((c) => ({ ...c, dni: e.target.value }))}
+                  placeholder="00000000X"
+                />
+              </div>
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="c-address">Domicilio</Label>
+                <Input
+                  id="c-address"
+                  value={contract.address}
+                  onChange={(e) => setContract((c) => ({ ...c, address: e.target.value }))}
+                  placeholder="Calle, número, ciudad, CP"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-email">Email</Label>
+                <Input
+                  id="c-email"
+                  type="email"
+                  value={contract.email}
+                  onChange={(e) => setContract((c) => ({ ...c, email: e.target.value }))}
+                  placeholder="correo@ejemplo.com"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-phone">Teléfono</Label>
+                <Input
+                  id="c-phone"
+                  value={contract.phone}
+                  onChange={(e) => setContract((c) => ({ ...c, phone: e.target.value }))}
+                  placeholder="600000000"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Servicio contratado</Label>
+                <Select
+                  value={contract.service || result.triage.solution}
+                  onValueChange={(v) => setContract((c) => ({ ...c, service: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="lso">Ley de Segunda Oportunidad</SelectItem>
+                    <SelectItem value="reunificar">Reunificación de deudas</SelectItem>
+                    <SelectItem value="reclamacion">Reclamación judicial por usura</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-fee">Honorarios</Label>
+                <Input
+                  id="c-fee"
+                  value={contract.fee}
+                  onChange={(e) => setContract((c) => ({ ...c, fee: e.target.value }))}
+                  placeholder="Ej. 1.500 € en 12 cuotas"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={() => {
+                  if (!contract.fullName.trim()) {
+                    toast.error("Indica al menos el nombre del firmante.");
+                    return;
+                  }
+                  downloadContractPdf({
+                    ...contract,
+                    service: contract.service || result.triage.solution,
+                  });
+                }}
+              >
+                <Download className="mr-2 h-4 w-4" /> Generar contrato (PDF)
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => void runPhase("contract_message")}
+                disabled={generating}
+              >
+                {generating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                Mensaje de envío
+              </Button>
+            </div>
+
+            {result.contract_message && (
+              <div className="relative rounded-xl border border-accent/30 bg-accent/5 p-4">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="absolute right-3 top-3"
+                  onClick={() => copyText(result.contract_message ?? "")}
+                >
+                  <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                </Button>
+                <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
+                  {result.contract_message}
+                </p>
+              </div>
+            )}
+
+            <div className="flex justify-between pt-2">
+              <Button variant="outline" onClick={() => setStep(2)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Solución
+              </Button>
+              <Button onClick={() => void runPhase("signing", 4)} disabled={generating}>
+                {generating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <PenLine className="mr-2 h-4 w-4" />
+                )}
+                Ir a firma
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 5: Firma */}
+        {step === 4 && result && (
+          <Card className="space-y-4 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
+                <PenLine className="h-5 w-5" /> Firma · cierre online
+              </h2>
+            </div>
+
+            {result.signing_internal && result.signing_internal.length > 0 ? (
+              <ResultBlock
+                internal={result.signing_internal}
+                client={result.signing_client ?? ""}
+              />
+            ) : (
+              <div className="rounded-lg border border-border p-4 text-center text-sm text-muted-foreground">
+                Genera el guion de cierre de firma.
+                <div className="mt-2">
+                  <Button size="sm" onClick={() => void runPhase("signing")} disabled={generating}>
+                    {generating ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="mr-2 h-4 w-4" />
+                    )}
+                    Generar guion de firma
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
+              <Label>Estado de la firma</Label>
+              <div className="flex flex-wrap gap-2">
+                {SIGNATURE_STATUS_OPTIONS.map((o) => (
+                  <Button
+                    key={o.value}
+                    type="button"
+                    variant={signatureStatus === o.value ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSignatureStatus(o.value)}
+                  >
+                    {o.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-between pt-2">
+              <Button variant="outline" onClick={() => setStep(3)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
               </Button>
               <Button onClick={saveCase} disabled={saving || !!savedId}>
                 {saving ? (
