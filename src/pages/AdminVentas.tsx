@@ -897,10 +897,18 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
-  // Cuota mensual total: suma de cuotas por entidad + alquiler/hipoteca + vehículo.
-  const debtsMonthly = guide.debts.reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Cuotas que la persona REALMENTE paga hoy (solo deudas NO impagadas):
+  // es lo único que sale de su bolsillo y lo único que se libera al reestructurar.
+  const debtsMonthlyPaying = guide.debts
+    .filter((d) => d.isDefault !== true)
+    .reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Cuotas YA impagadas: no salen de su bolsillo (no liberan caja), solo contexto del diagnóstico.
+  const debtsMonthlyDefaulted = guide.debts
+    .filter((d) => d.isDefault === true)
+    .reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  // Salida real mensual: solo lo que de verdad paga + cargas fijas.
   const monthlyOutflow =
-    debtsMonthly +
+    debtsMonthlyPaying +
     (guide.housingPayment ?? 0) +
     (guide.vehiclePayment ?? 0) +
     (guide.monthlyExpenses ?? 0);
