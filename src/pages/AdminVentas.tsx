@@ -1211,9 +1211,9 @@ const AdminVentas = () => {
                 {guide.debts.map((d, i) => (
                   <div
                     key={i}
-                    className="grid grid-cols-1 gap-2 rounded-lg border border-border p-3 sm:grid-cols-[1fr_1fr_auto]"
+                    className="space-y-2 rounded-lg border border-border p-3"
                   >
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_auto]">
                       <Select
                         value={d.type}
                         onValueChange={(v) => updateDebt(i, { type: v })}
@@ -1229,38 +1229,70 @@ const AdminVentas = () => {
                           ))}
                         </SelectContent>
                       </Select>
-                      <Input
-                        value={d.entity}
-                        onChange={(e) => updateDebt(i, { entity: e.target.value })}
-                        placeholder="Entidad (ej. WiZink, Cetelem...)"
-                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeDebt(i)}
+                        aria-label="Eliminar entidad"
+                      >
+                        <Trash2 className="h-4 w-4 text-muted-foreground" />
+                      </Button>
                     </div>
                     <Input
-                      type="number"
-                      value={d.amount ?? ""}
-                      onChange={(e) =>
-                        updateDebt(i, {
-                          amount: e.target.value ? Number(e.target.value) : undefined,
-                        })
-                      }
-                      placeholder="Importe (€)"
+                      value={d.entity}
+                      onChange={(e) => updateDebt(i, { entity: e.target.value })}
+                      placeholder="Entidad (ej. WiZink, Cetelem...)"
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeDebt(i)}
-                      aria-label="Eliminar entidad"
-                    >
-                      <Trash2 className="h-4 w-4 text-muted-foreground" />
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input
+                        type="number"
+                        value={d.amount ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, {
+                            amount: e.target.value ? Number(e.target.value) : undefined,
+                          })
+                        }
+                        placeholder="Importe total (€)"
+                      />
+                      <Input
+                        type="number"
+                        value={d.monthlyPayment ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, {
+                            monthlyPayment: e.target.value ? Number(e.target.value) : undefined,
+                          })
+                        }
+                        placeholder="Cuota mensual (€)"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">¿En impago?</span>
+                      {[
+                        { v: true, l: "Sí" },
+                        { v: false, l: "No" },
+                      ].map((o) => (
+                        <Button
+                          key={o.l}
+                          type="button"
+                          size="sm"
+                          variant={d.isDefault === o.v ? "default" : "outline"}
+                          onClick={() => updateDebt(i, { isDefault: o.v })}
+                        >
+                          {o.l}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
               {guide.debts.length > 0 && (
-                <p className="text-sm font-semibold text-foreground">
-                  Deuda total: {debtsTotal.toLocaleString("es-ES")} €
-                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
+                  <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
+                  {debtsMonthly > 0 && (
+                    <span>Cuotas de deudas: {debtsMonthly.toLocaleString("es-ES")} €/mes</span>
+                  )}
+                </div>
               )}
             </div>
 
