@@ -356,6 +356,9 @@ CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de lo
 ${caseText}
 """
 
+ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
