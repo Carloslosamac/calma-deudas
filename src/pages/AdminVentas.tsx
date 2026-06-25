@@ -843,6 +843,18 @@ const AdminVentas = () => {
     (guide.vehiclePayment ?? 0) +
     (guide.monthlyExpenses ?? 0);
 
+  // Capacidad de pago: ingresos menos gastos esenciales (vivienda + vehículo + gastos de vida),
+  // sin contar las cuotas de deudas (que es justo lo que se reestructura).
+  const essentialOutflow =
+    (guide.housingPayment ?? 0) +
+    (guide.vehiclePayment ?? 0) +
+    (guide.monthlyExpenses ?? 0);
+  const paymentCapacity =
+    guide.monthlyIncome != null ? guide.monthlyIncome - essentialOutflow : null;
+  // Importe asumible: cuota recomendada y prudente (60% de la capacidad libre).
+  const affordablePayment =
+    paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
+
   const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
