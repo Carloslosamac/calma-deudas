@@ -390,6 +390,7 @@ function buildSigningPrompt(
   engagement: number,
   reactions: string[],
   engByPhase: number[],
+  contract?: ContractInput,
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
@@ -406,13 +407,15 @@ SERVICIO CONTRATADO: ${t.title}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${buildContractTerms(contract)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 4)}${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
-1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos REALES del caso: qué pierde por cada día que no firma, los X € en juego, los intereses/costas que siguen corriendo (y el embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
+1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento", "el precio", "y si me arrepiento") apoyados en los datos REALES del caso y en las CONDICIONES REALES DEL CONTRATO: la provisión inicial que arranca el caso HOY, la cuota mensual asumible, los 14 días de desistimiento para quitar miedo, la garantía comercial, y qué pierde por cada día que no firma (intereses/costas que siguen corriendo, embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
@@ -430,6 +433,7 @@ function buildContractMessagePrompt(
   engagement: number,
   reactions: string[],
   engByPhase: number[],
+  contract?: ContractInput,
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
@@ -444,13 +448,15 @@ ${caseText}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${buildContractTerms(contract)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
 Devuelve SOLO un objeto JSON válido con las claves:
-1. contract_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
+1. contract_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato, apoyados en los datos del caso y en las CONDICIONES REALES DEL CONTRATO: "déjame leerlo con calma" → resume tú los puntos clave (honorarios, provisión inicial, garantía, 14 días de desistimiento); "esto qué me compromete" → explica objeto, duración y desistimiento; "y si luego me arrepiento" → 14 días naturales; "el precio" → desglosa honorarios vs. lo que hoy paga y la cuota mensual; "qué pasa si no funciona" → garantía comercial real (sin prometer exoneración total, solo 500 € no reembolsables). Anticipa además que ciertos gastos externos (procurador, notario, administrador concursal) se facturan aparte. Frases literales. Adapta la intensidad al engagement.
 2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${SOURCE_OF_TRUTH_RULE} ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
@@ -474,6 +480,7 @@ function buildReinforcePrompt(
   reactions: string[],
   engByPhase: number[],
   currentStep: number,
+  contract?: ContractInput,
 ): string {
   const phaseName = PHASE_NAMES[currentStep] ?? "la fase actual";
   const goal = PHASE_GOAL[currentStep] ?? PHASE_GOAL[1];
@@ -495,6 +502,7 @@ ${SOLUTION_BRIEF[t.solution]}
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
 
+${currentStep >= 2 ? buildContractTerms(contract) + "\n" : ""}
 NIVEL DE ENGAGEMENT ACTUAL:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, currentStep)}${reactionsBlock(reactions)}
