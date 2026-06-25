@@ -411,6 +411,82 @@ type EngagementGateProps = {
   phrases?: string[];
   selectedPhrases?: string[];
   onTogglePhrase?: (p: string) => void;
+  onReinforce?: () => void;
+  reinforceLoading?: boolean;
+  reinforceData?: { internal: ScriptCard[]; client: string };
+};
+
+// Bloque "Si aún no quiere avanzar": argumentario de manejo de objeciones para
+// quedarse en la fase actual. Usa el color de la fase activa (--phase).
+const ReinforceBlock = ({
+  data,
+}: {
+  data?: { internal: ScriptCard[]; client: string };
+}) => {
+  if (!data || (!data.internal.length && !data.client)) return null;
+  return (
+    <div
+      className="space-y-3 rounded-xl border p-4"
+      style={{
+        borderColor: "hsl(var(--phase) / 0.4)",
+        backgroundColor: "hsl(var(--phase) / 0.05)",
+      }}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <h3
+          className="font-poppins text-sm font-bold"
+          style={{ color: "hsl(var(--phase))" }}
+        >
+          Si aún no quiere avanzar
+        </h3>
+        {data.internal.length > 0 && (
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={() => copyText(cardsToText(data.internal))}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar todo
+          </Button>
+        )}
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {data.internal.map((card, i) => (
+          <div
+            key={i}
+            className="rounded-xl border bg-background/60 p-4"
+            style={{ borderColor: "hsl(var(--phase) / 0.3)" }}
+          >
+            <div className="mb-1.5 flex items-center gap-2">
+              <span className="text-xl leading-none">{card.emoji}</span>
+              <h4 className="font-poppins text-sm font-bold text-foreground">
+                {card.title}
+              </h4>
+            </div>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+              {card.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      {data.client && (
+        <div className="relative rounded-lg border border-border bg-background/60 p-3 pr-24">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="absolute right-2 top-2"
+            onClick={() => copyText(data.client)}
+          >
+            <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+          </Button>
+          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+            {data.client}
+          </p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 // Pre-paso: el comercial valora el engagement de la persona antes de avanzar,
@@ -425,6 +501,9 @@ const EngagementGate = ({
   phrases,
   selectedPhrases,
   onTogglePhrase,
+  onReinforce,
+  reinforceLoading,
+  reinforceData,
 }: EngagementGateProps) => {
   const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
   return (
@@ -524,6 +603,39 @@ const EngagementGate = ({
               );
             })}
           </div>
+        </div>
+      )}
+
+      {onReinforce && (
+        <div className="space-y-3 border-t border-border pt-3">
+          <p className="text-xs text-muted-foreground">
+            ¿No quiere avanzar todavía (se lo piensa, lo consulta, quiere
+            colgar)? Genera argumentario para rebatir la objeción y reintentar el
+            paso sin presionar.
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onReinforce}
+            disabled={reinforceLoading}
+            className="w-full"
+            style={{
+              borderColor: "hsl(var(--phase) / 0.5)",
+              color: "hsl(var(--phase))",
+            }}
+          >
+            {reinforceLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando
+                refuerzo...
+              </>
+            ) : (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4" /> Reforzar esta fase
+              </>
+            )}
+          </Button>
+          <ReinforceBlock data={reinforceData} />
         </div>
       )}
 
@@ -648,6 +760,11 @@ const AdminVentas = () => {
   const [reactions, setReactions] = useState<string[]>([]);
   const [contract, setContract] = useState<ContractFields>(emptyContract());
   const [signatureStatus, setSignatureStatus] = useState("pendiente");
+  // Refuerzo de la fase actual cuando la persona no quiere avanzar.
+  const [reinforcing, setReinforcing] = useState(false);
+  const [reinforceByStep, setReinforceByStep] = useState<
+    Record<number, { internal: ScriptCard[]; client: string }>
+  >({});
 
   const togglePhrase = (p: string) =>
     setReactions((prev) =>
@@ -675,10 +792,12 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    setReinforceByStep({});
     autoGenRef.current = {};
   };
 
   const loadTestCase = () => {
+    setReinforceByStep({});
     setLabel(TEST_CASE.label);
     setCaseText(TEST_CASE.caseText);
     setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
@@ -689,6 +808,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    setReinforceByStep({});
     autoGenRef.current = {};
     toast.success("Caso de prueba cargado");
   };
@@ -808,6 +928,56 @@ const AdminVentas = () => {
       console.error(e);
     } finally {
       setGenerating(false);
+    }
+  };
+
+  // Refuerza la fase ACTUAL sin avanzar: cuando la persona duda, dice que se lo
+  // tiene que pensar o quiere colgar, genera argumentario de manejo de
+  // objeciones anclado en el caso y las reacciones marcadas.
+  const reinforcePhase = async (currentStep: number) => {
+    if (caseText.trim().length < 10) {
+      toast.error("Describe el caso (mínimo 10 caracteres).");
+      return;
+    }
+    setReinforcing(true);
+    try {
+      const derivedEntities = Array.from(
+        new Set(guide.debts.map((d) => d.type).filter(Boolean)),
+      );
+      const payloadGuide: GuideFields = {
+        ...guide,
+        entities: derivedEntities.length ? derivedEntities : guide.entities,
+        debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+      };
+      const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
+        body: {
+          caseText: caseText.trim(),
+          guide: payloadGuide,
+          engagement,
+          engagementByPhase,
+          reactions,
+          phase: "reinforce",
+          currentStep,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) {
+        toast.error(data.error);
+        return;
+      }
+      setReinforceByStep((prev) => ({
+        ...prev,
+        [currentStep]: {
+          internal: data.reinforce_internal ?? [],
+          client: data.reinforce_client ?? "",
+        },
+      }));
+      toast.success("Argumentario para no perder a la persona listo");
+    } catch (e) {
+      toast.error("No se pudo generar el refuerzo. Inténtalo de nuevo.");
+      console.error(e);
+    } finally {
+      setReinforcing(false);
     }
   };
 
@@ -1289,6 +1459,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_QUALIFICATION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(0)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[0]}
             />
           </Card>
         )}
@@ -1346,6 +1519,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_DIAGNOSIS}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(1)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[1]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(0)}>
@@ -1386,6 +1562,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SOLUTION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(2)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[2]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(1)}>
@@ -1539,6 +1718,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_CONTRACT}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(3)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[3]}
             />
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
@@ -1595,6 +1777,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SIGN}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(4)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[4]}
             />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
