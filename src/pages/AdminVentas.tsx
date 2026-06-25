@@ -1060,6 +1060,7 @@ const AdminVentas = () => {
           reactions,
           phase: "reinforce",
           currentStep,
+          contract,
         },
       });
       if (error) throw error;
