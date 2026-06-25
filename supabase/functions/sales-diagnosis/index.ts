@@ -159,57 +159,9 @@ function buildPrompt(
   engagement: number,
   reactions: string[],
 ): string {
-  const labels: Record<string, string> = {
-    prestamos: "Préstamos",
-    tarjetas: "Tarjetas / revolving",
-    microcreditos: "Microcréditos",
-    hacienda: "Hacienda / Seguridad Social",
-    hipoteca: "Hipoteca",
-    otros: "Otros",
-  };
-  const empLabels: Record<string, string> = {
-    empleado_indefinido: "Empleado/a (indefinido)",
-    empleado_temporal: "Empleado/a (temporal)",
-    autonomo: "Autónomo/a",
-    desempleado: "Desempleado/a",
-    pension: "Pensionista",
-    otros: "Otros",
-  };
-  const debtsList = (g.debts ?? [])
-    .filter((d) => d.entity || d.amount != null)
-    .map(
-      (d) =>
-        `  - ${labels[d.type ?? ""] ?? d.type ?? "Deuda"}${
-          d.entity ? ` (${d.entity})` : ""
-        }: ${d.amount != null ? `${d.amount} €` : "importe sin definir"}`,
-    )
-    .join("\n");
+  const campos = buildCaseData(g);
 
-  const campos = [
-    g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
-    debtsList ? `Desglose de deudas:\n${debtsList}` : null,
-    g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
-    g.employment ? `Situación laboral: ${empLabels[g.employment] ?? g.employment}` : null,
-    g.housing === "hipoteca"
-      ? `Vivienda: hipoteca (valor ~${g.housingValue ?? "?"} €, pagado ~${g.mortgagePaid ?? "?"} €, pendiente ~${g.mortgageRemaining ?? "?"} €)`
-      : g.housing === "propiedad"
-        ? `Vivienda: en propiedad (valor ~${g.housingValue ?? "?"} €, sin hipoteca)`
-        : g.housing
-          ? `Vivienda: ${g.housing}`
-          : null,
-    g.vehicle === "financiado"
-      ? `Vehículo: financiado (valor ~${g.vehicleValue ?? "?"} €, pagado ~${g.vehiclePaid ?? "?"} €, pendiente ~${g.vehicleRemaining ?? "?"} €)`
-      : g.vehicle === "propiedad"
-        ? `Vehículo: en propiedad (valor ~${g.vehicleValue ?? "?"} €)`
-        : g.vehicle === "no"
-          ? "Vehículo: no tiene"
-          : null,
-    g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  return `Eres un consultor experto de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial.
+  return `Eres el MEJOR closer de ventas de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y tu trabajo es darle munición CONCRETA para cerrar, no rellenar fichas.
 
 CASO DE LA PERSONA (escrito por el comercial):
 """
@@ -217,10 +169,11 @@ ${caseText}
 """
 
 DATOS GUÍA:
-${campos || "(sin datos estructurados adicionales)"}
+${campos}
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
+${SOLUTION_BENEFITS[t.solution] ?? ""}
 
 NIVEL DE ENGAGEMENT DE LA PERSONA (cómo de lista está para empezar el proceso):
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
@@ -229,19 +182,20 @@ ${reactionsBlock(reactions)}
 
 Genera CINCO salidas en español de España:
 
-1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos. Cada objeto tiene { "emoji": string, "title": string, "body": string }. Cada tarjeta cubre un bloque de dolor/consecuencia REAL de NO actuar (p. ej. embargos de nómina/cuentas, inclusión en ASNEF, intereses de demora que disparan la deuda, presión y llamadas de acreedores, demandas/monitorios, desgaste familiar y emocional). El "emoji" debe ser relevante (⚠️ 🏦 📉 📞 ⚖️ 😟 etc.). El "title" es corto y contundente. El "body" es el argumento para el comercial, con la objeción a anticipar incluida. Crea urgencia con la realidad, sin mentir ni inventar cifras.
+1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. Cada tarjeta es UNA consecuencia REAL de NO actuar, ANCLADA en un dato del caso (ej.: "Embargo sobre tu nómina de ${"${"}g.monthlyIncome${"}"} €", "Los X € de [entidad] generan intereses de demora cada mes", inclusión en ASNEF, demandas/monitorios de [entidad], presión telefónica). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico: usa importes y entidades reales del caso.
 
-2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string. Mismas consecuencias pero en segunda persona ("tú"), empático pero honesto sobre la gravedad. Listo para copiar y pegar.
+2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
 
-3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 3 a 5 objetos con la misma forma { "emoji", "title", "body" }. Cubre cómo presentar la solución (${t.title}), el alivio que aporta, qué hacemos exactamente y los siguientes pasos. Conecta el dolor del diagnóstico con el alivio. Usa emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀 etc.).
+3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji", "title", "body" }. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "tu nómina de Y € queda a salvo del embargo"). Incluye qué hace Calma exactamente y el siguiente paso. Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
 
-4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string. En segunda persona, transmite alivio y esperanza realista, explica qué podemos hacer y el siguiente paso (análisis gratuito). Listo para copiar y pegar.
+4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string en segunda persona que cita el importe total y/o las entidades del caso y describe el resultado CONCRETO en su situación, además del siguiente paso (análisis gratuito). Esperanza realista anclada en datos, no en clichés. Listo para copiar y pegar.
 
-5. approach (string corto, máx 2 frases): instrucción táctica para el comercial sobre CÓMO abordar el siguiente paso con esta persona según su nivel de engagement (tono, ritmo, qué evitar y qué pedir).
+5. approach (string, máx 3 frases): instrucción TÁCTICA y concreta para el comercial: qué frase exacta decir para abrir el siguiente paso, qué objeción anticipar según las reacciones marcadas y cómo rebatirla, y qué pedir explícitamente. Nada de consejos genéricos de tono.
 
 REGLAS:
-- No inventes datos concretos de Calma (porcentajes, número de clientes, etc.).
-- Respeta estrictamente la descripción de la solución recomendada.
+- No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
+- Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
+- ${ANTI_VAGUE_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
 
