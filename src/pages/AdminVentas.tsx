@@ -1548,31 +1548,40 @@ const AdminVentas = () => {
                 {generating ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  <Sparkles className="mr-2 h-4 w-4" />
+                  <RefreshCw className="mr-2 h-4 w-4" />
                 )}
-                Guion + mensaje de envío
+                Regenerar guion de envío
               </Button>
             </div>
 
-            {((result.contract_internal && result.contract_internal.length > 0) ||
-              result.contract_message) && (
-              <ResultBlock
-                internal={result.contract_internal ?? []}
-                client={result.contract_message ?? ""}
-              />
+            {generating && !(result.contract_internal?.length) ? (
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de envío…
+              </div>
+            ) : (
+              ((result.contract_internal && result.contract_internal.length > 0) ||
+                result.contract_message) && (
+                <ResultBlock
+                  internal={result.contract_internal ?? []}
+                  client={result.contract_message ?? ""}
+                />
+              )
             )}
 
-            <div className="flex justify-between pt-2">
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes de la firma"
+              ctaLabel="Ir a firma"
+              onContinue={goToSign}
+              loading={generating}
+              phrases={REACTION_PHRASES_CONTRACT}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
-              </Button>
-              <Button onClick={() => void runPhase("signing", 4)} disabled={generating}>
-                {generating ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <PenLine className="mr-2 h-4 w-4" />
-                )}
-                Ir a firma
               </Button>
             </div>
           </Card>
