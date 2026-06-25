@@ -425,11 +425,18 @@ const EngagementGate = ({
               key={l.value}
               type="button"
               onClick={() => onChange(l.value)}
-              className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors ${
+              className="flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors shadow-sm"
+              style={
                 selected
-                  ? "border-foreground/40 bg-background shadow-sm"
-                  : "border-border bg-background/60 hover:bg-background"
-              }`}
+                  ? {
+                      borderColor: "hsl(var(--phase))",
+                      backgroundColor: "hsl(var(--phase) / 0.12)",
+                    }
+                  : {
+                      borderColor: "hsl(var(--phase) / 0.25)",
+                      backgroundColor: "hsl(var(--phase) / 0.04)",
+                    }
+              }
             >
               <span
                 className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold text-white"
