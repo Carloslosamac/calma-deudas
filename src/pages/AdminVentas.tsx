@@ -936,7 +936,10 @@ const AdminVentas = () => {
 
         {/* Step 1: Cualificación */}
         {step === 0 && (
-          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}>
+          <Card
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}
+            style={phaseStyle(0)}
+          >
             <div className="space-y-2">
               <Label htmlFor="label">Etiqueta del caso</Label>
               <Input
