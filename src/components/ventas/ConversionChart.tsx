@@ -11,8 +11,9 @@ import {
 
 // Peso/avance de cada fase hacia el cierre (fracción 0-1).
 const PHASE_WEIGHT = [0.2, 0.4, 0.6, 0.8, 1.0];
-// Tier de engagement (0-3) → fracción 0-1.
-const TIER_FRACTION = [0, 0.33, 0.66, 1];
+// Tier de engagement → fracción 0-1.
+// OJO: 0 = "Quiere empezar ya" (máximo) … 3 = "Quiere colgar" (mínimo).
+const TIER_FRACTION = [1, 0.66, 0.33, 0];
 
 const PHASE_VARS = [
   "--phase-qualify",
