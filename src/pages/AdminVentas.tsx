@@ -86,6 +86,7 @@ type AiResult = {
   engagement?: number;
   signing_internal?: ScriptCard[];
   signing_client?: string;
+  contract_internal?: ScriptCard[];
   contract_message?: string;
 };
 
