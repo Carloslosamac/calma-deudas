@@ -252,6 +252,14 @@ Deno.serve(async (req) => {
       const n = Number(body.engagement);
       return Number.isFinite(n) && n >= 0 && n <= 3 ? Math.round(n) : 1;
     })();
+    const reactions: string[] = Array.isArray(body.reactions)
+      ? body.reactions
+          .filter((r: unknown) => typeof r === "string")
+          .map((r: string) => r.trim())
+          .filter((r: string) => r.length > 0)
+          .slice(0, 12)
+      : [];
+    const phase = typeof body.phase === "string" ? body.phase : "";
 
     if (!caseText || caseText.length < 10) {
       return new Response(JSON.stringify({ error: "Describe el caso (mínimo 10 caracteres)." }), {
@@ -261,7 +269,12 @@ Deno.serve(async (req) => {
     }
 
     const t = triage(guide);
-    const prompt = buildPrompt(caseText, guide, t, engagement);
+    const prompt =
+      phase === "signing"
+        ? buildSigningPrompt(caseText, t, engagement, reactions)
+        : phase === "contract_message"
+          ? buildContractMessagePrompt(caseText, t, engagement, reactions)
+          : buildPrompt(caseText, guide, t, engagement, reactions);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -317,6 +330,28 @@ Deno.serve(async (req) => {
             }))
         : [];
     const asText = (v: unknown) => (typeof v === "string" ? v : "");
+
+    if (phase === "signing") {
+      return new Response(
+        JSON.stringify({
+          triage: t,
+          engagement,
+          signing_internal: asCards(parsed.signing_internal),
+          signing_client: asText(parsed.signing_client),
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    if (phase === "contract_message") {
+      return new Response(
+        JSON.stringify({
+          triage: t,
+          engagement,
+          contract_message: asText(parsed.contract_message),
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
 
     return new Response(
       JSON.stringify({
