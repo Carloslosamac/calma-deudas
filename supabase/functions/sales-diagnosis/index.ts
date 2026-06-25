@@ -208,16 +208,20 @@ function reactionsBlock(reactions: string[]): string {
 // Prompt para el guion de cierre de la FIRMA del contrato online.
 function buildSigningPrompt(
   caseText: string,
+  g: GuideFields,
   t: { solution: string; title: string },
   engagement: number,
   reactions: string[],
 ): string {
-  return `Eres un consultor experto de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo.
+  return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
 CASO DE LA PERSONA:
 """
 ${caseText}
 """
+
+DATOS GUÍA:
+${buildCaseData(g)}
 
 SERVICIO CONTRATADO: ${t.title}
 
@@ -227,32 +231,38 @@ ${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
-1. signing_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial: cómo guiar paso a paso a la persona a firmar online en la propia llamada, cómo crear urgencia sana, cómo rebatir las objeciones de último momento típicas ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") y cómo confirmar la firma. Adapta la intensidad al engagement.
-2. signing_client: STRING. Mensaje claro y sencillo para enviar al cliente con las instrucciones para firmar el contrato en línea (qué va a recibir, cómo firmarlo y por qué hacerlo ya). Listo para copiar y pegar, en segunda persona y tono cercano.
+1. signing_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos del caso: qué pierde por cada día que no firma, los X € en juego, el embargo que sigue corriendo. Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
+2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
+REGLAS:
+- ${ANTI_VAGUE_RULE}
 Sin markdown, sin texto extra.`;
 }
 
 // Prompt para el mensaje de acompañamiento al ENVIAR el contrato.
 function buildContractMessagePrompt(
   caseText: string,
+  g: GuideFields,
   t: { solution: string; title: string },
   engagement: number,
   reactions: string[],
 ): string {
-  return `Eres un consultor de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
+  return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
 CASO DE LA PERSONA:
 """
 ${caseText}
 """
 
+DATOS GUÍA:
+${buildCaseData(g)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
-- contract_message: STRING. Mensaje breve, cálido y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la buena decisión y empuja con naturalidad a firmarlo cuanto antes. Segunda persona, listo para copiar y pegar. Sin markdown.`;
+- contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
 Deno.serve(async (req) => {
