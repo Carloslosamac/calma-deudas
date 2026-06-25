@@ -75,12 +75,82 @@ function triage(g: GuideFields): { solution: string; title: string } {
 }
 
 const SOLUTION_BRIEF: Record<string, string> = {
-  lso: "Ley de Segunda Oportunidad: si hay insolvencia real y NO hay bienes de valor que proteger, se puede cancelar legalmente la deuda y empezar de cero.",
+  lso: "Ley de Segunda Oportunidad: si hay insolvencia real y NO hay bienes de valor que proteger, se puede CANCELAR LEGALMENTE la deuda y empezar de cero.",
   reunificar:
     "Reunificación de deudas = negociación EXTRAJUDICIAL para bajar la cuota mensual Y el total que se debe, SIN pedir un préstamo nuevo, SIN agrupar en una hipoteca y SIN alargar plazos. NUNCA la describas como un préstamo nuevo ni como agrupar deudas.",
   reclamacion:
     "Reclamación judicial por usura: si la TAE de tarjetas revolving o microcréditos es desproporcionada, la deuda puede anularse por usura y se recupera lo pagado de más.",
 };
+
+// Beneficios concretos que la IA DEBE aterrizar con los datos reales del caso.
+const SOLUTION_BENEFITS: Record<string, string> = {
+  lso: "Beneficios a aterrizar con los datos del caso: (1) los X € exactos de deuda quedan CANCELADOS por sentencia judicial; (2) dejas de pagar las cuotas mensuales que hoy te ahogan; (3) se PARA el embargo sobre la nómina/ingresos indicados y sobre tus cuentas; (4) SALES de ASNEF y recuperas acceso al crédito; (5) se acaban las llamadas y la presión de [entidades concretas del caso]. Nombra los importes y entidades reales, no hables en abstracto.",
+  reunificar:
+    "Beneficios a aterrizar con los datos del caso: (1) BAJA la cuota mensual que hoy pagas y el TOTAL que debes, mediante negociación extrajudicial con [entidades concretas]; (2) pasas de lidiar con N acreedores a una sola gestión que llevamos nosotros; (3) frenas el deterioro (intereses de demora, ASNEF, embargos) que crece cada mes sobre los X € de deuda; (4) conservas tu vivienda/vehículo. Nunca lo describas como préstamo nuevo, agrupar ni alargar plazos.",
+  reclamacion:
+    "Beneficios a aterrizar con los datos del caso: (1) se ANULA la deuda usuraria de [entidad concreta] por TAE abusiva; (2) recuperas el dinero pagado de más en intereses desproporcionados; (3) se detiene el cobro y la presión de esa entidad. Cita la entidad y el importe reales del caso.",
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  prestamos: "Préstamos",
+  tarjetas: "Tarjetas / revolving",
+  microcreditos: "Microcréditos",
+  hacienda: "Hacienda / Seguridad Social",
+  hipoteca: "Hipoteca",
+  otros: "Otros",
+};
+
+const EMP_LABELS: Record<string, string> = {
+  empleado_indefinido: "Empleado/a (indefinido)",
+  empleado_temporal: "Empleado/a (temporal)",
+  autonomo: "Autónomo/a",
+  desempleado: "Desempleado/a",
+  pension: "Pensionista",
+  otros: "Otros",
+};
+
+// Bloque de datos estructurados del caso, reutilizable en TODOS los prompts.
+function buildCaseData(g: GuideFields): string {
+  const debtsList = (g.debts ?? [])
+    .filter((d) => d.entity || d.amount != null)
+    .map(
+      (d) =>
+        `  - ${TYPE_LABELS[d.type ?? ""] ?? d.type ?? "Deuda"}${
+          d.entity ? ` (${d.entity})` : ""
+        }: ${d.amount != null ? `${d.amount} €` : "importe sin definir"}`,
+    )
+    .join("\n");
+
+  const campos = [
+    g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
+    debtsList ? `Desglose de deudas:\n${debtsList}` : null,
+    g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
+    g.employment ? `Situación laboral: ${EMP_LABELS[g.employment] ?? g.employment}` : null,
+    g.housing === "hipoteca"
+      ? `Vivienda: hipoteca (valor ~${g.housingValue ?? "?"} €, pagado ~${g.mortgagePaid ?? "?"} €, pendiente ~${g.mortgageRemaining ?? "?"} €)`
+      : g.housing === "propiedad"
+        ? `Vivienda: en propiedad (valor ~${g.housingValue ?? "?"} €, sin hipoteca)`
+        : g.housing
+          ? `Vivienda: ${g.housing}`
+          : null,
+    g.vehicle === "financiado"
+      ? `Vehículo: financiado (valor ~${g.vehicleValue ?? "?"} €, pagado ~${g.vehiclePaid ?? "?"} €, pendiente ~${g.vehicleRemaining ?? "?"} €)`
+      : g.vehicle === "propiedad"
+        ? `Vehículo: en propiedad (valor ~${g.vehicleValue ?? "?"} €)`
+        : g.vehicle === "no"
+          ? "Vehículo: no tiene"
+          : null,
+    g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return campos || "(sin datos estructurados adicionales)";
+}
+
+// Regla común anti-relleno para todos los prompts.
+const ANTI_VAGUE_RULE =
+  "REGLA ANTIVAGUEDAD (OBLIGATORIA): cada afirmación debe apoyarse en un DATO REAL del caso (importe, entidad, cuota, nómina, vivienda/vehículo) o en un argumento concreto y accionable. PROHIBIDO el relleno administrativo y las frases de catálogo ('estamos para ayudarte', 'tranquilidad', 'empezar de cero', 'situación complicada', 'cuanto antes mejor') si no van seguidas de un dato o consecuencia concreta. Habla como un cierre comercial afilado, no como un folleto. Nombra las entidades y cifras del caso siempre que existan.";
 
 function buildPrompt(
   caseText: string,
