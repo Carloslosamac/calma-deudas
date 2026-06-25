@@ -1122,6 +1122,9 @@ const AdminVentas = () => {
               ctaLabel="Generar diagnóstico"
               onContinue={generate}
               loading={generating}
+              phrases={REACTION_PHRASES_QUALIFICATION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
             />
           </Card>
         )}
