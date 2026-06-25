@@ -186,10 +186,18 @@ function buildCaseData(g: GuideFields): string {
     )
     .join("\n");
 
-  // Cuota mensual total que la persona destina hoy a deudas y cargas fijas.
-  const debtsMonthly = (g.debts ?? []).reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Cuotas que la persona REALMENTE paga hoy (solo deudas NO impagadas):
+  // es lo único que sale de su bolsillo y lo único que se "libera" al reestructurar.
+  const debtsMonthlyPaying = (g.debts ?? [])
+    .filter((d) => d.isDefault !== true)
+    .reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Cuotas YA impagadas: no salen de su bolsillo (no liberan caja), pero pesan en el diagnóstico.
+  const debtsMonthlyDefaulted = (g.debts ?? [])
+    .filter((d) => d.isDefault === true)
+    .reduce((s, d) => s + (d.monthlyPayment ?? 0), 0);
+  // Salida real mensual = solo lo que de verdad paga + cargas fijas.
   const monthlyOutflow =
-    debtsMonthly +
+    debtsMonthlyPaying +
     (g.housingPayment ?? 0) +
     (g.vehiclePayment ?? 0) +
     (g.monthlyExpenses ?? 0);
@@ -197,7 +205,12 @@ function buildCaseData(g: GuideFields): string {
   const campos = [
     g.debtAmount != null ? `Deuda total aprox: ${g.debtAmount} €` : null,
     debtsList ? `Desglose de deudas:\n${debtsList}` : null,
-    debtsMonthly > 0 ? `Cuotas mensuales de deudas: ${debtsMonthly} €/mes` : null,
+    debtsMonthlyPaying > 0
+      ? `Cuotas que SÍ paga hoy (al día): ${debtsMonthlyPaying} €/mes — esto es lo único que deja de pagar (libera caja) al reestructurar.`
+      : null,
+    debtsMonthlyDefaulted > 0
+      ? `Cuotas YA impagadas: ${debtsMonthlyDefaulted} €/mes — NO salen de su bolsillo, así que NO se "liberan" ni "inyectan" al dejar de pagarlas; cuentan para el diagnóstico (intereses, ASNEF, costas, embargos), no como ahorro.`
+      : null,
     g.isDefault != null ? `En impago: ${g.isDefault ? "sí" : "no"}` : null,
     g.employment ? `Situación laboral: ${EMP_LABELS[g.employment] ?? g.employment}` : null,
     g.housing === "hipoteca"
@@ -219,7 +232,7 @@ function buildCaseData(g: GuideFields): string {
     g.monthlyIncome != null ? `Ingresos mensuales aprox: ${g.monthlyIncome} €` : null,
     g.monthlyExpenses != null ? `Gastos mensuales de vida aprox: ${g.monthlyExpenses} €` : null,
     monthlyOutflow > 0
-      ? `Total que paga al mes (deudas + vivienda + vehículo + gastos): ${monthlyOutflow} €${g.monthlyIncome != null ? ` sobre ${g.monthlyIncome} € de ingresos${g.monthlyIncome - monthlyOutflow < 0 ? ` → DÉFICIT de ${Math.abs(g.monthlyIncome - monthlyOutflow)} €/mes (no llega a fin de mes)` : ` → le quedan ${g.monthlyIncome - monthlyOutflow} €/mes`}` : ""}`
+      ? `Total que REALMENTE paga al mes (solo cuotas al día + vivienda + vehículo + gastos): ${monthlyOutflow} €${g.monthlyIncome != null ? ` sobre ${g.monthlyIncome} € de ingresos${g.monthlyIncome - monthlyOutflow < 0 ? ` → DÉFICIT de ${Math.abs(g.monthlyIncome - monthlyOutflow)} €/mes (no llega a fin de mes)` : ` → le quedan ${g.monthlyIncome - monthlyOutflow} €/mes`}` : ""}`
       : null,
   ]
     .filter(Boolean)
