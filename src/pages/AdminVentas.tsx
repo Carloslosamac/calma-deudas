@@ -1546,6 +1546,33 @@ const AdminVentas = () => {
               )}
             </div>
 
+            {monthlyOutflow > 0 && (
+              <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
+                <p className="text-sm font-semibold text-foreground">
+                  Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {debtsMonthly > 0 && `Cuotas de deudas ${debtsMonthly.toLocaleString("es-ES")} € · `}
+                  {(guide.housingPayment ?? 0) > 0 && `Vivienda ${(guide.housingPayment ?? 0).toLocaleString("es-ES")} € · `}
+                  {(guide.vehiclePayment ?? 0) > 0 && `Vehículo ${(guide.vehiclePayment ?? 0).toLocaleString("es-ES")} € · `}
+                  {(guide.monthlyExpenses ?? 0) > 0 && `Gastos de vida ${(guide.monthlyExpenses ?? 0).toLocaleString("es-ES")} €`}
+                </p>
+                {guide.monthlyIncome != null && (
+                  <p
+                    className={`text-xs font-medium ${
+                      guide.monthlyIncome - monthlyOutflow < 0
+                        ? "text-destructive"
+                        : "text-foreground/80"
+                    }`}
+                  >
+                    {guide.monthlyIncome - monthlyOutflow < 0
+                      ? `Le faltan ${Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes para llegar (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`
+                      : `Le quedan ${(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes tras pagos (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`}
+                  </p>
+                )}
+              </div>
+            )}
+
             <EngagementGate
               value={engagement}
               onChange={setEngagement}
