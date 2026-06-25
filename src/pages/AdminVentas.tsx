@@ -328,6 +328,7 @@ const PHASE_THEMES = [
     text: "text-phase-qualify",
     soft: "bg-phase-qualify-soft",
     border: "border-phase-qualify",
+    var: "--phase-qualify",
   },
   {
     active: "bg-phase-diagnosis text-phase-diagnosis-foreground",
@@ -335,6 +336,7 @@ const PHASE_THEMES = [
     text: "text-phase-diagnosis",
     soft: "bg-phase-diagnosis-soft",
     border: "border-phase-diagnosis",
+    var: "--phase-diagnosis",
   },
   {
     active: "bg-phase-solution text-phase-solution-foreground",
@@ -342,6 +344,7 @@ const PHASE_THEMES = [
     text: "text-phase-solution",
     soft: "bg-phase-solution-soft",
     border: "border-phase-solution",
+    var: "--phase-solution",
   },
   {
     active: "bg-phase-contract text-phase-contract-foreground",
@@ -349,6 +352,7 @@ const PHASE_THEMES = [
     text: "text-phase-contract",
     soft: "bg-phase-contract-soft",
     border: "border-phase-contract",
+    var: "--phase-contract",
   },
   {
     active: "bg-phase-sign text-phase-sign-foreground",
@@ -356,8 +360,14 @@ const PHASE_THEMES = [
     text: "text-phase-sign",
     soft: "bg-phase-sign-soft",
     border: "border-phase-sign",
+    var: "--phase-sign",
   },
 ] as const;
+
+// Helper para aplicar el color de fase como variable CSS local (`--phase`) en la
+// card, de modo que fields, botones secundarios y chips tomen ese tono.
+const phaseStyle = (i: number) =>
+  ({ ["--phase" as string]: `var(${PHASE_THEMES[i].var})` }) as React.CSSProperties;
 
 type EngagementGateProps = {
   value: number;
