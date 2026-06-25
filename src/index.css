@@ -170,3 +170,27 @@ All colors MUST be HSL.
   }
 
 }
+
+/* Herramienta de ventas: fields y botones dentro de la card de fase toman el
+   mismo tono de la fase pero en versión clara, para no quedar como "islas"
+   blancas sobre el fondo de color. Las chips usan el tono más saturado. */
+@layer components {
+  .phase-card input,
+  .phase-card textarea,
+  .phase-card [role="combobox"] {
+    background-color: hsl(var(--phase) / 0.06);
+    border-color: hsl(var(--phase) / 0.3);
+  }
+
+  .phase-card input:focus-visible,
+  .phase-card textarea:focus-visible,
+  .phase-card [role="combobox"]:focus-visible {
+    border-color: hsl(var(--phase) / 0.6);
+    box-shadow: 0 0 0 2px hsl(var(--phase) / 0.25);
+  }
+
+  .phase-card .bg-background\/60,
+  .phase-card .bg-background\/70 {
+    background-color: hsl(var(--phase) / 0.05) !important;
+  }
+}
