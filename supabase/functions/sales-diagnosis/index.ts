@@ -205,6 +205,32 @@ function reactionsBlock(reactions: string[]): string {
   return `\nFRASES TEXTUALES DE LA PERSONA EN LA FASE ANTERIOR (úsalas para afinar el tono, anticipar y rebatir sus objeciones concretas, y conectar con lo que ha dicho; respeta el nivel de engagement):\n${list}\n`;
 }
 
+// Etiqueta corta del nivel de engagement para el itinerario.
+const ENGAGEMENT_SHORT: Record<number, string> = {
+  0: "listísimo, quiere empezar ya",
+  1: "muy interesado/a",
+  2: "dudoso/a",
+  3: "quiere librarse de la llamada",
+};
+const PHASE_NAMES = ["Cualificación", "Diagnóstico", "Solución", "Contrato", "Firma"];
+
+// Itinerario de engagement acumulado a lo largo de la llamada, para que el
+// guion de contrato/firma tenga en cuenta la TRAYECTORIA, no solo el tier actual.
+function itineraryBlock(engByPhase: number[], upToPhase: number): string {
+  if (!Array.isArray(engByPhase) || !engByPhase.length) return "";
+  const lines = engByPhase
+    .slice(0, upToPhase + 1)
+    .map((e, i) =>
+      PHASE_NAMES[i]
+        ? `  - ${PHASE_NAMES[i]}: ${e} (${ENGAGEMENT_SHORT[e] ?? ""})`
+        : null,
+    )
+    .filter(Boolean)
+    .join("\n");
+  if (!lines) return "";
+  return `\nITINERARIO DE ENGAGEMENT ACUMULADO (cómo ha evolucionado la persona fase a fase). Ten en cuenta la TENDENCIA: si ha ido a mejor, refuerza con seguridad el cierre; si ha empeorado en las últimas fases, recupera primero la confianza antes de empujar a firmar:\n${lines}\n`;
+}
+
 // Prompt para el guion de cierre de la FIRMA del contrato online.
 function buildSigningPrompt(
   caseText: string,
@@ -212,6 +238,7 @@ function buildSigningPrompt(
   t: { solution: string; title: string },
   engagement: number,
   reactions: string[],
+  engByPhase: number[],
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
@@ -227,7 +254,7 @@ SERVICIO CONTRATADO: ${t.title}
 
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
-${reactionsBlock(reactions)}
+${itineraryBlock(engByPhase, 4)}${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
@@ -246,6 +273,7 @@ function buildContractMessagePrompt(
   t: { solution: string; title: string },
   engagement: number,
   reactions: string[],
+  engByPhase: number[],
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
@@ -259,7 +287,7 @@ ${buildCaseData(g)}
 
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
-${reactionsBlock(reactions)}
+${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
 Devuelve SOLO un objeto JSON válido con las claves:
