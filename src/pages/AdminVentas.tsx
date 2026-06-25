@@ -895,7 +895,11 @@ const AdminVentas = () => {
         </div>
 
         {/* Gráfico de cercanía a convertir */}
-        <ConversionChart steps={STEPS} currentStep={step} engagement={engagement} />
+        <ConversionChart
+          steps={STEPS}
+          currentStep={step}
+          engagementByPhase={engagementByPhase}
+        />
 
         {/* Stepper */}
         <div className="mb-6 flex items-center gap-2">
