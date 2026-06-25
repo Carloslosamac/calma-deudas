@@ -374,6 +374,7 @@ Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON 
 REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 Sin markdown, sin texto extra.`;
 }
 
@@ -463,6 +464,7 @@ Devuelve SOLO un objeto JSON válido con estas claves:
 REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 Sin markdown, sin texto extra.`;
 }
 
