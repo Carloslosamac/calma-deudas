@@ -328,6 +328,7 @@ const PHASE_THEMES = [
     text: "text-phase-qualify",
     soft: "bg-phase-qualify-soft",
     border: "border-phase-qualify",
+    var: "--phase-qualify",
   },
   {
     active: "bg-phase-diagnosis text-phase-diagnosis-foreground",
@@ -335,6 +336,7 @@ const PHASE_THEMES = [
     text: "text-phase-diagnosis",
     soft: "bg-phase-diagnosis-soft",
     border: "border-phase-diagnosis",
+    var: "--phase-diagnosis",
   },
   {
     active: "bg-phase-solution text-phase-solution-foreground",
@@ -342,6 +344,7 @@ const PHASE_THEMES = [
     text: "text-phase-solution",
     soft: "bg-phase-solution-soft",
     border: "border-phase-solution",
+    var: "--phase-solution",
   },
   {
     active: "bg-phase-contract text-phase-contract-foreground",
@@ -349,6 +352,7 @@ const PHASE_THEMES = [
     text: "text-phase-contract",
     soft: "bg-phase-contract-soft",
     border: "border-phase-contract",
+    var: "--phase-contract",
   },
   {
     active: "bg-phase-sign text-phase-sign-foreground",
@@ -356,8 +360,14 @@ const PHASE_THEMES = [
     text: "text-phase-sign",
     soft: "bg-phase-sign-soft",
     border: "border-phase-sign",
+    var: "--phase-sign",
   },
 ] as const;
+
+// Helper para aplicar el color de fase como variable CSS local (`--phase`) en la
+// card, de modo que fields, botones secundarios y chips tomen ese tono.
+const phaseStyle = (i: number) =>
+  ({ ["--phase" as string]: `var(${PHASE_THEMES[i].var})` }) as React.CSSProperties;
 
 type EngagementGateProps = {
   value: number;
@@ -455,13 +465,22 @@ const EngagementGate = ({
                   key={p}
                   type="button"
                   onClick={() => onTogglePhrase(p)}
-                  className={`rounded-full border px-3 py-1.5 text-[11px] leading-tight transition-colors ${
+                  className="rounded-full border px-3 py-1.5 text-[11px] font-medium leading-tight transition-colors"
+                  style={
                     on
-                      ? "border-foreground/40 bg-background font-semibold text-foreground shadow-sm"
-                      : "border-border bg-background/60 text-muted-foreground hover:bg-background"
-                  }`}
+                      ? {
+                          backgroundColor: "hsl(var(--phase) / 0.9)",
+                          borderColor: "hsl(var(--phase))",
+                          color: "hsl(0 0% 100%)",
+                        }
+                      : {
+                          backgroundColor: "hsl(var(--phase) / 0.16)",
+                          borderColor: "hsl(var(--phase) / 0.4)",
+                          color: "hsl(var(--phase))",
+                        }
+                  }
                 >
-                  «{p}»
+                  {p}
                 </button>
               );
             })}
@@ -926,7 +945,10 @@ const AdminVentas = () => {
 
         {/* Step 1: Cualificación */}
         {step === 0 && (
-          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}>
+          <Card
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}
+            style={phaseStyle(0)}
+          >
             <div className="space-y-2">
               <Label htmlFor="label">Etiqueta del caso</Label>
               <Input
@@ -1231,7 +1253,10 @@ const AdminVentas = () => {
 
         {/* Step 2: Diagnóstico */}
         {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
-          <Card className={`space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}>
+          <Card
+            className={`phase-card space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
+            style={phaseStyle(step)}
+          >
             <p className="text-sm text-muted-foreground">
               Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
               caso de prueba para navegar entre secciones.
@@ -1248,7 +1273,10 @@ const AdminVentas = () => {
         )}
 
         {step === 1 && result && (
-          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}>
+          <Card
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}
+            style={phaseStyle(1)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
                 <AlertTriangle className="h-5 w-5" /> Diagnóstico · consecuencias de no actuar
@@ -1287,7 +1315,10 @@ const AdminVentas = () => {
 
         {/* Step 3: Solución */}
         {step === 2 && result && (
-          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}>
+          <Card
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
+            style={phaseStyle(2)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="font-poppins text-lg font-bold text-foreground">
                 Solución · {result.triage.title}
@@ -1324,7 +1355,10 @@ const AdminVentas = () => {
 
         {/* Step 4: Contrato */}
         {step === 3 && result && (
-          <Card className={`space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}>
+          <Card
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
+            style={phaseStyle(3)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
@@ -1475,7 +1509,10 @@ const AdminVentas = () => {
 
         {/* Step 5: Firma */}
         {step === 4 && result && (
-          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}>
+          <Card
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
+            style={phaseStyle(4)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <PenLine className="h-5 w-5" /> Firma · cierre online
