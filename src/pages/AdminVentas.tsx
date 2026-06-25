@@ -28,8 +28,16 @@ import {
   ClipboardList,
   Trash2,
   AlertTriangle,
+  FileText,
+  Download,
+  PenLine,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
+import {
+  ContractFields,
+  emptyContract,
+  downloadContractPdf,
+} from "@/lib/contratoPdf";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -75,6 +83,9 @@ type AiResult = {
   solution_client: string;
   approach?: string;
   engagement?: number;
+  signing_internal?: ScriptCard[];
+  signing_client?: string;
+  contract_message?: string;
 };
 
 type SalesCaseRow = {
