@@ -923,6 +923,7 @@ const AdminVentas = () => {
     });
     setSavedId(c.id);
     setStep(1);
+    autoGenRef.current = {};
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
