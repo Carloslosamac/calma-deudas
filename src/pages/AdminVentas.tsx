@@ -714,6 +714,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    autoGenRef.current = {};
   };
 
   const loadTestCase = () => {
@@ -727,6 +728,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    autoGenRef.current = {};
     toast.success("Caso de prueba cargado");
   };
 
