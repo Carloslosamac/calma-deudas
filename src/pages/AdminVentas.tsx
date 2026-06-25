@@ -536,9 +536,14 @@ const TierSelector = ({
             onClick={() => onChange(l.value)}
             title={l.label}
             className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform ${
-              selected ? "ring-2 ring-foreground/40 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
+              selected ? "ring-2 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
             }`}
-            style={{ backgroundColor: l.color }}
+            style={{
+              backgroundColor: l.color,
+              ...(selected
+                ? ({ ["--tw-ring-color" as string]: "hsl(var(--phase))" } as React.CSSProperties)
+                : {}),
+            }}
           >
             {l.value}
           </button>
