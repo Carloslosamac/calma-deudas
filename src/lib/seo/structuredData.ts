@@ -294,10 +294,18 @@ export const buildQAPage = (params: {
   mainEntity: {
     "@type": "Question",
     name: params.question,
+    text: params.question,
     url: absoluteUrl(params.url),
+    answerCount: 1,
+    author: { "@id": `${SITE_URL}#organization` },
+    datePublished: "2024-01-01",
     acceptedAnswer: {
       "@type": "Answer",
       text: params.answer,
+      url: absoluteUrl(params.url),
+      upvoteCount: 1,
+      author: { "@id": `${SITE_URL}#organization` },
+      datePublished: "2024-01-01",
     },
   },
 });
