@@ -531,6 +531,14 @@ const AdminVentas = () => {
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
   const [engagement, setEngagement] = useState(1);
+  const [reactions, setReactions] = useState<string[]>([]);
+  const [contract, setContract] = useState<ContractFields>(emptyContract());
+  const [signatureStatus, setSignatureStatus] = useState("pendiente");
+
+  const togglePhrase = (p: string) =>
+    setReactions((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
+    );
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
