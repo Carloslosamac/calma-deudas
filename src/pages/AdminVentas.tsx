@@ -666,27 +666,32 @@ const TEST_CASE: {
   caseText: string;
   guide: GuideFields;
   result: AiResult;
+  contract: ContractFields;
 } = {
   label: "PRUEBA · María · revolving 18.000€",
   caseText:
     "María, 42 años, separada con dos hijos. Trabaja como administrativa con contrato indefinido y cobra unos 1.350€ al mes. Arrastra varias tarjetas revolving y un par de microcréditos que pidió para llegar a fin de mes. Ya no puede pagar las cuotas, ha empezado a recibir llamadas de los acreedores y está muy agobiada porque teme que le embarguen la nómina.",
   guide: {
     debts: [
-      { type: "tarjetas", entity: "WiZink", amount: 8000 },
-      { type: "tarjetas", entity: "Cetelem", amount: 5000 },
-      { type: "microcreditos", entity: "Vivus", amount: 3000 },
-      { type: "prestamos", entity: "Banco Santander", amount: 2000 },
+      { type: "tarjetas", entity: "WiZink", amount: 8000, monthlyPayment: 240, isDefault: true },
+      { type: "tarjetas", entity: "Cetelem", amount: 5000, monthlyPayment: 160, isDefault: true },
+      { type: "microcreditos", entity: "Vivus", amount: 3000, monthlyPayment: 130, isDefault: true },
+      { type: "prestamos", entity: "Banco Santander", amount: 2000, monthlyPayment: 90, isDefault: false },
     ],
     entities: ["tarjetas", "microcreditos", "prestamos"],
     debtAmount: 18000,
     isDefault: true,
     employment: "empleado_indefinido",
     monthlyIncome: 1350,
+    monthlyExpenses: 650,
     housing: "alquiler",
+    housingPayment: 600,
     vehicle: "no",
   },
   result: {
     triage: { solution: "lso", title: "Ley de Segunda Oportunidad" },
+    approach:
+      "María ya muestra agobio y miedo al embargo: conecta con la emoción antes de proponer nada y avanza paso a paso confirmando que se siente acompañada.",
     diagnosis_internal: [
       {
         emoji: "⚠️",
@@ -735,6 +740,63 @@ const TEST_CASE: {
     ],
     solution_client:
       "María, hay una solución pensada exactamente para casos como el tuyo: la Ley de Segunda Oportunidad. Te permite cancelar legalmente las deudas que no puedes pagar y volver a empezar sin esa carga. Al iniciar el proceso se frenan las llamadas y la amenaza de embargo. El primer paso es un análisis gratuito de tu caso, sin compromiso, para confirmar que cumples los requisitos y explicarte el camino con claridad.",
+    contract_internal: [
+      {
+        emoji: "📝",
+        title: "Recoge los datos en caliente",
+        body: "Aprovecha el sí: pide nombre completo, DNI, dirección, email y teléfono mientras está convencida. «Para dejarlo todo en marcha hoy necesito solo unos datos, ¿lo vemos en un minuto?»",
+      },
+      {
+        emoji: "💶",
+        title: "Presenta los honorarios con seguridad",
+        body: "Enmarca el coste frente a los 18.000€ que cancela y a los 620€/mes que hoy paga en cuotas. Cuota asumible y plan claro: nada de letra pequeña.",
+      },
+      {
+        emoji: "🛡️",
+        title: "Reafirma qué incluye",
+        body: "Análisis, documentación y acompañamiento judicial completo hasta la exoneración. Que sienta que delega el problema entero.",
+      },
+      {
+        emoji: "⏱️",
+        title: "Crea urgencia honesta",
+        body: "Cada mes sin actuar sube intereses y acerca el embargo. Firmar hoy congela la situación y arranca su segunda oportunidad ya.",
+      },
+    ],
+    contract_message:
+      "María, te paso el contrato de servicios con todos los datos que hemos hablado. Es la plantilla estándar de la Ley de Segunda Oportunidad: revisa nombre, DNI y honorarios, y cuando lo tengas claro lo firmamos para arrancar hoy mismo. Cualquier duda, aquí estoy.",
+    signing_internal: [
+      {
+        emoji: "✍️",
+        title: "Guía la firma sin fricción",
+        body: "Acompáñala paso a paso: «te llega el documento, lo abres, firmas abajo y ya está». Quédate en línea hasta que confirme.",
+      },
+      {
+        emoji: "🤝",
+        title: "Refuerza la decisión",
+        body: "Felicítala por el paso: hoy deja de cargar sola con la deuda. Anticipa el alivio de no recibir más llamadas.",
+      },
+      {
+        emoji: "📅",
+        title: "Cierra próximos pasos",
+        body: "Confirma qué documentación traerá y agenda la siguiente llamada para empezar el procedimiento. Que cuelgue con un plan concreto.",
+      },
+      {
+        emoji: "💚",
+        title: "Deja la puerta abierta",
+        body: "Recuérdale que estás para cualquier duda. La firma es el principio del acompañamiento, no el final.",
+      },
+    ],
+    signing_client:
+      "¡Enhorabuena, María! Con la firma ya damos el primer paso real para cancelar tu deuda y frenar la presión. A partir de aquí me encargo yo de todo el procedimiento y te voy informando en cada fase. Cuando quieras me dices y agendamos la siguiente llamada para empezar con la documentación.",
+  },
+  contract: {
+    fullName: "María López García",
+    dni: "12345678Z",
+    address: "Calle Mayor 12, 3ºB, 28013 Madrid",
+    email: "maria.lopez@email.com",
+    phone: "600123456",
+    service: "lso",
+    fee: "1.500 € (en 6 cuotas de 250 €)",
   },
 };
 
@@ -811,7 +873,7 @@ const AdminVentas = () => {
     setStep(0);
     setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
-    setContract(emptyContract());
+    setContract({ ...emptyContract(), ...TEST_CASE.contract });
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
