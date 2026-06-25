@@ -610,7 +610,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, reactions },
       });
       if (error) throw error;
       if (data?.error) {
@@ -637,6 +637,45 @@ const AdminVentas = () => {
   // Paso 1 → 2: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
   const proceedToSolution = () => void runGeneration(2);
+
+  // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
+  // sin sobreescribir el diagnóstico/solución ya generados.
+  const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
+    if (caseText.trim().length < 10) {
+      toast.error("Describe el caso (mínimo 10 caracteres).");
+      return;
+    }
+    setGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
+        body: { caseText: caseText.trim(), guide, engagement, reactions, phase },
+      });
+      if (error) throw error;
+      if (data?.error) {
+        toast.error(data.error);
+        return;
+      }
+      setResult((prev) =>
+        prev
+          ? {
+              ...prev,
+              ...(phase === "signing"
+                ? {
+                    signing_internal: data.signing_internal ?? [],
+                    signing_client: data.signing_client ?? "",
+                  }
+                : { contract_message: data.contract_message ?? "" }),
+            }
+          : prev,
+      );
+      if (typeof nextStep === "number") setStep(nextStep);
+    } catch (e) {
+      toast.error("No se pudo generar. Inténtalo de nuevo.");
+      console.error(e);
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   const saveCase = async () => {
     if (!result) return;
