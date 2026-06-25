@@ -1424,26 +1424,6 @@ const AdminVentas = () => {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>¿Está en impago?</Label>
-              <div className="flex gap-2">
-                {[
-                  { v: true, l: "Sí" },
-                  { v: false, l: "No" },
-                ].map((o) => (
-                  <Button
-                    key={o.l}
-                    type="button"
-                    variant={guide.isDefault === o.v ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setGuide((g) => ({ ...g, isDefault: o.v }))}
-                  >
-                    {o.l}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vivienda</Label>
