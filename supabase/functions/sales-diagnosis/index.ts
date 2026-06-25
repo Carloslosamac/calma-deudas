@@ -302,8 +302,8 @@ REGLAS:
 - Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
-}
 }
 
 function reactionsBlock(reactions: string[]): string {
