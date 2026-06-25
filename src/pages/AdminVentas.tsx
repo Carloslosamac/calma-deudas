@@ -835,6 +835,14 @@ const AdminVentas = () => {
 
   const debtsTotal = guide.debts.reduce((sum, d) => sum + (d.amount ?? 0), 0);
 
+  // Cuota mensual total: suma de cuotas por entidad + alquiler/hipoteca + vehículo.
+  const debtsMonthly = guide.debts.reduce((sum, d) => sum + (d.monthlyPayment ?? 0), 0);
+  const monthlyOutflow =
+    debtsMonthly +
+    (guide.housingPayment ?? 0) +
+    (guide.vehiclePayment ?? 0) +
+    (guide.monthlyExpenses ?? 0);
+
   const runGeneration = async (nextStep: number) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
