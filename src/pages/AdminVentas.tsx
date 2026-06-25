@@ -1500,7 +1500,10 @@ const AdminVentas = () => {
 
         {/* Step 5: Firma */}
         {step === 4 && result && (
-          <Card className={`space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}>
+          <Card
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
+            style={phaseStyle(4)}
+          >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
                 <PenLine className="h-5 w-5" /> Firma · cierre online
