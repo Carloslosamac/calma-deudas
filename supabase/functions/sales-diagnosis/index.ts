@@ -557,6 +557,8 @@ Deno.serve(async (req) => {
           .slice(0, 5)
       : [];
     const phase = typeof body.phase === "string" ? body.phase : "";
+    const contract: ContractInput =
+      body.contract && typeof body.contract === "object" ? body.contract : {};
     const currentStep = (() => {
       const n = Number(body.currentStep);
       return Number.isFinite(n) && n >= 0 && n <= 4 ? Math.round(n) : 1;
@@ -572,12 +574,12 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
           : phase === "reinforce"
-            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep)
-            : buildPrompt(caseText, guide, t, engagement, reactions);
+            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract)
+            : buildPrompt(caseText, guide, t, engagement, reactions, contract);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
