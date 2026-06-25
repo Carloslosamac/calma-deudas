@@ -1373,8 +1373,13 @@ const AdminVentas = () => {
               {guide.debts.length > 0 && (
                 <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
                   <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
-                  {debtsMonthly > 0 && (
-                    <span>Cuotas de deudas: {debtsMonthly.toLocaleString("es-ES")} €/mes</span>
+                  {debtsMonthlyPaying > 0 && (
+                    <span>Cuotas que paga: {debtsMonthlyPaying.toLocaleString("es-ES")} €/mes</span>
+                  )}
+                  {debtsMonthlyDefaulted > 0 && (
+                    <span className="text-muted-foreground">
+                      Cuotas impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes
+                    </span>
                   )}
                 </div>
               )}
