@@ -1399,7 +1399,6 @@ const AdminVentas = () => {
                 Solución · {result.triage.title}
               </h2>
             </div>
-            <TierSelector value={engagement} onChange={setEngagement} />
             <ResultBlock
               internal={result.solution_internal}
               client={result.solution_client}
@@ -1410,19 +1409,20 @@ const AdminVentas = () => {
                 {result.approach}
               </div>
             )}
-            <div className="flex justify-between pt-2">
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes del contrato"
+              ctaLabel="Ir a contrato"
+              onContinue={goToContract}
+              loading={generating}
+              phrases={REACTION_PHRASES_SOLUTION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
-              </Button>
-              <Button
-                onClick={() => {
-                  setContract((c) =>
-                    c.service ? c : { ...c, service: result.triage.solution },
-                  );
-                  setStep(3);
-                }}
-              >
-                <FileText className="mr-2 h-4 w-4" /> Ir a contrato
               </Button>
             </div>
           </Card>
