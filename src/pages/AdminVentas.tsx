@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,6 +31,7 @@ import {
   FileText,
   Download,
   PenLine,
+  RefreshCw,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import ConversionChart from "@/components/ventas/ConversionChart";
@@ -142,6 +143,33 @@ const REACTION_PHRASES_DIAGNOSIS = [
   "¿Y si no funciona?",
   "Lo tengo que consultar con mi pareja",
   "Quiero empezar ya",
+];
+
+const REACTION_PHRASES_SOLUTION = [
+  "Esto me convence",
+  "¿Y cuánto tarda?",
+  "Me lo tengo que pensar",
+  "¿Seguro que me sirve a mí?",
+  "¿Qué pasa si no cumplo?",
+  "Vale, ¿cómo empezamos?",
+];
+
+const REACTION_PHRASES_CONTRACT = [
+  "Déjame leerlo con calma",
+  "¿Esto a qué me compromete?",
+  "¿Y si luego me arrepiento?",
+  "El precio me echa para atrás",
+  "Mándamelo y ya te digo",
+  "Vale, lo firmo ahora",
+];
+
+const REACTION_PHRASES_SIGN = [
+  "Me lo pienso esta noche",
+  "Lo consulto con mi pareja",
+  "No sé si es buen momento",
+  "No me aclaro con la firma online",
+  "¿Es seguro firmar así?",
+  "Listo, ya he firmado",
 ];
 
 const SIGNATURE_STATUS_OPTIONS: { value: string; label: string }[] = [
@@ -514,46 +542,6 @@ const EngagementGate = ({
   );
 };
 
-// Selector compacto de tier para las fases que no tienen gate (Solución,
-// Contrato, Firma), para registrar el engagement de esa fase en el gráfico.
-const TierSelector = ({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-}) => (
-  <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
-    <span className="text-xs font-semibold text-foreground">
-      Engagement en esta fase
-    </span>
-    <div className="flex gap-1.5">
-      {ENGAGEMENT_LEVELS.map((l) => {
-        const selected = value === l.value;
-        return (
-          <button
-            key={l.value}
-            type="button"
-            onClick={() => onChange(l.value)}
-            title={l.label}
-            className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform ${
-              selected ? "ring-2 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
-            }`}
-            style={{
-              backgroundColor: l.color,
-              ...(selected
-                ? ({ ["--tw-ring-color" as string]: "hsl(var(--phase))" } as React.CSSProperties)
-                : {}),
-            }}
-          >
-            {l.value}
-          </button>
-        );
-      })}
-    </div>
-  </div>
-);
-
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
@@ -646,6 +634,8 @@ const AdminVentas = () => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
+  // Evita re-disparar la pre-generación automática del guion de contrato/firma.
+  const autoGenRef = useRef<Record<number, boolean>>({});
   const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
     1, 1, 1, 1, 1,
   ]);
@@ -685,6 +675,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    autoGenRef.current = {};
   };
 
   const loadTestCase = () => {
@@ -698,6 +689,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    autoGenRef.current = {};
     toast.success("Caso de prueba cargado");
   };
 
@@ -734,7 +726,7 @@ const AdminVentas = () => {
         debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, reactions },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions },
       });
       if (error) throw error;
       if (data?.error) {
@@ -762,6 +754,21 @@ const AdminVentas = () => {
   // engagement actualizado, para que el siguiente paso encaje con él.
   const proceedToSolution = () => void runGeneration(2);
 
+  // Paso 2 → 3: pasa a contrato (el guion de envío se pre-genera solo al entrar).
+  const goToContract = () => {
+    if (result) {
+      setContract((c) => (c.service ? c : { ...c, service: result.triage.solution }));
+    }
+    autoGenRef.current[3] = false;
+    setStep(3);
+  };
+
+  // Paso 3 → 4: pasa a firma (el guion de cierre se pre-genera solo al entrar).
+  const goToSign = () => {
+    autoGenRef.current[4] = false;
+    setStep(4);
+  };
+
   // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
   // sin sobreescribir el diagnóstico/solución ya generados.
   const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
@@ -772,7 +779,7 @@ const AdminVentas = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide, engagement, reactions, phase },
+        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase },
       });
       if (error) throw error;
       if (data?.error) {
@@ -803,6 +810,21 @@ const AdminVentas = () => {
       setGenerating(false);
     }
   };
+
+  // Pre-genera automáticamente el guion al entrar en Contrato (envío) y Firma,
+  // usando el itinerario de engagements + reacciones acumulado. El comercial
+  // puede regenerarlo después si reajusta el engagement o las reacciones.
+  useEffect(() => {
+    if (!result || generating) return;
+    if (step === 3 && !(result.contract_internal?.length) && !autoGenRef.current[3]) {
+      autoGenRef.current[3] = true;
+      void runPhase("contract_message");
+    } else if (step === 4 && !(result.signing_internal?.length) && !autoGenRef.current[4]) {
+      autoGenRef.current[4] = true;
+      void runPhase("signing");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, result, generating]);
 
   const saveCase = async () => {
     if (!result) return;
@@ -877,6 +899,7 @@ const AdminVentas = () => {
     });
     setSavedId(c.id);
     setStep(1);
+    autoGenRef.current = {};
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -1343,7 +1366,6 @@ const AdminVentas = () => {
                 Solución · {result.triage.title}
               </h2>
             </div>
-            <TierSelector value={engagement} onChange={setEngagement} />
             <ResultBlock
               internal={result.solution_internal}
               client={result.solution_client}
@@ -1354,19 +1376,20 @@ const AdminVentas = () => {
                 {result.approach}
               </div>
             )}
-            <div className="flex justify-between pt-2">
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes del contrato"
+              ctaLabel="Ir a contrato"
+              onContinue={goToContract}
+              loading={generating}
+              phrases={REACTION_PHRASES_SOLUTION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
-              </Button>
-              <Button
-                onClick={() => {
-                  setContract((c) =>
-                    c.service ? c : { ...c, service: result.triage.solution },
-                  );
-                  setStep(3);
-                }}
-              >
-                <FileText className="mr-2 h-4 w-4" /> Ir a contrato
               </Button>
             </div>
           </Card>
@@ -1388,7 +1411,6 @@ const AdminVentas = () => {
               Rellena los datos del firmante para generar el contrato. Es una
               plantilla base de prestación de servicios; revísala antes de enviarla.
             </p>
-            <TierSelector value={engagement} onChange={setEngagement} />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
@@ -1487,31 +1509,40 @@ const AdminVentas = () => {
                 {generating ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                  <Sparkles className="mr-2 h-4 w-4" />
+                  <RefreshCw className="mr-2 h-4 w-4" />
                 )}
-                Guion + mensaje de envío
+                Regenerar guion de envío
               </Button>
             </div>
 
-            {((result.contract_internal && result.contract_internal.length > 0) ||
-              result.contract_message) && (
-              <ResultBlock
-                internal={result.contract_internal ?? []}
-                client={result.contract_message ?? ""}
-              />
+            {generating && !(result.contract_internal?.length) ? (
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de envío…
+              </div>
+            ) : (
+              ((result.contract_internal && result.contract_internal.length > 0) ||
+                result.contract_message) && (
+                <ResultBlock
+                  internal={result.contract_internal ?? []}
+                  client={result.contract_message ?? ""}
+                />
+              )
             )}
 
-            <div className="flex justify-between pt-2">
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement antes de la firma"
+              ctaLabel="Ir a firma"
+              onContinue={goToSign}
+              loading={generating}
+              phrases={REACTION_PHRASES_CONTRACT}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
+            <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
-              </Button>
-              <Button onClick={() => void runPhase("signing", 4)} disabled={generating}>
-                {generating ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <PenLine className="mr-2 h-4 w-4" />
-                )}
-                Ir a firma
               </Button>
             </div>
           </Card>
@@ -1528,9 +1559,12 @@ const AdminVentas = () => {
                 <PenLine className="h-5 w-5" /> Firma · cierre online
               </h2>
             </div>
-            <TierSelector value={engagement} onChange={setEngagement} />
 
-            {result.signing_internal && result.signing_internal.length > 0 ? (
+            {generating && !(result.signing_internal?.length) ? (
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
+              </div>
+            ) : result.signing_internal && result.signing_internal.length > 0 ? (
               <ResultBlock
                 internal={result.signing_internal}
                 client={result.signing_client ?? ""}
@@ -1550,6 +1584,18 @@ const AdminVentas = () => {
                 </div>
               </div>
             )}
+
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="Engagement en la firma"
+              ctaLabel="Regenerar guion de cierre"
+              onContinue={() => void runPhase("signing")}
+              loading={generating}
+              phrases={REACTION_PHRASES_SIGN}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+            />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
               <Label>Estado de la firma</Label>
