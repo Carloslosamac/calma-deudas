@@ -74,6 +74,64 @@ function triage(g: GuideFields): { solution: string; title: string } {
   return { solution: "reunificar", title: "Reunificación de deudas" };
 }
 
+// --- Análisis de embargabilidad real (art. 607 LEC) ---
+// SMI mensual de referencia para embargos (14 pagas). Ajustar si cambia el SMI.
+const SMI_MENSUAL = 1184;
+
+// Tramos del art. 607 LEC sobre la parte que supera el SMI.
+const EMBARGO_TRAMOS: { hasta: number; pct: number }[] = [
+  { hasta: 2, pct: 0.3 }, // de 1 a 2 SMI -> 30%
+  { hasta: 3, pct: 0.5 }, // de 2 a 3 SMI -> 50%
+  { hasta: 4, pct: 0.6 }, // de 3 a 4 SMI -> 60%
+  { hasta: 5, pct: 0.75 }, // de 4 a 5 SMI -> 75%
+  { hasta: Infinity, pct: 0.9 }, // a partir de 5 SMI -> 90%
+];
+
+function embargableMensual(income: number): number {
+  if (income <= SMI_MENSUAL) return 0;
+  let restante = income;
+  let prev = SMI_MENSUAL; // el primer SMI es siempre inembargable
+  let total = 0;
+  for (const tramo of EMBARGO_TRAMOS) {
+    const techo = tramo.hasta === Infinity ? Infinity : SMI_MENSUAL * tramo.hasta;
+    const base = Math.min(restante, techo) - prev;
+    if (base > 0) total += base * tramo.pct;
+    prev = techo;
+    if (restante <= techo) break;
+  }
+  return Math.round(total);
+}
+
+// Construye una guía legal precisa de qué se puede embargar y qué NO,
+// para que el diagnóstico no amenace con embargos de nómina inexistentes.
+function buildEmbargoGuide(g: GuideFields): string {
+  const income = g.monthlyIncome;
+  const lines: string[] = [];
+  if (income == null) {
+    lines.push(
+      `INGRESOS NO INDICADOS: NO afirmes que le embargarán la nómina. Pregunta/asume con cautela y apóyate en las demás consecuencias (intereses de demora, ASNEF, demanda/monitorio con costas, embargo de cuentas y saldos, devoluciones de Hacienda).`,
+    );
+  } else if (income <= SMI_MENSUAL) {
+    lines.push(
+      `NÓMINA INEMBARGABLE: con ${income}€/mes (≤ SMI ${SMI_MENSUAL}€), la nómina es INEMBARGABLE por el art. 607 LEC. PROHIBIDO usar "te embargarán la nómina/el sueldo" como amenaza: es FALSO y suena a genérico. Las consecuencias REALES y legalmente correctas para este caso son: (1) intereses de demora que engordan la deuda cada mes; (2) ASNEF/morosidad → bloqueo para alquilar, financiar o pedir crédito; (3) demanda/monitorio con COSTAS judiciales que SUMAN a la deuda; (4) embargo de SALDOS en cuenta (lo que se acumule por encima del SML del último mes SÍ es embargable) y de devoluciones de Hacienda; (5) si en el futuro sube el sueldo o cambia de trabajo, la parte sobre el SMI pasa a ser embargable; (6) la deuda no prescribe sola y le persigue durante años.`,
+    );
+  } else {
+    const emb = embargableMensual(income);
+    lines.push(
+      `NÓMINA PARCIALMENTE EMBARGABLE: con ${income}€/mes, por el art. 607 LEC le pueden embargar aprox. ${emb}€/mes de la nómina (el primer SMI de ${SMI_MENSUAL}€ es intocable; sobre el exceso se aplican tramos del 30% al 90%). Usa esta cifra REAL (~${emb}€/mes), no inventes un porcentaje plano. Añade además: intereses de demora, ASNEF, costas judiciales, embargo de cuentas/devoluciones y, en su caso, de la paga extra.`,
+    );
+  }
+  if (g.employment === "autonomo") {
+    lines.push(
+      `AUTÓNOMO/A: puede sufrir embargo de facturas/clientes y de cuentas, y la AEAT/Seguridad Social embargan de forma directa sin pasar por juez. La protección del SMI sobre ingresos de autónomo es más limitada.`,
+    );
+  }
+  if (g.vehicle === "financiado") {
+    lines.push(`VEHÍCULO FINANCIADO: ante impago, la financiera puede reclamar la RETIRADA del vehículo.`);
+  }
+  return lines.join("\n");
+}
+
 const SOLUTION_BRIEF: Record<string, string> = {
   lso: "Ley de Segunda Oportunidad: si hay insolvencia real y NO hay bienes de valor que proteger, se puede CANCELAR LEGALMENTE la deuda y empezar de cero.",
   reunificar:
