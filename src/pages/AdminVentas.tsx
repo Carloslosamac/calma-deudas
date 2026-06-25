@@ -31,6 +31,7 @@ import {
   FileText,
   Download,
   PenLine,
+  RefreshCw,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import ConversionChart from "@/components/ventas/ConversionChart";
