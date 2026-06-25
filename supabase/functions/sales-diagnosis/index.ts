@@ -182,7 +182,7 @@ ${reactionsBlock(reactions)}
 
 Genera CINCO salidas en español de España:
 
-1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. Cada tarjeta es UNA consecuencia REAL de NO actuar, ANCLADA en un dato del caso (ej.: "Embargo sobre tu nómina de ${"${"}g.monthlyIncome${"}"} €", "Los X € de [entidad] generan intereses de demora cada mes", inclusión en ASNEF, demandas/monitorios de [entidad], presión telefónica). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico: usa importes y entidades reales del caso.
+1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. Cada tarjeta es UNA consecuencia REAL de NO actuar, ANCLADA en un dato del caso (ej.: "Embargo sobre tu nómina indicada", "Los X € de [entidad] generan intereses de demora cada mes", inclusión en ASNEF, demandas/monitorios de [entidad], presión telefónica). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico: usa importes y entidades reales del caso.
 
 2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
 
