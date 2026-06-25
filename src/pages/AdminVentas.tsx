@@ -1207,6 +1207,221 @@ const AdminVentas = () => {
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
               </Button>
+              <Button
+                onClick={() => {
+                  setContract((c) =>
+                    c.service ? c : { ...c, service: result.triage.solution },
+                  );
+                  setStep(3);
+                }}
+              >
+                <FileText className="mr-2 h-4 w-4" /> Ir a contrato
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 4: Contrato */}
+        {step === 3 && result && (
+          <Card className="space-y-5 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
+                <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
+              </h2>
+              <Badge variant="outline">{result.triage.title}</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Rellena los datos del firmante para generar el contrato. Es una
+              plantilla base de prestación de servicios; revísala antes de enviarla.
+            </p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="c-name">Nombre completo</Label>
+                <Input
+                  id="c-name"
+                  value={contract.fullName}
+                  onChange={(e) => setContract((c) => ({ ...c, fullName: e.target.value }))}
+                  placeholder="Nombre y apellidos"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-dni">DNI / NIE</Label>
+                <Input
+                  id="c-dni"
+                  value={contract.dni}
+                  onChange={(e) => setContract((c) => ({ ...c, dni: e.target.value }))}
+                  placeholder="00000000X"
+                />
+              </div>
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="c-address">Domicilio</Label>
+                <Input
+                  id="c-address"
+                  value={contract.address}
+                  onChange={(e) => setContract((c) => ({ ...c, address: e.target.value }))}
+                  placeholder="Calle, número, ciudad, CP"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-email">Email</Label>
+                <Input
+                  id="c-email"
+                  type="email"
+                  value={contract.email}
+                  onChange={(e) => setContract((c) => ({ ...c, email: e.target.value }))}
+                  placeholder="correo@ejemplo.com"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-phone">Teléfono</Label>
+                <Input
+                  id="c-phone"
+                  value={contract.phone}
+                  onChange={(e) => setContract((c) => ({ ...c, phone: e.target.value }))}
+                  placeholder="600000000"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Servicio contratado</Label>
+                <Select
+                  value={contract.service || result.triage.solution}
+                  onValueChange={(v) => setContract((c) => ({ ...c, service: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="lso">Ley de Segunda Oportunidad</SelectItem>
+                    <SelectItem value="reunificar">Reunificación de deudas</SelectItem>
+                    <SelectItem value="reclamacion">Reclamación judicial por usura</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="c-fee">Honorarios</Label>
+                <Input
+                  id="c-fee"
+                  value={contract.fee}
+                  onChange={(e) => setContract((c) => ({ ...c, fee: e.target.value }))}
+                  placeholder="Ej. 1.500 € en 12 cuotas"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={() => {
+                  if (!contract.fullName.trim()) {
+                    toast.error("Indica al menos el nombre del firmante.");
+                    return;
+                  }
+                  downloadContractPdf({
+                    ...contract,
+                    service: contract.service || result.triage.solution,
+                  });
+                }}
+              >
+                <Download className="mr-2 h-4 w-4" /> Generar contrato (PDF)
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => void runPhase("contract_message")}
+                disabled={generating}
+              >
+                {generating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                Mensaje de envío
+              </Button>
+            </div>
+
+            {result.contract_message && (
+              <div className="relative rounded-xl border border-accent/30 bg-accent/5 p-4">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="absolute right-3 top-3"
+                  onClick={() => copyText(result.contract_message ?? "")}
+                >
+                  <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                </Button>
+                <p className="whitespace-pre-wrap pr-24 text-sm leading-relaxed text-foreground">
+                  {result.contract_message}
+                </p>
+              </div>
+            )}
+
+            <div className="flex justify-between pt-2">
+              <Button variant="outline" onClick={() => setStep(2)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Solución
+              </Button>
+              <Button onClick={() => void runPhase("signing", 4)} disabled={generating}>
+                {generating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <PenLine className="mr-2 h-4 w-4" />
+                )}
+                Ir a firma
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 5: Firma */}
+        {step === 4 && result && (
+          <Card className="space-y-4 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
+                <PenLine className="h-5 w-5" /> Firma · cierre online
+              </h2>
+            </div>
+
+            {result.signing_internal && result.signing_internal.length > 0 ? (
+              <ResultBlock
+                internal={result.signing_internal}
+                client={result.signing_client ?? ""}
+              />
+            ) : (
+              <div className="rounded-lg border border-border p-4 text-center text-sm text-muted-foreground">
+                Genera el guion de cierre de firma.
+                <div className="mt-2">
+                  <Button size="sm" onClick={() => void runPhase("signing")} disabled={generating}>
+                    {generating ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="mr-2 h-4 w-4" />
+                    )}
+                    Generar guion de firma
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
+              <Label>Estado de la firma</Label>
+              <div className="flex flex-wrap gap-2">
+                {SIGNATURE_STATUS_OPTIONS.map((o) => (
+                  <Button
+                    key={o.value}
+                    type="button"
+                    variant={signatureStatus === o.value ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSignatureStatus(o.value)}
+                  >
+                    {o.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-between pt-2">
+              <Button variant="outline" onClick={() => setStep(3)}>
+                <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
+              </Button>
               <Button onClick={saveCase} disabled={saving || !!savedId}>
                 {saving ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
