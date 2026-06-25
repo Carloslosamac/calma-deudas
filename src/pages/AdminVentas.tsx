@@ -1289,6 +1289,7 @@ const AdminVentas = () => {
                 Solución · {result.triage.title}
               </h2>
             </div>
+            <TierSelector value={engagement} onChange={setEngagement} />
             <ResultBlock
               internal={result.solution_internal}
               client={result.solution_client}
@@ -1330,6 +1331,7 @@ const AdminVentas = () => {
               Rellena los datos del firmante para generar el contrato. Es una
               plantilla base de prestación de servicios; revísala antes de enviarla.
             </p>
+            <TierSelector value={engagement} onChange={setEngagement} />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
