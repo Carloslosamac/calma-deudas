@@ -13,6 +13,8 @@ interface DebtEntry {
   type?: string;
   entity?: string;
   amount?: number;
+  monthlyPayment?: number;
+  isDefault?: boolean;
 }
 
 interface GuideFields {
@@ -24,12 +26,15 @@ interface GuideFields {
   housingValue?: number;
   mortgagePaid?: number;
   mortgageRemaining?: number;
+  housingPayment?: number;
   vehicle?: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
+  vehiclePayment?: number;
   employment?: string;
   monthlyIncome?: number;
+  monthlyExpenses?: number;
 }
 
 // Nivel de engagement: 0 = listísimo para contratar/pagar ya,
