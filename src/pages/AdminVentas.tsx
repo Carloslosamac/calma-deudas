@@ -39,6 +39,7 @@ import {
   ContractFields,
   emptyContract,
   downloadContractPdf,
+  computeContractTotal,
 } from "@/lib/contratoPdf";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
