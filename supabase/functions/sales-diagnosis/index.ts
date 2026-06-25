@@ -369,6 +369,63 @@ Devuelve SOLO un objeto JSON válido con las claves:
 2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${SOURCE_OF_TRUTH_RULE} ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
+// Objetivo concreto de cada fase, para que el refuerzo sepa hacia DÓNDE empujar.
+const PHASE_GOAL: Record<number, string> = {
+  0: "que la persona se abra, cuente su situación real y acepte que tiene un problema que merece la pena resolver, para poder pasar al diagnóstico",
+  1: "que la persona ENTIENDA y CREA la gravedad real de su situación (consecuencias concretas de no actuar) y quiera escuchar la solución",
+  2: "que la persona ACEPTE la solución recomendada como la salida buena para ella y diga que sí a empezar",
+  3: "que la persona acepte recibir y revisar el contrato y se comprometa a firmarlo HOY",
+  4: "que la persona FIRME el contrato online ahora mismo, sin aplazarlo",
+};
+
+// Prompt de REFUERZO: la persona NO quiere avanzar (duda, "me lo tengo que
+// pensar", quiere colgar). Genera munición de manejo de objeciones para
+// QUEDARSE en la fase actual y reintentar el avance sin presionar de golpe.
+function buildReinforcePrompt(
+  caseText: string,
+  g: GuideFields,
+  t: { solution: string; title: string },
+  engagement: number,
+  reactions: string[],
+  engByPhase: number[],
+  currentStep: number,
+): string {
+  const phaseName = PHASE_NAMES[currentStep] ?? "la fase actual";
+  const goal = PHASE_GOAL[currentStep] ?? PHASE_GOAL[1];
+  return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la fase "${phaseName}" y la persona NO quiere avanzar todavía: ha puesto una pega, dice que se lo tiene que pensar, quiere consultarlo o quiere colgar. Tu trabajo NO es forzar el salto a la siguiente fase, sino DARLE LA VUELTA a la objeción y reintentar el avance con naturalidad.
+
+OBJETIVO DE ESTA FASE: ${goal}.
+
+DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
+${buildCaseData(g)}
+
+CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
+"""
+${caseText}
+"""
+
+SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
+${SOLUTION_BRIEF[t.solution]}
+
+ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
+NIVEL DE ENGAGEMENT ACTUAL:
+${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
+${itineraryBlock(engByPhase, currentStep)}${reactionsBlock(reactions)}
+
+Devuelve SOLO un objeto JSON válido con estas claves:
+
+1. reinforce_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos REALES para este caso (sin relleno). Cada tarjeta es UNA técnica de manejo de objeciones para QUEDARSE en la fase "${phaseName}" y rebatir EXACTAMENTE lo que está frenando a la persona (las frases marcadas arriba: "me lo tengo que pensar" → aterriza cuál es la duda REAL detrás; "lo consulto con mi pareja" → ofrece incluir a la pareja o cierre condicional; "quiere colgar" → reenganche corto de bajo compromiso). Ancla cada rebatido en un DATO REAL del caso (los X €, entidades, intereses/costas que siguen corriendo, embargo SOLO si es legalmente viable). El "body" incluye frases LITERALES que el comercial puede decir y TERMINA con una pregunta de avance suave para reintentar el cierre sin presionar de golpe. Adapta la intensidad al engagement: en "dudoso/a" más empatía y menos presión; en "quiere colgar" reenganche muy breve.
+
+2. reinforce_client: STRING (opcional, puede ir vacío). Mensaje corto en segunda persona para enviar a la persona por WhatsApp tras la objeción, que retome la conversación anclado en su dato real, baje la presión y deje la puerta abierta al siguiente paso. Listo para copiar y pegar.
+
+REGLAS:
+- ${SOURCE_OF_TRUTH_RULE}
+- ${ANTI_VAGUE_RULE}
+Sin markdown, sin texto extra.`;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
