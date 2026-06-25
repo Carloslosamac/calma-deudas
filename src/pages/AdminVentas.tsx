@@ -367,7 +367,10 @@ const PHASE_THEMES = [
 // Helper para aplicar el color de fase como variable CSS local (`--phase`) en la
 // card, de modo que fields, botones secundarios y chips tomen ese tono.
 const phaseStyle = (i: number) =>
-  ({ ["--phase" as string]: `var(${PHASE_THEMES[i].var})` }) as React.CSSProperties;
+  ({
+    ["--phase" as string]: `var(${PHASE_THEMES[i].var})`,
+    ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
+  }) as React.CSSProperties;
 
 type EngagementGateProps = {
   value: number;
@@ -422,11 +425,18 @@ const EngagementGate = ({
               key={l.value}
               type="button"
               onClick={() => onChange(l.value)}
-              className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors ${
+              className="flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors shadow-sm"
+              style={
                 selected
-                  ? "border-foreground/40 bg-background shadow-sm"
-                  : "border-border bg-background/60 hover:bg-background"
-              }`}
+                  ? {
+                      borderColor: "hsl(var(--phase))",
+                      backgroundColor: "hsl(var(--phase) / 0.12)",
+                    }
+                  : {
+                      borderColor: "hsl(var(--phase) / 0.25)",
+                      backgroundColor: "hsl(var(--phase) / 0.04)",
+                    }
+              }
             >
               <span
                 className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold text-white"
@@ -526,9 +536,14 @@ const TierSelector = ({
             onClick={() => onChange(l.value)}
             title={l.label}
             className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform ${
-              selected ? "ring-2 ring-foreground/40 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
+              selected ? "ring-2 ring-offset-1 scale-110" : "opacity-60 hover:opacity-100"
             }`}
-            style={{ backgroundColor: l.color }}
+            style={{
+              backgroundColor: l.color,
+              ...(selected
+                ? ({ ["--tw-ring-color" as string]: "hsl(var(--phase))" } as React.CSSProperties)
+                : {}),
+            }}
           >
             {l.value}
           </button>
