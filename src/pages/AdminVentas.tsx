@@ -319,6 +319,45 @@ const STEPS = [
   "Firma",
 ] as const;
 
+// Color propio por fase (clases literales para que Tailwind las detecte).
+const PHASE_THEMES = [
+  {
+    active: "bg-phase-qualify text-phase-qualify-foreground",
+    dot: "bg-phase-qualify",
+    text: "text-phase-qualify",
+    soft: "bg-phase-qualify-soft",
+    border: "border-phase-qualify",
+  },
+  {
+    active: "bg-phase-diagnosis text-phase-diagnosis-foreground",
+    dot: "bg-phase-diagnosis",
+    text: "text-phase-diagnosis",
+    soft: "bg-phase-diagnosis-soft",
+    border: "border-phase-diagnosis",
+  },
+  {
+    active: "bg-phase-solution text-phase-solution-foreground",
+    dot: "bg-phase-solution",
+    text: "text-phase-solution",
+    soft: "bg-phase-solution-soft",
+    border: "border-phase-solution",
+  },
+  {
+    active: "bg-phase-contract text-phase-contract-foreground",
+    dot: "bg-phase-contract",
+    text: "text-phase-contract",
+    soft: "bg-phase-contract-soft",
+    border: "border-phase-contract",
+  },
+  {
+    active: "bg-phase-sign text-phase-sign-foreground",
+    dot: "bg-phase-sign",
+    text: "text-phase-sign",
+    soft: "bg-phase-sign-soft",
+    border: "border-phase-sign",
+  },
+] as const;
+
 type EngagementGateProps = {
   value: number;
   onChange: (v: number) => void;
