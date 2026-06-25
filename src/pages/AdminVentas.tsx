@@ -367,7 +367,10 @@ const PHASE_THEMES = [
 // Helper para aplicar el color de fase como variable CSS local (`--phase`) en la
 // card, de modo que fields, botones secundarios y chips tomen ese tono.
 const phaseStyle = (i: number) =>
-  ({ ["--phase" as string]: `var(${PHASE_THEMES[i].var})` }) as React.CSSProperties;
+  ({
+    ["--phase" as string]: `var(${PHASE_THEMES[i].var})`,
+    ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
+  }) as React.CSSProperties;
 
 type EngagementGateProps = {
   value: number;
