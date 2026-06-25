@@ -793,6 +793,15 @@ const AdminVentas = () => {
   // engagement actualizado, para que el siguiente paso encaje con él.
   const proceedToSolution = () => void runGeneration(2);
 
+  // Paso 2 → 3: pasa a contrato (el guion de envío se pre-genera solo al entrar).
+  const goToContract = () => {
+    if (result) {
+      setContract((c) => (c.service ? c : { ...c, service: result.triage.solution }));
+    }
+    autoGenRef.current[3] = false;
+    setStep(3);
+  };
+
   // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
   // sin sobreescribir el diagnóstico/solución ya generados.
   const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
