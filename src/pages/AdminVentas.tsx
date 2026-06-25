@@ -611,7 +611,7 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
-    setEngagement(1);
+    setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
@@ -624,7 +624,7 @@ const AdminVentas = () => {
     setResult(TEST_CASE.result);
     setSavedId(null);
     setStep(0);
-    setEngagement(1);
+    setEngagementByPhase([1, 1, 1, 1, 1]);
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
