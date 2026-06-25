@@ -833,6 +833,21 @@ const AdminVentas = () => {
     }
   };
 
+  // Pre-genera automáticamente el guion al entrar en Contrato (envío) y Firma,
+  // usando el itinerario de engagements + reacciones acumulado. El comercial
+  // puede regenerarlo después si reajusta el engagement o las reacciones.
+  useEffect(() => {
+    if (!result || generating) return;
+    if (step === 3 && !(result.contract_internal?.length) && !autoGenRef.current[3]) {
+      autoGenRef.current[3] = true;
+      void runPhase("contract_message");
+    } else if (step === 4 && !(result.signing_internal?.length) && !autoGenRef.current[4]) {
+      autoGenRef.current[4] = true;
+      void runPhase("signing");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, result, generating]);
+
   const saveCase = async () => {
     if (!result) return;
     setSaving(true);
