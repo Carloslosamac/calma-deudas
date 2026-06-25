@@ -120,6 +120,35 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "otros", label: "Otros" },
 ];
 
+// Frases con las que la persona ha respondido a la fase anterior. El comercial
+// marca las que encajan y la IA cincela el tono del siguiente paso.
+const REACTION_PHRASES_QUALIFICATION = [
+  "Me da vergüenza haber llegado a esto",
+  "No es para tanto, lo controlo",
+  "Llevo meses sin dormir por esto",
+  "No tengo tiempo para esto ahora",
+  "¿Esto cuánto me va a costar?",
+  "No me fío de estas cosas",
+  "Quiero solucionarlo ya",
+];
+
+const REACTION_PHRASES_DIAGNOSIS = [
+  "No sabía que podía perder la nómina",
+  "Ya he intentado de todo",
+  "Suena bien pero no me fío",
+  "Necesito pensarlo",
+  "¿Y si no funciona?",
+  "Lo tengo que consultar con mi pareja",
+  "Quiero empezar ya",
+];
+
+const SIGNATURE_STATUS_OPTIONS: { value: string; label: string }[] = [
+  { value: "pendiente", label: "Pendiente de envío" },
+  { value: "enviado", label: "Enviado" },
+  { value: "firmado", label: "Firmado" },
+  { value: "rechazado", label: "Rechazado" },
+];
+
 // Engagement: 0 = listísimo para empezar/pagar; 3 = quiere librarse de la llamada.
 // Colores tomados de la referencia del cliente (morado, verde, amarillo, rojo).
 const ENGAGEMENT_LEVELS: {
