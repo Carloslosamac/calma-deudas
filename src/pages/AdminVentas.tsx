@@ -1335,6 +1335,22 @@ const AdminVentas = () => {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="expenses">Gastos mensuales de vida (€)</Label>
+              <Input
+                id="expenses"
+                type="number"
+                value={guide.monthlyExpenses ?? ""}
+                onChange={(e) =>
+                  setGuide((g) => ({
+                    ...g,
+                    monthlyExpenses: e.target.value ? Number(e.target.value) : undefined,
+                  }))
+                }
+                placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label>¿Está en impago?</Label>
               <div className="flex gap-2">
                 {[
