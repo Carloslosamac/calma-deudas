@@ -74,6 +74,64 @@ function triage(g: GuideFields): { solution: string; title: string } {
   return { solution: "reunificar", title: "Reunificación de deudas" };
 }
 
+// --- Análisis de embargabilidad real (art. 607 LEC) ---
+// SMI mensual de referencia para embargos (14 pagas). Ajustar si cambia el SMI.
+const SMI_MENSUAL = 1184;
+
+// Tramos del art. 607 LEC sobre la parte que supera el SMI.
+const EMBARGO_TRAMOS: { hasta: number; pct: number }[] = [
+  { hasta: 2, pct: 0.3 }, // de 1 a 2 SMI -> 30%
+  { hasta: 3, pct: 0.5 }, // de 2 a 3 SMI -> 50%
+  { hasta: 4, pct: 0.6 }, // de 3 a 4 SMI -> 60%
+  { hasta: 5, pct: 0.75 }, // de 4 a 5 SMI -> 75%
+  { hasta: Infinity, pct: 0.9 }, // a partir de 5 SMI -> 90%
+];
+
+function embargableMensual(income: number): number {
+  if (income <= SMI_MENSUAL) return 0;
+  let restante = income;
+  let prev = SMI_MENSUAL; // el primer SMI es siempre inembargable
+  let total = 0;
+  for (const tramo of EMBARGO_TRAMOS) {
+    const techo = tramo.hasta === Infinity ? Infinity : SMI_MENSUAL * tramo.hasta;
+    const base = Math.min(restante, techo) - prev;
+    if (base > 0) total += base * tramo.pct;
+    prev = techo;
+    if (restante <= techo) break;
+  }
+  return Math.round(total);
+}
+
+// Construye una guía legal precisa de qué se puede embargar y qué NO,
+// para que el diagnóstico no amenace con embargos de nómina inexistentes.
+function buildEmbargoGuide(g: GuideFields): string {
+  const income = g.monthlyIncome;
+  const lines: string[] = [];
+  if (income == null) {
+    lines.push(
+      `INGRESOS NO INDICADOS: NO afirmes que le embargarán la nómina. Pregunta/asume con cautela y apóyate en las demás consecuencias (intereses de demora, ASNEF, demanda/monitorio con costas, embargo de cuentas y saldos, devoluciones de Hacienda).`,
+    );
+  } else if (income <= SMI_MENSUAL) {
+    lines.push(
+      `NÓMINA INEMBARGABLE: con ${income}€/mes (≤ SMI ${SMI_MENSUAL}€), la nómina es INEMBARGABLE por el art. 607 LEC. PROHIBIDO usar "te embargarán la nómina/el sueldo" como amenaza: es FALSO y suena a genérico. Las consecuencias REALES y legalmente correctas para este caso son: (1) intereses de demora que engordan la deuda cada mes; (2) ASNEF/morosidad → bloqueo para alquilar, financiar o pedir crédito; (3) demanda/monitorio con COSTAS judiciales que SUMAN a la deuda; (4) embargo de SALDOS en cuenta (lo que se acumule por encima del SML del último mes SÍ es embargable) y de devoluciones de Hacienda; (5) si en el futuro sube el sueldo o cambia de trabajo, la parte sobre el SMI pasa a ser embargable; (6) la deuda no prescribe sola y le persigue durante años.`,
+    );
+  } else {
+    const emb = embargableMensual(income);
+    lines.push(
+      `NÓMINA PARCIALMENTE EMBARGABLE: con ${income}€/mes, por el art. 607 LEC le pueden embargar aprox. ${emb}€/mes de la nómina (el primer SMI de ${SMI_MENSUAL}€ es intocable; sobre el exceso se aplican tramos del 30% al 90%). Usa esta cifra REAL (~${emb}€/mes), no inventes un porcentaje plano. Añade además: intereses de demora, ASNEF, costas judiciales, embargo de cuentas/devoluciones y, en su caso, de la paga extra.`,
+    );
+  }
+  if (g.employment === "autonomo") {
+    lines.push(
+      `AUTÓNOMO/A: puede sufrir embargo de facturas/clientes y de cuentas, y la AEAT/Seguridad Social embargan de forma directa sin pasar por juez. La protección del SMI sobre ingresos de autónomo es más limitada.`,
+    );
+  }
+  if (g.vehicle === "financiado") {
+    lines.push(`VEHÍCULO FINANCIADO: ante impago, la financiera puede reclamar la RETIRADA del vehículo.`);
+  }
+  return lines.join("\n");
+}
+
 const SOLUTION_BRIEF: Record<string, string> = {
   lso: "Ley de Segunda Oportunidad: si hay insolvencia real y NO hay bienes de valor que proteger, se puede CANCELAR LEGALMENTE la deuda y empezar de cero.",
   reunificar:
@@ -180,6 +238,9 @@ SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
 ${SOLUTION_BENEFITS[t.solution] ?? ""}
 
+ANÁLISIS LEGAL DE EMBARGABILIDAD (OBLIGATORIO RESPETARLO — no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
 NIVEL DE ENGAGEMENT DE LA PERSONA (cómo de lista está para empezar el proceso):
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 Adapta la INTENSIDAD del discurso (más fuerte o más suave), la longitud y el número de tarjetas a este nivel de engagement. El siguiente paso debe estar preparado en función de él.
@@ -187,11 +248,11 @@ ${reactionsBlock(reactions)}
 
 Genera CINCO salidas en español de España:
 
-1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. Cada tarjeta es UNA consecuencia REAL de NO actuar, ANCLADA en un dato del caso (ej.: "Embargo sobre tu nómina indicada", "Los X € de [entidad] generan intereses de demora cada mes", inclusión en ASNEF, demandas/monitorios de [entidad], presión telefónica). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico: usa importes y entidades reales del caso.
+1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los MÁXIMOS posibles que sean REALES para ESTE caso (no rellenes con genéricos). Cada tarjeta es UNA consecuencia REAL y LEGALMENTE CORRECTA de NO actuar, ANCLADA en un dato del caso y respetando el ANÁLISIS LEGAL DE EMBARGABILIDAD de arriba (ej.: intereses de demora de [entidad] sobre los X €, ASNEF y bloqueo de crédito/alquiler, demanda/monitorio con costas, embargo de saldos/cuentas, embargo de devoluciones de Hacienda, embargo parcial de nómina SOLO si supera el SMI, retirada de vehículo financiado, acoso telefónico). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico ni legalmente falso.
 
 2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
 
-3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 3 a 5 objetos { "emoji", "title", "body" }. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "tu nómina de Y € queda a salvo del embargo"). Incluye qué hace Calma exactamente y el siguiente paso. Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
+3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji", "title", "body" }, los máximos reales para este caso. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "se frenan los intereses de demora", "sales de ASNEF y vuelves a poder alquilar/financiar", "se paran las costas de la demanda"). Cada beneficio debe responder a una consecuencia del diagnóstico. Incluye qué hace Calma exactamente y el siguiente paso. Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
 
 4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string en segunda persona que cita el importe total y/o las entidades del caso y describe el resultado CONCRETO en su situación, además del siguiente paso (análisis gratuito). Esperanza realista anclada en datos, no en clichés. Listo para copiar y pegar.
 
@@ -258,13 +319,16 @@ ${caseText}
 
 SERVICIO CONTRATADO: ${t.title}
 
+ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 4)}${reactionsBlock(reactions)}
 
 Genera el guion de cierre para conseguir la firma. Devuelve SOLO un objeto JSON válido con estas claves:
 
-1. signing_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos del caso: qué pierde por cada día que no firma, los X € en juego, el embargo que sigue corriendo. Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
+1. signing_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial: pasos EXACTOS para que firme online en la propia llamada (qué decir, qué pedir, cómo confirmar la firma), y rebatidos CONCRETOS de cada objeción de último momento ("me lo pienso", "lo consulto con mi pareja", "mándamelo y ya te digo", "no sé si es buen momento") apoyados en los datos REALES del caso: qué pierde por cada día que no firma, los X € en juego, los intereses/costas que siguen corriendo (y el embargo SOLO si la nómina lo permite legalmente). Frases literales que puede usar el comercial. Adapta la intensidad al engagement.
 2. signing_client: STRING. Mensaje en segunda persona para enviar al cliente con instrucciones claras para firmar el contrato online (qué recibe, cómo firmarlo, por qué HOY), reforzando con su beneficio concreto del caso (la deuda/entidades que resuelve). Listo para copiar y pegar.
 
 REGLAS:
@@ -292,13 +356,16 @@ CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de lo
 ${caseText}
 """
 
+ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
+${buildEmbargoGuide(g)}
+
 NIVEL DE ENGAGEMENT:
 ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 ${itineraryBlock(engByPhase, 3)}${reactionsBlock(reactions)}
 
 Devuelve SOLO un objeto JSON válido con la clave:
 Devuelve SOLO un objeto JSON válido con las claves:
-1. contract_internal: ARRAY de 3 a 5 objetos { "emoji": string, "title": string, "body": string }. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
+1. contract_internal: ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los máximos reales para este caso. GUION INTERNO para el comercial durante la llamada en el momento de ENVIAR el contrato: qué decir exactamente mientras lo manda, cómo reafirmar la decisión, cómo confirmar los datos del firmante, cómo crear urgencia para que lo revise y firme YA, y rebatidos CONCRETOS a las dudas que surgen al recibir el contrato ("déjame leerlo con calma", "esto qué me compromete", "y si luego me arrepiento", "el precio") apoyados en los datos reales del caso (los X € y entidades que resuelve). Frases literales. Adapta la intensidad al engagement.
 2. contract_message: STRING. Mensaje breve y profesional para WhatsApp/email que acompaña el envío del contrato, reafirma la decisión citando el servicio (${t.title}) y el beneficio CONCRETO para esta persona (la deuda/entidades reales del caso que se resuelven) y empuja con naturalidad a firmarlo HOY. Segunda persona, listo para copiar y pegar. ${SOURCE_OF_TRUTH_RULE} ${ANTI_VAGUE_RULE} Sin markdown.`;
 }
 
