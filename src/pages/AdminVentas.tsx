@@ -694,6 +694,7 @@ const AdminVentas = () => {
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
+    setReinforceByStep({});
     autoGenRef.current = {};
     toast.success("Caso de prueba cargado");
   };
