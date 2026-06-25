@@ -45,9 +45,8 @@ const ConversionChart = ({
     return {
       name,
       short: `F${i + 1}`,
-      // Trazo sólido hasta la fase actual; proyección a partir de ahí.
+      // Solo trazamos las fases ya recorridas (hasta la actual).
       actual: i <= currentStep ? value : null,
-      proyeccion: i >= currentStep ? value : null,
     };
   });
 
@@ -103,17 +102,6 @@ const ConversionChart = ({
             labelFormatter={(_, payload) =>
               payload?.[0]?.payload?.name ?? ""
             }
-          />
-          <Area
-            type="monotone"
-            dataKey="proyeccion"
-            stroke={color}
-            strokeWidth={1.5}
-            strokeDasharray="5 4"
-            fill="none"
-            connectNulls
-            dot={false}
-            isAnimationActive={false}
           />
           <Area
             type="monotone"
