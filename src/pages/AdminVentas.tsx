@@ -56,6 +56,8 @@ type DebtEntry = {
   type: string;
   entity: string;
   amount?: number;
+  monthlyPayment?: number;
+  isDefault?: boolean;
 };
 
 type GuideFields = {
@@ -67,12 +69,15 @@ type GuideFields = {
   housingValue?: number;
   mortgagePaid?: number;
   mortgageRemaining?: number;
+  housingPayment?: number;
   vehicle: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
+  vehiclePayment?: number;
   employment?: Employment;
   monthlyIncome?: number;
+  monthlyExpenses?: number;
 };
 
 type ScriptCard = { emoji: string; title: string; body: string };
