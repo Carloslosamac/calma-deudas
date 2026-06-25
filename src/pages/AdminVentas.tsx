@@ -796,7 +796,11 @@ const TEST_CASE: {
     email: "maria.lopez@email.com",
     phone: "600123456",
     service: "lso",
-    fee: "1.500 € (en 6 cuotas de 250 €)",
+    fee: "",
+    initialPayment: "150",
+    installments: "30",
+    installmentAmount: "99",
+    signCity: "Madrid",
   },
 };
 
