@@ -160,6 +160,9 @@ serve(async (req) => {
       Phone: formData.phone.trim(),
       Company: name,
       Fuente: "Calma Web",
+      // Clasificación fija para todos los leads entrantes desde la web
+      Industry: "Cualificados",
+      Lead_Status: "Sin contactar",
       // UTM tracking (each in its own field)
       Source: sourceValue,
       medium: mediumValue,
