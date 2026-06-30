@@ -209,9 +209,15 @@ const AdminIndexacion = () => {
               Lista de páginas por prioridad para «Solicitar indexación» en Search Console. Marca cada una al pedirla.
             </p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
-            <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
+              <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
+            </Button>
+            <Button size="sm" onClick={runCheck} disabled={running}>
+              <PlayCircle className={`mr-2 h-4 w-4 ${running ? "animate-spin" : ""}`} />
+              {running ? "Comprobando…" : "Comprobar en Google"}
+            </Button>
+          </div>
         </div>
 
         <Card className="mt-6 p-5">
@@ -222,6 +228,20 @@ const AdminIndexacion = () => {
             <span className="text-sm font-semibold text-foreground">{pct}%</span>
           </div>
           <Progress value={pct} className="mt-3" />
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <span className="inline-flex items-center gap-1.5 text-emerald-600">
+              <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas en Google
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-amber-600">
+              <XCircle className="h-4 w-4" /> {notIndexedCount} aún no indexadas
+            </span>
+            <span className="text-muted-foreground">
+              {total - indexedCount - notIndexedCount} sin comprobar
+            </span>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            «Comprobar en Google» reenvía el sitemap y consulta el estado real de cada URL vía Search Console (se ejecuta también cada día automáticamente). Google no permite forzar la indexación por API; el estado refleja lo que Google decide.
+          </p>
         </Card>
 
         <div className="relative mt-6">
