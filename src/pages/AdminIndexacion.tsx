@@ -220,29 +220,46 @@ const AdminIndexacion = () => {
           </div>
         </div>
 
-        <Card className="mt-6 p-5">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm font-medium text-foreground">
-              {doneCount} de {total} solicitadas
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {/* Tarjeta 1: tu checklist manual */}
+          <Card className="p-5">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-medium text-foreground">
+                Solicitudes manuales en Search Console
+              </p>
+              <span className="text-sm font-semibold text-foreground">{pct}%</span>
+            </div>
+            <p className="mt-1 text-2xl font-semibold tracking-tight text-foreground">
+              {requestedCount} <span className="text-base font-normal text-muted-foreground">de {total} solicitadas</span>
             </p>
-            <span className="text-sm font-semibold text-foreground">{pct}%</span>
-          </div>
-          <Progress value={pct} className="mt-3" />
-          <div className="mt-4 flex flex-wrap gap-4 text-sm">
-            <span className="inline-flex items-center gap-1.5 text-emerald-600">
-              <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas en Google
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-amber-600">
-              <XCircle className="h-4 w-4" /> {notIndexedCount} aún no indexadas
-            </span>
-            <span className="text-muted-foreground">
-              {total - indexedCount - notIndexedCount} sin comprobar
-            </span>
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            «Comprobar en Google» reenvía el sitemap y consulta el estado real de cada URL vía Search Console (se ejecuta también cada día automáticamente). Google no permite forzar la indexación por API; el estado refleja lo que Google decide.
-          </p>
-        </Card>
+            <Progress value={pct} className="mt-3" />
+            <p className="mt-3 text-xs text-muted-foreground">
+              Tu checklist: marca cada URL cuando la pidas en «Inspección de URLs». Este contador solo lo controlas tú.
+            </p>
+          </Card>
+
+          {/* Tarjeta 2: estado real de Google */}
+          <Card className="p-5">
+            <p className="text-sm font-medium text-foreground">Estado real en Google</p>
+            <div className="mt-3 flex flex-wrap gap-4 text-sm">
+              <span className="inline-flex items-center gap-1.5 text-emerald-600">
+                <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-amber-600">
+                <XCircle className="h-4 w-4" /> {notIndexedCount} no indexadas
+              </span>
+              <span className="text-muted-foreground">
+                {total - indexedCount - notIndexedCount} sin comprobar
+              </span>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {indexedCount} + {notIndexedCount} + {total - indexedCount - notIndexedCount} = {total} URLs.
+            </p>
+            <p className="mt-3 text-xs text-muted-foreground">
+              «Comprobar en Google» reenvía el sitemap y consulta el estado real vía Search Console (también cada día automáticamente). Google no permite forzar la indexación por API; este estado refleja lo que Google decide.
+            </p>
+          </Card>
+        </div>
 
         <div className="relative mt-6">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
