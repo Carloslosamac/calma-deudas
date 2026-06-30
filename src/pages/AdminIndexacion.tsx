@@ -167,10 +167,10 @@ const AdminIndexacion = () => {
   }, [items, query]);
 
   const total = items.length;
-  const doneCount = items.filter((i) => checks[i.url]?.done).length;
+  const requestedCount = items.filter((i) => checks[i.url]?.requested).length;
   const indexedCount = items.filter((i) => checks[i.url]?.indexed === true).length;
   const notIndexedCount = items.filter((i) => checks[i.url]?.indexed === false).length;
-  const pct = total ? Math.round((doneCount / total) * 100) : 0;
+  const pct = total ? Math.round((requestedCount / total) * 100) : 0;
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
