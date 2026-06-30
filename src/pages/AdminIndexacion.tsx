@@ -15,6 +15,9 @@ import {
   RefreshCw,
   Search,
   LogOut,
+  PlayCircle,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
@@ -78,6 +81,7 @@ const AdminIndexacion = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [query, setQuery] = useState("");
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -95,11 +99,16 @@ const AdminIndexacion = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("seo_index_checks")
-        .select("url, done");
+        .select("url, done, indexed, coverage_state, last_inspected_at");
       if (error) throw error;
-      const map: Record<string, boolean> = {};
+      const map: Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }> = {};
       (data ?? []).forEach((row) => {
-        map[row.url] = row.done;
+        map[row.url] = {
+          done: row.done,
+          indexed: row.indexed,
+          coverage: row.coverage_state,
+          inspectedAt: row.last_inspected_at,
+        };
       });
       return map;
     },
@@ -108,10 +117,13 @@ const AdminIndexacion = () => {
 
   const toggle = async (url: string, done: boolean) => {
     // Optimista
-    queryClient.setQueryData<Record<string, boolean>>(["index-checks"], (prev) => ({
-      ...(prev ?? {}),
-      [url]: done,
-    }));
+    queryClient.setQueryData<Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }>>(
+      ["index-checks"],
+      (prev) => ({
+        ...(prev ?? {}),
+        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null }), done },
+      }),
+    );
     const { error } = await supabase
       .from("seo_index_checks")
       .upsert(
@@ -121,6 +133,25 @@ const AdminIndexacion = () => {
     if (error) {
       toast.error("No se pudo guardar el cambio");
       queryClient.invalidateQueries({ queryKey: ["index-checks"] });
+    }
+  };
+
+  const runCheck = async () => {
+    setRunning(true);
+    toast.info("Comprobando estado real en Google… puede tardar 1-2 min.");
+    try {
+      const { data, error } = await supabase.functions.invoke("gsc-index-status", {
+        body: { batchSize: 200 },
+      });
+      if (error) throw error;
+      toast.success(
+        `Sitemap reenviado. ${data?.indexed ?? 0} indexadas · ${data?.notIndexed ?? 0} pendientes (de ${data?.inspected ?? 0} comprobadas).`,
+      );
+      queryClient.invalidateQueries({ queryKey: ["index-checks"] });
+    } catch (e) {
+      toast.error("No se pudo ejecutar la comprobación");
+    } finally {
+      setRunning(false);
     }
   };
 
@@ -136,7 +167,9 @@ const AdminIndexacion = () => {
   }, [items, query]);
 
   const total = items.length;
-  const doneCount = items.filter((i) => checks[i.url]).length;
+  const doneCount = items.filter((i) => checks[i.url]?.done).length;
+  const indexedCount = items.filter((i) => checks[i.url]?.indexed === true).length;
+  const notIndexedCount = items.filter((i) => checks[i.url]?.indexed === false).length;
   const pct = total ? Math.round((doneCount / total) * 100) : 0;
 
   const handleLogout = async () => {
