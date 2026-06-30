@@ -15,6 +15,9 @@ import {
   RefreshCw,
   Search,
   LogOut,
+  PlayCircle,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
@@ -78,6 +81,7 @@ const AdminIndexacion = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [query, setQuery] = useState("");
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -95,11 +99,16 @@ const AdminIndexacion = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("seo_index_checks")
-        .select("url, done");
+        .select("url, done, indexed, coverage_state, last_inspected_at");
       if (error) throw error;
-      const map: Record<string, boolean> = {};
+      const map: Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }> = {};
       (data ?? []).forEach((row) => {
-        map[row.url] = row.done;
+        map[row.url] = {
+          done: row.done,
+          indexed: row.indexed,
+          coverage: row.coverage_state,
+          inspectedAt: row.last_inspected_at,
+        };
       });
       return map;
     },
@@ -108,10 +117,13 @@ const AdminIndexacion = () => {
 
   const toggle = async (url: string, done: boolean) => {
     // Optimista
-    queryClient.setQueryData<Record<string, boolean>>(["index-checks"], (prev) => ({
-      ...(prev ?? {}),
-      [url]: done,
-    }));
+    queryClient.setQueryData<Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }>>(
+      ["index-checks"],
+      (prev) => ({
+        ...(prev ?? {}),
+        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null }), done },
+      }),
+    );
     const { error } = await supabase
       .from("seo_index_checks")
       .upsert(
@@ -121,6 +133,25 @@ const AdminIndexacion = () => {
     if (error) {
       toast.error("No se pudo guardar el cambio");
       queryClient.invalidateQueries({ queryKey: ["index-checks"] });
+    }
+  };
+
+  const runCheck = async () => {
+    setRunning(true);
+    toast.info("Comprobando estado real en Google… puede tardar 1-2 min.");
+    try {
+      const { data, error } = await supabase.functions.invoke("gsc-index-status", {
+        body: { batchSize: 200 },
+      });
+      if (error) throw error;
+      toast.success(
+        `Sitemap reenviado. ${data?.indexed ?? 0} indexadas · ${data?.notIndexed ?? 0} pendientes (de ${data?.inspected ?? 0} comprobadas).`,
+      );
+      queryClient.invalidateQueries({ queryKey: ["index-checks"] });
+    } catch (e) {
+      toast.error("No se pudo ejecutar la comprobación");
+    } finally {
+      setRunning(false);
     }
   };
 
@@ -136,7 +167,9 @@ const AdminIndexacion = () => {
   }, [items, query]);
 
   const total = items.length;
-  const doneCount = items.filter((i) => checks[i.url]).length;
+  const doneCount = items.filter((i) => checks[i.url]?.done).length;
+  const indexedCount = items.filter((i) => checks[i.url]?.indexed === true).length;
+  const notIndexedCount = items.filter((i) => checks[i.url]?.indexed === false).length;
   const pct = total ? Math.round((doneCount / total) * 100) : 0;
 
   const handleLogout = async () => {
@@ -176,9 +209,15 @@ const AdminIndexacion = () => {
               Lista de páginas por prioridad para «Solicitar indexación» en Search Console. Marca cada una al pedirla.
             </p>
           </div>
-          <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
-            <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
+              <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
+            </Button>
+            <Button size="sm" onClick={runCheck} disabled={running}>
+              <PlayCircle className={`mr-2 h-4 w-4 ${running ? "animate-spin" : ""}`} />
+              {running ? "Comprobando…" : "Comprobar en Google"}
+            </Button>
+          </div>
         </div>
 
         <Card className="mt-6 p-5">
@@ -189,6 +228,20 @@ const AdminIndexacion = () => {
             <span className="text-sm font-semibold text-foreground">{pct}%</span>
           </div>
           <Progress value={pct} className="mt-3" />
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <span className="inline-flex items-center gap-1.5 text-emerald-600">
+              <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas en Google
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-amber-600">
+              <XCircle className="h-4 w-4" /> {notIndexedCount} aún no indexadas
+            </span>
+            <span className="text-muted-foreground">
+              {total - indexedCount - notIndexedCount} sin comprobar
+            </span>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            «Comprobar en Google» reenvía el sitemap y consulta el estado real de cada URL vía Search Console (se ejecuta también cada día automáticamente). Google no permite forzar la indexación por API; el estado refleja lo que Google decide.
+          </p>
         </Card>
 
         <div className="relative mt-6">
@@ -210,12 +263,13 @@ const AdminIndexacion = () => {
                 </Badge>
                 <span className="text-xs text-muted-foreground">{group.hint}</span>
                 <span className="ml-auto text-xs text-muted-foreground">
-                  {group.items.filter((i) => checks[i.url]).length}/{group.items.length}
+                  {group.items.filter((i) => checks[i.url]?.done).length}/{group.items.length}
                 </span>
               </div>
               <Card className="mt-3 divide-y divide-border">
                 {group.items.map((item) => {
-                  const done = !!checks[item.url];
+                  const entry = checks[item.url];
+                  const done = !!entry?.done;
                   const path = item.url.replace("https://mi-calma.es", "") || "/";
                   return (
                     <label
@@ -231,6 +285,16 @@ const AdminIndexacion = () => {
                       >
                         {path}
                       </span>
+                      {entry?.indexed === true && (
+                        <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                          Indexada
+                        </Badge>
+                      )}
+                      {entry?.indexed === false && (
+                        <Badge variant="outline" className="border-amber-200 bg-amber-50 text-amber-700">
+                          {entry.coverage ?? "No indexada"}
+                        </Badge>
+                      )}
                       <button
                         type="button"
                         onClick={(e) => {
