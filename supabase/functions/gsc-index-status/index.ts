@@ -116,9 +116,6 @@ Deno.serve(async (req) => {
             indexed,
             last_crawl_time: r.lastCrawlTime ?? null,
             last_inspected_at: nowIso,
-            // 'done' = solicitada/indexada (para el check manual existente)
-            done: indexed,
-            done_at: indexed ? nowIso : null,
           },
           { onConflict: "url" },
         );

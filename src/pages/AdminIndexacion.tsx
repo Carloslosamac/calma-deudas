@@ -99,12 +99,12 @@ const AdminIndexacion = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("seo_index_checks")
-        .select("url, done, indexed, coverage_state, last_inspected_at");
+        .select("url, requested, indexed, coverage_state, last_inspected_at");
       if (error) throw error;
-      const map: Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }> = {};
+      const map: Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }> = {};
       (data ?? []).forEach((row) => {
         map[row.url] = {
-          done: row.done,
+          requested: row.requested,
           indexed: row.indexed,
           coverage: row.coverage_state,
           inspectedAt: row.last_inspected_at,
@@ -115,19 +115,19 @@ const AdminIndexacion = () => {
     enabled: !!session && isAdmin,
   });
 
-  const toggle = async (url: string, done: boolean) => {
+  const toggle = async (url: string, requested: boolean) => {
     // Optimista
-    queryClient.setQueryData<Record<string, { done: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }>>(
+    queryClient.setQueryData<Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }>>(
       ["index-checks"],
       (prev) => ({
         ...(prev ?? {}),
-        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null }), done },
+        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null }), requested },
       }),
     );
     const { error } = await supabase
       .from("seo_index_checks")
       .upsert(
-        { url, done, done_at: done ? new Date().toISOString() : null },
+        { url, requested, requested_at: requested ? new Date().toISOString() : null },
         { onConflict: "url" },
       );
     if (error) {
@@ -167,10 +167,10 @@ const AdminIndexacion = () => {
   }, [items, query]);
 
   const total = items.length;
-  const doneCount = items.filter((i) => checks[i.url]?.done).length;
+  const requestedCount = items.filter((i) => checks[i.url]?.requested).length;
   const indexedCount = items.filter((i) => checks[i.url]?.indexed === true).length;
   const notIndexedCount = items.filter((i) => checks[i.url]?.indexed === false).length;
-  const pct = total ? Math.round((doneCount / total) * 100) : 0;
+  const pct = total ? Math.round((requestedCount / total) * 100) : 0;
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -220,29 +220,46 @@ const AdminIndexacion = () => {
           </div>
         </div>
 
-        <Card className="mt-6 p-5">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-sm font-medium text-foreground">
-              {doneCount} de {total} solicitadas
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {/* Tarjeta 1: tu checklist manual */}
+          <Card className="p-5">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-medium text-foreground">
+                Solicitudes manuales en Search Console
+              </p>
+              <span className="text-sm font-semibold text-foreground">{pct}%</span>
+            </div>
+            <p className="mt-1 text-2xl font-semibold tracking-tight text-foreground">
+              {requestedCount} <span className="text-base font-normal text-muted-foreground">de {total} solicitadas</span>
             </p>
-            <span className="text-sm font-semibold text-foreground">{pct}%</span>
-          </div>
-          <Progress value={pct} className="mt-3" />
-          <div className="mt-4 flex flex-wrap gap-4 text-sm">
-            <span className="inline-flex items-center gap-1.5 text-emerald-600">
-              <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas en Google
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-amber-600">
-              <XCircle className="h-4 w-4" /> {notIndexedCount} aún no indexadas
-            </span>
-            <span className="text-muted-foreground">
-              {total - indexedCount - notIndexedCount} sin comprobar
-            </span>
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            «Comprobar en Google» reenvía el sitemap y consulta el estado real de cada URL vía Search Console (se ejecuta también cada día automáticamente). Google no permite forzar la indexación por API; el estado refleja lo que Google decide.
-          </p>
-        </Card>
+            <Progress value={pct} className="mt-3" />
+            <p className="mt-3 text-xs text-muted-foreground">
+              Tu checklist: marca cada URL cuando la pidas en «Inspección de URLs». Este contador solo lo controlas tú.
+            </p>
+          </Card>
+
+          {/* Tarjeta 2: estado real de Google */}
+          <Card className="p-5">
+            <p className="text-sm font-medium text-foreground">Estado real en Google</p>
+            <div className="mt-3 flex flex-wrap gap-4 text-sm">
+              <span className="inline-flex items-center gap-1.5 text-emerald-600">
+                <CheckCircle2 className="h-4 w-4" /> {indexedCount} indexadas
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-amber-600">
+                <XCircle className="h-4 w-4" /> {notIndexedCount} no indexadas
+              </span>
+              <span className="text-muted-foreground">
+                {total - indexedCount - notIndexedCount} sin comprobar
+              </span>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {indexedCount} + {notIndexedCount} + {total - indexedCount - notIndexedCount} = {total} URLs.
+            </p>
+            <p className="mt-3 text-xs text-muted-foreground">
+              «Comprobar en Google» reenvía el sitemap y consulta el estado real vía Search Console (también cada día automáticamente). Google no permite forzar la indexación por API; este estado refleja lo que Google decide.
+            </p>
+          </Card>
+        </div>
 
         <div className="relative mt-6">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -263,13 +280,13 @@ const AdminIndexacion = () => {
                 </Badge>
                 <span className="text-xs text-muted-foreground">{group.hint}</span>
                 <span className="ml-auto text-xs text-muted-foreground">
-                  {group.items.filter((i) => checks[i.url]?.done).length}/{group.items.length}
+                  {group.items.filter((i) => checks[i.url]?.requested).length}/{group.items.length}
                 </span>
               </div>
               <Card className="mt-3 divide-y divide-border">
                 {group.items.map((item) => {
                   const entry = checks[item.url];
-                  const done = !!entry?.done;
+                  const requested = !!entry?.requested;
                   const path = item.url.replace("https://mi-calma.es", "") || "/";
                   return (
                     <label
@@ -277,11 +294,11 @@ const AdminIndexacion = () => {
                       className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-muted/40"
                     >
                       <Checkbox
-                        checked={done}
+                        checked={requested}
                         onCheckedChange={(v) => toggle(item.url, v === true)}
                       />
                       <span
-                        className={`flex-1 truncate text-sm ${done ? "text-muted-foreground line-through" : "text-foreground"}`}
+                        className={`flex-1 truncate text-sm ${requested ? "text-muted-foreground line-through" : "text-foreground"}`}
                       >
                         {path}
                       </span>
