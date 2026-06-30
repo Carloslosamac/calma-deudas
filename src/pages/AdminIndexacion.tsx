@@ -280,13 +280,13 @@ const AdminIndexacion = () => {
                 </Badge>
                 <span className="text-xs text-muted-foreground">{group.hint}</span>
                 <span className="ml-auto text-xs text-muted-foreground">
-                  {group.items.filter((i) => checks[i.url]?.done).length}/{group.items.length}
+                  {group.items.filter((i) => checks[i.url]?.requested).length}/{group.items.length}
                 </span>
               </div>
               <Card className="mt-3 divide-y divide-border">
                 {group.items.map((item) => {
                   const entry = checks[item.url];
-                  const done = !!entry?.done;
+                  const requested = !!entry?.requested;
                   const path = item.url.replace("https://mi-calma.es", "") || "/";
                   return (
                     <label
@@ -294,7 +294,7 @@ const AdminIndexacion = () => {
                       className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-muted/40"
                     >
                       <Checkbox
-                        checked={done}
+                        checked={requested}
                         onCheckedChange={(v) => toggle(item.url, v === true)}
                       />
                       <span
