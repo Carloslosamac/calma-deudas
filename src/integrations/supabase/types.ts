@@ -273,25 +273,40 @@ export type Database = {
       }
       seo_index_checks: {
         Row: {
+          coverage_state: string | null
           created_at: string
           done: boolean
           done_at: string | null
+          indexed: boolean | null
+          last_crawl_time: string | null
+          last_inspected_at: string | null
           updated_at: string
           url: string
+          verdict: string | null
         }
         Insert: {
+          coverage_state?: string | null
           created_at?: string
           done?: boolean
           done_at?: string | null
+          indexed?: boolean | null
+          last_crawl_time?: string | null
+          last_inspected_at?: string | null
           updated_at?: string
           url: string
+          verdict?: string | null
         }
         Update: {
+          coverage_state?: string | null
           created_at?: string
           done?: boolean
           done_at?: string | null
+          indexed?: boolean | null
+          last_crawl_time?: string | null
+          last_inspected_at?: string | null
           updated_at?: string
           url?: string
+          verdict?: string | null
         }
         Relationships: []
       }
