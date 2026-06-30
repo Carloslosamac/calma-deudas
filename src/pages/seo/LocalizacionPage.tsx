@@ -45,14 +45,41 @@ const LocalizacionPage = () => {
     { name: city.name },
   ];
 
-  // Enlazado: hub local + otras ciudades cercanas (resto del cluster).
+  // Enlazado: hub local + ciudades del cluster, priorizando las que ya reciben
+  // impresiones en Search Console para concentrar autoridad interna hacia ellas
+  // (de página 5-9 a página 1) sin canibalizar (cada ciudad es intención local
+  // distinta y todas apuntan al hub maestro).
+  const TRACTION_CITIES = [
+    "granada",
+    "a-coruna",
+    "barcelona",
+    "sevilla",
+    "almeria",
+    "murcia",
+    "vigo",
+  ];
+  const otherCities = localizaciones.filter((l) => l.slug !== city.slug);
+  const prioritized = [
+    ...otherCities.filter((l) => TRACTION_CITIES.includes(l.slug)),
+    ...otherCities.filter((l) => !TRACTION_CITIES.includes(l.slug)),
+  ];
   const related: RelatedLink[] = [
     { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
-    ...localizaciones
-      .filter((l) => l.slug !== city.slug)
+    ...prioritized
       .slice(0, 9)
       .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path })),
   ];
+
+  // Respuesta directa (AEO): resume la propuesta local en 1-2 frases para
+  // featured snippets y respuestas de IA.
+  const tldr = (
+    <p>
+      En <strong>{city.name}</strong> ({city.provincia}) puedes cancelar tus deudas con la{" "}
+      <strong>Ley de Segunda Oportunidad</strong> si estás en situación de insolvencia y actúas de buena fe.
+      El procedimiento se tramita en {city.tribunal.toLowerCase()} y puede gestionarse en gran parte online,
+      con un primer diagnóstico gratuito y sin compromiso.
+    </p>
+  );
 
   const structuredData = [
     buildBreadcrumb(breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical }))),
@@ -71,6 +98,7 @@ const LocalizacionPage = () => {
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
+      tldr={tldr}
       related={related}
       sections={content.sections}
       faq={content.faq.map((f) => ({ q: f.q, a: f.a }))}
