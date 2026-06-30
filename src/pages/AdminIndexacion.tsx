@@ -298,7 +298,7 @@ const AdminIndexacion = () => {
                         onCheckedChange={(v) => toggle(item.url, v === true)}
                       />
                       <span
-                        className={`flex-1 truncate text-sm ${done ? "text-muted-foreground line-through" : "text-foreground"}`}
+                        className={`flex-1 truncate text-sm ${requested ? "text-muted-foreground line-through" : "text-foreground"}`}
                       >
                         {path}
                       </span>
