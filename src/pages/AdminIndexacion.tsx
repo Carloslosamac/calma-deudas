@@ -263,12 +263,13 @@ const AdminIndexacion = () => {
                 </Badge>
                 <span className="text-xs text-muted-foreground">{group.hint}</span>
                 <span className="ml-auto text-xs text-muted-foreground">
-                  {group.items.filter((i) => checks[i.url]).length}/{group.items.length}
+                  {group.items.filter((i) => checks[i.url]?.done).length}/{group.items.length}
                 </span>
               </div>
               <Card className="mt-3 divide-y divide-border">
                 {group.items.map((item) => {
-                  const done = !!checks[item.url];
+                  const entry = checks[item.url];
+                  const done = !!entry?.done;
                   const path = item.url.replace("https://mi-calma.es", "") || "/";
                   return (
                     <label
@@ -284,6 +285,16 @@ const AdminIndexacion = () => {
                       >
                         {path}
                       </span>
+                      {entry?.indexed === true && (
+                        <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                          Indexada
+                        </Badge>
+                      )}
+                      {entry?.indexed === false && (
+                        <Badge variant="outline" className="border-amber-200 bg-amber-50 text-amber-700">
+                          {entry.coverage ?? "No indexada"}
+                        </Badge>
+                      )}
                       <button
                         type="button"
                         onClick={(e) => {
