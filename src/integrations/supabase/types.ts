@@ -280,6 +280,8 @@ export type Database = {
           indexed: boolean | null
           last_crawl_time: string | null
           last_inspected_at: string | null
+          requested: boolean
+          requested_at: string | null
           updated_at: string
           url: string
           verdict: string | null
@@ -292,6 +294,8 @@ export type Database = {
           indexed?: boolean | null
           last_crawl_time?: string | null
           last_inspected_at?: string | null
+          requested?: boolean
+          requested_at?: string | null
           updated_at?: string
           url: string
           verdict?: string | null
@@ -304,6 +308,8 @@ export type Database = {
           indexed?: boolean | null
           last_crawl_time?: string | null
           last_inspected_at?: string | null
+          requested?: boolean
+          requested_at?: string | null
           updated_at?: string
           url?: string
           verdict?: string | null
