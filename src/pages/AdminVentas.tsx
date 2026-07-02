@@ -1787,7 +1787,7 @@ const AdminVentas = () => {
                     {guide.debts.length} entidades
                   </span>
                 )}
-                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" onClick={addDebt}>
+                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" style={phaseOutlineBtn} onClick={addDebt}>
                   <Plus className="mr-1 h-3.5 w-3.5" /> Añadir entidad
                 </Button>
               </div>
