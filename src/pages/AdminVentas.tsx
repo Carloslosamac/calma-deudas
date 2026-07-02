@@ -212,15 +212,6 @@ const ENGAGEMENT_LEVELS: {
   { value: 3, color: "#d9534f", label: "Quiere colgar", hint: "«Me gustaría librarme de esta llamada cuanto antes.»" },
 ];
 
-// Señales de observación que ayudan al comercial a fijar el score.
-const ENGAGEMENT_SIGNALS = [
-  "Pregunta por precio o por cómo empezar",
-  "Hace preguntas sobre el proceso y los plazos",
-  "Comparte su situación con detalle y abre el tema",
-  "Pone pegas de tiempo o intenta acortar la llamada",
-  "Se muestra distante, con prisa o a la defensiva",
-];
-
 const emptyGuide = (): GuideFields => ({
   entities: [],
   debts: [],
@@ -592,11 +583,7 @@ const CaseFactsPanel = ({
             onChange={(e) => onLabelChange(e.target.value)}
             placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
           />
-          {facts.length === 0 ? (
-            <p className="text-xs text-muted-foreground">
-              Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
-            </p>
-          ) : (
+          {facts.length > 0 && (
             <ul className="space-y-1.5">
               {facts.map((f, i) => (
                 <li
@@ -731,20 +718,7 @@ const EngagementGate = ({
     <div className="space-y-4 rounded-xl border border-border bg-muted/40 p-4">
       <div>
         <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
-        <p className="text-xs text-muted-foreground">
-          Marca lo lista que ves a la persona para empezar. El siguiente paso se
-          preparará con un discurso más fuerte o más suave según este nivel.
-        </p>
       </div>
-
-      <ul className="space-y-1">
-        {ENGAGEMENT_SIGNALS.map((s) => (
-          <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
-            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-            {s}
-          </li>
-        ))}
-      </ul>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {ENGAGEMENT_LEVELS.map((l) => {
@@ -794,7 +768,7 @@ const EngagementGate = ({
       {phrases && phrases.length > 0 && onTogglePhrase && (
         <div className="space-y-2 border-t border-border pt-3">
           <p className="text-xs font-semibold text-foreground">
-            ¿Cómo ha reaccionado? <span className="font-normal text-muted-foreground">(marca las frases que apliquen)</span>
+            ¿Cómo ha reaccionado?
           </p>
           <div className="flex flex-wrap gap-2">
             {phrases.map((p) => {
@@ -829,11 +803,6 @@ const EngagementGate = ({
 
       {onReinforce && (
         <div className="space-y-3 border-t border-border pt-3">
-          <p className="text-xs text-muted-foreground">
-            ¿No quiere avanzar todavía (se lo piensa, lo consulta, quiere
-            colgar)? Genera argumentario para rebatir la objeción y reintentar el
-            paso sin presionar.
-          </p>
           <Button
             type="button"
             variant="outline"
@@ -1645,13 +1614,13 @@ const AdminVentas = () => {
             engagementByPhase={engagementByPhase}
             compact
           />
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <div className="mt-2 grid grid-cols-3 gap-1.5 lg:grid-cols-2">
             {STEPS.map((s, i) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => setStep(i)}
-                className={`flex flex-1 basis-[30%] items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors sm:basis-0 ${
+                className={`flex items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors ${
                   step === i
                     ? PHASE_THEMES[i].active
                     : "bg-muted text-muted-foreground hover:bg-muted/70"
@@ -1708,18 +1677,11 @@ const AdminVentas = () => {
                 <h2 className="mt-1 font-anton text-2xl uppercase leading-tight text-foreground">
                   Somos Calma. Resolvemos deudas, no las gestionamos.
                 </h2>
-                <p className="mt-2 text-sm text-foreground/80">
-                  Antes de nada, marca autoridad: quiénes somos, qué garantizamos y por qué
-                  esta llamada merece toda su atención. Hablas con expertos legales que ya han
-                  sacado a cientos de personas de esta misma situación. Tono firme, cercano y
-                  sin titubeos.
-                </p>
               </div>
 
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
-                subtitle="Guiones fijos de Carlos. Elige el que encaje según cómo llegue la persona; la presentación siempre es la misma, va antes del caso."
               >
                 <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
                   {PRESENTATION_SCRIPTS.map((s) => (
@@ -1796,7 +1758,6 @@ const AdminVentas = () => {
             <Section
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
-              subtitle="Cada entidad con su importe, cuota y si está en impago."
             >
               <div className="space-y-3">
             {/* Deudas por entidad */}
@@ -1806,11 +1767,6 @@ const AdminVentas = () => {
                   <Plus className="mr-1 h-4 w-4" /> Añadir entidad
                 </Button>
               </div>
-              {guide.debts.length === 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Añade cada entidad con su tipo y el importe que se le debe.
-                </p>
-              )}
               <div className="space-y-3">
                 {guide.debts.map((d, i) => (
                   <div
@@ -2286,13 +2242,6 @@ const AdminVentas = () => {
                     </p>
                   </div>
                 </div>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Capacidad = ingresos − gastos esenciales (vivienda, vehículo y gastos de vida),
-                  sin contar las cuotas de deudas. La cuota asumible es el 60 % de esa capacidad,
-                  como margen prudente para una propuesta sostenible.
-                  {debtsMonthlyPaying > 0 &&
-                    ` Hoy paga de verdad ${debtsMonthlyPaying.toLocaleString("es-ES")} €/mes en cuotas (las impagadas no salen de su bolsillo).`}
-                </p>
               </div>
             )}
             <ResultBlock
@@ -2357,10 +2306,6 @@ const AdminVentas = () => {
               </h2>
               <Badge variant="outline">{result.triage.title}</Badge>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Rellena los datos del firmante para generar el contrato. Es una
-              plantilla base de prestación de servicios; revísala antes de enviarla.
-            </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
