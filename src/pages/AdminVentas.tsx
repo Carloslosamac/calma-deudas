@@ -85,6 +85,8 @@ type ScriptCard = { emoji: string; title: string; body: string };
 
 type AiResult = {
   triage: { solution: string; title: string };
+  presentation_internal?: ScriptCard[];
+  presentation_client?: string;
   diagnosis_internal: ScriptCard[];
   diagnosis_client: string;
   solution_internal: ScriptCard[];
