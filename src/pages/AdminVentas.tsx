@@ -1716,13 +1716,68 @@ const AdminVentas = () => {
         };
 
         if (step === 0) {
-          PRESENTATION_SCRIPTS.forEach((s, i) =>
+          // Pantalla 1: elegir el/los guion(es) de apertura según el tipo de cliente.
+          const toggleP = (id: string) =>
+            setSelectedPresentations((prev) =>
+              prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+            );
+          screens.push({
+            key: "presentation-select",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Guion de apertura · elige el enfoque")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  ¿Cómo es la persona al otro lado?
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Selecciona uno o varios perfiles. Verás solo los guiones que elijas.
+                </p>
+                <div className="space-y-2.5">
+                  {PRESENTATION_SCRIPTS.map((s) => {
+                    const on = selectedPresentations.includes(s.id);
+                    return (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => toggleP(s.id)}
+                        className={
+                          "flex w-full items-start gap-3 rounded-xl border p-3.5 text-left transition-colors " +
+                          (on
+                            ? "border-phase-presentation bg-phase-presentation-soft"
+                            : "border-border hover:bg-muted/50")
+                        }
+                      >
+                        <span
+                          className={
+                            "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border " +
+                            (on
+                              ? "border-phase-presentation bg-phase-presentation text-phase-presentation-foreground"
+                              : "border-muted-foreground/40")
+                          }
+                        >
+                          {on && <Check className="h-3.5 w-3.5" />}
+                        </span>
+                        <span className="text-sm font-medium leading-snug text-foreground">
+                          {s.when}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ),
+          });
+          const chosen = PRESENTATION_SCRIPTS.filter((s) =>
+            selectedPresentations.includes(s.id),
+          );
+          chosen.forEach((s, i) =>
             screens.push({
               key: s.id,
               kind: "content",
               node: (
                 <div className="space-y-4">
-                  {kicker("Guion de apertura · " + (i + 1) + "/3")}
+                  {kicker("Guion de apertura · " + (i + 1) + "/" + chosen.length)}
                   <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
                     {s.title}
                   </h2>
