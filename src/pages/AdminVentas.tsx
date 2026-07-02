@@ -1135,6 +1135,7 @@ const AdminVentas = () => {
 
   const resetForm = () => {
     setStep(0);
+    setSub(0);
     setLabel("");
     setRelevantFacts([]);
     setNewFact("");
@@ -1151,6 +1152,7 @@ const AdminVentas = () => {
 
   const loadTestCase = () => {
     setReinforceByStep({});
+    setSub(0);
     setLabel(TEST_CASE.label);
     setRelevantFacts(TEST_CASE.relevantFacts);
     setNewFact("");
@@ -1478,6 +1480,7 @@ const AdminVentas = () => {
     });
     setSavedId(c.id);
     setStep(2);
+    setSub(0);
     autoGenRef.current = {};
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
