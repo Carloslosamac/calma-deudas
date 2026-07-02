@@ -1371,12 +1371,16 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        {/* Step 1: Cualificación */}
+        {/* Fase 1: Presentación */}
         {step === 0 && (
-          <Card
-            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}
-            style={phaseStyle(0)}
-          >
+          <div className="space-y-4" style={phaseStyle(0)}>
+            <SectionCard
+              phase={0}
+              icon={<ClipboardList className="h-4 w-4" />}
+              title="Datos del caso"
+              subtitle="Identifica el caso y anota la situación de la persona."
+            >
+              <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="label">Etiqueta del caso</Label>
               <Input
@@ -1396,7 +1400,87 @@ const AdminVentas = () => {
                 className="min-h-[160px]"
               />
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard
+              phase={0}
+              icon={<Sparkles className="h-4 w-4" />}
+              title="Guion de apertura"
+              subtitle="Cómo presentarte y ganar confianza en los primeros segundos."
+            >
+              <div className="space-y-4">
+                {result?.presentation_internal?.length ? (
+                  <>
+                    <ResultBlock
+                      internal={result.presentation_internal}
+                      client={result.presentation_client ?? ""}
+                    />
+                    <div className="flex justify-end">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => void runPhase("presentation")}
+                        disabled={generating}
+                      >
+                        {generating ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <RefreshCw className="mr-2 h-4 w-4" />
+                        )}
+                        Regenerar
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="rounded-lg border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
+                    Genera el guion de apertura para esta persona.
+                    <div className="mt-2">
+                      <Button
+                        size="sm"
+                        onClick={() => void runPhase("presentation")}
+                        disabled={generating}
+                      >
+                        {generating ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Sparkles className="mr-2 h-4 w-4" />
+                        )}
+                        Generar guion de apertura
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </SectionCard>
+
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="¿Cómo te ha recibido?"
+              ctaLabel="Ir a cualificación"
+              onContinue={proceedToQualification}
+              loading={generating}
+              phrases={REACTION_PHRASES_PRESENTATION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(0)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[0]}
+            />
+          </div>
+        )}
+
+        {/* Fase 2: Cualificación */}
+        {step === 1 && (
+          <div className="space-y-4" style={phaseStyle(1)}>
+            <SectionCard
+              phase={1}
+              icon={<ClipboardList className="h-4 w-4" />}
+              title="Deudas por entidad"
+              subtitle="Cada entidad con su importe, cuota y si está en impago."
+            >
+              <div className="space-y-3">
             {/* Deudas por entidad */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -1503,7 +1587,11 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Empleo, ingresos y gastos">
+              <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="income">Ingresos mensuales (€)</Label>
@@ -1541,7 +1629,6 @@ const AdminVentas = () => {
                 </Select>
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="expenses">Gastos mensuales de vida (€)</Label>
               <Input
@@ -1557,7 +1644,10 @@ const AdminVentas = () => {
                 placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
               />
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Vivienda">
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vivienda</Label>
@@ -1647,7 +1737,9 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Vehículo">
             {/* Vehículo */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vehículo</Label>
@@ -1733,8 +1825,10 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+            </SectionCard>
 
             {monthlyOutflow > 0 && (
+              <SectionCard phase={1} title="Resumen económico">
               <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-semibold text-foreground">
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
@@ -1764,6 +1858,7 @@ const AdminVentas = () => {
                   </p>
                 )}
               </div>
+              </SectionCard>
             )}
 
             <EngagementGate
@@ -1776,11 +1871,11 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_QUALIFICATION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(0)}
+              onReinforce={() => void reinforcePhase(1)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[0]}
+              reinforceData={reinforceByStep[1]}
             />
-          </Card>
+          </div>
         )}
 
         {/* Step 2: Diagnóstico */}
