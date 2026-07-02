@@ -1750,20 +1750,7 @@ const AdminVentas = () => {
               </Section>
             </PhaseCard>
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="¿Cómo te ha recibido?"
-              ctaLabel="Ir a cualificación"
-              onContinue={proceedToQualification}
-              loading={generating}
-              phrases={REACTION_PHRASES_PRESENTATION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(0)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[0]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
           </div>
         )}
 
