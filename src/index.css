@@ -227,6 +227,7 @@ All colors MUST be HSL.
   }
   .phase-card input.border-input,
   .phase-card textarea.border-input,
+  .phase-card button[role="combobox"],
   .phase-card [role="combobox"] {
     color: hsl(var(--foreground)) !important;
   }
