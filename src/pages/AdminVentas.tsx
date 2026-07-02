@@ -2531,20 +2531,7 @@ const AdminVentas = () => {
               )
             )}
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes de la firma"
-              ctaLabel="Ir a firma"
-              onContinue={goToSign}
-              loading={generating}
-              phrases={REACTION_PHRASES_CONTRACT}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(4)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[4]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(3)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
