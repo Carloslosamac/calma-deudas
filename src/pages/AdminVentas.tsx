@@ -1065,6 +1065,7 @@ const AdminVentas = () => {
   const { session, isAdmin, loading } = useAdminAuth();
 
   const [step, setStep] = useState(0);
+  const [qualStep, setQualStep] = useState(0);
   const [label, setLabel] = useState("");
   const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
   const [newFact, setNewFact] = useState("");
