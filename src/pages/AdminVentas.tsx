@@ -1645,13 +1645,13 @@ const AdminVentas = () => {
             engagementByPhase={engagementByPhase}
             compact
           />
-          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <div className="mt-2 grid grid-cols-3 gap-1.5 lg:grid-cols-2">
             {STEPS.map((s, i) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => setStep(i)}
-                className={`flex flex-1 basis-[30%] items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors sm:basis-0 ${
+                className={`flex items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors ${
                   step === i
                     ? PHASE_THEMES[i].active
                     : "bg-muted text-muted-foreground hover:bg-muted/70"
