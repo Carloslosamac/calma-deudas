@@ -236,6 +236,37 @@ const copyText = async (text: string) => {
   }
 };
 
+// Modelos de presentación FIJOS. La presentación va antes de conocer el caso,
+// así que no depende de la IA ni de los datos relevantes: siempre es la misma.
+// Carlos, abogado especialista en Ley de Segunda Oportunidad (+6 años).
+type PresentationScript = {
+  id: string;
+  title: string;
+  when: string;
+  text: string;
+};
+
+const PRESENTATION_SCRIPTS: PresentationScript[] = [
+  {
+    id: "directo",
+    title: "A · Directo de autoridad",
+    when: "Por defecto. Cliente receptivo, quiere ir al grano.",
+    text: "Le explico rápido quién soy para que sepa con quién habla: soy Carlos, abogado especialista en Ley de Segunda Oportunidad, llevo más de 6 años dedicado en exclusiva a esto y he acompañado a muchas personas en su misma situación a cancelar deudas que creían imposibles de pagar. No le vendo humo: le voy a decir con claridad si su caso tiene solución legal y cuál es. Para eso necesito hacerle unas preguntas concretas. ¿Le parece que empecemos?",
+  },
+  {
+    id: "empatico",
+    title: "B · Empático + autoridad",
+    when: "Cliente nervioso, agobiado o avergonzado por su situación.",
+    text: "Antes de nada, tranquilícese: lo que le pasa lo he visto muchas veces y tiene solución. Me llamo Carlos, soy abogado especializado en Ley de Segunda Oportunidad desde hace más de 6 años y me dedico solo a esto. Mi trabajo es mirar su situación con criterio legal y decirle la verdad, aunque no siempre sea lo que espera oír. Si hay salida, se la voy a enseñar paso a paso. ¿Le hago unas preguntas para verlo?",
+  },
+  {
+    id: "contundente",
+    title: "C · Contundente de credibilidad",
+    when: "Cliente escéptico o que ya ha hablado con otra empresa.",
+    text: "Le hablo claro porque su tiempo vale: soy Carlos, abogado, más de 6 años dedicado en exclusiva a la Ley de Segunda Oportunidad. Esto no es un call center ni una reunificadora: es un procedimiento legal amparado por la ley y lo lleva un abogado de principio a fin. He visto a mucha gente perder meses con quien no debía. Deme cinco minutos y le digo con honestidad si su caso encaja o no. ¿Empezamos?",
+  },
+];
+
 const fetchCases = async (): Promise<SalesCaseRow[]> => {
   const { data, error } = await supabase
     .from("sales_cases")
@@ -1567,49 +1598,34 @@ const AdminVentas = () => {
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
-                subtitle="Cómo presentarte y ganar autoridad en los primeros segundos."
+                subtitle="Guiones fijos de Carlos. Elige el que encaje según cómo llegue la persona; la presentación siempre es la misma, va antes del caso."
               >
-                {result?.presentation_internal?.length ? (
-                  <>
-                    <ResultBlock
-                      internal={result.presentation_internal}
-                      client={result.presentation_client ?? ""}
-                    />
-                    <div className="flex justify-end">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => void runPhase("presentation")}
-                        disabled={generating}
-                      >
-                        {generating ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <RefreshCw className="mr-2 h-4 w-4" />
-                        )}
-                        Regenerar
-                      </Button>
+                <div className="space-y-3">
+                  {PRESENTATION_SCRIPTS.map((s) => (
+                    <div
+                      key={s.id}
+                      className="rounded-lg border border-border bg-background/60 p-4"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">{s.title}</p>
+                          <p className="mt-0.5 text-xs text-muted-foreground">{s.when}</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="shrink-0"
+                          onClick={() => void copyText(s.text)}
+                        >
+                          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                        </Button>
+                      </div>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">
+                        {s.text}
+                      </p>
                     </div>
-                  </>
-                ) : (
-                  <div className="rounded-lg border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
-                    Genera el guion de apertura para esta persona.
-                    <div className="mt-2">
-                      <Button
-                        size="sm"
-                        onClick={() => void runPhase("presentation")}
-                        disabled={generating}
-                      >
-                        {generating ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <Sparkles className="mr-2 h-4 w-4" />
-                        )}
-                        Generar guion de apertura
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                  ))}
+                </div>
               </Section>
             </PhaseCard>
 
