@@ -1225,8 +1225,8 @@ const AdminVentas = () => {
     paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
 
   const runGeneration = async (nextStep: number) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setGenerating(true);
@@ -1295,8 +1295,8 @@ const AdminVentas = () => {
     phase: "contract_message" | "signing" | "presentation",
     nextStep?: number,
   ) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setGenerating(true);
@@ -1351,8 +1351,8 @@ const AdminVentas = () => {
   // tiene que pensar o quiere colgar, genera argumentario de manejo de
   // objeciones anclado en el caso y las reacciones marcadas.
   const reinforcePhase = async (currentStep: number) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setReinforcing(true);
