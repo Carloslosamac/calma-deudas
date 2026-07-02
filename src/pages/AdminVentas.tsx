@@ -1693,8 +1693,7 @@ const AdminVentas = () => {
               <div className="space-y-3">
             {/* Deudas por entidad */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label>Deudas por entidad</Label>
+              <div className="flex justify-end">
                 <Button type="button" variant="outline" size="sm" onClick={addDebt}>
                   <Plus className="mr-1 h-4 w-4" /> Añadir entidad
                 </Button>
