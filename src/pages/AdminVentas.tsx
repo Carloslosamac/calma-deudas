@@ -472,7 +472,7 @@ const PhaseCard = ({
   className?: string;
 }) => (
   <Card
-    className={`phase-card space-y-6 border-l-4 p-6 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
+    className={`phase-card space-y-4 border-l-4 p-4 sm:p-5 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
     style={phaseStyle(phase)}
   >
     {children}
@@ -492,7 +492,7 @@ const Section = ({
   icon?: React.ReactNode;
   children: React.ReactNode;
 }) => (
-  <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
+  <div className="space-y-3 border-t pt-4 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
     {(title || icon) && (
       <div className="flex items-center gap-2.5">
         {icon && (
