@@ -1961,8 +1961,10 @@ const AdminVentas = () => {
                   <Button
                     key={h}
                     type="button"
-                    variant={guide.housing === h ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={guide.housing === h ? "hover:opacity-90" : undefined}
+                    style={guide.housing === h ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() =>
                       setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))
                     }
