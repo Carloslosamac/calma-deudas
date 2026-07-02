@@ -1889,7 +1889,7 @@ const AdminVentas = () => {
               caso de prueba para navegar entre secciones.
             </p>
             <div className="flex justify-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setStep(0)}>
+              <Button variant="outline" size="sm" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
               </Button>
               <Button variant="orange" size="sm" onClick={loadTestCase}>
@@ -1901,8 +1901,8 @@ const AdminVentas = () => {
 
         {step === 2 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}
-            style={phaseStyle(1)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
+            style={phaseStyle(2)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
@@ -1990,8 +1990,8 @@ const AdminVentas = () => {
         {/* Step 3: Solución */}
         {step === 3 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
-            style={phaseStyle(2)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
+            style={phaseStyle(3)}
           >
             <div className="flex items-center justify-between">
               <h2 className="font-poppins text-lg font-bold text-foreground">
@@ -2033,8 +2033,8 @@ const AdminVentas = () => {
         {/* Step 4: Contrato */}
         {step === 4 && result && (
           <Card
-            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
-            style={phaseStyle(3)}
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
+            style={phaseStyle(4)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
@@ -2241,8 +2241,8 @@ const AdminVentas = () => {
         {/* Step 5: Firma */}
         {step === 5 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
-            style={phaseStyle(4)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[5].border} ${PHASE_THEMES[5].soft}`}
+            style={phaseStyle(5)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
