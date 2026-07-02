@@ -1592,42 +1592,34 @@ const AdminVentas = () => {
         {/* Fase 1: Presentación */}
         {step === 0 && (
           <div className="space-y-4" style={phaseStyle(0)}>
-            <SectionCard
-              phase={0}
-              icon={<ClipboardList className="h-4 w-4" />}
-              title="Datos del caso"
-              subtitle="Identifica el caso y anota la situación de la persona."
-            >
-              <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="label">Etiqueta del caso</Label>
-              <Input
-                id="label"
-                value={label}
-                onChange={(e) => setLabel(e.target.value)}
-                placeholder="Ej. María · revolving 12.000€"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="caseText">Caso de la persona</Label>
-              <Textarea
-                id="caseText"
-                value={caseText}
-                onChange={(e) => setCaseText(e.target.value)}
-                placeholder="Escribe o pega aquí la situación de la persona: deudas, qué le preocupa, su situación familiar y económica..."
-                className="min-h-[160px]"
-              />
-            </div>
+            <PhaseCard phase={0}>
+              {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
+              <div
+                className="rounded-xl p-5"
+                style={{ backgroundColor: "hsl(var(--phase) / 0.12)" }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-[0.2em]"
+                  style={{ color: "hsl(var(--phase))" }}
+                >
+                  Encuadre de autoridad
+                </p>
+                <h2 className="mt-1 font-anton text-2xl uppercase leading-tight text-foreground">
+                  Somos Calma. Resolvemos deudas, no las gestionamos.
+                </h2>
+                <p className="mt-2 text-sm text-foreground/80">
+                  Antes de nada, marca autoridad: quiénes somos, qué garantizamos y por qué
+                  esta llamada merece toda su atención. Hablas con expertos legales que ya han
+                  sacado a cientos de personas de esta misma situación. Tono firme, cercano y
+                  sin titubeos.
+                </p>
               </div>
-            </SectionCard>
 
-            <SectionCard
-              phase={0}
-              icon={<Sparkles className="h-4 w-4" />}
-              title="Guion de apertura"
-              subtitle="Cómo presentarte y ganar confianza en los primeros segundos."
-            >
-              <div className="space-y-4">
+              <Section
+                icon={<Sparkles className="h-4 w-4" />}
+                title="Guion de apertura"
+                subtitle="Cómo presentarte y ganar autoridad en los primeros segundos."
+              >
                 {result?.presentation_internal?.length ? (
                   <>
                     <ResultBlock
@@ -1669,8 +1661,8 @@ const AdminVentas = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            </SectionCard>
+              </Section>
+            </PhaseCard>
 
             <EngagementGate
               value={engagement}
