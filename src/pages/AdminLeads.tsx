@@ -167,9 +167,7 @@ const AdminLeads = () => {
       const news = payload.filter((p) => !("id" in p)).length;
       const updates = payload.length - news;
 
-      const { error } = await supabase
-        .from("sales_leads")
-        .upsert(payload, { onConflict: "created_by,external_id" });
+      const { error } = await supabase.from("sales_leads").upsert(payload);
       if (error) throw error;
 
       toast.success(`Importación completada: ${news} nuevos, ${updates} actualizados.`);
