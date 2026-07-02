@@ -1614,7 +1614,7 @@ const AdminVentas = () => {
         canonical="/admin/ventas"
         robots="noindex,nofollow"
       />
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1400px]">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h1 className="font-poppins text-lg font-bold text-foreground">
             Herramienta de ventas
