@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import Header from "@/components/Header";
@@ -24,8 +24,19 @@ import {
 } from "@/lib/seo/structuredData";
 import { absoluteUrl } from "@/lib/seo/config";
 
+/**
+ * Redirecciones 301 de slugs antiguos → nuevos (p. ej. limpiar nombres de
+ * competidores del slug). Mantiene el enlace jugo y evita 404.
+ */
+const SLUG_REDIRECTS: Record<string, string> = {
+  "5-maneras-frenar-embargo-misolvencia": "5-maneras-frenar-un-embargo",
+};
+
 const BlogPost = () => {
   const { slug } = useParams();
+  if (slug && SLUG_REDIRECTS[slug]) {
+    return <Navigate to={`/blog/${SLUG_REDIRECTS[slug]}`} replace />;
+  }
   const staticPost = getPostBySlug(slug);
   const { data: dbPost, isLoading } = useQuery({
     queryKey: ["generated-post", slug],
