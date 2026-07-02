@@ -1140,16 +1140,8 @@ const AdminVentas = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Mapea la fase actual del flujo al estado del lead en el CRM interno.
-  const leadStatusForStep = (s: number): string => {
-    if (s >= 5) return "Ganado";
-    if (s === 4) return "Cita";
-    if (s === 3) return "Negociación";
-    if (s >= 1) return "Interesado";
-    return "Contactado";
-  };
-
-  // Sincroniza el estado (y datos económicos) del lead vinculado.
+  // Sincroniza datos económicos / vínculo del lead. NO cambia el estado del
+  // lead automáticamente: el estado solo lo edita el comercial manualmente.
   const syncLead = async (patch: Record<string, unknown>) => {
     if (!leadId) return;
     const { error } = await supabase
@@ -1158,13 +1150,6 @@ const AdminVentas = () => {
       .eq("id", leadId);
     if (error) console.error("No se pudo sincronizar el lead", error);
   };
-
-  // Al avanzar de fase, refleja el progreso en el estado del lead.
-  useEffect(() => {
-    if (!leadId) return;
-    void syncLead({ lead_status: leadStatusForStep(step) });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, leadId]);
 
   // Al cambiar de fase, reposiciona la sub-pantalla: 0 al avanzar, o la última
   // de la fase si venimos de un "Atrás" que cruza el límite de fase.
@@ -1523,7 +1508,6 @@ const AdminVentas = () => {
       if (leadId) {
         void syncLead({
           sales_case_id: data.id,
-          lead_status: leadStatusForStep(step),
           debt: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
           income: guide.monthlyIncome ?? null,
           expense: guide.monthlyExpenses ?? null,
