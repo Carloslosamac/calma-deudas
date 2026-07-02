@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import {
   ArrowLeft,
+  ArrowRight,
   Copy,
   Loader2,
   Plus,
@@ -538,13 +539,32 @@ const CaseFactsPanel = ({
   onAddFact: () => void;
   onRemoveFact: (i: number) => void;
 }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   return (
     <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+      {/* Añadir dato: siempre visible */}
+      <div className="flex gap-2">
+        <Input
+          value={newFact}
+          onChange={(e) => onNewFactChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onAddFact();
+            }
+          }}
+          placeholder="Añadir dato relevante y pulsa Enter…"
+        />
+        <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Datos del caso: siempre minimizados (colapsados por defecto) */}
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-2 text-left"
+        className="mt-3 flex w-full items-center justify-between gap-2 text-left"
       >
         <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
           <ClipboardList className="h-4 w-4 text-muted-foreground" />
@@ -572,22 +592,6 @@ const CaseFactsPanel = ({
             onChange={(e) => onLabelChange(e.target.value)}
             placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
           />
-          <div className="flex gap-2">
-            <Input
-              value={newFact}
-              onChange={(e) => onNewFactChange(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  onAddFact();
-                }
-              }}
-              placeholder="Añadir dato relevante y pulsa Enter…"
-            />
-            <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
           {facts.length === 0 ? (
             <p className="text-xs text-muted-foreground">
               Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
@@ -1062,6 +1066,7 @@ const AdminVentas = () => {
   const { session, isAdmin, loading } = useAdminAuth();
 
   const [step, setStep] = useState(0);
+  const [qualStep, setQualStep] = useState(0);
   const [label, setLabel] = useState("");
   const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
   const [newFact, setNewFact] = useState("");
@@ -1650,6 +1655,41 @@ const AdminVentas = () => {
         {step === 1 && (
           <div className="space-y-4" style={phaseStyle(1)}>
             <PhaseCard phase={1}>
+            {(() => {
+              const QUAL_TITLES = [
+                "Deudas por entidad",
+                "Empleo, ingresos y gastos",
+                "Vivienda",
+                "Vehículo",
+                "Resumen económico",
+              ];
+              const last = QUAL_TITLES.length - 1;
+              return (
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-semibold text-foreground">
+                    Pregunta {qualStep + 1} de {QUAL_TITLES.length}
+                    <span className="ml-1 font-normal text-muted-foreground">
+                      · {QUAL_TITLES[qualStep]}
+                    </span>
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {QUAL_TITLES.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        aria-label={`Ir a pregunta ${i + 1}`}
+                        onClick={() => setQualStep(i)}
+                        className={`h-2 rounded-full transition-all ${
+                          i === qualStep ? "w-5 bg-[hsl(var(--phase))]" : "w-2 bg-muted-foreground/30"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {qualStep === 0 && (
             <Section
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
@@ -1764,7 +1804,9 @@ const AdminVentas = () => {
             </div>
               </div>
             </Section>
+            )}
 
+            {qualStep === 1 && (
             <Section title="Empleo, ingresos y gastos">
               <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -1821,7 +1863,9 @@ const AdminVentas = () => {
             </div>
               </div>
             </Section>
+            )}
 
+            {qualStep === 2 && (
             <Section title="Vivienda">
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
@@ -1913,7 +1957,9 @@ const AdminVentas = () => {
               )}
             </div>
             </Section>
+            )}
 
+            {qualStep === 3 && (
             <Section title="Vehículo">
             {/* Vehículo */}
             <div className="space-y-3 rounded-lg border border-border p-3">
@@ -2001,9 +2047,11 @@ const AdminVentas = () => {
               )}
             </div>
             </Section>
+            )}
 
-            {monthlyOutflow > 0 && (
+            {qualStep === 4 && (
               <Section title="Resumen económico">
+              {monthlyOutflow > 0 ? (
               <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-semibold text-foreground">
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
@@ -2033,10 +2081,39 @@ const AdminVentas = () => {
                   </p>
                 )}
               </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Completa las preguntas anteriores para ver el resumen económico.
+                </p>
+              )}
               </Section>
             )}
+
+            {/* Navegación entre preguntas */}
+            <div className="flex items-center justify-between border-t pt-4" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setQualStep((q) => Math.max(0, q - 1))}
+                disabled={qualStep === 0}
+              >
+                <ArrowLeft className="mr-1 h-4 w-4" /> Anterior
+              </Button>
+              {qualStep < 4 && (
+                <Button
+                  type="button"
+                  variant="orange"
+                  size="sm"
+                  onClick={() => setQualStep((q) => Math.min(4, q + 1))}
+                >
+                  Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+                </Button>
+              )}
+            </div>
             </PhaseCard>
 
+            {qualStep === 4 && (
             <EngagementGate
               value={engagement}
               onChange={setEngagement}
@@ -2051,6 +2128,7 @@ const AdminVentas = () => {
               reinforceLoading={reinforcing}
               reinforceData={reinforceByStep[1]}
             />
+            )}
           </div>
         )}
 
