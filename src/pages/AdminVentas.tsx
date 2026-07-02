@@ -901,7 +901,8 @@ const AdminVentas = () => {
 
   const [step, setStep] = useState(0);
   const [label, setLabel] = useState("");
-  const [caseText, setCaseText] = useState("");
+  const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
+  const [newFact, setNewFact] = useState("");
   const [guide, setGuide] = useState<GuideFields>(emptyGuide());
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -931,6 +932,26 @@ const AdminVentas = () => {
     setReactions((prev) =>
       prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
     );
+
+  // El caso ya no es un textarea: se compone a partir de la etiqueta y los
+  // "datos relevantes" añadidos uno a uno, para alimentar la IA sin tocar el
+  // edge function (sigue recibiendo `caseText`).
+  const caseText = [
+    label.trim() ? `Etiqueta: ${label.trim()}` : "",
+    ...relevantFacts.map((f) => `- ${f}`),
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const hasCaseData = relevantFacts.length > 0;
+
+  const addFact = () => {
+    const v = newFact.trim();
+    if (!v) return;
+    setRelevantFacts((prev) => [...prev, v]);
+    setNewFact("");
+  };
+  const removeFact = (i: number) =>
+    setRelevantFacts((prev) => prev.filter((_, idx) => idx !== i));
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
