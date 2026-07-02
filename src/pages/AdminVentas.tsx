@@ -1474,6 +1474,18 @@ const AdminVentas = () => {
               </button>
             ))}
           </div>
+
+          {/* Panel del caso: datos relevantes añadidos uno a uno, disponible en
+              cualquier fase y que alimenta la generación de guiones. */}
+          <CaseFactsPanel
+            label={label}
+            onLabelChange={setLabel}
+            facts={relevantFacts}
+            newFact={newFact}
+            onNewFactChange={setNewFact}
+            onAddFact={addFact}
+            onRemoveFact={removeFact}
+          />
         </div>
 
         {/* Fase 1: Presentación */}
