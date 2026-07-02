@@ -271,9 +271,37 @@ export type Database = {
         }
         Relationships: []
       }
+      sales_lead_batches: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          lead_count: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          lead_count?: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          lead_count?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sales_leads: {
         Row: {
           appointment_at: string | null
+          batch_id: string | null
           created_at: string
           created_by: string
           debt: number | null
@@ -297,6 +325,7 @@ export type Database = {
         }
         Insert: {
           appointment_at?: string | null
+          batch_id?: string | null
           created_at?: string
           created_by: string
           debt?: number | null
@@ -320,6 +349,7 @@ export type Database = {
         }
         Update: {
           appointment_at?: string | null
+          batch_id?: string | null
           created_at?: string
           created_by?: string
           debt?: number | null
@@ -341,7 +371,15 @@ export type Database = {
           updated_at?: string
           vehicle?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "sales_leads_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "sales_lead_batches"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       seo_index_checks: {
         Row: {
