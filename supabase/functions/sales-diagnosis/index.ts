@@ -352,6 +352,7 @@ REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - ${DEFAULT_DEBTS_RULE}
+- ${AUTHORITY_FRAME_RULE}
 - Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 }
 
@@ -427,6 +428,7 @@ REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - ${DEFAULT_DEBTS_RULE}
+- ${AUTHORITY_FRAME_RULE}
 Sin markdown, sin texto extra.`;
 }
 
@@ -522,6 +524,7 @@ REGLAS:
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - ${DEFAULT_DEBTS_RULE}
+- ${AUTHORITY_FRAME_RULE}
 Sin markdown, sin texto extra.`;
 }
 
