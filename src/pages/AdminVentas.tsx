@@ -1879,7 +1879,7 @@ const AdminVentas = () => {
         )}
 
         {/* Step 2: Diagnóstico */}
-        {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
+        {(step === 2 || step === 3 || step === 4 || step === 5) && !result && (
           <Card
             className={`phase-card space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
             style={phaseStyle(step)}
@@ -1899,7 +1899,7 @@ const AdminVentas = () => {
           </Card>
         )}
 
-        {step === 1 && result && (
+        {step === 2 && result && (
           <Card
             className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}
             style={phaseStyle(1)}
@@ -1975,12 +1975,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_DIAGNOSIS}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(1)}
+              onReinforce={() => void reinforcePhase(2)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[1]}
+              reinforceData={reinforceByStep[2]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(0)}>
+              <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
               </Button>
             </div>
@@ -1988,7 +1988,7 @@ const AdminVentas = () => {
         )}
 
         {/* Step 3: Solución */}
-        {step === 2 && result && (
+        {step === 3 && result && (
           <Card
             className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
             style={phaseStyle(2)}
@@ -2018,12 +2018,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SOLUTION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(2)}
+              onReinforce={() => void reinforcePhase(3)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[2]}
+              reinforceData={reinforceByStep[3]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(1)}>
+              <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
               </Button>
             </div>
@@ -2031,7 +2031,7 @@ const AdminVentas = () => {
         )}
 
         {/* Step 4: Contrato */}
-        {step === 3 && result && (
+        {step === 4 && result && (
           <Card
             className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
             style={phaseStyle(3)}
@@ -2226,12 +2226,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_CONTRACT}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(3)}
+              onReinforce={() => void reinforcePhase(4)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[3]}
+              reinforceData={reinforceByStep[4]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(2)}>
+              <Button variant="outline" onClick={() => setStep(3)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
               </Button>
             </div>
@@ -2239,7 +2239,7 @@ const AdminVentas = () => {
         )}
 
         {/* Step 5: Firma */}
-        {step === 4 && result && (
+        {step === 5 && result && (
           <Card
             className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
             style={phaseStyle(4)}
@@ -2285,9 +2285,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SIGN}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(4)}
+              onReinforce={() => void reinforcePhase(5)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[4]}
+              reinforceData={reinforceByStep[5]}
             />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
@@ -2308,7 +2308,7 @@ const AdminVentas = () => {
             </div>
 
             <div className="flex justify-between pt-2">
-              <Button variant="outline" onClick={() => setStep(3)}>
+              <Button variant="outline" onClick={() => setStep(4)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
               </Button>
               <Button onClick={saveCase} disabled={saving || !!savedId}>
