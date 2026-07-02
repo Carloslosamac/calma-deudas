@@ -1840,27 +1840,38 @@ const AdminVentas = () => {
                       }
                       placeholder="Cuota €"
                     />
-                    <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
-                      {[
-                        { v: true, l: "Impago" },
-                        { v: false, l: "Al día" },
-                      ].map((o) => (
-                        <button
-                          key={o.l}
-                          type="button"
-                          onClick={() => updateDebt(i, { isDefault: o.v })}
-                          className={`rounded px-2.5 py-1 text-[10px] font-semibold transition-colors ${
-                            d.isDefault === o.v
-                              ? o.v
-                                ? "bg-destructive text-destructive-foreground shadow-sm"
-                                : "bg-background text-foreground shadow-sm"
-                              : "text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          {o.l}
-                        </button>
-                      ))}
-                    </div>
+                     <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
+                       {[
+                         { v: true, l: "Impago" },
+                         { v: false, l: "Al día" },
+                       ].map((o) => {
+                         const activeState = d.isDefault === o.v;
+                         return (
+                           <button
+                             key={o.l}
+                             type="button"
+                             onClick={() => updateDebt(i, { isDefault: o.v })}
+                             style={
+                               activeState && !o.v
+                                 ? {
+                                     backgroundColor: "hsl(var(--phase))",
+                                     color: "hsl(var(--phase-fg))",
+                                   }
+                                 : undefined
+                             }
+                             className={`rounded px-2.5 py-1 text-[10px] font-semibold transition-colors ${
+                               activeState
+                                 ? o.v
+                                   ? "bg-destructive text-destructive-foreground shadow-sm"
+                                   : "shadow-sm"
+                                 : "text-muted-foreground hover:text-foreground"
+                             }`}
+                           >
+                             {o.l}
+                           </button>
+                         );
+                       })}
+                     </div>
                     <Button
                       type="button"
                       variant="ghost"
