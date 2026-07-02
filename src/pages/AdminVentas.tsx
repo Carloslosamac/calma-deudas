@@ -1152,7 +1152,10 @@ const AdminVentas = () => {
   // Sincroniza el estado (y datos económicos) del lead vinculado.
   const syncLead = async (patch: Record<string, unknown>) => {
     if (!leadId) return;
-    const { error } = await supabase.from("sales_leads").update(patch).eq("id", leadId);
+    const { error } = await supabase
+      .from("sales_leads")
+      .update(patch as never)
+      .eq("id", leadId);
     if (error) console.error("No se pudo sincronizar el lead", error);
   };
 
