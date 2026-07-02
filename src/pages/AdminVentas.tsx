@@ -1498,6 +1498,114 @@ const AdminVentas = () => {
     );
   }
 
+  // Gate de engagement de la fase actual. Se renderiza una sola vez y se
+  // coloca en la columna izquierda (desktop) o en el flujo de la fase (móvil).
+  const currentEngagementGate = (() => {
+    if (step === 0)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="¿Cómo te ha recibido?"
+          ctaLabel="Ir a cualificación"
+          onContinue={proceedToQualification}
+          loading={generating}
+          phrases={REACTION_PHRASES_PRESENTATION}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(0)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[0]}
+        />
+      );
+    if (step === 1 && qualStep === 4)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="Engagement antes del diagnóstico"
+          ctaLabel="Generar diagnóstico"
+          onContinue={generate}
+          loading={generating}
+          phrases={REACTION_PHRASES_QUALIFICATION}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(1)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[1]}
+        />
+      );
+    if (step === 2 && result)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="Re-evalúa el engagement antes de la solución"
+          ctaLabel="Preparar solución"
+          onContinue={proceedToSolution}
+          loading={generating}
+          phrases={REACTION_PHRASES_DIAGNOSIS}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(2)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[2]}
+        />
+      );
+    if (step === 3 && result)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="Engagement antes del contrato"
+          ctaLabel="Ir a contrato"
+          onContinue={goToContract}
+          loading={generating}
+          phrases={REACTION_PHRASES_SOLUTION}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(3)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[3]}
+        />
+      );
+    if (step === 4 && result)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="Engagement antes de la firma"
+          ctaLabel="Ir a firma"
+          onContinue={goToSign}
+          loading={generating}
+          phrases={REACTION_PHRASES_CONTRACT}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(4)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[4]}
+        />
+      );
+    if (step === 5 && result)
+      return (
+        <EngagementGate
+          value={engagement}
+          onChange={setEngagement}
+          title="Engagement en la firma"
+          ctaLabel="Regenerar guion de cierre"
+          onContinue={() => void runPhase("signing")}
+          loading={generating}
+          phrases={REACTION_PHRASES_SIGN}
+          selectedPhrases={reactions}
+          onTogglePhrase={togglePhrase}
+          onReinforce={() => void reinforcePhase(5)}
+          reinforceLoading={reinforcing}
+          reinforceData={reinforceByStep[5]}
+        />
+      );
+    return null;
+  })();
+
   return (
     <div className="min-h-screen bg-background px-4 py-4">
       <Seo
@@ -1570,6 +1678,13 @@ const AdminVentas = () => {
             onAddFact={addFact}
             onRemoveFact={removeFact}
           />
+
+          {/* Gate de engagement en la columna izquierda (solo desktop). */}
+          {currentEngagementGate && (
+            <div className="mt-3 hidden lg:block" style={phaseStyle(step)}>
+              {currentEngagementGate}
+            </div>
+          )}
         </div>
 
         {/* Columna principal: fase activa + historial */}
@@ -1635,20 +1750,7 @@ const AdminVentas = () => {
               </Section>
             </PhaseCard>
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="¿Cómo te ha recibido?"
-              ctaLabel="Ir a cualificación"
-              onContinue={proceedToQualification}
-              loading={generating}
-              phrases={REACTION_PHRASES_PRESENTATION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(0)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[0]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
           </div>
         )}
 
@@ -2113,22 +2215,7 @@ const AdminVentas = () => {
             </div>
             </PhaseCard>
 
-            {qualStep === 4 && (
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes del diagnóstico"
-              ctaLabel="Generar diagnóstico"
-              onContinue={generate}
-              loading={generating}
-              phrases={REACTION_PHRASES_QUALIFICATION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(1)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[1]}
-            />
-            )}
+            <div className="lg:hidden">{currentEngagementGate}</div>
           </div>
         )}
 
@@ -2219,20 +2306,7 @@ const AdminVentas = () => {
                 {result.approach}
               </div>
             )}
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Re-evalúa el engagement antes de la solución"
-              ctaLabel="Preparar solución"
-              onContinue={proceedToSolution}
-              loading={generating}
-              phrases={REACTION_PHRASES_DIAGNOSIS}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(2)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[2]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
@@ -2262,20 +2336,7 @@ const AdminVentas = () => {
                 {result.approach}
               </div>
             )}
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes del contrato"
-              ctaLabel="Ir a contrato"
-              onContinue={goToContract}
-              loading={generating}
-              phrases={REACTION_PHRASES_SOLUTION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(3)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[3]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
@@ -2470,20 +2531,7 @@ const AdminVentas = () => {
               )
             )}
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes de la firma"
-              ctaLabel="Ir a firma"
-              onContinue={goToSign}
-              loading={generating}
-              phrases={REACTION_PHRASES_CONTRACT}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(4)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[4]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(3)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
@@ -2529,20 +2577,7 @@ const AdminVentas = () => {
               </div>
             )}
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement en la firma"
-              ctaLabel="Regenerar guion de cierre"
-              onContinue={() => void runPhase("signing")}
-              loading={generating}
-              phrases={REACTION_PHRASES_SIGN}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(5)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[5]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
               <Label>Estado de la firma</Label>
