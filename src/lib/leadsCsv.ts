@@ -139,7 +139,7 @@ export function mapRowToLead(row: Record<string, string>): ParsedLead {
     name: name || null,
     phone: normalizePhone(first(row, ["Phone", "Mobile"]) || undefined),
     email: first(row, ["Email", "Secondary Email"]),
-    lead_status: first(row, ["Lead Status"]) || "Sin contactar",
+    lead_status: first(row, ["Lead Status"]) || "No contactado",
     debt: num(row["deuda"] || undefined),
     income: num(row["ingreso"] || undefined),
     expense: num(row["gasto"] || undefined),
