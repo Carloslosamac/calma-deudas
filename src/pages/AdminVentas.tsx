@@ -1711,7 +1711,7 @@ const AdminVentas = () => {
             r.internal.forEach((c, i) => screens.push(scriptScreen("reinforce-" + i, c)));
             if (r.client) screens.push(clientScreen("reinforce-client", r.client));
           }
-          pushGate();
+          screens.push(gate);
         };
 
         if (step === 0) {
