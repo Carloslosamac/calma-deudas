@@ -1218,7 +1218,10 @@ const AdminVentas = () => {
   const affordablePayment =
     paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
 
-  const runGeneration = async (nextStep: number) => {
+  const runGeneration = async (
+    nextStep: number,
+    target: "diagnosis" | "solution" = "diagnosis",
+  ) => {
     if (!hasCaseData) {
       toast.error("Añade al menos un dato relevante del caso.");
       return;
@@ -1236,14 +1239,43 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions, contract },
+        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions, contract, phase: target },
       });
       if (error) throw error;
       if (data?.error) {
         toast.error(data.error);
         return;
       }
-      setResult(data as AiResult);
+      // Solo genera el paso siguiente: fusiona con lo ya generado en vez de reemplazar todo.
+      setResult((prev) => {
+        if (target === "solution") {
+          const base: AiResult =
+            prev ?? ({
+              triage: data.triage,
+              diagnosis_internal: [],
+              diagnosis_client: "",
+              solution_internal: [],
+              solution_client: "",
+            } as AiResult);
+          return {
+            ...base,
+            triage: data.triage ?? base.triage,
+            solution_internal: data.solution_internal ?? [],
+            solution_client: data.solution_client ?? "",
+            approach: data.approach ?? base.approach,
+          };
+        }
+        // diagnosis: preserva cualquier solución previa (por si se retrocede).
+        return {
+          ...(prev ?? ({} as AiResult)),
+          triage: data.triage,
+          diagnosis_internal: data.diagnosis_internal ?? [],
+          diagnosis_client: data.diagnosis_client ?? "",
+          solution_internal: prev?.solution_internal ?? [],
+          solution_client: prev?.solution_client ?? "",
+          approach: data.approach ?? "",
+        };
+      });
       setSavedId(null);
       setStep(nextStep);
     } catch (e) {
@@ -1266,7 +1298,7 @@ const AdminVentas = () => {
 
   // Diagnóstico → Solución: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
-  const proceedToSolution = () => void runGeneration(3);
+  const proceedToSolution = () => void runGeneration(3, "solution");
 
   // Solución → Contrato: pasa a contrato (el guion de envío se pre-genera solo al entrar).
   const goToContract = () => {
