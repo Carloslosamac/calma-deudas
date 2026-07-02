@@ -212,15 +212,6 @@ const ENGAGEMENT_LEVELS: {
   { value: 3, color: "#d9534f", label: "Quiere colgar", hint: "«Me gustaría librarme de esta llamada cuanto antes.»" },
 ];
 
-// Señales de observación que ayudan al comercial a fijar el score.
-const ENGAGEMENT_SIGNALS = [
-  "Pregunta por precio o por cómo empezar",
-  "Hace preguntas sobre el proceso y los plazos",
-  "Comparte su situación con detalle y abre el tema",
-  "Pone pegas de tiempo o intenta acortar la llamada",
-  "Se muestra distante, con prisa o a la defensiva",
-];
-
 const emptyGuide = (): GuideFields => ({
   entities: [],
   debts: [],
