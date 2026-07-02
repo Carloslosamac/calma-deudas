@@ -477,13 +477,15 @@ const Section = ({
   subtitle,
   icon,
   children,
+  className,
 }: {
   title?: string;
   subtitle?: string;
   icon?: React.ReactNode;
   children: React.ReactNode;
+  className?: string;
 }) => (
-  <div className="space-y-2.5 border-t pt-3 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
+  <div className={`space-y-2.5 border-t pt-3 first:border-t-0 first:pt-0 ${className ?? ""}`} style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
     {(title || icon) && (
       <div className="flex items-center gap-2.5">
         {icon && (
