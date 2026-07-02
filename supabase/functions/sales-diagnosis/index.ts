@@ -603,7 +603,9 @@ Deno.serve(async (req) => {
           ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
           : phase === "reinforce"
             ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract)
-            : buildPrompt(caseText, guide, t, engagement, reactions, contract);
+            : phase === "solution"
+              ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution")
+              : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis");
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
