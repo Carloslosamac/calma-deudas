@@ -1684,8 +1684,8 @@ const AdminVentas = () => {
         {/* Fase 2: Cualificación */}
         {step === 1 && (
           <div className="space-y-4" style={phaseStyle(1)}>
-            <SectionCard
-              phase={1}
+            <PhaseCard phase={1}>
+            <Section
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
               subtitle="Cada entidad con su importe, cuota y si está en impago."
@@ -1798,9 +1798,9 @@ const AdminVentas = () => {
               )}
             </div>
               </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Empleo, ingresos y gastos">
+            <Section title="Empleo, ingresos y gastos">
               <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -1855,9 +1855,9 @@ const AdminVentas = () => {
               />
             </div>
               </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Vivienda">
+            <Section title="Vivienda">
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vivienda</Label>
@@ -1947,9 +1947,9 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Vehículo">
+            <Section title="Vehículo">
             {/* Vehículo */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vehículo</Label>
@@ -2035,10 +2035,10 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
-            </SectionCard>
+            </Section>
 
             {monthlyOutflow > 0 && (
-              <SectionCard phase={1} title="Resumen económico">
+              <Section title="Resumen económico">
               <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-semibold text-foreground">
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
@@ -2068,8 +2068,9 @@ const AdminVentas = () => {
                   </p>
                 )}
               </div>
-              </SectionCard>
+              </Section>
             )}
+            </PhaseCard>
 
             <EngagementGate
               value={engagement}
