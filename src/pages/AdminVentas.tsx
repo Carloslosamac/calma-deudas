@@ -477,6 +477,66 @@ const SectionCard = ({
   </Card>
 );
 
+// Card única de la fase: contenedor con borde/color de fase que envuelve todas
+// las secciones internas de esa fase (unicard).
+const PhaseCard = ({
+  phase,
+  children,
+  className,
+}: {
+  phase: number;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <Card
+    className={`phase-card space-y-6 border-l-4 p-6 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
+    style={phaseStyle(phase)}
+  >
+    {children}
+  </Card>
+);
+
+// Sección interna de una PhaseCard: título + contenido, separada de la anterior
+// por una línea sutil con el tono de la fase (no es una card independiente).
+const Section = ({
+  title,
+  subtitle,
+  icon,
+  children,
+}: {
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
+    {(title || icon) && (
+      <div className="flex items-center gap-2.5">
+        {icon && (
+          <span
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+            style={{
+              backgroundColor: "hsl(var(--phase) / 0.15)",
+              color: "hsl(var(--phase))",
+            }}
+          >
+            {icon}
+          </span>
+        )}
+        <div className="min-w-0">
+          {title && (
+            <h3 className="font-poppins text-sm font-bold leading-tight text-foreground">
+              {title}
+            </h3>
+          )}
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+        </div>
+      </div>
+    )}
+    {children}
+  </div>
+);
+
 type EngagementGateProps = {
   value: number;
   onChange: (v: number) => void;
