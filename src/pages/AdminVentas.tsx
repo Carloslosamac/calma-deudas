@@ -359,6 +359,7 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
 };
 
 const STEPS = [
+  "Presentación",
   "Cualificación",
   "Diagnóstico",
   "Solución",
@@ -368,6 +369,14 @@ const STEPS = [
 
 // Color propio por fase (clases literales para que Tailwind las detecte).
 const PHASE_THEMES = [
+  {
+    active: "bg-phase-presentation text-phase-presentation-foreground",
+    dot: "bg-phase-presentation",
+    text: "text-phase-presentation",
+    soft: "bg-phase-presentation-soft",
+    border: "border-phase-presentation",
+    var: "--phase-presentation",
+  },
   {
     active: "bg-phase-qualify text-phase-qualify-foreground",
     dot: "bg-phase-qualify",
