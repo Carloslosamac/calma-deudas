@@ -1657,7 +1657,7 @@ const AdminVentas = () => {
         </div>
 
         {/* Columna principal: fase activa + historial */}
-        <div className="min-w-0 lg:h-full lg:overflow-y-auto lg:pr-1">
+        <div className="min-w-0">
 
         {/* Fase 1: Presentación */}
         {step === 0 && (
