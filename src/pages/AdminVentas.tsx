@@ -1115,6 +1115,18 @@ const AdminVentas = () => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [session, loading, navigate]);
 
+  // Al cambiar de fase, reposiciona la sub-pantalla: 0 al avanzar, o la última
+  // de la fase si venimos de un "Atrás" que cruza el límite de fase.
+  useEffect(() => {
+    if (landOnLastRef.current != null) {
+      setSub(landOnLastRef.current);
+      landOnLastRef.current = null;
+    } else {
+      setSub(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
   const { data: cases } = useQuery({
     queryKey: ["sales-cases"],
     queryFn: fetchCases,
