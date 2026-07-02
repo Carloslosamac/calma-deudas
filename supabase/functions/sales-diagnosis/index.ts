@@ -307,8 +307,43 @@ function buildPrompt(
   engagement: number,
   reactions: string[],
   contract?: ContractInput,
+  target: "diagnosis" | "solution" = "diagnosis",
 ): string {
   const campos = buildCaseData(g);
+
+  const outputs =
+    target === "diagnosis"
+      ? `Genera TRES salidas en español de España (SOLO el diagnóstico, NO la solución):
+
+1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los MÁXIMOS posibles que sean REALES para ESTE caso (no rellenes con genéricos). Cada tarjeta es UNA consecuencia REAL y LEGALMENTE CORRECTA de NO actuar, ANCLADA en un dato del caso y respetando el ANÁLISIS LEGAL DE EMBARGABILIDAD de arriba (ej.: intereses de demora de [entidad] sobre los X €, ASNEF y bloqueo de crédito/alquiler, demanda/monitorio con costas, embargo de saldos/cuentas, embargo de devoluciones de Hacienda, embargo parcial de nómina SOLO si supera el SMI, retirada de vehículo financiado, acoso telefónico). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico ni legalmente falso.
+
+2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
+
+3. approach (string, máx 3 frases): instrucción TÁCTICA y concreta para el comercial: qué frase exacta decir para abrir el siguiente paso, qué objeción anticipar según las reacciones marcadas y cómo rebatirla, y qué pedir explícitamente. Nada de consejos genéricos de tono.
+
+REGLAS:
+- No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
+- ${SOURCE_OF_TRUTH_RULE}
+- ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
+- ${AUTHORITY_FRAME_RULE}
+- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), approach (string). Sin markdown, sin texto extra.`
+      : `Genera TRES salidas en español de España (SOLO la solución, NO el diagnóstico):
+
+1. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji", "title", "body" }, los máximos reales para este caso. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "se frenan los intereses de demora", "sales de ASNEF y vuelves a poder alquilar/financiar", "se paran las costas de la demanda"). Cada beneficio debe responder a una consecuencia previsible del diagnóstico. Incluye qué hace Calma exactamente y el siguiente paso. AL MENOS UNA tarjeta debe presentar el PRECIO y la GARANTÍA con las CONDICIONES REALES DEL CONTRATO (honorarios y cuota mensual frente a lo que hoy paga, provisión inicial, garantía comercial sin prometer exoneración total). Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
+
+2. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string en segunda persona que cita el importe total y/o las entidades del caso y describe el resultado CONCRETO en su situación, además del siguiente paso (análisis gratuito). Esperanza realista anclada en datos, no en clichés. Listo para copiar y pegar.
+
+3. approach (string, máx 3 frases): instrucción TÁCTICA y concreta para el comercial: qué frase exacta decir para abrir el siguiente paso, qué objeción anticipar según las reacciones marcadas y cómo rebatirla, y qué pedir explícitamente. Nada de consejos genéricos de tono.
+
+REGLAS:
+- No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
+- Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
+- ${SOURCE_OF_TRUTH_RULE}
+- ${ANTI_VAGUE_RULE}
+- ${DEFAULT_DEBTS_RULE}
+- ${AUTHORITY_FRAME_RULE}
+- Devuelve SOLO un objeto JSON válido con las claves: solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
 
   return `Eres el MEJOR closer de ventas de Calma, empresa española que ayuda a personas con deudas. Trabajas para el equipo comercial y tu trabajo es darle munición CONCRETA para cerrar, no rellenar fichas.
 
@@ -334,26 +369,7 @@ ${ENGAGEMENT_GUIDE[engagement] ?? ENGAGEMENT_GUIDE[1]}
 Adapta la INTENSIDAD del discurso (más fuerte o más suave), la longitud y el número de tarjetas a este nivel de engagement. El siguiente paso debe estar preparado en función de él.
 ${reactionsBlock(reactions)}
 
-Genera CINCO salidas en español de España:
-
-1. diagnosis_internal (GUION INTERNO para el comercial, en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji": string, "title": string, "body": string }, los MÁXIMOS posibles que sean REALES para ESTE caso (no rellenes con genéricos). Cada tarjeta es UNA consecuencia REAL y LEGALMENTE CORRECTA de NO actuar, ANCLADA en un dato del caso y respetando el ANÁLISIS LEGAL DE EMBARGABILIDAD de arriba (ej.: intereses de demora de [entidad] sobre los X €, ASNEF y bloqueo de crédito/alquiler, demanda/monitorio con costas, embargo de saldos/cuentas, embargo de devoluciones de Hacienda, embargo parcial de nómina SOLO si supera el SMI, retirada de vehículo financiado, acoso telefónico). El "title" es corto y contundente y cita el dato. El "body" es el argumento para el comercial CON la objeción a anticipar y cómo rebatirla. Nada genérico ni legalmente falso.
-
-2. diagnosis_client (TEXTO PARA ENVIAR AL CLIENTE por WhatsApp/email): un string en segunda persona ("tú") que menciona el importe total y/o las entidades reales del caso y la consecuencia concreta sobre SU situación. Honesto sobre la gravedad, sin frases de catálogo. Listo para copiar y pegar.
-
-3. solution_internal (GUION INTERNO en formato de TARJETAS): un ARRAY de 5 a 8 objetos { "emoji", "title", "body" }, los máximos reales para este caso. Cada tarjeta es UN BENEFICIO CONCRETO de la solución (${t.title}) aterrizado en los datos del caso (importes, entidades, cuota, nómina, vivienda/vehículo) y conectado con el dolor exacto del diagnóstico ("dejas de deber los X € a [entidad]", "se frenan los intereses de demora", "sales de ASNEF y vuelves a poder alquilar/financiar", "se paran las costas de la demanda"). Cada beneficio debe responder a una consecuencia del diagnóstico. Incluye qué hace Calma exactamente y el siguiente paso. AL MENOS UNA tarjeta debe presentar el PRECIO y la GARANTÍA con las CONDICIONES REALES DEL CONTRATO (honorarios y cuota mensual frente a lo que hoy paga, provisión inicial, garantía comercial sin prometer exoneración total). Emojis de alivio/acción (✅ 🛡️ 🤝 💸 📋 🚀). Cero promesas vagas.
-
-4. solution_client (TEXTO PARA ENVIAR AL CLIENTE): un string en segunda persona que cita el importe total y/o las entidades del caso y describe el resultado CONCRETO en su situación, además del siguiente paso (análisis gratuito). Esperanza realista anclada en datos, no en clichés. Listo para copiar y pegar.
-
-5. approach (string, máx 3 frases): instrucción TÁCTICA y concreta para el comercial: qué frase exacta decir para abrir el siguiente paso, qué objeción anticipar según las reacciones marcadas y cómo rebatirla, y qué pedir explícitamente. Nada de consejos genéricos de tono.
-
-REGLAS:
-- No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
-- Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
-- ${SOURCE_OF_TRUTH_RULE}
-- ${ANTI_VAGUE_RULE}
-- ${DEFAULT_DEBTS_RULE}
-- ${AUTHORITY_FRAME_RULE}
-- Devuelve SOLO un objeto JSON válido con las claves: diagnosis_internal (array de tarjetas), diagnosis_client (string), solution_internal (array de tarjetas), solution_client (string), approach (string). Sin markdown, sin texto extra.`;
+${outputs}`;
 }
 
 function reactionsBlock(reactions: string[]): string {
