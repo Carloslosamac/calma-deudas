@@ -777,7 +777,7 @@ const EngagementGate = ({
       {phrases && phrases.length > 0 && onTogglePhrase && (
         <div className="space-y-2 border-t border-border pt-3">
           <p className="text-xs font-semibold text-foreground">
-            ¿Cómo ha reaccionado? <span className="font-normal text-muted-foreground">(marca las frases que apliquen)</span>
+            ¿Cómo ha reaccionado?
           </p>
           <div className="flex flex-wrap gap-2">
             {phrases.map((p) => {
