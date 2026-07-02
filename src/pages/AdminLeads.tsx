@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -23,17 +24,27 @@ import {
   LogOut,
   Search,
   Trash2,
+  Play,
+  Pause,
+  SkipForward,
+  Timer,
+  Layers,
+  ChevronRight,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import {
   parseCsv,
   mapRowToLead,
   mapEmployment,
+  ZOHO_LEAD_STATUSES,
+  PENDING_STATUSES,
+  statusTone,
   type ParsedLead,
 } from "@/lib/leadsCsv";
 
 type LeadRow = {
   id: string;
+  batch_id: string | null;
   external_id: string | null;
   name: string | null;
   phone: string | null;
@@ -54,55 +65,60 @@ type LeadRow = {
   created_at: string;
 };
 
-const STATUS_OPTIONS = [
-  "Sin contactar",
-  "Contactado",
-  "No contesta",
-  "Interesado",
-  "Negociación",
-  "Cita",
-  "Ganado",
-  "No válido",
-  "Perdido",
-];
-
-const statusClass = (s: string): string => {
-  switch (s) {
-    case "Sin contactar":
-      return "bg-muted text-muted-foreground border-border";
-    case "Contactado":
-    case "Interesado":
-      return "bg-accent/10 text-accent-deep border-accent/20";
-    case "Negociación":
-    case "Cita":
-      return "bg-primary/10 text-primary border-primary/20";
-    case "Ganado":
-      return "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
-    case "No contesta":
-      return "bg-amber-500/10 text-amber-600 border-amber-500/20";
-    case "No válido":
-    case "Perdido":
-      return "bg-destructive/10 text-destructive border-destructive/20";
-    default:
-      return "bg-muted text-muted-foreground border-border";
-  }
+type BatchRow = {
+  id: string;
+  name: string;
+  lead_count: number;
+  created_at: string;
 };
 
 const eur = (n: number | null): string =>
   n == null ? "—" : new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
+
+const fmtTime = (s: number): string => {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`;
+};
+
+const isPending = (s: string) => PENDING_STATUSES.includes(s);
 
 const AdminLeads = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const fileRef = useRef<HTMLInputElement>(null);
+  const [importing, setImporting] = useState(false);
+
+  // Navegación entre "paquetes" y modo blitz.
+  const [activeBatch, setActiveBatch] = useState<string | null>(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
-  const [importing, setImporting] = useState(false);
+
+  // Temporizadores.
+  const [running, setRunning] = useState(true);
+  const [batchSecs, setBatchSecs] = useState(0);
+  const [callSecs, setCallSecs] = useState(0);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [loading, session, navigate]);
+
+  const { data: batches = [], refetch: refetchBatches } = useQuery({
+    queryKey: ["sales-lead-batches"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("sales_lead_batches")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as BatchRow[];
+    },
+    enabled: !!session && isAdmin,
+  });
 
   const { data: leads = [], refetch } = useQuery({
     queryKey: ["sales-leads"],
@@ -117,61 +133,71 @@ const AdminLeads = () => {
     enabled: !!session && isAdmin,
   });
 
+  // Ticks de los temporizadores mientras estamos en un paquete y no en pausa.
+  useEffect(() => {
+    if (!activeBatch || !running) return;
+    const t = setInterval(() => {
+      setBatchSecs((s) => s + 1);
+      setCallSecs((s) => s + 1);
+    }, 1000);
+    return () => clearInterval(t);
+  }, [activeBatch, running]);
+
   const handleFile = async (file: File) => {
     if (!session?.user.id) return;
     setImporting(true);
     try {
       const text = await file.text();
       const rows = parseCsv(text);
-      const parsed: ParsedLead[] = rows.map(mapRowToLead).filter((l) => l.name || l.phone);
+      const parsedAll: ParsedLead[] = rows.map(mapRowToLead).filter((l) => l.name || l.phone);
+      // Dedupe dentro del mismo CSV (por external_id o teléfono).
+      const seen = new Set<string>();
+      const parsed = parsedAll.filter((p) => {
+        const key = (p.external_id && "id:" + p.external_id) || (p.phone && "tel:" + p.phone) || "n:" + Math.random();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
       if (!parsed.length) {
         toast.error("No se encontraron leads válidos en el CSV.");
         return;
       }
 
-      // Leads existentes para respetar el estado ya editado y contar nuevos/actualizados.
-      const existing = new Map<string, LeadRow>();
-      leads.forEach((l) => {
-        if (l.external_id) existing.set("id:" + l.external_id, l);
-        if (l.phone) existing.set("tel:" + l.phone, l);
-      });
+      const batchName = file.name.replace(/\.csv$/i, "").trim() || "Paquete";
+      const { data: batch, error: batchErr } = await supabase
+        .from("sales_lead_batches")
+        .insert([{ name: batchName, lead_count: parsed.length, created_by: session.user.id }])
+        .select("id")
+        .single();
+      if (batchErr) throw batchErr;
 
-      const payload = parsed.map((p) => {
-        const prev =
-          (p.external_id && existing.get("id:" + p.external_id)) ||
-          (p.phone && existing.get("tel:" + p.phone)) ||
-          null;
-        return {
-          ...(prev ? { id: prev.id } : {}),
-          external_id: p.external_id,
-          name: p.name,
-          phone: p.phone,
-          email: p.email,
-          // Respeta el estado editado manualmente si el lead ya existía.
-          lead_status: prev ? prev.lead_status : p.lead_status,
-          debt: p.debt,
-          income: p.income,
-          expense: p.expense,
-          employment: p.employment,
-          housing: p.housing,
-          vehicle: p.vehicle,
-          is_default: p.is_default,
-          source: p.source,
-          appointment_at: p.appointment_at,
-          tier: p.tier,
-          raw: p.raw as never,
-          created_by: session.user.id,
-        };
-      });
+      const payload = parsed.map((p) => ({
+        batch_id: batch.id,
+        external_id: p.external_id,
+        name: p.name,
+        phone: p.phone,
+        email: p.email,
+        lead_status: p.lead_status,
+        debt: p.debt,
+        income: p.income,
+        expense: p.expense,
+        employment: p.employment,
+        housing: p.housing,
+        vehicle: p.vehicle,
+        is_default: p.is_default,
+        source: p.source,
+        appointment_at: p.appointment_at,
+        tier: p.tier,
+        raw: p.raw as never,
+        created_by: session.user.id,
+      }));
 
-      const news = payload.filter((p) => !("id" in p)).length;
-      const updates = payload.length - news;
-
-      const { error } = await supabase.from("sales_leads").upsert(payload);
+      const { error } = await supabase.from("sales_leads").insert(payload);
       if (error) throw error;
 
-      toast.success(`Importación completada: ${news} nuevos, ${updates} actualizados.`);
+      toast.success(`Paquete "${batchName}" creado con ${parsed.length} leads.`);
       refetch();
+      refetchBatches();
     } catch (e) {
       console.error(e);
       toast.error("No se pudo importar el CSV.");
@@ -201,8 +227,20 @@ const AdminLeads = () => {
     refetch();
   };
 
+  const removeBatch = async (b: BatchRow) => {
+    if (!confirm(`¿Eliminar el paquete "${b.name}" y todos sus leads?`)) return;
+    await supabase.from("sales_leads").delete().eq("batch_id", b.id);
+    const { error } = await supabase.from("sales_lead_batches").delete().eq("id", b.id);
+    if (error) {
+      toast.error("No se pudo eliminar el paquete");
+      return;
+    }
+    if (activeBatch === b.id) setActiveBatch(null);
+    refetch();
+    refetchBatches();
+  };
+
   const openInVentas = (l: LeadRow) => {
-    if (l.phone) window.open(`tel:${l.phone}`, "_self");
     navigate("/admin/ventas", {
       state: {
         lead: {
@@ -222,9 +260,15 @@ const AdminLeads = () => {
     });
   };
 
+  // Leads del paquete activo.
+  const batchLeads = useMemo(
+    () => leads.filter((l) => l.batch_id === activeBatch),
+    [leads, activeBatch],
+  );
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = leads;
+    let list = batchLeads;
     if (statusFilter !== "todos") list = list.filter((l) => l.lead_status === statusFilter);
     if (q)
       list = list.filter(
@@ -232,15 +276,30 @@ const AdminLeads = () => {
           (l.name || "").toLowerCase().includes(q) ||
           (l.phone || "").toLowerCase().includes(q),
       );
-    // "Sin contactar" primero, resto por fecha (ya vienen ordenados desc).
-    return [...list].sort((a, b) => {
-      const au = a.lead_status === "Sin contactar" ? 0 : 1;
-      const bu = b.lead_status === "Sin contactar" ? 0 : 1;
-      return au - bu;
-    });
-  }, [leads, query, statusFilter]);
+    // Pendientes primero.
+    return [...list].sort((a, b) => Number(!isPending(a.lead_status)) - Number(!isPending(b.lead_status)));
+  }, [batchLeads, query, statusFilter]);
 
-  const pending = leads.filter((l) => l.lead_status === "Sin contactar").length;
+  const current = filtered[currentIdx] ?? null;
+
+  const enterBatch = (id: string) => {
+    setActiveBatch(id);
+    setCurrentIdx(0);
+    setQuery("");
+    setStatusFilter("todos");
+    setBatchSecs(0);
+    setCallSecs(0);
+    setRunning(true);
+  };
+
+  const nextLead = () => {
+    setCallSecs(0);
+    setCurrentIdx((i) => Math.min(i + 1, Math.max(filtered.length - 1, 0)));
+  };
+  const prevLead = () => {
+    setCallSecs(0);
+    setCurrentIdx((i) => Math.max(i - 1, 0));
+  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -263,61 +322,261 @@ const AdminLeads = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-background px-4 py-8 sm:px-6">
-      <Seo title="Lista de llamadas" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/ventas/leads" />
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-2 flex items-center justify-between">
-          <Link to="/admin/ventas" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="h-4 w-4" /> Herramienta de ventas
-          </Link>
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" /> Salir
-          </Button>
-        </div>
+  const activeBatchRow = batches.find((b) => b.id === activeBatch) ?? null;
 
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-poppins text-2xl font-semibold text-foreground">Lista de llamadas</h1>
-            <p className="text-sm text-muted-foreground">
-              {leads.length} leads · {pending} sin contactar
-            </p>
+  // ============= Vista de paquetes =============
+  if (!activeBatch) {
+    return (
+      <div className="min-h-screen bg-background px-4 py-8 sm:px-6">
+        <Seo title="Paquetes de llamadas" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/ventas/leads" />
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-2 flex items-center justify-between">
+            <Link to="/admin/ventas" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="h-4 w-4" /> Herramienta de ventas
+            </Link>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" /> Salir
+            </Button>
           </div>
-          <div>
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".csv,text/csv"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) void handleFile(f);
-              }}
-            />
-            <Button onClick={() => fileRef.current?.click()} disabled={importing}>
-              <Upload className="mr-2 h-4 w-4" />
-              {importing ? "Importando…" : "Subir CSV"}
+
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="font-poppins text-2xl font-semibold text-foreground">Paquetes de llamadas</h1>
+              <p className="text-sm text-muted-foreground">
+                {batches.length} paquetes · sube un CSV para crear uno nuevo
+              </p>
+            </div>
+            <div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".csv,text/csv"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void handleFile(f);
+                }}
+              />
+              <Button onClick={() => fileRef.current?.click()} disabled={importing}>
+                <Upload className="mr-2 h-4 w-4" />
+                {importing ? "Importando…" : "Nuevo paquete (CSV)"}
+              </Button>
+            </div>
+          </div>
+
+          {batches.length === 0 ? (
+            <Card className="p-10 text-center text-sm text-muted-foreground">
+              Aún no hay paquetes. Sube un CSV para empezar a llamar.
+            </Card>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {batches.map((b) => {
+                const bl = leads.filter((l) => l.batch_id === b.id);
+                const total = bl.length || b.lead_count;
+                const done = bl.filter((l) => !isPending(l.lead_status)).length;
+                const pct = total ? Math.round((done / total) * 100) : 0;
+                return (
+                  <Card key={b.id} className="flex flex-col gap-3 p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <Layers className="h-4 w-4 text-primary" />
+                        <div className="font-medium text-foreground">{b.name}</div>
+                      </div>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        onClick={() => void removeBatch(b)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {done}/{total} gestionados · {new Date(b.created_at).toLocaleDateString("es-ES")}
+                    </div>
+                    <Progress value={pct} className="h-1.5" />
+                    <Button className="mt-1 w-full" onClick={() => enterBatch(b.id)} disabled={total === 0}>
+                      <Play className="mr-2 h-4 w-4" /> Empezar a llamar
+                      <ChevronRight className="ml-auto h-4 w-4" />
+                    </Button>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ============= Modo blitz (paquete activo) =============
+  const doneCount = batchLeads.filter((l) => !isPending(l.lead_status)).length;
+  const totalCount = batchLeads.length;
+  const pct = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Seo title="Llamadas en curso" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/ventas/leads" />
+
+      {/* Barra superior con temporizadores */}
+      <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-3 px-4 py-3">
+          <Button variant="ghost" size="sm" onClick={() => setActiveBatch(null)}>
+            <ArrowLeft className="mr-1.5 h-4 w-4" /> Paquetes
+          </Button>
+          <div className="min-w-0 flex-1">
+            <div className="truncate font-medium text-foreground">{activeBatchRow?.name}</div>
+            <div className="text-xs text-muted-foreground">
+              {doneCount}/{totalCount} gestionados · {pct}%
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg border border-border px-2.5 py-1 text-center">
+              <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Paquete</div>
+              <div className="font-mono text-sm font-semibold text-foreground">{fmtTime(batchSecs)}</div>
+            </div>
+            <div className="rounded-lg border border-primary/30 bg-primary/5 px-2.5 py-1 text-center">
+              <div className="text-[10px] uppercase tracking-wide text-primary">Llamada</div>
+              <div className="font-mono text-sm font-semibold text-primary">{fmtTime(callSecs)}</div>
+            </div>
+            <Button size="icon" variant="outline" className="h-9 w-9" onClick={() => setRunning((r) => !r)}>
+              {running ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
             </Button>
           </div>
         </div>
+        <Progress value={pct} className="h-1 rounded-none" />
+      </div>
 
-        <div className="mb-4 flex flex-wrap gap-3">
+      <div className="mx-auto max-w-4xl px-4 py-6">
+        {/* Tarjeta del lead actual */}
+        {current ? (
+          <Card className="mb-6 p-6">
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <div className="text-xs text-muted-foreground">
+                  Lead {currentIdx + 1} de {filtered.length}
+                </div>
+                <div className="mt-0.5 font-poppins text-2xl font-semibold text-foreground">
+                  {current.name || "Sin nombre"}
+                </div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  {current.phone || "Sin teléfono"}
+                  {current.source ? ` · ${current.source}` : ""}
+                </div>
+              </div>
+              {current.appointment_at ? (
+                <Badge variant="outline" className="bg-primary/5 text-primary">
+                  Cita: {current.appointment_at}
+                </Badge>
+              ) : null}
+            </div>
+
+            <div className="mb-5 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+              <div>
+                <div className="text-xs text-muted-foreground">Deuda</div>
+                <div className="font-medium text-foreground">
+                  {eur(current.debt)}
+                  {current.is_default ? <span className="ml-1 text-destructive">· impago</span> : null}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Ingresos</div>
+                <div className="font-medium text-foreground">{eur(current.income)}</div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Gastos</div>
+                <div className="font-medium text-foreground">{eur(current.expense)}</div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Laboral</div>
+                <div className="font-medium text-foreground">{current.employment || "—"}</div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {current.phone ? (
+                <Button size="lg" onClick={() => window.open(`tel:${current.phone}`, "_self")}>
+                  <Phone className="mr-2 h-4 w-4" /> Llamar
+                </Button>
+              ) : null}
+              <Button size="lg" variant="outline" onClick={() => openInVentas(current)}>
+                Abrir en ventas
+              </Button>
+              {current.phone ? (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-11 w-11"
+                  onClick={() => {
+                    navigator.clipboard.writeText(current.phone!);
+                    toast.success("Teléfono copiado");
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              ) : null}
+
+              <div className="ml-auto flex items-center gap-2">
+                <Select value={current.lead_status} onValueChange={(v) => void updateStatus(current.id, v)}>
+                  <SelectTrigger className={`h-11 w-[210px] ${statusTone(current.lead_status)}`}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[320px]">
+                    {ZOHO_LEAD_STATUSES.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {s}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+              <Button variant="ghost" onClick={prevLead} disabled={currentIdx === 0}>
+                <ArrowLeft className="mr-1.5 h-4 w-4" /> Anterior
+              </Button>
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Timer className="h-3.5 w-3.5" /> Llamada: {fmtTime(callSecs)}
+              </div>
+              <Button onClick={nextLead} disabled={currentIdx >= filtered.length - 1}>
+                Siguiente lead <SkipForward className="ml-1.5 h-4 w-4" />
+              </Button>
+            </div>
+          </Card>
+        ) : (
+          <Card className="mb-6 p-10 text-center text-sm text-muted-foreground">
+            No hay leads que coincidan con el filtro en este paquete.
+          </Card>
+        )}
+
+        {/* Filtros + lista completa del paquete */}
+        <div className="mb-3 flex flex-wrap gap-3">
           <div className="relative min-w-[220px] flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setCurrentIdx(0);
+              }}
               placeholder="Buscar por nombre o teléfono…"
               className="pl-9"
             />
           </div>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
+          <Select
+            value={statusFilter}
+            onValueChange={(v) => {
+              setStatusFilter(v);
+              setCurrentIdx(0);
+            }}
+          >
+            <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Estado" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[320px]">
               <SelectItem value="todos">Todos los estados</SelectItem>
-              {STATUS_OPTIONS.map((s) => (
+              {ZOHO_LEAD_STATUSES.map((s) => (
                 <SelectItem key={s} value={s}>
                   {s}
                 </SelectItem>
@@ -326,78 +585,36 @@ const AdminLeads = () => {
           </Select>
         </div>
 
-        {filtered.length === 0 ? (
-          <Card className="p-10 text-center text-sm text-muted-foreground">
-            {leads.length === 0
-              ? "Aún no hay leads. Sube un CSV para empezar a llamar."
-              : "No hay leads que coincidan con el filtro."}
-          </Card>
-        ) : (
-          <div className="space-y-2">
-            {filtered.map((l) => (
-              <Card key={l.id} className="flex flex-wrap items-center gap-3 p-3">
-                <div className="min-w-[160px] flex-1">
-                  <div className="font-medium text-foreground">{l.name || "Sin nombre"}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {l.phone || "Sin teléfono"}
-                    {l.source ? ` · ${l.source}` : ""}
-                  </div>
-                </div>
-
-                <div className="text-xs text-muted-foreground">
-                  Deuda <span className="font-medium text-foreground">{eur(l.debt)}</span>
-                  {l.is_default ? <span className="ml-2 text-destructive">impago</span> : null}
-                </div>
-
-                {l.appointment_at ? (
-                  <Badge variant="outline" className="bg-primary/5 text-xs text-primary">
-                    Cita: {l.appointment_at}
-                  </Badge>
-                ) : null}
-
-                <Select value={l.lead_status} onValueChange={(v) => void updateStatus(l.id, v)}>
-                  <SelectTrigger className={`h-8 w-[150px] text-xs ${statusClass(l.lead_status)}`}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {STATUS_OPTIONS.map((s) => (
-                      <SelectItem key={s} value={s}>
-                        {s}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <div className="flex items-center gap-1">
-                  <Button size="sm" onClick={() => openInVentas(l)} disabled={!l.phone && !l.name}>
-                    <Phone className="mr-1.5 h-3.5 w-3.5" /> Llamar
-                  </Button>
-                  {l.phone ? (
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8"
-                      onClick={() => {
-                        navigator.clipboard.writeText(l.phone!);
-                        toast.success("Teléfono copiado");
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  ) : null}
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                    onClick={() => void removeLead(l.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
+        <div className="space-y-1.5">
+          {filtered.map((l, idx) => (
+            <button
+              key={l.id}
+              onClick={() => {
+                setCurrentIdx(idx);
+                setCallSecs(0);
+              }}
+              className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left transition-colors ${
+                idx === currentIdx ? "border-primary bg-primary/5" : "border-border hover:bg-muted/50"
+              }`}
+            >
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium text-foreground">{l.name || "Sin nombre"}</div>
+                <div className="truncate text-xs text-muted-foreground">{l.phone || "Sin teléfono"}</div>
+              </div>
+              <div className="hidden text-xs text-muted-foreground sm:block">{eur(l.debt)}</div>
+              <Badge variant="outline" className={`text-[10px] ${statusTone(l.lead_status)}`}>
+                {l.lead_status}
+              </Badge>
+              <Trash2
+                className="h-4 w-4 shrink-0 text-muted-foreground hover:text-destructive"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  void removeLead(l.id);
+                }}
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
