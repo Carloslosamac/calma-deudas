@@ -837,7 +837,6 @@ const EngagementGate = ({
               </>
             )}
           </Button>
-          <ReinforceBlock data={reinforceData} />
         </div>
       )}
 
@@ -1702,6 +1701,18 @@ const AdminVentas = () => {
 
         const screens: Screen[] = [];
 
+        // Refuerzo: si se ha generado refuerzo para esta fase, sus guiones
+        // entran como pantallas más del flujo typeform (antes del gate),
+        // en lugar de renderizarse "a la antigua" debajo del gate.
+        const pushGate = () => {
+          const r = reinforceByStep[step];
+          if (r) {
+            r.internal.forEach((c, i) => screens.push(scriptScreen("reinforce-" + i, c)));
+            if (r.client) screens.push(clientScreen("reinforce-client", r.client));
+          }
+          screens.push(gate);
+        };
+
         if (step === 0) {
           PRESENTATION_SCRIPTS.forEach((s, i) =>
             screens.push({
@@ -1730,7 +1741,7 @@ const AdminVentas = () => {
               ),
             }),
           );
-          screens.push(gate);
+          pushGate();
         } else if (step === 1) {
           // Datos del caso
           screens.push({
@@ -2143,13 +2154,19 @@ const AdminVentas = () => {
                       </p>
                     )}
                     {guide.monthlyIncome != null && (
-                      <p
-                        className={"text-xs font-medium " + (guide.monthlyIncome - monthlyOutflow < 0 ? "text-destructive" : "text-foreground/80")}
-                      >
-                        {guide.monthlyIncome - monthlyOutflow < 0
-                          ? "Le faltan " + Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes para llegar (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"
-                          : "Le quedan " + (guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes tras pagos (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"}
-                      </p>
+                      (() => {
+                        // Compromiso real total: lo que paga + las cuotas que ya
+                        // impaga (esas deudas siguen siendo suyas y debería pagarlas).
+                        const totalCommitment = monthlyOutflow + debtsMonthlyDefaulted;
+                        const gap = guide.monthlyIncome - totalCommitment;
+                        return (
+                          <p className={"text-xs font-medium " + (gap < 0 ? "text-destructive" : "text-foreground/80")}>
+                            {gap < 0
+                              ? "Le faltan " + Math.abs(gap).toLocaleString("es-ES") + " €/mes para cubrir todas sus cuotas (incluidas las impagadas), con ingresos de " + guide.monthlyIncome.toLocaleString("es-ES") + " €"
+                              : "Le quedan " + gap.toLocaleString("es-ES") + " €/mes tras cubrir todas sus cuotas (incluidas las impagadas), con ingresos de " + guide.monthlyIncome.toLocaleString("es-ES") + " €"}
+                          </p>
+                        );
+                      })()
                     )}
                   </div>
                 ) : (
@@ -2160,7 +2177,7 @@ const AdminVentas = () => {
               </div>
             ),
           });
-          screens.push(gate);
+          pushGate();
         } else if (result) {
           if (step === 2) {
             if (paymentCapacity != null) {
@@ -2184,13 +2201,13 @@ const AdminVentas = () => {
                       </div>
                       <div>
                         <p className="text-xs text-muted-foreground">Capacidad libre</p>
-                        <p className={"font-semibold " + (paymentCapacity < 0 ? "text-destructive" : "text-phase-solution")}>
+                        <p className={"font-semibold " + (paymentCapacity < 0 ? "text-destructive" : "text-foreground")}>
                           {paymentCapacity.toLocaleString("es-ES")} €
                         </p>
                       </div>
                       <div>
                         <p className="text-xs text-muted-foreground">Cuota asumible</p>
-                        <p className="font-semibold text-accent">{(affordablePayment ?? 0).toLocaleString("es-ES")} €</p>
+                        <p className="font-semibold text-phase-solution">{(affordablePayment ?? 0).toLocaleString("es-ES")} €</p>
                       </div>
                     </div>
                   </div>
@@ -2285,7 +2302,7 @@ const AdminVentas = () => {
               ),
             });
           }
-          screens.push(gate);
+          pushGate();
         } else {
           screens.push({
             key: "noresult",
