@@ -2561,36 +2561,6 @@ const AdminVentas = () => {
             </div>
           </Card>
         )}
-
-        {/* Historial */}
-        <div className="mt-10">
-          <h2 className="mb-3 flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
-            <ClipboardList className="h-5 w-5" /> Historial de casos
-          </h2>
-          <div className="space-y-2">
-            {(cases ?? []).length === 0 && (
-              <p className="text-sm text-muted-foreground">Aún no hay casos guardados.</p>
-            )}
-            {(cases ?? []).map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => openCase(c)}
-                className="flex w-full items-center justify-between rounded-lg border border-border bg-card px-4 py-3 text-left transition-colors hover:border-accent"
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">{c.label}</p>
-                  <p className="text-xs text-muted-foreground">{formatDate(c.created_at)}</p>
-                </div>
-                {c.triage_title && (
-                  <Badge variant="outline" className="ml-2 shrink-0">
-                    {c.triage_title}
-                  </Badge>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
         </div>{/* /columna principal */}
         </div>{/* /grid desktop */}
       </div>
