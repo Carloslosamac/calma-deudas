@@ -1603,11 +1603,11 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start lg:gap-5">
+        <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[340px_minmax(0,1fr)] lg:items-stretch lg:gap-6">
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
             En móvil va pegada arriba a lo ancho; en desktop se convierte en una
             columna lateral fija para liberar espacio vertical. */}
-        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:rounded-xl lg:border lg:px-4 lg:py-3 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
+        <div className="sticky top-0 z-20 -mx-4 mb-4 flex flex-col border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:h-full lg:rounded-xl lg:border lg:px-4 lg:py-3 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
           <ConversionChart
             steps={STEPS}
             currentStep={step}
@@ -1650,7 +1650,7 @@ const AdminVentas = () => {
 
           {/* Gate de engagement en la columna izquierda (solo desktop). */}
           {currentEngagementGate && (
-            <div className="mt-3 hidden lg:block" style={phaseStyle(step)}>
+            <div className="mt-3 hidden lg:block lg:mt-auto lg:pt-3" style={phaseStyle(step)}>
               {currentEngagementGate}
             </div>
           )}
