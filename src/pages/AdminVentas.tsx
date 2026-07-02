@@ -538,13 +538,32 @@ const CaseFactsPanel = ({
   onAddFact: () => void;
   onRemoveFact: (i: number) => void;
 }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   return (
     <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+      {/* Añadir dato: siempre visible */}
+      <div className="flex gap-2">
+        <Input
+          value={newFact}
+          onChange={(e) => onNewFactChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onAddFact();
+            }
+          }}
+          placeholder="Añadir dato relevante y pulsa Enter…"
+        />
+        <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Datos del caso: siempre minimizados (colapsados por defecto) */}
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-2 text-left"
+        className="mt-3 flex w-full items-center justify-between gap-2 text-left"
       >
         <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
           <ClipboardList className="h-4 w-4 text-muted-foreground" />
@@ -572,22 +591,6 @@ const CaseFactsPanel = ({
             onChange={(e) => onLabelChange(e.target.value)}
             placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
           />
-          <div className="flex gap-2">
-            <Input
-              value={newFact}
-              onChange={(e) => onNewFactChange(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  onAddFact();
-                }
-              }}
-              placeholder="Añadir dato relevante y pulsa Enter…"
-            />
-            <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
           {facts.length === 0 ? (
             <p className="text-xs text-muted-foreground">
               Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
