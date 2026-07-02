@@ -2548,7 +2548,14 @@ const AdminVentas = () => {
               <div className="rounded-lg border border-border p-4 text-center text-sm text-muted-foreground">
                 Genera el guion de cierre de firma.
                 <div className="mt-2">
-                  <Button size="sm" onClick={() => void runPhase("signing")} disabled={generating}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="hover:opacity-90"
+                    style={phasePrimaryBtn}
+                    onClick={() => void runPhase("signing")}
+                    disabled={generating}
+                  >
                     {generating ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -2585,7 +2592,13 @@ const AdminVentas = () => {
               <Button variant="outline" onClick={() => setStep(4)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
               </Button>
-              <Button onClick={saveCase} disabled={saving || !!savedId}>
+              <Button
+                variant="outline"
+                className="hover:opacity-90"
+                style={phasePrimaryBtn}
+                onClick={saveCase}
+                disabled={saving || !!savedId}
+              >
                 {saving ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
