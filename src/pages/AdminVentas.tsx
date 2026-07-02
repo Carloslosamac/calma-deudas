@@ -451,6 +451,20 @@ const phaseStyle = (i: number) =>
     ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
   }) as React.CSSProperties;
 
+// Jerarquía de botones dentro de las cards, coherente con el color de la fase:
+// - primario (avanzar / acción principal): relleno sólido con el color de fase.
+// - secundario (añadir, copiar, acciones de apoyo): contorno teñido de fase.
+// Ambos usan la variable local `--phase`, así cada card mantiene su tono.
+const phasePrimaryBtn: React.CSSProperties = {
+  backgroundColor: "hsl(var(--phase))",
+  borderColor: "hsl(var(--phase))",
+  color: "hsl(var(--phase-fg))",
+};
+const phaseOutlineBtn: React.CSSProperties = {
+  borderColor: "hsl(var(--phase) / 0.5)",
+  color: "hsl(var(--phase))",
+};
+
 // Card única de la fase: contenedor con borde/color de fase que envuelve todas
 // las secciones internas de esa fase (unicard).
 const PhaseCard = ({
@@ -829,7 +843,13 @@ const EngagementGate = ({
         </div>
       )}
 
-      <Button onClick={onContinue} disabled={loading} className="w-full">
+      <Button
+        onClick={onContinue}
+        disabled={loading}
+        variant="outline"
+        className="w-full hover:opacity-90"
+        style={phasePrimaryBtn}
+      >
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando...
@@ -1767,7 +1787,7 @@ const AdminVentas = () => {
                     {guide.debts.length} entidades
                   </span>
                 )}
-                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" onClick={addDebt}>
+                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" style={phaseOutlineBtn} onClick={addDebt}>
                   <Plus className="mr-1 h-3.5 w-3.5" /> Añadir entidad
                 </Button>
               </div>
@@ -1833,7 +1853,7 @@ const AdminVentas = () => {
                             d.isDefault === o.v
                               ? o.v
                                 ? "bg-destructive text-destructive-foreground"
-                                : "bg-phase-solution text-white"
+                              : "bg-muted-foreground text-background"
                               : "bg-background text-muted-foreground hover:bg-muted"
                           }`}
                         >
@@ -1941,8 +1961,10 @@ const AdminVentas = () => {
                   <Button
                     key={h}
                     type="button"
-                    variant={guide.housing === h ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={guide.housing === h ? "hover:opacity-90" : undefined}
+                    style={guide.housing === h ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() =>
                       setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))
                     }
@@ -2035,8 +2057,10 @@ const AdminVentas = () => {
                   <Button
                     key={v}
                     type="button"
-                    variant={guide.vehicle === v ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={guide.vehicle === v ? "hover:opacity-90" : undefined}
+                    style={guide.vehicle === v ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() =>
                       setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))
                     }
@@ -2169,8 +2193,10 @@ const AdminVentas = () => {
               {qualStep < 4 && (
                 <Button
                   type="button"
-                  variant="orange"
+                  variant="outline"
                   size="sm"
+                  className="hover:opacity-90"
+                  style={phasePrimaryBtn}
                   onClick={() => setQualStep((q) => Math.min(4, q + 1))}
                 >
                   Siguiente <ArrowRight className="ml-1 h-4 w-4" />
@@ -2443,6 +2469,9 @@ const AdminVentas = () => {
 
             <div className="flex flex-wrap gap-2">
               <Button
+                variant="outline"
+                className="hover:opacity-90"
+                style={phasePrimaryBtn}
                 onClick={() => {
                   if (!contract.fullName.trim()) {
                     toast.error("Indica al menos el nombre del firmante.");
@@ -2460,6 +2489,7 @@ const AdminVentas = () => {
                 variant="outline"
                 onClick={() => void runPhase("contract_message")}
                 disabled={generating}
+                style={phaseOutlineBtn}
               >
                 {generating ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -2518,7 +2548,14 @@ const AdminVentas = () => {
               <div className="rounded-lg border border-border p-4 text-center text-sm text-muted-foreground">
                 Genera el guion de cierre de firma.
                 <div className="mt-2">
-                  <Button size="sm" onClick={() => void runPhase("signing")} disabled={generating}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="hover:opacity-90"
+                    style={phasePrimaryBtn}
+                    onClick={() => void runPhase("signing")}
+                    disabled={generating}
+                  >
                     {generating ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -2539,8 +2576,10 @@ const AdminVentas = () => {
                   <Button
                     key={o.value}
                     type="button"
-                    variant={signatureStatus === o.value ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={signatureStatus === o.value ? "hover:opacity-90" : undefined}
+                    style={signatureStatus === o.value ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() => setSignatureStatus(o.value)}
                   >
                     {o.label}
@@ -2553,7 +2592,13 @@ const AdminVentas = () => {
               <Button variant="outline" onClick={() => setStep(4)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
               </Button>
-              <Button onClick={saveCase} disabled={saving || !!savedId}>
+              <Button
+                variant="outline"
+                className="hover:opacity-90"
+                style={phasePrimaryBtn}
+                onClick={saveCase}
+                disabled={saving || !!savedId}
+              >
                 {saving ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
