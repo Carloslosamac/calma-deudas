@@ -1,63 +1,66 @@
-## Objetivo
+# Plan: siguiente empujón SEO (3 frentes)
 
-Dos frentes en paralelo, con mezcla de quick wins y mejora estructural:
-1. **Cerrar el panel de indexación** — que los números cuadren y signifiquen algo claro.
-2. **Subir posiciones SEO** — reforzar las páginas que ya reciben impresiones (pos. 50-90) y consolidar las que ya rankean (pos. 2-3).
+Basado en datos reales de Search Console (últimos 28 días). Las ciudades con tracción real resultaron ser distintas de las que teníamos codificadas.
 
----
-
-## Frente 1 — Panel de indexación coherente
-
-### El problema real
-El panel usa un único campo `done` con dos significados a la vez:
-- "La he solicitado manualmente en Search Console" (lo marcas tú con el check).
-- "Google dice que está indexada" (lo escribe el proceso automático).
-
-El cron/`gsc-index-status` hace `done = indexed`, así que pisa tus marcas manuales. Por eso el contador de arriba ("X de 214 solicitadas") no cuadra con el desglose de abajo ("indexadas / no indexadas / sin comprobar"). Hoy hay 43 inspeccionadas (27 indexadas, 10 no, 6 sin veredicto) pero 32 marcadas como "done".
-
-### Solución
-Separar los dos conceptos para que cada número signifique una sola cosa:
-
-- **`requested` (manual)**: solo lo cambias tú con el check. El proceso automático **no lo toca**.
-- **`indexed` (real, de Google)**: solo lo escribe la inspección automática.
-
-Cambios:
-1. **Migración**: añadir columna `requested` (boolean) + `requested_at` a `seo_index_checks`; copiar a `requested` las marcas manuales actuales (las que tienen `done_at` pero no provienen de inspección no se pueden distinguir perfectamente; se hace mejor esfuerzo: `requested = done`). El proceso automático deja de escribir `done`.
-2. **Edge function `gsc-index-status`**: dejar de escribir `done`/`done_at`. Solo actualiza `indexed`, `verdict`, `coverage_state`, `last_crawl_time`, `last_inspected_at`.
-3. **Panel `/admin/indexacion`**: reescribir el resumen para que sea inequívoco:
-   - Tarjeta 1 — **Solicitudes manuales**: "X de 214 solicitadas en GSC" (campo `requested`), barra de progreso. Esto es tu checklist de trabajo.
-   - Tarjeta 2 — **Estado real en Google**: "Indexadas: 27 · No indexadas: 10 · Sin comprobar: 177" (campo `indexed`). Cuadrará siempre: indexadas + no_indexadas + sin_comprobar = 214.
-   - El check de cada fila controla `requested`; el badge (Indexada / No indexada) refleja `indexed`. Conceptos visualmente separados.
-4. Texto de ayuda actualizado para explicar la diferencia entre las dos columnas.
-
-Resultado: dos contadores que nunca se contradicen.
+## Datos que mandan (GSC, impresiones · posición)
+- a-coruña 122·59 · almería 79·67 · vigo 75·63 · murcia 72·78 · **donostia 70·47** · barcelona 63·84 · burgos 50·62 · sevilla 46·92 · granada 42·65 · oviedo 41·72 · alicante 34·91 · valencia 32·80 · las-palmas 20·60 · santander 13·50 · palma 12·66 · gijón 10·53
+- Entidades ya en página 1 sin clics: **ING (pos 9.1, 53 impr)**, **imagin-card (pos 8.9, 39 impr)** → oro para CTR.
+- Home pos 5.4 con 72 impr y solo 4 clics.
 
 ---
 
-## Frente 2 — Subir posiciones SEO
+## Frente A — Subir posiciones locales
 
-Estrategia: concentrar autoridad interna en las páginas que **ya tienen impresiones** para empujarlas de página 5-9 a página 1, y blindar las que ya ganan.
+**A1. Corregir la lista de ciudades con tracción (bug de datos).**
+`TRACTION_CITIES` en `LocalizacionPage.tsx` hoy es una suposición (granada, a-coruna, barcelona, sevilla, almeria, murcia, vigo). Sustituir por la lista real ordenada por impresiones, añadiendo las que faltan: **donostia, burgos, oviedo, alicante, valencia, las-palmas, santander, palma, gijón**. Esto reorienta el enlazado interno hacia las páginas que de verdad pueden subir.
 
-### Quick wins (esta semana)
-1. **Enlazado interno dirigido**: añadir enlaces contextuales desde las páginas fuertes (home pos. 2,9; `/reunificar-deudas`; `/asnef/salir-de-asnef`) y desde el cluster LSO hacia las **páginas locales con tracción** (Granada, A Coruña, Barcelona, Sevilla, Almería, Murcia, Vigo). Usar `internalLinks.ts` + `RelatedResources`, respetando las reglas anti-canibalización ya definidas.
-2. **CTR en SERP**: revisar y reescribir títulos/meta de las páginas locales que ya reciben impresiones para ganar clics mientras suben (patrón ya acordado: hook diferenciador, <60 / <160, sin "| Calma").
-3. **Página modelo (Granada)**: enriquecer la localización con más contenido único (datos locales, FAQ específica, prueba social) y usarla como plantilla para el resto del cluster local.
+**A2. Arreglar el duplicado de trailing slash.**
+Barcelona indexa como `/barcelona` y `/barcelona/` a la vez, partiendo señales. Añadir una redirección/canonicalización sin barra final (revisar `ScrollToTop`/router y confirmar que el canonical siempre va sin `/`). Aplica a todo el cluster local.
 
-### Mejora estructural
-4. **Profundidad de contenido en el cluster local**: las páginas locales son casi idénticas salvo el nombre de ciudad → Google las posiciona bajo. Añadir bloques de contenido genuinamente local (juzgados de lo mercantil de la zona, datos, casos cercanos) a las ciudades con impresiones para diferenciarlas.
-5. **Bloques de respuesta directa (AEO)** en las locales y money pages que aún no los tengan, para captar featured snippets / respuestas IA.
-6. **Verificación**: tras los cambios, reenviar sitemap, lanzar IndexNow para las URLs tocadas y comprobar estado en el panel ya saneado.
+**A3. Profundizar contenido único en las 6-8 ciudades top.**
+Las locales comparten armazón con variantes → Google las hunde. Para a-coruña, almería, vigo, murcia, donostia, barcelona, burgos, sevilla añadir bloques genuinamente locales en `localizacionContent.tsx`: juzgado de lo mercantil concreto, dato económico local, FAQ específica de la ciudad y prueba social cercana. Granada ya es la más rica → usarla de plantilla.
+
+**A4. Bloque de respuesta directa (AEO)** en las locales que aún no lo tengan, para featured snippets.
 
 ---
 
-## Orden de ejecución sugerido
-1. Migración + edge function + panel (Frente 1) — base limpia de medición.
-2. Enlazado interno dirigido + CTR locales (quick wins Frente 2).
-3. Enriquecer Granada como modelo y replicar a 2-3 ciudades con más impresiones.
-4. Reenvío de sitemap + IndexNow + verificación en el panel.
+## Frente B — Reescribir títulos/meta CTR (páginas con impresiones)
+
+Aplicar el patrón acordado (1 emoji + keyword + power word, <60 / <160, sin "| Calma", gancho diferenciador) a:
+
+**B1. Páginas de entidad ya en página 1** (máxima prioridad, clics inmediatos): ING y imagin-card, y el resto de entidades bancos/revolving con impresiones. Están en pos. 9 sin un solo clic → el título es el problema.
+
+**B2. Locales con más impresiones** (a-coruña, almería, vigo, murcia, donostia…): revisar que el título gane a los del top 10 mientras suben.
+
+**B3. Home** (pos 5.4, 72 impr, 4 clics): reescribir title/description para exprimir más clics.
+
+Además: **B4. Limpiar el slug con nombre de competidor** `/blog/5-maneras-frenar-embargo-misolvencia` (viola la regla de no-competidores). Renombrar slug + redirección 301 del antiguo.
+
+---
+
+## Frente C — Acelerar producción
+
+Hoy `DAILY_DISTRIBUTION = [3,4,4,5,5,5,5,6,6,7]` (media ~5/día) con 998 temas en cola.
+
+**C1. Subir la cadencia** a una media ~8-10/día (p. ej. `[7,8,8,9,9,10,10,11,12]`), priorizando los clusters con demanda real: revolving/usura, embargos, microcréditos, LSO.
+**C2. Verificar** que el generador ya aplica el patrón de títulos agresivo y validación <60 (lo reforzamos antes) para no meter deuda de CTR al acelerar.
+**C3. Vigilar coste/calidad**: al subir volumen, confirmar que las imágenes y el pipeline aguantan; dejar la distribución parametrizable por si hay que frenar.
+
+---
+
+## Orden de ejecución
+1. A1 + A2 (bug de datos + duplicado) — base limpia, cambio pequeño y de alto impacto.
+2. B1 + B3 + B4 (CTR de páginas en página 1 y home + slug competidor) — clics esta semana.
+3. A3 + A4 (profundizar 6-8 ciudades) — subida estructural de posiciones.
+4. C1-C3 (acelerar generador).
+5. Reenvío de sitemap + IndexNow de las URLs tocadas y verificación en `/admin/indexacion`.
 
 ## Detalles técnicos
-- `seo_index_checks`: nueva columna `requested boolean default false`, `requested_at timestamptz`. RLS ya existente se mantiene.
-- `supabase/functions/gsc-index-status/index.ts`: quitar `done`/`done_at` del upsert.
-- `src/pages/AdminIndexacion.tsx`: query incluye `requested`; `toggle` escribe `requested`/`requested_at`; resumen con dos tarjetas independientes.
-- SEO: `src/data/seo/internalLinks.ts`, `src/data/seo/localizaciones.ts`, `src/data/seo/content/localizacionContent.tsx`, componentes `RelatedResources`/`SeoPageScaffold`.
+- `src/pages/seo/LocalizacionPage.tsx`: actualizar `TRACTION_CITIES`.
+- Router/canonical: normalizar trailing slash (revisar `src/App.tsx`, `ScrollToTop`, `Seo.tsx`).
+- `src/data/seo/content/localizacionContent.tsx` + `localizaciones.ts`: campos y bloques locales por ciudad.
+- Entidades: `src/data/seo/entities.ts` + `EntityPage.tsx` (títulos/meta).
+- Home: `index.html` / componente de Index para title-meta.
+- Blog: renombrar slug en el post y añadir redirect.
+- `supabase/functions/generate-daily-posts/index.ts`: `DAILY_DISTRIBUTION`.
+- Cierre: `sitemap-blog`, `indexnow-submit`.

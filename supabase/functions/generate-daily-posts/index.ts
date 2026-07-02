@@ -52,7 +52,9 @@ const CATEGORIES = [
 ];
 
 // Media 5, rango 3-7. Distribución sesgada hacia 5 para parecer humano.
-const DAILY_DISTRIBUTION = [3, 4, 4, 5, 5, 5, 5, 6, 6, 7];
+// Cadencia diaria (media ~9/día). Con ~1000 temas en cola, acelera la
+// cobertura de keywords manteniendo variación para parecer orgánico.
+const DAILY_DISTRIBUTION = [7, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
 function pickDailyCount(): number {
   return DAILY_DISTRIBUTION[Math.floor(Math.random() * DAILY_DISTRIBUTION.length)];
