@@ -236,6 +236,37 @@ const copyText = async (text: string) => {
   }
 };
 
+// Modelos de presentación FIJOS. La presentación va antes de conocer el caso,
+// así que no depende de la IA ni de los datos relevantes: siempre es la misma.
+// Carlos, abogado especialista en Ley de Segunda Oportunidad (+6 años).
+type PresentationScript = {
+  id: string;
+  title: string;
+  when: string;
+  text: string;
+};
+
+const PRESENTATION_SCRIPTS: PresentationScript[] = [
+  {
+    id: "directo",
+    title: "A · Directo de autoridad",
+    when: "Por defecto. Cliente receptivo, quiere ir al grano.",
+    text: "Le explico rápido quién soy para que sepa con quién habla: soy Carlos, abogado especialista en Ley de Segunda Oportunidad, llevo más de 6 años dedicado en exclusiva a esto y he acompañado a muchas personas en su misma situación a cancelar deudas que creían imposibles de pagar. No le vendo humo: le voy a decir con claridad si su caso tiene solución legal y cuál es. Para eso necesito hacerle unas preguntas concretas. ¿Le parece que empecemos?",
+  },
+  {
+    id: "empatico",
+    title: "B · Empático + autoridad",
+    when: "Cliente nervioso, agobiado o avergonzado por su situación.",
+    text: "Antes de nada, tranquilícese: lo que le pasa lo he visto muchas veces y tiene solución. Me llamo Carlos, soy abogado especializado en Ley de Segunda Oportunidad desde hace más de 6 años y me dedico solo a esto. Mi trabajo es mirar su situación con criterio legal y decirle la verdad, aunque no siempre sea lo que espera oír. Si hay salida, se la voy a enseñar paso a paso. ¿Le hago unas preguntas para verlo?",
+  },
+  {
+    id: "contundente",
+    title: "C · Contundente de credibilidad",
+    when: "Cliente escéptico o que ya ha hablado con otra empresa.",
+    text: "Le hablo claro porque su tiempo vale: soy Carlos, abogado, más de 6 años dedicado en exclusiva a la Ley de Segunda Oportunidad. Esto no es un call center ni una reunificadora: es un procedimiento legal amparado por la ley y lo lleva un abogado de principio a fin. He visto a mucha gente perder meses con quien no debía. Deme cinco minutos y le digo con honestidad si su caso encaja o no. ¿Empezamos?",
+  },
+];
+
 const fetchCases = async (): Promise<SalesCaseRow[]> => {
   const { data, error } = await supabase
     .from("sales_cases")
