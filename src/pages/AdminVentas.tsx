@@ -1614,7 +1614,7 @@ const AdminVentas = () => {
         canonical="/admin/ventas"
         robots="noindex,nofollow"
       />
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[1600px]">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h1 className="font-poppins text-lg font-bold text-foreground">
             Herramienta de ventas
@@ -1634,7 +1634,7 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        <div className="lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-6">
+        <div className="lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start lg:gap-6">
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
             En móvil va pegada arriba a lo ancho; en desktop se convierte en una
             columna lateral fija para liberar espacio vertical. */}
