@@ -1262,12 +1262,15 @@ const AdminVentas = () => {
       contract?: ContractFields;
       signatureStatus?: string;
     };
-    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 6) {
       setEngagementByPhase(gf.engagementByPhase.map((v) => v ?? 1));
+    } else if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+      // Compat: casos con 5 fases (sin Presentación) → antepone la fase nueva.
+      setEngagementByPhase([1, ...gf.engagementByPhase.map((v) => v ?? 1)]);
     } else {
-      // Compatibilidad: solo existía el tier global → al índice 0.
+      // Compat: solo existía el tier global → a Cualificación (índice 1).
       const old = typeof gf.engagement === "number" ? gf.engagement : 1;
-      setEngagementByPhase([old, 1, 1, 1, 1]);
+      setEngagementByPhase([1, old, 1, 1, 1, 1]);
     }
     setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
     setContract({ ...emptyContract(), ...(gf.contract || {}) });
@@ -1280,7 +1283,7 @@ const AdminVentas = () => {
       solution_client: c.solution_client ?? "",
     });
     setSavedId(c.id);
-    setStep(1);
+    setStep(2);
     autoGenRef.current = {};
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
