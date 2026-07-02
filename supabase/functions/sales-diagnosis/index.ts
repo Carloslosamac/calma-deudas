@@ -254,6 +254,11 @@ const SOURCE_OF_TRUTH_RULE =
 const DEFAULT_DEBTS_RULE =
   "REGLA DE IMPAGOS (OBLIGATORIA): una cuota marcada EN IMPAGO ya NO se está pagando, así que dejar de pagarla NO 'libera', NO 'inyecta' ni 'ahorra' dinero — ese importe no salía de su bolsillo. El alivio de caja REAL solo proviene de las cuotas que SÍ paga hoy (las marcadas 'al día'). Las deudas en impago se usan para el DIAGNÓSTICO (intereses de demora que crecen, ASNEF, costas, posible demanda/embargo), nunca como ahorro mensual. Si hablas de cuánto se libera/mejora al mes, usa SOLO la suma de las cuotas que actualmente paga; jamás sumes cuotas impagadas a una supuesta 'inyección' o 'ahorro'.";
 
+// Regla de FRAME: en cada paso la persona debe confiar más en nosotros como
+// EXPERTOS y como SALVADORES. Refuerzo de autoridad progresivo.
+const AUTHORITY_FRAME_RULE =
+  "REGLA DE FRAME/AUTORIDAD (OBLIGATORIA): quien habla es Carlos, abogado especialista en Ley de Segunda Oportunidad con más de 6 años de experiencia y cientos de casos resueltos. En CADA guion refuerza dos posiciones de forma natural (sin fanfarronear): (1) EXPERTO — demuestra dominio técnico citando el mecanismo legal exacto que aplica al caso (exoneración del pasivo insatisfecho, plan de pagos, paralización de embargos/ejecuciones, protección de la vivienda cuando proceda), anticipándote a lo que va a pasar y hablando con precisión jurídica; (2) SALVADOR — posiciónate como la persona que le saca de esto y le devuelve la tranquilidad, contrastando el escenario si no actúa (intereses, ASNEF, demanda) con el alivio concreto que le damos. Cada guion debe SUBIR la confianza respecto al anterior: usa micro-pruebas de autoridad ('en casos como el tuyo, lo que hacemos es...', 'esto lo he llevado muchas veces y sé exactamente cómo termina'). PROHIBIDO sonar como un teleoperador: hablas como el abogado que ya ha ganado este caso muchas veces. Nunca prometas resultados garantizados que dependan del juez.";
+
 // Datos del contrato (hoja de encargo) que el comercial debe poder citar.
 interface ContractInput {
   initialPayment?: string;
