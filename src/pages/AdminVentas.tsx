@@ -812,11 +812,6 @@ const EngagementGate = ({
 
       {onReinforce && (
         <div className="space-y-3 border-t border-border pt-3">
-          <p className="text-xs text-muted-foreground">
-            ¿No quiere avanzar todavía (se lo piensa, lo consulta, quiere
-            colgar)? Genera argumentario para rebatir la objeción y reintentar el
-            paso sin presionar.
-          </p>
           <Button
             type="button"
             variant="outline"
