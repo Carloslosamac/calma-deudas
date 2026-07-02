@@ -1767,7 +1767,6 @@ const AdminVentas = () => {
             <Section
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
-              subtitle="Cada entidad con su importe, cuota y si está en impago."
             >
               <div className="space-y-3">
             {/* Deudas por entidad */}
@@ -1777,11 +1776,6 @@ const AdminVentas = () => {
                   <Plus className="mr-1 h-4 w-4" /> Añadir entidad
                 </Button>
               </div>
-              {guide.debts.length === 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Añade cada entidad con su tipo y el importe que se le debe.
-                </p>
-              )}
               <div className="space-y-3">
                 {guide.debts.map((d, i) => (
                   <div
