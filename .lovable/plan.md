@@ -1,54 +1,44 @@
-# Rediseño de la herramienta de ventas (/admin/ventas)
+## Objetivo
 
-Convertir la herramienta en un formulario más sistemático: una nueva fase inicial de **Presentación**, contenido dividido en **cards únicas por bloque**, un **estilo visual unificado** para todas las cards y el **gráfico de conversión integrado en la cabecera** (siempre visible, compacto).
+Reestructurar `/admin/ventas` en tres frentes: (1) la **Presentación** pasa a ser una fase de pura autoridad, antes de tocar el caso; (2) los datos del caso se recogen en un **panel sticky** de "datos relevantes" añadidos uno a uno, disponible en cualquier fase y que alimenta la IA; (3) cada fase se muestra como **una sola card** (unicard), no varias.
 
-## 1. Nueva fase "Presentación" (fase 1 de 6)
+## 1. Fase Presentación = autoridad, sin datos del caso
 
-El flujo pasa de 5 a 6 fases:
+- Eliminar de la card de Presentación (`step === 0`) el bloque "Datos del caso" (etiqueta + textarea). Esos datos migran al panel sticky (punto 2).
+- La fase 0 queda como **una única card** con:
+  - Cabecera tajante de autoridad: título fuerte tipo "Encuadre de autoridad Calma" con copy directo (quiénes somos, resultados, por qué escucharnos), estilo contundente — tipografía `font-anton`/mayúsculas para el titular, tono teal de fase.
+  - El **guion de apertura** (`presentation_internal` / `presentation_client`) con su botón Generar/Regenerar (se conserva la llamada `runPhase("presentation")`).
+  - El `EngagementGate` "¿Cómo te ha recibido?" para pasar a Cualificación.
+- El guion de apertura ya no depende de que el comercial haya escrito el caso: usará los datos relevantes del sticky si los hay, y si no, genera un encuadre de autoridad genérico de Calma.
 
-```text
-1. Presentación → 2. Cualificación → 3. Diagnóstico → 4. Solución → 5. Contrato → 6. Firma
-```
+## 2. Panel sticky "Datos del caso" (datos relevantes uno a uno)
 
-- **Token de color propio** `--phase-presentation` (+ `-foreground` y `-soft`) en `src/index.css` (light y dark) y en `tailwind.config.ts`. Color propuesto: teal/cian (`180 65% 42%`) para distinguirlo del azul de Cualificación.
-- Ampliar `STEPS`, `PHASE_THEMES`, `PHASE_VARS`/`PHASE_WEIGHT` (ConversionChart) y `phaseStyle` para 6 fases.
-- Ampliar `engagementByPhase` a `[1,1,1,1,1,1]` (estado inicial, reset y test case) y `PHASE_WEIGHT` a 6 pesos (`0.15, 0.3, 0.5, 0.7, 0.85, 1.0`).
-- **Contenido de la card de Presentación** (nueva, primera): 
-  - Card "Datos del caso" (etiqueta + descripción del caso) se mueve aquí.
-  - Card "Guion de apertura Calma": guion de rapport/presentación de la empresa (quiénes somos, garantías, encuadre de la llamada), generado por IA con `EngagementGate` para pasar a Cualificación.
-- **Edge function `sales-diagnosis`**: añadir un `phase: "presentation"` que devuelve `presentation_internal` (array de cards de guion de apertura) y `presentation_client` (mensaje). Reusa el patrón de `signing`/`contract_message`. Se pre-genera al entrar o mediante el gate. Sin tocar la lógica legal/financiera existente.
-- `reinforcePhase`, `PHASE_NAMES` y los índices de `runGeneration`/`goToContract`/`goToSign` se desplazan +1 (Cualificación pasa a índice 1, etc.).
+- Nuevo estado en `AdminVentas`: `relevantFacts: string[]` (sustituye al uso de `caseText` como textarea). Se mantiene `label` (etiqueta del caso).
+- Añadir el panel **dentro de la cabecera sticky superior**, debajo del gráfico y el stepper (según lo elegido):
+  - Input "Etiqueta del caso".
+  - Campo "Añadir dato relevante" + botón `+` que hace push a `relevantFacts`. Enter también añade.
+  - Lista de chips/filas de los datos añadidos, cada uno con botón de borrar.
+  - Colapsable (mostrar/ocultar) para no ocupar demasiado alto en el sticky; muestra un contador "N datos" cuando está plegado.
+- El panel es visible y editable en **todas las fases** (vive en la cabecera común, no dentro de una fase).
+- **Alimentar la IA**: componer `caseText` a partir de `label` + `relevantFacts` unidos (p. ej. una línea por dato) justo antes de cada llamada (`runPhase`, `runGeneration`, contrato/firma). Así el edge function `sales-diagnosis` no cambia (sigue recibiendo `caseText`), y el guardado en `sales_cases` (`case_text`) sigue funcionando.
+- Ajustar la validación actual `caseText.trim().length < 10`: pasar a exigir al menos 1 dato relevante; el mensaje de aviso apuntará a "añade datos relevantes del caso".
+- `TEST_CASE`: convertir su `caseText` en un array `relevantFacts` de ejemplo (deudas, ingresos, situación) para que el "Caso de prueba" siga rellenando todo.
 
-## 2. Cards únicas por bloque + rediseño visual
+## 3. Unicard por fase
 
-Cada fase deja de ser una card larga con secciones y pasa a un **stack de cards independientes**, todas con la misma anatomía:
-
-- Cabecera común de card: punto/emoji de fase + título + subtítulo corto opcional, con el color de la fase (`--phase`).
-- Espaciado, bordes (`border-l-4` de fase), radios y tipografía homogéneos vía un pequeño componente interno `PhaseCard`/`SectionCard` reutilizable, para no repetir estilos.
-
-Desglose por fase:
-- **Presentación**: [Datos del caso] · [Guion de apertura].
-- **Cualificación**: [Deudas por entidad] · [Vivienda] · [Vehículo] · [Empleo e ingresos/gastos] · [Resumen económico]. Hoy están apiladas dentro de una sola card; se separan en cards propias.
-- **Diagnóstico**: [Capacidad de pago] · [Guion de diagnóstico] · [Gate de engagement].
-- **Solución**: [Triage/solución recomendada] · [Guion de solución] · [Gate].
-- **Contrato**: [Datos del contrato] · [Cálculo de pago/total] · [Guion de envío] · [Gate].
-- **Firma**: [Estado de firma] · [Guion de cierre] · [Guardar/PDF].
-
-Nada de lógica de negocio nueva: se reordena y encapsula el JSX ya existente en cards; los cálculos (`monthlyOutflow`, `paymentCapacity`, `affordablePayment`, `computeContractTotal`) se conservan igual.
-
-## 3. Gráfico integrado en cabecera
-
-- Mover `ConversionChart` a una **cabecera sticky** junto al stepper (compacto), siempre visible al hacer scroll dentro de la fase.
-- Ajustar `ConversionChart` para 6 fases y una versión más compacta (altura menor) al ir en cabecera.
-- El stepper de 6 fases se mantiene clicable y bajo el gráfico.
+- Reemplazar el stack de varias `SectionCard` por **una sola card por fase**, con secciones internas separadas por subtítulos/divisores (no cards anidadas):
+  - **Cualificación** (`step === 1`): hoy son 5 `SectionCard` (deudas, empleo/ingresos/gastos, vivienda, vehículo, resumen). Se funden en una card con encabezados internos de sección.
+  - **Presentación / Diagnóstico / Solución / Contrato / Firma**: una card cada una (Diagnóstico–Firma ya son prácticamente una card; se homogeneízan al mismo patrón unicard).
+- Convertir `SectionCard` en un **contenedor de sección interno** (subtítulo + separador) reutilizable dentro de la card única, en lugar de una card completa con borde propio. La card externa lleva el `border-l-4` y color de fase; las secciones internas solo llevan título + `Separator`.
+- Los `EngagementGate` y gates de continuación quedan **dentro o justo bajo** la card única de su fase (se mantienen como están funcionalmente).
 
 ## Detalles técnicos
 
-- Archivos frontend: `src/pages/AdminVentas.tsx` (principal), `src/components/ventas/ConversionChart.tsx`, `src/index.css`, `tailwind.config.ts`.
-- Edge function: `supabase/functions/sales-diagnosis/index.ts` (nuevo `phase: "presentation"`, `PHASE_NAMES` con 6 entradas).
-- Tipos: añadir `presentation_internal`/`presentation_client` a `AiResult`.
-- No hay cambios de base de datos ni de RLS.
-- Verificación: `tsgo` para tipos + revisión visual con Playwright cargando el "Caso de prueba" y recorriendo las 6 fases.
+- Archivo principal: `src/pages/AdminVentas.tsx` (estado, sticky, render de fases, composición de `caseText`).
+- `src/components/ventas/ConversionChart.tsx`: sin cambios de lógica (ya soporta 6 fases y `compact`).
+- Sin cambios en el edge function `sales-diagnosis` (sigue recibiendo `caseText`), sin cambios de BD ni RLS.
+- Verificación: `tsgo` para tipos + recorrido visual con Playwright cargando "Caso de prueba" por las 6 fases, comprobando que el sticky de datos relevantes se mantiene y alimenta los guiones.
 
 ## Fuera de alcance
-- No se cambia la lógica legal (Art. 607 LEC/SMI), ni los cálculos financieros, ni el guardado en `sales_cases`, ni el PDF de contrato.
+
+- No se cambia la lógica legal (Art. 607 LEC/SMI), ni los cálculos financieros (`monthlyOutflow`, `paymentCapacity`, `affordablePayment`, `computeContractTotal`), ni el PDF de contrato, ni el guardado en `sales_cases`.
