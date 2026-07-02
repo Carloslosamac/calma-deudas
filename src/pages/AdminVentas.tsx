@@ -1198,11 +1198,11 @@ const AdminVentas = () => {
   // puede regenerarlo después si reajusta el engagement o las reacciones.
   useEffect(() => {
     if (!result || generating) return;
-    if (step === 3 && !(result.contract_internal?.length) && !autoGenRef.current[3]) {
-      autoGenRef.current[3] = true;
-      void runPhase("contract_message");
-    } else if (step === 4 && !(result.signing_internal?.length) && !autoGenRef.current[4]) {
+    if (step === 4 && !(result.contract_internal?.length) && !autoGenRef.current[4]) {
       autoGenRef.current[4] = true;
+      void runPhase("contract_message");
+    } else if (step === 5 && !(result.signing_internal?.length) && !autoGenRef.current[5]) {
+      autoGenRef.current[5] = true;
       void runPhase("signing");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
