@@ -1634,7 +1634,7 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        <div className="lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-6">
+        <div className="lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start lg:gap-6">
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
             En móvil va pegada arriba a lo ancho; en desktop se convierte en una
             columna lateral fija para liberar espacio vertical. */}
