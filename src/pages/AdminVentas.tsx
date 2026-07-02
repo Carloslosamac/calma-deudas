@@ -1711,7 +1711,7 @@ const AdminVentas = () => {
             r.internal.forEach((c, i) => screens.push(scriptScreen("reinforce-" + i, c)));
             if (r.client) screens.push(clientScreen("reinforce-client", r.client));
           }
-          screens.push(gate);
+          pushGate();
         };
 
         if (step === 0) {
@@ -1742,7 +1742,7 @@ const AdminVentas = () => {
               ),
             }),
           );
-          screens.push(gate);
+          pushGate();
         } else if (step === 1) {
           // Datos del caso
           screens.push({
@@ -2172,7 +2172,7 @@ const AdminVentas = () => {
               </div>
             ),
           });
-          screens.push(gate);
+          pushGate();
         } else if (result) {
           if (step === 2) {
             if (paymentCapacity != null) {
@@ -2297,7 +2297,7 @@ const AdminVentas = () => {
               ),
             });
           }
-          screens.push(gate);
+          pushGate();
         } else {
           screens.push({
             key: "noresult",
