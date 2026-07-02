@@ -217,7 +217,19 @@ All colors MUST be HSL.
   .phase-card .bg-secondary {
     background-color: hsl(var(--phase) / 0.07) !important;
     border-color: hsl(var(--phase) / 0.35) !important;
+  }
+  /* Solo botones/toggles llevan el TEXTO en color de fase; los inputs y
+     textareas mantienen el texto legible (foreground) para no verse teñidos. */
+  .phase-card button.border-input,
+  .phase-card button.bg-secondary,
+  .phase-card [role="button"].border-input {
     color: hsl(var(--phase)) !important;
+  }
+  .phase-card input.border-input,
+  .phase-card textarea.border-input,
+  .phase-card button[role="combobox"],
+  .phase-card [role="combobox"] {
+    color: hsl(var(--foreground)) !important;
   }
   .phase-card .border-input:hover,
   .phase-card .bg-secondary:hover {
