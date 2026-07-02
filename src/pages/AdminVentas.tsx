@@ -1598,49 +1598,34 @@ const AdminVentas = () => {
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
-                subtitle="Cómo presentarte y ganar autoridad en los primeros segundos."
+                subtitle="Guiones fijos de Carlos. Elige el que encaje según cómo llegue la persona; la presentación siempre es la misma, va antes del caso."
               >
-                {result?.presentation_internal?.length ? (
-                  <>
-                    <ResultBlock
-                      internal={result.presentation_internal}
-                      client={result.presentation_client ?? ""}
-                    />
-                    <div className="flex justify-end">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => void runPhase("presentation")}
-                        disabled={generating}
-                      >
-                        {generating ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <RefreshCw className="mr-2 h-4 w-4" />
-                        )}
-                        Regenerar
-                      </Button>
+                <div className="space-y-3">
+                  {PRESENTATION_SCRIPTS.map((s) => (
+                    <div
+                      key={s.id}
+                      className="rounded-lg border border-border bg-background/60 p-4"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">{s.title}</p>
+                          <p className="mt-0.5 text-xs text-muted-foreground">{s.when}</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="shrink-0"
+                          onClick={() => void copyText(s.text)}
+                        >
+                          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                        </Button>
+                      </div>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">
+                        {s.text}
+                      </p>
                     </div>
-                  </>
-                ) : (
-                  <div className="rounded-lg border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
-                    Genera el guion de apertura para esta persona.
-                    <div className="mt-2">
-                      <Button
-                        size="sm"
-                        onClick={() => void runPhase("presentation")}
-                        disabled={generating}
-                      >
-                        {generating ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <Sparkles className="mr-2 h-4 w-4" />
-                        )}
-                        Generar guion de apertura
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                  ))}
+                </div>
               </Section>
             </PhaseCard>
 
