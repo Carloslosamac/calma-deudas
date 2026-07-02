@@ -56,8 +56,8 @@ const ConversionChart = ({
   const current = data[currentStep];
 
   return (
-    <div className={`rounded-xl border bg-card ${compact ? "p-3" : "mb-4 p-4"}`}>
-      <div className="mb-2 flex items-baseline justify-between">
+    <div className={`rounded-xl border bg-card ${compact ? "px-3 py-2" : "mb-4 p-4"}`}>
+      <div className={`flex items-baseline justify-between ${compact ? "mb-1" : "mb-2"}`}>
         <span className="text-xs font-semibold text-muted-foreground">
           Cercanía a convertir
         </span>
@@ -65,10 +65,10 @@ const ConversionChart = ({
           {current?.actual ?? 0}%
         </span>
       </div>
-      <ResponsiveContainer width="100%" height={compact ? 96 : 140}>
+      <ResponsiveContainer width="100%" height={compact ? 60 : 140}>
         <AreaChart
           data={data}
-          margin={{ top: 8, right: 8, left: -24, bottom: 0 }}
+          margin={compact ? { top: 6, right: 8, left: 8, bottom: 0 } : { top: 8, right: 8, left: -24, bottom: 0 }}
         >
           <defs>
             <linearGradient id="convFill" x1="0" y1="0" x2="0" y2="1">
@@ -76,13 +76,17 @@ const ConversionChart = ({
               <stop offset="100%" stopColor={color} stopOpacity={0.02} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
+          {!compact && (
+            <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
+          )}
           <XAxis
             dataKey="short"
-            tick={{ fontSize: 11 }}
+            tick={{ fontSize: compact ? 9 : 11 }}
             axisLine={false}
             tickLine={false}
+            height={compact ? 14 : undefined}
           />
+          {!compact && (
           <YAxis
             domain={[0, 100]}
             tick={{ fontSize: 10 }}
@@ -91,6 +95,8 @@ const ConversionChart = ({
             width={36}
             tickFormatter={(v) => `${v}%`}
           />
+          )}
+          {compact && <YAxis domain={[0, 100]} hide />}
           <Tooltip
             cursor={{ stroke: color, strokeWidth: 1, strokeDasharray: "3 3" }}
             contentStyle={{

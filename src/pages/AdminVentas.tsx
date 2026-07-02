@@ -472,7 +472,7 @@ const PhaseCard = ({
   className?: string;
 }) => (
   <Card
-    className={`phase-card space-y-6 border-l-4 p-6 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
+    className={`phase-card space-y-4 border-l-4 p-4 sm:p-5 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
     style={phaseStyle(phase)}
   >
     {children}
@@ -492,7 +492,7 @@ const Section = ({
   icon?: React.ReactNode;
   children: React.ReactNode;
 }) => (
-  <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
+  <div className="space-y-3 border-t pt-4 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
     {(title || icon) && (
       <div className="flex items-center gap-2.5">
         {icon && (
@@ -541,7 +541,7 @@ const CaseFactsPanel = ({
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+    <div className="mt-2 rounded-xl border border-border bg-card/80 p-2.5">
       {/* Añadir dato: siempre visible */}
       <div className="flex gap-2">
         <Input
@@ -1499,7 +1499,7 @@ const AdminVentas = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8">
+    <div className="min-h-screen bg-background px-4 py-4">
       <Seo
         title="Ventas · Diagnóstico"
         description="Herramienta interna de ventas"
@@ -1507,15 +1507,10 @@ const AdminVentas = () => {
         robots="noindex,nofollow"
       />
       <div className="mx-auto max-w-3xl">
-        <div className="mb-6 flex items-center justify-between gap-3">
-          <div>
-            <h1 className="font-poppins text-2xl font-bold text-foreground">
-              Herramienta de ventas
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Presentación → Cualificación → Diagnóstico → Solución → Contrato → Firma
-            </p>
-          </div>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h1 className="font-poppins text-lg font-bold text-foreground">
+            Herramienta de ventas
+          </h1>
           <div className="flex gap-2">
             <Button variant="orange" size="sm" onClick={loadTestCase}>
               <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
@@ -1532,14 +1527,14 @@ const AdminVentas = () => {
         </div>
 
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles */}
-        <div className="sticky top-0 z-20 -mx-4 mb-6 border-b border-border bg-background/95 px-4 pb-4 pt-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80">
           <ConversionChart
             steps={STEPS}
             currentStep={step}
             engagementByPhase={engagementByPhase}
             compact
           />
-          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
             {STEPS.map((s, i) => (
               <button
                 key={s}
@@ -1698,8 +1693,7 @@ const AdminVentas = () => {
               <div className="space-y-3">
             {/* Deudas por entidad */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label>Deudas por entidad</Label>
+              <div className="flex justify-end">
                 <Button type="button" variant="outline" size="sm" onClick={addDebt}>
                   <Plus className="mr-1 h-4 w-4" /> Añadir entidad
                 </Button>
