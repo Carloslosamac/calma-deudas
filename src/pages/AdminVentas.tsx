@@ -133,6 +133,15 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
 
 // Frases con las que la persona ha respondido a la fase anterior. El comercial
 // marca las que encajan y la IA cincela el tono del siguiente paso.
+const REACTION_PHRASES_PRESENTATION = [
+  "Ah, ¿quién me llama?",
+  "No tengo mucho tiempo ahora",
+  "A ver, cuéntame",
+  "¿Esto es de fiar?",
+  "Justo estaba esperando que me llamarais",
+  "No sé si esto es para mí",
+];
+
 const REACTION_PHRASES_QUALIFICATION = [
   "Me da vergüenza haber llegado a esto",
   "No es para tanto, lo controlo",
