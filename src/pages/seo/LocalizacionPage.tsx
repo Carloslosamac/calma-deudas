@@ -49,14 +49,25 @@ const LocalizacionPage = () => {
   // impresiones en Search Console para concentrar autoridad interna hacia ellas
   // (de página 5-9 a página 1) sin canibalizar (cada ciudad es intención local
   // distinta y todas apuntan al hub maestro).
+  // Orden por impresiones reales en Search Console (ciudades que ya reciben
+  // tráfico y pueden subir de página 5-9 a página 1). Actualizado con datos GSC.
   const TRACTION_CITIES = [
-    "granada",
     "a-coruna",
-    "barcelona",
-    "sevilla",
     "almeria",
-    "murcia",
     "vigo",
+    "murcia",
+    "donostia",
+    "barcelona",
+    "burgos",
+    "sevilla",
+    "granada",
+    "oviedo",
+    "alicante",
+    "valencia",
+    "las-palmas-de-gran-canaria",
+    "santander",
+    "palma",
+    "gijon",
   ];
   const otherCities = localizaciones.filter((l) => l.slug !== city.slug);
   const prioritized = [
