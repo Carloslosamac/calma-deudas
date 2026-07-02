@@ -145,6 +145,9 @@ All colors MUST be HSL.
     --phase-sign: 266 70% 65%;
     --phase-sign-foreground: 0 0% 100%;
     --phase-sign-soft: 266 40% 24%;
+    --phase-presentation: 180 55% 46%;
+    --phase-presentation-foreground: 0 0% 100%;
+    --phase-presentation-soft: 180 40% 18%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
