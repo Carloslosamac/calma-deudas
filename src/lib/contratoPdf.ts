@@ -85,10 +85,50 @@ const serviceLine = (service: string): string =>
   service ||
   "servicios profesionales de asesoramiento en materia de deudas";
 
+// Fuente embebida (Arimo, métrica compatible con Helvetica). Se embebe en el
+// PDF para evitar el bug de solapamiento de glifos de la Helvetica no embebida
+// de jsPDF. Se cachea tras la primera carga.
+let fontCache: { regular: string; bold: string } | null = null;
+
+const toBase64 = (buf: ArrayBuffer): string => {
+  const bytes = new Uint8Array(buf);
+  let binary = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+};
+
+const loadFonts = async (): Promise<{ regular: string; bold: string }> => {
+  if (fontCache) return fontCache;
+  const [reg, bold] = await Promise.all([
+    fetch("/fonts/Arimo-Regular.ttf").then((r) => r.arrayBuffer()),
+    fetch("/fonts/Arimo-Bold.ttf").then((r) => r.arrayBuffer()),
+  ]);
+  fontCache = { regular: toBase64(reg), bold: toBase64(bold) };
+  return fontCache;
+};
+
+const registerFonts = async (doc: jsPDF): Promise<string> => {
+  try {
+    const fonts = await loadFonts();
+    doc.addFileToVFS("Arimo-Regular.ttf", fonts.regular);
+    doc.addFont("Arimo-Regular.ttf", "Arimo", "normal");
+    doc.addFileToVFS("Arimo-Bold.ttf", fonts.bold);
+    doc.addFont("Arimo-Bold.ttf", "Arimo", "bold");
+    return "Arimo";
+  } catch {
+    // Si falla la carga de la fuente, usa la fuente estándar como respaldo.
+    return "helvetica";
+  }
+};
+
 // Genera la HOJA DE ENCARGO PROFESIONAL (Ley de Segunda Oportunidad)
 // con los datos del caso, replicando la plantilla legal de LEXITIA.
-export const generateContractPdf = (c: ContractFields): jsPDF => {
+export const generateContractPdf = async (c: ContractFields): Promise<jsPDF> => {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const FONT = await registerFonts(doc);
   const margin = 56;
   const pageWidth = doc.internal.pageSize.getWidth();
   const maxWidth = pageWidth - margin * 2;
@@ -108,7 +148,7 @@ export const generateContractPdf = (c: ContractFields): jsPDF => {
   };
 
   const heading = (text: string) => {
-    doc.setFont("helvetica", "bold");
+    doc.setFont(FONT, "bold");
     doc.setFontSize(11);
     ensureSpace(46);
     y += 10;
@@ -120,7 +160,7 @@ export const generateContractPdf = (c: ContractFields): jsPDF => {
     text: string,
     opts?: { bullet?: boolean; bold?: boolean },
   ) => {
-    doc.setFont("helvetica", opts?.bold ? "bold" : "normal");
+    doc.setFont(FONT, opts?.bold ? "bold" : "normal");
     doc.setFontSize(10);
     const indent = opts?.bullet ? 14 : 0;
     const lines = doc.splitTextToSize(text, maxWidth - indent) as string[];
@@ -134,17 +174,17 @@ export const generateContractPdf = (c: ContractFields): jsPDF => {
   };
 
   // Encabezado del despacho
-  doc.setFont("helvetica", "bold");
+  doc.setFont(FONT, "bold");
   doc.setFontSize(10);
   doc.text(`${FIRM.brand} — ${FIRM.legal}`, margin, y);
   y += 13;
-  doc.setFont("helvetica", "normal");
+  doc.setFont(FONT, "normal");
   doc.setFontSize(8.5);
   doc.text(`${FIRM.address} | NIF ${FIRM.nif} | ${FIRM.email}`, margin, y);
   y += 24;
 
   // Título
-  doc.setFont("helvetica", "bold");
+  doc.setFont(FONT, "bold");
   doc.setFontSize(14);
   doc.text("HOJA DE ENCARGO PROFESIONAL", margin, y);
   y += 18;
@@ -283,20 +323,20 @@ export const generateContractPdf = (c: ContractFields): jsPDF => {
 
   y += 24;
   ensureSpace(80);
-  doc.setFont("helvetica", "bold");
+  doc.setFont(FONT, "bold");
   doc.setFontSize(10);
   doc.text("EL CLIENTE", margin, y);
   doc.text("LEXITIA", pageWidth / 2 + 20, y);
   y += 50;
-  doc.setFont("helvetica", "normal");
+  doc.setFont(FONT, "normal");
   doc.text(`Fdo.: ${c.fullName || "____________________"}`, margin, y);
   doc.text(`Fdo.: ${FIRM.legal}`, pageWidth / 2 + 20, y);
 
   return doc;
 };
 
-export const downloadContractPdf = (c: ContractFields) => {
-  const doc = generateContractPdf(c);
+export const downloadContractPdf = async (c: ContractFields) => {
+  const doc = await generateContractPdf(c);
   const safe = (c.fullName || "cliente")
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .toLowerCase();
