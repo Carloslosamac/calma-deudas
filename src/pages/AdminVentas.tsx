@@ -1755,90 +1755,99 @@ const AdminVentas = () => {
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
             >
-              <div className="space-y-3">
+              <div className="space-y-2">
             {/* Deudas por entidad */}
-            <div className="space-y-3">
-              <div className="flex justify-end">
-                <Button type="button" variant="outline" size="sm" onClick={addDebt}>
-                  <Plus className="mr-1 h-4 w-4" /> Añadir entidad
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                {guide.debts.length > 3 && (
+                  <span className="text-[10px] text-muted-foreground">
+                    {guide.debts.length} entidades
+                  </span>
+                )}
+                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" onClick={addDebt}>
+                  <Plus className="mr-1 h-3.5 w-3.5" /> Añadir entidad
                 </Button>
               </div>
-              <div className="space-y-3">
+              <div className="max-h-[46vh] space-y-1.5 overflow-y-auto pr-1">
                 {guide.debts.map((d, i) => (
                   <div
                     key={i}
-                    className="space-y-2 rounded-lg border border-border p-3"
+                    className="grid grid-cols-[minmax(120px,1.2fr)_minmax(110px,1.4fr)_84px_84px_auto_auto] items-center gap-1.5 rounded-md border border-border bg-background/60 px-1.5 py-1"
                   >
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_auto]">
-                      <Select
-                        value={d.type}
-                        onValueChange={(v) => updateDebt(i, { type: v })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Tipo de deuda" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ENTITY_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>
-                              {o.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeDebt(i)}
-                        aria-label="Eliminar entidad"
-                      >
-                        <Trash2 className="h-4 w-4 text-muted-foreground" />
-                      </Button>
-                    </div>
+                    <Select
+                      value={d.type}
+                      onValueChange={(v) => updateDebt(i, { type: v })}
+                    >
+                      <SelectTrigger className="h-8 text-xs">
+                        <SelectValue placeholder="Tipo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ENTITY_OPTIONS.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>
+                            {o.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <Input
+                      className="h-8 text-xs"
                       value={d.entity}
                       onChange={(e) => updateDebt(i, { entity: e.target.value })}
-                      placeholder="Entidad (ej. WiZink, Cetelem...)"
+                      placeholder="Entidad"
                     />
-                    <div className="grid grid-cols-2 gap-2">
-                      <Input
-                        type="number"
-                        value={d.amount ?? ""}
-                        onChange={(e) =>
-                          updateDebt(i, {
-                            amount: e.target.value ? Number(e.target.value) : undefined,
-                          })
-                        }
-                        placeholder="Importe total (€)"
-                      />
-                      <Input
-                        type="number"
-                        value={d.monthlyPayment ?? ""}
-                        onChange={(e) =>
-                          updateDebt(i, {
-                            monthlyPayment: e.target.value ? Number(e.target.value) : undefined,
-                          })
-                        }
-                        placeholder="Cuota mensual (€)"
-                      />
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">¿En impago?</span>
+                    <Input
+                      className="h-8 text-xs"
+                      type="number"
+                      value={d.amount ?? ""}
+                      onChange={(e) =>
+                        updateDebt(i, {
+                          amount: e.target.value ? Number(e.target.value) : undefined,
+                        })
+                      }
+                      placeholder="Importe €"
+                    />
+                    <Input
+                      className="h-8 text-xs"
+                      type="number"
+                      value={d.monthlyPayment ?? ""}
+                      onChange={(e) =>
+                        updateDebt(i, {
+                          monthlyPayment: e.target.value ? Number(e.target.value) : undefined,
+                        })
+                      }
+                      placeholder="Cuota €"
+                    />
+                    <div className="flex overflow-hidden rounded-md border border-border">
                       {[
-                        { v: true, l: "Sí" },
-                        { v: false, l: "No" },
+                        { v: true, l: "Impago" },
+                        { v: false, l: "Al día" },
                       ].map((o) => (
-                        <Button
+                        <button
                           key={o.l}
                           type="button"
-                          size="sm"
-                          variant={d.isDefault === o.v ? "default" : "outline"}
                           onClick={() => updateDebt(i, { isDefault: o.v })}
+                          className={`px-2 py-1.5 text-[10px] font-medium transition-colors ${
+                            d.isDefault === o.v
+                              ? o.v
+                                ? "bg-destructive text-destructive-foreground"
+                                : "bg-phase-solution text-white"
+                              : "bg-background text-muted-foreground hover:bg-muted"
+                          }`}
                         >
                           {o.l}
-                        </Button>
+                        </button>
                       ))}
                     </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={() => removeDebt(i)}
+                      aria-label="Eliminar entidad"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                    </Button>
                   </div>
                 ))}
               </div>
