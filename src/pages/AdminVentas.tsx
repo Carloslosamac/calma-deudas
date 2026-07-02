@@ -2469,6 +2469,9 @@ const AdminVentas = () => {
 
             <div className="flex flex-wrap gap-2">
               <Button
+                variant="outline"
+                className="hover:opacity-90"
+                style={phasePrimaryBtn}
                 onClick={() => {
                   if (!contract.fullName.trim()) {
                     toast.error("Indica al menos el nombre del firmante.");
@@ -2486,6 +2489,7 @@ const AdminVentas = () => {
                 variant="outline"
                 onClick={() => void runPhase("contract_message")}
                 disabled={generating}
+                style={phaseOutlineBtn}
               >
                 {generating ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
