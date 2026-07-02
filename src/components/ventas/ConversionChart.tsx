@@ -10,12 +10,13 @@ import {
 } from "recharts";
 
 // Peso/avance de cada fase hacia el cierre (fracción 0-1).
-const PHASE_WEIGHT = [0.2, 0.4, 0.6, 0.8, 1.0];
+const PHASE_WEIGHT = [0.15, 0.3, 0.5, 0.7, 0.85, 1.0];
 // Tier de engagement → fracción 0-1.
 // OJO: 0 = "Quiere empezar ya" (máximo) … 3 = "Quiere colgar" (mínimo).
 const TIER_FRACTION = [1, 0.66, 0.33, 0];
 
 const PHASE_VARS = [
+  "--phase-presentation",
   "--phase-qualify",
   "--phase-diagnosis",
   "--phase-solution",
@@ -27,12 +28,14 @@ type ConversionChartProps = {
   steps: readonly string[];
   currentStep: number;
   engagementByPhase: number[];
+  compact?: boolean;
 };
 
 const ConversionChart = ({
   steps,
   currentStep,
   engagementByPhase,
+  compact = false,
 }: ConversionChartProps) => {
   const color = `hsl(var(${PHASE_VARS[currentStep] ?? PHASE_VARS[0]}))`;
 
@@ -53,7 +56,7 @@ const ConversionChart = ({
   const current = data[currentStep];
 
   return (
-    <div className="mb-4 rounded-xl border bg-card p-4">
+    <div className={`rounded-xl border bg-card ${compact ? "p-3" : "mb-4 p-4"}`}>
       <div className="mb-2 flex items-baseline justify-between">
         <span className="text-xs font-semibold text-muted-foreground">
           Cercanía a convertir
@@ -62,7 +65,7 @@ const ConversionChart = ({
           {current?.actual ?? 0}%
         </span>
       </div>
-      <ResponsiveContainer width="100%" height={140}>
+      <ResponsiveContainer width="100%" height={compact ? 96 : 140}>
         <AreaChart
           data={data}
           margin={{ top: 8, right: 8, left: -24, bottom: 0 }}

@@ -85,6 +85,8 @@ type ScriptCard = { emoji: string; title: string; body: string };
 
 type AiResult = {
   triage: { solution: string; title: string };
+  presentation_internal?: ScriptCard[];
+  presentation_client?: string;
   diagnosis_internal: ScriptCard[];
   diagnosis_client: string;
   solution_internal: ScriptCard[];
@@ -131,6 +133,15 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
 
 // Frases con las que la persona ha respondido a la fase anterior. El comercial
 // marca las que encajan y la IA cincela el tono del siguiente paso.
+const REACTION_PHRASES_PRESENTATION = [
+  "Ah, ¿quién me llama?",
+  "No tengo mucho tiempo ahora",
+  "A ver, cuéntame",
+  "¿Esto es de fiar?",
+  "Justo estaba esperando que me llamarais",
+  "No sé si esto es para mí",
+];
+
 const REACTION_PHRASES_QUALIFICATION = [
   "Me da vergüenza haber llegado a esto",
   "No es para tanto, lo controlo",
@@ -348,6 +359,7 @@ const ResultBlock = ({ internal, client, tone = "calm" }: ResultBlockProps) => {
 };
 
 const STEPS = [
+  "Presentación",
   "Cualificación",
   "Diagnóstico",
   "Solución",
@@ -357,6 +369,14 @@ const STEPS = [
 
 // Color propio por fase (clases literales para que Tailwind las detecte).
 const PHASE_THEMES = [
+  {
+    active: "bg-phase-presentation text-phase-presentation-foreground",
+    dot: "bg-phase-presentation",
+    text: "text-phase-presentation",
+    soft: "bg-phase-presentation-soft",
+    border: "border-phase-presentation",
+    var: "--phase-presentation",
+  },
   {
     active: "bg-phase-qualify text-phase-qualify-foreground",
     dot: "bg-phase-qualify",
@@ -406,6 +426,56 @@ const phaseStyle = (i: number) =>
     ["--phase" as string]: `var(${PHASE_THEMES[i].var})`,
     ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
   }) as React.CSSProperties;
+
+// Card unitaria de bloque: misma anatomía (cabecera con punto de fase + título +
+// subtítulo) para que todas las fases se vean como un formulario coherente.
+const SectionCard = ({
+  phase,
+  title,
+  subtitle,
+  icon,
+  children,
+  className,
+}: {
+  phase: number;
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <Card
+    className={`phase-card border-l-4 p-5 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
+    style={phaseStyle(phase)}
+  >
+    {(title || icon) && (
+      <div className="mb-4 flex items-center gap-2.5">
+        {icon && (
+          <span
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+            style={{
+              backgroundColor: "hsl(var(--phase) / 0.15)",
+              color: "hsl(var(--phase))",
+            }}
+          >
+            {icon}
+          </span>
+        )}
+        <div className="min-w-0">
+          {title && (
+            <h3 className="font-poppins text-sm font-bold leading-tight text-foreground">
+              {title}
+            </h3>
+          )}
+          {subtitle && (
+            <p className="text-xs text-muted-foreground">{subtitle}</p>
+          )}
+        </div>
+      </div>
+    )}
+    {children}
+  </Card>
+);
 
 type EngagementGateProps = {
   value: number;
@@ -693,6 +763,25 @@ const TEST_CASE: {
     triage: { solution: "lso", title: "Ley de Segunda Oportunidad" },
     approach:
       "María ya muestra agobio y miedo al embargo: conecta con la emoción antes de proponer nada y avanza paso a paso confirmando que se siente acompañada.",
+    presentation_internal: [
+      {
+        emoji: "👋",
+        title: "Preséntate y encuadra la llamada",
+        body: "«Hola María, soy [nombre], de Calma. Te llamo por la solicitud que dejaste sobre tus deudas.» Nombre, empresa y motivo en una frase: que sepa quién llama y por qué.",
+      },
+      {
+        emoji: "🛡️",
+        title: "Da confianza desde el principio",
+        body: "Calma acompaña a personas con deudas en toda España. Menciona que la primera llamada es un análisis gratuito y sin compromiso para bajar la guardia.",
+      },
+      {
+        emoji: "🎯",
+        title: "Pide permiso para avanzar",
+        body: "«¿Te viene bien que te haga un par de preguntas para ver tu caso?» Consigue el sí a seguir hablando antes de entrar en la cualificación.",
+      },
+    ],
+    presentation_client:
+      "Hola María, soy [nombre], de Calma. Te contacto por la consulta que dejaste sobre tus deudas. Somos especialistas en ayudar a personas en tu situación y la primera revisión de tu caso es gratuita y sin compromiso. ¿Te va bien que hablemos unos minutos?",
     diagnosis_internal: [
       {
         emoji: "⚠️",
@@ -821,7 +910,7 @@ const AdminVentas = () => {
   // Evita re-disparar la pre-generación automática del guion de contrato/firma.
   const autoGenRef = useRef<Record<number, boolean>>({});
   const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
-    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1,
   ]);
   // El engagement "activo" es el tier registrado en la fase actual.
   const engagement = engagementByPhase[step] ?? 1;
@@ -860,7 +949,7 @@ const AdminVentas = () => {
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
-    setEngagementByPhase([1, 1, 1, 1, 1]);
+    setEngagementByPhase([1, 1, 1, 1, 1, 1]);
     setReactions([]);
     setContract(emptyContract());
     setSignatureStatus("pendiente");
@@ -876,7 +965,7 @@ const AdminVentas = () => {
     setResult(TEST_CASE.result);
     setSavedId(null);
     setStep(0);
-    setEngagementByPhase([1, 1, 1, 1, 1]);
+    setEngagementByPhase([1, 1, 1, 1, 1, 1]);
     setReactions([]);
     setContract({ ...emptyContract(), ...TEST_CASE.contract });
     setSignatureStatus("pendiente");
@@ -966,34 +1055,41 @@ const AdminVentas = () => {
     }
   };
 
-  // Paso 0 → 1: prepara el diagnóstico según el engagement.
+  // Presentación → Cualificación: avanza al formulario de cualificación.
+  // Opcionalmente ya se ha generado el guion de apertura en esta fase.
+  const proceedToQualification = () => setStep(1);
+
+  // Cualificación → Diagnóstico: prepara el diagnóstico según el engagement.
   const generate = () => {
     setResult(null);
-    void runGeneration(1);
+    void runGeneration(2);
   };
 
-  // Paso 1 → 2: re-prepara TODO el discurso (incl. solución) con el
+  // Diagnóstico → Solución: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
-  const proceedToSolution = () => void runGeneration(2);
+  const proceedToSolution = () => void runGeneration(3);
 
-  // Paso 2 → 3: pasa a contrato (el guion de envío se pre-genera solo al entrar).
+  // Solución → Contrato: pasa a contrato (el guion de envío se pre-genera solo al entrar).
   const goToContract = () => {
     if (result) {
       setContract((c) => (c.service ? c : { ...c, service: result.triage.solution }));
     }
-    autoGenRef.current[3] = false;
-    setStep(3);
-  };
-
-  // Paso 3 → 4: pasa a firma (el guion de cierre se pre-genera solo al entrar).
-  const goToSign = () => {
     autoGenRef.current[4] = false;
     setStep(4);
   };
 
+  // Contrato → Firma: pasa a firma (el guion de cierre se pre-genera solo al entrar).
+  const goToSign = () => {
+    autoGenRef.current[5] = false;
+    setStep(5);
+  };
+
   // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
   // sin sobreescribir el diagnóstico/solución ya generados.
-  const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
+  const runPhase = async (
+    phase: "contract_message" | "signing" | "presentation",
+    nextStep?: number,
+  ) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
       return;
@@ -1008,21 +1104,34 @@ const AdminVentas = () => {
         toast.error(data.error);
         return;
       }
+      const patch =
+        phase === "signing"
+          ? {
+              signing_internal: data.signing_internal ?? [],
+              signing_client: data.signing_client ?? "",
+            }
+          : phase === "presentation"
+            ? {
+                presentation_internal: data.presentation_internal ?? [],
+                presentation_client: data.presentation_client ?? "",
+              }
+            : {
+                contract_internal: data.contract_internal ?? [],
+                contract_message: data.contract_message ?? "",
+              };
       setResult((prev) =>
         prev
-          ? {
-              ...prev,
-              ...(phase === "signing"
-                ? {
-                    signing_internal: data.signing_internal ?? [],
-                    signing_client: data.signing_client ?? "",
-                  }
-                : {
-                    contract_internal: data.contract_internal ?? [],
-                    contract_message: data.contract_message ?? "",
-                  }),
-            }
-          : prev,
+          ? { ...prev, ...patch }
+          : phase === "presentation"
+            ? ({
+                triage: { solution: "", title: "" },
+                diagnosis_internal: [],
+                diagnosis_client: "",
+                solution_internal: [],
+                solution_client: "",
+                ...patch,
+              } as AiResult)
+            : prev,
       );
       if (typeof nextStep === "number") setStep(nextStep);
     } catch (e) {
@@ -1089,11 +1198,11 @@ const AdminVentas = () => {
   // puede regenerarlo después si reajusta el engagement o las reacciones.
   useEffect(() => {
     if (!result || generating) return;
-    if (step === 3 && !(result.contract_internal?.length) && !autoGenRef.current[3]) {
-      autoGenRef.current[3] = true;
-      void runPhase("contract_message");
-    } else if (step === 4 && !(result.signing_internal?.length) && !autoGenRef.current[4]) {
+    if (step === 4 && !(result.contract_internal?.length) && !autoGenRef.current[4]) {
       autoGenRef.current[4] = true;
+      void runPhase("contract_message");
+    } else if (step === 5 && !(result.signing_internal?.length) && !autoGenRef.current[5]) {
+      autoGenRef.current[5] = true;
       void runPhase("signing");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1153,12 +1262,15 @@ const AdminVentas = () => {
       contract?: ContractFields;
       signatureStatus?: string;
     };
-    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+    if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 6) {
       setEngagementByPhase(gf.engagementByPhase.map((v) => v ?? 1));
+    } else if (Array.isArray(gf.engagementByPhase) && gf.engagementByPhase.length === 5) {
+      // Compat: casos con 5 fases (sin Presentación) → antepone la fase nueva.
+      setEngagementByPhase([1, ...gf.engagementByPhase.map((v) => v ?? 1)]);
     } else {
-      // Compatibilidad: solo existía el tier global → al índice 0.
+      // Compat: solo existía el tier global → a Cualificación (índice 1).
       const old = typeof gf.engagement === "number" ? gf.engagement : 1;
-      setEngagementByPhase([old, 1, 1, 1, 1]);
+      setEngagementByPhase([1, old, 1, 1, 1, 1]);
     }
     setReactions(Array.isArray(gf.reactions) ? gf.reactions : []);
     setContract({ ...emptyContract(), ...(gf.contract || {}) });
@@ -1171,7 +1283,7 @@ const AdminVentas = () => {
       solution_client: c.solution_client ?? "",
     });
     setSavedId(c.id);
-    setStep(1);
+    setStep(2);
     autoGenRef.current = {};
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -1210,7 +1322,7 @@ const AdminVentas = () => {
               Herramienta de ventas
             </h1>
             <p className="text-sm text-muted-foreground">
-              Cualificación → Diagnóstico → Solución → Contrato → Firma
+              Presentación → Cualificación → Diagnóstico → Solución → Contrato → Firma
             </p>
           </div>
           <div className="flex gap-2">
@@ -1228,42 +1340,47 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        {/* Gráfico de cercanía a convertir */}
-        <ConversionChart
-          steps={STEPS}
-          currentStep={step}
-          engagementByPhase={engagementByPhase}
-        />
-
-        {/* Stepper */}
-        <div className="mb-6 flex items-center gap-2">
-          {STEPS.map((s, i) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => setStep(i)}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
-                step === i
-                  ? PHASE_THEMES[i].active
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              <span
-                className={`h-2 w-2 shrink-0 rounded-full ${
-                  step === i ? "bg-current opacity-80" : PHASE_THEMES[i].dot
+        {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles */}
+        <div className="sticky top-0 z-20 -mx-4 mb-6 border-b border-border bg-background/95 px-4 pb-4 pt-3 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <ConversionChart
+            steps={STEPS}
+            currentStep={step}
+            engagementByPhase={engagementByPhase}
+            compact
+          />
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            {STEPS.map((s, i) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setStep(i)}
+                className={`flex flex-1 basis-[30%] items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors sm:basis-0 ${
+                  step === i
+                    ? PHASE_THEMES[i].active
+                    : "bg-muted text-muted-foreground hover:bg-muted/70"
                 }`}
-              />
-              {i + 1}. {s}
-            </button>
-          ))}
+              >
+                <span
+                  className={`h-2 w-2 shrink-0 rounded-full ${
+                    step === i ? "bg-current opacity-80" : PHASE_THEMES[i].dot
+                  }`}
+                />
+                {i + 1}. {s}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Step 1: Cualificación */}
+        {/* Fase 1: Presentación */}
         {step === 0 && (
-          <Card
-            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[0].border} ${PHASE_THEMES[0].soft}`}
-            style={phaseStyle(0)}
-          >
+          <div className="space-y-4" style={phaseStyle(0)}>
+            <SectionCard
+              phase={0}
+              icon={<ClipboardList className="h-4 w-4" />}
+              title="Datos del caso"
+              subtitle="Identifica el caso y anota la situación de la persona."
+            >
+              <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="label">Etiqueta del caso</Label>
               <Input
@@ -1283,7 +1400,87 @@ const AdminVentas = () => {
                 className="min-h-[160px]"
               />
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard
+              phase={0}
+              icon={<Sparkles className="h-4 w-4" />}
+              title="Guion de apertura"
+              subtitle="Cómo presentarte y ganar confianza en los primeros segundos."
+            >
+              <div className="space-y-4">
+                {result?.presentation_internal?.length ? (
+                  <>
+                    <ResultBlock
+                      internal={result.presentation_internal}
+                      client={result.presentation_client ?? ""}
+                    />
+                    <div className="flex justify-end">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => void runPhase("presentation")}
+                        disabled={generating}
+                      >
+                        {generating ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <RefreshCw className="mr-2 h-4 w-4" />
+                        )}
+                        Regenerar
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="rounded-lg border border-border bg-background/60 p-4 text-center text-sm text-muted-foreground">
+                    Genera el guion de apertura para esta persona.
+                    <div className="mt-2">
+                      <Button
+                        size="sm"
+                        onClick={() => void runPhase("presentation")}
+                        disabled={generating}
+                      >
+                        {generating ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Sparkles className="mr-2 h-4 w-4" />
+                        )}
+                        Generar guion de apertura
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </SectionCard>
+
+            <EngagementGate
+              value={engagement}
+              onChange={setEngagement}
+              title="¿Cómo te ha recibido?"
+              ctaLabel="Ir a cualificación"
+              onContinue={proceedToQualification}
+              loading={generating}
+              phrases={REACTION_PHRASES_PRESENTATION}
+              selectedPhrases={reactions}
+              onTogglePhrase={togglePhrase}
+              onReinforce={() => void reinforcePhase(0)}
+              reinforceLoading={reinforcing}
+              reinforceData={reinforceByStep[0]}
+            />
+          </div>
+        )}
+
+        {/* Fase 2: Cualificación */}
+        {step === 1 && (
+          <div className="space-y-4" style={phaseStyle(1)}>
+            <SectionCard
+              phase={1}
+              icon={<ClipboardList className="h-4 w-4" />}
+              title="Deudas por entidad"
+              subtitle="Cada entidad con su importe, cuota y si está en impago."
+            >
+              <div className="space-y-3">
             {/* Deudas por entidad */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -1390,7 +1587,11 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Empleo, ingresos y gastos">
+              <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="income">Ingresos mensuales (€)</Label>
@@ -1428,7 +1629,6 @@ const AdminVentas = () => {
                 </Select>
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="expenses">Gastos mensuales de vida (€)</Label>
               <Input
@@ -1444,7 +1644,10 @@ const AdminVentas = () => {
                 placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
               />
             </div>
+              </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Vivienda">
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vivienda</Label>
@@ -1534,7 +1737,9 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+            </SectionCard>
 
+            <SectionCard phase={1} title="Vehículo">
             {/* Vehículo */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vehículo</Label>
@@ -1620,8 +1825,10 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
+            </SectionCard>
 
             {monthlyOutflow > 0 && (
+              <SectionCard phase={1} title="Resumen económico">
               <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-semibold text-foreground">
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
@@ -1651,6 +1858,7 @@ const AdminVentas = () => {
                   </p>
                 )}
               </div>
+              </SectionCard>
             )}
 
             <EngagementGate
@@ -1663,15 +1871,15 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_QUALIFICATION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(0)}
+              onReinforce={() => void reinforcePhase(1)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[0]}
+              reinforceData={reinforceByStep[1]}
             />
-          </Card>
+          </div>
         )}
 
         {/* Step 2: Diagnóstico */}
-        {(step === 1 || step === 2 || step === 3 || step === 4) && !result && (
+        {(step === 2 || step === 3 || step === 4 || step === 5) && !result && (
           <Card
             className={`phase-card space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
             style={phaseStyle(step)}
@@ -1681,7 +1889,7 @@ const AdminVentas = () => {
               caso de prueba para navegar entre secciones.
             </p>
             <div className="flex justify-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setStep(0)}>
+              <Button variant="outline" size="sm" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
               </Button>
               <Button variant="orange" size="sm" onClick={loadTestCase}>
@@ -1691,10 +1899,10 @@ const AdminVentas = () => {
           </Card>
         )}
 
-        {step === 1 && result && (
+        {step === 2 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[1].border} ${PHASE_THEMES[1].soft}`}
-            style={phaseStyle(1)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
+            style={phaseStyle(2)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
@@ -1767,12 +1975,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_DIAGNOSIS}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(1)}
+              onReinforce={() => void reinforcePhase(2)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[1]}
+              reinforceData={reinforceByStep[2]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(0)}>
+              <Button variant="outline" onClick={() => setStep(1)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
               </Button>
             </div>
@@ -1780,10 +1988,10 @@ const AdminVentas = () => {
         )}
 
         {/* Step 3: Solución */}
-        {step === 2 && result && (
+        {step === 3 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
-            style={phaseStyle(2)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
+            style={phaseStyle(3)}
           >
             <div className="flex items-center justify-between">
               <h2 className="font-poppins text-lg font-bold text-foreground">
@@ -1810,12 +2018,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SOLUTION}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(2)}
+              onReinforce={() => void reinforcePhase(3)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[2]}
+              reinforceData={reinforceByStep[3]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(1)}>
+              <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
               </Button>
             </div>
@@ -1823,10 +2031,10 @@ const AdminVentas = () => {
         )}
 
         {/* Step 4: Contrato */}
-        {step === 3 && result && (
+        {step === 4 && result && (
           <Card
-            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
-            style={phaseStyle(3)}
+            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
+            style={phaseStyle(4)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
@@ -2018,12 +2226,12 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_CONTRACT}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(3)}
+              onReinforce={() => void reinforcePhase(4)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[3]}
+              reinforceData={reinforceByStep[4]}
             />
             <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(2)}>
+              <Button variant="outline" onClick={() => setStep(3)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Solución
               </Button>
             </div>
@@ -2031,10 +2239,10 @@ const AdminVentas = () => {
         )}
 
         {/* Step 5: Firma */}
-        {step === 4 && result && (
+        {step === 5 && result && (
           <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
-            style={phaseStyle(4)}
+            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[5].border} ${PHASE_THEMES[5].soft}`}
+            style={phaseStyle(5)}
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
@@ -2077,9 +2285,9 @@ const AdminVentas = () => {
               phrases={REACTION_PHRASES_SIGN}
               selectedPhrases={reactions}
               onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(4)}
+              onReinforce={() => void reinforcePhase(5)}
               reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[4]}
+              reinforceData={reinforceByStep[5]}
             />
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
@@ -2100,7 +2308,7 @@ const AdminVentas = () => {
             </div>
 
             <div className="flex justify-between pt-2">
-              <Button variant="outline" onClick={() => setStep(3)}>
+              <Button variant="outline" onClick={() => setStep(4)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
               </Button>
               <Button onClick={saveCase} disabled={saving || !!savedId}>

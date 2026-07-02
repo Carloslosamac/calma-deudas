@@ -1,66 +1,54 @@
-# Plan: siguiente empujón SEO (3 frentes)
+# Rediseño de la herramienta de ventas (/admin/ventas)
 
-Basado en datos reales de Search Console (últimos 28 días). Las ciudades con tracción real resultaron ser distintas de las que teníamos codificadas.
+Convertir la herramienta en un formulario más sistemático: una nueva fase inicial de **Presentación**, contenido dividido en **cards únicas por bloque**, un **estilo visual unificado** para todas las cards y el **gráfico de conversión integrado en la cabecera** (siempre visible, compacto).
 
-## Datos que mandan (GSC, impresiones · posición)
-- a-coruña 122·59 · almería 79·67 · vigo 75·63 · murcia 72·78 · **donostia 70·47** · barcelona 63·84 · burgos 50·62 · sevilla 46·92 · granada 42·65 · oviedo 41·72 · alicante 34·91 · valencia 32·80 · las-palmas 20·60 · santander 13·50 · palma 12·66 · gijón 10·53
-- Entidades ya en página 1 sin clics: **ING (pos 9.1, 53 impr)**, **imagin-card (pos 8.9, 39 impr)** → oro para CTR.
-- Home pos 5.4 con 72 impr y solo 4 clics.
+## 1. Nueva fase "Presentación" (fase 1 de 6)
 
----
+El flujo pasa de 5 a 6 fases:
 
-## Frente A — Subir posiciones locales
+```text
+1. Presentación → 2. Cualificación → 3. Diagnóstico → 4. Solución → 5. Contrato → 6. Firma
+```
 
-**A1. Corregir la lista de ciudades con tracción (bug de datos).**
-`TRACTION_CITIES` en `LocalizacionPage.tsx` hoy es una suposición (granada, a-coruna, barcelona, sevilla, almeria, murcia, vigo). Sustituir por la lista real ordenada por impresiones, añadiendo las que faltan: **donostia, burgos, oviedo, alicante, valencia, las-palmas, santander, palma, gijón**. Esto reorienta el enlazado interno hacia las páginas que de verdad pueden subir.
+- **Token de color propio** `--phase-presentation` (+ `-foreground` y `-soft`) en `src/index.css` (light y dark) y en `tailwind.config.ts`. Color propuesto: teal/cian (`180 65% 42%`) para distinguirlo del azul de Cualificación.
+- Ampliar `STEPS`, `PHASE_THEMES`, `PHASE_VARS`/`PHASE_WEIGHT` (ConversionChart) y `phaseStyle` para 6 fases.
+- Ampliar `engagementByPhase` a `[1,1,1,1,1,1]` (estado inicial, reset y test case) y `PHASE_WEIGHT` a 6 pesos (`0.15, 0.3, 0.5, 0.7, 0.85, 1.0`).
+- **Contenido de la card de Presentación** (nueva, primera): 
+  - Card "Datos del caso" (etiqueta + descripción del caso) se mueve aquí.
+  - Card "Guion de apertura Calma": guion de rapport/presentación de la empresa (quiénes somos, garantías, encuadre de la llamada), generado por IA con `EngagementGate` para pasar a Cualificación.
+- **Edge function `sales-diagnosis`**: añadir un `phase: "presentation"` que devuelve `presentation_internal` (array de cards de guion de apertura) y `presentation_client` (mensaje). Reusa el patrón de `signing`/`contract_message`. Se pre-genera al entrar o mediante el gate. Sin tocar la lógica legal/financiera existente.
+- `reinforcePhase`, `PHASE_NAMES` y los índices de `runGeneration`/`goToContract`/`goToSign` se desplazan +1 (Cualificación pasa a índice 1, etc.).
 
-**A2. Arreglar el duplicado de trailing slash.**
-Barcelona indexa como `/barcelona` y `/barcelona/` a la vez, partiendo señales. Añadir una redirección/canonicalización sin barra final (revisar `ScrollToTop`/router y confirmar que el canonical siempre va sin `/`). Aplica a todo el cluster local.
+## 2. Cards únicas por bloque + rediseño visual
 
-**A3. Profundizar contenido único en las 6-8 ciudades top.**
-Las locales comparten armazón con variantes → Google las hunde. Para a-coruña, almería, vigo, murcia, donostia, barcelona, burgos, sevilla añadir bloques genuinamente locales en `localizacionContent.tsx`: juzgado de lo mercantil concreto, dato económico local, FAQ específica de la ciudad y prueba social cercana. Granada ya es la más rica → usarla de plantilla.
+Cada fase deja de ser una card larga con secciones y pasa a un **stack de cards independientes**, todas con la misma anatomía:
 
-**A4. Bloque de respuesta directa (AEO)** en las locales que aún no lo tengan, para featured snippets.
+- Cabecera común de card: punto/emoji de fase + título + subtítulo corto opcional, con el color de la fase (`--phase`).
+- Espaciado, bordes (`border-l-4` de fase), radios y tipografía homogéneos vía un pequeño componente interno `PhaseCard`/`SectionCard` reutilizable, para no repetir estilos.
 
----
+Desglose por fase:
+- **Presentación**: [Datos del caso] · [Guion de apertura].
+- **Cualificación**: [Deudas por entidad] · [Vivienda] · [Vehículo] · [Empleo e ingresos/gastos] · [Resumen económico]. Hoy están apiladas dentro de una sola card; se separan en cards propias.
+- **Diagnóstico**: [Capacidad de pago] · [Guion de diagnóstico] · [Gate de engagement].
+- **Solución**: [Triage/solución recomendada] · [Guion de solución] · [Gate].
+- **Contrato**: [Datos del contrato] · [Cálculo de pago/total] · [Guion de envío] · [Gate].
+- **Firma**: [Estado de firma] · [Guion de cierre] · [Guardar/PDF].
 
-## Frente B — Reescribir títulos/meta CTR (páginas con impresiones)
+Nada de lógica de negocio nueva: se reordena y encapsula el JSX ya existente en cards; los cálculos (`monthlyOutflow`, `paymentCapacity`, `affordablePayment`, `computeContractTotal`) se conservan igual.
 
-Aplicar el patrón acordado (1 emoji + keyword + power word, <60 / <160, sin "| Calma", gancho diferenciador) a:
+## 3. Gráfico integrado en cabecera
 
-**B1. Páginas de entidad ya en página 1** (máxima prioridad, clics inmediatos): ING y imagin-card, y el resto de entidades bancos/revolving con impresiones. Están en pos. 9 sin un solo clic → el título es el problema.
-
-**B2. Locales con más impresiones** (a-coruña, almería, vigo, murcia, donostia…): revisar que el título gane a los del top 10 mientras suben.
-
-**B3. Home** (pos 5.4, 72 impr, 4 clics): reescribir title/description para exprimir más clics.
-
-Además: **B4. Limpiar el slug con nombre de competidor** `/blog/5-maneras-frenar-embargo-misolvencia` (viola la regla de no-competidores). Renombrar slug + redirección 301 del antiguo.
-
----
-
-## Frente C — Acelerar producción
-
-Hoy `DAILY_DISTRIBUTION = [3,4,4,5,5,5,5,6,6,7]` (media ~5/día) con 998 temas en cola.
-
-**C1. Subir la cadencia** a una media ~8-10/día (p. ej. `[7,8,8,9,9,10,10,11,12]`), priorizando los clusters con demanda real: revolving/usura, embargos, microcréditos, LSO.
-**C2. Verificar** que el generador ya aplica el patrón de títulos agresivo y validación <60 (lo reforzamos antes) para no meter deuda de CTR al acelerar.
-**C3. Vigilar coste/calidad**: al subir volumen, confirmar que las imágenes y el pipeline aguantan; dejar la distribución parametrizable por si hay que frenar.
-
----
-
-## Orden de ejecución
-1. A1 + A2 (bug de datos + duplicado) — base limpia, cambio pequeño y de alto impacto.
-2. B1 + B3 + B4 (CTR de páginas en página 1 y home + slug competidor) — clics esta semana.
-3. A3 + A4 (profundizar 6-8 ciudades) — subida estructural de posiciones.
-4. C1-C3 (acelerar generador).
-5. Reenvío de sitemap + IndexNow de las URLs tocadas y verificación en `/admin/indexacion`.
+- Mover `ConversionChart` a una **cabecera sticky** junto al stepper (compacto), siempre visible al hacer scroll dentro de la fase.
+- Ajustar `ConversionChart` para 6 fases y una versión más compacta (altura menor) al ir en cabecera.
+- El stepper de 6 fases se mantiene clicable y bajo el gráfico.
 
 ## Detalles técnicos
-- `src/pages/seo/LocalizacionPage.tsx`: actualizar `TRACTION_CITIES`.
-- Router/canonical: normalizar trailing slash (revisar `src/App.tsx`, `ScrollToTop`, `Seo.tsx`).
-- `src/data/seo/content/localizacionContent.tsx` + `localizaciones.ts`: campos y bloques locales por ciudad.
-- Entidades: `src/data/seo/entities.ts` + `EntityPage.tsx` (títulos/meta).
-- Home: `index.html` / componente de Index para title-meta.
-- Blog: renombrar slug en el post y añadir redirect.
-- `supabase/functions/generate-daily-posts/index.ts`: `DAILY_DISTRIBUTION`.
-- Cierre: `sitemap-blog`, `indexnow-submit`.
+
+- Archivos frontend: `src/pages/AdminVentas.tsx` (principal), `src/components/ventas/ConversionChart.tsx`, `src/index.css`, `tailwind.config.ts`.
+- Edge function: `supabase/functions/sales-diagnosis/index.ts` (nuevo `phase: "presentation"`, `PHASE_NAMES` con 6 entradas).
+- Tipos: añadir `presentation_internal`/`presentation_client` a `AiResult`.
+- No hay cambios de base de datos ni de RLS.
+- Verificación: `tsgo` para tipos + revisión visual con Playwright cargando el "Caso de prueba" y recorriendo las 6 fases.
+
+## Fuera de alcance
+- No se cambia la lógica legal (Art. 607 LEC/SMI), ni los cálculos financieros, ni el guardado en `sales_cases`, ni el PDF de contrato.

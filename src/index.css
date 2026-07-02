@@ -39,6 +39,9 @@ All colors MUST be HSL.
     --orange-deep: 18 85% 42%;
 
     /* Colores por fase de la herramienta de ventas */
+    --phase-presentation: 180 65% 40%;
+    --phase-presentation-foreground: 0 0% 100%;
+    --phase-presentation-soft: 180 60% 94%;
     --phase-qualify: 214 84% 56%;
     --phase-qualify-foreground: 0 0% 100%;
     --phase-qualify-soft: 214 90% 95%;
@@ -142,6 +145,9 @@ All colors MUST be HSL.
     --phase-sign: 266 70% 65%;
     --phase-sign-foreground: 0 0% 100%;
     --phase-sign-soft: 266 40% 24%;
+    --phase-presentation: 180 55% 46%;
+    --phase-presentation-foreground: 0 0% 100%;
+    --phase-presentation-soft: 180 40% 18%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
