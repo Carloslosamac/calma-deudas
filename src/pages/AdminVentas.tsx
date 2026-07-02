@@ -1686,18 +1686,11 @@ const AdminVentas = () => {
                 <h2 className="mt-1 font-anton text-2xl uppercase leading-tight text-foreground">
                   Somos Calma. Resolvemos deudas, no las gestionamos.
                 </h2>
-                <p className="mt-2 text-sm text-foreground/80">
-                  Antes de nada, marca autoridad: quiénes somos, qué garantizamos y por qué
-                  esta llamada merece toda su atención. Hablas con expertos legales que ya han
-                  sacado a cientos de personas de esta misma situación. Tono firme, cercano y
-                  sin titubeos.
-                </p>
               </div>
 
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
-                subtitle="Guiones fijos de Carlos. Elige el que encaje según cómo llegue la persona; la presentación siempre es la misma, va antes del caso."
               >
                 <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
                   {PRESENTATION_SCRIPTS.map((s) => (
