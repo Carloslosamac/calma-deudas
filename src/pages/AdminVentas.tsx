@@ -592,11 +592,7 @@ const CaseFactsPanel = ({
             onChange={(e) => onLabelChange(e.target.value)}
             placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
           />
-          {facts.length === 0 ? (
-            <p className="text-xs text-muted-foreground">
-              Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
-            </p>
-          ) : (
+          {facts.length > 0 && (
             <ul className="space-y-1.5">
               {facts.map((f, i) => (
                 <li
