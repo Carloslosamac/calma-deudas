@@ -2251,13 +2251,6 @@ const AdminVentas = () => {
                     </p>
                   </div>
                 </div>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Capacidad = ingresos − gastos esenciales (vivienda, vehículo y gastos de vida),
-                  sin contar las cuotas de deudas. La cuota asumible es el 60 % de esa capacidad,
-                  como margen prudente para una propuesta sostenible.
-                  {debtsMonthlyPaying > 0 &&
-                    ` Hoy paga de verdad ${debtsMonthlyPaying.toLocaleString("es-ES")} €/mes en cuotas (las impagadas no salen de su bolsillo).`}
-                </p>
               </div>
             )}
             <ResultBlock
