@@ -1607,7 +1607,7 @@ const AdminVentas = () => {
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
             En móvil va pegada arriba a lo ancho; en desktop se convierte en una
             columna lateral fija para liberar espacio vertical. */}
-        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:h-full lg:overflow-y-auto lg:rounded-xl lg:border lg:px-4 lg:py-4 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
+        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:rounded-xl lg:border lg:px-4 lg:py-3 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
           <ConversionChart
             steps={STEPS}
             currentStep={step}
