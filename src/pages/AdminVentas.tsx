@@ -2606,6 +2606,8 @@ const AdminVentas = () => {
             ))}
           </div>
         </div>
+        </div>{/* /columna principal */}
+        </div>{/* /grid desktop */}
       </div>
     </div>
   );
