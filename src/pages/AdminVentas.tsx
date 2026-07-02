@@ -429,56 +429,6 @@ const phaseStyle = (i: number) =>
     ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
   }) as React.CSSProperties;
 
-// Card unitaria de bloque: misma anatomía (cabecera con punto de fase + título +
-// subtítulo) para que todas las fases se vean como un formulario coherente.
-const SectionCard = ({
-  phase,
-  title,
-  subtitle,
-  icon,
-  children,
-  className,
-}: {
-  phase: number;
-  title?: string;
-  subtitle?: string;
-  icon?: React.ReactNode;
-  children: React.ReactNode;
-  className?: string;
-}) => (
-  <Card
-    className={`phase-card border-l-4 p-5 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
-    style={phaseStyle(phase)}
-  >
-    {(title || icon) && (
-      <div className="mb-4 flex items-center gap-2.5">
-        {icon && (
-          <span
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
-            style={{
-              backgroundColor: "hsl(var(--phase) / 0.15)",
-              color: "hsl(var(--phase))",
-            }}
-          >
-            {icon}
-          </span>
-        )}
-        <div className="min-w-0">
-          {title && (
-            <h3 className="font-poppins text-sm font-bold leading-tight text-foreground">
-              {title}
-            </h3>
-          )}
-          {subtitle && (
-            <p className="text-xs text-muted-foreground">{subtitle}</p>
-          )}
-        </div>
-      </div>
-    )}
-    {children}
-  </Card>
-);
-
 // Card única de la fase: contenedor con borde/color de fase que envuelve todas
 // las secciones internas de esa fase (unicard).
 const PhaseCard = ({
