@@ -2215,22 +2215,7 @@ const AdminVentas = () => {
             </div>
             </PhaseCard>
 
-            {qualStep === 4 && (
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes del diagnóstico"
-              ctaLabel="Generar diagnóstico"
-              onContinue={generate}
-              loading={generating}
-              phrases={REACTION_PHRASES_QUALIFICATION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(1)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[1]}
-            />
-            )}
+            <div className="lg:hidden">{currentEngagementGate}</div>
           </div>
         )}
 
