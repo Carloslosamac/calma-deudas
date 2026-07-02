@@ -40,11 +40,42 @@ const EntityPage = () => {
   const content = getEntityContent(entity);
   const profile = getEntityProfile(entity.slug);
 
-  // Título CTR (emoji + keyword + gancho), sin branding, length-aware (<60).
+  // Título CTR (emoji + keyword + gancho + power word), sin branding,
+  // length-aware (<60). Gancho diferenciado por tipo de entidad para ganar
+  // clics: las revolving atacan la usura, los bancos/microcréditos la
+  // cancelación, el recobro frenar el cobro. Cada patrón cae a una variante
+  // más corta si supera 60 caracteres visuales.
   const emoji = KIND_EMOJI[entity.kind];
-  const richTitle = `${emoji} Deudas con ${entity.name}: cómo cancelarlas`;
+  const TITLE_CANDIDATES: Record<EntityKind, string[]> = {
+    revolving: [
+      `${emoji} ${entity.name}: reclama la usura y anula la deuda`,
+      `${emoji} ${entity.name}: recupera lo pagado de más`,
+      `${emoji} ${entity.name}: anula tu deuda revolving`,
+    ],
+    banco: [
+      `${emoji} Deudas con ${entity.name}: cancélalas legalmente`,
+      `${emoji} ¿Deudas con ${entity.name}? Cancélalas YA`,
+      `${emoji} Cancela tus deudas con ${entity.name}`,
+    ],
+    microcredito: [
+      `${emoji} ¿No puedes pagar ${entity.name}? Cancela la deuda`,
+      `${emoji} Cancela tu deuda con ${entity.name} YA`,
+      `${emoji} Deudas con ${entity.name}: cómo cancelarlas`,
+    ],
+    recobro: [
+      `${emoji} ¿Te reclama ${entity.name}? Frena el cobro`,
+      `${emoji} ${entity.name} te reclama: tus derechos`,
+      `${emoji} Deudas con ${entity.name}: cómo actuar`,
+    ],
+    publica: [
+      `${emoji} Deudas con ${entity.name}: aplázalas o cancélalas`,
+      `${emoji} ${entity.name}: cómo afrontar la deuda`,
+      `${emoji} Deudas con ${entity.name}: tus opciones`,
+    ],
+  };
   const seoTitle =
-    richTitle.length <= 60 ? richTitle : `${emoji} Deudas con ${entity.name}`;
+    TITLE_CANDIDATES[entity.kind].find((t) => t.length <= 60) ??
+    `${emoji} Deudas con ${entity.name}`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
