@@ -451,6 +451,20 @@ const phaseStyle = (i: number) =>
     ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
   }) as React.CSSProperties;
 
+// Jerarquía de botones dentro de las cards, coherente con el color de la fase:
+// - primario (avanzar / acción principal): relleno sólido con el color de fase.
+// - secundario (añadir, copiar, acciones de apoyo): contorno teñido de fase.
+// Ambos usan la variable local `--phase`, así cada card mantiene su tono.
+const phasePrimaryBtn: React.CSSProperties = {
+  backgroundColor: "hsl(var(--phase))",
+  borderColor: "hsl(var(--phase))",
+  color: "hsl(var(--phase-fg))",
+};
+const phaseOutlineBtn: React.CSSProperties = {
+  borderColor: "hsl(var(--phase) / 0.5)",
+  color: "hsl(var(--phase))",
+};
+
 // Card única de la fase: contenedor con borde/color de fase que envuelve todas
 // las secciones internas de esa fase (unicard).
 const PhaseCard = ({
