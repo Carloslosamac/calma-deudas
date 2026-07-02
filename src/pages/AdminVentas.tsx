@@ -1702,6 +1702,18 @@ const AdminVentas = () => {
 
         const screens: Screen[] = [];
 
+        // Refuerzo: si se ha generado refuerzo para esta fase, sus guiones
+        // entran como pantallas más del flujo typeform (antes del gate),
+        // en lugar de renderizarse "a la antigua" debajo del gate.
+        const pushGate = () => {
+          const r = reinforceByStep[step];
+          if (r) {
+            r.internal.forEach((c, i) => screens.push(scriptScreen("reinforce-" + i, c)));
+            if (r.client) screens.push(clientScreen("reinforce-client", r.client));
+          }
+          screens.push(gate);
+        };
+
         if (step === 0) {
           PRESENTATION_SCRIPTS.forEach((s, i) =>
             screens.push({
