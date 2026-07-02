@@ -2315,10 +2315,6 @@ const AdminVentas = () => {
               </h2>
               <Badge variant="outline">{result.triage.title}</Badge>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Rellena los datos del firmante para generar el contrato. Es una
-              plantilla base de prestación de servicios; revísala antes de enviarla.
-            </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
