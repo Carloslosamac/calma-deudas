@@ -1576,15 +1576,15 @@ const AdminVentas = () => {
   })();
 
   return (
-    <div className="min-h-screen bg-background px-4 py-4">
+    <div className="min-h-screen bg-background px-4 py-4 lg:flex lg:h-screen lg:flex-col lg:overflow-hidden">
       <Seo
         title="Ventas · Diagnóstico"
         description="Herramienta interna de ventas"
         canonical="/admin/ventas"
         robots="noindex,nofollow"
       />
-      <div className="mx-auto max-w-[1600px]">
-        <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col lg:min-h-0 lg:flex-1">
+        <div className="mb-3 flex items-center justify-between gap-3 lg:shrink-0">
           <h1 className="font-poppins text-lg font-bold text-foreground">
             Herramienta de ventas
           </h1>
@@ -1603,11 +1603,11 @@ const AdminVentas = () => {
           </div>
         </div>
 
-        <div className="lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start lg:gap-6">
+        <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-stretch lg:gap-6 lg:overflow-hidden">
         {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
             En móvil va pegada arriba a lo ancho; en desktop se convierte en una
             columna lateral fija para liberar espacio vertical. */}
-        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:top-4 lg:z-10 lg:mx-0 lg:mb-0 lg:rounded-xl lg:border lg:px-4 lg:py-4 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
+        <div className="sticky top-0 z-20 -mx-4 mb-4 border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:h-full lg:overflow-y-auto lg:rounded-xl lg:border lg:px-4 lg:py-4 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
           <ConversionChart
             steps={STEPS}
             currentStep={step}
@@ -1657,7 +1657,7 @@ const AdminVentas = () => {
         </div>
 
         {/* Columna principal: fase activa + historial */}
-        <div className="min-w-0">
+        <div className="min-w-0 lg:h-full lg:overflow-y-auto lg:pr-1">
 
         {/* Fase 1: Presentación */}
         {step === 0 && (
