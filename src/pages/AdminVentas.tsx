@@ -715,12 +715,10 @@ const EngagementGate = ({
 }: EngagementGateProps) => {
   const active = ENGAGEMENT_LEVELS.find((l) => l.value === value);
   return (
-    <div className="space-y-4 rounded-xl border border-border bg-muted/40 p-4">
-      <div>
-        <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
-      </div>
+    <div className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-3">
+      <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div className="grid grid-cols-4 gap-1.5">
         {ENGAGEMENT_LEVELS.map((l) => {
           const selected = value === l.value;
           return (
@@ -728,7 +726,7 @@ const EngagementGate = ({
               key={l.value}
               type="button"
               onClick={() => onChange(l.value)}
-              className="flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors shadow-sm"
+              className="flex flex-col items-center gap-1 rounded-lg border p-2 text-center transition-colors shadow-sm"
               style={
                 selected
                   ? {
@@ -747,7 +745,7 @@ const EngagementGate = ({
               >
                 {l.value}
               </span>
-              <span className="text-[11px] font-semibold leading-tight text-foreground">
+              <span className="text-[10px] font-semibold leading-tight text-foreground">
                 {l.label}
               </span>
             </button>
@@ -756,7 +754,7 @@ const EngagementGate = ({
       </div>
 
       {active && (
-        <p className="text-xs text-foreground/80">
+        <p className="text-[11px] text-foreground/80">
           <span
             className="mr-1.5 inline-block h-2 w-2 rounded-full align-middle"
             style={{ backgroundColor: active.color }}
@@ -766,11 +764,11 @@ const EngagementGate = ({
       )}
 
       {phrases && phrases.length > 0 && onTogglePhrase && (
-        <div className="space-y-2 border-t border-border pt-3">
+        <div className="space-y-1.5 border-t border-border pt-2.5">
           <p className="text-xs font-semibold text-foreground">
             ¿Cómo ha reaccionado?
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {phrases.map((p) => {
               const on = (selectedPhrases ?? []).includes(p);
               return (
@@ -778,7 +776,7 @@ const EngagementGate = ({
                   key={p}
                   type="button"
                   onClick={() => onTogglePhrase(p)}
-                  className="rounded-full border px-3 py-1.5 text-[11px] font-medium leading-tight transition-colors"
+                  className="rounded-full border px-2.5 py-1 text-[10px] font-medium leading-tight transition-colors"
                   style={
                     on
                       ? {
@@ -802,13 +800,13 @@ const EngagementGate = ({
       )}
 
       {onReinforce && (
-        <div className="space-y-3 border-t border-border pt-3">
+        <div className="space-y-2 border-t border-border pt-2.5">
           <Button
             type="button"
             variant="outline"
             onClick={onReinforce}
             disabled={reinforceLoading}
-            className="w-full"
+            className="h-8 w-full text-xs"
             style={{
               borderColor: "hsl(var(--phase) / 0.5)",
               color: "hsl(var(--phase))",
