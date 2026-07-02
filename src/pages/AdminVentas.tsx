@@ -763,6 +763,25 @@ const TEST_CASE: {
     triage: { solution: "lso", title: "Ley de Segunda Oportunidad" },
     approach:
       "María ya muestra agobio y miedo al embargo: conecta con la emoción antes de proponer nada y avanza paso a paso confirmando que se siente acompañada.",
+    presentation_internal: [
+      {
+        emoji: "👋",
+        title: "Preséntate y encuadra la llamada",
+        body: "«Hola María, soy [nombre], de Calma. Te llamo por la solicitud que dejaste sobre tus deudas.» Nombre, empresa y motivo en una frase: que sepa quién llama y por qué.",
+      },
+      {
+        emoji: "🛡️",
+        title: "Da confianza desde el principio",
+        body: "Calma acompaña a personas con deudas en toda España. Menciona que la primera llamada es un análisis gratuito y sin compromiso para bajar la guardia.",
+      },
+      {
+        emoji: "🎯",
+        title: "Pide permiso para avanzar",
+        body: "«¿Te viene bien que te haga un par de preguntas para ver tu caso?» Consigue el sí a seguir hablando antes de entrar en la cualificación.",
+      },
+    ],
+    presentation_client:
+      "Hola María, soy [nombre], de Calma. Te contacto por la consulta que dejaste sobre tus deudas. Somos especialistas en ayudar a personas en tu situación y la primera revisión de tu caso es gratuita y sin compromiso. ¿Te va bien que hablemos unos minutos?",
     diagnosis_internal: [
       {
         emoji: "⚠️",
