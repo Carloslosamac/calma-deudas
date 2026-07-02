@@ -1661,20 +1661,20 @@ const AdminVentas = () => {
 
         {/* Fase 1: Presentación */}
         {step === 0 && (
-          <div className="space-y-4" style={phaseStyle(0)}>
+          <div className="space-y-3" style={phaseStyle(0)}>
             <PhaseCard phase={0}>
               {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
               <div
-                className="rounded-xl p-5"
+                className="rounded-lg px-4 py-2.5"
                 style={{ backgroundColor: "hsl(var(--phase) / 0.12)" }}
               >
                 <p
-                  className="text-[11px] font-bold uppercase tracking-[0.2em]"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em]"
                   style={{ color: "hsl(var(--phase))" }}
                 >
                   Encuadre de autoridad
                 </p>
-                <h2 className="mt-1 font-anton text-2xl uppercase leading-tight text-foreground">
+                <h2 className="font-anton text-base uppercase leading-tight text-foreground sm:text-lg">
                   Somos Calma. Resolvemos deudas, no las gestionamos.
                 </h2>
               </div>
@@ -1683,27 +1683,25 @@ const AdminVentas = () => {
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
               >
-                <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
+                <div className="grid gap-2.5 lg:grid-cols-3">
                   {PRESENTATION_SCRIPTS.map((s) => (
                     <div
                       key={s.id}
-                      className="flex flex-col rounded-lg border border-border bg-background/60 p-4"
+                      className="flex flex-col rounded-lg border border-border bg-background/60 p-3"
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">{s.title}</p>
-                          <p className="mt-0.5 text-xs text-muted-foreground">{s.when}</p>
-                        </div>
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-xs font-semibold text-foreground">{s.title}</p>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="shrink-0"
+                          className="h-7 shrink-0 px-2 text-xs"
                           onClick={() => void copyText(s.text)}
                         >
-                          <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                          <Copy className="mr-1 h-3 w-3" /> Copiar
                         </Button>
                       </div>
-                      <p className="mt-2 text-[13px] leading-relaxed text-foreground/90">
+                      <p className="mt-0.5 text-[10px] text-muted-foreground">{s.when}</p>
+                      <p className="mt-1.5 text-[11px] leading-snug text-foreground/90">
                         {s.text}
                       </p>
                     </div>
