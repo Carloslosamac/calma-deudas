@@ -2189,8 +2189,10 @@ const AdminVentas = () => {
               {qualStep < 4 && (
                 <Button
                   type="button"
-                  variant="orange"
+                  variant="outline"
                   size="sm"
+                  className="hover:opacity-90"
+                  style={phasePrimaryBtn}
                   onClick={() => setQualStep((q) => Math.min(4, q + 1))}
                 >
                   Siguiente <ArrowRight className="ml-1 h-4 w-4" />
