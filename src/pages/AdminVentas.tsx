@@ -2577,20 +2577,7 @@ const AdminVentas = () => {
               </div>
             )}
 
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement en la firma"
-              ctaLabel="Regenerar guion de cierre"
-              onContinue={() => void runPhase("signing")}
-              loading={generating}
-              phrases={REACTION_PHRASES_SIGN}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(5)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[5]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
 
             <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
               <Label>Estado de la firma</Label>
