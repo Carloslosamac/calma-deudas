@@ -1721,11 +1721,11 @@ const AdminVentas = () => {
                 title="Guion de apertura"
                 subtitle="Guiones fijos de Carlos. Elige el que encaje según cómo llegue la persona; la presentación siempre es la misma, va antes del caso."
               >
-                <div className="space-y-3">
+                <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
                   {PRESENTATION_SCRIPTS.map((s) => (
                     <div
                       key={s.id}
-                      className="rounded-lg border border-border bg-background/60 p-4"
+                      className="flex flex-col rounded-lg border border-border bg-background/60 p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
@@ -1741,7 +1741,7 @@ const AdminVentas = () => {
                           <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
                         </Button>
                       </div>
-                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">
+                      <p className="mt-2 text-[13px] leading-relaxed text-foreground/90">
                         {s.text}
                       </p>
                     </div>
