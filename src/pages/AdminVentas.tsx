@@ -732,6 +732,22 @@ const EngagementGate = ({
 
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
+// Reconstruye la lista de datos relevantes a partir del texto guardado del
+// caso (formato "- dato" por línea; compat con casos antiguos de texto libre).
+const parseFactsFromText = (text: string | null | undefined): string[] => {
+  if (!text) return [];
+  const lines = text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .filter((l) => !l.toLowerCase().startsWith("etiqueta:"));
+  const bullets = lines
+    .filter((l) => l.startsWith("- "))
+    .map((l) => l.replace(/^-\s+/, ""));
+  if (bullets.length) return bullets;
+  return lines.length ? lines : [text.trim()];
+};
+
 const TEST_CASE: {
   label: string;
   relevantFacts: string[];
