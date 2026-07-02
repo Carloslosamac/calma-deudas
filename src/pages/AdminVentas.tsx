@@ -966,7 +966,8 @@ const AdminVentas = () => {
   const resetForm = () => {
     setStep(0);
     setLabel("");
-    setCaseText("");
+    setRelevantFacts([]);
+    setNewFact("");
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
@@ -981,7 +982,8 @@ const AdminVentas = () => {
   const loadTestCase = () => {
     setReinforceByStep({});
     setLabel(TEST_CASE.label);
-    setCaseText(TEST_CASE.caseText);
+    setRelevantFacts(TEST_CASE.relevantFacts);
+    setNewFact("");
     setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
     setResult(TEST_CASE.result);
     setSavedId(null);
@@ -1274,7 +1276,8 @@ const AdminVentas = () => {
 
   const openCase = (c: SalesCaseRow) => {
     setLabel(c.label);
-    setCaseText(c.case_text);
+    setRelevantFacts(parseFactsFromText(c.case_text));
+    setNewFact("");
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
     const gf = (c.guide_fields || {}) as {
       engagement?: number;
