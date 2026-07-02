@@ -2477,7 +2477,7 @@ const AdminVentas = () => {
                     toast.error("Indica al menos el nombre del firmante.");
                     return;
                   }
-                  downloadContractPdf({
+                  void downloadContractPdf({
                     ...contract,
                     service: contract.service || result.triage.solution,
                   });
