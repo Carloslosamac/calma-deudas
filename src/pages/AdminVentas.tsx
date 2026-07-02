@@ -541,7 +541,7 @@ const CaseFactsPanel = ({
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+    <div className="mt-2 rounded-xl border border-border bg-card/80 p-2.5">
       {/* Añadir dato: siempre visible */}
       <div className="flex gap-2">
         <Input
