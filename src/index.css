@@ -226,7 +226,8 @@ All colors MUST be HSL.
     color: hsl(var(--phase)) !important;
   }
   .phase-card input.border-input,
-  .phase-card textarea.border-input {
+  .phase-card textarea.border-input,
+  .phase-card [role="combobox"] {
     color: hsl(var(--foreground)) !important;
   }
   .phase-card .border-input:hover,
