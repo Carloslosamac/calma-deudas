@@ -727,20 +727,7 @@ const EngagementGate = ({
     <div className="space-y-4 rounded-xl border border-border bg-muted/40 p-4">
       <div>
         <h3 className="font-poppins text-sm font-bold text-foreground">{title}</h3>
-        <p className="text-xs text-muted-foreground">
-          Marca lo lista que ves a la persona para empezar. El siguiente paso se
-          preparará con un discurso más fuerte o más suave según este nivel.
-        </p>
       </div>
-
-      <ul className="space-y-1">
-        {ENGAGEMENT_SIGNALS.map((s) => (
-          <li key={s} className="flex items-start gap-2 text-xs text-muted-foreground">
-            <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-            {s}
-          </li>
-        ))}
-      </ul>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {ENGAGEMENT_LEVELS.map((l) => {
