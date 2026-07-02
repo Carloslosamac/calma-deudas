@@ -1853,7 +1853,7 @@ const AdminVentas = () => {
                             d.isDefault === o.v
                               ? o.v
                                 ? "bg-destructive text-destructive-foreground"
-                                : "bg-phase-solution text-white"
+                              : "bg-muted-foreground text-background"
                               : "bg-background text-muted-foreground hover:bg-muted"
                           }`}
                         >
