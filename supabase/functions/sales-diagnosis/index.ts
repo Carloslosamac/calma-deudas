@@ -698,14 +698,26 @@ Deno.serve(async (req) => {
       );
     }
 
+    if (phase === "solution") {
+      return new Response(
+        JSON.stringify({
+          triage: t,
+          engagement,
+          solution_internal: asCards(parsed.solution_internal),
+          solution_client: asText(parsed.solution_client),
+          approach: asText(parsed.approach),
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    // phase === "diagnosis" (o vacío): solo diagnóstico.
     return new Response(
       JSON.stringify({
         triage: t,
         engagement,
         diagnosis_internal: asCards(parsed.diagnosis_internal),
         diagnosis_client: asText(parsed.diagnosis_client),
-        solution_internal: asCards(parsed.solution_internal),
-        solution_client: asText(parsed.solution_client),
         approach: asText(parsed.approach),
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
