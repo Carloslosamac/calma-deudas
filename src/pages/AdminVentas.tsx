@@ -1678,6 +1678,13 @@ const AdminVentas = () => {
             onAddFact={addFact}
             onRemoveFact={removeFact}
           />
+
+          {/* Gate de engagement en la columna izquierda (solo desktop). */}
+          {currentEngagementGate && (
+            <div className="mt-3 hidden lg:block" style={phaseStyle(step)}>
+              {currentEngagementGate}
+            </div>
+          )}
         </div>
 
         {/* Columna principal: fase activa + historial */}
