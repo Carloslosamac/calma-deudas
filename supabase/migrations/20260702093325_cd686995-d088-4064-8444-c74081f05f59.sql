@@ -1,0 +1,1 @@
+UPDATE public.generated_posts SET slug='5-maneras-frenar-un-embargo' WHERE slug='5-maneras-frenar-embargo-misolvencia';
