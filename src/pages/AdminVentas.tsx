@@ -1055,34 +1055,41 @@ const AdminVentas = () => {
     }
   };
 
-  // Paso 0 → 1: prepara el diagnóstico según el engagement.
+  // Presentación → Cualificación: avanza al formulario de cualificación.
+  // Opcionalmente ya se ha generado el guion de apertura en esta fase.
+  const proceedToQualification = () => setStep(1);
+
+  // Cualificación → Diagnóstico: prepara el diagnóstico según el engagement.
   const generate = () => {
     setResult(null);
-    void runGeneration(1);
+    void runGeneration(2);
   };
 
-  // Paso 1 → 2: re-prepara TODO el discurso (incl. solución) con el
+  // Diagnóstico → Solución: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
-  const proceedToSolution = () => void runGeneration(2);
+  const proceedToSolution = () => void runGeneration(3);
 
-  // Paso 2 → 3: pasa a contrato (el guion de envío se pre-genera solo al entrar).
+  // Solución → Contrato: pasa a contrato (el guion de envío se pre-genera solo al entrar).
   const goToContract = () => {
     if (result) {
       setContract((c) => (c.service ? c : { ...c, service: result.triage.solution }));
     }
-    autoGenRef.current[3] = false;
-    setStep(3);
-  };
-
-  // Paso 3 → 4: pasa a firma (el guion de cierre se pre-genera solo al entrar).
-  const goToSign = () => {
     autoGenRef.current[4] = false;
     setStep(4);
   };
 
+  // Contrato → Firma: pasa a firma (el guion de cierre se pre-genera solo al entrar).
+  const goToSign = () => {
+    autoGenRef.current[5] = false;
+    setStep(5);
+  };
+
   // Genera una fase puntual (mensaje de envío del contrato o guion de firma)
   // sin sobreescribir el diagnóstico/solución ya generados.
-  const runPhase = async (phase: "contract_message" | "signing", nextStep?: number) => {
+  const runPhase = async (
+    phase: "contract_message" | "signing" | "presentation",
+    nextStep?: number,
+  ) => {
     if (caseText.trim().length < 10) {
       toast.error("Describe el caso (mínimo 10 caracteres).");
       return;
