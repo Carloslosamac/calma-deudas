@@ -54,6 +54,9 @@ export default {
         "accent-soft": "hsl(var(--accent-soft))",
         "accent-deep": "hsl(var(--accent-deep))",
         phase: {
+          presentation: "hsl(var(--phase-presentation))",
+          "presentation-foreground": "hsl(var(--phase-presentation-foreground))",
+          "presentation-soft": "hsl(var(--phase-presentation-soft))",
           qualify: "hsl(var(--phase-qualify))",
           "qualify-foreground": "hsl(var(--phase-qualify-foreground))",
           "qualify-soft": "hsl(var(--phase-qualify-soft))",
