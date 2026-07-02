@@ -2522,6 +2522,9 @@ const AdminVentas = () => {
                     <Button variant="outline" size="sm" onClick={resetForm}>
                       <Plus className="mr-1 h-4 w-4" /> Nuevo
                     </Button>
+                    <Link to="/admin/ventas/leads">
+                      <Button variant="ghost" size="sm">Llamadas</Button>
+                    </Link>
                     <Link to="/admin">
                       <Button variant="ghost" size="sm">Panel</Button>
                     </Link>
