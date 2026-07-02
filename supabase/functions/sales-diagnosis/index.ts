@@ -599,6 +599,7 @@ Deno.serve(async (req) => {
         model: "google/gemini-3-flash-preview",
         messages: [{ role: "user", content: prompt }],
         response_format: { type: "json_object" },
+        reasoning_effort: "low",
       }),
     });
 
