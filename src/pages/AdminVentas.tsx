@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
@@ -32,6 +31,8 @@ import {
   Download,
   PenLine,
   RefreshCw,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import ConversionChart from "@/components/ventas/ConversionChart";
@@ -427,29 +428,41 @@ const phaseStyle = (i: number) =>
     ["--phase-fg" as string]: `var(${PHASE_THEMES[i].var}-foreground)`,
   }) as React.CSSProperties;
 
-// Card unitaria de bloque: misma anatomía (cabecera con punto de fase + título +
-// subtítulo) para que todas las fases se vean como un formulario coherente.
-const SectionCard = ({
+// Card única de la fase: contenedor con borde/color de fase que envuelve todas
+// las secciones internas de esa fase (unicard).
+const PhaseCard = ({
   phase,
-  title,
-  subtitle,
-  icon,
   children,
   className,
 }: {
   phase: number;
-  title?: string;
-  subtitle?: string;
-  icon?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }) => (
   <Card
-    className={`phase-card border-l-4 p-5 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
+    className={`phase-card space-y-6 border-l-4 p-6 ${PHASE_THEMES[phase].border} ${PHASE_THEMES[phase].soft} ${className ?? ""}`}
     style={phaseStyle(phase)}
   >
+    {children}
+  </Card>
+);
+
+// Sección interna de una PhaseCard: título + contenido, separada de la anterior
+// por una línea sutil con el tono de la fase (no es una card independiente).
+const Section = ({
+  title,
+  subtitle,
+  icon,
+  children,
+}: {
+  title?: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-4 border-t pt-6 first:border-t-0 first:pt-0" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
     {(title || icon) && (
-      <div className="mb-4 flex items-center gap-2.5">
+      <div className="flex items-center gap-2.5">
         {icon && (
           <span
             className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
@@ -467,15 +480,112 @@ const SectionCard = ({
               {title}
             </h3>
           )}
-          {subtitle && (
-            <p className="text-xs text-muted-foreground">{subtitle}</p>
-          )}
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
         </div>
       </div>
     )}
     {children}
-  </Card>
+  </div>
 );
+
+// Panel del caso en la cabecera sticky: etiqueta + datos relevantes que se
+// añaden uno a uno. Colapsable para no ocupar demasiado alto. Alimenta la IA.
+const CaseFactsPanel = ({
+  label,
+  onLabelChange,
+  facts,
+  newFact,
+  onNewFactChange,
+  onAddFact,
+  onRemoveFact,
+}: {
+  label: string;
+  onLabelChange: (v: string) => void;
+  facts: string[];
+  newFact: string;
+  onNewFactChange: (v: string) => void;
+  onAddFact: () => void;
+  onRemoveFact: (i: number) => void;
+}) => {
+  const [open, setOpen] = useState(true);
+  return (
+    <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-2 text-left"
+      >
+        <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
+          <ClipboardList className="h-4 w-4 text-muted-foreground" />
+          Datos del caso
+          <Badge variant="secondary" className="ml-1">
+            {facts.length}
+          </Badge>
+          {!open && label.trim() && (
+            <span className="ml-1 truncate font-normal text-muted-foreground">
+              · {label.trim()}
+            </span>
+          )}
+        </span>
+        {open ? (
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        )}
+      </button>
+
+      {open && (
+        <div className="mt-3 space-y-3">
+          <Input
+            value={label}
+            onChange={(e) => onLabelChange(e.target.value)}
+            placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
+          />
+          <div className="flex gap-2">
+            <Input
+              value={newFact}
+              onChange={(e) => onNewFactChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  onAddFact();
+                }
+              }}
+              placeholder="Añadir dato relevante y pulsa Enter…"
+            />
+            <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          {facts.length === 0 ? (
+            <p className="text-xs text-muted-foreground">
+              Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
+            </p>
+          ) : (
+            <ul className="space-y-1.5">
+              {facts.map((f, i) => (
+                <li
+                  key={i}
+                  className="flex items-start justify-between gap-2 rounded-lg border border-border bg-background/60 px-3 py-1.5 text-sm"
+                >
+                  <span className="min-w-0 flex-1">{f}</span>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveFact(i)}
+                    aria-label="Eliminar dato"
+                    className="mt-0.5 shrink-0 text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 type EngagementGateProps = {
   value: number;
@@ -732,16 +842,37 @@ const EngagementGate = ({
 
 // Caso de prueba para la fase de testing: rellena el formulario y un
 // resultado simulado para poder navegar libremente entre secciones.
+// Reconstruye la lista de datos relevantes a partir del texto guardado del
+// caso (formato "- dato" por línea; compat con casos antiguos de texto libre).
+const parseFactsFromText = (text: string | null | undefined): string[] => {
+  if (!text) return [];
+  const lines = text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .filter((l) => !l.toLowerCase().startsWith("etiqueta:"));
+  const bullets = lines
+    .filter((l) => l.startsWith("- "))
+    .map((l) => l.replace(/^-\s+/, ""));
+  if (bullets.length) return bullets;
+  return lines.length ? lines : [text.trim()];
+};
+
 const TEST_CASE: {
   label: string;
-  caseText: string;
+  relevantFacts: string[];
   guide: GuideFields;
   result: AiResult;
   contract: ContractFields;
 } = {
   label: "PRUEBA · María · revolving 18.000€",
-  caseText:
-    "María, 42 años, separada con dos hijos. Trabaja como administrativa con contrato indefinido y cobra unos 1.350€ al mes. Arrastra varias tarjetas revolving y un par de microcréditos que pidió para llegar a fin de mes. Ya no puede pagar las cuotas, ha empezado a recibir llamadas de los acreedores y está muy agobiada porque teme que le embarguen la nómina.",
+  relevantFacts: [
+    "María, 42 años, separada con dos hijos",
+    "Administrativa con contrato indefinido, ~1.350€/mes",
+    "Varias tarjetas revolving y microcréditos pedidos para llegar a fin de mes",
+    "Ya no puede pagar las cuotas y recibe llamadas de los acreedores",
+    "Muy agobiada, teme que le embarguen la nómina",
+  ],
   guide: {
     debts: [
       { type: "tarjetas", entity: "WiZink", amount: 8000, monthlyPayment: 240, isDefault: true },
@@ -901,7 +1032,8 @@ const AdminVentas = () => {
 
   const [step, setStep] = useState(0);
   const [label, setLabel] = useState("");
-  const [caseText, setCaseText] = useState("");
+  const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
+  const [newFact, setNewFact] = useState("");
   const [guide, setGuide] = useState<GuideFields>(emptyGuide());
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -932,6 +1064,26 @@ const AdminVentas = () => {
       prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
     );
 
+  // El caso ya no es un textarea: se compone a partir de la etiqueta y los
+  // "datos relevantes" añadidos uno a uno, para alimentar la IA sin tocar el
+  // edge function (sigue recibiendo `caseText`).
+  const caseText = [
+    label.trim() ? `Etiqueta: ${label.trim()}` : "",
+    ...relevantFacts.map((f) => `- ${f}`),
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const hasCaseData = relevantFacts.length > 0;
+
+  const addFact = () => {
+    const v = newFact.trim();
+    if (!v) return;
+    setRelevantFacts((prev) => [...prev, v]);
+    setNewFact("");
+  };
+  const removeFact = (i: number) =>
+    setRelevantFacts((prev) => prev.filter((_, idx) => idx !== i));
+
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [session, loading, navigate]);
@@ -945,7 +1097,8 @@ const AdminVentas = () => {
   const resetForm = () => {
     setStep(0);
     setLabel("");
-    setCaseText("");
+    setRelevantFacts([]);
+    setNewFact("");
     setGuide(emptyGuide());
     setResult(null);
     setSavedId(null);
@@ -960,7 +1113,8 @@ const AdminVentas = () => {
   const loadTestCase = () => {
     setReinforceByStep({});
     setLabel(TEST_CASE.label);
-    setCaseText(TEST_CASE.caseText);
+    setRelevantFacts(TEST_CASE.relevantFacts);
+    setNewFact("");
     setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
     setResult(TEST_CASE.result);
     setSavedId(null);
@@ -1020,8 +1174,8 @@ const AdminVentas = () => {
     paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
 
   const runGeneration = async (nextStep: number) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setGenerating(true);
@@ -1090,8 +1244,8 @@ const AdminVentas = () => {
     phase: "contract_message" | "signing" | "presentation",
     nextStep?: number,
   ) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setGenerating(true);
@@ -1146,8 +1300,8 @@ const AdminVentas = () => {
   // tiene que pensar o quiere colgar, genera argumentario de manejo de
   // objeciones anclado en el caso y las reacciones marcadas.
   const reinforcePhase = async (currentStep: number) => {
-    if (caseText.trim().length < 10) {
-      toast.error("Describe el caso (mínimo 10 caracteres).");
+    if (!hasCaseData) {
+      toast.error("Añade al menos un dato relevante del caso.");
       return;
     }
     setReinforcing(true);
@@ -1253,7 +1407,8 @@ const AdminVentas = () => {
 
   const openCase = (c: SalesCaseRow) => {
     setLabel(c.label);
-    setCaseText(c.case_text);
+    setRelevantFacts(parseFactsFromText(c.case_text));
+    setNewFact("");
     setGuide({ ...emptyGuide(), ...(c.guide_fields || {}) });
     const gf = (c.guide_fields || {}) as {
       engagement?: number;
@@ -1369,47 +1524,51 @@ const AdminVentas = () => {
               </button>
             ))}
           </div>
+
+          {/* Panel del caso: datos relevantes añadidos uno a uno, disponible en
+              cualquier fase y que alimenta la generación de guiones. */}
+          <CaseFactsPanel
+            label={label}
+            onLabelChange={setLabel}
+            facts={relevantFacts}
+            newFact={newFact}
+            onNewFactChange={setNewFact}
+            onAddFact={addFact}
+            onRemoveFact={removeFact}
+          />
         </div>
 
         {/* Fase 1: Presentación */}
         {step === 0 && (
           <div className="space-y-4" style={phaseStyle(0)}>
-            <SectionCard
-              phase={0}
-              icon={<ClipboardList className="h-4 w-4" />}
-              title="Datos del caso"
-              subtitle="Identifica el caso y anota la situación de la persona."
-            >
-              <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="label">Etiqueta del caso</Label>
-              <Input
-                id="label"
-                value={label}
-                onChange={(e) => setLabel(e.target.value)}
-                placeholder="Ej. María · revolving 12.000€"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="caseText">Caso de la persona</Label>
-              <Textarea
-                id="caseText"
-                value={caseText}
-                onChange={(e) => setCaseText(e.target.value)}
-                placeholder="Escribe o pega aquí la situación de la persona: deudas, qué le preocupa, su situación familiar y económica..."
-                className="min-h-[160px]"
-              />
-            </div>
+            <PhaseCard phase={0}>
+              {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
+              <div
+                className="rounded-xl p-5"
+                style={{ backgroundColor: "hsl(var(--phase) / 0.12)" }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-[0.2em]"
+                  style={{ color: "hsl(var(--phase))" }}
+                >
+                  Encuadre de autoridad
+                </p>
+                <h2 className="mt-1 font-anton text-2xl uppercase leading-tight text-foreground">
+                  Somos Calma. Resolvemos deudas, no las gestionamos.
+                </h2>
+                <p className="mt-2 text-sm text-foreground/80">
+                  Antes de nada, marca autoridad: quiénes somos, qué garantizamos y por qué
+                  esta llamada merece toda su atención. Hablas con expertos legales que ya han
+                  sacado a cientos de personas de esta misma situación. Tono firme, cercano y
+                  sin titubeos.
+                </p>
               </div>
-            </SectionCard>
 
-            <SectionCard
-              phase={0}
-              icon={<Sparkles className="h-4 w-4" />}
-              title="Guion de apertura"
-              subtitle="Cómo presentarte y ganar confianza en los primeros segundos."
-            >
-              <div className="space-y-4">
+              <Section
+                icon={<Sparkles className="h-4 w-4" />}
+                title="Guion de apertura"
+                subtitle="Cómo presentarte y ganar autoridad en los primeros segundos."
+              >
                 {result?.presentation_internal?.length ? (
                   <>
                     <ResultBlock
@@ -1451,8 +1610,8 @@ const AdminVentas = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            </SectionCard>
+              </Section>
+            </PhaseCard>
 
             <EngagementGate
               value={engagement}
@@ -1474,8 +1633,8 @@ const AdminVentas = () => {
         {/* Fase 2: Cualificación */}
         {step === 1 && (
           <div className="space-y-4" style={phaseStyle(1)}>
-            <SectionCard
-              phase={1}
+            <PhaseCard phase={1}>
+            <Section
               icon={<ClipboardList className="h-4 w-4" />}
               title="Deudas por entidad"
               subtitle="Cada entidad con su importe, cuota y si está en impago."
@@ -1588,9 +1747,9 @@ const AdminVentas = () => {
               )}
             </div>
               </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Empleo, ingresos y gastos">
+            <Section title="Empleo, ingresos y gastos">
               <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -1645,9 +1804,9 @@ const AdminVentas = () => {
               />
             </div>
               </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Vivienda">
+            <Section title="Vivienda">
             {/* Vivienda */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vivienda</Label>
@@ -1737,9 +1896,9 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
-            </SectionCard>
+            </Section>
 
-            <SectionCard phase={1} title="Vehículo">
+            <Section title="Vehículo">
             {/* Vehículo */}
             <div className="space-y-3 rounded-lg border border-border p-3">
               <Label>Vehículo</Label>
@@ -1825,10 +1984,10 @@ const AdminVentas = () => {
                 </div>
               )}
             </div>
-            </SectionCard>
+            </Section>
 
             {monthlyOutflow > 0 && (
-              <SectionCard phase={1} title="Resumen económico">
+              <Section title="Resumen económico">
               <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
                 <p className="text-sm font-semibold text-foreground">
                   Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
@@ -1858,8 +2017,9 @@ const AdminVentas = () => {
                   </p>
                 )}
               </div>
-              </SectionCard>
+              </Section>
             )}
+            </PhaseCard>
 
             <EngagementGate
               value={engagement}
