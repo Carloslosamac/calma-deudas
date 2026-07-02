@@ -2346,155 +2346,17 @@ const AdminVentas = () => {
           >
             <div className="flex items-center justify-between">
               <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
-                <FileText className="h-5 w-5" /> Contrato · {result.triage.title}
+                <FileText className="h-5 w-5" /> Cierre · {result.triage.title}
               </h2>
               <Badge variant="outline">{result.triage.title}</Badge>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-1.5">
-                <Label htmlFor="c-name">Nombre completo</Label>
-                <Input
-                  id="c-name"
-                  value={contract.fullName}
-                  onChange={(e) => setContract((c) => ({ ...c, fullName: e.target.value }))}
-                  placeholder="Nombre y apellidos"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="c-dni">DNI / NIE</Label>
-                <Input
-                  id="c-dni"
-                  value={contract.dni}
-                  onChange={(e) => setContract((c) => ({ ...c, dni: e.target.value }))}
-                  placeholder="00000000X"
-                />
-              </div>
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label htmlFor="c-address">Domicilio</Label>
-                <Input
-                  id="c-address"
-                  value={contract.address}
-                  onChange={(e) => setContract((c) => ({ ...c, address: e.target.value }))}
-                  placeholder="Calle, número, ciudad, CP"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="c-email">Email</Label>
-                <Input
-                  id="c-email"
-                  type="email"
-                  value={contract.email}
-                  onChange={(e) => setContract((c) => ({ ...c, email: e.target.value }))}
-                  placeholder="correo@ejemplo.com"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="c-phone">Teléfono</Label>
-                <Input
-                  id="c-phone"
-                  value={contract.phone}
-                  onChange={(e) => setContract((c) => ({ ...c, phone: e.target.value }))}
-                  placeholder="600000000"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>Servicio contratado</Label>
-                <Select
-                  value={contract.service || result.triage.solution}
-                  onValueChange={(v) => setContract((c) => ({ ...c, service: v }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="lso">Ley de Segunda Oportunidad</SelectItem>
-                    <SelectItem value="reunificar">Reunificación de deudas</SelectItem>
-                    <SelectItem value="reclamacion">Reclamación judicial por usura</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="c-signcity">Localidad de firma</Label>
-                <Input
-                  id="c-signcity"
-                  value={contract.signCity}
-                  onChange={(e) => setContract((c) => ({ ...c, signCity: e.target.value }))}
-                  placeholder="Ej. Madrid"
-                />
-              </div>
-            </div>
-
-            {/* Modalidad de pago + cálculo automático */}
-            <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-3">
-              <Label className="text-sm font-semibold">Modalidad de pago</Label>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="c-initial" className="text-xs">Pago inicial (€)</Label>
-                  <Input
-                    id="c-initial"
-                    inputMode="decimal"
-                    value={contract.initialPayment}
-                    onChange={(e) => setContract((c) => ({ ...c, initialPayment: e.target.value }))}
-                    placeholder="150"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="c-ninst" className="text-xs">Nº de cuotas</Label>
-                  <Input
-                    id="c-ninst"
-                    inputMode="numeric"
-                    value={contract.installments}
-                    onChange={(e) => setContract((c) => ({ ...c, installments: e.target.value }))}
-                    placeholder="30"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="c-amount" className="text-xs">Cuota mensual (€)</Label>
-                  <Input
-                    id="c-amount"
-                    inputMode="decimal"
-                    value={contract.installmentAmount}
-                    onChange={(e) => setContract((c) => ({ ...c, installmentAmount: e.target.value }))}
-                    placeholder="99"
-                  />
-                </div>
-              </div>
-              {(() => {
-                const pay = computeContractTotal(contract);
-                return (
-                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-background p-3 text-sm">
-                    <span className="text-muted-foreground">
-                      {pay.initial.toLocaleString("es-ES")} € iniciales + {pay.installments} ×{" "}
-                      {pay.amount.toLocaleString("es-ES")} € ={" "}
-                      {pay.installmentsTotal.toLocaleString("es-ES")} € en cuotas
-                    </span>
-                    <span className="font-bold text-foreground">
-                      Total: {pay.total.toLocaleString("es-ES")} € IVA incl.
-                    </span>
-                  </div>
-                );
-              })()}
-            </div>
+            <p className="text-sm text-muted-foreground">
+              El contrato se gestiona desde otra herramienta. Aquí solo trabajamos el
+              guion para conseguir el sí y dejar la firma encarrilada.
+            </p>
 
             <div className="flex flex-wrap gap-2">
-              <Button
-                variant="outline"
-                className="hover:opacity-90"
-                style={phasePrimaryBtn}
-                onClick={() => {
-                  if (!contract.fullName.trim()) {
-                    toast.error("Indica al menos el nombre del firmante.");
-                    return;
-                  }
-                  void downloadContractPdf({
-                    ...contract,
-                    service: contract.service || result.triage.solution,
-                  });
-                }}
-              >
-                <Download className="mr-2 h-4 w-4" /> Generar contrato (PDF)
-              </Button>
               <Button
                 variant="outline"
                 onClick={() => void runPhase("contract_message")}
@@ -2506,13 +2368,13 @@ const AdminVentas = () => {
                 ) : (
                   <RefreshCw className="mr-2 h-4 w-4" />
                 )}
-                Regenerar guion de envío
+                Regenerar guion de cierre
               </Button>
             </div>
 
             {generating && !(result.contract_internal?.length) ? (
               <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de envío…
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
               </div>
             ) : (
               ((result.contract_internal && result.contract_internal.length > 0) ||
