@@ -1058,6 +1058,8 @@ const AdminVentas = () => {
   const [sub, setSub] = useState(0);
   // Cuando se retrocede de fase, aterrizar en la última pantalla de la anterior.
   const landOnLastRef = useRef<number | null>(null);
+  // Panel plegable de "datos del caso" en la barra superior del flujo typeform.
+  const [showCase, setShowCase] = useState(false);
   const [label, setLabel] = useState("");
   const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
   const [newFact, setNewFact] = useState("");
