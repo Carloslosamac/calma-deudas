@@ -2336,20 +2336,7 @@ const AdminVentas = () => {
                 {result.approach}
               </div>
             )}
-            <EngagementGate
-              value={engagement}
-              onChange={setEngagement}
-              title="Engagement antes del contrato"
-              ctaLabel="Ir a contrato"
-              onContinue={goToContract}
-              loading={generating}
-              phrases={REACTION_PHRASES_SOLUTION}
-              selectedPhrases={reactions}
-              onTogglePhrase={togglePhrase}
-              onReinforce={() => void reinforcePhase(3)}
-              reinforceLoading={reinforcing}
-              reinforceData={reinforceByStep[3]}
-            />
+            <div className="lg:hidden">{currentEngagementGate}</div>
             <div className="flex justify-start pt-1">
               <Button variant="outline" onClick={() => setStep(2)}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
