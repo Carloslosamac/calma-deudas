@@ -1520,6 +1520,15 @@ const AdminVentas = () => {
       if (error) throw error;
       setSavedId(data.id);
       toast.success("Caso guardado en el historial");
+      if (leadId) {
+        void syncLead({
+          sales_case_id: data.id,
+          lead_status: leadStatusForStep(step),
+          debt: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
+          income: guide.monthlyIncome ?? null,
+          expense: guide.monthlyExpenses ?? null,
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ["sales-cases"] });
     } catch (e) {
       toast.error("No se pudo guardar el caso.");
