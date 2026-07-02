@@ -2154,13 +2154,19 @@ const AdminVentas = () => {
                       </p>
                     )}
                     {guide.monthlyIncome != null && (
-                      <p
-                        className={"text-xs font-medium " + (guide.monthlyIncome - monthlyOutflow < 0 ? "text-destructive" : "text-foreground/80")}
-                      >
-                        {guide.monthlyIncome - monthlyOutflow < 0
-                          ? "Le faltan " + Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes para llegar (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"
-                          : "Le quedan " + (guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes tras pagos (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"}
-                      </p>
+                      (() => {
+                        // Compromiso real total: lo que paga + las cuotas que ya
+                        // impaga (esas deudas siguen siendo suyas y debería pagarlas).
+                        const totalCommitment = monthlyOutflow + debtsMonthlyDefaulted;
+                        const gap = guide.monthlyIncome - totalCommitment;
+                        return (
+                          <p className={"text-xs font-medium " + (gap < 0 ? "text-destructive" : "text-foreground/80")}>
+                            {gap < 0
+                              ? "Le faltan " + Math.abs(gap).toLocaleString("es-ES") + " €/mes para cubrir todas sus cuotas (incluidas las impagadas), con ingresos de " + guide.monthlyIncome.toLocaleString("es-ES") + " €"
+                              : "Le quedan " + gap.toLocaleString("es-ES") + " €/mes tras cubrir todas sus cuotas (incluidas las impagadas), con ingresos de " + guide.monthlyIncome.toLocaleString("es-ES") + " €"}
+                          </p>
+                        );
+                      })()
                     )}
                   </div>
                 ) : (
