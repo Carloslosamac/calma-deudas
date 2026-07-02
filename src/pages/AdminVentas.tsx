@@ -1053,6 +1053,8 @@ const AdminVentas = () => {
 
   const [step, setStep] = useState(0);
   const [qualStep, setQualStep] = useState(0);
+  // Guiones de apertura elegidos (multiselect por tipo de cliente).
+  const [selectedPresentations, setSelectedPresentations] = useState<string[]>([]);
   // Índice de la sub-pantalla dentro de la fase actual (flujo typeform).
   const [sub, setSub] = useState(0);
   // Cuando se retrocede de fase, aterrizar en la última pantalla de la anterior.
