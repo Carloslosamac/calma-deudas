@@ -34,6 +34,7 @@ import {
   RefreshCw,
   ChevronDown,
   ChevronUp,
+  Check,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import ConversionChart from "@/components/ventas/ConversionChart";
