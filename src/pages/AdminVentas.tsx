@@ -1123,6 +1123,46 @@ const AdminVentas = () => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [session, loading, navigate]);
 
+  // Precarga desde la lista de llamadas: rellena etiqueta y datos económicos
+  // conocidos del lead y guarda el vínculo para sincronizar su estado.
+  useEffect(() => {
+    const lead = (location.state as { lead?: {
+      id: string;
+      label?: string;
+      guide?: Partial<GuideFields>;
+    } } | null)?.lead;
+    if (!lead) return;
+    setLeadId(lead.id);
+    if (lead.label) setLabel(lead.label);
+    if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
+    // Limpia el state para no re-precargar al navegar internamente.
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mapea la fase actual del flujo al estado del lead en el CRM interno.
+  const leadStatusForStep = (s: number): string => {
+    if (s >= 5) return "Ganado";
+    if (s === 4) return "Cita";
+    if (s === 3) return "Negociación";
+    if (s >= 1) return "Interesado";
+    return "Contactado";
+  };
+
+  // Sincroniza el estado (y datos económicos) del lead vinculado.
+  const syncLead = async (patch: Record<string, unknown>) => {
+    if (!leadId) return;
+    const { error } = await supabase.from("sales_leads").update(patch).eq("id", leadId);
+    if (error) console.error("No se pudo sincronizar el lead", error);
+  };
+
+  // Al avanzar de fase, refleja el progreso en el estado del lead.
+  useEffect(() => {
+    if (!leadId) return;
+    void syncLead({ lead_status: leadStatusForStep(step) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, leadId]);
+
   // Al cambiar de fase, reposiciona la sub-pantalla: 0 al avanzar, o la última
   // de la fase si venimos de un "Atrás" que cruza el límite de fase.
   useEffect(() => {
