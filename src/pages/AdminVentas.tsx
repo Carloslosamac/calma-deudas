@@ -734,14 +734,19 @@ const EngagementGate = ({
 // resultado simulado para poder navegar libremente entre secciones.
 const TEST_CASE: {
   label: string;
-  caseText: string;
+  relevantFacts: string[];
   guide: GuideFields;
   result: AiResult;
   contract: ContractFields;
 } = {
   label: "PRUEBA · María · revolving 18.000€",
-  caseText:
-    "María, 42 años, separada con dos hijos. Trabaja como administrativa con contrato indefinido y cobra unos 1.350€ al mes. Arrastra varias tarjetas revolving y un par de microcréditos que pidió para llegar a fin de mes. Ya no puede pagar las cuotas, ha empezado a recibir llamadas de los acreedores y está muy agobiada porque teme que le embarguen la nómina.",
+  relevantFacts: [
+    "María, 42 años, separada con dos hijos",
+    "Administrativa con contrato indefinido, ~1.350€/mes",
+    "Varias tarjetas revolving y microcréditos pedidos para llegar a fin de mes",
+    "Ya no puede pagar las cuotas y recibe llamadas de los acreedores",
+    "Muy agobiada, teme que le embarguen la nómina",
+  ],
   guide: {
     debts: [
       { type: "tarjetas", entity: "WiZink", amount: 8000, monthlyPayment: 240, isDefault: true },
