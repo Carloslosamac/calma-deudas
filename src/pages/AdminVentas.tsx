@@ -2057,8 +2057,10 @@ const AdminVentas = () => {
                   <Button
                     key={v}
                     type="button"
-                    variant={guide.vehicle === v ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={guide.vehicle === v ? "hover:opacity-90" : undefined}
+                    style={guide.vehicle === v ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() =>
                       setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))
                     }
