@@ -1840,7 +1840,7 @@ const AdminVentas = () => {
                       }
                       placeholder="Cuota €"
                     />
-                    <div className="flex overflow-hidden rounded-md border border-border">
+                    <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
                       {[
                         { v: true, l: "Impago" },
                         { v: false, l: "Al día" },
@@ -1849,12 +1849,12 @@ const AdminVentas = () => {
                           key={o.l}
                           type="button"
                           onClick={() => updateDebt(i, { isDefault: o.v })}
-                          className={`px-2 py-1.5 text-[10px] font-medium transition-colors ${
+                          className={`rounded px-2.5 py-1 text-[10px] font-semibold transition-colors ${
                             d.isDefault === o.v
                               ? o.v
-                                ? "bg-destructive text-destructive-foreground"
-                              : "bg-muted-foreground text-background"
-                              : "bg-background text-muted-foreground hover:bg-muted"
+                                ? "bg-destructive text-destructive-foreground shadow-sm"
+                                : "bg-background text-foreground shadow-sm"
+                              : "text-muted-foreground hover:text-foreground"
                           }`}
                         >
                           {o.l}
