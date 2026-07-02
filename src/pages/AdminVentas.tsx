@@ -1657,12 +1657,12 @@ const AdminVentas = () => {
         </div>
 
         {/* Columna principal: fase activa + historial */}
-        <div className="min-w-0">
+        <div className="min-w-0 lg:flex lg:h-full lg:flex-col">
 
         {/* Fase 1: Presentación */}
         {step === 0 && (
-          <div className="space-y-3" style={phaseStyle(0)}>
-            <PhaseCard phase={0}>
+          <div className="space-y-3 lg:flex lg:h-full lg:flex-1 lg:flex-col" style={phaseStyle(0)}>
+            <PhaseCard phase={0} className="lg:flex lg:flex-1 lg:flex-col">
               {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
               <div
                 className="rounded-lg px-4 py-2.5"
@@ -1682,12 +1682,13 @@ const AdminVentas = () => {
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
+                className="lg:flex lg:flex-1 lg:flex-col"
               >
-                <div className="grid gap-2.5 lg:grid-cols-3">
+                <div className="grid gap-2.5 lg:min-h-0 lg:flex-1 lg:grid-cols-3">
                   {PRESENTATION_SCRIPTS.map((s) => (
                     <div
                       key={s.id}
-                      className="flex flex-col rounded-lg border border-border bg-background/60 p-3"
+                      className="flex h-full flex-col rounded-lg border border-border bg-background/60 p-3"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-xs font-semibold text-foreground">{s.title}</p>
