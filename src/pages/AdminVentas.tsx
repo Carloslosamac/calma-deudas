@@ -1680,9 +1680,9 @@ const AdminVentas = () => {
         <div className="min-w-0 lg:flex lg:h-full lg:flex-col">
 
         {/* Fase 1: Presentación */}
-        {step === 0 && (
-          <div className="space-y-3 lg:flex lg:h-full lg:flex-1 lg:flex-col" style={phaseStyle(0)}>
-            <PhaseCard phase={0} className="lg:flex lg:flex-1 lg:flex-col">
+         {step === 0 && (
+           <div className="space-y-3" style={phaseStyle(0)}>
+             <PhaseCard phase={0}>
               {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
               <div
                 className="rounded-lg px-4 py-2.5"
@@ -1702,16 +1702,15 @@ const AdminVentas = () => {
               <Section
                 icon={<Sparkles className="h-4 w-4" />}
                 title="Guion de apertura"
-                className="lg:flex lg:flex-1 lg:flex-col"
               >
-                <div className="grid gap-2.5 lg:min-h-0 lg:flex-1 lg:grid-cols-3">
+                <div className="grid gap-3 lg:grid-cols-3 lg:items-start">
                   {PRESENTATION_SCRIPTS.map((s) => (
                     <div
                       key={s.id}
-                      className="flex h-full flex-col rounded-lg border border-border bg-background/60 p-3"
+                      className="flex flex-col rounded-lg border border-border bg-background/60 p-4"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <p className="text-xs font-semibold text-foreground">{s.title}</p>
+                        <p className="text-sm font-semibold text-foreground">{s.title}</p>
                         <Button
                           variant="outline"
                           size="sm"
@@ -1721,8 +1720,8 @@ const AdminVentas = () => {
                           <Copy className="mr-1 h-3 w-3" /> Copiar
                         </Button>
                       </div>
-                      <p className="mt-0.5 text-[10px] text-muted-foreground">{s.when}</p>
-                      <p className="mt-1.5 text-[11px] leading-snug text-foreground/90">
+                      <p className="mt-1 text-xs text-muted-foreground">{s.when}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">
                         {s.text}
                       </p>
                     </div>
