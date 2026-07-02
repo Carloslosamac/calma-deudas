@@ -1615,338 +1615,284 @@ const AdminVentas = () => {
   })();
 
   return (
-    <div className="min-h-screen bg-background px-4 py-4 lg:flex lg:h-screen lg:flex-col lg:overflow-hidden">
+    <div className="flex min-h-screen flex-col bg-background">
       <Seo
         title="Ventas · Diagnóstico"
         description="Herramienta interna de ventas"
         canonical="/admin/ventas"
         robots="noindex,nofollow"
       />
-      <div className="mx-auto flex w-full max-w-[1600px] flex-col lg:min-h-0 lg:flex-1">
-        <div className="mb-3 flex items-center justify-between gap-3 lg:shrink-0">
-          <h1 className="font-poppins text-lg font-bold text-foreground">
-            Herramienta de ventas
-          </h1>
-          <div className="flex gap-2">
-            <Button variant="orange" size="sm" onClick={loadTestCase}>
-              <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
-            </Button>
-            <Button variant="outline" size="sm" onClick={resetForm}>
-              <Plus className="mr-1 h-4 w-4" /> Nuevo caso
-            </Button>
-            <Link to="/admin">
-              <Button variant="ghost" size="sm">
-                Panel
-              </Button>
-            </Link>
-          </div>
-        </div>
+      {(() => {
+        type Screen = { key: string; kind: "content" | "gate"; node: React.ReactNode };
 
-        <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[340px_minmax(0,1fr)] lg:items-stretch lg:gap-6">
-        {/* Cabecera pegajosa: gráfico de conversión + stepper siempre visibles.
-            En móvil va pegada arriba a lo ancho; en desktop se convierte en una
-            columna lateral fija para liberar espacio vertical. */}
-        <div className="sticky top-0 z-20 -mx-4 mb-4 flex flex-col border-b border-border bg-background/95 px-4 pb-3 pt-2 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:static lg:z-10 lg:mx-0 lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto lg:rounded-xl lg:border lg:px-4 lg:py-3 lg:shadow-sm supports-[backdrop-filter]:lg:bg-background/95">
-          <ConversionChart
-            steps={STEPS}
-            currentStep={step}
-            engagementByPhase={engagementByPhase}
-            compact
-          />
-          <div className="mt-2 grid grid-cols-3 gap-1.5 lg:grid-cols-2">
-            {STEPS.map((s, i) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setStep(i)}
-                className={`flex items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition-colors ${
-                  step === i
-                    ? PHASE_THEMES[i].active
-                    : "bg-muted text-muted-foreground hover:bg-muted/70"
-                }`}
-              >
-                <span
-                  className={`h-2 w-2 shrink-0 rounded-full ${
-                    step === i ? "bg-current opacity-80" : PHASE_THEMES[i].dot
-                  }`}
-                />
-                {i + 1}. {s}
-              </button>
-            ))}
-          </div>
+        const kicker = (t: string) => (
+          <p
+            className="text-[11px] font-bold uppercase tracking-[0.2em]"
+            style={{ color: "hsl(var(--phase))" }}
+          >
+            {t}
+          </p>
+        );
 
-          {/* Panel del caso: datos relevantes añadidos uno a uno, disponible en
-              cualquier fase y que alimenta la generación de guiones. */}
-          <CaseFactsPanel
-            label={label}
-            onLabelChange={setLabel}
-            facts={relevantFacts}
-            newFact={newFact}
-            onNewFactChange={setNewFact}
-            onAddFact={addFact}
-            onRemoveFact={removeFact}
-          />
-
-          {/* Gate de engagement en la columna izquierda (solo desktop). */}
-          {currentEngagementGate && (
-            <div className="mt-3 hidden lg:block lg:mt-auto lg:pt-3" style={phaseStyle(step)}>
-              {currentEngagementGate}
-            </div>
-          )}
-        </div>
-
-        {/* Columna principal: fase activa + historial */}
-        <div className="min-w-0 lg:flex lg:h-full lg:min-h-0 lg:flex-col lg:overflow-y-auto lg:pr-1">
-
-        {/* Fase 1: Presentación */}
-         {step === 0 && (
-           <div className="space-y-3" style={phaseStyle(0)}>
-             <PhaseCard phase={0}>
-              {/* Encuadre de autoridad: contundente, antes de tocar el caso. */}
-              <div
-                className="rounded-lg px-4 py-2.5"
-                style={{ backgroundColor: "hsl(var(--phase) / 0.12)" }}
-              >
-                <p
-                  className="text-[10px] font-bold uppercase tracking-[0.2em]"
-                  style={{ color: "hsl(var(--phase))" }}
-                >
-                  Encuadre de autoridad
-                </p>
-                <h2 className="font-anton text-base uppercase leading-tight text-foreground sm:text-lg">
-                  Somos Calma. Resolvemos deudas, no las gestionamos.
+        const scriptScreen = (k: string, card: ScriptCard): Screen => ({
+          key: k,
+          kind: "content",
+          node: (
+            <div className="space-y-4">
+              {kicker(STEPS[step] + " · guion")}
+              <div className="flex items-start gap-3">
+                <span className="text-3xl leading-none">{card.emoji}</span>
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  {card.title}
                 </h2>
               </div>
-
-              <Section
-                icon={<Sparkles className="h-4 w-4" />}
-                title="Guion de apertura"
+              <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground/90">
+                {card.body}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                style={phaseOutlineBtn}
+                onClick={() => void copyText(card.emoji + " " + card.title + "\n" + card.body)}
               >
-                <div className="grid gap-3 lg:grid-cols-3 lg:items-start">
-                  {PRESENTATION_SCRIPTS.map((s) => (
+                <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+              </Button>
+            </div>
+          ),
+        });
+
+        const clientScreen = (k: string, text: string, note?: string): Screen => ({
+          key: k,
+          kind: "content",
+          node: (
+            <div className="space-y-4">
+              {kicker(STEPS[step] + " · para el cliente")}
+              <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                Qué decirle al cliente
+              </h2>
+              <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground">
+                {text || "—"}
+              </p>
+              {note && (
+                <div
+                  className="rounded-lg border p-3 text-xs text-foreground/90"
+                  style={{ borderColor: "hsl(var(--phase) / 0.3)", backgroundColor: "hsl(var(--phase) / 0.05)" }}
+                >
+                  <span className="font-semibold" style={{ color: "hsl(var(--phase))" }}>
+                    Cómo abordar el siguiente paso:{" "}
+                  </span>
+                  {note}
+                </div>
+              )}
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                style={phaseOutlineBtn}
+                onClick={() => void copyText(text)}
+              >
+                <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+              </Button>
+            </div>
+          ),
+        });
+
+        const gate: Screen = { key: "gate", kind: "gate", node: currentEngagementGate };
+
+        const screens: Screen[] = [];
+
+        if (step === 0) {
+          PRESENTATION_SCRIPTS.forEach((s, i) =>
+            screens.push({
+              key: s.id,
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Guion de apertura · " + (i + 1) + "/3")}
+                  <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                    {s.title}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">{s.when}</p>
+                  <p className="whitespace-pre-wrap text-base leading-relaxed text-foreground/90">
+                    {s.text}
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    style={phaseOutlineBtn}
+                    onClick={() => void copyText(s.text)}
+                  >
+                    <Copy className="mr-1 h-3.5 w-3.5" /> Copiar
+                  </Button>
+                </div>
+              ),
+            }),
+          );
+          screens.push(gate);
+        } else if (step === 1) {
+          // Datos del caso
+          screens.push({
+            key: "case",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · el caso")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  ¿Quién es y qué le pasa?
+                </h2>
+                <CaseFactsPanel
+                  label={label}
+                  onLabelChange={setLabel}
+                  facts={relevantFacts}
+                  newFact={newFact}
+                  onNewFactChange={setNewFact}
+                  onAddFact={addFact}
+                  onRemoveFact={removeFact}
+                />
+              </div>
+            ),
+          });
+          // Deudas
+          screens.push({
+            key: "debts",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · deudas")}
+                <div className="flex items-center justify-between">
+                  <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                    Deudas por entidad
+                  </h2>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                    style={phaseOutlineBtn}
+                    onClick={addDebt}
+                  >
+                    <Plus className="mr-1 h-3.5 w-3.5" /> Añadir entidad
+                  </Button>
+                </div>
+                <div className="max-h-[42vh] space-y-1.5 overflow-y-auto pr-1">
+                  {guide.debts.length === 0 && (
+                    <p className="text-sm text-muted-foreground">
+                      Añade cada entidad con su importe y cuota.
+                    </p>
+                  )}
+                  {guide.debts.map((d, i) => (
                     <div
-                      key={s.id}
-                      className="flex flex-col rounded-lg border border-border bg-background/60 p-4"
+                      key={i}
+                      className="grid grid-cols-[minmax(110px,1.2fr)_minmax(100px,1.4fr)_80px_80px_auto_auto] items-center gap-1.5 rounded-md border border-border bg-background/60 px-1.5 py-1"
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <p className="text-sm font-semibold text-foreground">{s.title}</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-7 shrink-0 px-2 text-xs"
-                          onClick={() => void copyText(s.text)}
-                        >
-                          <Copy className="mr-1 h-3 w-3" /> Copiar
-                        </Button>
+                      <Select value={d.type} onValueChange={(v) => updateDebt(i, { type: v })}>
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue placeholder="Tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ENTITY_OPTIONS.map((o) => (
+                            <SelectItem key={o.value} value={o.value}>
+                              {o.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        className="h-8 text-xs"
+                        value={d.entity}
+                        onChange={(e) => updateDebt(i, { entity: e.target.value })}
+                        placeholder="Entidad"
+                      />
+                      <Input
+                        className="h-8 text-xs"
+                        type="number"
+                        value={d.amount ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, { amount: e.target.value ? Number(e.target.value) : undefined })
+                        }
+                        placeholder="Importe €"
+                      />
+                      <Input
+                        className="h-8 text-xs"
+                        type="number"
+                        value={d.monthlyPayment ?? ""}
+                        onChange={(e) =>
+                          updateDebt(i, { monthlyPayment: e.target.value ? Number(e.target.value) : undefined })
+                        }
+                        placeholder="Cuota €"
+                      />
+                      <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
+                        {[
+                          { v: true, l: "Impago" },
+                          { v: false, l: "Al día" },
+                        ].map((o) => {
+                          const activeState = d.isDefault === o.v;
+                          return (
+                            <button
+                              key={o.l}
+                              type="button"
+                              onClick={() => updateDebt(i, { isDefault: o.v })}
+                              style={
+                                activeState && !o.v
+                                  ? { backgroundColor: "hsl(var(--phase))", color: "hsl(var(--phase-fg))" }
+                                  : undefined
+                              }
+                              className={"rounded px-2.5 py-1 text-[10px] font-semibold transition-colors " +
+                                (activeState
+                                  ? o.v
+                                    ? "bg-destructive text-destructive-foreground shadow-sm"
+                                    : "shadow-sm"
+                                  : "text-muted-foreground hover:text-foreground")}
+                            >
+                              {o.l}
+                            </button>
+                          );
+                        })}
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">{s.when}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-foreground/90">
-                        {s.text}
-                      </p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() => removeDebt(i)}
+                        aria-label="Eliminar entidad"
+                      >
+                        <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                      </Button>
                     </div>
                   ))}
                 </div>
-              </Section>
-            </PhaseCard>
-
-            <div className="lg:hidden">{currentEngagementGate}</div>
-          </div>
-        )}
-
-        {/* Fase 2: Cualificación */}
-        {step === 1 && (
-          <div className="space-y-4" style={phaseStyle(1)}>
-            <PhaseCard phase={1}>
-            {(() => {
-              const QUAL_TITLES = [
-                "Deudas por entidad",
-                "Empleo, ingresos y gastos",
-                "Vivienda",
-                "Vehículo",
-                "Resumen económico",
-              ];
-              const last = QUAL_TITLES.length - 1;
-              return (
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-xs font-semibold text-foreground">
-                    Pregunta {qualStep + 1} de {QUAL_TITLES.length}
-                    <span className="ml-1 font-normal text-muted-foreground">
-                      · {QUAL_TITLES[qualStep]}
-                    </span>
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    {QUAL_TITLES.map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        aria-label={`Ir a pregunta ${i + 1}`}
-                        onClick={() => setQualStep(i)}
-                        className={`h-2 rounded-full transition-all ${
-                          i === qualStep ? "w-5 bg-[hsl(var(--phase))]" : "w-2 bg-muted-foreground/30"
-                        }`}
-                      />
-                    ))}
+                {guide.debts.length > 0 && (
+                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
+                    <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
+                    {debtsMonthlyPaying > 0 && (
+                      <span>Cuotas que paga: {debtsMonthlyPaying.toLocaleString("es-ES")} €/mes</span>
+                    )}
+                    {debtsMonthlyDefaulted > 0 && (
+                      <span className="text-muted-foreground">
+                        Cuotas impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes
+                      </span>
+                    )}
                   </div>
-                </div>
-              );
-            })()}
-
-            {qualStep === 0 && (
-            <Section
-              icon={<ClipboardList className="h-4 w-4" />}
-              title="Deudas por entidad"
-            >
-              <div className="space-y-2">
-            {/* Deudas por entidad */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                {guide.debts.length > 3 && (
-                  <span className="text-[10px] text-muted-foreground">
-                    {guide.debts.length} entidades
-                  </span>
                 )}
-                <Button type="button" variant="outline" size="sm" className="ml-auto h-7 px-2 text-xs" style={phaseOutlineBtn} onClick={addDebt}>
-                  <Plus className="mr-1 h-3.5 w-3.5" /> Añadir entidad
-                </Button>
               </div>
-              <div className="max-h-[46vh] space-y-1.5 overflow-y-auto pr-1">
-                {guide.debts.map((d, i) => (
-                  <div
-                    key={i}
-                    className="grid grid-cols-[minmax(120px,1.2fr)_minmax(110px,1.4fr)_84px_84px_auto_auto] items-center gap-1.5 rounded-md border border-border bg-background/60 px-1.5 py-1"
-                  >
-                    <Select
-                      value={d.type}
-                      onValueChange={(v) => updateDebt(i, { type: v })}
-                    >
-                      <SelectTrigger className="h-8 text-xs">
-                        <SelectValue placeholder="Tipo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {ENTITY_OPTIONS.map((o) => (
-                          <SelectItem key={o.value} value={o.value}>
-                            {o.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Input
-                      className="h-8 text-xs"
-                      value={d.entity}
-                      onChange={(e) => updateDebt(i, { entity: e.target.value })}
-                      placeholder="Entidad"
-                    />
-                    <Input
-                      className="h-8 text-xs"
-                      type="number"
-                      value={d.amount ?? ""}
-                      onChange={(e) =>
-                        updateDebt(i, {
-                          amount: e.target.value ? Number(e.target.value) : undefined,
-                        })
-                      }
-                      placeholder="Importe €"
-                    />
-                    <Input
-                      className="h-8 text-xs"
-                      type="number"
-                      value={d.monthlyPayment ?? ""}
-                      onChange={(e) =>
-                        updateDebt(i, {
-                          monthlyPayment: e.target.value ? Number(e.target.value) : undefined,
-                        })
-                      }
-                      placeholder="Cuota €"
-                    />
-                     <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
-                       {[
-                         { v: true, l: "Impago" },
-                         { v: false, l: "Al día" },
-                       ].map((o) => {
-                         const activeState = d.isDefault === o.v;
-                         return (
-                           <button
-                             key={o.l}
-                             type="button"
-                             onClick={() => updateDebt(i, { isDefault: o.v })}
-                             style={
-                               activeState && !o.v
-                                 ? {
-                                     backgroundColor: "hsl(var(--phase))",
-                                     color: "hsl(var(--phase-fg))",
-                                   }
-                                 : undefined
-                             }
-                             className={`rounded px-2.5 py-1 text-[10px] font-semibold transition-colors ${
-                               activeState
-                                 ? o.v
-                                   ? "bg-destructive text-destructive-foreground shadow-sm"
-                                   : "shadow-sm"
-                                 : "text-muted-foreground hover:text-foreground"
-                             }`}
-                           >
-                             {o.l}
-                           </button>
-                         );
-                       })}
-                     </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => removeDebt(i)}
-                      aria-label="Eliminar entidad"
-                    >
-                      <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-              {guide.debts.length > 0 && (
-                <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold text-foreground">
-                  <span>Deuda total: {debtsTotal.toLocaleString("es-ES")} €</span>
-                  {debtsMonthlyPaying > 0 && (
-                    <span>Cuotas que paga: {debtsMonthlyPaying.toLocaleString("es-ES")} €/mes</span>
-                  )}
-                  {debtsMonthlyDefaulted > 0 && (
-                    <span className="text-muted-foreground">
-                      Cuotas impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
-              </div>
-            </Section>
-            )}
-
-            {qualStep === 1 && (
-            <Section title="Empleo, ingresos y gastos">
+            ),
+          });
+          // Empleo
+          screens.push({
+            key: "empleo",
+            kind: "content",
+            node: (
               <div className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="income">Ingresos mensuales (€)</Label>
-                <Input
-                  id="income"
-                  type="number"
-                  value={guide.monthlyIncome ?? ""}
-                  onChange={(e) =>
-                    setGuide((g) => ({
-                      ...g,
-                      monthlyIncome: e.target.value ? Number(e.target.value) : undefined,
-                    }))
-                  }
-                  placeholder="1200"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Situación laboral</Label>
+                {kicker("Cualificación · empleo")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  Situación laboral
+                </h2>
                 <Select
                   value={guide.employment ?? ""}
-                  onValueChange={(v) =>
-                    setGuide((g) => ({ ...g, employment: v as Employment }))
-                  }
+                  onValueChange={(v) => setGuide((g) => ({ ...g, employment: v as Employment }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Selecciona..." />
@@ -1960,549 +1906,527 @@ const AdminVentas = () => {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="expenses">Gastos mensuales de vida (€)</Label>
-              <Input
-                id="expenses"
-                type="number"
-                value={guide.monthlyExpenses ?? ""}
-                onChange={(e) =>
-                  setGuide((g) => ({
-                    ...g,
-                    monthlyExpenses: e.target.value ? Number(e.target.value) : undefined,
-                  }))
-                }
-                placeholder="Comida, suministros, etc. (sin contar deudas, vivienda ni coche)"
-              />
-            </div>
-              </div>
-            </Section>
-            )}
-
-            {qualStep === 2 && (
-            <Section title="Vivienda">
-            {/* Vivienda */}
-            <div className="space-y-3 rounded-lg border border-border p-3">
-              <Label>Vivienda</Label>
-              <div className="flex flex-wrap gap-2">
-                {(["propiedad", "hipoteca", "alquiler"] as const).map((h) => (
-                  <Button
-                    key={h}
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className={guide.housing === h ? "hover:opacity-90" : undefined}
-                    style={guide.housing === h ? phasePrimaryBtn : phaseOutlineBtn}
-                    onClick={() =>
-                      setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))
-                    }
-                  >
-                    {h}
-                  </Button>
-                ))}
-              </div>
-              {(guide.housing === "propiedad" || guide.housing === "hipoteca") && (
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="space-y-1">
-                    <Label className="text-xs">Valor estimado (€)</Label>
-                    <Input
-                      type="number"
-                      value={guide.housingValue ?? ""}
-                      onChange={(e) =>
-                        setGuide((g) => ({
-                          ...g,
-                          housingValue: e.target.value ? Number(e.target.value) : undefined,
-                        }))
-                      }
-                      placeholder="180000"
-                    />
-                  </div>
-                  {guide.housing === "hipoteca" && (
-                    <>
-                      <div className="space-y-1">
-                        <Label className="text-xs">Pagado (€)</Label>
-                        <Input
-                          type="number"
-                          value={guide.mortgagePaid ?? ""}
-                          onChange={(e) =>
-                            setGuide((g) => ({
-                              ...g,
-                              mortgagePaid: e.target.value ? Number(e.target.value) : undefined,
-                            }))
-                          }
-                          placeholder="40000"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-xs">Pendiente (€)</Label>
-                        <Input
-                          type="number"
-                          value={guide.mortgageRemaining ?? ""}
-                          onChange={(e) =>
-                            setGuide((g) => ({
-                              ...g,
-                              mortgageRemaining: e.target.value ? Number(e.target.value) : undefined,
-                            }))
-                          }
-                          placeholder="120000"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-              {(guide.housing === "alquiler" || guide.housing === "hipoteca") && (
-                <div className="space-y-1">
-                  <Label className="text-xs">
-                    {guide.housing === "alquiler"
-                      ? "Cuota de alquiler (€/mes)"
-                      : "Cuota de hipoteca (€/mes)"}
-                  </Label>
-                  <Input
-                    type="number"
-                    value={guide.housingPayment ?? ""}
-                    onChange={(e) =>
-                      setGuide((g) => ({
-                        ...g,
-                        housingPayment: e.target.value ? Number(e.target.value) : undefined,
-                      }))
-                    }
-                    placeholder="650"
-                  />
-                </div>
-              )}
-            </div>
-            </Section>
-            )}
-
-            {qualStep === 3 && (
-            <Section title="Vehículo">
-            {/* Vehículo */}
-            <div className="space-y-3 rounded-lg border border-border p-3">
-              <Label>Vehículo</Label>
-              <div className="flex flex-wrap gap-2">
-                {(["propiedad", "financiado", "no"] as const).map((v) => (
-                  <Button
-                    key={v}
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className={guide.vehicle === v ? "hover:opacity-90" : undefined}
-                    style={guide.vehicle === v ? phasePrimaryBtn : phaseOutlineBtn}
-                    onClick={() =>
-                      setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))
-                    }
-                  >
-                    {v}
-                  </Button>
-                ))}
-              </div>
-              {(guide.vehicle === "propiedad" || guide.vehicle === "financiado") && (
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="space-y-1">
-                    <Label className="text-xs">Valor estimado (€)</Label>
-                    <Input
-                      type="number"
-                      value={guide.vehicleValue ?? ""}
-                      onChange={(e) =>
-                        setGuide((g) => ({
-                          ...g,
-                          vehicleValue: e.target.value ? Number(e.target.value) : undefined,
-                        }))
-                      }
-                      placeholder="9000"
-                    />
-                  </div>
-                  {guide.vehicle === "financiado" && (
-                    <>
-                      <div className="space-y-1">
-                        <Label className="text-xs">Pagado (€)</Label>
-                        <Input
-                          type="number"
-                          value={guide.vehiclePaid ?? ""}
-                          onChange={(e) =>
-                            setGuide((g) => ({
-                              ...g,
-                              vehiclePaid: e.target.value ? Number(e.target.value) : undefined,
-                            }))
-                          }
-                          placeholder="3000"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-xs">Pendiente (€)</Label>
-                        <Input
-                          type="number"
-                          value={guide.vehicleRemaining ?? ""}
-                          onChange={(e) =>
-                            setGuide((g) => ({
-                              ...g,
-                              vehicleRemaining: e.target.value ? Number(e.target.value) : undefined,
-                            }))
-                          }
-                          placeholder="6000"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-              {guide.vehicle === "financiado" && (
-                <div className="space-y-1">
-                  <Label className="text-xs">Cuota del vehículo (€/mes)</Label>
-                  <Input
-                    type="number"
-                    value={guide.vehiclePayment ?? ""}
-                    onChange={(e) =>
-                      setGuide((g) => ({
-                        ...g,
-                        vehiclePayment: e.target.value ? Number(e.target.value) : undefined,
-                      }))
-                    }
-                    placeholder="220"
-                  />
-                </div>
-              )}
-            </div>
-            </Section>
-            )}
-
-            {qualStep === 4 && (
-              <Section title="Resumen económico">
-              {monthlyOutflow > 0 ? (
-              <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
-                <p className="text-sm font-semibold text-foreground">
-                  Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {debtsMonthlyPaying > 0 && `Cuotas que paga ${debtsMonthlyPaying.toLocaleString("es-ES")} € · `}
-                  {(guide.housingPayment ?? 0) > 0 && `Vivienda ${(guide.housingPayment ?? 0).toLocaleString("es-ES")} € · `}
-                  {(guide.vehiclePayment ?? 0) > 0 && `Vehículo ${(guide.vehiclePayment ?? 0).toLocaleString("es-ES")} € · `}
-                  {(guide.monthlyExpenses ?? 0) > 0 && `Gastos de vida ${(guide.monthlyExpenses ?? 0).toLocaleString("es-ES")} €`}
-                </p>
-                {debtsMonthlyDefaulted > 0 && (
-                  <p className="text-xs text-muted-foreground/80">
-                    Cuotas ya impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes — no salen de su bolsillo, pero generan intereses/ASNEF.
-                  </p>
-                )}
-                {guide.monthlyIncome != null && (
-                  <p
-                    className={`text-xs font-medium ${
-                      guide.monthlyIncome - monthlyOutflow < 0
-                        ? "text-destructive"
-                        : "text-foreground/80"
-                    }`}
-                  >
-                    {guide.monthlyIncome - monthlyOutflow < 0
-                      ? `Le faltan ${Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes para llegar (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`
-                      : `Le quedan ${(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES")} €/mes tras pagos (ingresos ${guide.monthlyIncome.toLocaleString("es-ES")} €)`}
-                  </p>
-                )}
-              </div>
-              ) : (
-                <p className="text-xs text-muted-foreground">
-                  Completa las preguntas anteriores para ver el resumen económico.
-                </p>
-              )}
-              </Section>
-            )}
-
-            {/* Navegación entre preguntas */}
-            <div className="flex items-center justify-between border-t pt-4" style={{ borderColor: "hsl(var(--phase) / 0.18)" }}>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setQualStep((q) => Math.max(0, q - 1))}
-                disabled={qualStep === 0}
-              >
-                <ArrowLeft className="mr-1 h-4 w-4" /> Anterior
-              </Button>
-              {qualStep < 4 && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="hover:opacity-90"
-                  style={phasePrimaryBtn}
-                  onClick={() => setQualStep((q) => Math.min(4, q + 1))}
-                >
-                  Siguiente <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-              )}
-            </div>
-            </PhaseCard>
-
-            <div className="lg:hidden">{currentEngagementGate}</div>
-          </div>
-        )}
-
-        {/* Step 2: Diagnóstico */}
-        {(step === 2 || step === 3 || step === 4 || step === 5) && !result && (
-          <Card
-            className={`phase-card space-y-3 border-l-4 p-6 text-center ${PHASE_THEMES[step].border} ${PHASE_THEMES[step].soft}`}
-            style={phaseStyle(step)}
-          >
-            <p className="text-sm text-muted-foreground">
-              Aún no hay diagnóstico. Genera uno desde la Cualificación o carga el
-              caso de prueba para navegar entre secciones.
-            </p>
-            <div className="flex justify-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => setStep(1)}>
-                <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
-              </Button>
-              <Button variant="orange" size="sm" onClick={loadTestCase}>
-                <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {step === 2 && result && (
-          <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[2].border} ${PHASE_THEMES[2].soft}`}
-            style={phaseStyle(2)}
-          >
-            <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-destructive">
-                <AlertTriangle className="h-5 w-5" /> Diagnóstico · consecuencias de no actuar
-              </h2>
-              <Badge variant="destructive">{result.triage.title}</Badge>
-            </div>
-            {paymentCapacity != null && (
-              <div className="rounded-lg border border-border bg-background/70 p-4">
-                <p className="mb-2 text-sm font-semibold text-foreground">
-                  Capacidad de pago mensual
-                </p>
-                <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
-                  <div>
-                    <p className="text-xs text-muted-foreground">Ingresos</p>
-                    <p className="font-semibold text-foreground">
-                      {(guide.monthlyIncome ?? 0).toLocaleString("es-ES")} €
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Gastos esenciales</p>
-                    <p className="font-semibold text-foreground">
-                      {essentialOutflow.toLocaleString("es-ES")} €
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Capacidad libre</p>
-                    <p
-                      className={`font-semibold ${
-                        paymentCapacity < 0 ? "text-destructive" : "text-phase-solution"
-                      }`}
-                    >
-                      {paymentCapacity.toLocaleString("es-ES")} €
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Cuota asumible</p>
-                    <p className="font-semibold text-accent">
-                      {(affordablePayment ?? 0).toLocaleString("es-ES")} €
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-            <ResultBlock
-              internal={result.diagnosis_internal}
-              client={result.diagnosis_client}
-              tone="alert"
-            />
-            {result.approach && (
-              <div className="rounded-lg border border-destructive/30 bg-background/60 p-3 text-xs text-foreground/90">
-                <span className="font-semibold text-destructive">Cómo abordar el siguiente paso: </span>
-                {result.approach}
-              </div>
-            )}
-            <div className="lg:hidden">{currentEngagementGate}</div>
-            <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(1)}>
-                <ArrowLeft className="mr-1 h-4 w-4" /> Editar caso
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {/* Step 3: Solución */}
-        {step === 3 && result && (
-          <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[3].border} ${PHASE_THEMES[3].soft}`}
-            style={phaseStyle(3)}
-          >
-            <div className="flex items-center justify-between">
-              <h2 className="font-poppins text-lg font-bold text-foreground">
-                Solución · {result.triage.title}
-              </h2>
-            </div>
-            <ResultBlock
-              internal={result.solution_internal}
-              client={result.solution_client}
-            />
-            {result.approach && (
-              <div className="rounded-lg border border-accent/30 bg-accent/5 p-3 text-xs text-foreground/90">
-                <span className="font-semibold text-foreground">Cómo abordar el siguiente paso: </span>
-                {result.approach}
-              </div>
-            )}
-            <div className="lg:hidden">{currentEngagementGate}</div>
-            <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(2)}>
-                <ArrowLeft className="mr-1 h-4 w-4" /> Diagnóstico
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {/* Step 4: Contrato */}
-        {step === 4 && result && (
-          <Card
-            className={`phase-card space-y-5 border-l-4 p-6 ${PHASE_THEMES[4].border} ${PHASE_THEMES[4].soft}`}
-            style={phaseStyle(4)}
-          >
-            <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
-                <FileText className="h-5 w-5" /> Cierre · {result.triage.title}
-              </h2>
-              <Badge variant="outline">{result.triage.title}</Badge>
-            </div>
-
-            <p className="text-sm text-muted-foreground">
-              El contrato se gestiona desde otra herramienta. Aquí solo trabajamos el
-              guion para conseguir el sí y dejar la firma encarrilada.
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant="outline"
-                onClick={() => void runPhase("contract_message")}
-                disabled={generating}
-                style={phaseOutlineBtn}
-              >
-                {generating ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <RefreshCw className="mr-2 h-4 w-4" />
-                )}
-                Regenerar guion de cierre
-              </Button>
-            </div>
-
-            {generating && !(result.contract_internal?.length) ? (
-              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
-              </div>
-            ) : (
-              ((result.contract_internal && result.contract_internal.length > 0) ||
-                result.contract_message) && (
-                <ResultBlock
-                  internal={result.contract_internal ?? []}
-                  client={result.contract_message ?? ""}
+            ),
+          });
+          // Ingresos
+          screens.push({
+            key: "ingresos",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · ingresos")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  Ingresos mensuales
+                </h2>
+                <Input
+                  type="number"
+                  value={guide.monthlyIncome ?? ""}
+                  onChange={(e) =>
+                    setGuide((g) => ({ ...g, monthlyIncome: e.target.value ? Number(e.target.value) : undefined }))
+                  }
+                  placeholder="1200"
                 />
-              )
-            )}
-
-            <div className="lg:hidden">{currentEngagementGate}</div>
-            <div className="flex justify-start pt-1">
-              <Button variant="outline" onClick={() => setStep(3)}>
-                <ArrowLeft className="mr-1 h-4 w-4" /> Solución
-              </Button>
-            </div>
-          </Card>
-        )}
-
-        {/* Step 5: Firma */}
-        {step === 5 && result && (
-          <Card
-            className={`phase-card space-y-4 border-l-4 p-6 ${PHASE_THEMES[5].border} ${PHASE_THEMES[5].soft}`}
-            style={phaseStyle(5)}
-          >
-            <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 font-poppins text-lg font-bold text-foreground">
-                <PenLine className="h-5 w-5" /> Firma · cierre online
-              </h2>
-            </div>
-
-            {generating && !(result.signing_internal?.length) ? (
-              <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-6 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
+                <p className="text-xs text-muted-foreground">Ingresos netos que entran cada mes (€).</p>
               </div>
-            ) : result.signing_internal && result.signing_internal.length > 0 ? (
-              <ResultBlock
-                internal={result.signing_internal}
-                client={result.signing_client ?? ""}
-              />
-            ) : (
-              <div className="rounded-lg border border-border p-4 text-center text-sm text-muted-foreground">
-                Genera el guion de cierre de firma.
-                <div className="mt-2">
+            ),
+          });
+          // Gastos
+          screens.push({
+            key: "gastos",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · gastos")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  Gastos mensuales de vida
+                </h2>
+                <Input
+                  type="number"
+                  value={guide.monthlyExpenses ?? ""}
+                  onChange={(e) =>
+                    setGuide((g) => ({ ...g, monthlyExpenses: e.target.value ? Number(e.target.value) : undefined }))
+                  }
+                  placeholder="650"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Comida, suministros, etc. (sin contar deudas, vivienda ni coche).
+                </p>
+              </div>
+            ),
+          });
+          // Vivienda
+          screens.push({
+            key: "vivienda",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · vivienda")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">Vivienda</h2>
+                <div className="flex flex-wrap gap-2">
+                  {(["propiedad", "hipoteca", "alquiler"] as const).map((h) => (
+                    <Button
+                      key={h}
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className={guide.housing === h ? "hover:opacity-90" : undefined}
+                      style={guide.housing === h ? phasePrimaryBtn : phaseOutlineBtn}
+                      onClick={() => setGuide((g) => ({ ...g, housing: g.housing === h ? "" : h }))}
+                    >
+                      {h}
+                    </Button>
+                  ))}
+                </div>
+                {(guide.housing === "propiedad" || guide.housing === "hipoteca") && (
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div className="space-y-1">
+                      <Label className="text-xs">Valor estimado (€)</Label>
+                      <Input
+                        type="number"
+                        value={guide.housingValue ?? ""}
+                        onChange={(e) =>
+                          setGuide((g) => ({ ...g, housingValue: e.target.value ? Number(e.target.value) : undefined }))
+                        }
+                        placeholder="180000"
+                      />
+                    </div>
+                    {guide.housing === "hipoteca" && (
+                      <>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Pagado (€)</Label>
+                          <Input
+                            type="number"
+                            value={guide.mortgagePaid ?? ""}
+                            onChange={(e) =>
+                              setGuide((g) => ({ ...g, mortgagePaid: e.target.value ? Number(e.target.value) : undefined }))
+                            }
+                            placeholder="40000"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Pendiente (€)</Label>
+                          <Input
+                            type="number"
+                            value={guide.mortgageRemaining ?? ""}
+                            onChange={(e) =>
+                              setGuide((g) => ({ ...g, mortgageRemaining: e.target.value ? Number(e.target.value) : undefined }))
+                            }
+                            placeholder="120000"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+                {(guide.housing === "alquiler" || guide.housing === "hipoteca") && (
+                  <div className="space-y-1">
+                    <Label className="text-xs">
+                      {guide.housing === "alquiler" ? "Cuota de alquiler (€/mes)" : "Cuota de hipoteca (€/mes)"}
+                    </Label>
+                    <Input
+                      type="number"
+                      value={guide.housingPayment ?? ""}
+                      onChange={(e) =>
+                        setGuide((g) => ({ ...g, housingPayment: e.target.value ? Number(e.target.value) : undefined }))
+                      }
+                      placeholder="650"
+                    />
+                  </div>
+                )}
+              </div>
+            ),
+          });
+          // Vehículo
+          screens.push({
+            key: "vehiculo",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · vehículo")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">Vehículo</h2>
+                <div className="flex flex-wrap gap-2">
+                  {(["propiedad", "financiado", "no"] as const).map((v) => (
+                    <Button
+                      key={v}
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className={guide.vehicle === v ? "hover:opacity-90" : undefined}
+                      style={guide.vehicle === v ? phasePrimaryBtn : phaseOutlineBtn}
+                      onClick={() => setGuide((g) => ({ ...g, vehicle: g.vehicle === v ? "" : v }))}
+                    >
+                      {v}
+                    </Button>
+                  ))}
+                </div>
+                {(guide.vehicle === "propiedad" || guide.vehicle === "financiado") && (
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div className="space-y-1">
+                      <Label className="text-xs">Valor estimado (€)</Label>
+                      <Input
+                        type="number"
+                        value={guide.vehicleValue ?? ""}
+                        onChange={(e) =>
+                          setGuide((g) => ({ ...g, vehicleValue: e.target.value ? Number(e.target.value) : undefined }))
+                        }
+                        placeholder="9000"
+                      />
+                    </div>
+                    {guide.vehicle === "financiado" && (
+                      <>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Pagado (€)</Label>
+                          <Input
+                            type="number"
+                            value={guide.vehiclePaid ?? ""}
+                            onChange={(e) =>
+                              setGuide((g) => ({ ...g, vehiclePaid: e.target.value ? Number(e.target.value) : undefined }))
+                            }
+                            placeholder="3000"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Pendiente (€)</Label>
+                          <Input
+                            type="number"
+                            value={guide.vehicleRemaining ?? ""}
+                            onChange={(e) =>
+                              setGuide((g) => ({ ...g, vehicleRemaining: e.target.value ? Number(e.target.value) : undefined }))
+                            }
+                            placeholder="6000"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+                {guide.vehicle === "financiado" && (
+                  <div className="space-y-1">
+                    <Label className="text-xs">Cuota del vehículo (€/mes)</Label>
+                    <Input
+                      type="number"
+                      value={guide.vehiclePayment ?? ""}
+                      onChange={(e) =>
+                        setGuide((g) => ({ ...g, vehiclePayment: e.target.value ? Number(e.target.value) : undefined }))
+                      }
+                      placeholder="220"
+                    />
+                  </div>
+                )}
+              </div>
+            ),
+          });
+          // Resumen económico
+          screens.push({
+            key: "resumen",
+            kind: "content",
+            node: (
+              <div className="space-y-4">
+                {kicker("Cualificación · resumen")}
+                <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                  Resumen económico
+                </h2>
+                {monthlyOutflow > 0 ? (
+                  <div className="space-y-1 rounded-lg border border-accent/30 bg-accent/5 p-3">
+                    <p className="text-sm font-semibold text-foreground">
+                      Total que paga al mes: {monthlyOutflow.toLocaleString("es-ES")} €
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {debtsMonthlyPaying > 0 && "Cuotas que paga " + debtsMonthlyPaying.toLocaleString("es-ES") + " € · "}
+                      {(guide.housingPayment ?? 0) > 0 && "Vivienda " + (guide.housingPayment ?? 0).toLocaleString("es-ES") + " € · "}
+                      {(guide.vehiclePayment ?? 0) > 0 && "Vehículo " + (guide.vehiclePayment ?? 0).toLocaleString("es-ES") + " € · "}
+                      {(guide.monthlyExpenses ?? 0) > 0 && "Gastos de vida " + (guide.monthlyExpenses ?? 0).toLocaleString("es-ES") + " €"}
+                    </p>
+                    {debtsMonthlyDefaulted > 0 && (
+                      <p className="text-xs text-muted-foreground/80">
+                        Cuotas ya impagadas: {debtsMonthlyDefaulted.toLocaleString("es-ES")} €/mes — no salen de su bolsillo, pero generan intereses/ASNEF.
+                      </p>
+                    )}
+                    {guide.monthlyIncome != null && (
+                      <p
+                        className={"text-xs font-medium " + (guide.monthlyIncome - monthlyOutflow < 0 ? "text-destructive" : "text-foreground/80")}
+                      >
+                        {guide.monthlyIncome - monthlyOutflow < 0
+                          ? "Le faltan " + Math.abs(guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes para llegar (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"
+                          : "Le quedan " + (guide.monthlyIncome - monthlyOutflow).toLocaleString("es-ES") + " €/mes tras pagos (ingresos " + guide.monthlyIncome.toLocaleString("es-ES") + " €)"}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Completa las preguntas anteriores para ver el resumen económico.
+                  </p>
+                )}
+              </div>
+            ),
+          });
+          screens.push(gate);
+        } else if (result) {
+          if (step === 2) {
+            if (paymentCapacity != null) {
+              screens.push({
+                key: "capacidad",
+                kind: "content",
+                node: (
+                  <div className="space-y-4">
+                    {kicker("Diagnóstico · capacidad de pago")}
+                    <h2 className="flex items-center gap-2 font-poppins text-xl font-bold text-destructive">
+                      <AlertTriangle className="h-5 w-5" /> Capacidad de pago mensual
+                    </h2>
+                    <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Ingresos</p>
+                        <p className="font-semibold text-foreground">{(guide.monthlyIncome ?? 0).toLocaleString("es-ES")} €</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Gastos esenciales</p>
+                        <p className="font-semibold text-foreground">{essentialOutflow.toLocaleString("es-ES")} €</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Capacidad libre</p>
+                        <p className={"font-semibold " + (paymentCapacity < 0 ? "text-destructive" : "text-phase-solution")}>
+                          {paymentCapacity.toLocaleString("es-ES")} €
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Cuota asumible</p>
+                        <p className="font-semibold text-accent">{(affordablePayment ?? 0).toLocaleString("es-ES")} €</p>
+                      </div>
+                    </div>
+                  </div>
+                ),
+              });
+            }
+            result.diagnosis_internal.forEach((c, i) => screens.push(scriptScreen("diag-" + i, c)));
+            screens.push(clientScreen("diag-client", result.diagnosis_client, result.approach));
+          } else if (step === 3) {
+            result.solution_internal.forEach((c, i) => screens.push(scriptScreen("sol-" + i, c)));
+            screens.push(clientScreen("sol-client", result.solution_client, result.approach));
+          } else if (step === 4) {
+            if (generating && !(result.contract_internal?.length)) {
+              screens.push({
+                key: "contract-loading",
+                kind: "content",
+                node: (
+                  <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-8 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
+                  </div>
+                ),
+              });
+            } else {
+              (result.contract_internal ?? []).forEach((c, i) => screens.push(scriptScreen("contract-" + i, c)));
+              if (result.contract_message) screens.push(clientScreen("contract-client", result.contract_message));
+              if (!(result.contract_internal?.length) && !result.contract_message) {
+                screens.push({
+                  key: "contract-empty",
+                  kind: "content",
+                  node: (
+                    <div className="space-y-3 text-center">
+                      <p className="text-sm text-muted-foreground">Genera el guion de cierre.</p>
+                      <Button size="sm" variant="outline" style={phasePrimaryBtn} onClick={() => void runPhase("contract_message")} disabled={generating}>
+                        <Sparkles className="mr-2 h-4 w-4" /> Generar guion de cierre
+                      </Button>
+                    </div>
+                  ),
+                });
+              }
+            }
+          } else if (step === 5) {
+            if (generating && !(result.signing_internal?.length)) {
+              screens.push({
+                key: "sign-loading",
+                kind: "content",
+                node: (
+                  <div className="flex items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 p-8 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Preparando el guion de cierre…
+                  </div>
+                ),
+              });
+            } else {
+              (result.signing_internal ?? []).forEach((c, i) => screens.push(scriptScreen("sign-" + i, c)));
+              if (result.signing_client) screens.push(clientScreen("sign-client", result.signing_client));
+            }
+            // Estado de firma + guardar
+            screens.push({
+              key: "sign-status",
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Firma · cierre")}
+                  <h2 className="flex items-center gap-2 font-poppins text-xl font-bold text-foreground">
+                    <PenLine className="h-5 w-5" /> Estado de la firma
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {SIGNATURE_STATUS_OPTIONS.map((o) => (
+                      <Button
+                        key={o.value}
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className={signatureStatus === o.value ? "hover:opacity-90" : undefined}
+                        style={signatureStatus === o.value ? phasePrimaryBtn : phaseOutlineBtn}
+                        onClick={() => setSignatureStatus(o.value)}
+                      >
+                        {o.label}
+                      </Button>
+                    ))}
+                  </div>
                   <Button
-                    size="sm"
                     variant="outline"
                     className="hover:opacity-90"
                     style={phasePrimaryBtn}
-                    onClick={() => void runPhase("signing")}
-                    disabled={generating}
+                    onClick={saveCase}
+                    disabled={saving || !!savedId}
                   >
-                    {generating ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <Sparkles className="mr-2 h-4 w-4" />
-                    )}
-                    Generar guion de firma
+                    {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                    {savedId ? "Guardado" : "Guardar caso"}
+                  </Button>
+                </div>
+              ),
+            });
+          }
+          screens.push(gate);
+        } else {
+          screens.push({
+            key: "noresult",
+            kind: "content",
+            node: (
+              <div className="space-y-3 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Aún no hay diagnóstico. Vuelve a Cualificación y genéralo, o carga el caso de prueba.
+                </p>
+                <div className="flex justify-center gap-2">
+                  <Button variant="outline" size="sm" onClick={() => setStep(1)}>
+                    <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
+                  </Button>
+                  <Button variant="orange" size="sm" onClick={loadTestCase}>
+                    <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
                   </Button>
                 </div>
               </div>
-            )}
+            ),
+          });
+        }
 
-            <div className="lg:hidden">{currentEngagementGate}</div>
+        const idx = Math.min(sub, screens.length - 1);
+        const current = screens[idx];
+        const isGate = current?.kind === "gate";
+        const atFirstOverall = step === 0 && idx === 0;
+        const progress = ((step + (idx + 1) / screens.length) / STEPS.length) * 100;
 
-            <div className="space-y-2 rounded-xl border border-border bg-muted/40 p-4">
-              <Label>Estado de la firma</Label>
-              <div className="flex flex-wrap gap-2">
-                {SIGNATURE_STATUS_OPTIONS.map((o) => (
-                  <Button
-                    key={o.value}
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className={signatureStatus === o.value ? "hover:opacity-90" : undefined}
-                    style={signatureStatus === o.value ? phasePrimaryBtn : phaseOutlineBtn}
-                    onClick={() => setSignatureStatus(o.value)}
-                  >
-                    {o.label}
-                  </Button>
-                ))}
+        const goNext = () => setSub((s) => Math.min(screens.length - 1, s + 1));
+        const goBack = () => {
+          if (idx > 0) {
+            setSub((s) => Math.max(0, s - 1));
+            return;
+          }
+          if (step > 0) {
+            landOnLastRef.current = 9999;
+            setStep(step - 1);
+          }
+        };
+
+        return (
+          <>
+            {/* Barra superior mínima: progreso + fase + acceso a datos del caso */}
+            <div
+              className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+              style={phaseStyle(step)}
+            >
+              <div className="mx-auto w-full max-w-2xl px-4 py-2.5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span className="text-xs font-bold" style={{ color: "hsl(var(--phase))" }}>
+                      {step + 1}. {STEPS[step]}
+                    </span>
+                    {label.trim() && (
+                      <span className="truncate text-[11px] text-muted-foreground">· {label.trim()}</span>
+                    )}
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setShowCase((o) => !o)}
+                      className="flex items-center gap-1 rounded-full border border-border px-2 py-1 text-[11px] font-semibold text-foreground hover:bg-muted"
+                    >
+                      <ClipboardList className="h-3.5 w-3.5 text-muted-foreground" />
+                      Datos
+                      <Badge variant="secondary" className="ml-0.5">{relevantFacts.length}</Badge>
+                    </button>
+                    <Button variant="orange" size="sm" onClick={loadTestCase}>
+                      <Sparkles className="mr-1 h-4 w-4" /> Prueba
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={resetForm}>
+                      <Plus className="mr-1 h-4 w-4" /> Nuevo
+                    </Button>
+                    <Link to="/admin">
+                      <Button variant="ghost" size="sm">Panel</Button>
+                    </Link>
+                  </div>
+                </div>
+                <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{ width: progress + "%", backgroundColor: "hsl(var(--phase))" }}
+                  />
+                </div>
+                {showCase && (
+                  <CaseFactsPanel
+                    label={label}
+                    onLabelChange={setLabel}
+                    facts={relevantFacts}
+                    newFact={newFact}
+                    onNewFactChange={setNewFact}
+                    onAddFact={addFact}
+                    onRemoveFact={removeFact}
+                  />
+                )}
               </div>
             </div>
 
-            <div className="flex justify-between pt-2">
-              <Button variant="outline" onClick={() => setStep(4)}>
-                <ArrowLeft className="mr-1 h-4 w-4" /> Contrato
-              </Button>
-              <Button
-                variant="outline"
-                className="hover:opacity-90"
-                style={phasePrimaryBtn}
-                onClick={saveCase}
-                disabled={saving || !!savedId}
+            {/* Card única centrada (typeform) */}
+            <div className="flex flex-1 items-start justify-center px-4 py-8" style={phaseStyle(step)}>
+              <div
+                key={step + "-" + idx}
+                className="w-full max-w-2xl animate-in fade-in slide-in-from-bottom-2 duration-300"
               >
-                {saving ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Save className="mr-2 h-4 w-4" />
-                )}
-                {savedId ? "Guardado" : "Guardar caso"}
-              </Button>
+                <div
+                  className={"phase-card space-y-6 rounded-2xl border border-l-4 p-6 shadow-sm sm:p-8 " + PHASE_THEMES[step].border + " " + PHASE_THEMES[step].soft}
+                  style={phaseStyle(step)}
+                >
+                  {current?.node}
+                  <div
+                    className="flex items-center justify-between border-t pt-5"
+                    style={{ borderColor: "hsl(var(--phase) / 0.18)" }}
+                  >
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={goBack}
+                      disabled={atFirstOverall}
+                      style={phaseOutlineBtn}
+                    >
+                      <ArrowLeft className="mr-1 h-4 w-4" /> Atrás
+                    </Button>
+                    {!isGate && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={goNext}
+                        className="hover:opacity-90"
+                        style={phasePrimaryBtn}
+                      >
+                        Siguiente <ArrowRight className="ml-1 h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          </Card>
-        )}
-        </div>{/* /columna principal */}
-        </div>{/* /grid desktop */}
-      </div>
+          </>
+        );
+      })()}
     </div>
   );
 };
