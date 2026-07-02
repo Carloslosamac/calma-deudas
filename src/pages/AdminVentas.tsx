@@ -2201,13 +2201,13 @@ const AdminVentas = () => {
                       </div>
                       <div>
                         <p className="text-xs text-muted-foreground">Capacidad libre</p>
-                        <p className={"font-semibold " + (paymentCapacity < 0 ? "text-destructive" : "text-phase-solution")}>
+                        <p className={"font-semibold " + (paymentCapacity < 0 ? "text-destructive" : "text-foreground")}>
                           {paymentCapacity.toLocaleString("es-ES")} €
                         </p>
                       </div>
                       <div>
                         <p className="text-xs text-muted-foreground">Cuota asumible</p>
-                        <p className="font-semibold text-accent">{(affordablePayment ?? 0).toLocaleString("es-ES")} €</p>
+                        <p className="font-semibold text-phase-solution">{(affordablePayment ?? 0).toLocaleString("es-ES")} €</p>
                       </div>
                     </div>
                   </div>
