@@ -309,6 +309,11 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       a: <>{faqPresencial}</>,
       plain: faqPresencial,
     },
+    {
+      q: `¿Tenéis casos reales resueltos en ${name}?`,
+      a: <>{`Sí. ${ejemploCaso} Cada caso es distinto, pero la Ley de Segunda Oportunidad permite cancelar deudas de particulares y autónomos de ${provincia} que actúan de buena fe.`}</>,
+      plain: `Sí. ${ejemploCaso} Cada caso es distinto, pero la Ley de Segunda Oportunidad permite cancelar deudas de particulares y autónomos de ${provincia} que actúan de buena fe.`,
+    },
   ];
 
   return { intro, sections, faq };
