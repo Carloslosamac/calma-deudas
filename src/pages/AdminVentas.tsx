@@ -910,7 +910,7 @@ const AdminVentas = () => {
   // Evita re-disparar la pre-generación automática del guion de contrato/firma.
   const autoGenRef = useRef<Record<number, boolean>>({});
   const [engagementByPhase, setEngagementByPhase] = useState<number[]>([
-    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1,
   ]);
   // El engagement "activo" es el tier registrado en la fase actual.
   const engagement = engagementByPhase[step] ?? 1;
