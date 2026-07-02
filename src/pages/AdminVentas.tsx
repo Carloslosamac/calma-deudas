@@ -2565,8 +2565,10 @@ const AdminVentas = () => {
                   <Button
                     key={o.value}
                     type="button"
-                    variant={signatureStatus === o.value ? "default" : "outline"}
+                    variant="outline"
                     size="sm"
+                    className={signatureStatus === o.value ? "hover:opacity-90" : undefined}
+                    style={signatureStatus === o.value ? phasePrimaryBtn : phaseOutlineBtn}
                     onClick={() => setSignatureStatus(o.value)}
                   >
                     {o.label}
