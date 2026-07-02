@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
@@ -1049,6 +1049,7 @@ const TEST_CASE: {
 
 const AdminVentas = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
 
@@ -1069,6 +1070,9 @@ const AdminVentas = () => {
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  // Lead de origen (cuando se llega desde /admin/ventas/leads) para sincronizar
+  // estado y vincular el caso trabajado.
+  const [leadId, setLeadId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
   // Evita re-disparar la pre-generación automática del guion de contrato/firma.
   const autoGenRef = useRef<Record<number, boolean>>({});
@@ -1118,6 +1122,49 @@ const AdminVentas = () => {
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
   }, [session, loading, navigate]);
+
+  // Precarga desde la lista de llamadas: rellena etiqueta y datos económicos
+  // conocidos del lead y guarda el vínculo para sincronizar su estado.
+  useEffect(() => {
+    const lead = (location.state as { lead?: {
+      id: string;
+      label?: string;
+      guide?: Partial<GuideFields>;
+    } } | null)?.lead;
+    if (!lead) return;
+    setLeadId(lead.id);
+    if (lead.label) setLabel(lead.label);
+    if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
+    // Limpia el state para no re-precargar al navegar internamente.
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mapea la fase actual del flujo al estado del lead en el CRM interno.
+  const leadStatusForStep = (s: number): string => {
+    if (s >= 5) return "Ganado";
+    if (s === 4) return "Cita";
+    if (s === 3) return "Negociación";
+    if (s >= 1) return "Interesado";
+    return "Contactado";
+  };
+
+  // Sincroniza el estado (y datos económicos) del lead vinculado.
+  const syncLead = async (patch: Record<string, unknown>) => {
+    if (!leadId) return;
+    const { error } = await supabase
+      .from("sales_leads")
+      .update(patch as never)
+      .eq("id", leadId);
+    if (error) console.error("No se pudo sincronizar el lead", error);
+  };
+
+  // Al avanzar de fase, refleja el progreso en el estado del lead.
+  useEffect(() => {
+    if (!leadId) return;
+    void syncLead({ lead_status: leadStatusForStep(step) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, leadId]);
 
   // Al cambiar de fase, reposiciona la sub-pantalla: 0 al avanzar, o la última
   // de la fase si venimos de un "Atrás" que cruza el límite de fase.
@@ -1473,6 +1520,15 @@ const AdminVentas = () => {
       if (error) throw error;
       setSavedId(data.id);
       toast.success("Caso guardado en el historial");
+      if (leadId) {
+        void syncLead({
+          sales_case_id: data.id,
+          lead_status: leadStatusForStep(step),
+          debt: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
+          income: guide.monthlyIncome ?? null,
+          expense: guide.monthlyExpenses ?? null,
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ["sales-cases"] });
     } catch (e) {
       toast.error("No se pudo guardar el caso.");
@@ -2466,6 +2522,9 @@ const AdminVentas = () => {
                     <Button variant="outline" size="sm" onClick={resetForm}>
                       <Plus className="mr-1 h-4 w-4" /> Nuevo
                     </Button>
+                    <Link to="/admin/ventas/leads">
+                      <Button variant="ghost" size="sm">Llamadas</Button>
+                    </Link>
                     <Link to="/admin">
                       <Button variant="ghost" size="sm">Panel</Button>
                     </Link>

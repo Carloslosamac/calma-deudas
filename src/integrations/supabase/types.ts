@@ -271,6 +271,78 @@ export type Database = {
         }
         Relationships: []
       }
+      sales_leads: {
+        Row: {
+          appointment_at: string | null
+          created_at: string
+          created_by: string
+          debt: number | null
+          email: string | null
+          employment: string | null
+          expense: number | null
+          external_id: string | null
+          housing: string | null
+          id: string
+          income: number | null
+          is_default: boolean | null
+          lead_status: string
+          name: string | null
+          phone: string | null
+          raw: Json | null
+          sales_case_id: string | null
+          source: string | null
+          tier: string | null
+          updated_at: string
+          vehicle: string | null
+        }
+        Insert: {
+          appointment_at?: string | null
+          created_at?: string
+          created_by: string
+          debt?: number | null
+          email?: string | null
+          employment?: string | null
+          expense?: number | null
+          external_id?: string | null
+          housing?: string | null
+          id?: string
+          income?: number | null
+          is_default?: boolean | null
+          lead_status?: string
+          name?: string | null
+          phone?: string | null
+          raw?: Json | null
+          sales_case_id?: string | null
+          source?: string | null
+          tier?: string | null
+          updated_at?: string
+          vehicle?: string | null
+        }
+        Update: {
+          appointment_at?: string | null
+          created_at?: string
+          created_by?: string
+          debt?: number | null
+          email?: string | null
+          employment?: string | null
+          expense?: number | null
+          external_id?: string | null
+          housing?: string | null
+          id?: string
+          income?: number | null
+          is_default?: boolean | null
+          lead_status?: string
+          name?: string | null
+          phone?: string | null
+          raw?: Json | null
+          sales_case_id?: string | null
+          source?: string | null
+          tier?: string | null
+          updated_at?: string
+          vehicle?: string | null
+        }
+        Relationships: []
+      }
       seo_index_checks: {
         Row: {
           coverage_state: string | null
