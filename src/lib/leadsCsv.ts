@@ -21,6 +21,58 @@ export type ParsedLead = {
   raw: Record<string, string>;
 };
 
+// Estados de "Lead Status" tal cual existen en Zoho CRM (picklist real).
+export const ZOHO_LEAD_STATUSES: string[] = [
+  "No contactado",
+  "Sin contactar",
+  "IA No interesado",
+  "IA No cualificado",
+  "IA Buzón 1",
+  "IA Buzón 2",
+  "IA Buzón 3",
+  "IA Llamada no atendida 1",
+  "IA Llamada no atendida 2",
+  "IA Llamada no atendida 3",
+  "IA Llamada no atendida 4",
+  "IA Llamada no atendida 5",
+  "IA Llamada no atendida 6",
+  "IA Llamada no atendida 7",
+  "IA Llamada no atendida 8",
+  "IA Llamada no atendida 9",
+  "IA Llamada no atendida 10",
+  "IA Reunión agendada",
+  "IA Reunión no atendida 1",
+  "IA Reunión no atendida 2",
+  "IA Reunión no atendida 3",
+  "IA Imposible reunir",
+  "IA Imposible contactar",
+  "IA Llamada interrumpida",
+  "Whatsapp",
+  "IA cualificado",
+  "En duda cualificación",
+  "Contrato enviado",
+  "Contrato firmado",
+  "Pagado",
+];
+
+// Estados que consideramos "sin trabajar" (pendientes de primera gestión).
+export const PENDING_STATUSES: string[] = ["No contactado", "Sin contactar"];
+
+// Devuelve una clase de color coherente para cada estado.
+export const statusTone = (s: string): string => {
+  if (s === "Pagado" || s === "Contrato firmado")
+    return "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
+  if (s === "Contrato enviado" || s === "IA Reunión agendada" || s === "IA cualificado")
+    return "bg-primary/10 text-primary border-primary/20";
+  if (s === "En duda cualificación" || s === "Whatsapp")
+    return "bg-accent/10 text-accent-deep border-accent/20";
+  if (/No interesado|No cualificado|Imposible/.test(s))
+    return "bg-destructive/10 text-destructive border-destructive/20";
+  if (/Buzón|no atendida|interrumpida/.test(s))
+    return "bg-amber-500/10 text-amber-600 border-amber-500/20";
+  return "bg-muted text-muted-foreground border-border";
+};
+
 // --- Parser CSV ---
 export function parseCsv(text: string): Record<string, string>[] {
   // Normaliza saltos de línea.
