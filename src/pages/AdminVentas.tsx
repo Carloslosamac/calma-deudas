@@ -843,7 +843,13 @@ const EngagementGate = ({
         </div>
       )}
 
-      <Button onClick={onContinue} disabled={loading} className="w-full">
+      <Button
+        onClick={onContinue}
+        disabled={loading}
+        variant="outline"
+        className="w-full hover:opacity-90"
+        style={phasePrimaryBtn}
+      >
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Preparando...
