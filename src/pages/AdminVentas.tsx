@@ -539,6 +539,105 @@ const Section = ({
   </div>
 );
 
+// Panel del caso en la cabecera sticky: etiqueta + datos relevantes que se
+// añaden uno a uno. Colapsable para no ocupar demasiado alto. Alimenta la IA.
+const CaseFactsPanel = ({
+  label,
+  onLabelChange,
+  facts,
+  newFact,
+  onNewFactChange,
+  onAddFact,
+  onRemoveFact,
+}: {
+  label: string;
+  onLabelChange: (v: string) => void;
+  facts: string[];
+  newFact: string;
+  onNewFactChange: (v: string) => void;
+  onAddFact: () => void;
+  onRemoveFact: (i: number) => void;
+}) => {
+  const [open, setOpen] = useState(true);
+  return (
+    <div className="mt-3 rounded-xl border border-border bg-card/80 p-3">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-2 text-left"
+      >
+        <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
+          <ClipboardList className="h-4 w-4 text-muted-foreground" />
+          Datos del caso
+          <Badge variant="secondary" className="ml-1">
+            {facts.length}
+          </Badge>
+          {!open && label.trim() && (
+            <span className="ml-1 truncate font-normal text-muted-foreground">
+              · {label.trim()}
+            </span>
+          )}
+        </span>
+        {open ? (
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        )}
+      </button>
+
+      {open && (
+        <div className="mt-3 space-y-3">
+          <Input
+            value={label}
+            onChange={(e) => onLabelChange(e.target.value)}
+            placeholder="Etiqueta del caso (ej. María · revolving 12.000€)"
+          />
+          <div className="flex gap-2">
+            <Input
+              value={newFact}
+              onChange={(e) => onNewFactChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  onAddFact();
+                }
+              }}
+              placeholder="Añadir dato relevante y pulsa Enter…"
+            />
+            <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          {facts.length === 0 ? (
+            <p className="text-xs text-muted-foreground">
+              Añade los datos clave del caso (deudas, ingresos, situación, preocupaciones…). Alimentan los guiones.
+            </p>
+          ) : (
+            <ul className="space-y-1.5">
+              {facts.map((f, i) => (
+                <li
+                  key={i}
+                  className="flex items-start justify-between gap-2 rounded-lg border border-border bg-background/60 px-3 py-1.5 text-sm"
+                >
+                  <span className="min-w-0 flex-1">{f}</span>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveFact(i)}
+                    aria-label="Eliminar dato"
+                    className="mt-0.5 shrink-0 text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 type EngagementGateProps = {
   value: number;
   onChange: (v: number) => void;
