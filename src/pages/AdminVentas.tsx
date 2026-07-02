@@ -1104,21 +1104,34 @@ const AdminVentas = () => {
         toast.error(data.error);
         return;
       }
+      const patch =
+        phase === "signing"
+          ? {
+              signing_internal: data.signing_internal ?? [],
+              signing_client: data.signing_client ?? "",
+            }
+          : phase === "presentation"
+            ? {
+                presentation_internal: data.presentation_internal ?? [],
+                presentation_client: data.presentation_client ?? "",
+              }
+            : {
+                contract_internal: data.contract_internal ?? [],
+                contract_message: data.contract_message ?? "",
+              };
       setResult((prev) =>
         prev
-          ? {
-              ...prev,
-              ...(phase === "signing"
-                ? {
-                    signing_internal: data.signing_internal ?? [],
-                    signing_client: data.signing_client ?? "",
-                  }
-                : {
-                    contract_internal: data.contract_internal ?? [],
-                    contract_message: data.contract_message ?? "",
-                  }),
-            }
-          : prev,
+          ? { ...prev, ...patch }
+          : phase === "presentation"
+            ? ({
+                triage: { solution: "", title: "" },
+                diagnosis_internal: [],
+                diagnosis_client: "",
+                solution_internal: [],
+                solution_client: "",
+                ...patch,
+              } as AiResult)
+            : prev,
       );
       if (typeof nextStep === "number") setStep(nextStep);
     } catch (e) {
