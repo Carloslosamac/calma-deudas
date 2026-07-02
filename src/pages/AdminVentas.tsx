@@ -1526,7 +1526,7 @@ const AdminVentas = () => {
           reinforceData={reinforceByStep[0]}
         />
       );
-    if (step === 1 && qualStep === 4)
+    if (step === 1)
       return (
         <EngagementGate
           value={engagement}
