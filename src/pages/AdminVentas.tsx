@@ -32,6 +32,8 @@ import {
   Download,
   PenLine,
   RefreshCw,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import ConversionChart from "@/components/ventas/ConversionChart";
