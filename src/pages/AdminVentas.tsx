@@ -837,7 +837,6 @@ const EngagementGate = ({
               </>
             )}
           </Button>
-          <ReinforceBlock data={reinforceData} />
         </div>
       )}
 
