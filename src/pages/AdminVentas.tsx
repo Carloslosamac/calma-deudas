@@ -1049,6 +1049,7 @@ const TEST_CASE: {
 };
 
 const AdminVentas = () => {
+  const DRAFT_KEY = "calma_ventas_draft";
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -1096,6 +1097,30 @@ const AdminVentas = () => {
     Record<number, { internal: ScriptCard[]; client: string }>
   >({});
 
+  // Persistencia del borrador del formulario: si el comercial avanza y navega
+  // fuera (p. ej. a /leads), al volver se restaura el progreso en lugar de
+  // perderse. Se guarda un único borrador activo en localStorage.
+  const hydratedRef = useRef(false);
+  const applyDraft = (d: Record<string, unknown>) => {
+    if (typeof d.step === "number") setStep(d.step);
+    if (typeof d.sub === "number") setSub(d.sub);
+    if (typeof d.qualStep === "number") setQualStep(d.qualStep);
+    if (Array.isArray(d.selectedPresentations)) setSelectedPresentations(d.selectedPresentations as string[]);
+    if (typeof d.label === "string") setLabel(d.label);
+    if (Array.isArray(d.relevantFacts)) setRelevantFacts(d.relevantFacts as string[]);
+    if (d.guide && typeof d.guide === "object") setGuide((prev) => ({ ...prev, ...(d.guide as GuideFields) }));
+    if (d.result !== undefined) setResult((d.result as AiResult) ?? null);
+    if (d.savedId !== undefined) setSavedId((d.savedId as string) ?? null);
+    if (d.leadId !== undefined) setLeadId((d.leadId as string) ?? null);
+    if (d.leadExternalId !== undefined) setLeadExternalId((d.leadExternalId as string) ?? null);
+    if (Array.isArray(d.engagementByPhase)) setEngagementByPhase(d.engagementByPhase as number[]);
+    if (Array.isArray(d.reactions)) setReactions(d.reactions as string[]);
+    if (d.contract && typeof d.contract === "object") setContract((prev) => ({ ...prev, ...(d.contract as ContractFields) }));
+    if (typeof d.signatureStatus === "string") setSignatureStatus(d.signatureStatus);
+    if (d.reinforceByStep && typeof d.reinforceByStep === "object")
+      setReinforceByStep(d.reinforceByStep as Record<number, { internal: ScriptCard[]; client: string }>);
+  };
+
   const togglePhrase = (p: string) =>
     setReactions((prev) =>
       prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
@@ -1134,15 +1159,56 @@ const AdminVentas = () => {
       label?: string;
       guide?: Partial<GuideFields>;
     } } | null)?.lead;
-    if (!lead) return;
-    setLeadId(lead.id);
-    setLeadExternalId(lead.external_id ?? null);
-    if (lead.label) setLabel(lead.label);
-    if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
-    // Limpia el state para no re-precargar al navegar internamente.
-    navigate(location.pathname, { replace: true, state: null });
+
+    // Intenta restaurar un borrador guardado.
+    let restored = false;
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const draft = JSON.parse(raw) as Record<string, unknown>;
+        // Si se abre un lead concreto, solo se restaura si el borrador es suyo.
+        if (!lead || draft.leadId === lead.id) {
+          applyDraft(draft);
+          restored = true;
+        }
+      }
+    } catch {
+      /* borrador corrupto: se ignora */
+    }
+
+    if (lead) {
+      // El vínculo al lead siempre se refresca desde el state entrante.
+      setLeadId(lead.id);
+      setLeadExternalId(lead.external_id ?? null);
+      if (!restored) {
+        if (lead.label) setLabel(lead.label);
+        if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
+      }
+      // Limpia el state para no re-precargar al navegar internamente.
+      navigate(location.pathname, { replace: true, state: null });
+    }
+    hydratedRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Guarda el borrador ante cualquier cambio, una vez hidratado.
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const snapshot = {
+      step, sub, qualStep, selectedPresentations, label, relevantFacts,
+      guide, result, savedId, leadId, leadExternalId, engagementByPhase,
+      reactions, contract, signatureStatus, reinforceByStep,
+    };
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(snapshot));
+    } catch {
+      /* almacenamiento no disponible */
+    }
+  }, [
+    step, sub, qualStep, selectedPresentations, label, relevantFacts, guide,
+    result, savedId, leadId, leadExternalId, engagementByPhase, reactions,
+    contract, signatureStatus, reinforceByStep,
+  ]);
 
   // Sincroniza datos económicos / vínculo del lead. NO cambia el estado del
   // lead automáticamente: el estado solo lo edita el comercial manualmente.
@@ -1176,6 +1242,8 @@ const AdminVentas = () => {
   const resetForm = () => {
     setStep(0);
     setSub(0);
+    setQualStep(0);
+    setSelectedPresentations([]);
     setLabel("");
     setLeadExternalId(null);
     setLeadId(null);
@@ -1190,6 +1258,11 @@ const AdminVentas = () => {
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* almacenamiento no disponible */
+    }
   };
 
   const loadTestCase = () => {

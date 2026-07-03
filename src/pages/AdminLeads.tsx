@@ -137,6 +137,16 @@ const SyncChip = ({
   return <Clock className="h-4 w-4 shrink-0 text-muted-foreground" aria-label="Pendiente de sincronizar" />;
 };
 
+// Clave de persistencia del temporizador de blitz y forma del borrador.
+const TIMER_KEY = "calma_leads_timer";
+type TimerDraft = {
+  activeBatch: string | null;
+  batchSecs: number;
+  callSecs: number;
+  running: boolean;
+  savedAt: number;
+};
+
 const AdminLeads = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -144,8 +154,19 @@ const AdminLeads = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
 
+  // Borrador del temporizador guardado: al volver desde /ventas se restaura el
+  // paquete activo y el tiempo transcurrido en lugar de reiniciarse.
+  const savedTimer = useMemo(() => {
+    try {
+      const raw = localStorage.getItem(TIMER_KEY);
+      return raw ? (JSON.parse(raw) as TimerDraft) : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
   // Navegación entre "paquetes" y modo blitz.
-  const [activeBatch, setActiveBatch] = useState<string | null>(null);
+  const [activeBatch, setActiveBatch] = useState<string | null>(savedTimer?.activeBatch ?? null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
@@ -153,9 +174,33 @@ const AdminLeads = () => {
   const [syncing, setSyncing] = useState<Record<string, boolean>>({});
 
   // Temporizadores.
-  const [running, setRunning] = useState(true);
-  const [batchSecs, setBatchSecs] = useState(0);
-  const [callSecs, setCallSecs] = useState(0);
+  const [running, setRunning] = useState(savedTimer?.running ?? true);
+  const [batchSecs, setBatchSecs] = useState(() => {
+    if (!savedTimer) return 0;
+    let secs = savedTimer.batchSecs ?? 0;
+    // Suma el tiempo transcurrido mientras estábamos fuera si seguía corriendo.
+    if (savedTimer.running && savedTimer.savedAt) {
+      secs += Math.max(0, Math.floor((Date.now() - savedTimer.savedAt) / 1000));
+    }
+    return secs;
+  });
+  const [callSecs, setCallSecs] = useState(savedTimer?.callSecs ?? 0);
+
+  // Persiste el temporizador ante cualquier cambio (o lo limpia al salir).
+  useEffect(() => {
+    try {
+      if (activeBatch) {
+        localStorage.setItem(
+          TIMER_KEY,
+          JSON.stringify({ activeBatch, batchSecs, callSecs, running, savedAt: Date.now() }),
+        );
+      } else {
+        localStorage.removeItem(TIMER_KEY);
+      }
+    } catch {
+      /* almacenamiento no disponible */
+    }
+  }, [activeBatch, batchSecs, callSecs, running]);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
