@@ -1177,6 +1177,8 @@ const AdminVentas = () => {
     setStep(0);
     setSub(0);
     setLabel("");
+    setLeadExternalId(null);
+    setLeadId(null);
     setRelevantFacts([]);
     setNewFact("");
     setGuide(emptyGuide());
