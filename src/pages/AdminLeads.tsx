@@ -288,6 +288,30 @@ const AdminLeads = () => {
     }
   };
 
+  // Guarda la fecha/hora de la cita y la sincroniza con Zoho (campo Fecha_hora_cita).
+  const updateAppointment = async (id: string, localValue: string) => {
+    const iso = localValue ? new Date(localValue).toISOString() : null;
+    queryClient.setQueryData<LeadRow[]>(["sales-leads"], (prev) =>
+      (prev ?? []).map((l) => (l.id === id ? { ...l, appointment_at: iso } : l)),
+    );
+    const { error } = await supabase.from("sales_leads").update({ appointment_at: iso }).eq("id", id);
+    if (error) {
+      toast.error("No se pudo guardar la fecha de la cita");
+      refetch();
+      return;
+    }
+    const lead = (leads ?? []).find((l) => l.id === id);
+    if (lead?.external_id) {
+      const zohoDate = localValue ? toZohoDateTime(localValue) : "";
+      const result = await syncLeadDetailed(lead.external_id, { Fecha_hora_cita: zohoDate });
+      await recordSyncStatus(id, result);
+      if (!result.ok) toast.warning("Cita guardada, pero no se pudo sincronizar con Zoho");
+      refetch();
+    } else {
+      toast.success("Fecha de la cita guardada");
+    }
+  };
+
   // Construye todos los campos económicos + estado desde la fila del lead.
   const buildLeadFields = (l: LeadRow) =>
     buildZohoLeadFields({
