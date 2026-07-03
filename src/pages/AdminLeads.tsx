@@ -41,7 +41,9 @@ import {
   statusTone,
   type ParsedLead,
 } from "@/lib/leadsCsv";
-import { syncLeadToZoho } from "@/lib/zohoSync";
+import { syncLeadToZoho, syncLeadDetailed, recordSyncStatus } from "@/lib/zohoSync";
+import { buildZohoLeadFields } from "@/lib/zohoSync";
+import { RefreshCw, CheckCircle2, AlertCircle, Clock, Zap, ChevronDown } from "lucide-react";
 
 type LeadRow = {
   id: string;
