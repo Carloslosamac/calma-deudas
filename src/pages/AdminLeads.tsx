@@ -64,6 +64,9 @@ type LeadRow = {
   raw: Record<string, string> | null;
   sales_case_id: string | null;
   created_at: string;
+  zoho_sync_status: string | null;
+  zoho_synced_at: string | null;
+  zoho_sync_error: string | null;
 };
 
 type BatchRow = {
