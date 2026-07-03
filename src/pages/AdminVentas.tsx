@@ -42,6 +42,7 @@ import {
   ContractFields,
   emptyContract,
 } from "@/lib/contratoPdf";
+import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
