@@ -41,7 +41,9 @@ import {
   statusTone,
   type ParsedLead,
 } from "@/lib/leadsCsv";
-import { syncLeadToZoho } from "@/lib/zohoSync";
+import { syncLeadToZoho, syncLeadDetailed, recordSyncStatus } from "@/lib/zohoSync";
+import { buildZohoLeadFields } from "@/lib/zohoSync";
+import { RefreshCw, CheckCircle2, AlertCircle, Clock, Zap, ChevronDown } from "lucide-react";
 
 type LeadRow = {
   id: string;
@@ -64,6 +66,9 @@ type LeadRow = {
   raw: Record<string, string> | null;
   sales_case_id: string | null;
   created_at: string;
+  zoho_sync_status: string | null;
+  zoho_synced_at: string | null;
+  zoho_sync_error: string | null;
 };
 
 type BatchRow = {
@@ -86,6 +91,27 @@ const fmtTime = (s: number): string => {
 
 const isPending = (s: string) => PENDING_STATUSES.includes(s);
 
+// Indicador compacto del estado de sincronización con Zoho (estilo Zapier).
+const SyncChip = ({
+  status,
+  hasZoho,
+  syncing,
+}: {
+  status: string | null;
+  hasZoho: boolean;
+  syncing: boolean;
+}) => {
+  if (syncing)
+    return <RefreshCw className="h-4 w-4 shrink-0 animate-spin text-primary" aria-label="Sincronizando" />;
+  if (!hasZoho)
+    return <Clock className="h-4 w-4 shrink-0 text-muted-foreground/40" aria-label="No sincronizable" />;
+  if (status === "ok")
+    return <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" aria-label="Sincronizado" />;
+  if (status === "error")
+    return <AlertCircle className="h-4 w-4 shrink-0 text-destructive" aria-label="Error de sincronización" />;
+  return <Clock className="h-4 w-4 shrink-0 text-muted-foreground" aria-label="Pendiente de sincronizar" />;
+};
+
 const AdminLeads = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -98,6 +124,8 @@ const AdminLeads = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
+  const [expandedSync, setExpandedSync] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState<Record<string, boolean>>({});
 
   // Temporizadores.
   const [running, setRunning] = useState(true);
@@ -221,9 +249,39 @@ const AdminLeads = () => {
     // Refleja el estado en Zoho CRM si el lead viene de allí (external_id).
     const lead = (leads ?? []).find((l) => l.id === id);
     if (lead?.external_id) {
-      const ok = await syncLeadToZoho(lead.external_id, { Lead_Status: lead_status });
-      if (!ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
+      const result = await syncLeadDetailed(lead.external_id, { Lead_Status: lead_status });
+      await recordSyncStatus(id, result);
+      if (!result.ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
+      refetch();
     }
+  };
+
+  // Construye todos los campos económicos + estado desde la fila del lead.
+  const buildLeadFields = (l: LeadRow) =>
+    buildZohoLeadFields({
+      debtTotal: l.debt,
+      income: l.income,
+      expenses: l.expense,
+      employment: l.employment,
+      housing: l.housing,
+      vehicle: l.vehicle,
+      isDefault: l.is_default,
+    });
+
+  // Sincronización manual (botón "Sincronizar ahora" tipo Zapier).
+  const syncLeadNow = async (l: LeadRow) => {
+    if (!l.external_id) {
+      toast.error("Este lead no viene de Zoho (sin external_id), no se puede sincronizar");
+      return;
+    }
+    setSyncing((p) => ({ ...p, [l.id]: true }));
+    const fields = { Lead_Status: l.lead_status, ...buildLeadFields(l) };
+    const result = await syncLeadDetailed(l.external_id, fields);
+    await recordSyncStatus(l.id, result);
+    setSyncing((p) => ({ ...p, [l.id]: false }));
+    if (result.ok) toast.success(`Sincronizado con Zoho (${result.fieldCount} campos)`);
+    else toast.error(`No se pudo sincronizar: ${result.error}`);
+    refetch();
   };
 
   const removeLead = async (id: string) => {
@@ -595,34 +653,103 @@ const AdminLeads = () => {
         </div>
 
         <div className="space-y-1.5">
-          {filtered.map((l, idx) => (
-            <button
-              key={l.id}
-              onClick={() => {
-                setCurrentIdx(idx);
-                setCallSecs(0);
-              }}
-              className={`flex w-full items-center gap-3 rounded-lg border p-2.5 text-left transition-colors ${
-                idx === currentIdx ? "border-primary bg-primary/5" : "border-border hover:bg-muted/50"
-              }`}
-            >
-              <div className="min-w-0 flex-1">
-                <div className="truncate text-sm font-medium text-foreground">{l.name || "Sin nombre"}</div>
-                <div className="truncate text-xs text-muted-foreground">{l.phone || "Sin teléfono"}</div>
+          {filtered.map((l, idx) => {
+            const open = expandedSync === l.id;
+            const isSyncing = !!syncing[l.id];
+            const hasZoho = !!l.external_id;
+            return (
+              <div
+                key={l.id}
+                className={`rounded-lg border transition-colors ${
+                  idx === currentIdx ? "border-primary bg-primary/5" : "border-border"
+                }`}
+              >
+                <div className="flex items-center gap-3 p-2.5">
+                  <button
+                    onClick={() => {
+                      setCurrentIdx(idx);
+                      setCallSecs(0);
+                    }}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium text-foreground">{l.name || "Sin nombre"}</div>
+                      <div className="truncate text-xs text-muted-foreground">{l.phone || "Sin teléfono"}</div>
+                    </div>
+                    <div className="hidden text-xs text-muted-foreground sm:block">{eur(l.debt)}</div>
+                    <Badge variant="outline" className={`text-[10px] ${statusTone(l.lead_status)}`}>
+                      {l.lead_status}
+                    </Badge>
+                  </button>
+                  <SyncChip status={l.zoho_sync_status} hasZoho={hasZoho} syncing={isSyncing} />
+                  <button
+                    onClick={() => setExpandedSync(open ? null : l.id)}
+                    title="Ver sincronización"
+                    className="shrink-0 rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+                  </button>
+                  <Trash2
+                    className="h-4 w-4 shrink-0 cursor-pointer text-muted-foreground hover:text-destructive"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      void removeLead(l.id);
+                    }}
+                  />
+                </div>
+                {open && (
+                  <div className="border-t border-border/60 bg-muted/30 px-3 py-3">
+                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                      <Zap className="h-3.5 w-3.5 text-primary" />
+                      Sincronización con Zoho CRM
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-stretch gap-2 text-xs">
+                      <div className="flex-1 rounded-md border border-border bg-background p-2">
+                        <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Disparador</div>
+                        <div className="mt-0.5 font-medium text-foreground">Cambio en Calma</div>
+                        <div className="text-[11px] text-muted-foreground">Estado o datos del lead</div>
+                      </div>
+                      <div className="flex items-center text-muted-foreground">
+                        <ChevronRight className="h-4 w-4" />
+                      </div>
+                      <div className="flex-1 rounded-md border border-border bg-background p-2">
+                        <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Acción</div>
+                        <div className="mt-0.5 font-medium text-foreground">Actualizar Lead en Zoho</div>
+                        <div className="text-[11px] text-muted-foreground">
+                          {hasZoho ? `ID ${l.external_id}` : "Sin external_id"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-[11px] text-muted-foreground">
+                        {l.zoho_synced_at ? (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            Última: {new Date(l.zoho_synced_at).toLocaleString("es-ES")}
+                          </span>
+                        ) : (
+                          "Nunca sincronizado"
+                        )}
+                        {l.zoho_sync_status === "error" && l.zoho_sync_error && (
+                          <span className="mt-1 block text-destructive">⚠ {l.zoho_sync_error}</span>
+                        )}
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={!hasZoho || isSyncing}
+                        onClick={() => void syncLeadNow(l)}
+                        className="h-7 gap-1.5 text-xs"
+                      >
+                        <RefreshCw className={`h-3.5 w-3.5 ${isSyncing ? "animate-spin" : ""}`} />
+                        {isSyncing ? "Sincronizando…" : "Sincronizar ahora"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="hidden text-xs text-muted-foreground sm:block">{eur(l.debt)}</div>
-              <Badge variant="outline" className={`text-[10px] ${statusTone(l.lead_status)}`}>
-                {l.lead_status}
-              </Badge>
-              <Trash2
-                className="h-4 w-4 shrink-0 text-muted-foreground hover:text-destructive"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  void removeLead(l.id);
-                }}
-              />
-            </button>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

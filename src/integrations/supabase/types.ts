@@ -322,6 +322,9 @@ export type Database = {
           tier: string | null
           updated_at: string
           vehicle: string | null
+          zoho_sync_error: string | null
+          zoho_sync_status: string | null
+          zoho_synced_at: string | null
         }
         Insert: {
           appointment_at?: string | null
@@ -346,6 +349,9 @@ export type Database = {
           tier?: string | null
           updated_at?: string
           vehicle?: string | null
+          zoho_sync_error?: string | null
+          zoho_sync_status?: string | null
+          zoho_synced_at?: string | null
         }
         Update: {
           appointment_at?: string | null
@@ -370,6 +376,9 @@ export type Database = {
           tier?: string | null
           updated_at?: string
           vehicle?: string | null
+          zoho_sync_error?: string | null
+          zoho_sync_status?: string | null
+          zoho_synced_at?: string | null
         }
         Relationships: [
           {
