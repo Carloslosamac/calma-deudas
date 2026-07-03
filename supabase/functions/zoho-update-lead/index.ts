@@ -113,6 +113,24 @@ serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
+    // Modo lectura de metadata: devuelve el picklist real de Lead_Status.
+    if (body.mode === "metadata") {
+      const accessToken = await getAccessToken();
+      const res = await fetch(`${API_DOMAIN}/crm/v2/settings/fields?module=Leads`, {
+        headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
+      });
+      const json = await res.json();
+      const statusField = (json.fields ?? []).find(
+        (f: Record<string, unknown>) => f.api_name === "Lead_Status",
+      );
+      const values = (statusField?.pick_list_values ?? []).map(
+        (v: Record<string, unknown>) => v.display_value,
+      );
+      return new Response(JSON.stringify({ success: true, values }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
     // Los external_id importados del CSV de Zoho llevan el prefijo `zcrm_`.
     // Extraemos solo la parte numérica que espera la API de Zoho.
     const zohoId = String(body.zohoId ?? "").replace(/\D/g, "");
