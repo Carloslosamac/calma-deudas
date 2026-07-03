@@ -1049,6 +1049,7 @@ const TEST_CASE: {
 };
 
 const AdminVentas = () => {
+  const DRAFT_KEY = "calma_ventas_draft";
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
