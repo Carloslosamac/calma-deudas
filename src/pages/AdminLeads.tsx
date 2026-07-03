@@ -618,7 +618,13 @@ const AdminLeads = () => {
 
             <div className="flex flex-wrap items-center gap-2">
               {current.phone ? (
-                <Button size="lg" onClick={() => window.open(`tel:${current.phone}`, "_self")}>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    setCallSecs(0);
+                    window.open(`tel:${current.phone}`, "_self");
+                  }}
+                >
                   <Phone className="mr-2 h-4 w-4" /> Llamar
                 </Button>
               ) : null}
