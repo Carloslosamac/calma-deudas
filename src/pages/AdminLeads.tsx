@@ -138,6 +138,7 @@ const SyncChip = ({
 };
 
 const AdminLeads = () => {
+  // (constantes de temporizador definidas a nivel de módulo, ver arriba)
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
