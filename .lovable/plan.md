@@ -1,31 +1,29 @@
-## Resultado de la prueba en vivo
+# Alinear estados de Lead con el picklist real de Zoho
 
-Probé la edge function `zoho-update-lead` contra un lead real (`Tafa Mohatar`):
+## Contexto del problema
 
-1. **Con el `external_id` tal cual se guarda** (`zcrm_921024000004152016`) → **falla**: `"Invalid or missing zohoId"`. La función exige que el id sea solo dígitos (`^\d+$`), pero los `external_id` importados del CSV de Zoho llevan el prefijo `zcrm_`.
-2. **Con el id numérico** (`921024000004152016`) → **éxito**: `"Lead updated in Zoho CRM"`. Zoho aceptó la actualización correctamente.
+En la app, la lista de estados válidos (`ZOHO_LEAD_STATUSES` en `src/lib/leadsCsv.ts`) es una lista **escrita a mano** y no incluye "Cualificado". Por eso ese estado "no existe" en nuestro selector, aunque en Zoho el lead (Carlos Losa) aparezca como "Cualificado". La causa más probable: nuestra lista está desalineada con el picklist real del CRM (le faltan valores o usa nombres distintos, p. ej. tenemos "IA cualificado" pero no "Cualificado").
 
-**Conclusión:** el mapeo, el token OAuth y el endpoint funcionan. El único problema es que el prefijo `zcrm_` de los `external_id` rompe la validación, así que hoy **ninguna** sincronización real de leads importados llega a Zoho (siempre saltaría el aviso de error).
+Los campos económicos duplicados (`vehiculo` vs `vehiculo imprescindible`, `gastos_mensuales` vs `gasto`) quedan como están — confirmado por el usuario.
 
-## Arreglo
+## Objetivo
 
-Normalizar el `zohoId` en la edge function para quitar el prefijo antes de validar/enviar.
+Que la lista de estados de la app coincida exactamente con el picklist "Lead Status" real de Zoho, para no ofrecer/enviar valores inválidos ni omitir valores válidos.
 
-### Cambio en `supabase/functions/zoho-update-lead/index.ts`
-- Tras leer `body.zohoId`, extraer solo la parte numérica:
-  - `const zohoId = String(body.zohoId ?? "").replace(/\D/g, "");`
-  - Mantener la validación `^\d+$` (ya se cumple tras limpiar) y el mensaje de error si queda vacío.
-- Redesplegar la función.
+## Pasos
 
-### Verificación posterior
-- Repetir la prueba con el `external_id` completo (`zcrm_...`) y confirmar respuesta `success: true`.
-- Comprobar en Zoho CRM que el registro del lead refleja el `Lead_Status` y los campos económicos.
+1. **Leer el picklist real desde Zoho** (en modo build): hacer una llamada de metadata a Zoho CRM, `GET /crm/v2/settings/fields?module=Leads`, reutilizando el flujo OAuth ya existente en `supabase/functions/zoho-update-lead/index.ts` (mismo refresh token). Extraer los valores del picklist del campo `Lead_Status`. Esto confirma si "Cualificado" existe y qué otros valores hay.
 
-No hace falta tocar el cliente (`zohoSync.ts`, `AdminLeads.tsx`, `AdminVentas.tsx`): dejando la normalización en el servidor, cualquier formato de id (`zcrm_...` o numérico) queda cubierto.
+2. **Reconciliar `ZOHO_LEAD_STATUSES`** en `src/lib/leadsCsv.ts` con la lista real obtenida: añadir los que falten (incluido "Cualificado" si existe), quitar los que no existan y corregir nombres. Actualizar `PENDING_STATUSES` si procede.
 
-### Dónde comprobarlo tú después
-- **`/admin/ventas/leads`**: cambia el estado de un lead importado; sin aviso de error = sincronizado.
-- **`/admin/ventas`**: guarda un caso de un lead importado para volcar los datos económicos.
-- **Zoho CRM**: abre el registro del lead y refresca.</content>
-<summary>Arreglar el bug de sincronización a Zoho: el prefijo `zcrm_` de los external_id rompe la validación de la edge function. Normalizar el id en el servidor y reverificar.</summary>
-</invoke>
+3. **Verificar la sincronización**: confirmar que `updateStatus` en `src/pages/AdminLeads.tsx` solo puede enviar valores del picklist real (el selector ya se alimenta de `ZOHO_LEAD_STATUSES`, así que basta con corregir la lista).
+
+## Detalles técnicos
+
+- La verificación del punto 1 es una llamada de solo lectura; se puede hacer con una función temporal de metadata o añadiendo un endpoint de lectura a la función existente. La allowlist de escritura (`ALLOWED_FIELDS`) no se toca.
+- No se modifican los campos económicos ni su mapeo (`buildZohoLeadFields`).
+- Data center EU ya configurado (`www.zohoapis.eu`).
+
+## Resultado esperado
+
+La app mostrará y enviará exactamente los mismos estados que existen en Zoho, eliminando el desajuste que hacía que "Cualificado" pareciera un estado inexistente.
