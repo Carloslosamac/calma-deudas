@@ -589,7 +589,7 @@ const AdminLeads = () => {
               </div>
               {current.appointment_at ? (
                 <Badge variant="outline" className="bg-primary/5 text-primary">
-                  Cita: {current.appointment_at}
+                  <CalendarClock className="mr-1 h-3 w-3" /> {fmtAppointment(current.appointment_at)}
                 </Badge>
               ) : null}
             </div>
