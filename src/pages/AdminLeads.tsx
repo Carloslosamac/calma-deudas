@@ -91,6 +91,27 @@ const fmtTime = (s: number): string => {
 
 const isPending = (s: string) => PENDING_STATUSES.includes(s);
 
+// Indicador compacto del estado de sincronización con Zoho (estilo Zapier).
+const SyncChip = ({
+  status,
+  hasZoho,
+  syncing,
+}: {
+  status: string | null;
+  hasZoho: boolean;
+  syncing: boolean;
+}) => {
+  if (syncing)
+    return <RefreshCw className="h-4 w-4 shrink-0 animate-spin text-primary" aria-label="Sincronizando" />;
+  if (!hasZoho)
+    return <Clock className="h-4 w-4 shrink-0 text-muted-foreground/40" aria-label="No sincronizable" />;
+  if (status === "ok")
+    return <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" aria-label="Sincronizado" />;
+  if (status === "error")
+    return <AlertCircle className="h-4 w-4 shrink-0 text-destructive" aria-label="Error de sincronización" />;
+  return <Clock className="h-4 w-4 shrink-0 text-muted-foreground" aria-label="Pendiente de sincronizar" />;
+};
+
 const AdminLeads = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
