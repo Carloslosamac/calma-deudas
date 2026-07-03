@@ -1,66 +1,46 @@
-## Objetivo
+## Verificación de campos en Zoho (módulo Leads)
 
-Añadir a la zona de administración una **lista de llamadas** alimentada por la subida de CSVs de leads (export de Zoho). El comercial sube el CSV, ve a todas las personas que hay que llamar con su teléfono y su lead status, puede llamar (y abrir el caso en `/ventas`) y actualizar el estado. Todo persiste en Lovable Cloud.
+Confirmado contra el módulo Leads real: **todos los campos necesarios ya existen**. Solo hay que usar el nombre de API exacto (algunos difieren de lo previsto).
 
-## Nueva página: `/admin/ventas/leads`
+## Mapeo verificado (formulario /ventas → Zoho)
 
-Nueva ruta protegida (mismo patrón admin que `/admin/indexacion`, usando `useAdminAuth`). Estructura:
+| Dato en /ventas | API name real en Zoho | Tipo | Estado |
+|---|---|---|---|
+| Deuda total (`debtsTotal`) | `deuda` | integer | ✅ existe |
+| En impago (alguna deuda) | `impago` | text ("Sí"/"No") | ✅ existe |
+| Nº de entidades | `entidades` | integer | ✅ existe |
+| Lista de entidades | `lista_entidades` | textarea | ✅ existe |
+| Situación vivienda | `vivienda` | text | ✅ existe |
+| Importe pagado hipoteca | `importe_pagado_hipoteca` | integer | ✅ existe |
+| Situación vehículo | `vehiculo` | text | ✅ existe |
+| Ingresos mensuales | `Ingreso` | text | ✅ existe |
+| Gastos de vida | `gastos_mensuales` | text | ✅ existe |
+| Cuota vivienda | `cuota_vivienda` | text | ✅ existe |
+| Cuota vehículo | `cuota_veh_culo` | text | ✅ existe |
+| Cuotas de deuda que paga hoy | `cuotas_deuda_mensual` | text | ✅ existe |
+| Salida mensual total | `salidas_mensual_total` | text | ✅ existe |
+| Capacidad de pago | `capacidad_pago` | text | ✅ existe |
+| Importe asumible | `importe_asumible` | text | ✅ existe |
+| Situación laboral | `situacion_laboral` | picklist | ✅ existe |
+| Solución/triage recomendado | `solution_recomendada` | text | ✅ existe |
+| Estado del lead | `Lead_Status` | picklist | ✅ existe |
 
-1. **Zona de subida de CSV**
-   - Botón/drag&drop para seleccionar un `.csv`.
-   - Se parsea en el navegador con un parser robusto (maneja comillas y comas dentro de campos, como en el export de Zoho).
-   - Mapeo de columnas del export de Zoho a nuestros campos:
-     - `Record Id` → `external_id` (clave de deduplicado)
-     - `Lead Name` (o `First Name`+`Last Name`) → nombre
-     - `Phone` / `Mobile` → teléfono
-     - `Lead Status` → estado inicial
-     - `entidades`, `deuda`, `ingreso`, `gasto`, `laboral`, `Alquiler`, `vivienda`, `vehiculo`, `impago`, `Tier`, `Fuente`, `Fecha/hora cita`, `¿Se puede contactar?`, `Email` → guardados como `raw` (JSON) para prefiltrar el caso y mostrar contexto.
-   - Al subir: **actualizar los existentes y añadir los nuevos** (upsert por `external_id`, con fallback a teléfono). Se conserva el estado de llamada ya editado (no se sobreescribe un estado editado manualmente por el del CSV salvo que el CSV traiga uno "más avanzado"; por defecto, si el lead ya existe se respeta el estado local).
-   - Resumen tras importar: "X nuevos, Y actualizados".
+> Nota: la mayoría de campos económicos son de tipo **text** en Zoho, así que se enviarán como cadenas (números en texto). `situacion_laboral` es picklist: hay que enviar un valor que exista en su lista (mapearé los enum de `/ventas` a las opciones reales; si algún valor no coincide, lo dejo vacío para no romper el guardado).
 
-2. **Lista de leads a llamar**
-   - Tabla/tarjetas con: nombre, teléfono, lead status (selector editable), deuda estimada, fuente y fecha de cita si existe.
-   - Filtros rápidos por estado (p. ej. "Sin contactar", "Contactado", "No contesta", "Cita", "No válido") y buscador por nombre/teléfono.
-   - Orden: primero "Sin contactar", luego por fecha de creación.
-   - Acciones por fila:
-     - **Llamar + abrir en `/ventas`**: abre el marcador (`tel:`) y navega a `/admin/ventas` precargando los datos del lead (nombre como `label`, y `entidades/deuda/ingreso/gasto/laboral/vivienda/vehiculo/impago` mapeados a `GuideFields`), con el `leadId` asociado.
-     - **Estado editable**: cambiar el lead status se guarda al instante en la base de datos.
-     - Copiar teléfono.
+## Implementación
 
-3. **Enlaces de navegación admin** entre `/admin/ventas`, `/admin/ventas/leads`, `/admin/indexacion`, etc. (barra superior coherente con las demás páginas admin).
+1. **Nueva edge function `zoho-update-lead`**
+   - Reutiliza la lógica de auth de `zoho-lead` (refresh token en `zoho_tokens`, dominio EU).
+   - `PUT /crm/v2/Leads/{zohoId}` con `{ data: [fields] }`; limpia nulos; valida entrada.
+   - Recibe `{ zohoId, fields }` ya normalizados desde el cliente.
 
-## Integración con `/admin/ventas` (ida y vuelta)
+2. **Sync del formulario al guardar el caso** (`saveCase()` en `AdminVentas.tsx`)
+   - Si el lead vinculado tiene `external_id` (record id de Zoho), construir el objeto con el mapeo de arriba (deuda, impago, entidades, económicos, capacidad, situación laboral, solución) e invocar `zoho-update-lead`.
+   - Dispara la sync **al guardar el caso**, no en cada tecla.
 
-- **Ida**: al abrir un lead, `/admin/ventas` recibe el `leadId` + datos (via `location.state` o querystring) y precarga `caseText`, `label` y `guide`.
-- **Vuelta (estados y campos al avanzar)**: mientras se trabaja el caso, al **guardar/avanzar de fase** se actualiza el lead vinculado:
-  - `lead_status` según la fase alcanzada (p. ej. Diagnóstico→"Contactado", Solución→"Interesado", Contrato/Firma→"Cita"/"Ganado"), y el `Loss Reason`/estado si se marca perdido.
-  - Los campos capturados en el caso (deuda, ingresos, gastos, vivienda, vehículo, impago, engagement) se escriben de vuelta en el lead para mantenerlo actualizado.
-  - Se enlaza `sales_cases` ↔ lead para no duplicar el trabajo.
+3. **Sync de `Lead_Status`** (ya solicitado)
+   - En `AdminLeads.tsx` `updateStatus()` y en los cambios de estado del modo blitz, invocar `zoho-update-lead` con `{ Lead_Status }` además de actualizar `sales_leads`.
 
-## Base de datos (migración)
+4. **Errores no bloqueantes**: si la sync a Zoho falla, el cambio local se conserva y se muestra un toast de aviso.
 
-Nueva tabla `public.sales_leads`:
-
-- `id uuid pk`, `external_id text` (Record Id de Zoho, único por creador), `name text`, `phone text`, `email text`
-- `lead_status text` (estado editable de llamada)
-- `debt numeric`, `income numeric`, `expense numeric`, `employment text`, `housing text`, `vehicle text`, `is_default boolean`, `source text`, `appointment_at text`, `tier text`
-- `raw jsonb` (fila completa del CSV para no perder datos)
-- `sales_case_id uuid null` (enlace al caso trabajado)
-- `created_by uuid`, `created_at`, `updated_at` (+ trigger de updated_at)
-- Índice único `(created_by, external_id)` para el upsert de deduplicado.
-- **RLS**: admins gestionan sus leads. GRANT a `authenticated` y `service_role` (patrón estándar). Políticas basadas en `has_role(auth.uid(),'admin')` + `created_by = auth.uid()`, coherentes con `sales_cases`.
-
-## Detalles técnicos
-
-- Parser CSV: implementación propia mínima que respeta comillas dobles y saltos de línea, o `papaparse` si se prefiere (a confirmar en build; por defecto parser propio para no añadir dependencia).
-- Normalización de teléfono (quitar espacios, prefijo `+34`).
-- Tipado de columnas: los números vienen como texto → convertir con tolerancia (`14000` → 14000).
-- Reutilizar componentes shadcn ya usados en admin (Card, Badge, Button, Select, Input, Table).
-- Sin cambios en la lógica de generación de guiones; solo prefill de datos.
-
-## Fuera de alcance (salvo que se pida luego)
-
-- Sincronización automática en vivo con Zoho vía API (aquí es subida manual de CSV). El conector Zoho existe y podría añadirse después para importar sin CSV.
-</content>
-<summary>Uploader de CSV de leads en /admin/ventas/leads con lista de llamadas (teléfono + lead status editable), persistencia en Lovable Cloud, deduplicado por Record Id, y enlace bidireccional con la herramienta /ventas.</summary>
-</invoke>
+¿Confirmo el mapeo tal cual y lo implemento?
