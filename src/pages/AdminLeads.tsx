@@ -41,6 +41,7 @@ import {
   statusTone,
   type ParsedLead,
 } from "@/lib/leadsCsv";
+import { syncLeadToZoho } from "@/lib/zohoSync";
 
 type LeadRow = {
   id: string;
@@ -215,6 +216,13 @@ const AdminLeads = () => {
     if (error) {
       toast.error("No se pudo guardar el estado");
       refetch();
+      return;
+    }
+    // Refleja el estado en Zoho CRM si el lead viene de allí (external_id).
+    const lead = (leads ?? []).find((l) => l.id === id);
+    if (lead?.external_id) {
+      const ok = await syncLeadToZoho(lead.external_id, { Lead_Status: lead_status });
+      if (!ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
     }
   };
 
@@ -245,6 +253,7 @@ const AdminLeads = () => {
       state: {
         lead: {
           id: l.id,
+          external_id: l.external_id,
           label: l.name || l.phone || "Lead",
           guide: {
             debtAmount: l.debt ?? undefined,

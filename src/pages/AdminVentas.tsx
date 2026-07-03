@@ -42,6 +42,7 @@ import {
   ContractFields,
   emptyContract,
 } from "@/lib/contratoPdf";
+import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -1073,6 +1074,7 @@ const AdminVentas = () => {
   // Lead de origen (cuando se llega desde /admin/ventas/leads) para sincronizar
   // estado y vincular el caso trabajado.
   const [leadId, setLeadId] = useState<string | null>(null);
+  const [leadExternalId, setLeadExternalId] = useState<string | null>(null);
   const [result, setResult] = useState<AiResult | null>(null);
   // Evita re-disparar la pre-generación automática del guion de contrato/firma.
   const autoGenRef = useRef<Record<number, boolean>>({});
@@ -1128,11 +1130,13 @@ const AdminVentas = () => {
   useEffect(() => {
     const lead = (location.state as { lead?: {
       id: string;
+      external_id?: string | null;
       label?: string;
       guide?: Partial<GuideFields>;
     } } | null)?.lead;
     if (!lead) return;
     setLeadId(lead.id);
+    setLeadExternalId(lead.external_id ?? null);
     if (lead.label) setLabel(lead.label);
     if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
     // Limpia el state para no re-precargar al navegar internamente.
@@ -1173,6 +1177,8 @@ const AdminVentas = () => {
     setStep(0);
     setSub(0);
     setLabel("");
+    setLeadExternalId(null);
+    setLeadId(null);
     setRelevantFacts([]);
     setNewFact("");
     setGuide(emptyGuide());
@@ -1511,6 +1517,34 @@ const AdminVentas = () => {
           debt: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
           income: guide.monthlyIncome ?? null,
           expense: guide.monthlyExpenses ?? null,
+        });
+      }
+      // Sincroniza los datos económicos del caso hacia Zoho CRM.
+      if (leadExternalId) {
+        const entitiesList = Array.from(
+          new Set(guide.debts.map((d) => d.entity?.trim()).filter(Boolean) as string[]),
+        );
+        const fields = buildZohoLeadFields({
+          debtTotal: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
+          isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault || null,
+          entitiesCount: guide.debts.length || null,
+          entitiesList,
+          housing: guide.housing || null,
+          mortgagePaid: guide.mortgagePaid ?? null,
+          vehicle: guide.vehicle || null,
+          income: guide.monthlyIncome ?? null,
+          expenses: guide.monthlyExpenses ?? null,
+          housingPayment: guide.housingPayment ?? null,
+          vehiclePayment: guide.vehiclePayment ?? null,
+          debtsMonthlyPaying,
+          monthlyOutflow,
+          paymentCapacity,
+          affordablePayment,
+          employment: guide.employment ?? null,
+          solution: result.triage?.title ?? null,
+        });
+        void syncLeadToZoho(leadExternalId, fields).then((ok) => {
+          if (!ok) toast.warning("Caso guardado, pero no se pudo sincronizar con Zoho");
         });
       }
       queryClient.invalidateQueries({ queryKey: ["sales-cases"] });
