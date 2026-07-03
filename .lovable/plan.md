@@ -1,46 +1,31 @@
-## Verificación de campos en Zoho (módulo Leads)
+## Resultado de la prueba en vivo
 
-Confirmado contra el módulo Leads real: **todos los campos necesarios ya existen**. Solo hay que usar el nombre de API exacto (algunos difieren de lo previsto).
+Probé la edge function `zoho-update-lead` contra un lead real (`Tafa Mohatar`):
 
-## Mapeo verificado (formulario /ventas → Zoho)
+1. **Con el `external_id` tal cual se guarda** (`zcrm_921024000004152016`) → **falla**: `"Invalid or missing zohoId"`. La función exige que el id sea solo dígitos (`^\d+$`), pero los `external_id` importados del CSV de Zoho llevan el prefijo `zcrm_`.
+2. **Con el id numérico** (`921024000004152016`) → **éxito**: `"Lead updated in Zoho CRM"`. Zoho aceptó la actualización correctamente.
 
-| Dato en /ventas | API name real en Zoho | Tipo | Estado |
-|---|---|---|---|
-| Deuda total (`debtsTotal`) | `deuda` | integer | ✅ existe |
-| En impago (alguna deuda) | `impago` | text ("Sí"/"No") | ✅ existe |
-| Nº de entidades | `entidades` | integer | ✅ existe |
-| Lista de entidades | `lista_entidades` | textarea | ✅ existe |
-| Situación vivienda | `vivienda` | text | ✅ existe |
-| Importe pagado hipoteca | `importe_pagado_hipoteca` | integer | ✅ existe |
-| Situación vehículo | `vehiculo` | text | ✅ existe |
-| Ingresos mensuales | `Ingreso` | text | ✅ existe |
-| Gastos de vida | `gastos_mensuales` | text | ✅ existe |
-| Cuota vivienda | `cuota_vivienda` | text | ✅ existe |
-| Cuota vehículo | `cuota_veh_culo` | text | ✅ existe |
-| Cuotas de deuda que paga hoy | `cuotas_deuda_mensual` | text | ✅ existe |
-| Salida mensual total | `salidas_mensual_total` | text | ✅ existe |
-| Capacidad de pago | `capacidad_pago` | text | ✅ existe |
-| Importe asumible | `importe_asumible` | text | ✅ existe |
-| Situación laboral | `situacion_laboral` | picklist | ✅ existe |
-| Solución/triage recomendado | `solution_recomendada` | text | ✅ existe |
-| Estado del lead | `Lead_Status` | picklist | ✅ existe |
+**Conclusión:** el mapeo, el token OAuth y el endpoint funcionan. El único problema es que el prefijo `zcrm_` de los `external_id` rompe la validación, así que hoy **ninguna** sincronización real de leads importados llega a Zoho (siempre saltaría el aviso de error).
 
-> Nota: la mayoría de campos económicos son de tipo **text** en Zoho, así que se enviarán como cadenas (números en texto). `situacion_laboral` es picklist: hay que enviar un valor que exista en su lista (mapearé los enum de `/ventas` a las opciones reales; si algún valor no coincide, lo dejo vacío para no romper el guardado).
+## Arreglo
 
-## Implementación
+Normalizar el `zohoId` en la edge function para quitar el prefijo antes de validar/enviar.
 
-1. **Nueva edge function `zoho-update-lead`**
-   - Reutiliza la lógica de auth de `zoho-lead` (refresh token en `zoho_tokens`, dominio EU).
-   - `PUT /crm/v2/Leads/{zohoId}` con `{ data: [fields] }`; limpia nulos; valida entrada.
-   - Recibe `{ zohoId, fields }` ya normalizados desde el cliente.
+### Cambio en `supabase/functions/zoho-update-lead/index.ts`
+- Tras leer `body.zohoId`, extraer solo la parte numérica:
+  - `const zohoId = String(body.zohoId ?? "").replace(/\D/g, "");`
+  - Mantener la validación `^\d+$` (ya se cumple tras limpiar) y el mensaje de error si queda vacío.
+- Redesplegar la función.
 
-2. **Sync del formulario al guardar el caso** (`saveCase()` en `AdminVentas.tsx`)
-   - Si el lead vinculado tiene `external_id` (record id de Zoho), construir el objeto con el mapeo de arriba (deuda, impago, entidades, económicos, capacidad, situación laboral, solución) e invocar `zoho-update-lead`.
-   - Dispara la sync **al guardar el caso**, no en cada tecla.
+### Verificación posterior
+- Repetir la prueba con el `external_id` completo (`zcrm_...`) y confirmar respuesta `success: true`.
+- Comprobar en Zoho CRM que el registro del lead refleja el `Lead_Status` y los campos económicos.
 
-3. **Sync de `Lead_Status`** (ya solicitado)
-   - En `AdminLeads.tsx` `updateStatus()` y en los cambios de estado del modo blitz, invocar `zoho-update-lead` con `{ Lead_Status }` además de actualizar `sales_leads`.
+No hace falta tocar el cliente (`zohoSync.ts`, `AdminLeads.tsx`, `AdminVentas.tsx`): dejando la normalización en el servidor, cualquier formato de id (`zcrm_...` o numérico) queda cubierto.
 
-4. **Errores no bloqueantes**: si la sync a Zoho falla, el cambio local se conserva y se muestra un toast de aviso.
-
-¿Confirmo el mapeo tal cual y lo implemento?
+### Dónde comprobarlo tú después
+- **`/admin/ventas/leads`**: cambia el estado de un lead importado; sin aviso de error = sincronizado.
+- **`/admin/ventas`**: guarda un caso de un lead importado para volcar los datos económicos.
+- **Zoho CRM**: abre el registro del lead y refresca.</content>
+<summary>Arreglar el bug de sincronización a Zoho: el prefijo `zcrm_` de los external_id rompe la validación de la edge function. Normalizar el id en el servidor y reverificar.</summary>
+</invoke>
