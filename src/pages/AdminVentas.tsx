@@ -1159,15 +1159,56 @@ const AdminVentas = () => {
       label?: string;
       guide?: Partial<GuideFields>;
     } } | null)?.lead;
-    if (!lead) return;
-    setLeadId(lead.id);
-    setLeadExternalId(lead.external_id ?? null);
-    if (lead.label) setLabel(lead.label);
-    if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
-    // Limpia el state para no re-precargar al navegar internamente.
-    navigate(location.pathname, { replace: true, state: null });
+
+    // Intenta restaurar un borrador guardado.
+    let restored = false;
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const draft = JSON.parse(raw) as Record<string, unknown>;
+        // Si se abre un lead concreto, solo se restaura si el borrador es suyo.
+        if (!lead || draft.leadId === lead.id) {
+          applyDraft(draft);
+          restored = true;
+        }
+      }
+    } catch {
+      /* borrador corrupto: se ignora */
+    }
+
+    if (lead) {
+      // El vínculo al lead siempre se refresca desde el state entrante.
+      setLeadId(lead.id);
+      setLeadExternalId(lead.external_id ?? null);
+      if (!restored) {
+        if (lead.label) setLabel(lead.label);
+        if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
+      }
+      // Limpia el state para no re-precargar al navegar internamente.
+      navigate(location.pathname, { replace: true, state: null });
+    }
+    hydratedRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Guarda el borrador ante cualquier cambio, una vez hidratado.
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const snapshot = {
+      step, sub, qualStep, selectedPresentations, label, relevantFacts,
+      guide, result, savedId, leadId, leadExternalId, engagementByPhase,
+      reactions, contract, signatureStatus, reinforceByStep,
+    };
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(snapshot));
+    } catch {
+      /* almacenamiento no disponible */
+    }
+  }, [
+    step, sub, qualStep, selectedPresentations, label, relevantFacts, guide,
+    result, savedId, leadId, leadExternalId, engagementByPhase, reactions,
+    contract, signatureStatus, reinforceByStep,
+  ]);
 
   // Sincroniza datos económicos / vínculo del lead. NO cambia el estado del
   // lead automáticamente: el estado solo lo edita el comercial manualmente.
