@@ -2627,6 +2627,24 @@ const AdminVentas = () => {
                     style={{ width: progress + "%", backgroundColor: "hsl(var(--phase))" }}
                   />
                 </div>
+                {/* Añadir dato: siempre disponible en cualquier paso del flujo */}
+                <div className="mt-2 flex gap-2">
+                  <Input
+                    value={newFact}
+                    onChange={(e) => setNewFact(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addFact();
+                      }
+                    }}
+                    placeholder="Añadir dato relevante y pulsa Enter…"
+                    className="h-8 text-xs"
+                  />
+                  <Button type="button" size="icon" className="h-8 w-8 shrink-0" onClick={addFact} aria-label="Añadir dato relevante">
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
                 {showCase && (
                   <CaseFactsPanel
                     label={label}
