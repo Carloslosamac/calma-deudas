@@ -103,6 +103,8 @@ const AdminLeads = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
+  const [expandedSync, setExpandedSync] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState<Record<string, boolean>>({});
 
   // Temporizadores.
   const [running, setRunning] = useState(true);
