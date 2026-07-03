@@ -113,7 +113,9 @@ serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
-    const zohoId = String(body.zohoId ?? "").trim();
+    // Los external_id importados del CSV de Zoho llevan el prefijo `zcrm_`.
+    // Extraemos solo la parte numérica que espera la API de Zoho.
+    const zohoId = String(body.zohoId ?? "").replace(/\D/g, "");
     const rawFields = (body.fields ?? {}) as Record<string, unknown>;
 
     if (!/^\d+$/.test(zohoId)) {
