@@ -137,8 +137,17 @@ const SyncChip = ({
   return <Clock className="h-4 w-4 shrink-0 text-muted-foreground" aria-label="Pendiente de sincronizar" />;
 };
 
+// Clave de persistencia del temporizador de blitz y forma del borrador.
+const TIMER_KEY = "calma_leads_timer";
+type TimerDraft = {
+  activeBatch: string | null;
+  batchSecs: number;
+  callSecs: number;
+  running: boolean;
+  savedAt: number;
+};
+
 const AdminLeads = () => {
-  // (constantes de temporizador definidas a nivel de módulo, ver arriba)
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
