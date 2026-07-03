@@ -87,6 +87,7 @@ async function getAccessToken(): Promise<string> {
 // (allowlist para evitar escrituras accidentales en campos no previstos)
 const ALLOWED_FIELDS = new Set<string>([
   "Lead_Status",
+  "Fecha_hora_cita",
   "deuda",
   "impago",
   "entidades",

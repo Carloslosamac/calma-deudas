@@ -8,13 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -44,6 +37,8 @@ import {
 import { syncLeadToZoho, syncLeadDetailed, recordSyncStatus } from "@/lib/zohoSync";
 import { buildZohoLeadFields } from "@/lib/zohoSync";
 import { RefreshCw, CheckCircle2, AlertCircle, Clock, Zap, ChevronDown } from "lucide-react";
+import { StatusCombobox } from "@/components/ventas/StatusCombobox";
+import { CalendarClock } from "lucide-react";
 
 type LeadRow = {
   id: string;
@@ -87,6 +82,36 @@ const fmtTime = (s: number): string => {
   const sec = s % 60;
   const pad = (n: number) => String(n).padStart(2, "0");
   return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`;
+};
+
+// Convierte un valor guardado (ISO o texto de Zoho) al formato que espera
+// <input type="datetime-local"> => "YYYY-MM-DDTHH:mm".
+const toLocalInput = (v: string | null): string => {
+  if (!v) return "";
+  const d = new Date(v);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
+// Convierte el valor del input local a ISO 8601 con offset (formato Zoho datetime).
+const toZohoDateTime = (local: string): string => {
+  const d = new Date(local);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const off = -d.getTimezoneOffset();
+  const sign = off >= 0 ? "+" : "-";
+  const oh = pad(Math.floor(Math.abs(off) / 60));
+  const om = pad(Math.abs(off) % 60);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:00${sign}${oh}:${om}`;
+};
+
+// Muestra la fecha/hora de la cita de forma legible.
+const fmtAppointment = (v: string | null): string => {
+  if (!v) return "";
+  const d = new Date(v);
+  if (Number.isNaN(d.getTime())) return v;
+  return d.toLocaleString("es-ES", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
 };
 
 const isPending = (s: string) => PENDING_STATUSES.includes(s);
@@ -253,6 +278,30 @@ const AdminLeads = () => {
       await recordSyncStatus(id, result);
       if (!result.ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
       refetch();
+    }
+  };
+
+  // Guarda la fecha/hora de la cita y la sincroniza con Zoho (campo Fecha_hora_cita).
+  const updateAppointment = async (id: string, localValue: string) => {
+    const iso = localValue ? new Date(localValue).toISOString() : null;
+    queryClient.setQueryData<LeadRow[]>(["sales-leads"], (prev) =>
+      (prev ?? []).map((l) => (l.id === id ? { ...l, appointment_at: iso } : l)),
+    );
+    const { error } = await supabase.from("sales_leads").update({ appointment_at: iso }).eq("id", id);
+    if (error) {
+      toast.error("No se pudo guardar la fecha de la cita");
+      refetch();
+      return;
+    }
+    const lead = (leads ?? []).find((l) => l.id === id);
+    if (lead?.external_id) {
+      const zohoDate = localValue ? toZohoDateTime(localValue) : "";
+      const result = await syncLeadDetailed(lead.external_id, { Fecha_hora_cita: zohoDate });
+      await recordSyncStatus(id, result);
+      if (!result.ok) toast.warning("Cita guardada, pero no se pudo sincronizar con Zoho");
+      refetch();
+    } else {
+      toast.success("Fecha de la cita guardada");
     }
   };
 
@@ -533,7 +582,7 @@ const AdminLeads = () => {
               </div>
               {current.appointment_at ? (
                 <Badge variant="outline" className="bg-primary/5 text-primary">
-                  Cita: {current.appointment_at}
+                  <CalendarClock className="mr-1 h-3 w-3" /> {fmtAppointment(current.appointment_at)}
                 </Badge>
               ) : null}
             </div>
@@ -562,7 +611,13 @@ const AdminLeads = () => {
 
             <div className="flex flex-wrap items-center gap-2">
               {current.phone ? (
-                <Button size="lg" onClick={() => window.open(`tel:${current.phone}`, "_self")}>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    setCallSecs(0);
+                    window.open(`tel:${current.phone}`, "_self");
+                  }}
+                >
                   <Phone className="mr-2 h-4 w-4" /> Llamar
                 </Button>
               ) : null}
@@ -583,19 +638,24 @@ const AdminLeads = () => {
                 </Button>
               ) : null}
 
-              <div className="ml-auto flex items-center gap-2">
-                <Select value={current.lead_status} onValueChange={(v) => void updateStatus(current.id, v)}>
-                  <SelectTrigger className={`h-11 w-[210px] ${statusTone(current.lead_status)}`}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[320px]">
-                    {ZOHO_LEAD_STATUSES.map((s) => (
-                      <SelectItem key={s} value={s}>
-                        {s}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="ml-auto flex flex-col items-end gap-2">
+                <StatusCombobox
+                  value={current.lead_status}
+                  options={ZOHO_LEAD_STATUSES}
+                  onChange={(v) => void updateStatus(current.id, v)}
+                  triggerClassName={`h-11 w-[210px] ${statusTone(current.lead_status)}`}
+                />
+                {/* Fecha/hora de la reunión agendada — debajo del estado */}
+                <div className="flex items-center gap-1.5 rounded-md border border-border px-2 py-1">
+                  <CalendarClock className="h-4 w-4 text-primary" />
+                  <Input
+                    type="datetime-local"
+                    value={toLocalInput(current.appointment_at)}
+                    onChange={(e) => void updateAppointment(current.id, e.target.value)}
+                    className="h-8 w-[190px] border-0 p-0 text-sm shadow-none focus-visible:ring-0"
+                    aria-label="Fecha y hora de la reunión"
+                  />
+                </div>
               </div>
             </div>
 
@@ -631,25 +691,16 @@ const AdminLeads = () => {
               className="pl-9"
             />
           </div>
-          <Select
+          <StatusCombobox
             value={statusFilter}
-            onValueChange={(v) => {
+            options={ZOHO_LEAD_STATUSES}
+            includeAll
+            onChange={(v) => {
               setStatusFilter(v);
               setCurrentIdx(0);
             }}
-          >
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Estado" />
-            </SelectTrigger>
-            <SelectContent className="max-h-[320px]">
-              <SelectItem value="todos">Todos los estados</SelectItem>
-              {ZOHO_LEAD_STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            triggerClassName="w-[200px]"
+          />
         </div>
 
         <div className="space-y-1.5">
