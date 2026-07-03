@@ -692,25 +692,16 @@ const AdminLeads = () => {
               className="pl-9"
             />
           </div>
-          <Select
+          <StatusCombobox
             value={statusFilter}
-            onValueChange={(v) => {
+            options={ZOHO_LEAD_STATUSES}
+            includeAll
+            onChange={(v) => {
               setStatusFilter(v);
               setCurrentIdx(0);
             }}
-          >
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Estado" />
-            </SelectTrigger>
-            <SelectContent className="max-h-[320px]">
-              <SelectItem value="todos">Todos los estados</SelectItem>
-              {ZOHO_LEAD_STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            triggerClassName="w-[200px]"
+          />
         </div>
 
         <div className="space-y-1.5">
