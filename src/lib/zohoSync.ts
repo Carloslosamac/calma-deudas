@@ -92,3 +92,43 @@ export async function syncLeadToZoho(
     return false;
   }
 }
+
+export interface SyncResult {
+  ok: boolean;
+  error?: string;
+  fieldCount: number;
+}
+
+// Sincroniza y devuelve el detalle del resultado (para mostrar en UI tipo Zapier).
+export async function syncLeadDetailed(
+  zohoId: string | null | undefined,
+  fields: ZohoLeadFields,
+): Promise<SyncResult> {
+  const fieldCount = Object.keys(fields).length;
+  if (!zohoId) return { ok: false, error: "El lead no tiene ID de Zoho (external_id)", fieldCount };
+  if (fieldCount === 0) return { ok: false, error: "No hay campos que sincronizar", fieldCount };
+  try {
+    const { data, error } = await supabase.functions.invoke("zoho-update-lead", {
+      body: { zohoId, fields },
+    });
+    if (error) return { ok: false, error: error.message ?? "Error de red", fieldCount };
+    if (data?.success === false) {
+      return { ok: false, error: data?.error ?? "Zoho rechazó la actualización", fieldCount };
+    }
+    return { ok: true, fieldCount };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : String(e), fieldCount };
+  }
+}
+
+// Persiste el resultado de la sincronización en la fila del lead.
+export async function recordSyncStatus(leadId: string, result: SyncResult): Promise<void> {
+  await supabase
+    .from("sales_leads")
+    .update({
+      zoho_sync_status: result.ok ? "ok" : "error",
+      zoho_synced_at: new Date().toISOString(),
+      zoho_sync_error: result.ok ? null : (result.error ?? "Error desconocido"),
+    })
+    .eq("id", leadId);
+}
