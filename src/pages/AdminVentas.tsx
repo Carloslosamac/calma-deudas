@@ -1096,6 +1096,30 @@ const AdminVentas = () => {
     Record<number, { internal: ScriptCard[]; client: string }>
   >({});
 
+  // Persistencia del borrador del formulario: si el comercial avanza y navega
+  // fuera (p. ej. a /leads), al volver se restaura el progreso en lugar de
+  // perderse. Se guarda un único borrador activo en localStorage.
+  const hydratedRef = useRef(false);
+  const applyDraft = (d: Record<string, unknown>) => {
+    if (typeof d.step === "number") setStep(d.step);
+    if (typeof d.sub === "number") setSub(d.sub);
+    if (typeof d.qualStep === "number") setQualStep(d.qualStep);
+    if (Array.isArray(d.selectedPresentations)) setSelectedPresentations(d.selectedPresentations as string[]);
+    if (typeof d.label === "string") setLabel(d.label);
+    if (Array.isArray(d.relevantFacts)) setRelevantFacts(d.relevantFacts as string[]);
+    if (d.guide && typeof d.guide === "object") setGuide((prev) => ({ ...prev, ...(d.guide as GuideFields) }));
+    if (d.result !== undefined) setResult((d.result as AiResult) ?? null);
+    if (d.savedId !== undefined) setSavedId((d.savedId as string) ?? null);
+    if (d.leadId !== undefined) setLeadId((d.leadId as string) ?? null);
+    if (d.leadExternalId !== undefined) setLeadExternalId((d.leadExternalId as string) ?? null);
+    if (Array.isArray(d.engagementByPhase)) setEngagementByPhase(d.engagementByPhase as number[]);
+    if (Array.isArray(d.reactions)) setReactions(d.reactions as string[]);
+    if (d.contract && typeof d.contract === "object") setContract((prev) => ({ ...prev, ...(d.contract as ContractFields) }));
+    if (typeof d.signatureStatus === "string") setSignatureStatus(d.signatureStatus);
+    if (d.reinforceByStep && typeof d.reinforceByStep === "object")
+      setReinforceByStep(d.reinforceByStep as Record<number, { internal: ScriptCard[]; client: string }>);
+  };
+
   const togglePhrase = (p: string) =>
     setReactions((prev) =>
       prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p],
