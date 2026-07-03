@@ -113,6 +113,23 @@ serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
+    // TEMP: metadata read to discover field API names.
+    if (body.action === "fields") {
+      const at = await getAccessToken();
+      const r = await fetch(`${API_DOMAIN}/crm/v2/settings/fields?module=Leads`, {
+        headers: { Authorization: `Zoho-oauthtoken ${at}` },
+      });
+      const j = await r.json();
+      const fieldsMeta = (j.fields ?? []).map((f: Record<string, unknown>) => ({
+        api_name: f.api_name,
+        label: f.field_label,
+        data_type: f.data_type,
+      }));
+      return new Response(JSON.stringify({ fields: fieldsMeta }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
     // Los external_id importados del CSV de Zoho llevan el prefijo `zcrm_`.
     // Extraemos solo la parte numérica que espera la API de Zoho.
     const zohoId = String(body.zohoId ?? "").replace(/\D/g, "");
