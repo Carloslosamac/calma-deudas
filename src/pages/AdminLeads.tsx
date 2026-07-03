@@ -41,6 +41,7 @@ import {
   statusTone,
   type ParsedLead,
 } from "@/lib/leadsCsv";
+import { syncLeadToZoho } from "@/lib/zohoSync";
 
 type LeadRow = {
   id: string;
