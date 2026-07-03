@@ -1129,11 +1129,13 @@ const AdminVentas = () => {
   useEffect(() => {
     const lead = (location.state as { lead?: {
       id: string;
+      external_id?: string | null;
       label?: string;
       guide?: Partial<GuideFields>;
     } } | null)?.lead;
     if (!lead) return;
     setLeadId(lead.id);
+    setLeadExternalId(lead.external_id ?? null);
     if (lead.label) setLabel(lead.label);
     if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
     // Limpia el state para no re-precargar al navegar internamente.
