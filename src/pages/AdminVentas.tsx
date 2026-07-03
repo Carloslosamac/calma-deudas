@@ -1242,6 +1242,8 @@ const AdminVentas = () => {
   const resetForm = () => {
     setStep(0);
     setSub(0);
+    setQualStep(0);
+    setSelectedPresentations([]);
     setLabel("");
     setLeadExternalId(null);
     setLeadId(null);
@@ -1256,6 +1258,11 @@ const AdminVentas = () => {
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* almacenamiento no disponible */
+    }
   };
 
   const loadTestCase = () => {
