@@ -228,9 +228,39 @@ const AdminLeads = () => {
     // Refleja el estado en Zoho CRM si el lead viene de allí (external_id).
     const lead = (leads ?? []).find((l) => l.id === id);
     if (lead?.external_id) {
-      const ok = await syncLeadToZoho(lead.external_id, { Lead_Status: lead_status });
-      if (!ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
+      const result = await syncLeadDetailed(lead.external_id, { Lead_Status: lead_status });
+      await recordSyncStatus(id, result);
+      if (!result.ok) toast.warning("Estado guardado, pero no se pudo sincronizar con Zoho");
+      refetch();
     }
+  };
+
+  // Construye todos los campos económicos + estado desde la fila del lead.
+  const buildLeadFields = (l: LeadRow) =>
+    buildZohoLeadFields({
+      debtTotal: l.debt,
+      income: l.income,
+      expenses: l.expense,
+      employment: l.employment,
+      housing: l.housing,
+      vehicle: l.vehicle,
+      isDefault: l.is_default,
+    });
+
+  // Sincronización manual (botón "Sincronizar ahora" tipo Zapier).
+  const syncLeadNow = async (l: LeadRow) => {
+    if (!l.external_id) {
+      toast.error("Este lead no viene de Zoho (sin external_id), no se puede sincronizar");
+      return;
+    }
+    setSyncing((p) => ({ ...p, [l.id]: true }));
+    const fields = { Lead_Status: l.lead_status, ...buildLeadFields(l) };
+    const result = await syncLeadDetailed(l.external_id, fields);
+    await recordSyncStatus(l.id, result);
+    setSyncing((p) => ({ ...p, [l.id]: false }));
+    if (result.ok) toast.success(`Sincronizado con Zoho (${result.fieldCount} campos)`);
+    else toast.error(`No se pudo sincronizar: ${result.error}`);
+    refetch();
   };
 
   const removeLead = async (id: string) => {
