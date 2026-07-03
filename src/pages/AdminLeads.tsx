@@ -253,6 +253,7 @@ const AdminLeads = () => {
       state: {
         lead: {
           id: l.id,
+          external_id: l.external_id,
           label: l.name || l.phone || "Lead",
           guide: {
             debtAmount: l.debt ?? undefined,
