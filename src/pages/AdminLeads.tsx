@@ -44,6 +44,8 @@ import {
 import { syncLeadToZoho, syncLeadDetailed, recordSyncStatus } from "@/lib/zohoSync";
 import { buildZohoLeadFields } from "@/lib/zohoSync";
 import { RefreshCw, CheckCircle2, AlertCircle, Clock, Zap, ChevronDown } from "lucide-react";
+import { StatusCombobox } from "@/components/ventas/StatusCombobox";
+import { CalendarClock } from "lucide-react";
 
 type LeadRow = {
   id: string;
@@ -87,6 +89,36 @@ const fmtTime = (s: number): string => {
   const sec = s % 60;
   const pad = (n: number) => String(n).padStart(2, "0");
   return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`;
+};
+
+// Convierte un valor guardado (ISO o texto de Zoho) al formato que espera
+// <input type="datetime-local"> => "YYYY-MM-DDTHH:mm".
+const toLocalInput = (v: string | null): string => {
+  if (!v) return "";
+  const d = new Date(v);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
+// Convierte el valor del input local a ISO 8601 con offset (formato Zoho datetime).
+const toZohoDateTime = (local: string): string => {
+  const d = new Date(local);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const off = -d.getTimezoneOffset();
+  const sign = off >= 0 ? "+" : "-";
+  const oh = pad(Math.floor(Math.abs(off) / 60));
+  const om = pad(Math.abs(off) % 60);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:00${sign}${oh}:${om}`;
+};
+
+// Muestra la fecha/hora de la cita de forma legible.
+const fmtAppointment = (v: string | null): string => {
+  if (!v) return "";
+  const d = new Date(v);
+  if (Number.isNaN(d.getTime())) return v;
+  return d.toLocaleString("es-ES", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
 };
 
 const isPending = (s: string) => PENDING_STATUSES.includes(s);
