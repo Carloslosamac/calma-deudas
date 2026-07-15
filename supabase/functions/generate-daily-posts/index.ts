@@ -237,6 +237,17 @@ function startsWithEmoji(s: string): boolean {
   return EMOJI_START.test(s.trim());
 }
 const FLAT_START = /^\s*(gu[ií]a|requisitos|documentaci[oó]n|introducci[oó]n|c[oó]mo\b)/i;
+// Coletillas clickbait prohibidas (case-insensitive, palabra completa)
+const CLICHE_PATTERNS = [
+  /\bYA\b/,
+  /\bAHORA\b/,
+  /\bCERO\b/,
+  /\bTODO\b\s+lo\s+que\s+debes\s+saber/i,
+  /\bPASO\s+A\s+PASO\b/i,
+];
+function hasCliche(s: string): boolean {
+  return CLICHE_PATTERNS.some((r) => r.test(s));
+}
 function isCompliantTitle(t: string): boolean {
   const clean = (t ?? "").trim();
   if (!clean) return false;
@@ -245,6 +256,7 @@ function isCompliantTitle(t: string): boolean {
   // El arranque plano se evalúa tras el emoji.
   const afterEmoji = clean.replace(EMOJI_START, "").trim();
   if (FLAT_START.test(afterEmoji)) return false;
+  if (hasCliche(clean)) return false;
   return true;
 }
 
@@ -263,7 +275,7 @@ async function rewriteTitle(rawTitle: string, topic: string, category: string): 
           {
             role: "system",
             content:
-              "Eres copywriter de SEO. Devuelve SOLO el título reescrito, sin comillas ni explicación. Patrón obligatorio: 1 emoji temático al inicio + keyword principal + gancho de urgencia/poder. Máximo 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma», sin arranques planos (Guía/Requisitos/Documentación/Cómo).",
+              "Eres copywriter SEO senior. Devuelve SOLO el título reescrito, sin comillas ni explicación. Reglas: 1 emoji temático al inicio + gancho ESPECÍFICO al tema (cifra, plazo, consecuencia concreta, pregunta afilada, contraste). Máx 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma», sin arranques planos (Guía/Requisitos/Documentación/Cómo). PROHIBIDAS las coletillas «YA», «AHORA», «CERO», «TODO lo que debes saber», «PASO A PASO» y las mayúsculas gritadas de palabras genéricas.",
           },
           {
             role: "user",
