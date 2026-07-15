@@ -365,6 +365,186 @@ const cities: Omit<
     lat: 36.834,
     lng: -2.4637,
   },
+  {
+    slug: "salamanca",
+    name: "Salamanca",
+    rank: 27,
+    provincia: "Salamanca",
+    comunidad: "Castilla y León",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Salamanca",
+    localNote:
+      "Salamanca combina el peso del sector universitario y servicios con autónomos del comercio local; los juzgados aplican criterios asentados sobre buena fe.",
+    lat: 40.9701,
+    lng: -5.6635,
+  },
+  {
+    slug: "cadiz",
+    name: "Cádiz",
+    rank: 28,
+    provincia: "Cádiz",
+    comunidad: "Andalucía",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Cádiz",
+    localNote:
+      "Cádiz reúne un perfil frecuente de autónomos del turismo, la pesca y la hostelería, sectores con estacionalidad marcada que arrastra deudas.",
+    lat: 36.5271,
+    lng: -6.2886,
+  },
+  {
+    slug: "toledo",
+    name: "Toledo",
+    rank: 29,
+    provincia: "Toledo",
+    comunidad: "Castilla-La Mancha",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Toledo",
+    localNote:
+      "Toledo, capital manchega, concentra deudas de pequeños autónomos y familias del corredor Madrid–Toledo con préstamos personales acumulados.",
+    lat: 39.8628,
+    lng: -4.0273,
+  },
+  {
+    slug: "lleida",
+    name: "Lleida",
+    rank: 30,
+    provincia: "Lleida",
+    comunidad: "Cataluña",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Lleida",
+    localNote:
+      "Lleida atiende a autónomos del sector agrario, la fruta y el comercio; el interior catalán presenta un perfil de deuda muy vinculado a campañas.",
+    lat: 41.6176,
+    lng: 0.6200,
+  },
+  {
+    slug: "tarragona",
+    name: "Tarragona",
+    rank: 31,
+    provincia: "Tarragona",
+    comunidad: "Cataluña",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Tarragona",
+    localNote:
+      "Tarragona combina la deuda de autónomos turísticos de la Costa Daurada con particulares del cinturón industrial de la petroquímica.",
+    lat: 41.1189,
+    lng: 1.2445,
+  },
+  {
+    slug: "girona",
+    name: "Girona",
+    rank: 32,
+    provincia: "Girona",
+    comunidad: "Cataluña",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Girona",
+    localNote:
+      "Girona presenta un peso alto de autónomos del turismo de la Costa Brava y del comercio de proximidad, con estacionalidad fuerte.",
+    lat: 41.9794,
+    lng: 2.8214,
+  },
+  {
+    slug: "leon",
+    name: "León",
+    rank: 33,
+    provincia: "León",
+    comunidad: "Castilla y León",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de León",
+    localNote:
+      "León aglutina casos de pequeños autónomos del comercio, la hostelería y la minería reconvertida, con deudas antiguas difíciles de reestructurar.",
+    lat: 42.5987,
+    lng: -5.5671,
+  },
+  {
+    slug: "castellon",
+    name: "Castellón",
+    rank: 34,
+    provincia: "Castellón",
+    comunidad: "Comunidad Valenciana",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Castellón",
+    localNote:
+      "Castellón concentra autónomos del sector cerámico y del comercio, además de familias con deudas de consumo y microcréditos acumulados.",
+    lat: 39.9864,
+    lng: -0.0513,
+  },
+  {
+    slug: "huelva",
+    name: "Huelva",
+    rank: 35,
+    provincia: "Huelva",
+    comunidad: "Andalucía",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Huelva",
+    localNote:
+      "Huelva atiende a autónomos agrarios (fresa, frutos rojos), pesqueros y del turismo, con perfiles marcados por la temporalidad.",
+    lat: 37.2614,
+    lng: -6.9447,
+  },
+  {
+    slug: "jaen",
+    name: "Jaén",
+    rank: 36,
+    provincia: "Jaén",
+    comunidad: "Andalucía",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Jaén",
+    localNote:
+      "Jaén presenta un peso muy alto de autónomos del olivar y el comercio, con deudas ligadas a campañas y a préstamos personales sobre bienes familiares.",
+    lat: 37.7796,
+    lng: -3.7849,
+  },
+  {
+    slug: "logrono",
+    name: "Logroño",
+    rank: 37,
+    provincia: "La Rioja",
+    comunidad: "La Rioja",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Logroño",
+    localNote:
+      "Logroño reúne casos de autónomos del vino, la hostelería y el comercio, con deudas mixtas de proveedor y financieras.",
+    lat: 42.4627,
+    lng: -2.4449,
+  },
+  {
+    slug: "albacete",
+    name: "Albacete",
+    rank: 38,
+    provincia: "Albacete",
+    comunidad: "Castilla-La Mancha",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Albacete",
+    localNote:
+      "Albacete concentra autónomos del comercio, la industria del cuchillo y la agricultura de secano, con deudas frecuentes por caídas de campaña.",
+    lat: 38.9943,
+    lng: -1.8585,
+  },
+  {
+    slug: "badajoz",
+    name: "Badajoz",
+    rank: 39,
+    provincia: "Badajoz",
+    comunidad: "Extremadura",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Badajoz",
+    localNote:
+      "Badajoz atiende a familias y autónomos del comercio, la agricultura y la ganadería extensiva, con deudas de consumo y préstamos personales.",
+    lat: 38.8794,
+    lng: -6.9707,
+  },
+  {
+    slug: "ourense",
+    name: "Ourense",
+    rank: 40,
+    provincia: "Ourense",
+    comunidad: "Galicia",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Ourense",
+    localNote:
+      "Ourense presenta casos habituales de pensionistas, familias y autónomos rurales del interior gallego con deudas de consumo y avales familiares.",
+    lat: 42.3364,
+    lng: -7.8635,
+  },
+  {
+    slug: "caceres",
+    name: "Cáceres",
+    rank: 41,
+    provincia: "Cáceres",
+    comunidad: "Extremadura",
+    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Cáceres",
+    localNote:
+      "Cáceres atiende a autónomos del comercio, el turismo rural y la agricultura, con deudas frecuentes tras caídas de temporada.",
+    lat: 39.4753,
+    lng: -6.3724,
+  },
 ];
 
 /**
@@ -533,6 +713,96 @@ const localExtra: Record<
     perfilDeuda: "En Almería abundan las deudas de autónomos de la agricultura intensiva, el comercio y la hostelería.",
     prefijo: "950",
   },
+  salamanca: {
+    zonas: ["Centro", "Garrido", "Pizarrales", "Béjar", "Ciudad Rodrigo", "Peñaranda", "Santa Marta"],
+    sedeJudicial: "el Palacio de Justicia de Salamanca, en el paseo del Rollo",
+    perfilDeuda: "En Salamanca pesan las deudas de familias con préstamos personales y de autónomos del comercio y la hostelería universitaria.",
+    prefijo: "923",
+  },
+  cadiz: {
+    zonas: ["Casco Antiguo", "San Fernando", "Puerto Real", "Chiclana", "Jerez", "El Puerto de Santa María", "Sanlúcar"],
+    sedeJudicial: "el Palacio de Justicia de Cádiz, en la avenida Ana de Viya",
+    perfilDeuda: "En Cádiz abundan las deudas de autónomos del turismo, la hostelería y la pesca, con fuerte estacionalidad.",
+    prefijo: "956",
+  },
+  toledo: {
+    zonas: ["Casco Histórico", "Santa Bárbara", "Polígono", "Talavera de la Reina", "Illescas", "Torrijos", "Sonseca"],
+    sedeJudicial: "el Palacio de Justicia de Toledo, en la avenida de la Rosa",
+    perfilDeuda: "En Toledo predominan las deudas de familias del corredor Madrid–Toledo y autónomos del pequeño comercio.",
+    prefijo: "925",
+  },
+  lleida: {
+    zonas: ["Centre Històric", "Pardinyes", "Cappont", "Balaguer", "La Seu d'Urgell", "Tàrrega", "Mollerussa"],
+    sedeJudicial: "el Palacio de Justicia de Lleida, en el Canyeret",
+    perfilDeuda: "En Lleida pesan las deudas de autónomos del sector agrario, la fruta y el pequeño comercio de interior.",
+    prefijo: "973",
+  },
+  tarragona: {
+    zonas: ["Part Alta", "Eixample", "Sant Pere i Sant Pau", "Reus", "Salou", "Cambrils", "Valls"],
+    sedeJudicial: "el Palacio de Justicia de Tarragona, en la avinguda Lluís Companys",
+    perfilDeuda: "En Tarragona son frecuentes las deudas de autónomos del turismo de la Costa Daurada y de trabajadores del cinturón petroquímico.",
+    prefijo: "977",
+  },
+  girona: {
+    zonas: ["Barri Vell", "Eixample", "Pont Major", "Figueres", "Blanes", "Lloret", "Olot"],
+    sedeJudicial: "el Palacio de Justicia de Girona, en la plaça Josep M. Lidón Corbí",
+    perfilDeuda: "En Girona predominan las deudas de autónomos del turismo de la Costa Brava y del comercio de proximidad.",
+    prefijo: "972",
+  },
+  leon: {
+    zonas: ["Centro", "El Ejido", "La Palomera", "Ponferrada", "San Andrés del Rabanedo", "Astorga", "La Bañeza"],
+    sedeJudicial: "el Palacio de Justicia de León, en la plaza del Cid",
+    perfilDeuda: "En León pesan las deudas de pequeños autónomos del comercio y la hostelería, y de familias con préstamos personales antiguos.",
+    prefijo: "987",
+  },
+  castellon: {
+    zonas: ["Centro", "Grao", "Rafalafena", "Vila-real", "Burriana", "Onda", "Almassora"],
+    sedeJudicial: "el Palacio de Justicia de Castellón, en el bulevar Blasco Ibáñez",
+    perfilDeuda: "En Castellón abundan las deudas de autónomos de la industria cerámica y del comercio local.",
+    prefijo: "964",
+  },
+  huelva: {
+    zonas: ["Centro", "Isla Chica", "La Orden", "Almonte", "Lepe", "Isla Cristina", "Moguer"],
+    sedeJudicial: "el Palacio de Justicia de Huelva, en la Alameda Sundheim",
+    perfilDeuda: "En Huelva pesan las deudas de autónomos agrarios (fresa y frutos rojos), pesqueros y del turismo.",
+    prefijo: "959",
+  },
+  jaen: {
+    zonas: ["Centro", "El Bulevar", "La Magdalena", "Linares", "Andújar", "Úbeda", "Baeza"],
+    sedeJudicial: "el Palacio de Justicia de Jaén, en la carretera de Madrid",
+    perfilDeuda: "En Jaén predominan las deudas de autónomos del olivar y el comercio, con préstamos personales sobre bienes familiares.",
+    prefijo: "953",
+  },
+  logrono: {
+    zonas: ["Centro", "El Cubo", "Cascajos", "Calahorra", "Haro", "Arnedo", "Nájera"],
+    sedeJudicial: "el Palacio de Justicia de Logroño, en la calle Marqués de Murrieta",
+    perfilDeuda: "En Logroño abundan las deudas de autónomos del vino, la hostelería y el comercio local.",
+    prefijo: "941",
+  },
+  albacete: {
+    zonas: ["Centro", "Hospital", "San Antón", "Hellín", "Villarrobledo", "Almansa", "La Roda"],
+    sedeJudicial: "el Palacio de Justicia de Albacete, en el paseo de la Cuba",
+    perfilDeuda: "En Albacete predominan las deudas de autónomos del comercio, la industria del cuchillo y la agricultura de secano.",
+    prefijo: "967",
+  },
+  badajoz: {
+    zonas: ["Centro", "San Roque", "Valdepasillas", "Mérida", "Don Benito", "Almendralejo", "Zafra"],
+    sedeJudicial: "el Palacio de Justicia de Badajoz, en la avenida de Colón",
+    perfilDeuda: "En Badajoz son frecuentes las deudas de familias y autónomos del comercio y la agricultura extensiva.",
+    prefijo: "924",
+  },
+  ourense: {
+    zonas: ["Centro", "A Ponte", "Mariñamansa", "Verín", "O Barco", "O Carballiño", "Xinzo de Limia"],
+    sedeJudicial: "el Palacio de Justicia de Ourense, en la plaza de Concepción Arenal",
+    perfilDeuda: "En Ourense abundan los casos de pensionistas y familias del interior gallego con deudas de consumo y avales familiares.",
+    prefijo: "988",
+  },
+  caceres: {
+    zonas: ["Centro", "Aldea Moret", "Ciudad Monumental", "Plasencia", "Trujillo", "Coria", "Navalmoral"],
+    sedeJudicial: "el Palacio de Justicia de Cáceres, en la avenida de la Hispanidad",
+    perfilDeuda: "En Cáceres pesan las deudas de autónomos del comercio, el turismo rural y la pequeña agricultura.",
+    prefijo: "927",
+  },
 };
 
 /**
@@ -648,6 +918,66 @@ const localCases: Record<
   almeria: {
     audienciaProvincial: "la Audiencia Provincial de Almería",
     ejemploCaso: "Un caso habitual en Almería: un autónomo de la agricultura intensiva que, tras una mala campaña, quedó con deudas a proveedores y préstamos del negocio.",
+  },
+  salamanca: {
+    audienciaProvincial: "la Audiencia Provincial de Salamanca",
+    ejemploCaso: "Un caso habitual en Salamanca: una familia con préstamos personales y tarjetas revolving acumuladas para cubrir gastos universitarios y vivienda.",
+  },
+  cadiz: {
+    audienciaProvincial: "la Audiencia Provincial de Cádiz",
+    ejemploCaso: "Un caso habitual en Cádiz: un autónomo de la hostelería costera que, tras una temporada floja, arrastra deudas con proveedores y préstamos del negocio.",
+  },
+  toledo: {
+    audienciaProvincial: "la Audiencia Provincial de Toledo",
+    ejemploCaso: "Un caso habitual en Toledo: una familia del corredor Madrid–Toledo con hipoteca ajustada y varios préstamos al consumo que ya no puede atender.",
+  },
+  lleida: {
+    audienciaProvincial: "la Audiencia Provincial de Lleida",
+    ejemploCaso: "Un caso habitual en Lleida: un autónomo del sector frutícola que, tras una mala campaña, quedó con deudas de campaña y préstamos personales.",
+  },
+  tarragona: {
+    audienciaProvincial: "la Audiencia Provincial de Tarragona",
+    ejemploCaso: "Un caso habitual en Tarragona: un autónomo del turismo de la Costa Daurada que, tras cerrar el negocio, arrastra préstamos y avales impagados.",
+  },
+  girona: {
+    audienciaProvincial: "la Audiencia Provincial de Girona",
+    ejemploCaso: "Un caso habitual en Girona: un autónomo del turismo de la Costa Brava que, fuera de temporada, no puede cubrir cuotas de préstamos y proveedores.",
+  },
+  leon: {
+    audienciaProvincial: "la Audiencia Provincial de León",
+    ejemploCaso: "Un caso habitual en León: un pequeño autónomo del comercio que cerró el negocio y quedó con préstamos y deudas antiguas difíciles de asumir.",
+  },
+  castellon: {
+    audienciaProvincial: "la Audiencia Provincial de Castellón",
+    ejemploCaso: "Un caso habitual en Castellón: un autónomo del sector cerámico que, tras una caída de pedidos, arrastra préstamos del negocio y deudas con proveedores.",
+  },
+  huelva: {
+    audienciaProvincial: "la Audiencia Provincial de Huelva",
+    ejemploCaso: "Un caso habitual en Huelva: un autónomo del sector agrario que, tras una campaña con mal precio, quedó con deudas de proveedores y préstamos.",
+  },
+  jaen: {
+    audienciaProvincial: "la Audiencia Provincial de Jaén",
+    ejemploCaso: "Un caso habitual en Jaén: un autónomo del olivar que, tras una mala cosecha y precios bajos, arrastra préstamos personales y deudas del negocio.",
+  },
+  logrono: {
+    audienciaProvincial: "la Audiencia Provincial de La Rioja",
+    ejemploCaso: "Un caso habitual en Logroño: un autónomo del vino o la hostelería que, tras un cambio de ciclo, quedó con préstamos y avales que no puede asumir.",
+  },
+  albacete: {
+    audienciaProvincial: "la Audiencia Provincial de Albacete",
+    ejemploCaso: "Un caso habitual en Albacete: un pequeño autónomo del comercio o la agricultura que arrastra deudas tras una mala campaña de ventas.",
+  },
+  badajoz: {
+    audienciaProvincial: "la Audiencia Provincial de Badajoz",
+    ejemploCaso: "Un caso habitual en Badajoz: una familia con préstamos personales acumulados y un autónomo del comercio con deudas a proveedores.",
+  },
+  ourense: {
+    audienciaProvincial: "la Audiencia Provincial de Ourense",
+    ejemploCaso: "Un caso habitual en Ourense: un pensionista que avaló a un familiar y arrastra tarjetas y préstamos que no puede afrontar con su pensión.",
+  },
+  caceres: {
+    audienciaProvincial: "la Audiencia Provincial de Cáceres",
+    ejemploCaso: "Un caso habitual en Cáceres: un autónomo del comercio o el turismo rural que, tras una temporada floja, quedó con préstamos y deudas del negocio.",
   },
 };
 
