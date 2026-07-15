@@ -291,15 +291,32 @@ REGLAS EDITORIALES INNEGOCIABLES:
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo.
 - Tono empático, cercano y honesto. Cero promesas garantizadas. El CTA invita a la valoración gratuita.
 
+REGLAS DE TITULARES (INNEGOCIABLES — la mayoría de titulares automáticos que hemos rechazado incumplen esto):
+- El "headline" es un titular de reportaje humano, tipo prensa larga, NO un anuncio ni una ficha ("Nombre X. de Ciudad cancela N € con LSO" está PROHIBIDO).
+- Patrón obligatorio: una escena, síntoma o momento concreto + dos puntos + el desenlace/solución. Concreto, sensorial, humano. Puede incluir el importe o la ciudad, pero NO puede reducirse a "Nombre + Ciudad + Importe + Ley".
+- Prohibido: empezar con el nombre + apellido inicial; frases tipo "logra reducir su deuda", "adiós a X €", "caso de éxito", "gracias a Calma", "¡Calma!", "libérate", "empezar de cero" y cualquier eslogan de firma.
+- Prohibido usar la marca Calma en el headline o en el seoTitle. Nada de "| Calma", "con Calma", "Caso Calma".
+- Longitud del headline: 60–95 caracteres. Sin emojis. Sin mayúsculas gritadas.
+- seoTitle: < 60 caracteres, con gancho, SIN marca, SIN emoji, SIN "| Calma". Debe diferenciarse del headline (más corto y más SEO), no ser una copia recortada.
+
+EJEMPLOS DE HEADLINES DEL NIVEL QUE ESPERAMOS (imita el ESTILO, no copies literal):
+- "Le congelaron la cuenta un viernes: cómo Pilar actuó el fin de semana y evitó perder sus ahorros en Valencia"
+- "De pedir microcréditos para pagar microcréditos a cancelar 22.179 € en Sabadell"
+- "Le embargaban la nómina cada mes: cómo Gonzalo canceló 88.600 € y recuperó su sueldo"
+- "Siete acreedores distintos, una sola solución: Marina cancela 61.400 € en Bilbao"
+- "La carta de Hacienda que le heló la sangre a Andrés: cómo paró el apremio a tiempo y ordenó su deuda"
+- "Pagaba a cinco entidades y llegaba al límite cada mes: cómo Daniel bajó su cuota un 45% sin pedir ningún préstamo nuevo"
+- "Pagó durante años y la deuda no bajaba: reclamó por usura y recuperó 5.120 €"
+
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown) con esta forma exacta:
 {
   "debtAmount": "importe cancelado/resuelto formateado, p.ej. '32.450 €'",
   "solution": "solución legal aplicada en una línea",
-  "headline": "titular tipo noticia < 70 caracteres, con la ciudad y el importe",
+  "headline": "titular tipo reportaje humano de 60–95 caracteres siguiendo el patrón escena/síntoma + ':' + desenlace. Sin marca, sin emojis, sin fórmulas tipo 'Nombre de Ciudad cancela X €'.",
   "dek": "entradilla/dek de 1-2 frases",
   "readTime": "p.ej. '6 min'",
   "heroAlt": "texto alternativo descriptivo de una foto de la persona",
-  "seoTitle": "título SEO < 60 caracteres, con gancho, SIN marca",
+  "seoTitle": "título SEO < 60 caracteres, con gancho de CTR, SIN marca, SIN emoji, SIN '| Calma'. Diferente del headline.",
   "metaDescription": "meta descripción < 160 caracteres, persuasiva",
   "keywords": ["5-8 keywords"],
   "sections": [{ "id": "slug-seccion", "title": "Título H2", "html": "<p>...</p> párrafos y listas. HTML semántico, sin estilos inline." }],
