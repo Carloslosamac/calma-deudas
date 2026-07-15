@@ -182,7 +182,7 @@ Deno.serve(async (req) => {
 
   const { data: rows, error } = await supabase
     .from("generated_casos")
-    .select("slug,name,location")
+    .select("slug,name,location,hero_image")
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(limit);
