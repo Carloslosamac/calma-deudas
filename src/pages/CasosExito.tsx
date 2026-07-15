@@ -87,11 +87,7 @@ const CasosExito = () => {
                     className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                   <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground shadow-soft">
-                    {["Ley de Segunda Oportunidad", "Concurso de persona física"].includes(
-                      c.category
-                    )
-                      ? `${c.debtAmount} cancelados`
-                      : c.debtAmount}
+                    {c.debtAmount}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-7">
