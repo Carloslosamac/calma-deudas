@@ -16,7 +16,7 @@ export const sergioAlicante: CasoExito = {
   debtAmount: "5.120 € recuperados",
   solution: "Reclamación judicial por usura",
   headline:
-    "Pagó durante años y la deuda no bajaba: reclamó por usura y recuperó 5.120 €",
+    "Pagó durante años y la deuda no bajaba: Sergio reclamó por usura y recuperó 5.120 € en Alicante",
   dek: "Sergio tenía trabajo, pagaba puntualmente y aun así su tarjeta revolving nunca se liquidaba. El motivo era una TAE que rozaba el 27 %. Un juzgado declaró el contrato nulo y le devolvió todo lo que había pagado de más.",
   seoTitle: "Caso real: recupera 5.120 € de una tarjeta revolving en Alicante",
   metaDescription:

@@ -16,7 +16,7 @@ export const hugoMalaga: CasoExito = {
   debtAmount: "3 cuotas → 1",
   solution: "Reunificación (negociación extrajudicial)",
   headline:
-    "Tres préstamos, tres fechas, una angustia constante: Hugo pasó a pagar una sola cuota más baja sin tocar su coche ni su garaje",
+    "Tres préstamos, tres fechas, una angustia constante: Hugo pasó a una sola cuota más baja sin tocar su coche ni su garaje en Málaga",
   dek: "Cada vencimiento era un susto. Con el coche y la plaza de garaje pagados que no quería perder, la refinanciación clásica no era una opción. La negociación extrajudicial sí lo fue.",
   seoTitle: "Caso real: unifica tres préstamos en una cuota más baja en Málaga",
   metaDescription:

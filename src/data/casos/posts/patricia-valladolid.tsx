@@ -16,7 +16,7 @@ export const patriciaValladolid: CasoExito = {
   debtAmount: "Fuera de ASNEF",
   solution: "Baja del fichero por inclusión indebida",
   headline:
-    "La incluyeron en ASNEF por una deuda que no era suya: Patricia demostró el error y salió en semanas",
+    "La incluyeron en ASNEF por una deuda que no era suya: Patricia demostró el error y salió del fichero en semanas en Valladolid",
   dek: "Patricia llevaba meses sin entender por qué le rechazaban cualquier gestión financiera. La causa era una deuda antigua que ella no reconocía. Al impugnarla y demostrar que la inclusión era indebida, sus datos desaparecieron del fichero sin tener que pagar un céntimo.",
   seoTitle: "Caso real: sale de ASNEF por inclusión indebida en Valladolid",
   metaDescription:
