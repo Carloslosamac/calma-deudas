@@ -201,9 +201,8 @@ async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
   }
 }
 
-// Foto ÚNICA por caso: persona anónima, estilo fotoperiodismo editorial,
-// diversificada por edad/género/escena a partir del hash del slug para que
-// ni el rostro ni el encuadre se repitan entre casos.
+// Foto ÚNICA por caso: sexo coherente con el nombre y retrato casero en primer
+// plano; el hash diversifica rasgos, edad, entorno y microdetalles.
 async function generateAndUploadCasoHero(
   supabase: ReturnType<typeof createClient>,
   slug: string,

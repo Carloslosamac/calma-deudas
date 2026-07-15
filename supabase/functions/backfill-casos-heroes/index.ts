@@ -217,9 +217,13 @@ Deno.serve(async (req) => {
     done.push(row.slug as string);
   }
 
-  const { count: remaining } = await supabase
+  let remainingQuery = supabase
     .from("generated_casos").select("*", { count: "exact", head: true })
-    .eq("status", "published").is("hero_image", null);
+    .eq("status", "published");
+  remainingQuery = force
+    ? remainingQuery.not("hero_image", "ilike", "%retrato-casero-v2%")
+    : remainingQuery.is("hero_image", null);
+  const { count: remaining } = await remainingQuery;
 
   return new Response(JSON.stringify({ ok: true, done, failed, remaining }), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
