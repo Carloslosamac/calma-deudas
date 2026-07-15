@@ -1,34 +1,50 @@
-# Investigar y arreglar la generación automática de contenido
+## Qué ha pasado (diagnóstico honesto)
 
-No fue un problema de créditos. Hay dos incidencias reales en la cron `generate-daily-posts`:
+Tienes razón, y lo siento. Hay contenido publicado que menciona literalmente a competidores (sobre todo "Soluciona Mi Deuda"). Ejemplos actuales en BD:
 
-## Diagnóstico
+- `soluciona-mi-deuda-recibe-subvencion-fondo-social-europeo-plus` — 5 jul
+- `manuel-cancela-su-deuda-0-euros-recupera-2-807` — 15 jul
+- `diego-c-liquida-sus-deudas-microcreditos-recupera-dinero-soluciona` — 15 jul
 
-**Bloque 1 — 9, 10 y 11 de julio: fallos reales**
-- `cron` (posts) marcó `failed` los tres días con los mismos roadmap ids: **74, 75, 76, 78, 82, 84, 87, 89, 91**.
-- `cron-casos` también falló 1–2 casos esos días.
-- El hecho de que sean los MISMOS ids todos los días descarta falta de créditos: apunta a contenido/plantilla que rompe la generación de esos posts concretos.
+**Causa raíz** (no es que yo lo haya "decidido" así — es un bug que arrastramos):
 
-**Bloque 2 — desde el 12 de julio: runs colgados**
-- Todos los `cron` (posts) del 12 al 15 aparecen en estado `running` sin `finished_at`.
-- `cron-casos` de esos mismos días sí terminan `success`.
-- En AI Gateway el 15/jul a las 08:15–08:17 hubo llamadas exitosas de Gemini, así que el edge function arranca y llama al modelo — pero después algo impide que se actualice el registro a `success` o `failed`.
+1. `seo_roadmap` se sembró importando SERPs de competidores. Muchas filas guardan el título tal cual, incluyendo la marca del competidor dentro (no solo como sufijo).
+2. `generate-daily-posts` usa `row.titulo` **verbatim** como título canónico del post (`cleanTitle = sanitizeTitle(row.titulo)`).
+3. `sanitizeTitle` sólo limpia sufijos de marca separados por `- | · :` y sólo cubre 6 competidores concretos. NO detecta la marca en medio del título, y **"Soluciona Mi Deuda" ni siquiera está en la lista**.
+4. Al pasar ese título al modelo como objetivo, el modelo escribe el cuerpo alrededor de esa marca (aunque el system prompt diga "Calma").
 
-## Pasos del plan
+Resultado: el título se publica literal y el excerpt/cuerpo hereda la mención.
 
-1. **Leer logs recientes de `generate-daily-posts`** (`supabase--edge_function_logs`) para localizar la excepción o el timeout que deja el run en `running`.
-2. **Inspeccionar `supabase/functions/generate-daily-posts/index.ts`**, en concreto:
-   - El bloque final que hace `UPDATE generator_runs SET status/finished_at`: confirmar que está dentro de un `finally` para que se ejecute también si algo lanza excepción.
-   - Manejo de excepciones alrededor del bucle de roadmap ids.
-   - Tiempos totales (si supera el timeout del edge function con muchos posts, el proceso muere sin poder cerrar el run).
-3. **Revisar los roadmap ids 74, 75, 76, 78, 82, 84, 87, 89, 91** en la tabla del roadmap: probablemente comparten alguna característica (título/prompt/config) que hace fallar la generación o la validación posterior. Reproducir uno con una llamada directa al edge function para capturar el error concreto.
-4. **Fixes previstos** (a confirmar tras 1–3):
-   - Envolver el ciclo principal en `try/finally` que siempre marque el run como `success`/`failed` con contador correcto.
-   - Aislar cada post en su propio `try/catch` para que un id malo no tumbe el resto (parece que ya lo hace, pero conviene confirmar y añadir mensaje de error por id).
-   - Corregir/eliminar/regenerar los 9 roadmap ids problemáticos según lo que revele el paso 3.
-   - Añadir un job de saneamiento: cerrar como `failed` cualquier `generator_run` en `running` con `started_at > 30 min`.
-5. **Re-ejecutar manualmente** la cron para el día de hoy y verificar que se crea al menos 1 post y que el run termina en `success`.
+## Plan de arreglo
 
-## Nota sobre créditos
+### 1. Limpieza inmediata de contenido existente
+- Barrido en `generated_posts` (title, excerpt, tldr, sections, faq, meta_description, seo_title, keywords) buscando cualquier competidor de una lista ampliada: **Soluciona Mi Deuda, MiSolvencia, Abogados para tus deudas, Repara tu Deuda, Quita Deudas, Deudae, MundoJurídico, Solvento, Reparaty, Deudafix, Legaliboo** (más los que aparezcan en el barrido).
+- Los posts contaminados se marcan `status = 'archived'` (no eliminados: podemos revisar) y se retiran del blog público.
+- Mismo barrido en `generated_casos`.
 
-En el AI Gateway no hubo ni un solo error `402`/`429` en los últimos 7 días (391 llamadas, todas OK). El ciclo actual arrancó el 11/jul con 400 créditos y solo se han gastado 7,4. Así que los créditos no son la causa y no hay que actuar sobre eso.
+### 2. Blindar el generador de posts
+- Extraer la lista de marcas competidoras a un único array `COMPETITOR_BRANDS` en el edge function.
+- `sanitizeTitle` pasa a detectar la marca **en cualquier posición**, no sólo sufijo, y a reemplazarla por `""` (colapsando conectores tipo "con", "de", "gracias a" que quedan huérfanos).
+- Añadir `containsCompetitor(text)` que se aplica sobre título de roadmap ANTES de generar: si detecta marca, la fila se marca `estado = 'bloqueado_competidor'` y se salta (no se paga generación).
+- Cambiar la fuente del título mostrado: en lugar de usar `row.titulo` verbatim, se usa el `seoTitle` que produce el modelo (ya pasa por `enforceTitle`), y `row.titulo` sólo se pasa al prompt como "tema de referencia" — no como texto canónico.
+- Barrido de salida: tras generar, si el JSON del modelo contiene alguna marca competidora en cualquier campo (title/seoTitle/excerpt/sections/faq/tldr), el post se descarta y el roadmap queda como `fallo_competidor` para revisión, sin insertar.
+
+### 3. Blindar el generador de casos
+- Mismo `containsCompetitor` sobre `headline`, `seoTitle`, `dek`, `sections`, `faq` antes de insertar. Si aparece marca ajena, se descarta el caso.
+
+### 4. Regla de memoria actualizada
+- Ampliar `mem://constraints/no-competitor-names` con la lista completa y la regla "en cualquier posición, no sólo sufijo", más los campos a validar (título, excerpt, tldr, sections, faq, meta).
+
+### 5. Verificación
+- Ejecutar el barrido de limpieza y comprobar por SQL que no queda ninguna marca competidora en posts/casos publicados.
+- Ejecución de prueba del cron para confirmar que las filas de roadmap contaminadas se bloquean sin consumir créditos de IA y las limpias siguen publicándose.
+
+## Detalles técnicos
+
+Archivos que se tocarán:
+- `supabase/functions/generate-daily-posts/index.ts` — lista de marcas, `sanitizeTitle`, `containsCompetitor`, uso de `seoTitle` en vez de `row.titulo`, validación de salida.
+- `supabase/functions/generate-daily-casos/index.ts` — validación `containsCompetitor` sobre la salida.
+- Nueva migration SQL: barrido `UPDATE generated_posts SET status='archived' WHERE …` con lista de marcas en title/excerpt/tldr/meta/seo_title + versión que también busca dentro de `sections::text` y `faq::text`. Idem `generated_casos`. Y `UPDATE seo_roadmap SET estado='bloqueado_competidor' WHERE titulo ~* '(marcas)'`.
+- `mem://constraints/no-competitor-names` actualizada.
+
+No se toca frontend ni el flujo del formulario.
