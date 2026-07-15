@@ -629,7 +629,10 @@ Deno.serve(async (req) => {
         authors: pickAuthors(),
         hero_image: heroUrl,
         hero_alt: (article.heroAlt as string) ?? cleanTitle,
-        sections: article.sections ?? [],
+        sections: ensureFinalCta(
+          article.sections as { id: string; title: string; html: string }[] | undefined,
+          cleanTitle,
+        ),
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
         seo_title: cleanSeoTitle,
