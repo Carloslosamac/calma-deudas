@@ -17,7 +17,7 @@ export const victorMadrid: CasoExito = {
   debtAmount: "112.000 €",
   solution: "Concurso de persona física con exoneración",
   headline:
-    "112.000 € de deudas tras cerrar su empresa: cómo Víctor salió adelante con el concurso de persona física",
+    "Su empresa quebró y arrastró 112.000 € de deudas: cómo Víctor salió adelante con el concurso de persona física en Madrid",
   dek: "Lo perdió todo cuando su negocio quebró: el local, los proveedores, los créditos bancarios. Con más de cien mil euros de deuda y sin patrimonio, el concurso de persona física fue la salida ordenada que necesitaba.",
   seoTitle: "Caso real: ex-empresario cancela 112.000 € en Madrid",
   metaDescription:

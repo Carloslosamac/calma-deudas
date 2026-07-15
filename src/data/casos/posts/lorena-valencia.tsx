@@ -16,7 +16,7 @@ export const lorenaValencia: CasoExito = {
   debtAmount: "3.480 € recuperados",
   solution: "Reclamación judicial por usura",
   headline:
-    "Pagaba cada mes y el saldo nunca bajaba: Lorena reclamó su tarjeta revolving y recuperó 3.480 € que el banco nunca debió cobrarle",
+    "Pagaba cada mes y el saldo nunca bajaba: Lorena reclamó su tarjeta revolving y recuperó 3.480 € en Valencia",
   dek: "Tenía trabajo, pagaba puntual y seguía debiendo lo mismo. No era un problema de insolvencia: era un contrato con una TAE que los tribunales consideran usura. Y se puede reclamar.",
   seoTitle: "Caso real: anula tarjeta revolving y recupera 3.480 € en Valencia",
   metaDescription:

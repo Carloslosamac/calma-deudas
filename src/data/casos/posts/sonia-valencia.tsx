@@ -17,7 +17,7 @@ export const soniaValencia: CasoExito = {
   debtAmount: "47.300 €",
   solution: "Ley de Segunda Oportunidad (exoneración total)",
   headline:
-    "Cerró su negocio, acumuló 47.300 € de deudas y los dejó atrás gracias a la Ley de Segunda Oportunidad",
+    "Cerró su negocio y acumuló 47.300 € de deudas: Sonia empezó de cero con la Ley de Segunda Oportunidad en Valencia",
   dek: "Sonia fue autónoma durante ocho años. Cuando tuvo que cesar su actividad, la deuda con proveedores y entidades financieras se volvió insostenible. Hoy ha empezado de cero, sin deber un euro.",
   seoTitle: "Caso real: autónoma cancela 47.300 € en Valencia",
   metaDescription:

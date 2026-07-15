@@ -16,7 +16,7 @@ export const gonzaloSevilla: CasoExito = {
   debtAmount: "88.600 €",
   solution: "Ley de Segunda Oportunidad (exoneración total)",
   headline:
-    "Le embargaban la nómina cada mes: cómo Gonzalo canceló 88.600 € y recuperó su sueldo",
+    "Le embargaban la nómina cada mes: cómo Gonzalo canceló 88.600 € y recuperó su sueldo en Sevilla",
   dek: "Llevaba tiempo viendo cómo una parte de su paga desaparecía antes de llegar. Tenía embargos activos y una deuda que no paraba de crecer. La Ley de Segunda Oportunidad lo paró todo de golpe.",
   seoTitle: "Caso real: cancela 88.600 € con embargo de nómina en Sevilla",
   metaDescription:
