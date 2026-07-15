@@ -334,7 +334,7 @@ const BlogPost = () => {
           {relatedPosts.length > 0 && (
             <div>
               <h2 className="mb-6 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-                Artículos relacionados
+                Sigue explorando esta guía
               </h2>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedPosts.map((rp) => (
