@@ -81,6 +81,24 @@ function slugFromUrl(url: string | null, titulo: string): string {
     .slice(0, 80);
 }
 
+// Garantiza que cada artículo termine con un CTA claro hacia el formulario,
+// incluso si el modelo no lo incluye. Se añade al final de la última sección.
+function ensureFinalCta(
+  sections: { id: string; title: string; html: string }[] | undefined,
+  topic: string,
+): { id: string; title: string; html: string }[] {
+  const list = Array.isArray(sections) ? [...sections] : [];
+  if (list.length === 0) return list;
+  const joined = list.map((s) => s.html ?? "").join("\n");
+  const hasCta = /class=["']blog-cta["']/i.test(joined);
+  if (hasCta) return list;
+  const last = list[list.length - 1];
+  const safeTopic = (topic ?? "").replace(/["<>]/g, "").trim() || "tu situación";
+  const ctaHtml = `\n<div class="blog-cta"><h3>¿Te reconoces en este caso?</h3><p>Analizamos ${safeTopic.toLowerCase()} en una valoración gratuita y te decimos qué solución encaja con tu perfil.</p><a href="#hero-form">Solicitar valoración gratuita</a></div>`;
+  list[list.length - 1] = { ...last, html: (last.html ?? "") + ctaHtml };
+  return list;
+}
+
 // El roadmap se importó scrapeando SERPs, así que muchos títulos arrastran el
 // sufijo de marca del competidor de origen. Nunca debe aparecer en NUESTRO blog.
 // Lista de marcas de competidores (regex fragments, case-insensitive, con \s+ tolerante).
