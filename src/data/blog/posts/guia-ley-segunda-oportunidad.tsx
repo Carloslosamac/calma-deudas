@@ -31,9 +31,9 @@ export const guiaLeySegundaOportunidad: BlogPost = {
   category: "Segunda oportunidad",
   title:
     "Ley de Segunda Oportunidad 2026: la guía más completa y actualizada para cancelar tus deudas",
-  seoTitle: "⚖️ Ley de Segunda Oportunidad 【 ACTUALIZACIÓN 2026 】",
+  seoTitle: "⚖️ Ley de Segunda Oportunidad: guía por abogados 2026",
   metaDescription:
-    "Guía 2026 de la Ley de Segunda Oportunidad: requisitos, fases, costes, embargos y vivienda para cancelar tus deudas y empezar de cero.",
+    "Guía 2026 de la Ley de Segunda Oportunidad explicada por abogados: casos reales, sentencias, letra pequeña y errores que la bloquean.",
   faq: [
     {
       question: "¿Qué es la Ley de Segunda Oportunidad?",
