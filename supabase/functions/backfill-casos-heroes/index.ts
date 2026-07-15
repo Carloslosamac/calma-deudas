@@ -191,7 +191,7 @@ Deno.serve(async (req) => {
     const raw = await generateHero(row.slug as string, row.name as string, row.location as string);
     if (!raw) { failed.push(row.slug as string); continue; }
     const path = `casos/${row.slug}-retrato-casero-v2.png`;
-    const { error: upErr } = await supabase.storage.from("blog-images").upload(path, bytes, {
+    const { error: upErr } = await supabase.storage.from("blog-images").upload(path, raw, {
       contentType: "image/png", upsert: true, cacheControl: "31536000",
     });
     if (upErr) { failed.push(row.slug as string); continue; }
