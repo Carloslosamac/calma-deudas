@@ -16,14 +16,22 @@ import { localizaciones } from "@/data/seo/localizaciones";
 
 type Item = { to: string; label: string };
 
-const LinkColumn = ({ title, items }: { title: string; items: Item[] }) => {
+const LinkColumn = ({
+  title,
+  items,
+  listClassName,
+}: {
+  title: string;
+  items: Item[];
+  listClassName?: string;
+}) => {
   if (items.length === 0) return null;
   return (
     <div>
       <h3 className="font-poppins font-semibold text-foreground mb-3 text-sm">
         {title}
       </h3>
-      <ul className="space-y-2 text-sm">
+      <ul className={listClassName ?? "space-y-2 text-sm"}>
         {items.map((item) => (
           <li key={item.to}>
             <Link
@@ -85,7 +93,11 @@ const SeoFooterLinks = () => {
           <LinkColumn title="Guías y herramientas" items={recursos} />
           <LinkColumn title="Entidades y acreedores" items={entidades} />
         </div>
-        <LinkColumn title="Abogados de Segunda Oportunidad por ciudad" items={ciudades} />
+        <LinkColumn
+          title="Abogados de Segunda Oportunidad por ciudad"
+          items={ciudades}
+          listClassName="text-sm columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-x-8 [&>li]:mb-2 [&>li]:break-inside-avoid"
+        />
       </div>
     </nav>
   );
