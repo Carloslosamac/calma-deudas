@@ -112,15 +112,10 @@ Deno.serve(async (req) => {
     });
   }
 
-  const results: Array<{ slug?: string; error?: string; name: string }> = [];
-
-  for (const item of items) {
+  async function processOne(item: Item): Promise<{ slug?: string; error?: string; name: string }> {
     try {
       const article = await generateCaso(item);
-      if (!article) {
-        results.push({ name: item.name, error: "AI generation failed" });
-        continue;
-      }
+      if (!article) return { name: item.name, error: "AI generation failed" };
 
       const headline = (article.headline as string) ?? `${item.name} resuelve sus deudas en ${item.location}`;
       const debtAmount = (article.debtAmount as string) ?? "—";
@@ -140,10 +135,7 @@ Deno.serve(async (req) => {
         .from("blog-images")
         .createSignedUrl(item.storagePath, 60 * 60 * 24 * 365 * 10);
 
-      if (!signed?.signedUrl) {
-        results.push({ name: item.name, error: `No se pudo firmar ${item.storagePath}` });
-        continue;
-      }
+      if (!signed?.signedUrl) return { name: item.name, error: `No se pudo firmar ${item.storagePath}` };
 
       const { error: insErr } = await supabase.from("generated_casos").insert({
         slug,
@@ -166,15 +158,14 @@ Deno.serve(async (req) => {
         published_at: null,
       });
 
-      if (insErr) {
-        results.push({ name: item.name, error: `Insert: ${insErr.message}` });
-        continue;
-      }
-      results.push({ name: item.name, slug });
+      if (insErr) return { name: item.name, error: `Insert: ${insErr.message}` };
+      return { name: item.name, slug };
     } catch (e) {
-      results.push({ name: item.name, error: String(e) });
+      return { name: item.name, error: String(e) };
     }
   }
+
+  const results = await Promise.all(items.map(processOne));
 
   return new Response(JSON.stringify({ ok: true, results }, null, 2), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
