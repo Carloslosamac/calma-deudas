@@ -152,12 +152,18 @@ REGLAS EDITORIALES INNEGOCIABLES:
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo (eso es refinanciar, que es lo contrario).
 - Tono empático, claro, sin tecnicismos innecesarios. Cero promesas garantizadas.
 - Todo CTA invita a la valoración gratuita; el botón lleva al formulario (#hero-form).
-- TÍTULOS (seoTitle) AGRESIVOS PARA CTR (innegociable): patrón = 1 emoji temático al inicio + keyword principal + palabra de urgencia/poder (YA, TODO, CERO, así, sin…, paso a paso). Máximo 60 caracteres VISUALES contando el emoji. Sin marca. Emojis sugeridos: ⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores. Prohibido empezar con «Guía», «Requisitos», «Documentación» u otros arranques planos.
+- TÍTULOS (seoTitle) — reglas duras:
+  * 1 emoji temático al inicio (⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores, 💼 autónomos, ⏱️ plazos, 💸 dinero).
+  * Máx 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma».
+  * Prohibido empezar tras el emoji con «Guía», «Requisitos», «Documentación», «Cómo».
+  * PROHIBIDAS las muletillas clickbait repetidas: «YA», «TODO lo que debes saber», «CERO riesgo», «PASO A PASO», «AHORA», «¡...!», mayúsculas gritadas de palabras genéricas. NO uses ninguna de esas coletillas.
+  * Cada título debe tener un GANCHO ESPECÍFICO al tema (una cifra, una consecuencia concreta, una pregunta afilada, un contraste, un plazo, un "sí/no"). Nada de fórmulas intercambiables.
+  * Ejemplos del nivel esperado: «💼 Autónomos con deudas: cancela y vuelve a empezar», «📉 Cancela tus microcréditos y frena la bola», «🤝 ¿Renegociar o vía legal? Lo que de verdad funciona», «🛑 Te embargan la nómina: qué puedes hacer esta semana», «💳 Revolving: cómo saber si te cobraron de más», «🏠 Reunificar sin perder tu piso: qué mirar antes de firmar».
 
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown, sin comentarios) con esta forma exacta:
 {
   "category": "una de las categorías permitidas",
-  "seoTitle": "TÍTULO AGRESIVO DE CTR: empieza SIEMPRE con 1 emoji temático + keyword principal + gancho de urgencia/poder. Máx 60 caracteres VISUALES (contando el emoji). SIN marca/«| Calma». Decoradores 【 】 opcionales (año, GUÍA, 2026). Nada de patrones planos tipo «Guía de…», «Requisitos de…», «Documentación de…»",
+  "seoTitle": "Título de CTR con emoji al inicio + gancho ESPECÍFICO al tema. Máx 60 caracteres visuales. Sin marca. Prohibidas las coletillas «YA», «TODO lo que debes saber», «CERO», «PASO A PASO», «AHORA» y las mayúsculas gritadas. Prohibidos arranques planos tras el emoji («Guía», «Requisitos», «Documentación», «Cómo»).",
   "metaDescription": "meta descripción < 160 caracteres, persuasiva para CTR, que EMPIECE con 1 emoji temático",
   "excerpt": "entradilla de 1-2 frases",
   "readTime": "p.ej. '7 min'",
