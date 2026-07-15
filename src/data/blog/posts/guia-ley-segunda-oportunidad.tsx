@@ -296,7 +296,12 @@ export const guiaLeySegundaOportunidad: BlogPost = {
           <p>
             Una de las grandes dudas es si los <strong>requisitos de la Ley de Segunda
             Oportunidad</strong> son inalcanzables. La respuesta corta es:{" "}
-            <strong>no</strong>. La Ley Segunda Oportunidad está diseñada para
+            <strong>no</strong>. Puedes revisar el detalle punto por punto en la página
+            específica de{" "}
+            <InternalLink to="/ley-segunda-oportunidad/requisitos">
+              requisitos de la Ley de Segunda Oportunidad
+            </InternalLink>
+            . La Ley Segunda Oportunidad está diseñada para
             personas normales, y en la práctica la mayoría de quienes nos consultan
             cumplen las condiciones aunque crean que no.
           </p>
@@ -349,8 +354,23 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             <InternalLink to="/blog/autonomos-con-deudas">
               autónomos con deuda de Hacienda y Seguridad Social
             </InternalLink>{" "}
-            tras un mal año, y exempresarios o administradores que cerraron una
-            sociedad arrastrando avales personales. También personas separadas o
+            tras un mal año, y{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/exempresarios">
+              exempresarios o administradores
+            </InternalLink>{" "}
+            que cerraron una sociedad arrastrando avales personales. Si firmaste como{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/avalistas">
+              avalista
+            </InternalLink>{" "}
+            de un tercero o eres{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/funcionarios">
+              funcionario
+            </InternalLink>{" "}
+            o{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/pensionistas-jubilados">
+              pensionista
+            </InternalLink>{" "}
+            preocupado por tu nómina o pensión, hay una vía específica para ti. También personas separadas o
             divorciadas a las que la economía dejó de cuadrarles, y familias golpeadas
             por una enfermedad o un despido.
           </p>
@@ -565,6 +585,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             conservar la vivienda siempre que la hipoteca esté al corriente o pueda
             ponerse al día.
           </p>
+          <p>
+            Analizamos los escenarios uno a uno en la página específica{" "}
+            <InternalLink to="/ley-segunda-oportunidad/pierdo-mi-casa">
+              ¿pierdo mi casa con la Ley de Segunda Oportunidad?
+            </InternalLink>
+            , con los criterios reales que aplican los juzgados.
+          </p>
           <figure className="overflow-hidden rounded-3xl border border-border shadow-soft">
             <img
               src={personWoman}
@@ -614,6 +641,18 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             </InternalLink>{" "}
             entramos al detalle en cómo se ordena el expediente cuando hay deuda fiscal,
             deuda con Seguridad Social y deuda con proveedores en paralelo.
+          </p>
+          <p>
+            Y si quieres ver la vía adaptada a tu situación concreta, tenemos páginas
+            dedicadas a la{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/autonomos">
+              LSO para autónomos
+            </InternalLink>{" "}
+            y a la{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/exempresarios">
+              LSO tras cerrar tu SL
+            </InternalLink>
+            , con los matices de deuda pública y avales personales.
           </p>
         </>
       ),
@@ -671,6 +710,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             porque no tendría sentido ofrecer una vía para cancelar deudas creando una
             nueva.
           </p>
+          <p>
+            Desglosamos honorarios, tasas y calendario en la página específica de{" "}
+            <InternalLink to="/ley-segunda-oportunidad/coste-precio">
+              coste de la Ley de Segunda Oportunidad
+            </InternalLink>
+            , sin promesas de “gratis” que después no se sostienen.
+          </p>
         </>
       ),
     },
@@ -701,6 +747,17 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             Desde las primeras semanas, una vez admitida la solicitud, los embargos se
             paralizan y las llamadas pierden fundamento. Esa fase intermedia es, para
             muchas personas, la primera vez en años que respiran tranquilas.
+          </p>
+          <p>
+            Repasamos fase a fase cuánto tarda cada etapa en la página de{" "}
+            <InternalLink to="/ley-segunda-oportunidad/plazos-duracion">
+              plazos y duración de la LSO
+            </InternalLink>
+            , y explicamos el mecanismo completo en{" "}
+            <InternalLink to="/ley-segunda-oportunidad/como-funciona">
+              cómo funciona la Ley de Segunda Oportunidad
+            </InternalLink>
+            .
           </p>
         </>
       ),
@@ -755,6 +812,13 @@ export const guiaLeySegundaOportunidad: BlogPost = {
             existir un procedimiento legal para que personas honestas puedan volver a
             empezar. España la ha incorporado a su ordenamiento. Acogerse a la ley no
             es <em>“escaquearse”</em>: es <strong>ejercer un derecho</strong>.
+          </p>
+          <p>
+            Si aún dudas de si es un procedimiento serio, hemos reunido pruebas,
+            sentencias y límites reales en la página{" "}
+            <InternalLink to="/ley-segunda-oportunidad/es-fiable">
+              ¿es fiable la Ley de Segunda Oportunidad?
+            </InternalLink>
           </p>
         </>
       ),
