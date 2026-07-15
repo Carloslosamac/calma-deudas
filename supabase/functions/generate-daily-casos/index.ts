@@ -377,6 +377,10 @@ Deno.serve(async (req) => {
       const slug = await uniqueSlug(supabase, base || slugify(headline));
       const now = new Date().toISOString();
 
+      // Foto única por caso (guardarrail visual: fotoperiodismo español,
+      // rostro y escena diversificados por hash del slug).
+      const heroUrl = await generateAndUploadCasoHero(supabase, slug, seed);
+
       const { error: insErr } = await supabase.from("generated_casos").insert({
         slug,
         category: seed.category,
@@ -388,6 +392,7 @@ Deno.serve(async (req) => {
         dek: (article.dek as string) ?? "",
         read_time: (article.readTime as string) ?? "6 min",
         hero_alt: (article.heroAlt as string) ?? headline,
+        hero_image: heroUrl,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
