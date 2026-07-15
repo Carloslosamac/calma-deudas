@@ -1,6 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
-import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -75,8 +74,8 @@ const FIRST_NAMES = [
 
 const SURNAME_INITIALS = "ABCDFGLMNPRSTV".split("");
 
-// Variedad visual para evitar caras repetidas: cada seed elige edad, género y
-// escena a partir del hash del slug generado.
+// Variedad visual para evitar caras repetidas. El sexo visual SIEMPRE sale del
+// nombre del caso; el hash solo diversifica rasgos, edad, encuadre y entorno.
 const AGE_BANDS = [
   "unos 28 años",
   "unos 34 años",
@@ -85,7 +84,16 @@ const AGE_BANDS = [
   "unos 55 años",
   "unos 62 años",
 ];
-const GENDERS = ["mujer", "hombre"];
+const FEMALE_NAMES = new Set([
+  "marta", "lucia", "lucía", "sara", "elena", "raquel", "nuria", "ana",
+  "cristina", "patricia", "marina", "noelia", "beatriz", "silvia", "veronica",
+  "verónica", "pilar",
+]);
+const MALE_NAMES = new Set([
+  "javier", "andres", "andrés", "carlos", "diego", "pablo", "sergio", "ivan",
+  "iván", "ruben", "rubén", "hugo", "daniel", "adrian", "adrián", "oscar",
+  "óscar", "gonzalo", "manuel", "antonio",
+]);
 const ETHNIC_LOOKS = [
   "rasgos mediterráneos españoles",
   "rasgos latinoamericanos",
@@ -93,25 +101,61 @@ const ETHNIC_LOOKS = [
   "rasgos morenos del sur de España",
   "rasgos magrebíes",
 ];
-const SETTINGS = [
-  "sentada/o en la mesa de la cocina de su casa, luz de tarde entrando por la ventana",
-  "de pie en el salón de casa, decoración modesta y cálida",
-  "en un banco de un parque público urbano, hojas otoñales",
-  "caminando por una calle peatonal de su ciudad al atardecer",
-  "en un bar de barrio tomando un café, luz cálida",
-  "sentada/o en un escritorio pequeño con papeles y un portátil viejo",
-  "en la entrada de un edificio de viviendas antiguo",
-  "apoyada/o en la barandilla de un balcón con vistas a tejados",
-  "en el asiento del conductor de un coche familiar aparcado",
-  "en la sala de espera de una gestoría, luz natural",
+const FEMALE_SETTINGS = [
+  "sentada en una silla de cocina de su casa, fondo doméstico desenfocado",
+  "de pie junto a una ventana del salón, pared sencilla y luz natural",
+  "sentada en el borde de un sofá usado, sala modesta de vivienda española",
+  "apoyada en la mesa de comedor con un vaso de agua, casa real sin decorar",
+  "en un balcón pequeño de piso, barandilla y ropa tendida desenfocadas",
+  "en la entrada de un edificio de viviendas antiguo, luz de portal",
+];
+const MALE_SETTINGS = [
+  "sentado en una silla de cocina de su casa, fondo doméstico desenfocado",
+  "de pie junto a una ventana del salón, pared sencilla y luz natural",
+  "sentado en el borde de un sofá usado, sala modesta de vivienda española",
+  "apoyado en la mesa de comedor con un vaso de agua, casa real sin decorar",
+  "en un balcón pequeño de piso, barandilla y ropa tendida desenfocadas",
+  "en la entrada de un edificio de viviendas antiguo, luz de portal",
 ];
 const EXPRESSIONS = [
-  "expresión serena, mirada al frente",
-  "sonrisa suave y cansada",
-  "expresión pensativa, mirada baja",
-  "expresión de alivio, ligera sonrisa",
-  "mirada directa a cámara, expresión digna",
-  "expresión reflexiva, media sonrisa",
+  "expresión serena y cansada, mirada a cámara",
+  "media sonrisa tímida de alivio, mirada real",
+  "expresión pensativa, mirada ligeramente baja",
+  "rostro tranquilo tras una etapa difícil, sonrisa mínima",
+  "mirada directa a cámara, gesto digno y natural",
+  "expresión reflexiva, sin posar",
+];
+const HAIR_DETAILS = [
+  "pelo castaño oscuro con textura natural",
+  "pelo corto con algunas canas visibles",
+  "pelo moreno ligeramente despeinado",
+  "pelo castaño claro recogido de forma informal",
+  "cabello con entradas o canas naturales",
+  "pelo ondulado sin peinar de peluquería",
+];
+const FACE_DETAILS = [
+  "ojeras leves y líneas de expresión reales",
+  "piel natural con poros visibles, sin retoque beauty",
+  "rostro ancho y nariz marcada, facciones comunes",
+  "mejillas algo cansadas y gesto contenido",
+  "barbilla y pómulos asimétricos, apariencia cotidiana",
+  "marcas pequeñas de piel y textura humana",
+];
+const CLOTHES = [
+  "jersey básico de punto",
+  "camiseta lisa de algodón",
+  "sudadera sencilla sin logos",
+  "camisa informal arrugada sin marca visible",
+  "chaqueta de casa o rebeca básica",
+  "ropa cotidiana de estar por casa, sin glamour",
+];
+const CAMERA_DETAILS = [
+  "foto hecha con móvil por un familiar, no por fotógrafo profesional",
+  "encuadre ligeramente imperfecto, como foto casera real",
+  "luz ambiente de ventana, balance de blancos imperfecto",
+  "fondo real de casa española desenfocado, nada de estudio",
+  "profundidad de campo natural y grano sutil de móvil",
+  "composición íntima de cabeza y hombros, rostro ocupando casi todo el encuadre",
 ];
 
 function hashSeed(s: string): number {
@@ -123,25 +167,28 @@ function pickBy<T>(arr: T[], seed: number, salt: number): T {
   return arr[(seed + salt) % arr.length];
 }
 
+type PersonGender = "mujer" | "hombre";
+
+function normalizeName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zñ]/g, "");
+}
+
+function inferGenderFromName(name: string): PersonGender {
+  const first = normalizeName(name.split(/\s+/)[0] ?? "");
+  if (FEMALE_NAMES.has(first)) return "mujer";
+  if (MALE_NAMES.has(first)) return "hombre";
+  return first.endsWith("a") ? "mujer" : "hombre";
+}
+
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 // ------- Generación de la foto única del caso -------
-const MAX_WIDTH = 1200;
-const JPEG_QUALITY = 82;
-async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
-  try {
-    const img = await Image.decode(pngBytes);
-    if (img.width > MAX_WIDTH) img.resize(MAX_WIDTH, Image.RESIZE_AUTO);
-    return await img.encodeJPEG(JPEG_QUALITY);
-  } catch (e) {
-    console.error(`optimizeImage failed: ${String(e)}`);
-    return null;
-  }
-}
-
-// Foto ÚNICA por caso: persona anónima, estilo fotoperiodismo editorial,
-// diversificada por edad/género/escena a partir del hash del slug para que
-// ni el rostro ni el encuadre se repitan entre casos.
+// Foto ÚNICA por caso: sexo coherente con el nombre y retrato casero en primer
+// plano; el hash diversifica rasgos, edad, entorno y microdetalles.
 async function generateAndUploadCasoHero(
   supabase: ReturnType<typeof createClient>,
   slug: string,
@@ -149,21 +196,32 @@ async function generateAndUploadCasoHero(
 ): Promise<string | null> {
   try {
     const h = hashSeed(slug);
+    const gender = inferGenderFromName(seed.name);
     const age = pickBy(AGE_BANDS, h, 0);
-    const gender = pickBy(GENDERS, h, 1);
     const looks = pickBy(ETHNIC_LOOKS, h, 2);
-    const setting = pickBy(SETTINGS, h, 3);
+    const setting = pickBy(gender === "mujer" ? FEMALE_SETTINGS : MALE_SETTINGS, h, 3);
     const expression = pickBy(EXPRESSIONS, h, 4);
-    const prompt =
-      `Retrato editorial hiperrealista tipo fotoperiodismo español premium. Persona anónima: ${gender} de ${age}, ${looks}, ${expression}. Escena: ${setting}. Ambiente: ciudadano medio en ${seed.location}, España, clase trabajadora, ropa cotidiana realista (nada de traje o glamour). Rostro y postura ÚNICOS, específicos, NO stock genérico, NO caras de banco de imágenes. Luz natural, grano fotográfico sutil, profundidad de campo, encuadre cinematográfico horizontal. SIN texto, SIN logos, SIN marcas de agua, SIN collage, SIN carteles. Absolutamente prohibido dibujo, render 3D, ilustración, anime o estética artificial. Fotografía real, documental, humana.`;
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const hair = pickBy(HAIR_DETAILS, h, 5);
+    const face = pickBy(FACE_DETAILS, h, 6);
+    const clothes = pickBy(CLOTHES, h, 7);
+    const camera = pickBy(CAMERA_DETAILS, h, 8);
+    const prompt = [
+      "Genera una fotografía hiperrealista, NO ilustración, NO render, NO imagen de stock.",
+      `Caso: ${seed.name}, ${seed.location}. La persona de la foto debe ser inequívocamente ${gender}; el sexo visual debe coincidir con el nombre del caso.`,
+      `Retrato casero en primer plano/primerísimo primer plano de una sola persona adulta: ${gender} de ${age}, ${looks}, ${hair}, ${face}, ${expression}.`,
+      `Escena: ${setting}, en ${seed.location}, España. Ropa: ${clothes}.`,
+      `${camera}. Formato horizontal 3:2, cabeza y hombros, rostro ocupando el 65-75% de la imagen.`,
+      "Debe parecer una foto real tomada en casa con móvil: luz natural, pequeñas imperfecciones, piel real, cero retoque publicitario.",
+      "Prohibido: cara repetida o genérica, estética corporativa, pose de catálogo, traje, glamour, sonrisa de anuncio, oficina moderna, manos deformes, texto, logos, marcas de agua, collage, carteles, celebridades o personas identificables reales.",
+    ].join(" ");
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image-preview",
+        model: "google/gemini-3-pro-image",
         messages: [{ role: "user", content: prompt }],
         modalities: ["image", "text"],
       }),
@@ -173,22 +231,17 @@ async function generateAndUploadCasoHero(
       return null;
     }
     const data = await res.json();
-    const dataUrl: string | undefined =
-      data?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-    if (!dataUrl || !dataUrl.includes(",")) {
+    const base64: string | undefined = data?.data?.[0]?.b64_json;
+    if (!base64) {
       console.error(`No caso image returned for ${slug}`);
       return null;
     }
-    const base64 = dataUrl.split(",")[1];
     const rawBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-    const optimized = await optimizeImage(rawBytes);
-    const isJpeg = optimized !== null;
-    const bytes = optimized ?? rawBytes;
-    const path = `casos/${slug}.${isJpeg ? "jpg" : "png"}`;
+    const path = `casos/${slug}-retrato-casero-v2.png`;
     const { error: upErr } = await supabase.storage
       .from("blog-images")
-      .upload(path, bytes, {
-        contentType: isJpeg ? "image/jpeg" : "image/png",
+      .upload(path, rawBytes, {
+        contentType: "image/png",
         upsert: true,
         cacheControl: "31536000",
       });
@@ -377,9 +430,14 @@ Deno.serve(async (req) => {
       const slug = await uniqueSlug(supabase, base || slugify(headline));
       const now = new Date().toISOString();
 
-      // Foto única por caso (guardarrail visual: fotoperiodismo español,
-      // rostro y escena diversificados por hash del slug).
+      // Foto única obligatoria: sexo coherente con el nombre, primer plano
+      // casero-realista y rostro diversificado por hash del slug.
       const heroUrl = await generateAndUploadCasoHero(supabase, slug, seed);
+      if (!heroUrl) {
+        console.error(`Caso descartado: no se pudo generar retrato válido para ${slug}`);
+        failed++;
+        continue;
+      }
 
       const { error: insErr } = await supabase.from("generated_casos").insert({
         slug,
