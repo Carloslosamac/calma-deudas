@@ -61,6 +61,7 @@ type GeneratedCasoRow = {
   dek: string;
   read_time: string | null;
   hero_alt: string | null;
+  hero_image: string | null;
   sections: { id: string; title: string; html: string }[] | null;
   faq: { question: string; answer: string }[] | null;
   keywords: string[] | null;
@@ -93,7 +94,9 @@ export const rowToCaso = (row: GeneratedCasoRow): CasoExito => ({
   dek: row.dek,
   date: formatDate(row.published_at),
   readTime: row.read_time ?? "6 min",
-  heroImage: pickHero(row.category, row.slug),
+  // Preferimos la foto única generada por IA para ese caso. Solo caemos al
+  // pool temático si aún no se ha generado (backfill pendiente).
+  heroImage: row.hero_image ?? pickHero(row.category, row.slug),
   heroAlt: row.hero_alt ?? row.headline,
   sections: (row.sections ?? []).map((s) => ({ id: s.id, title: s.title, html: s.html })),
   keywords: row.keywords ?? undefined,
@@ -105,7 +108,7 @@ export const rowToCaso = (row: GeneratedCasoRow): CasoExito => ({
 });
 
 const SELECT =
-  "slug,category,name,location,debt_amount,solution,headline,dek,read_time,hero_alt,sections,faq,keywords,seo_title,meta_description,published_at";
+  "slug,category,name,location,debt_amount,solution,headline,dek,read_time,hero_alt,hero_image,sections,faq,keywords,seo_title,meta_description,published_at";
 
 export const fetchGeneratedCasos = async (): Promise<CasoExito[]> => {
   const { data, error } = await supabase

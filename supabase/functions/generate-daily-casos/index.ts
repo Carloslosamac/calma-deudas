@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -74,7 +75,136 @@ const FIRST_NAMES = [
 
 const SURNAME_INITIALS = "ABCDFGLMNPRSTV".split("");
 
+// Variedad visual para evitar caras repetidas: cada seed elige edad, género y
+// escena a partir del hash del slug generado.
+const AGE_BANDS = [
+  "unos 28 años",
+  "unos 34 años",
+  "unos 41 años",
+  "unos 47 años",
+  "unos 55 años",
+  "unos 62 años",
+];
+const GENDERS = ["mujer", "hombre"];
+const ETHNIC_LOOKS = [
+  "rasgos mediterráneos españoles",
+  "rasgos latinoamericanos",
+  "rasgos del norte de España",
+  "rasgos morenos del sur de España",
+  "rasgos magrebíes",
+];
+const SETTINGS = [
+  "sentada/o en la mesa de la cocina de su casa, luz de tarde entrando por la ventana",
+  "de pie en el salón de casa, decoración modesta y cálida",
+  "en un banco de un parque público urbano, hojas otoñales",
+  "caminando por una calle peatonal de su ciudad al atardecer",
+  "en un bar de barrio tomando un café, luz cálida",
+  "sentada/o en un escritorio pequeño con papeles y un portátil viejo",
+  "en la entrada de un edificio de viviendas antiguo",
+  "apoyada/o en la barandilla de un balcón con vistas a tejados",
+  "en el asiento del conductor de un coche familiar aparcado",
+  "en la sala de espera de una gestoría, luz natural",
+];
+const EXPRESSIONS = [
+  "expresión serena, mirada al frente",
+  "sonrisa suave y cansada",
+  "expresión pensativa, mirada baja",
+  "expresión de alivio, ligera sonrisa",
+  "mirada directa a cámara, expresión digna",
+  "expresión reflexiva, media sonrisa",
+];
+
+function hashSeed(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+function pickBy<T>(arr: T[], seed: number, salt: number): T {
+  return arr[(seed + salt) % arr.length];
+}
+
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+
+// ------- Generación de la foto única del caso -------
+const MAX_WIDTH = 1200;
+const JPEG_QUALITY = 82;
+async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
+  try {
+    const img = await Image.decode(pngBytes);
+    if (img.width > MAX_WIDTH) img.resize(MAX_WIDTH, Image.RESIZE_AUTO);
+    return await img.encodeJPEG(JPEG_QUALITY);
+  } catch (e) {
+    console.error(`optimizeImage failed: ${String(e)}`);
+    return null;
+  }
+}
+
+// Foto ÚNICA por caso: persona anónima, estilo fotoperiodismo editorial,
+// diversificada por edad/género/escena a partir del hash del slug para que
+// ni el rostro ni el encuadre se repitan entre casos.
+async function generateAndUploadCasoHero(
+  supabase: ReturnType<typeof createClient>,
+  slug: string,
+  seed: CasoSeed,
+): Promise<string | null> {
+  try {
+    const h = hashSeed(slug);
+    const age = pickBy(AGE_BANDS, h, 0);
+    const gender = pickBy(GENDERS, h, 1);
+    const looks = pickBy(ETHNIC_LOOKS, h, 2);
+    const setting = pickBy(SETTINGS, h, 3);
+    const expression = pickBy(EXPRESSIONS, h, 4);
+    const prompt =
+      `Retrato editorial hiperrealista tipo fotoperiodismo español premium. Persona anónima: ${gender} de ${age}, ${looks}, ${expression}. Escena: ${setting}. Ambiente: ciudadano medio en ${seed.location}, España, clase trabajadora, ropa cotidiana realista (nada de traje o glamour). Rostro y postura ÚNICOS, específicos, NO stock genérico, NO caras de banco de imágenes. Luz natural, grano fotográfico sutil, profundidad de campo, encuadre cinematográfico horizontal. SIN texto, SIN logos, SIN marcas de agua, SIN collage, SIN carteles. Absolutamente prohibido dibujo, render 3D, ilustración, anime o estética artificial. Fotografía real, documental, humana.`;
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image-preview",
+        messages: [{ role: "user", content: prompt }],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!res.ok) {
+      console.error(`Caso image AI error ${res.status} for ${slug}: ${await res.text()}`);
+      return null;
+    }
+    const data = await res.json();
+    const dataUrl: string | undefined =
+      data?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    if (!dataUrl || !dataUrl.includes(",")) {
+      console.error(`No caso image returned for ${slug}`);
+      return null;
+    }
+    const base64 = dataUrl.split(",")[1];
+    const rawBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+    const optimized = await optimizeImage(rawBytes);
+    const isJpeg = optimized !== null;
+    const bytes = optimized ?? rawBytes;
+    const path = `casos/${slug}.${isJpeg ? "jpg" : "png"}`;
+    const { error: upErr } = await supabase.storage
+      .from("blog-images")
+      .upload(path, bytes, {
+        contentType: isJpeg ? "image/jpeg" : "image/png",
+        upsert: true,
+        cacheControl: "31536000",
+      });
+    if (upErr) {
+      console.error(`Upload caso failed for ${slug}: ${upErr.message}`);
+      return null;
+    }
+    const { data: signed } = await supabase.storage
+      .from("blog-images")
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    return signed?.signedUrl ?? null;
+  } catch (e) {
+    console.error(`generateAndUploadCasoHero error for ${slug}: ${String(e)}`);
+    return null;
+  }
+}
 
 function slugify(s: string): string {
   return s
@@ -247,6 +377,10 @@ Deno.serve(async (req) => {
       const slug = await uniqueSlug(supabase, base || slugify(headline));
       const now = new Date().toISOString();
 
+      // Foto única por caso (guardarrail visual: fotoperiodismo español,
+      // rostro y escena diversificados por hash del slug).
+      const heroUrl = await generateAndUploadCasoHero(supabase, slug, seed);
+
       const { error: insErr } = await supabase.from("generated_casos").insert({
         slug,
         category: seed.category,
@@ -258,6 +392,7 @@ Deno.serve(async (req) => {
         dek: (article.dek as string) ?? "",
         read_time: (article.readTime as string) ?? "6 min",
         hero_alt: (article.heroAlt as string) ?? headline,
+        hero_image: heroUrl,
         sections: article.sections ?? [],
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
