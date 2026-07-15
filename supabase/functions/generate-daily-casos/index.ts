@@ -6,6 +6,27 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
+// Marcas de competidores que jamás deben aparecer en nuestro contenido.
+const COMPETITOR_BRANDS = [
+  "Soluciona\\s+Mi\\s+Deuda",
+  "MiSolvencia(?:\\.es)?",
+  "Abogados\\s+para\\s+tus\\s+deudas",
+  "Repara\\s+tu\\s+Deuda",
+  "Quita\\s+Deudas",
+  "Deudae",
+  "MundoJur[ií]dico",
+  "Solvento",
+  "Reparaty",
+  "Deudafix",
+  "Legaliboo",
+];
+const COMPETITOR_ANY = new RegExp(`\\b(?:${COMPETITOR_BRANDS.join("|")})\\b`, "iu");
+function containsCompetitor(text: unknown): boolean {
+  if (text == null) return false;
+  const s = typeof text === "string" ? text : JSON.stringify(text);
+  return COMPETITOR_ANY.test(s);
+}
+
 // Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget.
 async function notifyIndexNow(slugs: string[]): Promise<void> {
   if (!slugs.length) return;
@@ -209,6 +230,14 @@ Deno.serve(async (req) => {
       const seed = buildSeed(forceLso);
       const article = await generateCaso(seed);
       if (!article) {
+        failed++;
+        continue;
+      }
+
+      // Barrera anti-competidor: si el modelo introdujo alguna marca ajena,
+      // descartamos el caso completo.
+      if (containsCompetitor(article)) {
+        console.warn(`Caso descartado: salida contiene marca de competidor.`);
         failed++;
         continue;
       }
