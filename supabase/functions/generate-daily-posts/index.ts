@@ -697,7 +697,9 @@ Deno.serve(async (req) => {
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
         seo_title: cleanSeoTitle,
-        meta_description: (article.metaDescription as string) ?? "",
+        meta_description: sanitizeMetaDescription(
+          (article.metaDescription as string) ?? "",
+        ),
         tldr: (article.tldr as string) ?? null,
         key_takeaways: article.keyTakeaways ?? [],
         sidebar: article.sidebar ?? null,
