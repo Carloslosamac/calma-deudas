@@ -16,7 +16,7 @@ export const danielZaragoza: CasoExito = {
   debtAmount: "Cuota -45%",
   solution: "Reunificación (negociación extrajudicial)",
   headline:
-    "Pagaba a cinco entidades y llegaba al límite cada mes: cómo Daniel bajó su cuota un 45% sin pedir ningún préstamo nuevo",
+    "Pagaba a cinco entidades y llegaba al límite cada mes: cómo Daniel bajó su cuota un 45% sin pedir ningún préstamo nuevo en Zaragoza",
   dek: "Tenía su piso pagado y no quería arriesgarlo. Tampoco necesitaba cancelar su deuda: necesitaba que fuera manejable. La negociación extrajudicial con los acreedores fue la respuesta que nadie le había dado.",
   seoTitle: "Caso real: reunificación sin préstamo nuevo en Zaragoza",
   metaDescription:
