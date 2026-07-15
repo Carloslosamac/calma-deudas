@@ -471,7 +471,28 @@ Deno.serve(async (req) => {
     const ordered = (rows as RoadmapRow[]).sort(
       (a, b) => (rank[a.prioridad ?? "Baja"] ?? 2) - (rank[b.prioridad ?? "Baja"] ?? 2) || a.id - b.id,
     );
-    const batch = ordered.slice(0, target);
+    // Barrera pre-generación: bloquea filas cuyo título ya contiene marca de
+    // competidor para no gastar créditos de IA. Se marcan con estado propio
+    // y NO entran en el batch.
+    const filtered: RoadmapRow[] = [];
+    const blockedForCompetitor: number[] = [];
+    for (const r of ordered) {
+      if (containsCompetitor(r.titulo) || containsCompetitor(r.keywords)) {
+        blockedForCompetitor.push(r.id);
+      } else {
+        filtered.push(r);
+      }
+    }
+    if (blockedForCompetitor.length) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "bloqueado_competidor" })
+        .in("id", blockedForCompetitor);
+      console.warn(
+        `Bloqueadas ${blockedForCompetitor.length} filas de roadmap por marca de competidor: ${blockedForCompetitor.join(", ")}`,
+      );
+    }
+    const batch = filtered.slice(0, target);
 
     const published: string[] = [];
     const failed: number[] = [];
@@ -510,6 +531,25 @@ Deno.serve(async (req) => {
               published_count: published.length,
               failed_count: failed.length,
             })
+            .eq("id", runId);
+        }
+        continue;
+      }
+
+      // Barrera post-generación: si el modelo introdujo cualquier marca de
+      // competidor en cualquier campo, descartamos el post y marcamos la
+      // fila para revisión. No se inserta ni se paga imagen.
+      if (containsCompetitor(article)) {
+        console.warn(`Roadmap ${row.id}: salida contiene marca de competidor, descartado.`);
+        failed.push(row.id);
+        await supabase
+          .from("seo_roadmap")
+          .update({ estado: "fallo_competidor" })
+          .eq("id", row.id);
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({ target, published_count: published.length, failed_count: failed.length })
             .eq("id", runId);
         }
         continue;
