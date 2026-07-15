@@ -48,10 +48,23 @@ const LinkColumn = ({
 };
 
 const SeoFooterLinks = () => {
-  const soluciones: Item[] = moneyPages.map((p) => ({
-    to: p.path,
-    label: p.label,
-  }));
+  // Money pages generales (excluye las sub-páginas del cluster LSO, que
+  // tienen su propio bloque más abajo para no repetir 15+ entradas).
+  const soluciones: Item[] = moneyPages
+    .filter(
+      (p) =>
+        !(p.cluster === "ley-segunda-oportunidad" && p.path.includes("/", 1)),
+    )
+    .map((p) => ({ to: p.path, label: p.label }));
+
+  // Bloque dedicado a las sub-páginas del hub LSO (requisitos, coste,
+  // plazos, perfiles…). Añade autoridad temática y enlaza a un salto.
+  const lsoDetalle: Item[] = moneyPages
+    .filter(
+      (p) =>
+        p.cluster === "ley-segunda-oportunidad" && p.path.includes("/", 1),
+    )
+    .map((p) => ({ to: p.path, label: p.label }));
 
   const sectores: Item[] = clusters.map((c) => ({
     to: `/${c.slug}`,
@@ -92,6 +105,13 @@ const SeoFooterLinks = () => {
           <LinkColumn title="Por tipo de deuda" items={sectores} />
           <LinkColumn title="Guías y herramientas" items={recursos} />
           <LinkColumn title="Entidades y acreedores" items={entidades} />
+        </div>
+        <div className="mb-8">
+          <LinkColumn
+            title="Segunda Oportunidad en detalle"
+            items={lsoDetalle}
+            listClassName="text-sm columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-x-8 [&>li]:mb-2 [&>li]:break-inside-avoid"
+          />
         </div>
         <LinkColumn
           title="Abogados de Segunda Oportunidad por ciudad"

@@ -1,78 +1,80 @@
-## Diagnóstico
+## Ejecutamos Fases 1, 2, 5, 6, 7, 8
 
-Revisé los 111 posts publicados en `generated_posts` frente a la regla de taxonomía CTR del proyecto (`mem://design/ctr-title-meta-rule` + `mem://design/auto-title-quality`):
+*(saltamos Fase 3 comparativas y Fase 4 entidad×LSO)*
 
-- title < 60 chars, sin "| Calma"
-- meta < 160 chars
-- hook diferenciador (emoji + power word + CAPS/urgencia tipo "YA/HOY/PASO A PASO"), no un patrón plano "Guía / Requisitos / Cómo hacer X"
+### Fase 1 — 6 sub-pillars del hub LSO
+Nueva ruta `/ley-segunda-oportunidad/<slug>` con plantilla money reutilizada (kit de módulos SEO ya existente: `KeyCallout`, `OptionCards`, `FactGrid`, `CheckList`, callouts, bloque FAQ). Cada página:
+- Hero + H1 pegado a la keyword objetivo
+- 5–7 secciones H2 largas con contenido específico (no relleno)
+- Bloque FAQ propio (5–8 preguntas) con `FAQPage` JSON-LD
+- CTA a `#hero-form`
+- Breadcrumb hub → sub-pillar
+- Interlinking: hub, 2 casos éxito, herramienta, comparativa relacionada
 
-### Posts fuera de taxonomía
+| Slug | Keyword | Vol. |
+|---|---|---|
+| `/requisitos` | ley segunda oportunidad requisitos | 2.400 |
+| `/coste-precio` | cuánto cuesta la LSO | ~320 |
+| `/plazos-duracion` | cuánto dura la LSO | ~200 |
+| `/pierdo-mi-casa` | con la LSO pierdo mi casa | ~130 |
+| `/es-fiable` | es fiable la LSO | 260 |
+| `/como-funciona` | cómo funciona la LSO | ~180 |
 
-**A. 12 posts SIN hook (empiezan con letra/número plano, patrón "Guía / Cómo / ¿…?")** — el que salía en tu screenshot está aquí:
+### Fase 2 — 5 landings de perfil de deudor
+Sub-carpeta `/ley-segunda-oportunidad/perfiles/<slug>`:
+- `/autonomos` (LSO + AEAT/TGSS)
+- `/avalistas`
+- `/funcionarios`
+- `/pensionistas-jubilados`
+- `/exempresarios`
 
-| slug | seo_title actual |
-|---|---|
-| pasa-no-recoges-notificacion-juicio-monitorio | ¿Sin recoger la notificación del monitorio? Esto te pasará |
-| notifica-juicio-monitorio-abogados-tus-deudas | Notificación del Juicio Monitorio: Guía Urgente y Qué Hacer |
-| 5-maneras-frenar-un-embargo | Frenar un Embargo: Guía Urgente y Soluciones Reales en España *(61c)* |
-| cual-plazo-oponerse-monitorio | Plazo para oponerse a un monitorio: no pierdas tu oportunidad *(61c)* |
-| embargar-transferencia | ¿Te pueden embargar una transferencia bancaria? Tu dinero a salvo *(65c, meta 194c)* |
-| soy-insolvente-embargar | ¿Insolvente? Entiende si pueden embargarte y cómo evitarlo |
-| embargarte-coche-mas-10-anos | ¿Te pueden embargar un coche de más de 10 años? Resuelve tus dudas *(66c)* |
-| posible-declararse-insolvente-no-pagar-multa | ¿Se puede ser insolvente para evitar pagar multas? |
-| embargar-llevar-juicio-empresas-recobro | ¿Una empresa de recobro puede embargarte? La verdad sin rodeos *(62c)* |
-| puedo-evitar-embargo-coche-poniendolo-nombre-mi-hijo | ¿Puedo evitar embargo de coche poniendo el coche a nombre de mi hijo? *(69c)* |
-| banco-embargar-cuenta-otro-banco | ¿Puede un banco embargar mi cuenta en otra entidad? Aclara tus dudas *(68c)* |
-| embargos-cuando-como-actuan-y-que-hacer | Embargos en cuentas: ¿Cuándo te quitan el dinero? |
+Misma plantilla que Fase 1, pero centrada en el perfil (situación, qué exonera, qué protege, casos reales del perfil, FAQ). Enlaza al hub + sub-pillar `requisitos` + comparativa concurso.
 
-**B. 34 posts con meta description > 160 chars** (sí tienen hook + emoji, pero meta demasiado larga → Google la trunca). Ejemplos: `sacar-dinero-cuenta-embargada` (213), `invest-capital-…` (214), `concurso-…-microempresas` (199), `primer-credito-tras-la-lso` (193), etc.
+### Fase 5 — 15 ciudades LSO nuevas
+Extender `localizaciones.ts` con: Salamanca, Cádiz, Toledo, Lleida, Tarragona, Girona, León, Castellón, Huelva, Jaén, Logroño, Albacete, Badajoz, Ourense, Cáceres.
 
-**C. 7 posts con seoTitle > 60 chars** — subconjunto de A/B, ya listados arriba con longitud.
+Cada una con datos reales (provincia, comunidad, tribunal competente, sede judicial, coordenadas, barrios/comarca) y `localNote` única para evitar canibalización. Total ciudades pasa de 27 → 42.
 
-## Plan
+### Fase 6 — FAQ hub `/ley-segunda-oportunidad` con JSON-LD
+Añadir bloque FAQ (15 preguntas) al hub principal con las questions Semrush de mayor volumen (fiable, coste, duración, casa, coche, avalistas, autónomos, después LSO, etc.), incrustar `FAQPage` JSON-LD para capturar rich snippets.
 
-### Fase 1 — Reescribir los 12 posts sin hook (grupo A)
-Aplicar taxonomía completa: emoji + power word + CAPS + urgencia. Nueva title <60, meta <160. Ejemplos:
+### Fase 7 — Internal linking system
+Actualizar `internalLinks.ts` con las 26 rutas nuevas + reglas de intent:
+- Cada post blog LSO → sub-pillar más afín + perfil si aplica
+- Cada ciudad LSO → sub-pillar `requisitos` + `coste-precio`
+- Cada perfil → hub + sub-pillar `requisitos` + herramienta de test
+- Cada sub-pillar → hub + 2 sub-pillars hermanos + 1 perfil relevante + comparativa existente
 
-- `pasa-no-recoges-notificacion-juicio-monitorio` → `⚠️ Ignoras el monitorio: esto pasa en 20 días`
-- `5-maneras-frenar-un-embargo` → `🛑 Frenar un embargo YA: 5 vías que funcionan`
-- `cual-plazo-oponerse-monitorio` → `⏳ Monitorio: tienes 20 días para oponerte`
-- `embargar-transferencia` → `🛑 ¿Pueden embargar tu transferencia? La verdad`
-- `soy-insolvente-embargar` → `⚖️ Insolvente: ¿pueden embargarte igual? SÍ o NO`
-- `embargarte-coche-mas-10-anos` → `🚗 ¿Coche de +10 años? Así lo salvas del embargo`
-- `posible-declararse-insolvente-no-pagar-multa` → `🚦 ¿Insolvente = adiós multas? La verdad`
-- `embargar-llevar-juicio-empresas-recobro` → `⚖️ Empresas de recobro: ¿te pueden embargar YA?`
-- `puedo-evitar-embargo-coche-poniendolo-nombre-mi-hijo` → `🚗 ¿Coche a nombre de tu hijo? Cuidado con esto`
-- `banco-embargar-cuenta-otro-banco` → `🏦 ¿Tu banco embarga cuentas en OTRO banco?`
-- `embargos-cuando-como-actuan-y-que-hacer` → `💰 Embargo en tu cuenta: cuándo y cómo actúan`
-- `notifica-juicio-monitorio-abogados-tus-deudas` → `📬 Notificación de monitorio: qué hacer YA`
+Sin canibalización: la keyword principal de cada nodo se mantiene única.
 
-Meta descriptions: reescritas <160 chars con emoji inicial + beneficio + CTA suave ("Analizamos tu caso gratis").
+### Fase 8 — Footer crawlable + sitemap
+- `SeoFooterLinks.tsx`: nuevo grupo "Segunda Oportunidad en detalle" con los 6 sub-pillars + los 5 perfiles.
+- `scripts/generate-sitemap.ts`: incorporar automáticamente las 26 rutas nuevas (sub-pillars + perfiles + ciudades nuevas) leyendo la fuente de verdad (`moneyPages.ts`, `perfilesLso.ts`, `localizaciones.ts`).
 
-### Fase 2 — Acortar 34 metas > 160 chars (grupo B)
-Truncado inteligente conservando: emoji inicial + gancho + CTA. Objetivo 140–158 chars.
+## Detalles técnicos
 
-### Fase 3 — Reforzar generación futura
-Actualizar el prompt en la edge function `generate-daily-posts` (donde vive `sanitizeTitle`) para forzar:
-- title/seoTitle ≤ 58 chars (buffer)
-- meta ≤ 155 chars
-- prefijo emoji obligatorio + al menos una palabra en CAPS o urgencia
-- rechazar patrones planos "Guía / Cómo hacer / Qué es"
-
-Así los próximos posts nacen con taxonomía.
-
-## Entrega técnica
-
-- **Una sola migración SQL** con `UPDATE generated_posts SET seo_title=…, meta_description=… WHERE slug=…` para los ~46 slugs (grupo A + B, deduplicado).
-- Edición de la edge function `generate-daily-posts` (prompt + validación de longitud/emoji).
-- Sin cambios en frontend: los componentes ya leen `seoTitle`/`metaDescription` del row.
-
-## Alcance / no-alcance
-
-- **Sí:** reescritura CTR de title + meta para los 46 posts detectados; endurecer prompt de generación.
-- **No:** tocar cuerpo del artículo, H2/H3, FAQ, imágenes, ni los 15 posts estáticos de `src/data/blog/posts/*` (ya cumplen taxonomía).
-- **No:** cambiar slugs (rompería URLs indexadas).
+- **Nuevos datos:** `src/data/seo/subpillarsLso.ts`, `src/data/seo/perfilesLso.ts`. `localizaciones.ts` extendido.
+- **Nuevas plantillas:** `src/pages/seo/SubPillarLsoPage.tsx`, `src/pages/seo/PerfilLsoPage.tsx` (reutilizando módulos existentes).
+- **Rutas dinámicas** en `src/App.tsx`:
+  - `/ley-segunda-oportunidad/:subpillar` → SubPillarLsoPage
+  - `/ley-segunda-oportunidad/perfiles/:perfil` → PerfilLsoPage
+- **Componente FAQ + JSON-LD** reutilizable (`src/components/seo/FaqBlock.tsx`) usado en hub y en cada nueva landing.
+- **Contenido:** redacción larga y específica por página. Nada de placeholders "lorem"; cada H2 aporta ángulo único.
+- **Sin gradientes en CTAs** (respetando la regla del proyecto).
 
 ## Verificación
 
-Tras aplicar la migración, `SELECT` que confirme: 0 posts con `length(seo_title) > 60`, 0 con `length(meta_description) > 160`, 0 sin emoji al inicio. Rescan SEO opcional para revalidar.
+Tras ejecutar:
+- Build limpio (sin rutas rotas, sin TypeScript errors)
+- Sitemap incluye 26 rutas nuevas
+- Footer crawlable las lista
+- Cada nueva página tiene `<Helmet>` con title <60c, meta <160c, `FAQPage` JSON-LD
+- Rescan SEO opcional para revalidar findings
+
+## Fuera de alcance
+- Fase 3 (comparativas) y Fase 4 (entidad×LSO) — se dejan para más adelante.
+- No se toca el hero, formulario, ni la generación automatizada de blog.
+- No se cambian slugs existentes.
+
+## Volumen esperado
+De **1 hub + 1 sub + 27 ciudades** a **1 hub + 6 sub-pillars + 5 perfiles + 42 ciudades** en el cluster LSO. Total: **+26 nuevas landings** con schema y enlazado interno completo.

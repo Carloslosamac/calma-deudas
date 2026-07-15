@@ -18,6 +18,17 @@ import { concursoPersonaFisica } from "./concursoPersonaFisica";
 import { juicioMonitorioDeuda } from "./juicioMonitorioDeuda";
 import { deudasHacienda } from "./deudasHacienda";
 import { deudasSeguridadSocial } from "./deudasSeguridadSocial";
+import { lsoRequisitos } from "./lsoRequisitos";
+import { lsoCoste } from "./lsoCoste";
+import { lsoPlazos } from "./lsoPlazos";
+import { lsoPierdoMiCasa } from "./lsoPierdoMiCasa";
+import { lsoEsFiable } from "./lsoEsFiable";
+import { lsoComoFunciona } from "./lsoComoFunciona";
+import { lsoAutonomos } from "./lsoAutonomos";
+import { lsoAvalistas } from "./lsoAvalistas";
+import { lsoFuncionarios } from "./lsoFuncionarios";
+import { lsoPensionistas } from "./lsoPensionistas";
+import { lsoExempresarios } from "./lsoExempresarios";
 
 /** Registro de copy comercial por path de money page. */
 const contents: MoneyContent[] = [
@@ -36,6 +47,17 @@ const contents: MoneyContent[] = [
   juicioMonitorioDeuda,
   deudasHacienda,
   deudasSeguridadSocial,
+  lsoRequisitos,
+  lsoCoste,
+  lsoPlazos,
+  lsoPierdoMiCasa,
+  lsoEsFiable,
+  lsoComoFunciona,
+  lsoAutonomos,
+  lsoAvalistas,
+  lsoFuncionarios,
+  lsoPensionistas,
+  lsoExempresarios,
 ];
 
 /** Inserta una clave de módulo en el layout (antes de `faq`, o de `closing`, o al final). */
