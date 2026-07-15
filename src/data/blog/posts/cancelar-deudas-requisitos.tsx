@@ -132,8 +132,19 @@ export const cancelarDeudasRequisitos: BlogPost = {
           <p>
             Los perfiles que encajan son muy variados: personas con varios microcréditos,{" "}
             <InternalLink to="/blog/autonomos-con-deudas">autónomos con deuda fiscal y de Seguridad Social</InternalLink>,
-            familias golpeadas por un divorcio, avalistas, o exempresarios con deudas personales como
-            administradores. Si además figuras en ficheros de morosos, te interesará la guía para{" "}
+            familias golpeadas por un divorcio,{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/avalistas">
+              avalistas
+            </InternalLink>
+            , o{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/exempresarios">
+              exempresarios con deudas personales
+            </InternalLink>{" "}
+            como administradores. Puedes ver el listado completo en la página específica de{" "}
+            <InternalLink to="/ley-segunda-oportunidad/requisitos">
+              requisitos de la Ley de Segunda Oportunidad
+            </InternalLink>
+            . Si además figuras en ficheros de morosos, te interesará la guía para{" "}
             <InternalLink to="/blog/salir-asnef">salir de ASNEF</InternalLink>.
           </p>
           <InlineCTA
