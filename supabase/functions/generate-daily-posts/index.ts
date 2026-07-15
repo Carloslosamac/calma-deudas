@@ -647,6 +647,26 @@ Deno.serve(async (req) => {
       if (enforced.rewritten) titlesRewritten++;
       const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
 
+      // Validación no bloqueante: solo loguea si el artículo se quedó corto.
+      // No reintentamos para no reventar el presupuesto de tiempo.
+      try {
+        const secs = (article.sections as { html?: string }[] | undefined) ?? [];
+        const joined = secs.map((s) => s?.html ?? "").join("\n");
+        const diagramCount = (joined.match(/blog-(timeline|myth-reality|comparison|before-after)/g) ?? []).length;
+        const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
+        const faqCount = Array.isArray(article.faq) ? (article.faq as unknown[]).length : 0;
+        const wordCount = joined.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+        const warn: string[] = [];
+        if (secs.length < 8) warn.push(`sections=${secs.length}<8`);
+        if (diagramCount < 3) warn.push(`diagrams=${diagramCount}<3`);
+        if (ctaCount < 1) warn.push(`ctas=${ctaCount}<1`);
+        if (faqCount < 6) warn.push(`faq=${faqCount}<6`);
+        if (wordCount < 2000) warn.push(`words=${wordCount}<2000`);
+        if (warn.length) {
+          console.warn(`Post ${slug} debajo del listón long-form: ${warn.join(", ")}`);
+        }
+      } catch (_e) { /* no-op */ }
+
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,
         category,
