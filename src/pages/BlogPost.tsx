@@ -10,7 +10,7 @@ import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import AnswerSummary from "@/components/blog/AnswerSummary";
 import { blogPosts, getPostBySlug } from "@/data/blog";
-import { fetchGeneratedPostBySlug } from "@/data/blog/dbPosts";
+import { fetchGeneratedPostBySlug, fetchGeneratedPosts } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
 import AuthorChips from "@/components/blog/AuthorChips";
@@ -45,6 +45,26 @@ const BlogPost = () => {
   });
   const post = staticPost ?? dbPost ?? undefined;
 
+  // Pool completo (estáticos + generados) para calcular relacionados y
+  // enlazado interno por intención. Sin esto los posts auto-generados no
+  // se enlazan entre sí ni con la guía madre de su cluster.
+  const { data: generatedPosts = [] } = useQuery({
+    queryKey: ["generated-posts", "all"],
+    queryFn: fetchGeneratedPosts,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const allPosts = useMemo(() => {
+    const seen = new Set<string>();
+    const out: typeof blogPosts = [];
+    for (const p of [...blogPosts, ...generatedPosts]) {
+      if (seen.has(p.slug)) continue;
+      seen.add(p.slug);
+      out.push(p);
+    }
+    return out;
+  }, [generatedPosts]);
+
   const toc: TocItem[] = useMemo(
     () => (post ? post.sections.map((s) => ({ id: s.id, label: s.title })) : []),
     [post]
@@ -52,18 +72,34 @@ const BlogPost = () => {
 
   const relatedPosts = useMemo(() => {
     if (!post) return [];
-    const others = blogPosts.filter((p) => p.slug !== post.slug);
+    const others = allPosts.filter((p) => p.slug !== post.slug);
+    // Ordena de más reciente a más antiguo cuando hay fecha (los generados
+    // sí la tienen; los estáticos manuales pueden no traerla).
+    const byRecency = (a: typeof others[number], b: typeof others[number]) => {
+      const at = a.publishedAt ? Date.parse(a.publishedAt) : 0;
+      const bt = b.publishedAt ? Date.parse(b.publishedAt) : 0;
+      return bt - at;
+    };
     const sameCategory = others.filter((p) => p.category === post.category);
     const rest = others.filter((p) => p.category !== post.category);
-    return [...sameCategory, ...rest].slice(0, 3);
-  }, [post]);
+    // Prioriza la guía madre (guia-*) al inicio de la sección relacionada:
+    // así todo post auto-generado enlaza claramente a su guía madre.
+    const guides = sameCategory.filter((p) => p.slug.startsWith("guia-"));
+    const nonGuides = sameCategory.filter((p) => !p.slug.startsWith("guia-"));
+    return [...guides, ...nonGuides.sort(byRecency), ...rest.sort(byRecency)].slice(0, 6);
+  }, [post, allPosts]);
 
   const crossLinks = useMemo(() => {
     if (!post) return [];
-    const topic = resolvePostTopic(post.slug);
+    const topic = resolvePostTopic(post.slug, post.category);
     if (!topic) return [];
-    return buildCrossLinks({ topic, origin: "post", excludeSlug: post.slug });
-  }, [post]);
+    return buildCrossLinks({
+      topic,
+      origin: "post",
+      excludeSlug: post.slug,
+      postsPool: allPosts,
+    });
+  }, [post, allPosts]);
 
   if (!post) {
     if (isLoading) {
@@ -298,7 +334,7 @@ const BlogPost = () => {
           {relatedPosts.length > 0 && (
             <div>
               <h2 className="mb-6 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-                Artículos relacionados
+                Sigue explorando esta guía
               </h2>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedPosts.map((rp) => (

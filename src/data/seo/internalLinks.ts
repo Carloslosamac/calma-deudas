@@ -9,6 +9,7 @@
  * (no exact-match del H1 del destino) para evitar sobreoptimización.
  */
 import { blogPosts } from "@/data/blog";
+import type { BlogPost } from "@/data/blog/types";
 import { casosExito } from "@/data/casos";
 import { tools } from "@/data/seo/tools";
 
@@ -51,6 +52,26 @@ const POST_TOPIC: Record<string, LinkTopic> = {
   "que-hacer-juicio-monitorio-deuda": "juicio-monitorio",
   "renegociar-acreedores": "reunificar",
   "vida-despues-deuda": "consejos",
+};
+
+/**
+ * Fallback por categoría del blog para los posts auto-generados (que no están
+ * en `POST_TOPIC`). Mantiene el enlazado interno funcional sin tener que dar
+ * de alta cada slug a mano en el mapa.
+ */
+const CATEGORY_TOPIC: Record<string, LinkTopic> = {
+  "Segunda oportunidad": "lso",
+  "Microcréditos": "microcreditos",
+  "Tarjetas revolving": "revolving",
+  "Embargos": "embargos",
+  "Hipotecas": "reunificar",
+  "Reunificación": "reunificar",
+  "Juicio monitorio": "juicio-monitorio",
+  "Autónomos": "autonomos",
+  "Deudas públicas": "hacienda",
+  "ASNEF": "asnef",
+  "Finanzas familiares": "consejos",
+  "Consejos": "consejos",
 };
 
 /** Topic de cada caso a partir de su categoría (solución aplicada). */
@@ -114,7 +135,8 @@ const topicChain = (topic: LinkTopic): LinkTopic[] => [
   ...RELATED_TOPICS[topic],
 ];
 
-const postTopic = (slug: string): LinkTopic | undefined => POST_TOPIC[slug];
+const postTopic = (slug: string, category?: string): LinkTopic | undefined =>
+  POST_TOPIC[slug] ?? (category ? CATEGORY_TOPIC[category] : undefined);
 const casoTopic = (category: string): LinkTopic | undefined =>
   CASO_CATEGORY_TOPIC[category];
 const toolTopic = (path: string): LinkTopic | undefined => TOOL_TOPIC[path];
@@ -180,11 +202,11 @@ export function relatedCasos(
 /** Posts del blog relevantes para un topic (excluyendo uno opcional). */
 export function relatedPosts(
   topic: LinkTopic,
-  opts: { excludeSlug?: string; limit?: number } = {},
+  opts: { excludeSlug?: string; limit?: number; pool?: BlogPost[] } = {},
 ): ResourceLink[] {
-  const { excludeSlug, limit = 2 } = opts;
-  const pool = blogPosts.filter((p) => p.slug !== excludeSlug);
-  return collectByTopic(topic, pool, (p) => postTopic(p.slug), limit).map(
+  const { excludeSlug, limit = 2, pool: rawPool = blogPosts } = opts;
+  const pool = rawPool.filter((p) => p.slug !== excludeSlug);
+  return collectByTopic(topic, pool, (p) => postTopic(p.slug, p.category), limit).map(
     (p) => ({
       to: `/blog/${p.slug}`,
       label: p.title,
@@ -203,8 +225,9 @@ export function buildCrossLinks(params: {
   /** Tipo de la página de origen: se excluye de los grupos. */
   origin: ResourceKind | "none";
   excludeSlug?: string;
+  postsPool?: BlogPost[];
 }): CrossLinkGroup[] {
-  const { topic, origin, excludeSlug } = params;
+  const { topic, origin, excludeSlug, postsPool } = params;
   const groups: CrossLinkGroup[] = [];
 
   if (origin !== "tool") {
@@ -216,7 +239,7 @@ export function buildCrossLinks(params: {
     if (c.length) groups.push({ title: "Casos reales como el tuyo", links: c });
   }
   if (origin !== "post") {
-    const p = relatedPosts(topic, { excludeSlug, limit: 2 });
+    const p = relatedPosts(topic, { excludeSlug, limit: 2, pool: postsPool });
     if (p.length) groups.push({ title: "Sigue informándote", links: p });
   }
   return groups;
