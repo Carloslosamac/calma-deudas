@@ -23,6 +23,7 @@ export type Database = {
           faq: Json
           headline: string
           hero_alt: string | null
+          hero_image: string | null
           id: string
           keywords: string[]
           location: string
@@ -45,6 +46,7 @@ export type Database = {
           faq?: Json
           headline: string
           hero_alt?: string | null
+          hero_image?: string | null
           id?: string
           keywords?: string[]
           location: string
@@ -67,6 +69,7 @@ export type Database = {
           faq?: Json
           headline?: string
           hero_alt?: string | null
+          hero_image?: string | null
           id?: string
           keywords?: string[]
           location?: string

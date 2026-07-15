@@ -1,0 +1,1 @@
+ALTER TABLE public.generated_casos ADD COLUMN IF NOT EXISTS hero_image text;
