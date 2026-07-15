@@ -180,13 +180,14 @@ Deno.serve(async (req) => {
     force = b?.force === true;
   } catch (_e) { /* ignore */ }
 
-  const { data: rows, error } = await supabase
+  let query = supabase
     .from("generated_casos")
     .select("slug,name,location,hero_image")
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(limit);
-  const rowsToProcess = force ? rows : (rows ?? []).filter((row) => !row.hero_image);
+  query = force ? query.not("hero_image", "ilike", "%retrato-casero-v2%") : query.is("hero_image", null);
+  const { data: rows, error } = await query;
   if (error) {
     return new Response(JSON.stringify({ ok: false, error: error.message }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -196,7 +197,7 @@ Deno.serve(async (req) => {
   const started = Date.now();
   const done: string[] = [];
   const failed: string[] = [];
-  for (const row of rowsToProcess ?? []) {
+  for (const row of rows ?? []) {
     if (Date.now() - started > 120_000) break;
     const raw = await generateHero(row.slug as string, row.name as string, row.location as string);
     if (!raw) { failed.push(row.slug as string); continue; }
