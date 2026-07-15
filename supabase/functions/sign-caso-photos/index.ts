@@ -29,6 +29,8 @@ Deno.serve(async (req) => {
     { path: "casos/sara-l-valladolid-real.png", slugPrefix: "sara-l-valladolid" },
     { path: "casos/veronica-v-bilbao-real.png", slugPrefix: "veronica-v-bilbao" },
     { path: "casos/daniel-t-lugo-real.png", slugPrefix: "daniel-t-lugo" },
+    { path: "casos/diego-n-lugo-real-v2.png", slugPrefix: "diego-n-lugo" },
+    { path: "casos/elena-c-bilbao-real-v2.png", slugPrefix: "elena-c-bilbao" },
   ];
   const results: Record<string, string> = {};
   for (const { path, slugPrefix } of mapping) {
