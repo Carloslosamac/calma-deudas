@@ -83,12 +83,51 @@ function slugFromUrl(url: string | null, titulo: string): string {
 
 // El roadmap se importó scrapeando SERPs, así que muchos títulos arrastran el
 // sufijo de marca del competidor de origen. Nunca debe aparecer en NUESTRO blog.
+// Lista de marcas de competidores (regex fragments, case-insensitive, con \s+ tolerante).
+const COMPETITOR_BRANDS = [
+  "Soluciona\\s+Mi\\s+Deuda",
+  "MiSolvencia(?:\\.es)?",
+  "Abogados\\s+para\\s+tus\\s+deudas",
+  "Repara\\s+tu\\s+Deuda",
+  "Quita\\s+Deudas",
+  "Deudae",
+  "MundoJur[ií]dico",
+  "Solvento",
+  "Reparaty",
+  "Deudafix",
+  "Legaliboo",
+];
+const COMPETITOR_ANY = new RegExp(`\\b(?:${COMPETITOR_BRANDS.join("|")})\\b`, "iu");
+function containsCompetitor(text: unknown): boolean {
+  if (text == null) return false;
+  const s = typeof text === "string" ? text : JSON.stringify(text);
+  return COMPETITOR_ANY.test(s);
+}
+// Elimina marcas de competidores en cualquier posición del texto y colapsa
+// conectores huérfanos que quedan tras el borrado.
+function stripCompetitorBrands(raw: string): string {
+  let t = raw ?? "";
+  // 1) Quita "con/de/gracias a/con el asesoramiento de/etc + MARCA"
+  const withPrefix = new RegExp(
+    `\\s+(?:con(?:\\s+el\\s+asesoramiento\\s+de)?|de|gracias\\s+a|junto\\s+a|en)\\s+(?:${COMPETITOR_BRANDS.join("|")})\\b`,
+    "giu",
+  );
+  t = t.replace(withPrefix, "");
+  // 2) Quita ocurrencias sueltas de la marca
+  t = t.replace(new RegExp(`\\b(?:${COMPETITOR_BRANDS.join("|")})\\b`, "giu"), "");
+  // 3) Limpia separadores/espacios colgantes
+  t = t.replace(/\s{2,}/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+  t = t.replace(/[\s\-–—|·:]+$/g, "").trim();
+  return t;
+}
 function sanitizeTitle(raw: string): string {
   let t = (raw ?? "").trim();
   const brandSuffix =
     /\s*[-–—|·:]\s*(MiSolvencia(\.es)?|Abogados\s+para\s+tus\s+deudas|Repara\s+tu\s+Deuda|Quita\s+Deudas|Deudae|MundoJur[ií]dico|MundoJuridico)\s*$/i;
   // Aplica dos veces por si hay sufijos encadenados.
   t = t.replace(brandSuffix, "").replace(brandSuffix, "").trim();
+  // Además, elimina cualquier marca competidora dentro del título (no solo sufijo).
+  t = stripCompetitorBrands(t);
   return t;
 }
 
@@ -432,7 +471,28 @@ Deno.serve(async (req) => {
     const ordered = (rows as RoadmapRow[]).sort(
       (a, b) => (rank[a.prioridad ?? "Baja"] ?? 2) - (rank[b.prioridad ?? "Baja"] ?? 2) || a.id - b.id,
     );
-    const batch = ordered.slice(0, target);
+    // Barrera pre-generación: bloquea filas cuyo título ya contiene marca de
+    // competidor para no gastar créditos de IA. Se marcan con estado propio
+    // y NO entran en el batch.
+    const filtered: RoadmapRow[] = [];
+    const blockedForCompetitor: number[] = [];
+    for (const r of ordered) {
+      if (containsCompetitor(r.titulo) || containsCompetitor(r.keywords)) {
+        blockedForCompetitor.push(r.id);
+      } else {
+        filtered.push(r);
+      }
+    }
+    if (blockedForCompetitor.length) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "bloqueado_competidor" })
+        .in("id", blockedForCompetitor);
+      console.warn(
+        `Bloqueadas ${blockedForCompetitor.length} filas de roadmap por marca de competidor: ${blockedForCompetitor.join(", ")}`,
+      );
+    }
+    const batch = filtered.slice(0, target);
 
     const published: string[] = [];
     const failed: number[] = [];
@@ -471,6 +531,25 @@ Deno.serve(async (req) => {
               published_count: published.length,
               failed_count: failed.length,
             })
+            .eq("id", runId);
+        }
+        continue;
+      }
+
+      // Barrera post-generación: si el modelo introdujo cualquier marca de
+      // competidor en cualquier campo, descartamos el post y marcamos la
+      // fila para revisión. No se inserta ni se paga imagen.
+      if (containsCompetitor(article)) {
+        console.warn(`Roadmap ${row.id}: salida contiene marca de competidor, descartado.`);
+        failed.push(row.id);
+        await supabase
+          .from("seo_roadmap")
+          .update({ estado: "fallo_competidor" })
+          .eq("id", row.id);
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({ target, published_count: published.length, failed_count: failed.length })
             .eq("id", runId);
         }
         continue;
