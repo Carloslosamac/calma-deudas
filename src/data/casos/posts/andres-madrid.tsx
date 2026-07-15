@@ -15,7 +15,7 @@ export const andresMadrid: CasoExito = {
   debtAmount: "Apremio frenado",
   solution: "Aplazamiento y freno del apremio",
   headline:
-    "La carta de Hacienda que le heló la sangre a Andrés: cómo paró el apremio a tiempo y ordenó su deuda",
+    "La carta de Hacienda que le heló la sangre: cómo Andrés paró el apremio a tiempo y ordenó su deuda en Madrid",
   dek: "Una providencia de apremio es el paso previo al embargo. A Andrés le llegó un lunes por la mañana. En pocas semanas, la ejecución quedó paralizada y la deuda, fraccionada en cuotas que sí podía pagar.",
   seoTitle: "Caso real: frena el apremio de Hacienda en Madrid",
   metaDescription:
