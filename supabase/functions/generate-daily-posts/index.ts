@@ -380,7 +380,7 @@ async function generateAndUploadHero(
   category: string,
 ): Promise<string | null> {
   try {
-    const prompt = `Fotografía editorial hiperrealista, estilo fotoperiodismo premium, para un artículo sobre "${title}" (tema: ${category}, finanzas personales y deudas en España). Luz natural realista, composición cinematográfica, sin texto, sin logos, sin marcas de agua, sin collage. Escena humana o documental concreta y evocadora, no genérica.`;
+    const prompt = `Fotografía editorial hiperrealista, estilo fotoperiodismo premium, para un artículo sobre "${title}" (tema: ${category}, finanzas personales y deudas en España). Balance de blancos neutro y realista, luz diurna de interior o exterior con temperatura de color neutra (5000-5500K), tonos naturales y fieles a la realidad. Evita explícitamente: filtro amarillento, dominante cálida, tinte dorado, golden hour, luz naranja, ambiente sepia, look Instagram estilizado. Composición cinematográfica sobria, sin texto, sin logos, sin marcas de agua, sin collage. Escena humana o documental concreta y evocadora, no genérica.`;
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
