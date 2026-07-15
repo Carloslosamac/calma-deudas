@@ -1,0 +1,6 @@
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Fdaniel-s-santander-real.jpg' WHERE slug='daniel-s-santander-8-500';
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Fantonio-a-cordoba-real.jpg' WHERE slug='antonio-a-cordoba-32-450';
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Fmarta-d-girona-real.jpg' WHERE slug='marta-d-girona-32-450';
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Fsara-l-murcia-real.jpg' WHERE slug='sara-l-murcia-8-760';
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Flucia-n-barcelona-real.jpg' WHERE slug='lucia-n-barcelona-8-500';
+UPDATE generated_casos SET hero_image = 'https://tjmaeeagoenecoiqwyld.supabase.co/storage/v1/object/public/blog-images/casos%2Fraquel-b-ourense-real.jpg' WHERE slug='raquel-b-ourense-42-170';
