@@ -1,29 +1,34 @@
-# Alinear estados de Lead con el picklist real de Zoho
+# Investigar y arreglar la generación automática de contenido
 
-## Contexto del problema
+No fue un problema de créditos. Hay dos incidencias reales en la cron `generate-daily-posts`:
 
-En la app, la lista de estados válidos (`ZOHO_LEAD_STATUSES` en `src/lib/leadsCsv.ts`) es una lista **escrita a mano** y no incluye "Cualificado". Por eso ese estado "no existe" en nuestro selector, aunque en Zoho el lead (Carlos Losa) aparezca como "Cualificado". La causa más probable: nuestra lista está desalineada con el picklist real del CRM (le faltan valores o usa nombres distintos, p. ej. tenemos "IA cualificado" pero no "Cualificado").
+## Diagnóstico
 
-Los campos económicos duplicados (`vehiculo` vs `vehiculo imprescindible`, `gastos_mensuales` vs `gasto`) quedan como están — confirmado por el usuario.
+**Bloque 1 — 9, 10 y 11 de julio: fallos reales**
+- `cron` (posts) marcó `failed` los tres días con los mismos roadmap ids: **74, 75, 76, 78, 82, 84, 87, 89, 91**.
+- `cron-casos` también falló 1–2 casos esos días.
+- El hecho de que sean los MISMOS ids todos los días descarta falta de créditos: apunta a contenido/plantilla que rompe la generación de esos posts concretos.
 
-## Objetivo
+**Bloque 2 — desde el 12 de julio: runs colgados**
+- Todos los `cron` (posts) del 12 al 15 aparecen en estado `running` sin `finished_at`.
+- `cron-casos` de esos mismos días sí terminan `success`.
+- En AI Gateway el 15/jul a las 08:15–08:17 hubo llamadas exitosas de Gemini, así que el edge function arranca y llama al modelo — pero después algo impide que se actualice el registro a `success` o `failed`.
 
-Que la lista de estados de la app coincida exactamente con el picklist "Lead Status" real de Zoho, para no ofrecer/enviar valores inválidos ni omitir valores válidos.
+## Pasos del plan
 
-## Pasos
+1. **Leer logs recientes de `generate-daily-posts`** (`supabase--edge_function_logs`) para localizar la excepción o el timeout que deja el run en `running`.
+2. **Inspeccionar `supabase/functions/generate-daily-posts/index.ts`**, en concreto:
+   - El bloque final que hace `UPDATE generator_runs SET status/finished_at`: confirmar que está dentro de un `finally` para que se ejecute también si algo lanza excepción.
+   - Manejo de excepciones alrededor del bucle de roadmap ids.
+   - Tiempos totales (si supera el timeout del edge function con muchos posts, el proceso muere sin poder cerrar el run).
+3. **Revisar los roadmap ids 74, 75, 76, 78, 82, 84, 87, 89, 91** en la tabla del roadmap: probablemente comparten alguna característica (título/prompt/config) que hace fallar la generación o la validación posterior. Reproducir uno con una llamada directa al edge function para capturar el error concreto.
+4. **Fixes previstos** (a confirmar tras 1–3):
+   - Envolver el ciclo principal en `try/finally` que siempre marque el run como `success`/`failed` con contador correcto.
+   - Aislar cada post en su propio `try/catch` para que un id malo no tumbe el resto (parece que ya lo hace, pero conviene confirmar y añadir mensaje de error por id).
+   - Corregir/eliminar/regenerar los 9 roadmap ids problemáticos según lo que revele el paso 3.
+   - Añadir un job de saneamiento: cerrar como `failed` cualquier `generator_run` en `running` con `started_at > 30 min`.
+5. **Re-ejecutar manualmente** la cron para el día de hoy y verificar que se crea al menos 1 post y que el run termina en `success`.
 
-1. **Leer el picklist real desde Zoho** (en modo build): hacer una llamada de metadata a Zoho CRM, `GET /crm/v2/settings/fields?module=Leads`, reutilizando el flujo OAuth ya existente en `supabase/functions/zoho-update-lead/index.ts` (mismo refresh token). Extraer los valores del picklist del campo `Lead_Status`. Esto confirma si "Cualificado" existe y qué otros valores hay.
+## Nota sobre créditos
 
-2. **Reconciliar `ZOHO_LEAD_STATUSES`** en `src/lib/leadsCsv.ts` con la lista real obtenida: añadir los que falten (incluido "Cualificado" si existe), quitar los que no existan y corregir nombres. Actualizar `PENDING_STATUSES` si procede.
-
-3. **Verificar la sincronización**: confirmar que `updateStatus` en `src/pages/AdminLeads.tsx` solo puede enviar valores del picklist real (el selector ya se alimenta de `ZOHO_LEAD_STATUSES`, así que basta con corregir la lista).
-
-## Detalles técnicos
-
-- La verificación del punto 1 es una llamada de solo lectura; se puede hacer con una función temporal de metadata o añadiendo un endpoint de lectura a la función existente. La allowlist de escritura (`ALLOWED_FIELDS`) no se toca.
-- No se modifican los campos económicos ni su mapeo (`buildZohoLeadFields`).
-- Data center EU ya configurado (`www.zohoapis.eu`).
-
-## Resultado esperado
-
-La app mostrará y enviará exactamente los mismos estados que existen en Zoho, eliminando el desajuste que hacía que "Cualificado" pareciera un estado inexistente.
+En el AI Gateway no hubo ni un solo error `402`/`429` en los últimos 7 días (391 llamadas, todas OK). El ciclo actual arrancó el 11/jul con 400 créditos y solo se han gastado 7,4. Así que los créditos no son la causa y no hay que actuar sobre eso.

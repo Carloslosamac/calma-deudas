@@ -51,10 +51,11 @@ const CATEGORIES = [
   "Consejos",
 ];
 
-// Media 5, rango 3-7. Distribución sesgada hacia 5 para parecer humano.
-// Cadencia diaria (media ~9/día). Con ~1000 temas en cola, acelera la
-// cobertura de keywords manteniendo variación para parecer orgánico.
-const DAILY_DISTRIBUTION = [7, 8, 8, 9, 9, 10, 10, 11, 11, 12];
+// Cadencia por invocación: valores bajos para que quepamos en el timeout
+// de 150s del edge function (cada post ~30-40s: texto + imagen + upload).
+// Con 3-5 posts/invocación cerramos siempre limpio; si se quiere más
+// volumen diario, hay que programar más invocaciones o refactorizar.
+const DAILY_DISTRIBUTION = [3, 3, 4, 4, 4, 4, 5, 5];
 
 function pickDailyCount(): number {
   return DAILY_DISTRIBUTION[Math.floor(Math.random() * DAILY_DISTRIBUTION.length)];
@@ -391,6 +392,13 @@ Deno.serve(async (req) => {
 
   try {
     const target = pickDailyCount();
+    // Presupuesto de tiempo: los edge functions de Supabase tienen un límite
+    // wall-clock ~150s. Cada post cuesta ~30-40s (texto + imagen + upload),
+    // así que reservamos margen para cerrar el run limpiamente.
+    const startedAt = Date.now();
+    // Presupuesto agresivo: cada iteración tarda ~30-45s, así que dejamos
+    // ~70s de margen respecto al timeout de 150s para el UPDATE final.
+    const TIME_BUDGET_MS = 80_000;
 
     const { data: rows, error: selErr } = await supabase
       .from("seo_roadmap")
@@ -429,11 +437,42 @@ Deno.serve(async (req) => {
     const published: string[] = [];
     const failed: number[] = [];
     let titlesRewritten = 0;
+    let stoppedByBudget = false;
+
+    // Persistir el target desde el inicio para que el dashboard lo vea aunque
+    // el edge function muera por timeout antes de terminar.
+    if (runId) {
+      await supabase
+        .from("generator_runs")
+        .update({ target })
+        .eq("id", runId);
+    }
 
     for (const row of batch) {
+      // Si nos acercamos al timeout, salimos limpiamente y cerramos el run
+      // con lo que ya se ha publicado. Sin esto, el run queda huérfano en
+      // "running" y el próximo día se acumulan runs stale.
+      if (Date.now() - startedAt > TIME_BUDGET_MS) {
+        stoppedByBudget = true;
+        console.warn(
+          `Time budget reached after ${published.length}/${batch.length} posts. Stopping.`,
+        );
+        break;
+      }
       const article = await generateArticle(row);
       if (!article) {
         failed.push(row.id);
+        // Heartbeat: guarda el fallo en el run para que no quede huérfano.
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({
+              target,
+              published_count: published.length,
+              failed_count: failed.length,
+            })
+            .eq("id", runId);
+        }
         continue;
       }
 
@@ -477,6 +516,16 @@ Deno.serve(async (req) => {
       if (insErr) {
         console.error(`Insert failed for roadmap ${row.id}: ${insErr.message}`);
         failed.push(row.id);
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({
+              target,
+              published_count: published.length,
+              failed_count: failed.length,
+            })
+            .eq("id", runId);
+        }
         continue;
       }
 
@@ -486,6 +535,18 @@ Deno.serve(async (req) => {
         .eq("id", row.id);
 
       published.push(slug);
+      // Heartbeat tras cada post exitoso: si el edge function muere por
+      // timeout después de este punto, el run queda con el progreso real.
+      if (runId) {
+        await supabase
+          .from("generator_runs")
+          .update({
+            target,
+            published_count: published.length,
+            failed_count: failed.length,
+          })
+          .eq("id", runId);
+      }
     }
 
     if (runId) {
@@ -497,7 +558,11 @@ Deno.serve(async (req) => {
           target,
           published_count: published.length,
           failed_count: failed.length,
-          error: failed.length ? `Fallaron roadmap ids: ${failed.join(", ")}` : null,
+          error: failed.length
+            ? `Fallaron roadmap ids: ${failed.join(", ")}${stoppedByBudget ? " (parado por presupuesto de tiempo)" : ""}`
+            : stoppedByBudget
+              ? "Parado por presupuesto de tiempo antes de completar el batch"
+              : null,
         })
         .eq("id", runId);
     }

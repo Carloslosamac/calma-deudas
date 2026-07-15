@@ -530,6 +530,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      close_stale_generator_runs: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
