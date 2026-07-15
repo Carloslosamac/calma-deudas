@@ -141,6 +141,21 @@ export const embargosSegundaOportunidad: BlogPost = {
             embargo viene además de figurar en un fichero de morosidad, también te interesará leer{" "}
             <InternalLink to="/blog/salir-asnef">cómo salir de ASNEF</InternalLink>.
           </p>
+          <p>
+            Si eres{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/funcionarios">
+              funcionario y te embargan la nómina
+            </InternalLink>{" "}
+            o{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/pensionistas-jubilados">
+              pensionista con la pensión retenida
+            </InternalLink>
+            , tienes protecciones específicas que conviene aplicar cuanto antes. Y en{" "}
+            <InternalLink to="/ley-segunda-oportunidad/plazos-duracion">
+              plazos y duración de la LSO
+            </InternalLink>{" "}
+            te contamos en cuántas semanas suele frenarse el embargo tras admitirse a trámite el expediente.
+          </p>
           <InlineCTA
             title="¿Tienes una nómina o cuenta embargada?"
             description="Cuanto antes lo veamos, antes podemos pedir la suspensión legal del embargo."
