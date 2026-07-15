@@ -76,8 +76,16 @@ const LocalizacionPage = () => {
   ];
   const related: RelatedLink[] = [
     { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
+    // Enlaces cruzados al cluster LSO (subpilares + perfiles) para que las
+    // ciudades no queden aisladas del resto de la estructura.
+    { label: "Requisitos de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/requisitos" },
+    { label: "Coste de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/coste-precio" },
+    { label: "Plazos y duración de la LSO", to: "/ley-segunda-oportunidad/plazos-duracion" },
+    { label: "¿Pierdo mi casa con la LSO?", to: "/ley-segunda-oportunidad/pierdo-mi-casa" },
+    { label: "LSO para autónomos", to: "/ley-segunda-oportunidad/perfiles/autonomos" },
+    { label: "LSO para avalistas", to: "/ley-segunda-oportunidad/perfiles/avalistas" },
     ...prioritized
-      .slice(0, 9)
+      .slice(0, 6)
       .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path })),
   ];
 

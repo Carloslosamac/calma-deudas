@@ -6,6 +6,7 @@ import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
 import { getMoneyContent } from "@/data/seo/content";
 import { toolsForCluster } from "@/data/seo/tools";
+import { localizaciones } from "@/data/seo/localizaciones";
 import {
   buildBreadcrumb,
   buildLegalService,
@@ -46,6 +47,28 @@ const MoneyLanding = () => {
     ...siblings.map((p) => ({ label: p.h1, to: p.path })),
     ...relatedClusters.map((c) => ({ label: c!.label, to: `/${c!.slug}` })),
   ];
+
+  // Bidireccional: en el cluster LSO añadimos un puñado de ciudades con tracción
+  // para que subpilares y perfiles enlacen hacia el hub local (y así distribuir
+  // autoridad interna hacia páginas locales que ya reciben impresiones).
+  if (page.cluster === "ley-segunda-oportunidad") {
+    const TRACTION_CITIES = [
+      "a-coruna",
+      "almeria",
+      "vigo",
+      "murcia",
+      "donostia",
+      "barcelona",
+    ];
+    const citiesRelated = TRACTION_CITIES
+      .map((slug) => localizaciones.find((l) => l.slug === slug))
+      .filter((l): l is (typeof localizaciones)[number] => Boolean(l))
+      .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path }));
+    related.push(
+      { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
+      ...citiesRelated,
+    );
+  }
 
   // Herramientas relevantes para el bloque "Calcula tu caso".
   const tools = toolsForCluster(page.cluster);
