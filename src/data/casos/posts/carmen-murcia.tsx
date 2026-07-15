@@ -16,7 +16,7 @@ export const carmenMurcia: CasoExito = {
   debtAmount: "Cuota -40%",
   solution: "Reunificación (negociación extrajudicial)",
   headline:
-    "Tenía un local familiar que no quería arriesgar: cómo Carmen bajó su cuota un 40% sin pedir ni un euro prestado",
+    "Tenía un local familiar que no quería arriesgar: cómo Carmen bajó su cuota un 40% sin pedir ni un euro prestado en Murcia",
   dek: "Varios préstamos y una tarjeta la asfixiaban cada mes. Descartar la Ley de Segunda Oportunidad fue su primera decisión acertada. La segunda fue llamar a Calma.",
   seoTitle: "Caso real: baja su cuota un 40% con reunificación en Murcia",
   metaDescription:
