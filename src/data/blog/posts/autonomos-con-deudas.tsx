@@ -150,6 +150,18 @@ export const autonomosConDeudas: BlogPost = {
             inercia y una bola de nieve que crece con recargos e intereses. La buena noticia es que la ley
             permite poner orden de forma estructurada, sin tener que cerrar necesariamente la actividad.
           </p>
+          <p>
+            Si quieres ver la vía adaptada punto por punto a tu caso, tenemos una página dedicada a la{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/autonomos">
+              Ley de Segunda Oportunidad para autónomos
+            </InternalLink>{" "}
+            con los matices de AEAT, Seguridad Social y cómo salvar la actividad. Si ya cerraste tu sociedad,
+            mira también la{" "}
+            <InternalLink to="/ley-segunda-oportunidad/perfiles/exempresarios">
+              LSO tras cerrar tu SL
+            </InternalLink>
+            .
+          </p>
         </>
       ),
     },
