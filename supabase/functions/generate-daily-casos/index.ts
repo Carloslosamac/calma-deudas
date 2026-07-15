@@ -310,7 +310,7 @@ EJEMPLOS DE HEADLINES DEL NIVEL QUE ESPERAMOS (imita el ESTILO, no copies litera
 
 FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown) con esta forma exacta:
 {
-  "debtAmount": "importe cancelado/resuelto formateado, p.ej. '32.450 €'",
+  "debtAmount": "ETIQUETA de resultado para la badge de la card. DEBE incluir siempre su sufijo/contexto, NUNCA solo la cifra. Variar según categoría: LSO/Concurso persona física → 'X € cancelados'; Reclamación revolving/usura → 'X € recuperados'; Reunificación → una de: 'Cuota -N%', 'N cuotas → 1', 'X €/mes menos'; Salir de ASNEF → 'Fuera de ASNEF'; Hacienda/Seguridad Social → 'Apremio parado' o 'Aplazado a N meses'; Embargo → 'Embargo levantado' o 'Nómina liberada'. Máx 24 caracteres.",
   "solution": "solución legal aplicada en una línea",
   "headline": "titular tipo reportaje humano de 60–95 caracteres siguiendo el patrón escena/síntoma + ':' + desenlace. Sin marca, sin emojis, sin fórmulas tipo 'Nombre de Ciudad cancela X €'.",
   "dek": "entradilla/dek de 1-2 frases",
