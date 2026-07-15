@@ -249,3 +249,109 @@ All colors MUST be HSL.
     color: hsl(var(--phase) / 0.75) !important;
   }
 }
+
+/* ============================================================
+   Blog auto-generado: estilos semánticos para diagramas y CTAs
+   incrustados como HTML (dangerouslySetInnerHTML). Sin Tailwind
+   inline porque JIT no ve el HTML del modelo.
+   ============================================================ */
+@layer components {
+  .blog-cta {
+    @apply my-8 rounded-3xl border border-accent/30 bg-accent/5 p-6 md:p-8;
+  }
+  .blog-cta h3 {
+    @apply mt-0 text-xl font-semibold text-foreground md:text-2xl;
+  }
+  .blog-cta p {
+    @apply mt-2 text-base text-foreground/80;
+  }
+  .blog-cta a,
+  .blog-cta a:hover {
+    @apply mt-4 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground no-underline shadow-sm transition hover:bg-accent/90;
+  }
+
+  .blog-before-after {
+    @apply my-8 grid gap-4 md:grid-cols-2;
+  }
+  .blog-before-after > div {
+    @apply rounded-2xl border border-border p-5;
+  }
+  .blog-before-after .before {
+    @apply bg-destructive/5 border-destructive/30;
+  }
+  .blog-before-after .after {
+    @apply bg-accent/5 border-accent/40;
+  }
+  .blog-before-after h4 {
+    @apply mt-0 mb-3 text-sm font-semibold uppercase tracking-wide;
+  }
+  .blog-before-after .before h4 { @apply text-destructive; }
+  .blog-before-after .after h4 { @apply text-accent-deep; }
+  .blog-before-after ul {
+    @apply m-0 list-none space-y-2 pl-0;
+  }
+  .blog-before-after li {
+    @apply pl-6 relative text-sm leading-relaxed;
+  }
+  .blog-before-after .before li::before {
+    content: "✕";
+    @apply absolute left-0 text-destructive font-bold;
+  }
+  .blog-before-after .after li::before {
+    content: "✓";
+    @apply absolute left-0 text-accent-deep font-bold;
+  }
+
+  .blog-myth-reality {
+    @apply my-8 overflow-hidden rounded-2xl border border-border;
+  }
+  .blog-myth-reality .row {
+    @apply grid gap-0 md:grid-cols-2 border-b border-border last:border-b-0;
+  }
+  .blog-myth-reality .myth,
+  .blog-myth-reality .reality {
+    @apply p-5;
+  }
+  .blog-myth-reality .myth {
+    @apply bg-muted/40 border-b md:border-b-0 md:border-r border-border;
+  }
+  .blog-myth-reality .reality {
+    @apply bg-accent/5;
+  }
+  .blog-myth-reality .label {
+    @apply mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+  }
+  .blog-myth-reality .reality .label {
+    @apply text-accent-deep;
+  }
+
+  .blog-timeline {
+    @apply my-8 space-y-4;
+  }
+  .blog-timeline .step {
+    @apply relative rounded-2xl border border-border bg-surface p-5 pl-16;
+  }
+  .blog-timeline .step .num {
+    @apply absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-accent font-semibold text-accent-foreground;
+  }
+  .blog-timeline .step h4 {
+    @apply mt-0 mb-1 text-base font-semibold text-foreground;
+  }
+  .blog-timeline .step p {
+    @apply m-0 text-sm text-foreground/75;
+  }
+
+  .blog-comparison {
+    @apply my-8 w-full overflow-hidden rounded-2xl border border-border text-sm;
+  }
+  .blog-comparison table {
+    @apply w-full border-collapse;
+  }
+  .blog-comparison th,
+  .blog-comparison td {
+    @apply border-b border-border p-3 text-left align-top;
+  }
+  .blog-comparison th {
+    @apply bg-muted/50 font-semibold text-foreground;
+  }
+}

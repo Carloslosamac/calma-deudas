@@ -81,6 +81,24 @@ function slugFromUrl(url: string | null, titulo: string): string {
     .slice(0, 80);
 }
 
+// Garantiza que cada artículo termine con un CTA claro hacia el formulario,
+// incluso si el modelo no lo incluye. Se añade al final de la última sección.
+function ensureFinalCta(
+  sections: { id: string; title: string; html: string }[] | undefined,
+  topic: string,
+): { id: string; title: string; html: string }[] {
+  const list = Array.isArray(sections) ? [...sections] : [];
+  if (list.length === 0) return list;
+  const joined = list.map((s) => s.html ?? "").join("\n");
+  const hasCta = /class=["']blog-cta["']/i.test(joined);
+  if (hasCta) return list;
+  const last = list[list.length - 1];
+  const safeTopic = (topic ?? "").replace(/["<>]/g, "").trim() || "tu situación";
+  const ctaHtml = `\n<div class="blog-cta"><h3>¿Te reconoces en este caso?</h3><p>Analizamos ${safeTopic.toLowerCase()} en una valoración gratuita y te decimos qué solución encaja con tu perfil.</p><a href="#hero-form">Solicitar valoración gratuita</a></div>`;
+  list[list.length - 1] = { ...last, html: (last.html ?? "") + ctaHtml };
+  return list;
+}
+
 // El roadmap se importó scrapeando SERPs, así que muchos títulos arrastran el
 // sufijo de marca del competidor de origen. Nunca debe aparecer en NUESTRO blog.
 // Lista de marcas de competidores (regex fragments, case-insensitive, con \s+ tolerante).
@@ -152,6 +170,20 @@ REGLAS EDITORIALES INNEGOCIABLES:
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo (eso es refinanciar, que es lo contrario).
 - Tono empático, claro, sin tecnicismos innecesarios. Cero promesas garantizadas.
 - Todo CTA invita a la valoración gratuita; el botón lleva al formulario (#hero-form).
+- DIAGRAMAS Y CTAs OBLIGATORIOS DENTRO DEL HTML DE LAS SECCIONES:
+  Como el contenido se renderiza como HTML crudo, usa SIEMPRE estos bloques semánticos (NO Tailwind inline, NO estilos inline). Debes incluir, repartidos por el artículo:
+  * Al menos 2 diagramas visuales de esta lista (elige los que mejor encajen con el tema, uno por sección relevante):
+    - Antes vs. Después (obligatorio si el post habla de una transformación, cifras o resultados):
+      <div class="blog-before-after"><div class="before"><h4>Antes</h4><ul><li>Punto negativo</li><li>...</li></ul></div><div class="after"><h4>Después</h4><ul><li>Punto positivo</li><li>...</li></ul></div></div>
+    - Mito vs. Realidad (obligatorio si el post desmonta creencias/errores comunes):
+      <div class="blog-myth-reality"><div class="row"><div class="myth"><span class="label">Mito</span><p>...</p></div><div class="reality"><span class="label">Realidad</span><p>...</p></div></div><div class="row">...</div></div>
+    - Cronología del proceso (obligatorio si explicas pasos o procedimiento):
+      <div class="blog-timeline"><div class="step"><span class="num">1</span><h4>Título</h4><p>...</p></div><div class="step"><span class="num">2</span><h4>...</h4><p>...</p></div></div>
+    - Comparativa (para contrastar opciones/soluciones):
+      <div class="blog-comparison"><table><thead><tr><th>Opción</th><th>Ventaja</th><th>Inconveniente</th></tr></thead><tbody><tr><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+  * Al menos 1 CTA inline dentro de una sección intermedia (NO al final: el final lo añade el sistema):
+      <div class="blog-cta"><h3>Título específico del CTA (alineado con el tema del post)</h3><p>Descripción breve orientada a valoración gratuita.</p><a href="#hero-form">Etiqueta de acción específica</a></div>
+  El título/descripción del CTA deben ser específicos del tema del artículo, nunca genéricos.
 - TÍTULOS (seoTitle) — reglas duras:
   * 1 emoji temático al inicio (⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores, 💼 autónomos, ⏱️ plazos, 💸 dinero).
   * Máx 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma».
@@ -597,7 +629,10 @@ Deno.serve(async (req) => {
         authors: pickAuthors(),
         hero_image: heroUrl,
         hero_alt: (article.heroAlt as string) ?? cleanTitle,
-        sections: article.sections ?? [],
+        sections: ensureFinalCta(
+          article.sections as { id: string; title: string; html: string }[] | undefined,
+          cleanTitle,
+        ),
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
         seo_title: cleanSeoTitle,
