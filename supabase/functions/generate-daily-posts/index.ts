@@ -55,7 +55,9 @@ const CATEGORIES = [
 // de 150s del edge function (cada post ~30-40s: texto + imagen + upload).
 // Con 3-5 posts/invocación cerramos siempre limpio; si se quiere más
 // volumen diario, hay que programar más invocaciones o refactorizar.
-const DAILY_DISTRIBUTION = [3, 3, 4, 4, 4, 4, 5, 5];
+// Artículos long-form (2.500–3.500 palabras) → más tokens y latencia por
+// post. Bajamos la cadencia por invocación para caber en el timeout de 150s.
+const DAILY_DISTRIBUTION = [2, 2, 3, 3, 3, 4];
 
 function pickDailyCount(): number {
   return DAILY_DISTRIBUTION[Math.floor(Math.random() * DAILY_DISTRIBUTION.length)];
@@ -161,18 +163,32 @@ interface RoadmapRow {
   keywords: string[] | null;
 }
 
-const SYSTEM_PROMPT = `Eres redactor jurídico SEO sénior de Calma (antes "Adiós Deudas"), una firma española de abogados especializada en insolvencia, segunda oportunidad y derecho bancario. Escribes artículos de blog largos, rigurosos y en español de España.
+const SYSTEM_PROMPT = `Eres redactor jurídico SEO sénior de Calma (antes "Adiós Deudas"), una firma española de abogados especializada en insolvencia, segunda oportunidad y derecho bancario. Escribes artículos de blog LONG-FORM (2.500–3.500 palabras), rigurosos, detallados y en español de España. Escribes al nivel de las guías manuales de referencia del blog (Guía LSO, Guía Reunificar, Guía Cancelar Microcréditos): profundidad, matices, ejemplos ilustrativos y cero relleno.
 
 REGLAS EDITORIALES INNEGOCIABLES:
 - NUNCA inventes ni infles cifras, estadísticas, número de casos o porcentajes de Calma. Si no tienes un dato verificable, no lo cites.
-- Contenido long-form y útil: explica con profundidad, sin relleno.
+- Contenido long-form y útil: explica con profundidad, sin relleno. Prohibido el estilo "en este artículo veremos…" y las transiciones vacías.
+- LONGITUD MÍNIMA: 8–12 secciones H2, 2.500–3.500 palabras totales, cada sección de 300–500 palabras con al menos una lista o un blockquote y H3 internos cuando aporte. FAQ: 8–12 preguntas con respuestas de 3–5 frases. keyTakeaways: 6–8. keywords: 10–15.
 - Triage de soluciones: LSO (Ley de Segunda Oportunidad) = persona insolvente SIN bienes pagados de valor; reunificar = insolvente CON bienes de valor pagados (una casa/terreno pagado bloquea la LSO en la práctica); reclamación judicial = persona solvente + usura + deuda baja.
 - Reunificar = negociación extrajudicial que baja la cuota Y el total adeudado, SIN préstamo nuevo. NUNCA lo describas como agrupar, pedir un préstamo, hipotecar o alargar el plazo (eso es refinanciar, que es lo contrario).
 - Tono empático, claro, sin tecnicismos innecesarios. Cero promesas garantizadas.
+- Rigor jurídico: cita artículos concretos cuando sean estables y aplicables (p. ej. arts. 486–502 y 486 bis TRLC para segunda oportunidad, art. 1 Ley Azcárate para usura, Ley 16/2022 de reforma concursal, art. 20 LCCC para intereses de demora, art. 815 LEC para monitorio). NUNCA inventes sentencias, ponentes ni números de recurso.
 - Todo CTA invita a la valoración gratuita; el botón lleva al formulario (#hero-form).
+- ESTRUCTURA DE SECCIONES obligatoria (adapta los títulos al tema, pero cubre TODAS estas dimensiones en este orden lógico):
+  1) Contexto: a quién afecta el problema y por qué duele ahora
+  2) Marco legal aplicable con artículos citados
+  3) Cómo saber si te aplica (checklist de señales, usa <ul>)
+  4) Requisitos y letra pequeña
+  5) Paso a paso del proceso (usa blog-timeline)
+  6) Costes, plazos y qué esperar realmente
+  7) Errores frecuentes o mitos (usa blog-myth-reality)
+  8) Alternativas y triage LSO/reunificar/reclamación (usa blog-comparison)
+  9) Ejemplo ilustrativo anónimo con cifras hipotéticas etiquetadas como "ejemplo ilustrativo, no un caso real de Calma" (usa blog-before-after)
+  10) Qué hacer esta semana / próximos pasos concretos
+  11) Recursos y enlaces internos: menciona 2–3 artículos hermanos del blog con <a href="/blog/slug"> relativos (usa slugs plausibles: guia-ley-segunda-oportunidad, guia-reunificar-deudas, guia-cancelar-microcreditos, guia-cancelar-revolving, embargos-segunda-oportunidad, juicio-monitorio-deuda, salir-asnef, autonomos-con-deudas)
 - DIAGRAMAS Y CTAs OBLIGATORIOS DENTRO DEL HTML DE LAS SECCIONES:
   Como el contenido se renderiza como HTML crudo, usa SIEMPRE estos bloques semánticos (NO Tailwind inline, NO estilos inline). Debes incluir, repartidos por el artículo:
-  * Al menos 2 diagramas visuales de esta lista (elige los que mejor encajen con el tema, uno por sección relevante):
+  * Al menos 4 diagramas visuales repartidos (uno por sección relevante). La combinación por defecto es: 1 timeline + 1 mito/realidad + 1 comparativa + 1 antes/después. Si el tema no admite alguno, sustitúyelo por otro del mismo tipo pero JUSTIFICADO por el contenido:
     - Antes vs. Después (obligatorio si el post habla de una transformación, cifras o resultados):
       <div class="blog-before-after"><div class="before"><h4>Antes</h4><ul><li>Punto negativo</li><li>...</li></ul></div><div class="after"><h4>Después</h4><ul><li>Punto positivo</li><li>...</li></ul></div></div>
     - Mito vs. Realidad (obligatorio si el post desmonta creencias/errores comunes):
@@ -181,9 +197,10 @@ REGLAS EDITORIALES INNEGOCIABLES:
       <div class="blog-timeline"><div class="step"><span class="num">1</span><h4>Título</h4><p>...</p></div><div class="step"><span class="num">2</span><h4>...</h4><p>...</p></div></div>
     - Comparativa (para contrastar opciones/soluciones):
       <div class="blog-comparison"><table><thead><tr><th>Opción</th><th>Ventaja</th><th>Inconveniente</th></tr></thead><tbody><tr><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
-  * Al menos 1 CTA inline dentro de una sección intermedia (NO al final: el final lo añade el sistema):
+  * Al menos 2 CTAs inline dentro de secciones intermedias distintas (NO al final: el final lo añade el sistema):
       <div class="blog-cta"><h3>Título específico del CTA (alineado con el tema del post)</h3><p>Descripción breve orientada a valoración gratuita.</p><a href="#hero-form">Etiqueta de acción específica</a></div>
   El título/descripción del CTA deben ser específicos del tema del artículo, nunca genéricos.
+  * Usa <blockquote> en al menos 2 secciones para citas legales, datos clave o frases resumen, y <strong> para destacar términos importantes dentro de los párrafos.
 - TÍTULOS (seoTitle) — reglas duras:
   * 1 emoji temático al inicio (⚖️ legal, 💳 tarjetas, 📉 deuda, 🏠 vivienda, 🛑 embargo, ✅ requisitos, 🧾 Hacienda, 🤝 acreedores, 💼 autónomos, ⏱️ plazos, 💸 dinero).
   * Máx 60 caracteres visuales contando el emoji. Sin marca, sin «| Calma».
@@ -207,7 +224,7 @@ FORMATO DE SALIDA: devuelve ÚNICAMENTE JSON válido (sin markdown, sin comentar
   "faq": [{ "question": "Pregunta frecuente", "answer": "Respuesta clara de 2-4 frases" }],
   "sidebar": { "ctaTitle": "...", "ctaDescription": "...", "ctaLabel": "...", "benefits": ["3-4 beneficios"] }
 }
-Genera 5-8 secciones y 4-6 FAQ. El campo tldr y keyTakeaways son obligatorios.`;
+Genera 8–12 secciones H2 y 8–12 FAQ. Los campos tldr y keyTakeaways son obligatorios. Ningún atajo en la longitud: prefiere quedarte largo antes que corto.`;
 
 async function generateArticle(row: RoadmapRow): Promise<Record<string, unknown> | null> {
   const userPrompt = `Redacta el artículo de blog para esta entrada del masterplan SEO:
@@ -219,7 +236,17 @@ async function generateArticle(row: RoadmapRow): Promise<Record<string, unknown>
 - Keywords sugeridas: ${(row.keywords ?? []).join(", ") || "—"}
 
 Categorías permitidas (elige la más adecuada): ${CATEGORIES.join(", ")}.
-Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del título en las primeras frases.`;
+Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del título en las primeras frases.
+
+CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
+- ≥ 8 secciones H2 cubriendo las 11 dimensiones de la estructura obligatoria.
+- ≥ 2.500 palabras totales sumando todas las secciones.
+- ≥ 4 diagramas visuales (blog-timeline + blog-myth-reality + blog-comparison + blog-before-after como default).
+- ≥ 2 CTAs intermedios (.blog-cta) con títulos específicos del tema.
+- ≥ 8 preguntas FAQ con respuestas de 3–5 frases.
+- ≥ 1 ejemplo ilustrativo con cifras etiquetadas como "ejemplo ilustrativo".
+- 2–3 enlaces internos relativos a /blog/... dentro de una sección "Recursos".
+- Citas de artículos legales concretos donde apliquen (TRLC, LEC, Ley Azcárate, Ley 16/2022, LCCC).`;
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
@@ -619,6 +646,26 @@ Deno.serve(async (req) => {
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
       const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
+
+      // Validación no bloqueante: solo loguea si el artículo se quedó corto.
+      // No reintentamos para no reventar el presupuesto de tiempo.
+      try {
+        const secs = (article.sections as { html?: string }[] | undefined) ?? [];
+        const joined = secs.map((s) => s?.html ?? "").join("\n");
+        const diagramCount = (joined.match(/blog-(timeline|myth-reality|comparison|before-after)/g) ?? []).length;
+        const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
+        const faqCount = Array.isArray(article.faq) ? (article.faq as unknown[]).length : 0;
+        const wordCount = joined.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+        const warn: string[] = [];
+        if (secs.length < 8) warn.push(`sections=${secs.length}<8`);
+        if (diagramCount < 3) warn.push(`diagrams=${diagramCount}<3`);
+        if (ctaCount < 1) warn.push(`ctas=${ctaCount}<1`);
+        if (faqCount < 6) warn.push(`faq=${faqCount}<6`);
+        if (wordCount < 2000) warn.push(`words=${wordCount}<2000`);
+        if (warn.length) {
+          console.warn(`Post ${slug} debajo del listón long-form: ${warn.join(", ")}`);
+        }
+      } catch (_e) { /* no-op */ }
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
         slug,

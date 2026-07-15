@@ -1,50 +1,71 @@
-## Qué ha pasado (diagnóstico honesto)
+## Objetivo
 
-Tienes razón, y lo siento. Hay contenido publicado que menciona literalmente a competidores (sobre todo "Soluciona Mi Deuda"). Ejemplos actuales en BD:
+Los posts que ahora crea el generador diario son cortos y planos comparados con los manuales (`guia-cancelar-microcreditos`, `guia-ley-segunda-oportunidad`, etc., de 500–1.100 líneas). Quiero que la IA produzca artículos igual de largos, densos y detallados: mismos módulos visuales, ejemplos, cifras cuando existan, matices legales, callouts, checklists y estructura long-form.
 
-- `soluciona-mi-deuda-recibe-subvencion-fondo-social-europeo-plus` — 5 jul
-- `manuel-cancela-su-deuda-0-euros-recupera-2-807` — 15 jul
-- `diego-c-liquida-sus-deudas-microcreditos-recupera-dinero-soluciona` — 15 jul
+Todos los cambios viven en **`supabase/functions/generate-daily-posts/index.ts`** (system prompt + user prompt + validación mínima). No toco el frontend ni el CSS (`.blog-cta`, `.blog-before-after`, `.blog-timeline`, `.blog-myth-reality`, `.blog-comparison` ya existen y funcionan).
 
-**Causa raíz** (no es que yo lo haya "decidido" así — es un bug que arrastramos):
+## Qué cambia en el `SYSTEM_PROMPT`
 
-1. `seo_roadmap` se sembró importando SERPs de competidores. Muchas filas guardan el título tal cual, incluyendo la marca del competidor dentro (no solo como sufijo).
-2. `generate-daily-posts` usa `row.titulo` **verbatim** como título canónico del post (`cleanTitle = sanitizeTitle(row.titulo)`).
-3. `sanitizeTitle` sólo limpia sufijos de marca separados por `- | · :` y sólo cubre 6 competidores concretos. NO detecta la marca en medio del título, y **"Soluciona Mi Deuda" ni siquiera está en la lista**.
-4. Al pasar ese título al modelo como objetivo, el modelo escribe el cuerpo alrededor de esa marca (aunque el system prompt diga "Calma").
+1. **Longitud y profundidad**
+   - Subir el mínimo de secciones de "5–8" a **8–12 secciones H2**.
+   - Cada sección debe tener **300–500 palabras**, dos o tres H3 internos cuando aporte, y al menos una lista (`<ul>`/`<ol>`) o un `<blockquote>` con ejemplo real.
+   - Total objetivo: **2.500–3.500 palabras** por artículo.
+   - FAQ: subir de 4–6 a **8–12 preguntas** con respuestas de 3–5 frases.
+   - `keyTakeaways`: 6–8 puntos concretos.
+   - `keywords`: 10–15.
 
-Resultado: el título se publica literal y el excerpt/cuerpo hereda la mención.
+2. **Estructura obligatoria de secciones** (en este orden lógico, adaptando los títulos al tema):
+   1. Contexto / a quién afecta y por qué duele
+   2. Marco legal aplicable (Ley 16/2022, art. relevantes del TRLC, sentencias TS/TJUE cuando encajen)
+   3. Cómo saber si te aplica (checklist de señales)
+   4. Requisitos y letra pequeña
+   5. Paso a paso del proceso (con `blog-timeline`)
+   6. Costes, plazos y qué esperar
+   7. Errores frecuentes / mitos (con `blog-myth-reality`)
+   8. Alternativas y triage (con `blog-comparison`) — respetando la regla LSO / reunificar / reclamación
+   9. Ejemplo real anónimo (perfil + cifras hipotéticas etiquetadas como "ejemplo ilustrativo") con `blog-before-after`
+   10. Qué hacer esta semana / próximos pasos
+   11. Recursos y enlaces internos (mencionar 2–3 artículos hermanos del blog en `<a>` relativos `/blog/slug`)
 
-## Plan de arreglo
+3. **Módulos visuales — mínimos reforzados**
+   - Al menos **4 diagramas** (antes ≥2): 1 timeline + 1 mito/realidad + 1 comparativa + 1 antes/después, salvo que el tema no lo admita y se justifique con otro tipo.
+   - Al menos **2 CTAs intermedios** con `.blog-cta` (antes 1), específicos del tema y con `href="#hero-form"`. El sistema sigue añadiendo el CTA final si falta.
+   - Añadir uso de `<blockquote>` para citas legales / dato clave y `<strong>` para remarcar en cada sección.
 
-### 1. Limpieza inmediata de contenido existente
-- Barrido en `generated_posts` (title, excerpt, tldr, sections, faq, meta_description, seo_title, keywords) buscando cualquier competidor de una lista ampliada: **Soluciona Mi Deuda, MiSolvencia, Abogados para tus deudas, Repara tu Deuda, Quita Deudas, Deudae, MundoJurídico, Solvento, Reparaty, Deudafix, Legaliboo** (más los que aparezcan en el barrido).
-- Los posts contaminados se marcan `status = 'archived'` (no eliminados: podemos revisar) y se retiran del blog público.
-- Mismo barrido en `generated_casos`.
+4. **Rigor jurídico**
+   - Citar artículos concretos cuando sean estables (p.ej. arts. 486–502 y 486 bis TRLC para segunda oportunidad, art. 1 Ley Azcárate para usura, art. 20 LCS/L16-2022 para intereses). Sin inventar sentencias.
+   - Mantener las reglas ya existentes: no inflar cifras de Calma, triage LSO/reunificar/reclamación, reunificar ≠ refinanciar, cero promesas garantizadas, sin marcas de competidores.
 
-### 2. Blindar el generador de posts
-- Extraer la lista de marcas competidoras a un único array `COMPETITOR_BRANDS` en el edge function.
-- `sanitizeTitle` pasa a detectar la marca **en cualquier posición**, no sólo sufijo, y a reemplazarla por `""` (colapsando conectores tipo "con", "de", "gracias a" que quedan huérfanos).
-- Añadir `containsCompetitor(text)` que se aplica sobre título de roadmap ANTES de generar: si detecta marca, la fila se marca `estado = 'bloqueado_competidor'` y se salta (no se paga generación).
-- Cambiar la fuente del título mostrado: en lugar de usar `row.titulo` verbatim, se usa el `seoTitle` que produce el modelo (ya pasa por `enforceTitle`), y `row.titulo` sólo se pasa al prompt como "tema de referencia" — no como texto canónico.
-- Barrido de salida: tras generar, si el JSON del modelo contiene alguna marca competidora en cualquier campo (title/seoTitle/excerpt/sections/faq/tldr), el post se descarta y el roadmap queda como `fallo_competidor` para revisión, sin insertar.
+5. **Estilo**
+   - Frases medias, párrafos de 2–4 frases, español de España, tono empático y directo.
+   - Prohibido el relleno tipo "en este artículo veremos…" y las transiciones vacías.
 
-### 3. Blindar el generador de casos
-- Mismo `containsCompetitor` sobre `headline`, `seoTitle`, `dek`, `sections`, `faq` antes de insertar. Si aparece marca ajena, se descarta el caso.
+## Qué cambia en el `userPrompt`
 
-### 4. Regla de memoria actualizada
-- Ampliar `mem://constraints/no-competitor-names` con la lista completa y la regla "en cualquier posición, no sólo sufijo", más los campos a validar (título, excerpt, tldr, sections, faq, meta).
+- Añadir un checklist explícito: "El artículo debe tener ≥8 H2, ≥2500 palabras totales, ≥4 diagramas, ≥2 CTAs intermedios, ≥8 FAQ y un ejemplo ilustrativo con cifras etiquetadas."
+- Recordar la obligación de enlaces internos relativos a `/blog/...` cuando el tema tenga hermanos.
 
-### 5. Verificación
-- Ejecutar el barrido de limpieza y comprobar por SQL que no queda ninguna marca competidora en posts/casos publicados.
-- Ejecución de prueba del cron para confirmar que las filas de roadmap contaminadas se bloquean sin consumir créditos de IA y las limpias siguen publicándose.
+## Validación mínima post-generación
 
-## Detalles técnicos
+Añadir una comprobación barata antes del `insert` (sin volver a llamar al modelo salvo caso extremo):
 
-Archivos que se tocarán:
-- `supabase/functions/generate-daily-posts/index.ts` — lista de marcas, `sanitizeTitle`, `containsCompetitor`, uso de `seoTitle` en vez de `row.titulo`, validación de salida.
-- `supabase/functions/generate-daily-casos/index.ts` — validación `containsCompetitor` sobre la salida.
-- Nueva migration SQL: barrido `UPDATE generated_posts SET status='archived' WHERE …` con lista de marcas en title/excerpt/tldr/meta/seo_title + versión que también busca dentro de `sections::text` y `faq::text`. Idem `generated_casos`. Y `UPDATE seo_roadmap SET estado='bloqueado_competidor' WHERE titulo ~* '(marcas)'`.
-- `mem://constraints/no-competitor-names` actualizada.
+- Contar secciones: si `< 8`, loggear warning pero no reintentar (para no romper el timeout).
+- Contar diagramas via regex sobre el HTML concatenado (`blog-timeline|blog-myth-reality|blog-comparison|blog-before-after`): si `< 3`, loggear warning.
+- Contar `blog-cta` intermedios (el `ensureFinalCta` no cuenta): si `0`, loggear warning.
+- Contar FAQ: si `< 6`, loggear warning.
 
-No se toca frontend ni el flujo del formulario.
+Estos warnings sirven para diagnóstico, sin bloquear la publicación (evitamos regenerar y agotar el timeout de 150s).
+
+## Ajuste de cadencia
+
+Los artículos más largos consumen más tokens y tiempo por post. Bajar `DAILY_DISTRIBUTION` de `[3,3,4,4,4,4,5,5]` a **`[2,2,3,3,3,4]`** para no reventar el timeout del edge function. La frecuencia diaria total se mantiene programando más invocaciones si hace falta (fuera de scope).
+
+## Fuera de scope
+
+- No se re-generan los posts ya publicados (111 posts) — solo afecta a los nuevos.
+- No se tocan componentes React, CSS ni el pipeline de imágenes.
+- No se cambia el modelo (`google/gemini-2.5-flash` sigue igual; es el que ya da mejor coste/latencia).
+
+## Archivos a editar
+
+- `supabase/functions/generate-daily-posts/index.ts` — `SYSTEM_PROMPT`, `userPrompt`, `DAILY_DISTRIBUTION` y bloque de validación previo al `insert`.
