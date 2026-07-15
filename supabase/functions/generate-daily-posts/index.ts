@@ -151,6 +151,20 @@ function sanitizeTitle(raw: string): string {
   return t;
 }
 
+// Recorta meta descriptions a ≤160 chars sin cortar palabras a la mitad.
+// La taxonomía CTR exige meta < 160 para evitar que Google la trunque en la SERP.
+function sanitizeMetaDescription(raw: string): string {
+  const cleaned = stripCompetitorBrands((raw ?? "").trim());
+  if (cleaned.length <= 160) return cleaned;
+  const cutoff = cleaned.slice(0, 158);
+  const lastSpace = cutoff.lastIndexOf(" ");
+  const base = (lastSpace > 120 ? cutoff.slice(0, lastSpace) : cutoff).replace(
+    /[\s,;:.\-–—]+$/,
+    "",
+  );
+  return `${base}…`;
+}
+
 interface RoadmapRow {
   id: number;
   titulo: string;
@@ -683,7 +697,9 @@ Deno.serve(async (req) => {
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
         seo_title: cleanSeoTitle,
-        meta_description: (article.metaDescription as string) ?? "",
+        meta_description: sanitizeMetaDescription(
+          (article.metaDescription as string) ?? "",
+        ),
         tldr: (article.tldr as string) ?? null,
         key_takeaways: article.keyTakeaways ?? [],
         sidebar: article.sidebar ?? null,
