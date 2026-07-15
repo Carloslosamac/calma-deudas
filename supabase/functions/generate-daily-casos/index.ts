@@ -1,6 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
-import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -188,19 +187,6 @@ function inferGenderFromName(name: string): PersonGender {
 const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 // ------- Generación de la foto única del caso -------
-const MAX_WIDTH = 1200;
-const JPEG_QUALITY = 82;
-async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
-  try {
-    const img = await Image.decode(pngBytes);
-    if (img.width > MAX_WIDTH) img.resize(MAX_WIDTH, Image.RESIZE_AUTO);
-    return await img.encodeJPEG(JPEG_QUALITY);
-  } catch (e) {
-    console.error(`optimizeImage failed: ${String(e)}`);
-    return null;
-  }
-}
-
 // Foto ÚNICA por caso: sexo coherente con el nombre y retrato casero en primer
 // plano; el hash diversifica rasgos, edad, entorno y microdetalles.
 async function generateAndUploadCasoHero(
@@ -251,14 +237,11 @@ async function generateAndUploadCasoHero(
       return null;
     }
     const rawBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-    const optimized = await optimizeImage(rawBytes);
-    const isJpeg = optimized !== null;
-    const bytes = optimized ?? rawBytes;
-    const path = `casos/${slug}-retrato-casero-v2.${isJpeg ? "jpg" : "png"}`;
+    const path = `casos/${slug}-retrato-casero-v2.png`;
     const { error: upErr } = await supabase.storage
       .from("blog-images")
-      .upload(path, bytes, {
-        contentType: isJpeg ? "image/jpeg" : "image/png",
+      .upload(path, rawBytes, {
+        contentType: "image/png",
         upsert: true,
         cacheControl: "31536000",
       });

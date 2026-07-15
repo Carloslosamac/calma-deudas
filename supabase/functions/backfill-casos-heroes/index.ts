@@ -1,6 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
-import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -103,16 +102,6 @@ function inferGenderFromName(name: string): PersonGender {
   return first.endsWith("a") ? "mujer" : "hombre";
 }
 
-async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
-  try {
-    const img = await Image.decode(pngBytes);
-    if (img.width > 1200) img.resize(1200, Image.RESIZE_AUTO);
-    return await img.encodeJPEG(82);
-  } catch {
-    return null;
-  }
-}
-
 async function generateHero(slug: string, name: string, location: string): Promise<Uint8Array | null> {
   const h = hashSeed(slug);
   const age = pickBy(AGE_BANDS, h, 0);
@@ -172,11 +161,11 @@ Deno.serve(async (req) => {
     }
   }
 
-  let limit = 5;
+  let limit = 1;
   let force = false;
   try {
     const b = await req.clone().json();
-    if (typeof b?.limit === "number") limit = Math.max(1, Math.min(15, b.limit));
+    if (typeof b?.limit === "number") limit = Math.max(1, Math.min(5, b.limit));
     force = b?.force === true;
   } catch (_e) { /* ignore */ }
 
@@ -201,12 +190,9 @@ Deno.serve(async (req) => {
     if (Date.now() - started > 120_000) break;
     const raw = await generateHero(row.slug as string, row.name as string, row.location as string);
     if (!raw) { failed.push(row.slug as string); continue; }
-    const optimized = await optimizeImage(raw);
-    const isJpeg = optimized !== null;
-    const bytes = optimized ?? raw;
-    const path = `casos/${row.slug}-retrato-casero-v2.${isJpeg ? "jpg" : "png"}`;
+    const path = `casos/${row.slug}-retrato-casero-v2.png`;
     const { error: upErr } = await supabase.storage.from("blog-images").upload(path, bytes, {
-      contentType: isJpeg ? "image/jpeg" : "image/png", upsert: true, cacheControl: "31536000",
+      contentType: "image/png", upsert: true, cacheControl: "31536000",
     });
     if (upErr) { failed.push(row.slug as string); continue; }
     const { data: signed } = await supabase.storage.from("blog-images").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
