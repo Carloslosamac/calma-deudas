@@ -43,6 +43,13 @@ import {
   emptyContract,
 } from "@/lib/contratoPdf";
 import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
+import {
+  triage as computeTriage,
+  type Profile as TriageProfile,
+  type TriageResult,
+  VARIANT_LABEL,
+  MODALITY_LABEL,
+} from "@/lib/seo/triage";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -73,14 +80,18 @@ type GuideFields = {
   mortgagePaid?: number;
   mortgageRemaining?: number;
   housingPayment?: number;
+  isPrimaryResidence?: boolean;
   vehicle: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
   vehiclePayment?: number;
+  wantsToKeepVehicle?: boolean;
   employment?: Employment;
   monthlyIncome?: number;
   monthlyExpenses?: number;
+  profile?: TriageProfile;
+  publicDebtAmount?: number;
 };
 
 type ScriptCard = { emoji: string; title: string; body: string };
