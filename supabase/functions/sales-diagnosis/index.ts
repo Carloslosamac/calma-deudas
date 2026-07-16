@@ -548,6 +548,7 @@ ${caseText}
 
 SERVICIO CONTRATADO: ${t.title}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) : ""}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -587,6 +588,7 @@ function buildContractMessagePrompt(
 DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
 ${buildCaseData(g)}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) : ""}
 
 CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
