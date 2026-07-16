@@ -77,6 +77,7 @@ const pillarGuides: {
   audience: string;
   icon: LucideIcon;
   badge: string;
+  tags: string[];
 }[] = [
   {
     slug: "guia-cancelar-deudas",
@@ -84,6 +85,7 @@ const pillarGuides: {
     audience: "Si no sabes por dónde empezar: LSO, reunificar o reclamar usura.",
     icon: Compass,
     badge: "Hub central",
+    tags: ["LSO", "Reunificar", "Usura"],
   },
   {
     slug: "guia-reunificar-deudas",
@@ -91,6 +93,7 @@ const pillarGuides: {
     audience: "Tienes ingresos y activos, y quieres bajar cuota y total.",
     icon: Repeat,
     badge: "Guía pilar",
+    tags: ["Cuota", "Sin préstamo", "Extrajudicial"],
   },
   {
     slug: "guia-cancelar-microcreditos",
@@ -98,6 +101,7 @@ const pillarGuides: {
     audience: "Varios microcréditos encadenados y cuotas que no bajan.",
     icon: BookOpen,
     badge: "Guía pilar",
+    tags: ["Microcréditos", "Espiral", "LSO"],
   },
   {
     slug: "guia-cancelar-revolving",
@@ -105,6 +109,7 @@ const pillarGuides: {
     audience: "Tu saldo no baja y sospechas que la TAE es usuraria.",
     icon: CreditCard,
     badge: "Guía pilar",
+    tags: ["Revolving", "Usura", "Reclamación"],
   },
 ];
 
@@ -414,32 +419,51 @@ const Blog = () => {
             <div className="grid gap-5 sm:grid-cols-2">
               {pillarGuides.map((guide) => {
                 const Icon = guide.icon;
+                const post = blogPosts.find((p) => p.slug === guide.slug);
                 return (
                   <Link
                     key={guide.slug}
                     to={`/blog/${guide.slug}`}
-                    className="group flex flex-col justify-between gap-6 rounded-3xl border border-accent/30 bg-surface-elevated p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/70 hover:shadow-medium md:p-7"
+                    aria-label={`Leer la guía: ${guide.title}`}
+                    className="group grid overflow-hidden rounded-[1.5rem] border border-border bg-[hsl(160_45%_8%)] shadow-medium transition-shadow hover:shadow-[0_14px_40px_-14px_hsl(145_60%_30%/0.45)] grid-cols-[0.85fr_1.15fr]"
                   >
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
-                          <Icon className="h-5 w-5" strokeWidth={2.2} />
-                        </span>
-                        <span className="rounded-full border border-accent/40 bg-accent-soft/60 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent-deep">
-                          {guide.badge}
-                        </span>
+                    <div className="relative min-h-[220px] overflow-hidden bg-muted">
+                      {post ? (
+                        <img
+                          src={post.heroImage}
+                          alt={post.heroAlt}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        />
+                      ) : null}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[hsl(160_45%_8%)]/25" />
+                    </div>
+                    <div className="flex flex-col justify-center gap-3 p-5 text-background sm:p-6">
+                      <div className="inline-flex w-fit items-center gap-1.5 rounded-full bg-background/10 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-accent">
+                        <Icon className="h-3 w-3" strokeWidth={2.4} />
+                        {guide.badge}
                       </div>
-                      <h3 className="mt-5 font-poppins text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
+                      <h3 className="font-poppins text-base font-semibold leading-snug tracking-tight md:text-lg">
                         {guide.title}
                       </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      <p className="text-xs leading-relaxed text-background/70 md:text-sm">
                         {guide.audience}
                       </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {guide.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full bg-background/12 px-2.5 py-1 text-[0.65rem] font-medium text-background/85"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="mt-1 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-accent transition-colors group-hover:text-background">
+                        Leer la guía
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-deep transition-colors group-hover:text-foreground">
-                      Leer la guía
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </span>
                   </Link>
                 );
               })}
