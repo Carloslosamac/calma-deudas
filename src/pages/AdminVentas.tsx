@@ -1364,6 +1364,43 @@ const AdminVentas = () => {
   const affordablePayment =
     paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
 
+  // Triaje LSO en vivo: el resultado alimenta el bloque "Encaje LSO" de la fase
+  // Solución y viaja al edge function como `triageExtra` (variant/modality/
+  // cuota estimada/warnings) para que la IA no vuelva a calcularlos.
+  const triageResult: TriageResult = useMemo(() => {
+    const derivedEntities = Array.from(
+      new Set(guide.debts.map((d) => d.type).filter(Boolean) as string[]),
+    );
+    return computeTriage({
+      debtAmount: debtsTotal > 0 ? debtsTotal : (guide.debtAmount ?? 0),
+      isDefault: guide.debts.some((d) => d.isDefault) || !!guide.isDefault,
+      entities: derivedEntities.length ? derivedEntities : (guide.entities ?? []),
+      profile: guide.profile,
+      publicDebtAmount: guide.publicDebtAmount,
+      monthlyIncome: guide.monthlyIncome,
+      monthlyExpenses: guide.monthlyExpenses,
+      housing: guide.housing || "",
+      housingValue: guide.housingValue,
+      mortgagePaid: guide.mortgagePaid,
+      mortgageRemaining: guide.mortgageRemaining,
+      isPrimaryResidence: guide.isPrimaryResidence,
+      vehicle: guide.vehicle || "",
+      vehicleValue: guide.vehicleValue,
+      vehiclePaid: guide.vehiclePaid,
+      vehicleRemaining: guide.vehicleRemaining,
+      wantsToKeepVehicle: guide.wantsToKeepVehicle,
+    });
+  }, [guide, debtsTotal]);
+  const triageExtra = {
+    variant: triageResult.variant,
+    modality: triageResult.modality,
+    estimatedInstallment: triageResult.estimatedInstallment,
+    warnings: triageResult.warnings,
+  };
+  const hasDebtsPublicHint = guide.debts.some(
+    (d) => d.type === "hacienda",
+  );
+
   const runGeneration = async (
     nextStep: number,
     target: "diagnosis" | "solution" = "diagnosis",
