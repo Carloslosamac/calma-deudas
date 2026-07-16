@@ -635,6 +635,32 @@ Deno.serve(async (req) => {
     const phase = typeof body.phase === "string" ? body.phase : "";
     const contract: ContractInput =
       body.contract && typeof body.contract === "object" ? body.contract : {};
+    const triageExtra: TriageExtra =
+      body.triageExtra && typeof body.triageExtra === "object"
+        ? {
+            variant:
+              body.triageExtra.variant === "individual" ||
+              body.triageExtra.variant === "conjunta" ||
+              body.triageExtra.variant === "autonomo"
+                ? body.triageExtra.variant
+                : undefined,
+            modality:
+              body.triageExtra.modality === "sin_masa" ||
+              body.triageExtra.modality === "liquidacion" ||
+              body.triageExtra.modality === "plan_pagos"
+                ? body.triageExtra.modality
+                : undefined,
+            estimatedInstallment:
+              typeof body.triageExtra.estimatedInstallment === "number"
+                ? body.triageExtra.estimatedInstallment
+                : undefined,
+            warnings: Array.isArray(body.triageExtra.warnings)
+              ? body.triageExtra.warnings
+                  .filter((w: unknown) => typeof w === "string")
+                  .slice(0, 6)
+              : [],
+          }
+        : {};
     const currentStep = (() => {
       const n = Number(body.currentStep);
       return Number.isFinite(n) && n >= 0 && n <= 4 ? Math.round(n) : 1;
@@ -650,14 +676,14 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract, triageExtra)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract, triageExtra)
           : phase === "reinforce"
-            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract)
+            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract, triageExtra)
             : phase === "solution"
-              ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution")
-              : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis");
+              ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution", triageExtra)
+              : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis", triageExtra);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
