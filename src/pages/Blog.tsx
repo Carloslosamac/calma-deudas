@@ -71,6 +71,46 @@ const featuredArticle = {
   imageAlt: "Equipo legal revisando documentación para cancelar deudas",
 };
 
+const pillarGuides: {
+  slug: string;
+  title: string;
+  audience: string;
+  icon: LucideIcon;
+  badge: string;
+}[] = [
+  {
+    slug: "guia-cancelar-deudas",
+    title: "Cómo cancelar deudas en 2026: elige la vía correcta",
+    audience: "Si no sabes por dónde empezar: LSO, reunificar o reclamar usura.",
+    icon: Compass,
+    badge: "Hub central",
+  },
+  {
+    slug: "guia-reunificar-deudas",
+    title: "Reunificar deudas sin préstamo nuevo",
+    audience: "Tienes ingresos y activos, y quieres bajar cuota y total.",
+    icon: Repeat,
+    badge: "Guía pilar",
+  },
+  {
+    slug: "guia-cancelar-microcreditos",
+    title: "Cancelar microcréditos: cómo salir de la espiral",
+    audience: "Varios microcréditos encadenados y cuotas que no bajan.",
+    icon: BookOpen,
+    badge: "Guía pilar",
+  },
+  {
+    slug: "guia-cancelar-revolving",
+    title: "Cancelar tarjetas revolving y recuperar dinero",
+    audience: "Tu saldo no baja y sospechas que la TAE es usuraria.",
+    icon: CreditCard,
+    badge: "Guía pilar",
+  },
+];
+
+const PILLAR_KEY = "Guías";
+const pillarSlugSet = new Set([featuredArticle.slug, ...pillarGuides.map((g) => g.slug)]);
+
 type BlogArticle = {
   slug: string;
   category: string;
