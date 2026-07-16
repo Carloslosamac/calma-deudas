@@ -1,114 +1,64 @@
+## Problema
 
-## Contexto
+En la captura, el guion de Solución dice "aplicamos la LSO para **cancelar legalmente los 18.000 €**" cuando el triaje ha resuelto **Plan de pagos**. En plan de pagos NO se cancela todo de golpe: se paga una cuota durante 3–5 años y al final se exonera el resto. El guion suena igual para cualquier modalidad porque el prompt no se ramifica por `modality` ni por `variant`.
 
-`/admin/ventas` guía al comercial por 6 fases. Hoy la fase **Solución** (y todo lo que la sigue: Contrato, Firma) se apoya en un `triage()` binario (`lso | reunificar | reclamacion`) duplicado en `src/lib/seo/triage.ts` y en `supabase/functions/sales-diagnosis/index.ts`. No refleja el flowchart real de la LSO. Vamos a rediseñar Cualificación + triaje + Solución con criterio de **mínima fricción para el comercial** y **máximo ahorro de tokens** en la IA.
+## Causa raíz en `supabase/functions/sales-diagnosis/index.ts`
 
-## Principios de este rediseño
+- `SOLUTION_BRIEF.lso` y `SOLUTION_BENEFITS.lso` están redactados como "cancelar la deuda y empezar de cero" / "los X € quedan CANCELADOS por sentencia" — válido solo para **sin masa**. Se aplica igual a `liquidacion` y `plan_pagos`.
+- `buildTriageExtraBlock` sí añade la cuota estimada y un aviso débil ("no prometas cancelación total inmediata"), pero queda dominado por el BRIEF/BENEFITS anteriores.
+- No hay diferenciación de `variant` (individual vs conjunta/gananciales vs autónomo — concurso consecutivo, art. 489 TRLC, implicaciones distintas).
 
-- **Cero preguntas redundantes.** Cada campo nuevo se pregunta solo si su respuesta cambia el resultado del triaje.
-- **Cortocircuitos tempranos.** Si en cualquier momento el triaje ya puede decidir (administrador → derivar, deuda <7.000€ sin usura → no insolvente), se salta el resto de la Cualificación y se marca como "derivar" o "descartar", sin invocar la IA.
-- **Un solo prompt por fase.** El edge function `sales-diagnosis` recibe ya calculados `variant`, `modality`, `estimatedInstallment` y `warnings`. La IA no vuelve a razonarlos — solo redacta. Eso reduce ~40% el input token.
-- **Reutilizar UI existente.** No añadimos cards nuevas: los campos nuevos se acoplan a los screens actuales de Cualificación.
+## Cambio (solo edge function, cero cambios de UI ni de datos)
 
-## Nuevos campos de Cualificación (mínimos)
+Reescribir el bloque de solución para que se **componga por modalidad + variante**, y hacer que el prompt lo trate como fuente de verdad por encima de cualquier plantilla genérica.
 
-Se añaden a `GuideFields` en `AdminVentas.tsx`:
+### 1. `SOLUTION_BRIEF` deja de ser un `Record<solution, string>` y pasa a componerse
 
-| Campo | Cuándo se pregunta | Motivo |
-|---|---|---|
-| `profile` (`particular_soltero` · `gananciales` · `autonomo` · `administrador_sociedad`) | Screen nuevo al inicio de Cualificación, sustituye a la pantalla `empleo` como primera de cualificación económica (el `employment` fino se mantiene solo si `profile ≠ administrador`) | Cambia umbral (1.700€ vs 3.000€) y ruta LSO |
-| `publicDebtAmount` | Solo si el comercial marca Hacienda o Seguridad Social en `debts` | Warning "esa parte no se cancela" cuando >10.000€ con un mismo organismo |
-| `isPrimaryResidence` (bool) | Se añade como toggle dentro del screen `vivienda` cuando `housing = hipoteca` | Habilita plan de pagos vs sin masa |
-| `wantsToKeepVehicle` (bool) | Se añade como toggle dentro de `vehiculo` cuando `vehicle = financiado` y hay equity (`vehicleValue > vehicleRemaining`) | Plan de pagos vs liquidación |
+Para `solution = "lso"`, construir el brief a partir de `modality`:
 
-**No añadimos pantalla nueva** para "quiere retener" ni para "vivienda habitual": son toggles inline en los screens que ya existen, así el flujo mantiene ≤10 pasos.
+- **sin_masa** → "LSO modalidad SIN MASA: no hay bienes de valor que liquidar, el proceso es rápido y termina con la EXONERACIÓN de la totalidad de la deuda (los X €). Es la modalidad en la que sí cabe decir que 'se cancela toda la deuda'."
+- **liquidacion** → "LSO modalidad CON LIQUIDACIÓN: se liquida el/los bien(es) con valor (vehículo financiado con equity, etc.) para pagar a acreedores, y lo que quede sin cubrir se EXONERA por sentencia. NO digas 'te cancelamos todos los X €': parte se cubre con la liquidación del bien y el resto se exonera."
+- **plan_pagos** → "LSO modalidad PLAN DE PAGOS: durante 3 a 5 años pagas una cuota mensual asumible (ingresos − gastos, estimada en Y €/mes) y al final del plan se EXONERA el resto de la deuda. PROHIBIDO decir 'cancelamos los X € ya' o 'sentencia que elimina la deuda de golpe': es un plan de pagos judicial con exoneración diferida al cumplirlo."
 
-**Screen `empleo` actual**: se refunde con el nuevo `perfil`. `profile` sustituye a `employment` para el triaje; `employment` se conserva solo si `profile` es particular/autónomo, para el bloque de embargabilidad que ya usa el edge function.
+Para `reunificar` y `reclamacion` se conservan tal cual (ya son correctos).
 
-## Motor de triaje (cliente + edge, idénticos)
+### 2. `SOLUTION_BENEFITS.lso` también se ramifica por modalidad
 
-Reescritura de `src/lib/seo/triage.ts` y del bloque `triage()` de `supabase/functions/sales-diagnosis/index.ts` con:
+- **sin_masa**: los beneficios actuales (cancelación íntegra por sentencia, fin de embargos, salida ASNEF, corte de llamadas de [entidades]).
+- **liquidacion**: enfatizar (a) se paga con lo que valga el bien liquidado, (b) el resto se exonera, (c) se paran intereses/costas mientras se tramita.
+- **plan_pagos**: enfatizar (a) cuota previsible de Y €/mes durante 3–5 años (mucho menor que lo que hoy pagas), (b) al cumplir el plan se exonera el resto, (c) durante el plan se paran embargos y crecen 0 intereses de demora, (d) sales de ASNEF al finalizar.
 
-```ts
-type Solution = "lso" | "reunificar" | "reclamacion" | "derivar" | "no_insolvente";
-type Variant  = "individual" | "conjunta" | "autonomo";
-type Modality = "sin_masa" | "liquidacion" | "plan_pagos";
-interface TriageResult {
-  solution: Solution;
-  variant?: Variant;
-  modality?: Modality;
-  estimatedInstallment?: number;
-  warnings: string[];
-  title: string;
-  description: string;
-  highlights: string[];
-}
-```
+### 3. Modulación por `variant`
 
-Árbol (mismo orden que el flowchart, con cortos):
+Añadir una línea al final del brief:
+- **individual** → sin coletilla adicional.
+- **conjunta** → "Concurso conjunto de ambos cónyuges en régimen de gananciales: umbral y viabilidad calculados sobre ingresos y gastos del hogar."
+- **autonomo** → "Concurso consecutivo para autónomo: incluye deudas de la actividad; ver excepciones de deuda pública si aplican."
 
-```text
-1. administrador_sociedad          → derivar (STOP: no se genera resto de Cualificación)
-2. deudaTotal <7.000€:
-     solvente + usura              → reclamacion
-     resto                         → no_insolvente
-3. variant = autonomo | conjunta | individual  (por profile)
-   umbralIngresos = 3.000€ si conjunta, else 1.700€
-4. warning "deuda pública no cancelable" si publicDebtAmount > 10.000€
-5. ingresos ≥ umbral:
-     ratio gastos/ingresos >75%    → plan_pagos
-     50–75%                        → plan_pagos + warning zona gris
-     <50%                          → no_insolvente
-   ingresos < umbral: modalidad por activos (paso 6)
-6. hipoteca con equity + vivienda habitual → plan_pagos
-   vehículo financiado con equity:
-     wantsToKeep = true            → plan_pagos
-     wantsToKeep = false           → liquidacion
-   resto                           → sin_masa
-7. Override marca: si insolvente + vivienda en propiedad (o coche valor ≥5.000€ retenido) → reunificar
-8. estimatedInstallment = plan_pagos ? max(0, ingresos − gastos) : undefined
-```
+### 4. Reglas duras que se inyectan en el prompt cuando `solution = lso`
 
-Se mantiene la firma actual (`solution`, `title`) para no romper el resto del edge function ni la persistencia; los campos nuevos son aditivos.
+Añadir un bloque `LSO_HARD_RULES` (mismo texto en `buildPrompt`, `buildSigningPrompt`, `buildContractMessagePrompt`, `buildReinforcePrompt`) con:
+- Si `modality = plan_pagos`: PROHIBIDO usar "cancelamos la deuda", "eliminamos los X €", "sentencia que borra la deuda". Obligatorio hablar de "cuota de Y €/mes durante 3–5 años y exoneración del resto al final".
+- Si `modality = liquidacion`: PROHIBIDO decir "cancelamos todos los X €". Obligatorio explicar que parte se cubre con la liquidación del bien y el resto se exonera.
+- Si `modality = sin_masa`: sí se puede hablar de cancelación íntegra.
+- La cuota estimada solo se cita si `modality = plan_pagos` y `estimatedInstallment` está definido.
 
-## Fase Solución (UI)
+### 5. Recolocar la jerarquía en el prompt
 
-Antes del bloque de tarjetas de la IA, insertar un único bloque compacto `<TriageSummary>` (no una card nueva; va como primera "screen" del step 3):
+Hoy `SOLUTION_BRIEF` y `SOLUTION_BENEFITS` se imprimen ANTES de `buildTriageExtraBlock`, por lo que ganan por posición. Cambiar el orden: primero `ENCAJE LSO YA RESUELTO` + `LSO_HARD_RULES`, luego el brief/benefits **ya modulados**. Sin esto, la IA sigue arrastrando la plantilla vieja.
 
-- Línea 1: `Individual · Plan de pagos` (variant · modality humanizados).
-- Línea 2 (si `plan_pagos`): `Cuota estimada: 320 €/mes · 3–5 años`.
-- Línea 3 (si `warnings.length`): chips.
-- Si `solution = "derivar"`: mensaje único "Derivar a abogado concursal", oculta el resto del guion y sustituye los botones de Contrato/Firma por `Marcar derivado`.
+## Archivos que se tocan
 
-Este bloque también se muestra minimizado en el header sticky (`STEPS[step]`), para que el comercial vea el encaje sin abrir la card.
+- `supabase/functions/sales-diagnosis/index.ts` — nueva composición de `SOLUTION_BRIEF` / `SOLUTION_BENEFITS` por `modality`+`variant`, `LSO_HARD_RULES`, reordenado de bloques en los 4 prompts.
 
-## Edge function `sales-diagnosis`
+No se toca:
+- `src/lib/seo/triage.ts` (ya devuelve `modality`/`variant`/`estimatedInstallment` bien).
+- `AdminVentas.tsx` (ya envía `triageExtra` al edge).
+- UI, datos, esquema, Zoho/GHL.
 
-- Recibe `variant`, `modality`, `estimatedInstallment`, `warnings` desde el cliente y **no vuelve a calcularlos** (el triaje del edge queda solo como validación defensiva).
-- El prompt de `solution` pasa a ser una plantilla condensada de ~50% de longitud actual:
-  - `SOLUTION_BRIEF` se compone en runtime con los campos ya resueltos (`"${variant} · ${modality}. Cuota estimada X €/mes. Warnings: …"`).
-  - Se eliminan del prompt los razonamientos redundantes ("si no hay bienes…", "si es autónomo…") — ya vienen resueltos.
-  - Bloqueos duros añadidos: prohibido prometer "cancelación total" cuando `modality = plan_pagos`; obligatorio mencionar la parte de deuda pública si aparece en warnings.
-- `phase = "derivar"` (nuevo): devuelve un guion breve de derivación sin honorarios. Al detectar `solution = "derivar"` el cliente ni siquiera llama a la IA para Contrato/Firma → cero coste.
+## Métrica de éxito
 
-## Persistencia
-
-Sin migración: los campos nuevos entran dentro de `guide_fields` (JSONB) y `triage_extra` se guarda anexo en el mismo JSONB (`{ variant, modality, estimatedInstallment, warnings }`). `triage_solution` y `triage_title` siguen igual.
-
-## Alcance de cambios
-
-Archivos que se tocan:
-- `src/lib/seo/triage.ts` — reescritura.
-- `src/pages/AdminVentas.tsx` — nuevos campos en `GuideFields`, screen `perfil`, toggles inline en `vivienda`/`vehiculo`, bloque `TriageSummary` en Solución, cortocircuito para `derivar`/`no_insolvente`, `loadTestCase` ampliado.
-- `supabase/functions/sales-diagnosis/index.ts` — recibir `variant/modality/warnings/estimatedInstallment`, prompt condensado, fase `derivar`.
-
-No se tocan:
-- `FormSection.tsx` ni `/gracias` (el cliente público seguirá con el mismo triaje al no aportarle los nuevos campos; caerá al fallback existente).
-- Zoho / GHL / esquema BD.
-- Fases Presentación y Cualificación previas al paso "perfil" (guiones existentes se conservan).
-
-## Métricas de éxito
-
-- Pasos de Cualificación: hoy 9, tras el cambio 9 (misma cantidad; se sustituye `empleo` por `perfil` y se añaden toggles inline).
-- Reducción del prompt de `solution` ≈40% en input tokens.
-- Casos `administrador_sociedad` y `no_insolvente` no invocan IA (ahorro completo).
+- Caso del pantallazo (Individual · Plan de pagos, 18.000 €): el guion cita cuota mensual (Y €/mes) durante 3–5 años y exoneración diferida, **no** "cancelar legalmente 18.000 €".
+- Casos con modalidad `sin_masa` sí pueden decir "cancelación íntegra".
+- Casos con `liquidacion` explican liquidación del bien + exoneración del resto.
+- Sin coste adicional de tokens: los mismos ~3 párrafos, solo condicionados por modalidad.
