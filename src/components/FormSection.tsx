@@ -144,6 +144,8 @@ const FormSection = () => {
 
   const onSubmit = async (contact: ContactValues) => {
     setSubmitting(true);
+    let ok = false;
+    let errDetails = "";
     try {
       const utms = getUtms();
       const payload = {
@@ -169,14 +171,33 @@ const FormSection = () => {
         utm_content: utms.utm_content ?? null,
         page: getConversionSlug(),
       };
-      const { error } = await supabase.functions.invoke("zoho-lead", { body: payload });
-      if (error) console.error("zoho-lead error:", error);
+      const { data: resp, error } = await supabase.functions.invoke("zoho-lead", { body: payload });
+      if (error) {
+        // Extraemos el detalle real (la SDK oculta el body detrás de FunctionsHttpError).
+        errDetails = error.message ?? "Error de red";
+        try {
+          const ctx = (error as { context?: Response }).context;
+          if (ctx && typeof ctx.text === "function") {
+            errDetails = (await ctx.text()) || errDetails;
+          }
+        } catch {
+          /* noop */
+        }
+        console.error("zoho-lead error:", errDetails);
+      } else {
+        // La función ahora responde 200 tanto si Zoho fue bien como si guardó la
+        // submission para reintento. En ambos casos el lead está persistido.
+        ok = resp?.submissionId != null || resp?.success === true;
+        if (!ok) errDetails = resp?.error ?? "Respuesta inesperada del servidor";
+      }
     } catch (e) {
-      // No bloqueamos al usuario: igualmente le mostramos el diagnóstico.
       console.error(e);
+      errDetails = e instanceof Error ? e.message : String(e);
     } finally {
       setSubmitting(false);
-      // Redirigimos a la página de gracias con el diagnóstico orientativo.
+    }
+
+    if (ok) {
       navigate("/gracias", {
         state: {
           result,
@@ -184,6 +205,13 @@ const FormSection = () => {
           debtAmount: data.debtAmount,
           entities: data.entities,
         },
+      });
+    } else {
+      toast({
+        title: "No hemos podido registrar tu caso",
+        description:
+          "Ha fallado el envío. Llámanos al 900 909 990 o vuelve a intentarlo en unos minutos.",
+        variant: "destructive",
       });
     }
   };
