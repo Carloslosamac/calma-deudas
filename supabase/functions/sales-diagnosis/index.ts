@@ -797,13 +797,41 @@ Deno.serve(async (req) => {
     }
 
     const aiData = await aiRes.json();
-    const content = aiData?.choices?.[0]?.message?.content ?? "{}";
+    const content: string = aiData?.choices?.[0]?.message?.content ?? "{}";
+    const extractFirstJsonObject = (raw: string): string | null => {
+      const cleaned = raw.replace(/```json\s*/gi, "").replace(/```/g, "");
+      const start = cleaned.indexOf("{");
+      if (start === -1) return null;
+      let depth = 0;
+      let inStr = false;
+      let esc = false;
+      for (let i = start; i < cleaned.length; i++) {
+        const ch = cleaned[i];
+        if (inStr) {
+          if (esc) esc = false;
+          else if (ch === "\\") esc = true;
+          else if (ch === '"') inStr = false;
+          continue;
+        }
+        if (ch === '"') inStr = true;
+        else if (ch === "{") depth++;
+        else if (ch === "}") {
+          depth--;
+          if (depth === 0) return cleaned.slice(start, i + 1);
+        }
+      }
+      return null;
+    };
     let parsed: Record<string, unknown> = {};
     try {
       parsed = JSON.parse(content);
     } catch (_e) {
-      const match = content.match(/\{[\s\S]*\}/);
-      parsed = match ? JSON.parse(match[0]) : {};
+      const obj = extractFirstJsonObject(content);
+      try {
+        parsed = obj ? JSON.parse(obj) : {};
+      } catch (_e2) {
+        parsed = {};
+      }
     }
 
     const asCards = (v: unknown) =>
