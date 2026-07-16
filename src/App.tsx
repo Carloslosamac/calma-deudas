@@ -39,6 +39,8 @@ const AdminIndexacion = lazy(() => import("./pages/AdminIndexacion"));
 const AdminVentas = lazy(() => import("./pages/AdminVentas"));
 const AdminLeads = lazy(() => import("./pages/AdminLeads"));
 const AdminWebLeads = lazy(() => import("./pages/AdminWebLeads"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -61,12 +63,19 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/admin/auth" element={<AdminAuth />} />
-          <Route path="/admin" element={<AdminQueue />} />
-          <Route path="/admin/health" element={<AdminHealth />} />
-          <Route path="/admin/indexacion" element={<AdminIndexacion />} />
-          <Route path="/admin/ventas" element={<AdminVentas />} />
-          <Route path="/admin/ventas/leads" element={<AdminLeads />} />
-          <Route path="/admin/web-leads" element={<AdminWebLeads />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/ventas" element={<AdminVentas />} />
+            <Route path="/admin/ventas/leads" element={<AdminLeads />} />
+            <Route path="/admin/leads-web" element={<AdminWebLeads />} />
+            <Route path="/admin/contenido/cola" element={<AdminQueue />} />
+            <Route path="/admin/contenido/indexacion" element={<AdminIndexacion />} />
+            <Route path="/admin/contenido/salud" element={<AdminHealth />} />
+          </Route>
+          {/* Redirects legacy → nueva estructura */}
+          <Route path="/admin/web-leads" element={<Navigate to="/admin/leads-web" replace />} />
+          <Route path="/admin/health" element={<Navigate to="/admin/contenido/salud" replace />} />
+          <Route path="/admin/indexacion" element={<Navigate to="/admin/contenido/indexacion" replace />} />
           <Route path="/casos-de-exito" element={<CasosExito />} />
           <Route path="/casos-de-exito/:slug" element={<CasoExitoPost />} />
           <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />

@@ -3328,12 +3328,6 @@ const AdminVentas = () => {
                     <Button variant="outline" size="sm" onClick={resetForm}>
                       <Plus className="mr-1 h-4 w-4" /> Nuevo
                     </Button>
-                    <Link to="/admin/ventas/leads">
-                      <Button variant="ghost" size="sm">Llamadas</Button>
-                    </Link>
-                    <Link to="/admin">
-                      <Button variant="ghost" size="sm">Panel</Button>
-                    </Link>
                   </div>
                 </div>
                 <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
