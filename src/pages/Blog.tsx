@@ -77,6 +77,7 @@ const pillarGuides: {
   audience: string;
   icon: LucideIcon;
   badge: string;
+  tags: string[];
 }[] = [
   {
     slug: "guia-cancelar-deudas",
@@ -84,6 +85,7 @@ const pillarGuides: {
     audience: "Si no sabes por dónde empezar: LSO, reunificar o reclamar usura.",
     icon: Compass,
     badge: "Hub central",
+    tags: ["LSO", "Reunificar", "Usura"],
   },
   {
     slug: "guia-reunificar-deudas",
@@ -91,6 +93,7 @@ const pillarGuides: {
     audience: "Tienes ingresos y activos, y quieres bajar cuota y total.",
     icon: Repeat,
     badge: "Guía pilar",
+    tags: ["Cuota", "Sin préstamo", "Extrajudicial"],
   },
   {
     slug: "guia-cancelar-microcreditos",
@@ -98,6 +101,7 @@ const pillarGuides: {
     audience: "Varios microcréditos encadenados y cuotas que no bajan.",
     icon: BookOpen,
     badge: "Guía pilar",
+    tags: ["Microcréditos", "Espiral", "LSO"],
   },
   {
     slug: "guia-cancelar-revolving",
@@ -105,6 +109,7 @@ const pillarGuides: {
     audience: "Tu saldo no baja y sospechas que la TAE es usuraria.",
     icon: CreditCard,
     badge: "Guía pilar",
+    tags: ["Revolving", "Usura", "Reclamación"],
   },
 ];
 
