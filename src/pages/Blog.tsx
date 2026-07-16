@@ -22,6 +22,10 @@ import {
   ShieldCheck,
   Star,
   Wallet,
+  BookOpen,
+  Compass,
+  Repeat,
+  CreditCard,
   type LucideIcon,
 } from "lucide-react";
 import Header from "@/components/Header";
@@ -66,6 +70,46 @@ const featuredArticle = {
   image: stepStrategy,
   imageAlt: "Equipo legal revisando documentación para cancelar deudas",
 };
+
+const pillarGuides: {
+  slug: string;
+  title: string;
+  audience: string;
+  icon: LucideIcon;
+  badge: string;
+}[] = [
+  {
+    slug: "guia-cancelar-deudas",
+    title: "Cómo cancelar deudas en 2026: elige la vía correcta",
+    audience: "Si no sabes por dónde empezar: LSO, reunificar o reclamar usura.",
+    icon: Compass,
+    badge: "Hub central",
+  },
+  {
+    slug: "guia-reunificar-deudas",
+    title: "Reunificar deudas sin préstamo nuevo",
+    audience: "Tienes ingresos y activos, y quieres bajar cuota y total.",
+    icon: Repeat,
+    badge: "Guía pilar",
+  },
+  {
+    slug: "guia-cancelar-microcreditos",
+    title: "Cancelar microcréditos: cómo salir de la espiral",
+    audience: "Varios microcréditos encadenados y cuotas que no bajan.",
+    icon: BookOpen,
+    badge: "Guía pilar",
+  },
+  {
+    slug: "guia-cancelar-revolving",
+    title: "Cancelar tarjetas revolving y recuperar dinero",
+    audience: "Tu saldo no baja y sospechas que la TAE es usuraria.",
+    icon: CreditCard,
+    badge: "Guía pilar",
+  },
+];
+
+const PILLAR_KEY = "Guías";
+const pillarSlugSet = new Set([featuredArticle.slug, ...pillarGuides.map((g) => g.slug)]);
 
 type BlogArticle = {
   slug: string;
@@ -216,6 +260,7 @@ const Blog = () => {
   const categories = useMemo<{ name: string; icon: LucideIcon }[]>(
     () => [
       { name: "Todos", icon: LayoutGrid },
+      { name: PILLAR_KEY, icon: BookOpen },
       ...Array.from(new Set(articles.map((a) => a.category))).map((name) => ({
         name,
         icon: categoryIcons[name] ?? Star,
@@ -229,7 +274,10 @@ const Blog = () => {
 
     return articles.filter((article) => {
       const matchesCategory =
-        activeCategory === "Todos" || article.category === activeCategory;
+        activeCategory === "Todos" ||
+        (activeCategory === PILLAR_KEY
+          ? pillarSlugSet.has(article.slug)
+          : article.category === activeCategory);
       const searchable = normalize(
         `${article.title} ${article.excerpt} ${article.category}`
       );
@@ -344,6 +392,59 @@ const Blog = () => {
               </span>
             </div>
           </Link>
+
+          <section aria-labelledby="pillar-guides" className="mx-auto mt-14 max-w-5xl">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-deep">
+                  Contenido pilar
+                </p>
+                <h2 id="pillar-guides" className="mt-2 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                  Guías pilar de Calma
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveCategory(PILLAR_KEY)}
+                className="hidden shrink-0 text-sm font-semibold text-accent-deep underline-offset-4 hover:underline md:inline-flex"
+              >
+                Ver todas las guías
+              </button>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {pillarGuides.map((guide) => {
+                const Icon = guide.icon;
+                return (
+                  <Link
+                    key={guide.slug}
+                    to={`/blog/${guide.slug}`}
+                    className="group flex flex-col justify-between gap-6 rounded-3xl border border-accent/30 bg-surface-elevated p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:border-accent/70 hover:shadow-medium md:p-7"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-deep">
+                          <Icon className="h-5 w-5" strokeWidth={2.2} />
+                        </span>
+                        <span className="rounded-full border border-accent/40 bg-accent-soft/60 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent-deep">
+                          {guide.badge}
+                        </span>
+                      </div>
+                      <h3 className="mt-5 font-poppins text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
+                        {guide.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {guide.audience}
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-deep transition-colors group-hover:text-foreground">
+                      Leer la guía
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
 
           <div className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-3">
             {categories.map(({ name, icon: Icon }) => {
