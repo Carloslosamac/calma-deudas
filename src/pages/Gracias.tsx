@@ -8,6 +8,8 @@ import Seo from "@/components/seo/Seo";
 import { Button } from "@/components/ui/button";
 import type { TriageResult } from "@/lib/seo/triage";
 import BenefitSimulator from "@/components/BenefitSimulator";
+import { supabase } from "@/integrations/supabase/client";
+import { getUtms } from "@/lib/tracking";
 
 type GraciasState = {
   result?: TriageResult;
@@ -26,6 +28,25 @@ const Gracias = () => {
   // analytics con conversiones falsas.
   useEffect(() => {
     if (!name && !result) {
+      // Registramos la visita huérfana antes de redirigir para poder auditar
+      // qué % de los hits a /gracias son bots/refresh/bookmarks vs fallos reales.
+      const utms = getUtms();
+      supabase
+        .from("orphan_gracias_hits")
+        .insert({
+          referrer: typeof document !== "undefined" ? document.referrer || null : null,
+          user_agent:
+            typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 500) : null,
+          utm_source: utms.utm_source ?? null,
+          utm_medium: utms.utm_medium ?? null,
+          utm_campaign: utms.utm_campaign ?? null,
+          utm_term: utms.utm_term ?? null,
+          utm_content: utms.utm_content ?? null,
+          page: typeof window !== "undefined" ? window.location.pathname : null,
+        })
+        .then(({ error }) => {
+          if (error) console.error("orphan_gracias_hits insert error:", error);
+        });
       navigate("/", { replace: true });
     }
   }, [name, result, navigate]);

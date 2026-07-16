@@ -15,6 +15,7 @@ import {
   Clock,
   Phone,
   Mail,
+  Ghost,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
@@ -34,6 +35,16 @@ type WebSubmission = {
   zoho_status: string;
   zoho_error: string | null;
   retry_count: number;
+};
+
+type OrphanHit = {
+  id: string;
+  created_at: string;
+  referrer: string | null;
+  user_agent: string | null;
+  utm_source: string | null;
+  utm_campaign: string | null;
+  page: string | null;
 };
 
 const eur = (n: number | null) =>
@@ -100,6 +111,50 @@ const AdminWebLeads = () => {
     enabled: !!session && isAdmin,
   });
 
+  const { data: orphans = [] } = useQuery({
+    queryKey: ["orphan-gracias-hits"],
+    queryFn: async () => {
+      const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const { data, error } = await supabase
+        .from("orphan_gracias_hits")
+        .select("id, created_at, referrer, user_agent, utm_source, utm_campaign, page")
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(200);
+      if (error) throw error;
+      return (data ?? []) as OrphanHit[];
+    },
+    enabled: !!session && isAdmin,
+  });
+
+  const [showOrphans, setShowOrphans] = useState(false);
+  const [retryingAll, setRetryingAll] = useState(false);
+
+  const retryAllPending = async () => {
+    const pendings = rows.filter((r) => r.zoho_status !== "ok");
+    if (pendings.length === 0) {
+      toast.info("No hay envíos pendientes o con error para reintentar.");
+      return;
+    }
+    setRetryingAll(true);
+    let okCount = 0;
+    let failCount = 0;
+    for (const r of pendings) {
+      try {
+        const { data } = await supabase.functions.invoke("zoho-lead", {
+          body: { submissionId: r.id },
+        });
+        if (data?.success) okCount++;
+        else failCount++;
+      } catch {
+        failCount++;
+      }
+    }
+    setRetryingAll(false);
+    refetch();
+    toast.success(`Reintentos: ${okCount} ok, ${failCount} fallidos.`);
+  };
+
   const filtered = filter === "todos" ? rows : rows.filter((r) => r.zoho_status === filter);
 
   const retry = async (id: string) => {
@@ -157,9 +212,22 @@ const AdminWebLeads = () => {
           >
             <ArrowLeft className="h-4 w-4" /> Paquetes de llamadas
           </Link>
-          <Button variant="outline" size="sm" onClick={() => refetch()}>
-            <RefreshCw className="mr-2 h-4 w-4" /> Refrescar
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={retryingAll}
+              onClick={retryAllPending}
+            >
+              <RefreshCw
+                className={`mr-2 h-4 w-4 ${retryingAll ? "animate-spin" : ""}`}
+              />
+              Reintentar todos
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => refetch()}>
+              <RefreshCw className="mr-2 h-4 w-4" /> Refrescar
+            </Button>
+          </div>
         </div>
 
         <div className="mb-6">
@@ -170,6 +238,48 @@ const AdminWebLeads = () => {
             Todos los envíos del formulario, incluso si Zoho falló.
           </p>
         </div>
+
+        <Card className="mb-4 p-4">
+          <button
+            type="button"
+            onClick={() => setShowOrphans((v) => !v)}
+            className="flex w-full items-center justify-between text-left"
+          >
+            <div className="flex items-center gap-2">
+              <Ghost className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium">
+                Aterrizajes huérfanos en /gracias (7 días):{" "}
+                <span className="text-foreground">{orphans.length}</span>
+              </span>
+            </div>
+            <span className="text-xs text-muted-foreground">
+              {showOrphans ? "Ocultar" : "Ver detalle"}
+            </span>
+          </button>
+          {showOrphans && (
+            <div className="mt-3 max-h-64 space-y-2 overflow-y-auto border-t border-border pt-3">
+              {orphans.length === 0 && (
+                <p className="text-xs text-muted-foreground">Ninguno registrado.</p>
+              )}
+              {orphans.map((o) => (
+                <div key={o.id} className="rounded-md border border-border/50 p-2 text-[11px]">
+                  <div className="flex justify-between text-muted-foreground">
+                    <span>{fmt(o.created_at)}</span>
+                    {o.utm_source && <span>utm_source: {o.utm_source}</span>}
+                  </div>
+                  <div className="mt-1 text-foreground/80">
+                    ref: {o.referrer || "(directo)"}
+                  </div>
+                  {o.user_agent && (
+                    <div className="mt-0.5 truncate text-muted-foreground/70">
+                      UA: {o.user_agent}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
 
         <div className="mb-4 flex flex-wrap gap-2">
           {(["todos", "error", "pending", "ok"] as const).map((f) => (

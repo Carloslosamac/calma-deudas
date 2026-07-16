@@ -171,7 +171,45 @@ const FormSection = () => {
         utm_content: utms.utm_content ?? null,
         page: getConversionSlug(),
       };
-      const { data: resp, error } = await supabase.functions.invoke("zoho-lead", { body: payload });
+      // Paso 1: guardamos el intento directamente en la base de datos ANTES
+      // de llamar a la edge function. Así, aunque la invocación falle por red,
+      // CORS, adblock o cualquier otro motivo, el lead queda persistido y
+      // aparece en /admin/web-leads como pendiente para reintentar.
+      let submissionId: string | null = null;
+      try {
+        const { data: inserted, error: insertErr } = await supabase
+          .from("web_submissions")
+          .insert({
+            name: contact.fullName,
+            email: contact.email,
+            phone: contact.phone,
+            debt_amount: data.debtAmount,
+            entities: data.entities,
+            payload: payload as unknown as never,
+            page: payload.page,
+            utm_source: payload.utm_source,
+            utm_medium: payload.utm_medium,
+            utm_campaign: payload.utm_campaign,
+            utm_term: payload.utm_term,
+            utm_content: payload.utm_content,
+            user_agent:
+              typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 500) : null,
+            zoho_status: "pending",
+          })
+          .select("id")
+          .single();
+        if (!insertErr && inserted) submissionId = inserted.id;
+        else if (insertErr) console.error("web_submissions insert error:", insertErr);
+      } catch (persistErr) {
+        console.error("web_submissions insert threw:", persistErr);
+      }
+
+      // Paso 2: invocamos zoho-lead. Si tenemos submissionId, usamos modo
+      // reintento (no vuelve a insertar); si no, pasamos el payload completo.
+      const invokeBody = submissionId ? { submissionId } : payload;
+      const { data: resp, error } = await supabase.functions.invoke("zoho-lead", {
+        body: invokeBody,
+      });
       if (error) {
         // Extraemos el detalle real (la SDK oculta el body detrás de FunctionsHttpError).
         errDetails = error.message ?? "Error de red";
@@ -184,10 +222,13 @@ const FormSection = () => {
           /* noop */
         }
         console.error("zoho-lead error:", errDetails);
+        // Si teníamos submissionId, el lead ya está guardado como pending →
+        // consideramos el envío OK desde el punto de vista del usuario.
+        if (submissionId) ok = true;
       } else {
         // La función ahora responde 200 tanto si Zoho fue bien como si guardó la
         // submission para reintento. En ambos casos el lead está persistido.
-        ok = resp?.submissionId != null || resp?.success === true;
+        ok = resp?.submissionId != null || resp?.success === true || submissionId != null;
         if (!ok) errDetails = resp?.error ?? "Respuesta inesperada del servidor";
       }
     } catch (e) {
