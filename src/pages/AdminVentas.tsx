@@ -916,7 +916,7 @@ const parseFactsFromText = (text: string | null | undefined): string[] => {
   return lines.length ? lines : [text.trim()];
 };
 
-const TEST_CASE: {
+const MARIA_TEST_CASE: {
   label: string;
   relevantFacts: string[];
   guide: GuideFields;
