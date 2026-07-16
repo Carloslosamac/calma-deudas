@@ -2438,14 +2438,9 @@ const AdminVentas = () => {
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.mortgageRemaining ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, mortgageRemaining: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="120000"
-                          />
+                          <div className="flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-sm text-foreground">
+                            {Math.max(0, (guide.housingValue ?? 0) - (guide.mortgagePaid ?? 0)).toLocaleString("es-ES")}
+                          </div>
                         </div>
                       </>
                     )}
@@ -2551,14 +2546,9 @@ const AdminVentas = () => {
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.vehicleRemaining ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, vehicleRemaining: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="6000"
-                          />
+                          <div className="flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-sm text-foreground">
+                            {Math.max(0, (guide.vehicleValue ?? 0) - (guide.vehiclePaid ?? 0)).toLocaleString("es-ES")}
+                          </div>
                         </div>
                       </>
                     )}
