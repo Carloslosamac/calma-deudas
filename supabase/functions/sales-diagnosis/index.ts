@@ -459,6 +459,7 @@ function buildSigningPrompt(
   reactions: string[],
   engByPhase: number[],
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
@@ -471,6 +472,7 @@ ${caseText}
 """
 
 SERVICIO CONTRATADO: ${t.title}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -503,11 +505,13 @@ function buildContractMessagePrompt(
   reactions: string[],
   engByPhase: number[],
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
 DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
 ${buildCaseData(g)}
+${buildTriageExtraBlock(triageExtra)}
 
 CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
@@ -550,6 +554,7 @@ function buildReinforcePrompt(
   engByPhase: number[],
   currentStep: number,
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   const phaseName = PHASE_NAMES[currentStep] ?? "la fase actual";
   const goal = PHASE_GOAL[currentStep] ?? PHASE_GOAL[1];
@@ -567,6 +572,7 @@ ${caseText}
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
