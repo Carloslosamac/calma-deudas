@@ -1481,7 +1481,29 @@ const AdminVentas = () => {
 
   // Diagnóstico → Solución: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
-  const proceedToSolution = () => void runGeneration(3, "solution");
+  const proceedToSolution = () => {
+    // Cortocircuito: si el triaje ya deriva o descarta, no gastamos IA en la
+    // fase Solución — el bloque "Encaje LSO" cubre el mensaje.
+    if (
+      triageResult.solution === "derivar" ||
+      triageResult.solution === "no_insolvente"
+    ) {
+      setResult((prev) =>
+        prev
+          ? { ...prev, triage: { solution: triageResult.solution, title: triageResult.title } }
+          : ({
+              triage: { solution: triageResult.solution, title: triageResult.title },
+              diagnosis_internal: [],
+              diagnosis_client: "",
+              solution_internal: [],
+              solution_client: "",
+            } as AiResult),
+      );
+      setStep(3);
+      return;
+    }
+    void runGeneration(3, "solution");
+  };
 
   // Solución → Contrato: pasa a contrato (el guion de envío se pre-genera solo al entrar).
   const goToContract = () => {
@@ -1613,6 +1635,13 @@ const AdminVentas = () => {
   // puede regenerarlo después si reajusta el engagement o las reacciones.
   useEffect(() => {
     if (!result || generating) return;
+    // Casos derivar / no insolvente no siguen a Contrato ni Firma: no
+    // gastamos IA en pre-generar guiones que no se usan.
+    if (
+      triageResult.solution === "derivar" ||
+      triageResult.solution === "no_insolvente"
+    )
+      return;
     if (step === 4 && !(result.contract_internal?.length) && !autoGenRef.current[4]) {
       autoGenRef.current[4] = true;
       void runPhase("contract_message");
