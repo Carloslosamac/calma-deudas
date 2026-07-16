@@ -2674,8 +2674,115 @@ const AdminVentas = () => {
             result.diagnosis_internal.forEach((c, i) => screens.push(scriptScreen("diag-" + i, c)));
             screens.push(clientScreen("diag-client", result.diagnosis_client, result.approach));
           } else if (step === 3) {
+            // Encaje LSO calculado por el triaje (variant · modality + cuota
+            // estimada + warnings). Se muestra ANTES del guion de la IA para
+            // que el comercial arranque la fase con la modalidad ya clara.
+            screens.push({
+              key: "triage-summary",
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Solución · encaje LSO")}
+                  {triageResult.solution === "derivar" ? (
+                    <>
+                      <h2 className="flex items-center gap-2 font-poppins text-xl font-bold text-destructive">
+                        <AlertTriangle className="h-5 w-5" /> Derivar a abogado concursal
+                      </h2>
+                      <p className="text-sm leading-relaxed text-foreground/90">
+                        Como administrador/a de sociedad, el caso no encaja en
+                        LSO estándar: va por concurso de acreedores ordinario.
+                        Cierra la llamada con una derivación honesta, sin
+                        vender el servicio de Calma.
+                      </p>
+                    </>
+                  ) : triageResult.solution === "no_insolvente" ? (
+                    <>
+                      <h2 className="font-poppins text-xl font-bold text-foreground">
+                        No encaja en insolvencia real
+                      </h2>
+                      <p className="text-sm leading-relaxed text-foreground/90">
+                        Con estos ingresos frente a gastos no hay insolvencia
+                        real. Explora reunificación o reclamación por usura si
+                        aplica; no fuerces LSO.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="font-poppins text-xl font-bold text-foreground">
+                        {triageResult.title}
+                      </h2>
+                      <div className="flex flex-wrap gap-2">
+                        {triageResult.variant && (
+                          <span
+                            className="rounded-full border px-3 py-1 text-xs font-semibold"
+                            style={phaseOutlineBtn}
+                          >
+                            {VARIANT_LABEL[triageResult.variant]}
+                          </span>
+                        )}
+                        {triageResult.modality && (
+                          <span
+                            className="rounded-full px-3 py-1 text-xs font-semibold"
+                            style={phasePrimaryBtn}
+                          >
+                            {MODALITY_LABEL[triageResult.modality]}
+                          </span>
+                        )}
+                      </div>
+                      {triageResult.modality === "plan_pagos" && (
+                        <div
+                          className="rounded-xl border p-4"
+                          style={{
+                            borderColor: "hsl(var(--phase) / 0.4)",
+                            backgroundColor: "hsl(var(--phase) / 0.06)",
+                          }}
+                        >
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                            Cuota estimada del plan de pagos
+                          </p>
+                          <p
+                            className="font-poppins text-3xl font-bold"
+                            style={{ color: "hsl(var(--phase))" }}
+                          >
+                            {(triageResult.estimatedInstallment ?? 0).toLocaleString("es-ES")} €
+                            <span className="ml-1 text-base font-medium text-muted-foreground">
+                              /mes · 3–5 años
+                            </span>
+                          </p>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Fórmula: ingresos − gastos (sin cuotas de deudas).
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {triageResult.warnings.length > 0 && (
+                    <div className="space-y-1.5">
+                      {triageResult.warnings.map((w, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2.5 text-xs text-amber-800"
+                        >
+                          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                          <span>{w}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ),
+            });
+            // Si el caso se deriva, el resto del guion de solución no aplica:
+            // el comercial cierra con la derivación y salta el paso.
+            if (
+              triageResult.solution === "derivar" ||
+              triageResult.solution === "no_insolvente"
+            ) {
+              // No añadimos tarjetas de IA para este caso.
+            } else {
             result.solution_internal.forEach((c, i) => screens.push(scriptScreen("sol-" + i, c)));
             screens.push(clientScreen("sol-client", result.solution_client, result.approach));
+            }
           } else if (step === 4) {
             if (generating && !(result.contract_internal?.length)) {
               screens.push({
