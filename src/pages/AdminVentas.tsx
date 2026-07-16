@@ -1104,6 +1104,32 @@ const AdminVentas = () => {
   const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
   const [newFact, setNewFact] = useState("");
   const [guide, setGuide] = useState<GuideFields>(emptyGuide());
+  // Pendiente = valor − pagado (solo en vivienda y coche): campo derivado
+  // que se mantiene sincronizado automáticamente para el triaje.
+  useEffect(() => {
+    setGuide((g) => {
+      const nextMortgage =
+        g.housing === "hipoteca"
+          ? Math.max(0, (g.housingValue ?? 0) - (g.mortgagePaid ?? 0))
+          : undefined;
+      const nextVehicle =
+        g.vehicle === "financiado"
+          ? Math.max(0, (g.vehicleValue ?? 0) - (g.vehiclePaid ?? 0))
+          : undefined;
+      if (
+        g.mortgageRemaining === nextMortgage &&
+        g.vehicleRemaining === nextVehicle
+      ) return g;
+      return { ...g, mortgageRemaining: nextMortgage, vehicleRemaining: nextVehicle };
+    });
+  }, [
+    guide.housing,
+    guide.housingValue,
+    guide.mortgagePaid,
+    guide.vehicle,
+    guide.vehicleValue,
+    guide.vehiclePaid,
+  ]);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
