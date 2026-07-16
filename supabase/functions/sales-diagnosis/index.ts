@@ -181,22 +181,91 @@ function buildEmbargoGuide(g: GuideFields): string {
   return lines.join("\n");
 }
 
-const SOLUTION_BRIEF: Record<string, string> = {
-  lso: "Ley de Segunda Oportunidad: si hay insolvencia real y NO hay bienes de valor que proteger, se puede CANCELAR LEGALMENTE la deuda y empezar de cero.",
-  reunificar:
-    "Reunificación de deudas = negociación EXTRAJUDICIAL para bajar la cuota mensual Y el total que se debe, SIN pedir un préstamo nuevo, SIN agrupar en una hipoteca y SIN alargar plazos. NUNCA la describas como un préstamo nuevo ni como agrupar deudas.",
-  reclamacion:
-    "Reclamación judicial por usura: si la TAE de tarjetas revolving o microcréditos es desproporcionada, la deuda puede anularse por usura y se recupera lo pagado de más.",
+// Brief de la solución. Para LSO se compone por modalidad + variante para que
+// el guion no confunda "cancelación íntegra" (solo sin masa) con plan de pagos
+// (cuota 3–5 años + exoneración diferida) ni con liquidación (venta del bien +
+// exoneración del resto).
+const REUNIFICAR_BRIEF =
+  "Reunificación de deudas = negociación EXTRAJUDICIAL para bajar la cuota mensual Y el total que se debe, SIN pedir un préstamo nuevo, SIN agrupar en una hipoteca y SIN alargar plazos. NUNCA la describas como un préstamo nuevo ni como agrupar deudas.";
+const RECLAMACION_BRIEF =
+  "Reclamación judicial por usura: si la TAE de tarjetas revolving o microcréditos es desproporcionada, la deuda puede anularse por usura y se recupera lo pagado de más.";
+
+function lsoBriefByModality(m?: string): string {
+  if (m === "plan_pagos") {
+    return "Ley de Segunda Oportunidad · modalidad PLAN DE PAGOS: durante 3 a 5 años se paga una cuota mensual asumible (ingresos − gastos) y al FINAL del plan, si se cumple, el juez EXONERA el resto de la deuda. NO es una cancelación inmediata: es un plan de pagos judicial con exoneración diferida al cumplirlo. PROHIBIDO decir 'cancelamos los X € ya', 'sentencia que elimina la deuda de golpe' o 'te libras de todo hoy'.";
+  }
+  if (m === "liquidacion") {
+    return "Ley de Segunda Oportunidad · modalidad CON LIQUIDACIÓN: se liquida el bien con valor (vehículo financiado con equity u otros bienes) para pagar a los acreedores con lo obtenido, y lo que quede sin cubrir se EXONERA por sentencia. NO digas 'cancelamos todos los X €' de golpe: parte se cubre con la liquidación del bien y el resto se exonera.";
+  }
+  if (m === "sin_masa") {
+    return "Ley de Segunda Oportunidad · modalidad SIN MASA: no hay bienes de valor que liquidar, el procedimiento es rápido y termina con la EXONERACIÓN íntegra de la deuda por sentencia. Esta es la única modalidad en la que sí es correcto hablar de 'cancelación total de la deuda'.";
+  }
+  return "Ley de Segunda Oportunidad: procedimiento judicial que, según la modalidad, termina con la exoneración de la deuda (íntegra si no hay bienes; parcial tras liquidación o plan de pagos si los hay).";
+}
+
+function lsoBenefitsByModality(m?: string): string {
+  if (m === "plan_pagos") {
+    return "Beneficios a aterrizar con los datos del caso: (1) cuota mensual PREVISIBLE de la estimada durante 3–5 años, muy inferior al total de cuotas que hoy paga a [entidades]; (2) durante el plan se PARAN embargos, intereses de demora y llamadas; (3) al FINALIZAR el plan, el juez EXONERA el resto de los X € pendientes; (4) SALE de ASNEF una vez concluido; (5) protege lo mínimo vital y su capacidad de trabajar. NO prometas cancelación inmediata: es cuota + exoneración diferida.";
+  }
+  if (m === "liquidacion") {
+    return "Beneficios a aterrizar con los datos del caso: (1) el bien con valor (vehículo financiado, etc.) se liquida y con eso se cubre parte de los X €; (2) el resto de la deuda que queda sin cubrir se EXONERA por sentencia; (3) durante el proceso se paran embargos, intereses y llamadas de [entidades]; (4) SALE de ASNEF tras la exoneración. NO digas 'cancelamos todos los X €' de golpe.";
+  }
+  if (m === "sin_masa") {
+    return "Beneficios a aterrizar con los datos del caso: (1) los X € exactos quedan CANCELADOS íntegros por sentencia judicial (sin masa: no hay bienes que liquidar); (2) se PARAN los embargos sobre nómina/cuentas indicados; (3) SALE de ASNEF y recupera acceso al crédito; (4) se acaban las llamadas y la presión de [entidades concretas]; (5) proceso rápido y directo. Nombra importes y entidades reales.";
+  }
+  return "Beneficios a aterrizar con los datos del caso: exoneración de la deuda con el alcance que corresponda a la modalidad, paralización de embargos e intereses durante el procedimiento y salida de ASNEF. Nombra importes y entidades reales.";
+}
+
+const VARIANT_CLAUSE: Record<string, string> = {
+  individual: "",
+  conjunta:
+    "Variante CONJUNTA: concurso conjunto de ambos cónyuges (régimen de gananciales). Umbral de ingresos y viabilidad se calculan sobre el hogar; menciona el 'nosotros como pareja' cuando encaje.",
+  autonomo:
+    "Variante AUTÓNOMO: concurso consecutivo que incluye deudas de la actividad. Si hay deuda pública, respeta el aviso del triaje (parte no cancelable por encima del umbral).",
 };
 
-// Beneficios concretos que la IA DEBE aterrizar con los datos reales del caso.
-const SOLUTION_BENEFITS: Record<string, string> = {
-  lso: "Beneficios a aterrizar con los datos del caso: (1) los X € exactos de deuda quedan CANCELADOS por sentencia judicial; (2) dejas de pagar las cuotas mensuales que hoy te ahogan; (3) se PARA el embargo sobre la nómina/ingresos indicados y sobre tus cuentas; (4) SALES de ASNEF y recuperas acceso al crédito; (5) se acaban las llamadas y la presión de [entidades concretas del caso]. Nombra los importes y entidades reales, no hables en abstracto.",
-  reunificar:
-    "Beneficios a aterrizar con los datos del caso: (1) BAJA la cuota mensual que hoy pagas y el TOTAL que debes, mediante negociación extrajudicial con [entidades concretas]; (2) pasas de lidiar con N acreedores a una sola gestión que llevamos nosotros; (3) frenas el deterioro (intereses de demora, ASNEF, embargos) que crece cada mes sobre los X € de deuda; (4) conservas tu vivienda/vehículo. Nunca lo describas como préstamo nuevo, agrupar ni alargar plazos.",
-  reclamacion:
-    "Beneficios a aterrizar con los datos del caso: (1) se ANULA la deuda usuraria de [entidad concreta] por TAE abusiva; (2) recuperas el dinero pagado de más en intereses desproporcionados; (3) se detiene el cobro y la presión de esa entidad. Cita la entidad y el importe reales del caso.",
-};
+function solutionBrief(
+  solution: string,
+  modality?: string,
+  variant?: string,
+): string {
+  if (solution === "reunificar") return REUNIFICAR_BRIEF;
+  if (solution === "reclamacion") return RECLAMACION_BRIEF;
+  if (solution === "lso") {
+    const clause = variant ? VARIANT_CLAUSE[variant] ?? "" : "";
+    return `${lsoBriefByModality(modality)}${clause ? `\n${clause}` : ""}`;
+  }
+  return "";
+}
+
+function solutionBenefits(solution: string, modality?: string): string {
+  if (solution === "reunificar")
+    return "Beneficios a aterrizar con los datos del caso: (1) BAJA la cuota mensual que hoy pagas y el TOTAL que debes, mediante negociación extrajudicial con [entidades concretas]; (2) pasas de lidiar con N acreedores a una sola gestión que llevamos nosotros; (3) frenas el deterioro (intereses de demora, ASNEF, embargos) que crece cada mes sobre los X € de deuda; (4) conservas tu vivienda/vehículo. Nunca lo describas como préstamo nuevo, agrupar ni alargar plazos.";
+  if (solution === "reclamacion")
+    return "Beneficios a aterrizar con los datos del caso: (1) se ANULA la deuda usuraria de [entidad concreta] por TAE abusiva; (2) recuperas el dinero pagado de más en intereses desproporcionados; (3) se detiene el cobro y la presión de esa entidad. Cita la entidad y el importe reales del caso.";
+  if (solution === "lso") return lsoBenefitsByModality(modality);
+  return "";
+}
+
+// Reglas duras que dependen de la modalidad LSO. Se inyectan cuando solution=lso
+// para evitar que la IA prometa cancelación total cuando es plan de pagos o
+// liquidación.
+function lsoHardRules(modality?: string, estimatedInstallment?: number): string {
+  if (modality === "plan_pagos") {
+    const cuota =
+      estimatedInstallment != null
+        ? `Cuota estimada del plan: ${estimatedInstallment} €/mes durante 3–5 años. Cítala como la cifra a pagar, no como un ahorro. `
+        : "";
+    return `REGLAS DURAS LSO · PLAN DE PAGOS (obligatorias): ${cuota}PROHIBIDO usar frases tipo "cancelamos la deuda", "eliminamos los X €", "sentencia que borra la deuda", "te libras de todo hoy" o "cancelación legal de X €". Obligatorio explicar el mecanismo real: pagas una cuota mensual durante 3–5 años y, al cumplir el plan, se EXONERA el resto por sentencia. Puedes usar "exoneración diferida", "plan de pagos judicial", "al terminar el plan queda cancelado lo que reste".`;
+  }
+  if (modality === "liquidacion") {
+    return `REGLAS DURAS LSO · LIQUIDACIÓN (obligatorias): PROHIBIDO decir "cancelamos todos los X €" de golpe. Obligatorio explicar que se liquida el bien con valor para pagar a los acreedores y que solo el REMANENTE que quede sin cubrir se EXONERA por sentencia.`;
+  }
+  if (modality === "sin_masa") {
+    return `REGLAS DURAS LSO · SIN MASA (obligatorias): al no haber bienes que liquidar, sí es correcto hablar de "cancelación íntegra por sentencia" de los X €. Aun así, no prometas plazos exactos ni resultados garantizados por el juez.`;
+  }
+  return "";
+}
 
 const TYPE_LABELS: Record<string, string> = {
   prestamos: "Préstamos",
@@ -356,6 +425,12 @@ function buildPrompt(
 ): string {
   const campos = buildCaseData(g);
 
+  const brief = solutionBrief(t.solution, triageExtra?.modality, triageExtra?.variant);
+  const benefits = solutionBenefits(t.solution, triageExtra?.modality);
+  const hardRules =
+    t.solution === "lso"
+      ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment)
+      : "";
   const outputs =
     target === "diagnosis"
       ? `Genera TRES salidas en español de España (SOLO el diagnóstico, NO la solución):
@@ -401,9 +476,9 @@ ${caseText}
 """
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
-${SOLUTION_BRIEF[t.solution]}
-${SOLUTION_BENEFITS[t.solution] ?? ""}
 ${buildTriageExtraBlock(triageExtra)}
+${hardRules ? hardRules + "\n" : ""}${brief}
+${benefits}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (OBLIGATORIO RESPETARLO — no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -473,6 +548,7 @@ ${caseText}
 
 SERVICIO CONTRATADO: ${t.title}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) : ""}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -512,6 +588,7 @@ function buildContractMessagePrompt(
 DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
 ${buildCaseData(g)}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) : ""}
 
 CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
@@ -571,8 +648,8 @@ ${caseText}
 """
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
-${SOLUTION_BRIEF[t.solution]}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) + "\n" : ""}${solutionBrief(t.solution, triageExtra?.modality, triageExtra?.variant)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
