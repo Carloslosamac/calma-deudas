@@ -256,30 +256,12 @@ const AdminQueue = () => {
             <p className="mt-1 text-sm text-muted-foreground">Masterplan SEO · estado y prioridad</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link to="/admin/health">
-                <Activity className="mr-2 h-4 w-4" /> Estado
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/admin/indexacion">
-                <Search className="mr-2 h-4 w-4" /> Indexación
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/admin/ventas">
-                <Sparkles className="mr-2 h-4 w-4" /> Ventas
-              </Link>
-            </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching}>
               <RefreshCw className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""}`} /> Refrescar
             </Button>
             <Button size="sm" onClick={handleTrigger} disabled={triggering}>
               <Play className="mr-2 h-4 w-4" />
               {triggering ? "Generando…" : "Lanzar generación"}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
