@@ -541,6 +541,144 @@ export const guiaCancelarDeudas: BlogPost = {
       ),
     },
     {
+      id: "hub-50",
+      title: "50 artículos sobre cómo cancelar deudas ordenados por situación",
+      body: (
+        <>
+          <p>
+            Cada caso es distinto. No es lo mismo que te preocupe ahora un embargo activo,
+            que tu duda sea si perderás la vivienda al cancelar la deuda, o si tu deuda de
+            Hacienda entra en la exoneración. Aquí abajo tienes los 50 ángulos más buscados
+            sobre cómo cancelar deudas, ordenados por situación, para que vayas directo a lo
+            que te toca.
+          </p>
+          <p>
+            Los que están enlazados ya puedes leerlos. El resto los iremos publicando para
+            responder, una por una, a las preguntas que más nos llegan al equipo legal.
+          </p>
+          <ContentHub
+            groups={[
+              {
+                angle: "Elegir la vía correcta para cancelar tus deudas",
+                description: "Cómo saber qué camino cancela o reduce más tu deuda en tu situación real.",
+                items: [
+                  { title: "Requisitos para cancelar deudas en 2026: lista actualizada", to: "/blog/cancelar-deudas-requisitos" },
+                  { title: "Cómo saber si puedes cancelar tus deudas: test rápido 2026" },
+                  { title: "Ley de Segunda Oportunidad vs. reunificar: cuál cancela más deuda" },
+                  { title: "Cancelar deudas siendo solvente: ¿existe esa opción?" },
+                  { title: "Cancelar deudas en pareja: expediente conjunto o separado" },
+                ],
+              },
+              {
+                angle: "Requisitos y elegibilidad para cancelar deudas",
+                description: "Qué se exige realmente para acceder a la cancelación legal.",
+                items: [
+                  { title: "Insolvencia actual vs. inminente para cancelar deudas" },
+                  { title: "Buena fe del deudor: qué se exige para cancelar deudas" },
+                  { title: "Antecedentes penales: ¿me impiden cancelar mis deudas?" },
+                  { title: "Deuda mínima y máxima para cancelar por vía legal" },
+                  { title: "Cuántas veces se puede cancelar deudas legalmente en la vida" },
+                ],
+              },
+              {
+                angle: "Cancelar deudas según el tipo de deuda",
+                description: "Matices por tipo de crédito, tarjeta o deuda pública.",
+                items: [
+                  { title: "Cancelar microcréditos rápidos y online", to: "/blog/guia-cancelar-microcreditos" },
+                  { title: "Cancelar tarjetas revolving con intereses abusivos", to: "/blog/guia-cancelar-revolving" },
+                  { title: "Cancelar deudas con Hacienda y Seguridad Social", to: "/blog/deudas-hacienda-seguridad-social" },
+                  { title: "Cancelar deudas con particulares y familiares" },
+                  { title: "Cancelar avales personales y fianzas al cancelar deudas" },
+                ],
+              },
+              {
+                angle: "Cancelar deudas según el acreedor",
+                description: "Cómo se cancela según con quién tengas la deuda.",
+                items: [
+                  { title: "Cancelar deudas con Cofidis, Wizink y Cetelem" },
+                  { title: "Cancelar deudas con BBVA, Santander y CaixaBank" },
+                  { title: "Cancelar deudas con financieras de coche" },
+                  { title: "Cancelar deudas cedidas a fondos (Lindorff, Intrum, Axactor)" },
+                  { title: "Cancelar deudas con compañías de suministros y telefonía" },
+                ],
+              },
+              {
+                angle: "Cancelar deudas con bienes en juego",
+                description: "Qué pasa con vivienda, coche, ahorros o herencias al cancelar.",
+                items: [
+                  { title: "Cancelar deudas sin perder la vivienda habitual" },
+                  { title: "Cancelar deudas cuando tienes coche financiado" },
+                  { title: "Cancelar deudas con una segunda vivienda o herencia" },
+                  { title: "Cancelar deudas con plan de pensiones y ahorros" },
+                  { title: "Cancelar deudas si tu pareja tiene bienes a su nombre" },
+                ],
+              },
+              {
+                angle: "Cancelar deudas siendo autónomo o exempresario",
+                description: "Cómo aplica la cancelación cuando has facturado o tenido sociedad.",
+                items: [
+                  { title: "Cancelar deudas siendo autónomo activo", to: "/blog/autonomos-con-deudas" },
+                  { title: "Cerrar la SL y cancelar tus deudas personales después" },
+                  { title: "Cancelar deudas de IVA acumulado del autónomo" },
+                  { title: "Cancelar avales de administrador de sociedad" },
+                  { title: "Cancelar deudas y volver a facturar sin bloqueos" },
+                ],
+              },
+              {
+                angle: "Embargos, ASNEF y ficheros al cancelar deudas",
+                description: "Cómo se paran los embargos y se limpia el rastro financiero.",
+                items: [
+                  { title: "Parar embargos mientras cancelas tus deudas", to: "/blog/embargos-segunda-oportunidad" },
+                  { title: "Salir de ASNEF tras cancelar la deuda", to: "/blog/salir-asnef" },
+                  { title: "Juicio monitorio por una deuda: cómo evitar el embargo", to: "/blog/juicio-monitorio-deuda" },
+                  { title: "Cancelar deudas con la cuenta bancaria ya embargada" },
+                  { title: "Cancelar deudas con embargo de nómina activo" },
+                ],
+              },
+              {
+                angle: "Cuánto cuesta y cuánto tarda cancelar deudas",
+                description: "Precio real, plazos y modelos sin anticipos.",
+                items: [
+                  { title: "Cuánto cuesta cancelar deudas en 2026: precios reales" },
+                  { title: "Cuánto se tarda en cancelar deudas desde cero" },
+                  { title: "Cancelar deudas sin anticipos: cómo funciona" },
+                  { title: "Financiar los honorarios para cancelar tus deudas" },
+                  { title: "Cancelar deudas pagando menos: cómo se calcula el ahorro" },
+                ],
+              },
+              {
+                angle: "Cancelar deudas vs. otras vías",
+                description: "Diferencias con refinanciar, quita, dación o concurso.",
+                items: [
+                  { title: "Cancelar deudas vs. renegociar con acreedores", to: "/blog/renegociar-acreedores" },
+                  { title: "Cancelar deudas vs. quita del banco" },
+                  { title: "Cancelar deudas vs. dación en pago" },
+                  { title: "Cancelar deudas vs. concurso de acreedores" },
+                  { title: "Cancelar deudas vs. mediación extrajudicial" },
+                ],
+              },
+              {
+                angle: "Vida después de cancelar la deuda",
+                description: "Reconstruir economía, ahorro y crédito una vez cancelada.",
+                items: [
+                  { title: "Vida después de cancelar las deudas: por dónde empezar", to: "/blog/vida-despues-deuda" },
+                  { title: "Reconstruir el historial crediticio tras cancelar la deuda" },
+                  { title: "Abrir cuenta bancaria tras cancelar tus deudas" },
+                  { title: "Primer préstamo tras cancelar tus deudas: cuándo y cómo" },
+                  { title: "Ahorrar y planificar tras cancelar tu deuda" },
+                ],
+              },
+            ]}
+          />
+          <InlineCTA
+            title="¿No encuentras tu caso concreto?"
+            description="Cuéntanoslo: te decimos qué guía leer y, si encaja, por qué vía cancelamos tu deuda."
+            buttonLabel="Analizar mi caso"
+          />
+        </>
+      ),
+    },
+    {
       id: "fuentes",
       title: "Fuentes y referencias",
       body: (
