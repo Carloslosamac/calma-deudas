@@ -3255,7 +3255,7 @@ const AdminVentas = () => {
                   <Button variant="outline" size="sm" onClick={() => setStep(1)}>
                     <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
                   </Button>
-                  <Button variant="orange" size="sm" onClick={loadTestCase}>
+                  <Button variant="orange" size="sm" onClick={() => loadTestCase()}>
                     <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
                   </Button>
                 </div>
@@ -3309,9 +3309,22 @@ const AdminVentas = () => {
                       Datos
                       <Badge variant="secondary" className="ml-0.5">{relevantFacts.length}</Badge>
                     </button>
-                    <Button variant="orange" size="sm" onClick={loadTestCase}>
-                      <Sparkles className="mr-1 h-4 w-4" /> Prueba
-                    </Button>
+                    <Select onValueChange={(v) => loadTestCase(v)}>
+                      <SelectTrigger
+                        className="h-8 gap-1 border-0 bg-orange-500 px-2 text-[11px] font-semibold text-white hover:bg-orange-600 focus:ring-0 focus:ring-offset-0"
+                        aria-label="Cargar perfil de prueba"
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <SelectValue placeholder="Prueba" />
+                      </SelectTrigger>
+                      <SelectContent align="end" className="max-h-96">
+                        {TEST_CASES.map((tc) => (
+                          <SelectItem key={tc.id} value={tc.id} className="text-xs">
+                            {tc.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <Button variant="outline" size="sm" onClick={resetForm}>
                       <Plus className="mr-1 h-4 w-4" /> Nuevo
                     </Button>
