@@ -138,9 +138,6 @@ const AdminHealth = () => {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <Link to="/admin" className="mb-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-4 w-4" /> Cola de publicación
-            </Link>
             <h1 className="flex items-center gap-2 font-poppins text-3xl font-semibold tracking-tight text-foreground">
               <Activity className="h-7 w-7 text-accent-deep" />
               Estado del generador

@@ -205,13 +205,7 @@ const AdminWebLeads = () => {
         canonical="/admin/web-leads"
       />
       <div className="mx-auto max-w-6xl">
-        <div className="mb-4 flex items-center justify-between">
-          <Link
-            to="/admin/ventas/leads"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" /> Paquetes de llamadas
-          </Link>
+        <div className="mb-4 flex items-center justify-end">
           <div className="flex gap-2">
             <Button
               variant="outline"

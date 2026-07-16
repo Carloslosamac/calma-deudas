@@ -491,20 +491,6 @@ const AdminLeads = () => {
       <div className="min-h-screen bg-background px-4 py-8 sm:px-6">
         <Seo title="Paquetes de llamadas" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/ventas/leads" />
         <div className="mx-auto max-w-4xl">
-          <div className="mb-2 flex items-center justify-between">
-            <Link to="/admin/ventas" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-4 w-4" /> Herramienta de ventas
-            </Link>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/admin/web-leads">Leads web</Link>
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
-                <LogOut className="mr-2 h-4 w-4" /> Salir
-              </Button>
-            </div>
-          </div>
-
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h1 className="font-poppins text-2xl font-semibold text-foreground">Paquetes de llamadas</h1>

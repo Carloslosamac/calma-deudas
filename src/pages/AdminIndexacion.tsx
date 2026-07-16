@@ -197,9 +197,6 @@ const AdminIndexacion = () => {
     <div className="min-h-screen bg-background px-6 py-10">
       <Seo title="Indexación en Google" description="Panel interno de Calma." robots="noindex,nofollow" canonical="/admin/indexacion" />
       <div className="mx-auto max-w-4xl">
-        <Link to="/admin" className="mb-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-4 w-4" /> Volver a la cola
-        </Link>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="font-poppins text-3xl font-semibold tracking-tight text-foreground">
