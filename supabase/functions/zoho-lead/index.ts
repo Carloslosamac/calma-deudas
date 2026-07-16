@@ -31,6 +31,12 @@ interface FormData {
   page?: string | null;
 }
 
+interface RetryRequest {
+  submissionId: string;
+}
+
+type RequestBody = FormData | RetryRequest;
+
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
@@ -111,7 +117,29 @@ serve(async (req) => {
   }
 
   try {
-    const formData: FormData = await req.json();
+    const rawBody: RequestBody = await req.json();
+
+    // Modo reintento: si viene submissionId, releemos el payload guardado.
+    let formData: FormData;
+    let submissionId: string | null = null;
+    let isRetry = false;
+
+    if ("submissionId" in rawBody && rawBody.submissionId) {
+      isRetry = true;
+      submissionId = rawBody.submissionId;
+      const { data: sub, error: subErr } = await supabase
+        .from("web_submissions")
+        .select("payload")
+        .eq("id", submissionId)
+        .maybeSingle();
+      if (subErr || !sub) {
+        throw new Error(`Submission ${submissionId} no encontrada`);
+      }
+      formData = sub.payload as FormData;
+    } else {
+      formData = rawBody as FormData;
+    }
+
     console.log("zoho-lead invoked", { ...formData, phone: "***", email: "***" });
 
     if (!formData.fullName || !formData.email || !formData.phone) {
@@ -123,6 +151,59 @@ serve(async (req) => {
       formData.phone.length > 30
     ) {
       throw new Error("Input exceeds maximum length");
+    }
+
+    // Persistimos la submission ANTES de tocar Zoho, para no perder el lead
+    // aunque Zoho falle. En reintento reutilizamos la fila existente.
+    const userAgent = req.headers.get("user-agent");
+    if (!isRetry) {
+      const debtNumeric = parseInt(formData.debt_amount ?? "0") || null;
+      const { data: created, error: insErr } = await supabase
+        .from("web_submissions")
+        .insert({
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          debt_amount: debtNumeric,
+          entities: formData.entities ?? null,
+          payload: formData as unknown as Record<string, unknown>,
+          page: formData.page ?? null,
+          utm_source: formData.utm_source ?? null,
+          utm_medium: formData.utm_medium ?? null,
+          utm_campaign: formData.utm_campaign ?? null,
+          utm_term: formData.utm_term ?? null,
+          utm_content: formData.utm_content ?? null,
+          user_agent: userAgent,
+          zoho_status: "pending",
+        })
+        .select("id")
+        .single();
+      if (insErr) {
+        console.error("Failed to persist web submission:", insErr);
+      } else {
+        submissionId = created.id;
+      }
+    } else if (submissionId) {
+      await supabase
+        .from("web_submissions")
+        .update({
+          zoho_status: "pending",
+          zoho_error: null,
+          retry_count: (
+            await supabase
+              .from("web_submissions")
+              .select("retry_count")
+              .eq("id", submissionId)
+              .maybeSingle()
+          ).data?.retry_count != null
+            ? ((await supabase
+                .from("web_submissions")
+                .select("retry_count")
+                .eq("id", submissionId)
+                .maybeSingle()).data!.retry_count as number) + 1
+            : 1,
+        })
+        .eq("id", submissionId);
     }
 
     const name = formData.fullName.trim();
@@ -187,7 +268,9 @@ serve(async (req) => {
 
     const accessToken = await getAccessToken();
 
-    const res = await fetch(`${API_DOMAIN}/crm/v2/Leads`, {
+    let leadId: string | undefined;
+    try {
+      const res = await fetch(`${API_DOMAIN}/crm/v2/Leads`, {
       method: "POST",
       headers: {
         Authorization: `Zoho-oauthtoken ${accessToken}`,
@@ -195,18 +278,44 @@ serve(async (req) => {
       },
       body: JSON.stringify({ data: [leadRecord], trigger: ["workflow"] }),
     });
-    const json = await res.json();
-
-    if (!res.ok || json.data?.[0]?.status === "error") {
-      console.error("Zoho Leads API error:", JSON.stringify(json));
-      throw new Error(`Failed to create lead in Zoho: ${JSON.stringify(json)}`);
+      const json = await res.json();
+      if (!res.ok || json.data?.[0]?.status === "error") {
+        console.error("Zoho Leads API error:", JSON.stringify(json));
+        throw new Error(`Zoho: ${JSON.stringify(json)}`);
+      }
+      leadId = json.data?.[0]?.details?.id;
+      console.log("Zoho lead created:", leadId);
+    } catch (zohoErr) {
+      // Marcamos la submission como error, pero NO tiramos: preferimos devolver
+      // 200 al cliente con submissionId para que el usuario no pierda el flujo,
+      // y que el admin la vea en el panel y pueda reintentarla.
+      const msg = zohoErr instanceof Error ? zohoErr.message : String(zohoErr);
+      if (submissionId) {
+        await supabase
+          .from("web_submissions")
+          .update({ zoho_status: "error", zoho_error: msg.slice(0, 2000) })
+          .eq("id", submissionId);
+      }
+      return new Response(
+        JSON.stringify({
+          success: false,
+          submissionId,
+          error: "No se pudo crear el lead en el CRM, pero tu solicitud está guardada",
+          details: msg,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
+      );
     }
 
-    const leadId = json.data?.[0]?.details?.id;
-    console.log("Zoho lead created:", leadId);
+    if (submissionId) {
+      await supabase
+        .from("web_submissions")
+        .update({ zoho_status: "ok", zoho_lead_id: leadId ?? null, zoho_error: null })
+        .eq("id", submissionId);
+    }
 
     return new Response(
-      JSON.stringify({ success: true, leadId, message: "Lead created in Zoho CRM" }),
+      JSON.stringify({ success: true, leadId, submissionId, message: "Lead created in Zoho CRM" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
     );
   } catch (error) {
