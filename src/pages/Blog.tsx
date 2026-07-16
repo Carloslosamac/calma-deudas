@@ -22,6 +22,10 @@ import {
   ShieldCheck,
   Star,
   Wallet,
+  BookOpen,
+  Compass,
+  Repeat,
+  CreditCard,
   type LucideIcon,
 } from "lucide-react";
 import Header from "@/components/Header";
