@@ -29,7 +29,7 @@ const fetchStats = async () => {
     supabase
       .from("sales_leads")
       .select("id", { count: "exact", head: true })
-      .is("outcome", null),
+      .not("lead_status", "in", "(won,lost,descartado)"),
   ]);
   return {
     cola: cola.count ?? 0,
@@ -41,7 +41,7 @@ const fetchStats = async () => {
 const fetchLatestWebLeads = async () => {
   const { data } = await supabase
     .from("web_submissions")
-    .select("id, created_at, name, phone, source")
+    .select("id, created_at, name, phone, page, utm_source")
     .order("created_at", { ascending: false })
     .limit(5);
   return data ?? [];
@@ -169,7 +169,7 @@ const AdminDashboard = () => {
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-foreground">{l.name || "—"}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {l.phone || "—"} · {l.source || "web"}
+                     {l.phone || "—"} · {l.utm_source || l.page || "web"}
                     </p>
                   </div>
                   <span className="text-xs text-muted-foreground">{fmtDate(l.created_at)}</span>
