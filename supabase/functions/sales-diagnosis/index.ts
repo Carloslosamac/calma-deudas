@@ -646,8 +646,8 @@ ${caseText}
 """
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
-${SOLUTION_BRIEF[t.solution]}
 ${buildTriageExtraBlock(triageExtra)}
+${t.solution === "lso" ? lsoHardRules(triageExtra?.modality, triageExtra?.estimatedInstallment) + "\n" : ""}${solutionBrief(t.solution, triageExtra?.modality, triageExtra?.variant)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
