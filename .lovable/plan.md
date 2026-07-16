@@ -1,80 +1,87 @@
-## Ejecutamos Fases 1, 2, 5, 6, 7, 8
+## Qué está pasando
 
-*(saltamos Fase 3 comparativas y Fase 4 entidad×LSO)*
+He revisado el flujo completo y esto es lo que veo:
 
-### Fase 1 — 6 sub-pillars del hub LSO
-Nueva ruta `/ley-segunda-oportunidad/<slug>` con plantilla money reutilizada (kit de módulos SEO ya existente: `KeyCallout`, `OptionCards`, `FactGrid`, `CheckList`, callouts, bloque FAQ). Cada página:
-- Hero + H1 pegado a la keyword objetivo
-- 5–7 secciones H2 largas con contenido específico (no relleno)
-- Bloque FAQ propio (5–8 preguntas) con `FAQPage` JSON-LD
-- CTA a `#hero-form`
-- Breadcrumb hub → sub-pillar
-- Interlinking: hub, 2 casos éxito, herramienta, comparativa relacionada
+1. **La edge function `zoho-lead` funciona bien.** He hecho una prueba en vivo y ha creado un lead real en Zoho (`leadId 921024000004949002`). No es un problema de OAuth ni de token de Zoho.
+2. **En los logs de la edge function no hay ni una sola invocación real de la última semana** (más allá de mi test). La retención de logs es corta, así que no puedo confirmar al 100% si hubo intentos fallidos días atrás, pero es muy sospechoso.
+3. **La tabla `sales_leads` no se alimenta desde la web** — sólo tiene 57 registros y todos son del 2–3 de julio (probablemente cargas manuales/CSV). El formulario público **nunca** persiste nada en nuestra base de datos: sólo llama a `zoho-lead` y sigue.
+4. **Bug crítico en `FormSection.tsx`:** el `navigate("/gracias")` está dentro del `finally`, así que **se navega a /gracias tanto si Zoho responde OK como si falla** (CORS, red, 500, excepción). El error sólo se registra en `console.error` del navegador del usuario. Resultado: podemos tener 4 vistas de /gracias y 0 leads en el CRM sin que nadie se entere.
+5. Además, /gracias también se cuenta si un usuario refresca la página, la marca o llega por historial — pero eso no explica que **haya cero rastro** de intentos en Zoho.
 
-| Slug | Keyword | Vol. |
-|---|---|---|
-| `/requisitos` | ley segunda oportunidad requisitos | 2.400 |
-| `/coste-precio` | cuánto cuesta la LSO | ~320 |
-| `/plazos-duracion` | cuánto dura la LSO | ~200 |
-| `/pierdo-mi-casa` | con la LSO pierdo mi casa | ~130 |
-| `/es-fiable` | es fiable la LSO | 260 |
-| `/como-funciona` | cómo funciona la LSO | ~180 |
+Conclusión probable: hay envíos que están fallando silenciosamente (o bien no llegan a `functions.invoke` por un error JS previo, o llegan y la función responde error), y como el redirect a /gracias es incondicional, ni el usuario ni nosotros nos enteramos.
 
-### Fase 2 — 5 landings de perfil de deudor
-Sub-carpeta `/ley-segunda-oportunidad/perfiles/<slug>`:
-- `/autonomos` (LSO + AEAT/TGSS)
-- `/avalistas`
-- `/funcionarios`
-- `/pensionistas-jubilados`
-- `/exempresarios`
+## Plan de refuerzo
 
-Misma plantilla que Fase 1, pero centrada en el perfil (situación, qué exonera, qué protege, casos reales del perfil, FAQ). Enlaza al hub + sub-pillar `requisitos` + comparativa concurso.
+### 1. Persistir TODA submission antes de tocar Zoho (fuente de verdad propia)
+Nueva tabla `web_submissions` (Cloud) con: `id`, `created_at`, `name`, `email`, `phone`, `debt_amount`, `payload jsonb`, `page`, `utm_*`, `zoho_lead_id`, `zoho_status` (`pending|ok|error`), `zoho_error`, `user_agent`.
+Flujo nuevo dentro de `zoho-lead`:
+1. INSERT en `web_submissions` con `status=pending` (service role, no depende de RLS).
+2. Llamada a Zoho.
+3. UPDATE de esa fila con `zoho_lead_id`, `status`, `error`.
+Así, aunque Zoho falle, **nunca** perdemos el lead — queda en nuestra base y lo podemos reintentar o contactar a mano.
 
-### Fase 5 — 15 ciudades LSO nuevas
-Extender `localizaciones.ts` con: Salamanca, Cádiz, Toledo, Lleida, Tarragona, Girona, León, Castellón, Huelva, Jaén, Logroño, Albacete, Badajoz, Ourense, Cáceres.
+RLS: SELECT sólo para admins (`has_role(auth.uid(),'admin')`), sin acceso anon. GRANT a `authenticated` y `service_role`.
 
-Cada una con datos reales (provincia, comunidad, tribunal competente, sede judicial, coordenadas, barrios/comarca) y `localNote` única para evitar canibalización. Total ciudades pasa de 27 → 42.
+### 2. Corregir el redirect condicional en `FormSection.tsx`
+- Mover `navigate("/gracias")` fuera del `finally`: sólo redirigir cuando la submission se persistió (paso 1 exitoso) o al menos cuando `zoho-lead` no lanzó excepción de red.
+- Si la llamada falla del todo (network/CORS), mostrar un mensaje amable con teléfono/WhatsApp de contacto, en vez de mandar a /gracias como si todo hubiera ido bien.
+- Leer bien el error de `functions.invoke` (`FunctionsHttpError.context.text()`) y loguearlo con detalle.
 
-### Fase 6 — FAQ hub `/ley-segunda-oportunidad` con JSON-LD
-Añadir bloque FAQ (15 preguntas) al hub principal con las questions Semrush de mayor volumen (fiable, coste, duración, casa, coche, avalistas, autónomos, después LSO, etc.), incrustar `FAQPage` JSON-LD para capturar rich snippets.
+### 3. Panel de submissions web en `/admin/leads`
+- Nueva pestaña "Web (últimos 30 días)" que lee de `web_submissions` ordenado por fecha.
+- Chips de estado (`pending / ok / error`) + botón "Reintentar Zoho" que reinvoca `zoho-lead` con el payload guardado.
+- Filtro rápido: sólo `error` para ver qué se cayó.
 
-### Fase 7 — Internal linking system
-Actualizar `internalLinks.ts` con las 26 rutas nuevas + reglas de intent:
-- Cada post blog LSO → sub-pillar más afín + perfil si aplica
-- Cada ciudad LSO → sub-pillar `requisitos` + `coste-precio`
-- Cada perfil → hub + sub-pillar `requisitos` + herramienta de test
-- Cada sub-pillar → hub + 2 sub-pillars hermanos + 1 perfil relevante + comparativa existente
+### 4. Alerta operativa en tiempo real
+- Dentro de `zoho-lead`, si la llamada a Zoho devuelve error, enviar aviso (email via Resend a la dirección del negocio, o registrar en `web_submissions.zoho_error`) para que salte antes de que se acumulen 4 vistas /gracias sin lead.
+- No bloquear la respuesta al usuario por esto.
 
-Sin canibalización: la keyword principal de cada nodo se mantiene única.
+### 5. Distinguir /gracias real vs. /gracias por refresh
+- En `Gracias.tsx`, si no llega `state` (no viene del submit), redirigir suavemente a `/` (ya casi lo hace, pero ahora mismo se pinta igual). Así los 4 pageviews de /gracias sin submit dejan de mentirnos en analytics.
+- Añadir evento de tracking `form_submitted_ok` en el `onSubmit` una vez que la persistencia confirme éxito, separado del pageview de /gracias.
 
-### Fase 8 — Footer crawlable + sitemap
-- `SeoFooterLinks.tsx`: nuevo grupo "Segunda Oportunidad en detalle" con los 6 sub-pillars + los 5 perfiles.
-- `scripts/generate-sitemap.ts`: incorporar automáticamente las 26 rutas nuevas (sub-pillars + perfiles + ciudades nuevas) leyendo la fuente de verdad (`moneyPages.ts`, `perfilesLso.ts`, `localizaciones.ts`).
+### 6. Comprobación manual inmediata (para hoy)
+- Revisar en Zoho CRM directamente si esos 4 usuarios de la semana están como Leads con `Fuente = Calma Web`. Si no aparece ninguno, se confirma la hipótesis de fallo silencioso.
+- Mi test de hoy sí debería aparecer en Zoho como `Test Diag / diag@example.com / 600000000` (leadId `921024000004949002`) — sirve para verificar que el canal está vivo ahora mismo.
 
 ## Detalles técnicos
 
-- **Nuevos datos:** `src/data/seo/subpillarsLso.ts`, `src/data/seo/perfilesLso.ts`. `localizaciones.ts` extendido.
-- **Nuevas plantillas:** `src/pages/seo/SubPillarLsoPage.tsx`, `src/pages/seo/PerfilLsoPage.tsx` (reutilizando módulos existentes).
-- **Rutas dinámicas** en `src/App.tsx`:
-  - `/ley-segunda-oportunidad/:subpillar` → SubPillarLsoPage
-  - `/ley-segunda-oportunidad/perfiles/:perfil` → PerfilLsoPage
-- **Componente FAQ + JSON-LD** reutilizable (`src/components/seo/FaqBlock.tsx`) usado en hub y en cada nueva landing.
-- **Contenido:** redacción larga y específica por página. Nada de placeholders "lorem"; cada H2 aporta ángulo único.
-- **Sin gradientes en CTAs** (respetando la regla del proyecto).
+**Migración SQL (resumen):**
+```sql
+CREATE TABLE public.web_submissions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  name text, email text, phone text,
+  debt_amount numeric, entities text[],
+  payload jsonb NOT NULL,
+  page text, utm_source text, utm_medium text,
+  utm_campaign text, utm_term text, utm_content text,
+  user_agent text,
+  zoho_lead_id text,
+  zoho_status text NOT NULL DEFAULT 'pending', -- pending|ok|error
+  zoho_error text,
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+GRANT SELECT ON public.web_submissions TO authenticated;
+GRANT ALL   ON public.web_submissions TO service_role;
+ALTER TABLE public.web_submissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Admins read web submissions"
+  ON public.web_submissions FOR SELECT TO authenticated
+  USING (public.has_role(auth.uid(),'admin'));
+```
+No hay policy de INSERT/UPDATE para clientes: sólo el edge function con `service_role` escribe.
 
-## Verificación
+**Archivos a tocar:**
+- `supabase/functions/zoho-lead/index.ts` — insertar en `web_submissions` antes/después de Zoho, devolver `submissionId` al cliente.
+- `src/components/FormSection.tsx` — mover el `navigate` fuera del `finally`, gestionar error real, tracking correcto.
+- `src/pages/Gracias.tsx` — redirect si no hay `state`.
+- `src/pages/AdminLeads.tsx` — pestaña "Web" con filtros + botón "Reintentar".
+- Nueva edge function `retry-web-submission` (o reutilizar `zoho-lead` con `submissionId`).
+- `supabase/config.toml` — sin cambios (verify_jwt sigue en default false).
 
-Tras ejecutar:
-- Build limpio (sin rutas rotas, sin TypeScript errors)
-- Sitemap incluye 26 rutas nuevas
-- Footer crawlable las lista
-- Cada nueva página tiene `<Helmet>` con title <60c, meta <160c, `FAQPage` JSON-LD
-- Rescan SEO opcional para revalidar findings
+## Qué NO hago en este plan
+- No toco el módulo `sales_leads` (usado por otro flujo) para no arriesgar.
+- No cambio la lógica de Zoho ni los mapeos de campo.
+- No añado rate limiting (no lo has pedido y hay que discutirlo antes).
 
-## Fuera de alcance
-- Fase 3 (comparativas) y Fase 4 (entidad×LSO) — se dejan para más adelante.
-- No se toca el hero, formulario, ni la generación automatizada de blog.
-- No se cambian slugs existentes.
-
-## Volumen esperado
-De **1 hub + 1 sub + 27 ciudades** a **1 hub + 6 sub-pillars + 5 perfiles + 42 ciudades** en el cluster LSO. Total: **+26 nuevas landings** con schema y enlazado interno completo.
+¿Le doy al botón "Implement plan" con esto tal cual o quieres ajustar algo (por ejemplo empezar sólo con el punto 1+2, que ya frena la hemorragia)?

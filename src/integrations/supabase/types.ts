@@ -510,6 +510,75 @@ export type Database = {
         }
         Relationships: []
       }
+      web_submissions: {
+        Row: {
+          created_at: string
+          debt_amount: number | null
+          email: string | null
+          entities: string[] | null
+          id: string
+          name: string | null
+          page: string | null
+          payload: Json
+          phone: string | null
+          retry_count: number
+          updated_at: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          zoho_error: string | null
+          zoho_lead_id: string | null
+          zoho_status: string
+        }
+        Insert: {
+          created_at?: string
+          debt_amount?: number | null
+          email?: string | null
+          entities?: string[] | null
+          id?: string
+          name?: string | null
+          page?: string | null
+          payload: Json
+          phone?: string | null
+          retry_count?: number
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          zoho_error?: string | null
+          zoho_lead_id?: string | null
+          zoho_status?: string
+        }
+        Update: {
+          created_at?: string
+          debt_amount?: number | null
+          email?: string | null
+          entities?: string[] | null
+          id?: string
+          name?: string | null
+          page?: string | null
+          payload?: Json
+          phone?: string | null
+          retry_count?: number
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          zoho_error?: string | null
+          zoho_lead_id?: string | null
+          zoho_status?: string
+        }
+        Relationships: []
+      }
       zoho_tokens: {
         Row: {
           id: number

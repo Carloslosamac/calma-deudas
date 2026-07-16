@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import Header from "@/components/Header";
@@ -16,8 +17,20 @@ type GraciasState = {
 
 const Gracias = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const state = (location.state ?? {}) as GraciasState;
   const { result, name, debtAmount } = state;
+
+  // Si alguien llega a /gracias sin haber enviado el formulario (refresh,
+  // bookmark, historial, bot), lo mandamos al inicio para no contaminar
+  // analytics con conversiones falsas.
+  useEffect(() => {
+    if (!name && !result) {
+      navigate("/", { replace: true });
+    }
+  }, [name, result, navigate]);
+
+  if (!name && !result) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
