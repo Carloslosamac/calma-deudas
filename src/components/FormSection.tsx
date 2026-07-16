@@ -185,7 +185,7 @@ const FormSection = () => {
             phone: contact.phone,
             debt_amount: data.debtAmount,
             entities: data.entities,
-            payload: payload as unknown as Record<string, unknown>,
+            payload: payload as unknown as never,
             page: payload.page,
             utm_source: payload.utm_source,
             utm_medium: payload.utm_medium,
