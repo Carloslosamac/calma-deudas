@@ -1422,7 +1422,7 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions, contract, phase: target },
+        body: { caseText: caseText.trim(), guide: payloadGuide, triageExtra, engagement, engagementByPhase, reactions, contract, phase: target },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1511,7 +1511,7 @@ const AdminVentas = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase, contract },
+        body: { caseText: caseText.trim(), guide, triageExtra, engagement, engagementByPhase, reactions, phase, contract },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1578,6 +1578,7 @@ const AdminVentas = () => {
         body: {
           caseText: caseText.trim(),
           guide: payloadGuide,
+          triageExtra,
           engagement,
           engagementByPhase,
           reactions,
