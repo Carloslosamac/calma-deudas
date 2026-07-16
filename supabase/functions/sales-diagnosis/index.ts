@@ -27,14 +27,58 @@ interface GuideFields {
   mortgagePaid?: number;
   mortgageRemaining?: number;
   housingPayment?: number;
+  isPrimaryResidence?: boolean;
   vehicle?: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
   vehiclePayment?: number;
+  wantsToKeepVehicle?: boolean;
   employment?: string;
   monthlyIncome?: number;
   monthlyExpenses?: number;
+  profile?:
+    | "particular_soltero"
+    | "particular_gananciales"
+    | "autonomo"
+    | "administrador_sociedad";
+  publicDebtAmount?: number;
+}
+
+// Resultado del triaje que llega ya calculado desde el cliente. La IA no lo
+// recalcula: solo lo redacta. Reduce input tokens y evita divergencias.
+interface TriageExtra {
+  variant?: "individual" | "conjunta" | "autonomo";
+  modality?: "sin_masa" | "liquidacion" | "plan_pagos";
+  estimatedInstallment?: number;
+  warnings?: string[];
+}
+
+const VARIANT_LABEL: Record<string, string> = {
+  individual: "Individual",
+  conjunta: "Conjunta (gananciales)",
+  autonomo: "Autónomo",
+};
+const MODALITY_LABEL: Record<string, string> = {
+  sin_masa: "Sin masa (sin bienes que liquidar; proceso rápido y directo)",
+  liquidacion: "Con liquidación (se liquida el bien financiado sin equity)",
+  plan_pagos: "Plan de pagos (3 a 5 años, cuota calculada como ingresos − gastos)",
+};
+
+function buildTriageExtraBlock(t?: TriageExtra): string {
+  if (!t || (!t.variant && !t.modality && !(t.warnings?.length))) return "";
+  const parts: string[] = [];
+  if (t.variant) parts.push(`Variante: ${VARIANT_LABEL[t.variant] ?? t.variant}`);
+  if (t.modality) parts.push(`Modalidad: ${MODALITY_LABEL[t.modality] ?? t.modality}`);
+  if (t.modality === "plan_pagos" && t.estimatedInstallment != null) {
+    parts.push(
+      `Cuota estimada del plan de pagos: ${t.estimatedInstallment} €/mes durante 3–5 años. Menciónala con transparencia; no prometas cancelación total inmediata.`,
+    );
+  }
+  if (t.warnings?.length) {
+    parts.push(`Avisos obligatorios (mencionarlos con naturalidad):\n${t.warnings.map((w) => `  · ${w}`).join("\n")}`);
+  }
+  return `\nENCAJE LSO YA RESUELTO POR EL TRIAJE (úsalo tal cual, no lo cuestiones ni lo re-razones; redacta apoyándote en él):\n${parts.join("\n")}\n`;
 }
 
 // Nivel de engagement: 0 = listísimo para contratar/pagar ya,
