@@ -352,6 +352,7 @@ function buildPrompt(
   reactions: string[],
   contract?: ContractInput,
   target: "diagnosis" | "solution" = "diagnosis",
+  triageExtra?: TriageExtra,
 ): string {
   const campos = buildCaseData(g);
 
@@ -402,6 +403,7 @@ ${caseText}
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
 ${SOLUTION_BENEFITS[t.solution] ?? ""}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (OBLIGATORIO RESPETARLO — no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
