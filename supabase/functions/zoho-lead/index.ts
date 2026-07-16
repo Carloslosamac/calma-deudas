@@ -184,25 +184,15 @@ serve(async (req) => {
         submissionId = created.id;
       }
     } else if (submissionId) {
+      const { data: cur } = await supabase
+        .from("web_submissions")
+        .select("retry_count")
+        .eq("id", submissionId)
+        .maybeSingle();
+      const nextRetry = ((cur?.retry_count as number | null | undefined) ?? 0) + 1;
       await supabase
         .from("web_submissions")
-        .update({
-          zoho_status: "pending",
-          zoho_error: null,
-          retry_count: (
-            await supabase
-              .from("web_submissions")
-              .select("retry_count")
-              .eq("id", submissionId)
-              .maybeSingle()
-          ).data?.retry_count != null
-            ? ((await supabase
-                .from("web_submissions")
-                .select("retry_count")
-                .eq("id", submissionId)
-                .maybeSingle()).data!.retry_count as number) + 1
-            : 1,
-        })
+        .update({ zoho_status: "pending", zoho_error: null, retry_count: nextRetry })
         .eq("id", submissionId);
     }
 
