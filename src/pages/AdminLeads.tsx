@@ -495,9 +495,14 @@ const AdminLeads = () => {
             <Link to="/admin/ventas" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-4 w-4" /> Herramienta de ventas
             </Link>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" /> Salir
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/web-leads">Leads web</Link>
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" /> Salir
+              </Button>
+            </div>
           </div>
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
