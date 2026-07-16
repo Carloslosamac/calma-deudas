@@ -260,6 +260,7 @@ const Blog = () => {
   const categories = useMemo<{ name: string; icon: LucideIcon }[]>(
     () => [
       { name: "Todos", icon: LayoutGrid },
+      { name: PILLAR_KEY, icon: BookOpen },
       ...Array.from(new Set(articles.map((a) => a.category))).map((name) => ({
         name,
         icon: categoryIcons[name] ?? Star,
@@ -273,7 +274,10 @@ const Blog = () => {
 
     return articles.filter((article) => {
       const matchesCategory =
-        activeCategory === "Todos" || article.category === activeCategory;
+        activeCategory === "Todos" ||
+        (activeCategory === PILLAR_KEY
+          ? pillarSlugSet.has(article.slug)
+          : article.category === activeCategory);
       const searchable = normalize(
         `${article.title} ${article.excerpt} ${article.category}`
       );
