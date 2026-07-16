@@ -1,87 +1,62 @@
-## Qué está pasando
+## Contexto
 
-He revisado el flujo completo y esto es lo que veo:
+- `/gracias` recibió 4 hits esta semana, pero solo 1 lead ha llegado al CRM.
+- `web_submissions` está vacío de datos históricos (se creó hoy), así que esos 3 leads perdidos son irrecuperables.
+- Con el pipeline actual, cualquier fallo **antes** de que la edge function inserte la fila (error de red, CORS, bot que abre `/gracias`, refresh, error JS) sigue siendo invisible.
 
-1. **La edge function `zoho-lead` funciona bien.** He hecho una prueba en vivo y ha creado un lead real en Zoho (`leadId 921024000004949002`). No es un problema de OAuth ni de token de Zoho.
-2. **En los logs de la edge function no hay ni una sola invocación real de la última semana** (más allá de mi test). La retención de logs es corta, así que no puedo confirmar al 100% si hubo intentos fallidos días atrás, pero es muy sospechoso.
-3. **La tabla `sales_leads` no se alimenta desde la web** — sólo tiene 57 registros y todos son del 2–3 de julio (probablemente cargas manuales/CSV). El formulario público **nunca** persiste nada en nuestra base de datos: sólo llama a `zoho-lead` y sigue.
-4. **Bug crítico en `FormSection.tsx`:** el `navigate("/gracias")` está dentro del `finally`, así que **se navega a /gracias tanto si Zoho responde OK como si falla** (CORS, red, 500, excepción). El error sólo se registra en `console.error` del navegador del usuario. Resultado: podemos tener 4 vistas de /gracias y 0 leads en el CRM sin que nadie se entere.
-5. Además, /gracias también se cuenta si un usuario refresca la página, la marca o llega por historial — pero eso no explica que **haya cero rastro** de intentos en Zoho.
+## Objetivo
 
-Conclusión probable: hay envíos que están fallando silenciosamente (o bien no llegan a `functions.invoke` por un error JS previo, o llegan y la función responde error), y como el redirect a /gracias es incondicional, ni el usuario ni nosotros nos enteramos.
+Que ningún intento de envío quede sin traza, aunque falle antes de llegar a la edge function, y poder auditar el hueco `/gracias` vs leads reales.
 
-## Plan de refuerzo
+## Cambios
 
-### 1. Persistir TODA submission antes de tocar Zoho (fuente de verdad propia)
-Nueva tabla `web_submissions` (Cloud) con: `id`, `created_at`, `name`, `email`, `phone`, `debt_amount`, `payload jsonb`, `page`, `utm_*`, `zoho_lead_id`, `zoho_status` (`pending|ok|error`), `zoho_error`, `user_agent`.
-Flujo nuevo dentro de `zoho-lead`:
-1. INSERT en `web_submissions` con `status=pending` (service role, no depende de RLS).
-2. Llamada a Zoho.
-3. UPDATE de esa fila con `zoho_lead_id`, `status`, `error`.
-Así, aunque Zoho falle, **nunca** perdemos el lead — queda en nuestra base y lo podemos reintentar o contactar a mano.
+### 1. Traza cliente-primero en `web_submissions`
 
-RLS: SELECT sólo para admins (`has_role(auth.uid(),'admin')`), sin acceso anon. GRANT a `authenticated` y `service_role`.
+En vez de depender de que la edge function inserte la fila, insertamos desde el navegador **antes** de invocar `zoho-lead`:
 
-### 2. Corregir el redirect condicional en `FormSection.tsx`
-- Mover `navigate("/gracias")` fuera del `finally`: sólo redirigir cuando la submission se persistió (paso 1 exitoso) o al menos cuando `zoho-lead` no lanzó excepción de red.
-- Si la llamada falla del todo (network/CORS), mostrar un mensaje amable con teléfono/WhatsApp de contacto, en vez de mandar a /gracias como si todo hubiera ido bien.
-- Leer bien el error de `functions.invoke` (`FunctionsHttpError.context.text()`) y loguearlo con detalle.
+- Nueva política RLS: `INSERT` para `anon` con `WITH CHECK (true)` limitada a las columnas seguras (`name`, `email`, `phone`, `debt_amount`, `entities`, `payload`, `page`, `utm_*`, `user_agent`), estado inicial `pending`.
+- `FormSection.onSubmit`:
+  1. `insert` en `web_submissions` → recibe `submissionId`.
+  2. Llama a `zoho-lead` con `{ submissionId }` (modo reintento existente) en vez del payload plano.
+  3. Si la inserción cliente falla, cae al flujo actual (envío directo).
 
-### 3. Panel de submissions web en `/admin/leads`
-- Nueva pestaña "Web (últimos 30 días)" que lee de `web_submissions` ordenado por fecha.
-- Chips de estado (`pending / ok / error`) + botón "Reintentar Zoho" que reinvoca `zoho-lead` con el payload guardado.
-- Filtro rápido: sólo `error` para ver qué se cayó.
+Con esto, aunque `zoho-lead` nunca se ejecute (CORS, red, adblock), el lead está guardado y aparece en `/admin/web-leads` como `pending`.
 
-### 4. Alerta operativa en tiempo real
-- Dentro de `zoho-lead`, si la llamada a Zoho devuelve error, enviar aviso (email via Resend a la dirección del negocio, o registrar en `web_submissions.zoho_error`) para que salte antes de que se acumulen 4 vistas /gracias sin lead.
-- No bloquear la respuesta al usuario por esto.
+### 2. Cron de saneamiento
 
-### 5. Distinguir /gracias real vs. /gracias por refresh
-- En `Gracias.tsx`, si no llega `state` (no viene del submit), redirigir suavemente a `/` (ya casi lo hace, pero ahora mismo se pinta igual). Así los 4 pageviews de /gracias sin submit dejan de mentirnos en analytics.
-- Añadir evento de tracking `form_submitted_ok` en el `onSubmit` una vez que la persistencia confirme éxito, separado del pageview de /gracias.
+Añadir en `zoho-lead` un modo o crear función nueva `retry-pending-submissions` que reintente cualquier `web_submissions` con `zoho_status='pending'` más antigua de 2 minutos. Se puede llamar manualmente desde `/admin/web-leads` con un botón "Reintentar pendientes".
 
-### 6. Comprobación manual inmediata (para hoy)
-- Revisar en Zoho CRM directamente si esos 4 usuarios de la semana están como Leads con `Fuente = Calma Web`. Si no aparece ninguno, se confirma la hipótesis de fallo silencioso.
-- Mi test de hoy sí debería aparecer en Zoho como `Test Diag / diag@example.com / 600000000` (leadId `921024000004949002`) — sirve para verificar que el canal está vivo ahora mismo.
+### 3. Log de `/gracias` "huérfano"
+
+En `Gracias.tsx`, cuando `!name && !result` (llegada directa), antes de redirigir a `/`, insertar una fila mínima en una tabla nueva `orphan_gracias_hits` (`created_at`, `referrer`, `utm_*`, `user_agent`). Así sabremos cuántos de los 4 son bots/refresh vs fallos reales.
+
+- Política RLS: `INSERT` para `anon`, `SELECT` solo admin.
+
+### 4. Panel `/admin/web-leads`
+
+- Añadir contador "Huérfanos /gracias (7 días)" con enlace a modal que liste las filas de `orphan_gracias_hits`.
+- Añadir botón "Reintentar todos los pendientes" que llama a la función del punto 2.
+
+### 5. Verificación
+
+- Simular fallo (bloquear la URL del edge function con DevTools) y confirmar que el lead aparece en `/admin/web-leads` como `pending` con botón de reintento funcional.
+- Simular llegada directa a `/gracias` y confirmar fila en `orphan_gracias_hits`.
 
 ## Detalles técnicos
 
-**Migración SQL (resumen):**
-```sql
-CREATE TABLE public.web_submissions (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  created_at timestamptz NOT NULL DEFAULT now(),
-  name text, email text, phone text,
-  debt_amount numeric, entities text[],
-  payload jsonb NOT NULL,
-  page text, utm_source text, utm_medium text,
-  utm_campaign text, utm_term text, utm_content text,
-  user_agent text,
-  zoho_lead_id text,
-  zoho_status text NOT NULL DEFAULT 'pending', -- pending|ok|error
-  zoho_error text,
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
-GRANT SELECT ON public.web_submissions TO authenticated;
-GRANT ALL   ON public.web_submissions TO service_role;
-ALTER TABLE public.web_submissions ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Admins read web submissions"
-  ON public.web_submissions FOR SELECT TO authenticated
-  USING (public.has_role(auth.uid(),'admin'));
-```
-No hay policy de INSERT/UPDATE para clientes: sólo el edge function con `service_role` escribe.
+- Migración con `CREATE POLICY` + `GRANT INSERT (columnas) ON public.web_submissions TO anon;` (sin `SELECT` para anon).
+- Nueva tabla `orphan_gracias_hits` con RLS estándar (admin lee, anon inserta).
+- No tocamos la lógica de Zoho ni el mapeo de campos.
 
-**Archivos a tocar:**
-- `supabase/functions/zoho-lead/index.ts` — insertar en `web_submissions` antes/después de Zoho, devolver `submissionId` al cliente.
-- `src/components/FormSection.tsx` — mover el `navigate` fuera del `finally`, gestionar error real, tracking correcto.
-- `src/pages/Gracias.tsx` — redirect si no hay `state`.
-- `src/pages/AdminLeads.tsx` — pestaña "Web" con filtros + botón "Reintentar".
-- Nueva edge function `retry-web-submission` (o reutilizar `zoho-lead` con `submissionId`).
-- `supabase/config.toml` — sin cambios (verify_jwt sigue en default false).
+## Archivos afectados
 
-## Qué NO hago en este plan
-- No toco el módulo `sales_leads` (usado por otro flujo) para no arriesgar.
-- No cambio la lógica de Zoho ni los mapeos de campo.
-- No añado rate limiting (no lo has pedido y hay que discutirlo antes).
+- `supabase/migrations/<nueva>.sql`
+- `src/components/FormSection.tsx`
+- `src/pages/Gracias.tsx`
+- `src/pages/AdminWebLeads.tsx`
+- `supabase/functions/zoho-lead/index.ts` (o nueva `retry-pending-submissions`)
 
-¿Le doy al botón "Implement plan" con esto tal cual o quieres ajustar algo (por ejemplo empezar sólo con el punto 1+2, que ya frena la hemorragia)?
+## Fuera de alcance
+
+- Cambios en Zoho, triage, o UI del formulario.
+- Alertas por email — lo dejamos para una segunda iteración cuando veamos qué patrón sale del panel.
