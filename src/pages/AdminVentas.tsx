@@ -2437,6 +2437,37 @@ const AdminVentas = () => {
                     />
                   </div>
                 )}
+                {guide.housing === "hipoteca" && (
+                  <div className="flex items-center justify-between gap-3 rounded-lg border p-2.5" style={{ borderColor: "hsl(var(--phase) / 0.3)" }}>
+                    <span className="text-xs font-medium text-foreground">
+                      ¿Es su vivienda habitual?
+                    </span>
+                    <div className="flex gap-1">
+                      {[
+                        { v: true, l: "Sí" },
+                        { v: false, l: "No" },
+                      ].map((o) => {
+                        const on = guide.isPrimaryResidence === o.v;
+                        return (
+                          <button
+                            key={o.l}
+                            type="button"
+                            onClick={() =>
+                              setGuide((g) => ({
+                                ...g,
+                                isPrimaryResidence: g.isPrimaryResidence === o.v ? undefined : o.v,
+                              }))
+                            }
+                            className="rounded-md px-3 py-1 text-xs font-semibold"
+                            style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                          >
+                            {o.l}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             ),
           });
@@ -2517,6 +2548,39 @@ const AdminVentas = () => {
                     />
                   </div>
                 )}
+                {guide.vehicle === "financiado" &&
+                  (guide.vehicleValue ?? 0) - (guide.vehicleRemaining ?? 0) > 0 && (
+                    <div className="flex items-center justify-between gap-3 rounded-lg border p-2.5" style={{ borderColor: "hsl(var(--phase) / 0.3)" }}>
+                      <span className="text-xs font-medium text-foreground">
+                        ¿Quiere retener el vehículo?
+                      </span>
+                      <div className="flex gap-1">
+                        {[
+                          { v: true, l: "Sí, retener" },
+                          { v: false, l: "No, liquidar" },
+                        ].map((o) => {
+                          const on = guide.wantsToKeepVehicle === o.v;
+                          return (
+                            <button
+                              key={o.l}
+                              type="button"
+                              onClick={() =>
+                                setGuide((g) => ({
+                                  ...g,
+                                  wantsToKeepVehicle:
+                                    g.wantsToKeepVehicle === o.v ? undefined : o.v,
+                                }))
+                              }
+                              className="rounded-md px-3 py-1 text-xs font-semibold"
+                              style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                            >
+                              {o.l}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
               </div>
             ),
           });
