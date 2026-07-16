@@ -1655,23 +1655,24 @@ const AdminVentas = () => {
     }
   };
 
-  const loadTestCase = () => {
+  const loadTestCase = (id: string = "maria") => {
+    const tc = TEST_CASES.find((c) => c.id === id) ?? TEST_CASES[0];
     setReinforceByStep({});
     setSub(0);
-    setLabel(TEST_CASE.label);
-    setRelevantFacts(TEST_CASE.relevantFacts);
+    setLabel(tc.label);
+    setRelevantFacts(tc.relevantFacts);
     setNewFact("");
-    setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
-    setResult(TEST_CASE.result);
+    setGuide({ ...emptyGuide(), ...tc.guide });
+    setResult(tc.result ?? null);
     setSavedId(null);
     setStep(0);
     setEngagementByPhase([1, 1, 1, 1, 1, 1]);
     setReactions([]);
-    setContract({ ...emptyContract(), ...TEST_CASE.contract });
+    setContract({ ...emptyContract(), ...(tc.contract ?? {}) });
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
-    toast.success("Caso de prueba cargado");
+    toast.success(`Caso cargado: ${tc.label}`);
   };
 
   const addDebt = () =>
