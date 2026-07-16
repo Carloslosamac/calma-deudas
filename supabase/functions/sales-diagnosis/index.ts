@@ -27,14 +27,58 @@ interface GuideFields {
   mortgagePaid?: number;
   mortgageRemaining?: number;
   housingPayment?: number;
+  isPrimaryResidence?: boolean;
   vehicle?: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
   vehiclePayment?: number;
+  wantsToKeepVehicle?: boolean;
   employment?: string;
   monthlyIncome?: number;
   monthlyExpenses?: number;
+  profile?:
+    | "particular_soltero"
+    | "particular_gananciales"
+    | "autonomo"
+    | "administrador_sociedad";
+  publicDebtAmount?: number;
+}
+
+// Resultado del triaje que llega ya calculado desde el cliente. La IA no lo
+// recalcula: solo lo redacta. Reduce input tokens y evita divergencias.
+interface TriageExtra {
+  variant?: "individual" | "conjunta" | "autonomo";
+  modality?: "sin_masa" | "liquidacion" | "plan_pagos";
+  estimatedInstallment?: number;
+  warnings?: string[];
+}
+
+const VARIANT_LABEL: Record<string, string> = {
+  individual: "Individual",
+  conjunta: "Conjunta (gananciales)",
+  autonomo: "Autónomo",
+};
+const MODALITY_LABEL: Record<string, string> = {
+  sin_masa: "Sin masa (sin bienes que liquidar; proceso rápido y directo)",
+  liquidacion: "Con liquidación (se liquida el bien financiado sin equity)",
+  plan_pagos: "Plan de pagos (3 a 5 años, cuota calculada como ingresos − gastos)",
+};
+
+function buildTriageExtraBlock(t?: TriageExtra): string {
+  if (!t || (!t.variant && !t.modality && !(t.warnings?.length))) return "";
+  const parts: string[] = [];
+  if (t.variant) parts.push(`Variante: ${VARIANT_LABEL[t.variant] ?? t.variant}`);
+  if (t.modality) parts.push(`Modalidad: ${MODALITY_LABEL[t.modality] ?? t.modality}`);
+  if (t.modality === "plan_pagos" && t.estimatedInstallment != null) {
+    parts.push(
+      `Cuota estimada del plan de pagos: ${t.estimatedInstallment} €/mes durante 3–5 años. Menciónala con transparencia; no prometas cancelación total inmediata.`,
+    );
+  }
+  if (t.warnings?.length) {
+    parts.push(`Avisos obligatorios (mencionarlos con naturalidad):\n${t.warnings.map((w) => `  · ${w}`).join("\n")}`);
+  }
+  return `\nENCAJE LSO YA RESUELTO POR EL TRIAJE (úsalo tal cual, no lo cuestiones ni lo re-razones; redacta apoyándote en él):\n${parts.join("\n")}\n`;
 }
 
 // Nivel de engagement: 0 = listísimo para contratar/pagar ya,
@@ -308,6 +352,7 @@ function buildPrompt(
   reactions: string[],
   contract?: ContractInput,
   target: "diagnosis" | "solution" = "diagnosis",
+  triageExtra?: TriageExtra,
 ): string {
   const campos = buildCaseData(g);
 
@@ -358,6 +403,7 @@ ${caseText}
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
 ${SOLUTION_BENEFITS[t.solution] ?? ""}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (OBLIGATORIO RESPETARLO — no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -413,6 +459,7 @@ function buildSigningPrompt(
   reactions: string[],
   engByPhase: number[],
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   return `Eres el MEJOR closer de Calma, empresa española que ayuda a personas con deudas. Estás en la FASE FINAL de la llamada: conseguir que la persona FIRME EL CONTRATO ONLINE ahora mismo, sin aplazarlo.
 
@@ -425,6 +472,7 @@ ${caseText}
 """
 
 SERVICIO CONTRATADO: ${t.title}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -457,11 +505,13 @@ function buildContractMessagePrompt(
   reactions: string[],
   engByPhase: number[],
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   return `Eres un closer de Calma. Acabas de cerrar verbalmente con la persona y vas a ENVIARLE el contrato del servicio "${t.title}" para que lo firme online.
 
 DATOS GUÍA (FUENTE DE VERDAD · prioridad absoluta para cifras y entidades):
 ${buildCaseData(g)}
+${buildTriageExtraBlock(triageExtra)}
 
 CASO DE LA PERSONA (CONTEXTO CUALITATIVO · NO usar sus cifras si difieren de los DATOS GUÍA):
 """
@@ -504,6 +554,7 @@ function buildReinforcePrompt(
   engByPhase: number[],
   currentStep: number,
   contract?: ContractInput,
+  triageExtra?: TriageExtra,
 ): string {
   const phaseName = PHASE_NAMES[currentStep] ?? "la fase actual";
   const goal = PHASE_GOAL[currentStep] ?? PHASE_GOAL[1];
@@ -521,6 +572,7 @@ ${caseText}
 
 SOLUCIÓN RECOMENDADA POR EL TRIAJE: ${t.title}
 ${SOLUTION_BRIEF[t.solution]}
+${buildTriageExtraBlock(triageExtra)}
 
 ANÁLISIS LEGAL DE EMBARGABILIDAD (respétalo: no amenaces con embargos que la ley no permite):
 ${buildEmbargoGuide(g)}
@@ -583,6 +635,32 @@ Deno.serve(async (req) => {
     const phase = typeof body.phase === "string" ? body.phase : "";
     const contract: ContractInput =
       body.contract && typeof body.contract === "object" ? body.contract : {};
+    const triageExtra: TriageExtra =
+      body.triageExtra && typeof body.triageExtra === "object"
+        ? {
+            variant:
+              body.triageExtra.variant === "individual" ||
+              body.triageExtra.variant === "conjunta" ||
+              body.triageExtra.variant === "autonomo"
+                ? body.triageExtra.variant
+                : undefined,
+            modality:
+              body.triageExtra.modality === "sin_masa" ||
+              body.triageExtra.modality === "liquidacion" ||
+              body.triageExtra.modality === "plan_pagos"
+                ? body.triageExtra.modality
+                : undefined,
+            estimatedInstallment:
+              typeof body.triageExtra.estimatedInstallment === "number"
+                ? body.triageExtra.estimatedInstallment
+                : undefined,
+            warnings: Array.isArray(body.triageExtra.warnings)
+              ? body.triageExtra.warnings
+                  .filter((w: unknown) => typeof w === "string")
+                  .slice(0, 6)
+              : [],
+          }
+        : {};
     const currentStep = (() => {
       const n = Number(body.currentStep);
       return Number.isFinite(n) && n >= 0 && n <= 4 ? Math.round(n) : 1;
@@ -598,14 +676,14 @@ Deno.serve(async (req) => {
     const t = triage(guide);
     const prompt =
       phase === "signing"
-        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
+        ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract, triageExtra)
         : phase === "contract_message"
-          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract)
+          ? buildContractMessagePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract, triageExtra)
           : phase === "reinforce"
-            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract)
+            ? buildReinforcePrompt(caseText, guide, t, engagement, reactions, engagementByPhase, currentStep, contract, triageExtra)
             : phase === "solution"
-              ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution")
-              : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis");
+              ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution", triageExtra)
+              : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis", triageExtra);
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

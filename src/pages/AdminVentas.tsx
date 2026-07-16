@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,6 +43,13 @@ import {
   emptyContract,
 } from "@/lib/contratoPdf";
 import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
+import {
+  triage as computeTriage,
+  type Profile as TriageProfile,
+  type TriageResult,
+  VARIANT_LABEL,
+  MODALITY_LABEL,
+} from "@/lib/seo/triage";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -73,14 +80,18 @@ type GuideFields = {
   mortgagePaid?: number;
   mortgageRemaining?: number;
   housingPayment?: number;
+  isPrimaryResidence?: boolean;
   vehicle: Vehicle;
   vehicleValue?: number;
   vehiclePaid?: number;
   vehicleRemaining?: number;
   vehiclePayment?: number;
+  wantsToKeepVehicle?: boolean;
   employment?: Employment;
   monthlyIncome?: number;
   monthlyExpenses?: number;
+  profile?: TriageProfile;
+  publicDebtAmount?: number;
 };
 
 type ScriptCard = { emoji: string; title: string; body: string };
@@ -131,6 +142,30 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "desempleado", label: "Desempleado/a" },
   { value: "pension", label: "Pensionista" },
   { value: "otros", label: "Otros" },
+];
+
+// Perfil legal para el triaje LSO (individual/conjunta/autónomo/administrador).
+const PROFILE_OPTIONS: { value: TriageProfile; label: string; hint: string }[] = [
+  {
+    value: "particular_soltero",
+    label: "Particular",
+    hint: "Trabajador/pensionista sin gananciales · umbral 1.700€",
+  },
+  {
+    value: "particular_gananciales",
+    label: "Casado en gananciales",
+    hint: "Régimen económico ganancial · umbral 3.000€ conjunto",
+  },
+  {
+    value: "autonomo",
+    label: "Autónomo/a",
+    hint: "Actividad por cuenta propia · protección SMI limitada",
+  },
+  {
+    value: "administrador_sociedad",
+    label: "Administrador de sociedad",
+    hint: "Va por concurso de acreedores ordinario · se deriva",
+  },
 ];
 
 // Frases con las que la persona ha respondido a la fase anterior. El comercial
@@ -1329,6 +1364,43 @@ const AdminVentas = () => {
   const affordablePayment =
     paymentCapacity != null ? Math.max(0, Math.round((paymentCapacity * 0.6) / 5) * 5) : null;
 
+  // Triaje LSO en vivo: el resultado alimenta el bloque "Encaje LSO" de la fase
+  // Solución y viaja al edge function como `triageExtra` (variant/modality/
+  // cuota estimada/warnings) para que la IA no vuelva a calcularlos.
+  const triageResult: TriageResult = useMemo(() => {
+    const derivedEntities = Array.from(
+      new Set(guide.debts.map((d) => d.type).filter(Boolean) as string[]),
+    );
+    return computeTriage({
+      debtAmount: debtsTotal > 0 ? debtsTotal : (guide.debtAmount ?? 0),
+      isDefault: guide.debts.some((d) => d.isDefault) || !!guide.isDefault,
+      entities: derivedEntities.length ? derivedEntities : (guide.entities ?? []),
+      profile: guide.profile,
+      publicDebtAmount: guide.publicDebtAmount,
+      monthlyIncome: guide.monthlyIncome,
+      monthlyExpenses: guide.monthlyExpenses,
+      housing: guide.housing || "",
+      housingValue: guide.housingValue,
+      mortgagePaid: guide.mortgagePaid,
+      mortgageRemaining: guide.mortgageRemaining,
+      isPrimaryResidence: guide.isPrimaryResidence,
+      vehicle: guide.vehicle || "",
+      vehicleValue: guide.vehicleValue,
+      vehiclePaid: guide.vehiclePaid,
+      vehicleRemaining: guide.vehicleRemaining,
+      wantsToKeepVehicle: guide.wantsToKeepVehicle,
+    });
+  }, [guide, debtsTotal]);
+  const triageExtra = {
+    variant: triageResult.variant,
+    modality: triageResult.modality,
+    estimatedInstallment: triageResult.estimatedInstallment,
+    warnings: triageResult.warnings,
+  };
+  const hasDebtsPublicHint = guide.debts.some(
+    (d) => d.type === "hacienda",
+  );
+
   const runGeneration = async (
     nextStep: number,
     target: "diagnosis" | "solution" = "diagnosis",
@@ -1350,7 +1422,7 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, engagement, engagementByPhase, reactions, contract, phase: target },
+        body: { caseText: caseText.trim(), guide: payloadGuide, triageExtra, engagement, engagementByPhase, reactions, contract, phase: target },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1409,7 +1481,29 @@ const AdminVentas = () => {
 
   // Diagnóstico → Solución: re-prepara TODO el discurso (incl. solución) con el
   // engagement actualizado, para que el siguiente paso encaje con él.
-  const proceedToSolution = () => void runGeneration(3, "solution");
+  const proceedToSolution = () => {
+    // Cortocircuito: si el triaje ya deriva o descarta, no gastamos IA en la
+    // fase Solución — el bloque "Encaje LSO" cubre el mensaje.
+    if (
+      triageResult.solution === "derivar" ||
+      triageResult.solution === "no_insolvente"
+    ) {
+      setResult((prev) =>
+        prev
+          ? { ...prev, triage: { solution: triageResult.solution, title: triageResult.title } }
+          : ({
+              triage: { solution: triageResult.solution, title: triageResult.title },
+              diagnosis_internal: [],
+              diagnosis_client: "",
+              solution_internal: [],
+              solution_client: "",
+            } as AiResult),
+      );
+      setStep(3);
+      return;
+    }
+    void runGeneration(3, "solution");
+  };
 
   // Solución → Contrato: pasa a contrato (el guion de envío se pre-genera solo al entrar).
   const goToContract = () => {
@@ -1439,7 +1533,7 @@ const AdminVentas = () => {
     setGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide, engagement, engagementByPhase, reactions, phase, contract },
+        body: { caseText: caseText.trim(), guide, triageExtra, engagement, engagementByPhase, reactions, phase, contract },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1506,6 +1600,7 @@ const AdminVentas = () => {
         body: {
           caseText: caseText.trim(),
           guide: payloadGuide,
+          triageExtra,
           engagement,
           engagementByPhase,
           reactions,
@@ -1540,6 +1635,13 @@ const AdminVentas = () => {
   // puede regenerarlo después si reajusta el engagement o las reacciones.
   useEffect(() => {
     if (!result || generating) return;
+    // Casos derivar / no insolvente no siguen a Contrato ni Firma: no
+    // gastamos IA en pre-generar guiones que no se usan.
+    if (
+      triageResult.solution === "derivar" ||
+      triageResult.solution === "no_insolvente"
+    )
+      return;
     if (step === 4 && !(result.contract_internal?.length) && !autoGenRef.current[4]) {
       autoGenRef.current[4] = true;
       void runPhase("contract_message");
@@ -2128,34 +2230,117 @@ const AdminVentas = () => {
               </div>
             ),
           });
-          // Empleo
+          // Perfil legal (reemplaza al selector de empleo: fija umbral LSO y
+          // deriva el caso a concurso ordinario si es administrador).
           screens.push({
-            key: "empleo",
+            key: "perfil",
             kind: "content",
             node: (
               <div className="space-y-4">
-                {kicker("Cualificación · empleo")}
+                {kicker("Cualificación · perfil legal")}
                 <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
-                  Situación laboral
+                  ¿Qué perfil tiene la persona?
                 </h2>
-                <Select
-                  value={guide.employment ?? ""}
-                  onValueChange={(v) => setGuide((g) => ({ ...g, employment: v as Employment }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {EMPLOYMENT_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>
-                        {o.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <p className="text-sm text-muted-foreground">
+                  Determina el umbral LSO y si el caso encaja o hay que derivar.
+                </p>
+                <div className="space-y-2">
+                  {PROFILE_OPTIONS.map((o) => {
+                    const on = guide.profile === o.value;
+                    return (
+                      <button
+                        key={o.value}
+                        type="button"
+                        onClick={() =>
+                          setGuide((g) => ({
+                            ...g,
+                            profile: o.value,
+                            // Autónomo: alinea la situación laboral para el
+                            // análisis de embargabilidad que ya usa el edge fn.
+                            employment:
+                              o.value === "autonomo"
+                                ? "autonomo"
+                                : g.employment === "autonomo"
+                                  ? "empleado_indefinido"
+                                  : g.employment,
+                          }))
+                        }
+                        className={
+                          "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors " +
+                          (on ? "hover:opacity-90" : "hover:bg-muted/40")
+                        }
+                        style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                      >
+                        <span
+                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border"
+                          style={{
+                            borderColor: on ? "currentColor" : "hsl(var(--phase) / 0.4)",
+                          }}
+                        >
+                          {on && <Check className="h-3.5 w-3.5" />}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-tight">
+                            {o.label}
+                          </p>
+                          <p className="mt-0.5 text-[11px] opacity-80">
+                            {o.hint}
+                          </p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                {guide.profile === "administrador_sociedad" && (
+                  <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-3 text-xs text-destructive">
+                    <AlertTriangle className="mr-1 inline h-3.5 w-3.5" />
+                    Como administrador/a de sociedad, el caso no encaja con la
+                    LSO estándar. En la fase Solución se muestra el guion de
+                    derivación a abogado concursal.
+                  </div>
+                )}
               </div>
             ),
           });
+          // Deuda pública (Hacienda/SS): solo se pregunta si el comercial ya ha
+          // marcado ese tipo en las deudas o si el perfil es autónomo (habitual).
+          if (hasDebtsPublicHint || guide.profile === "autonomo") {
+            screens.push({
+              key: "deuda_publica",
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Cualificación · deuda pública")}
+                  <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                    Deuda con Hacienda o Seguridad Social
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Importe con un mismo organismo. Por encima de 10.000€ esa
+                    parte NO se cancela con LSO (se avisa al cliente).
+                  </p>
+                  <Input
+                    type="number"
+                    value={guide.publicDebtAmount ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        publicDebtAmount: e.target.value
+                          ? Number(e.target.value)
+                          : undefined,
+                      }))
+                    }
+                    placeholder="0"
+                  />
+                  {(guide.publicDebtAmount ?? 0) > 10000 && (
+                    <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-xs text-amber-700">
+                      La parte que exceda 10.000€ con este organismo NO se
+                      cancela con LSO. Se comunicará al cliente.
+                    </p>
+                  )}
+                </div>
+              ),
+            });
+          }
           // Ingresos
           screens.push({
             key: "ingresos",
@@ -2281,6 +2466,37 @@ const AdminVentas = () => {
                     />
                   </div>
                 )}
+                {guide.housing === "hipoteca" && (
+                  <div className="flex items-center justify-between gap-3 rounded-lg border p-2.5" style={{ borderColor: "hsl(var(--phase) / 0.3)" }}>
+                    <span className="text-xs font-medium text-foreground">
+                      ¿Es su vivienda habitual?
+                    </span>
+                    <div className="flex gap-1">
+                      {[
+                        { v: true, l: "Sí" },
+                        { v: false, l: "No" },
+                      ].map((o) => {
+                        const on = guide.isPrimaryResidence === o.v;
+                        return (
+                          <button
+                            key={o.l}
+                            type="button"
+                            onClick={() =>
+                              setGuide((g) => ({
+                                ...g,
+                                isPrimaryResidence: g.isPrimaryResidence === o.v ? undefined : o.v,
+                              }))
+                            }
+                            className="rounded-md px-3 py-1 text-xs font-semibold"
+                            style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                          >
+                            {o.l}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             ),
           });
@@ -2361,6 +2577,39 @@ const AdminVentas = () => {
                     />
                   </div>
                 )}
+                {guide.vehicle === "financiado" &&
+                  (guide.vehicleValue ?? 0) - (guide.vehicleRemaining ?? 0) > 0 && (
+                    <div className="flex items-center justify-between gap-3 rounded-lg border p-2.5" style={{ borderColor: "hsl(var(--phase) / 0.3)" }}>
+                      <span className="text-xs font-medium text-foreground">
+                        ¿Quiere retener el vehículo?
+                      </span>
+                      <div className="flex gap-1">
+                        {[
+                          { v: true, l: "Sí, retener" },
+                          { v: false, l: "No, liquidar" },
+                        ].map((o) => {
+                          const on = guide.wantsToKeepVehicle === o.v;
+                          return (
+                            <button
+                              key={o.l}
+                              type="button"
+                              onClick={() =>
+                                setGuide((g) => ({
+                                  ...g,
+                                  wantsToKeepVehicle:
+                                    g.wantsToKeepVehicle === o.v ? undefined : o.v,
+                                }))
+                              }
+                              className="rounded-md px-3 py-1 text-xs font-semibold"
+                              style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                            >
+                              {o.l}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
               </div>
             ),
           });
@@ -2454,8 +2703,115 @@ const AdminVentas = () => {
             result.diagnosis_internal.forEach((c, i) => screens.push(scriptScreen("diag-" + i, c)));
             screens.push(clientScreen("diag-client", result.diagnosis_client, result.approach));
           } else if (step === 3) {
+            // Encaje LSO calculado por el triaje (variant · modality + cuota
+            // estimada + warnings). Se muestra ANTES del guion de la IA para
+            // que el comercial arranque la fase con la modalidad ya clara.
+            screens.push({
+              key: "triage-summary",
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Solución · encaje LSO")}
+                  {triageResult.solution === "derivar" ? (
+                    <>
+                      <h2 className="flex items-center gap-2 font-poppins text-xl font-bold text-destructive">
+                        <AlertTriangle className="h-5 w-5" /> Derivar a abogado concursal
+                      </h2>
+                      <p className="text-sm leading-relaxed text-foreground/90">
+                        Como administrador/a de sociedad, el caso no encaja en
+                        LSO estándar: va por concurso de acreedores ordinario.
+                        Cierra la llamada con una derivación honesta, sin
+                        vender el servicio de Calma.
+                      </p>
+                    </>
+                  ) : triageResult.solution === "no_insolvente" ? (
+                    <>
+                      <h2 className="font-poppins text-xl font-bold text-foreground">
+                        No encaja en insolvencia real
+                      </h2>
+                      <p className="text-sm leading-relaxed text-foreground/90">
+                        Con estos ingresos frente a gastos no hay insolvencia
+                        real. Explora reunificación o reclamación por usura si
+                        aplica; no fuerces LSO.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="font-poppins text-xl font-bold text-foreground">
+                        {triageResult.title}
+                      </h2>
+                      <div className="flex flex-wrap gap-2">
+                        {triageResult.variant && (
+                          <span
+                            className="rounded-full border px-3 py-1 text-xs font-semibold"
+                            style={phaseOutlineBtn}
+                          >
+                            {VARIANT_LABEL[triageResult.variant]}
+                          </span>
+                        )}
+                        {triageResult.modality && (
+                          <span
+                            className="rounded-full px-3 py-1 text-xs font-semibold"
+                            style={phasePrimaryBtn}
+                          >
+                            {MODALITY_LABEL[triageResult.modality]}
+                          </span>
+                        )}
+                      </div>
+                      {triageResult.modality === "plan_pagos" && (
+                        <div
+                          className="rounded-xl border p-4"
+                          style={{
+                            borderColor: "hsl(var(--phase) / 0.4)",
+                            backgroundColor: "hsl(var(--phase) / 0.06)",
+                          }}
+                        >
+                          <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                            Cuota estimada del plan de pagos
+                          </p>
+                          <p
+                            className="font-poppins text-3xl font-bold"
+                            style={{ color: "hsl(var(--phase))" }}
+                          >
+                            {(triageResult.estimatedInstallment ?? 0).toLocaleString("es-ES")} €
+                            <span className="ml-1 text-base font-medium text-muted-foreground">
+                              /mes · 3–5 años
+                            </span>
+                          </p>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            Fórmula: ingresos − gastos (sin cuotas de deudas).
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {triageResult.warnings.length > 0 && (
+                    <div className="space-y-1.5">
+                      {triageResult.warnings.map((w, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2.5 text-xs text-amber-800"
+                        >
+                          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                          <span>{w}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ),
+            });
+            // Si el caso se deriva, el resto del guion de solución no aplica:
+            // el comercial cierra con la derivación y salta el paso.
+            if (
+              triageResult.solution === "derivar" ||
+              triageResult.solution === "no_insolvente"
+            ) {
+              // No añadimos tarjetas de IA para este caso.
+            } else {
             result.solution_internal.forEach((c, i) => screens.push(scriptScreen("sol-" + i, c)));
             screens.push(clientScreen("sol-client", result.solution_client, result.approach));
+            }
           } else if (step === 4) {
             if (generating && !(result.contract_internal?.length)) {
               screens.push({
