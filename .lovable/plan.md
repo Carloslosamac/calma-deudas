@@ -1,62 +1,71 @@
 ## Contexto
 
-- `/gracias` recibió 4 hits esta semana, pero solo 1 lead ha llegado al CRM.
-- `web_submissions` está vacío de datos históricos (se creó hoy), así que esos 3 leads perdidos son irrecuperables.
-- Con el pipeline actual, cualquier fallo **antes** de que la edge function inserte la fila (error de red, CORS, bot que abre `/gracias`, refresh, error JS) sigue siendo invisible.
+Además de los cambios ya aprobados para convertir `/blog/guia-cancelar-deudas` en hub potente, añadimos el patrón "50 artículos ordenados por situación" que ya funciona en `/blog/guia-ley-segunda-oportunidad`, y encolamos como **prioridad Alta** todos los artículos por escribir para que el generador los publique antes que la cola normal.
 
-## Objetivo
+## Cambios adicionales
 
-Que ningún intento de envío quede sin traza, aunque falle antes de llegar a la edge function, y poder auditar el hueco `/gracias` vs leads reales.
+### A. Hub "50 artículos" dentro de la guía
 
-## Cambios
+Añadir una sección nueva `id: "hub-50"` a `src/data/blog/posts/guia-cancelar-deudas.tsx` (justo antes de la sección `hub` actual, que se conserva compacta como resumen).
 
-### 1. Traza cliente-primero en `web_submissions`
+**Estructura:** 10 grupos × 5 títulos = 50 artículos, agrupados por situación real del usuario. Cada item o bien enlaza a un post ya existente (`to: "/blog/..."`), o queda sin `to` (aparece como pregunta futura, igual que en LSO).
 
-En vez de depender de que la edge function inserte la fila, insertamos desde el navegador **antes** de invocar `zoho-lead`:
+Grupos previstos:
 
-- Nueva política RLS: `INSERT` para `anon` con `WITH CHECK (true)` limitada a las columnas seguras (`name`, `email`, `phone`, `debt_amount`, `entities`, `payload`, `page`, `utm_*`, `user_agent`), estado inicial `pending`.
-- `FormSection.onSubmit`:
-  1. `insert` en `web_submissions` → recibe `submissionId`.
-  2. Llama a `zoho-lead` con `{ submissionId }` (modo reintento existente) en vez del payload plano.
-  3. Si la inserción cliente falla, cae al flujo actual (envío directo).
+1. **Elegir la vía correcta** (triage) — ya cubierto en parte por `cancelar-deudas-requisitos`, `guia-ley-segunda-oportunidad`, `guia-reunificar-deudas`.
+2. **Requisitos y elegibilidad para cancelar deudas**.
+3. **Cancelar según el tipo de deuda** — enlaza a `guia-cancelar-microcreditos`, `guia-cancelar-revolving`, `deudas-hacienda-seguridad-social`.
+4. **Cancelar según el acreedor** (bancos concretos, financieras, particulares).
+5. **Cancelar deudas con bienes en juego** (vivienda, coche, avales).
+6. **Cancelar deudas siendo autónomo o exempresario** — enlaza a `autonomos-con-deudas`.
+7. **Embargos, ASNEF y ficheros al cancelar** — enlaza a `embargos-segunda-oportunidad`, `salir-asnef`, `juicio-monitorio-deuda`.
+8. **Cuánto cuesta y cuánto tarda cancelar deudas**.
+9. **Cancelar deudas vs. otras vías** (refinanciar, quita, dación, concurso) — enlaza a `renegociar-acreedores`.
+10. **Después de cancelar la deuda** — enlaza a `vida-despues-deuda`.
 
-Con esto, aunque `zoho-lead` nunca se ejecute (CORS, red, adblock), el lead está guardado y aparece en `/admin/web-leads` como `pending`.
+Reutilizamos el componente `ContentHub` existente, con la misma copy introductoria adaptada ("Cada caso es distinto. Aquí abajo tienes los 50 ángulos más buscados de cómo cancelar deudas, ordenados por situación…").
 
-### 2. Cron de saneamiento
+### B. Encolado en `seo_roadmap` con prioridad Alta
 
-Añadir en `zoho-lead` un modo o crear función nueva `retry-pending-submissions` que reintente cualquier `web_submissions` con `zoho_status='pending'` más antigua de 2 minutos. Se puede llamar manualmente desde `/admin/web-leads` con un botón "Reintentar pendientes".
+Para cada uno de los ~35 títulos del hub que **no** tienen post asociado, insertar una fila en `public.seo_roadmap`:
 
-### 3. Log de `/gracias` "huérfano"
+```sql
+INSERT INTO seo_roadmap (titulo, cluster, intencion, tipo_pagina, prioridad, url_sugerida, estado)
+VALUES (
+  '<título del hub>',
+  'Cancelación de deudas',
+  'informacional',
+  'blog-post',
+  'Alta',
+  '/blog/<slug-generado>',
+  'en_cola'
+);
+```
 
-En `Gracias.tsx`, cuando `!name && !result` (llegada directa), antes de redirigir a `/`, insertar una fila mínima en una tabla nueva `orphan_gracias_hits` (`created_at`, `referrer`, `utm_*`, `user_agent`). Así sabremos cuántos de los 4 son bots/refresh vs fallos reales.
+- El generador `generate-daily-posts` ordena por `prioridad='Alta'` primero, así que estos salen antes que las 601 filas actuales de prioridad Baja.
+- Antes de insertar, filtramos por `titulo` normalizado contra las filas existentes con `estado IN ('publicado','descartado_duplicado','en_cola','bloqueado_competidor')` para no duplicar (la tabla tiene ya 66 descartadas por duplicado).
+- Uso el tool `supabase--insert` en el paso de ejecución (no migración, es data).
 
-- Política RLS: `INSERT` para `anon`, `SELECT` solo admin.
+### C. Ajustes menores en la guía
 
-### 4. Panel `/admin/web-leads`
+- El TL;DR y el sidebar mencionan que la guía es "el mapa completo del cluster cancelar deudas".
+- Añadir al TOC los nuevos ids: `hub-map` (del plan anterior) y `hub-50`.
+- Actualizar el `keyTakeaways` con un bullet nuevo: "50 artículos por situación al final de la guía para ir directo a tu caso".
 
-- Añadir contador "Huérfanos /gracias (7 días)" con enlace a modal que liste las filas de `orphan_gracias_hits`.
-- Añadir botón "Reintentar todos los pendientes" que llama a la función del punto 2.
+## Verificación
 
-### 5. Verificación
-
-- Simular fallo (bloquear la URL del edge function con DevTools) y confirmar que el lead aparece en `/admin/web-leads` como `pending` con botón de reintento funcional.
-- Simular llegada directa a `/gracias` y confirmar fila en `orphan_gracias_hits`.
-
-## Detalles técnicos
-
-- Migración con `CREATE POLICY` + `GRANT INSERT (columnas) ON public.web_submissions TO anon;` (sin `SELECT` para anon).
-- Nueva tabla `orphan_gracias_hits` con RLS estándar (admin lee, anon inserta).
-- No tocamos la lógica de Zoho ni el mapeo de campos.
-
-## Archivos afectados
-
-- `supabase/migrations/<nueva>.sql`
-- `src/components/FormSection.tsx`
-- `src/pages/Gracias.tsx`
-- `src/pages/AdminWebLeads.tsx`
-- `supabase/functions/zoho-lead/index.ts` (o nueva `retry-pending-submissions`)
+- Typecheck limpio.
+- Query en `seo_roadmap` para confirmar que las nuevas filas están `estado='en_cola'` y `prioridad='Alta'`.
+- Preview de la guía muestra los 10 grupos, algunos con enlaces activos y el resto como "próximamente".
+- Contamos ~35 filas nuevas insertadas (5 por grupo × 10 grupos − ~15 ya cubiertos por posts existentes).
 
 ## Fuera de alcance
 
-- Cambios en Zoho, triage, o UI del formulario.
-- Alertas por email — lo dejamos para una segunda iteración cuando veamos qué patrón sale del panel.
+- No modificamos el generador ni sus prompts — solo la cola.
+- No creamos las 35 páginas manualmente; que las publique el cron diario.
+- No tocamos `/blog/guia-ley-segunda-oportunidad` — su hub-50 sigue tal cual.
+
+## Archivos afectados
+
+- `src/data/blog/posts/guia-cancelar-deudas.tsx` (sección `hub-50` nueva, TOC actualizado)
+- Inserts en `seo_roadmap` vía `supabase--insert` (no migración)
