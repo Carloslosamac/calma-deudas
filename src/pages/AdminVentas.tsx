@@ -144,6 +144,30 @@ const EMPLOYMENT_OPTIONS: { value: Employment; label: string }[] = [
   { value: "otros", label: "Otros" },
 ];
 
+// Perfil legal para el triaje LSO (individual/conjunta/autónomo/administrador).
+const PROFILE_OPTIONS: { value: TriageProfile; label: string; hint: string }[] = [
+  {
+    value: "particular_soltero",
+    label: "Particular",
+    hint: "Trabajador/pensionista sin gananciales · umbral 1.700€",
+  },
+  {
+    value: "particular_gananciales",
+    label: "Casado en gananciales",
+    hint: "Régimen económico ganancial · umbral 3.000€ conjunto",
+  },
+  {
+    value: "autonomo",
+    label: "Autónomo/a",
+    hint: "Actividad por cuenta propia · protección SMI limitada",
+  },
+  {
+    value: "administrador_sociedad",
+    label: "Administrador de sociedad",
+    hint: "Va por concurso de acreedores ordinario · se deriva",
+  },
+];
+
 // Frases con las que la persona ha respondido a la fase anterior. El comercial
 // marca las que encajan y la IA cincela el tono del siguiente paso.
 const REACTION_PHRASES_PRESENTATION = [
