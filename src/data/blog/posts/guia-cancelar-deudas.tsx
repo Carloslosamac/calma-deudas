@@ -65,6 +65,7 @@ export const guiaCancelarDeudas: BlogPost = {
     "Deuda baja + intereses abusivos → reclamación (anular intereses y recuperar lo pagado de más).",
     "La Ley de Segunda Oportunidad puede paralizar embargos y cancelar deudas con bancos, financieras y particulares.",
     "El diagnóstico es individual y gratuito: ahí se decide, con números reales, qué te conviene.",
+    "50 artículos por situación al final de la guía para ir directo a tu caso.",
   ],
   sidebar: {
     ctaTitle: "¿Se pueden cancelar tus deudas?",
