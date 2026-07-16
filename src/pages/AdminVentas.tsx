@@ -916,7 +916,7 @@ const parseFactsFromText = (text: string | null | undefined): string[] => {
   return lines.length ? lines : [text.trim()];
 };
 
-const TEST_CASE: {
+const MARIA_TEST_CASE: {
   label: string;
   relevantFacts: string[];
   guide: GuideFields;
@@ -1083,6 +1083,335 @@ const TEST_CASE: {
   },
 };
 
+// Perfiles de prueba para probar cada outcome del triaje. Solo se rellena
+// el mínimo necesario para forzar la ruta: guide + relevantFacts + label.
+type TestCase = {
+  id: string;
+  label: string;
+  relevantFacts: string[];
+  guide: Partial<GuideFields>;
+  result?: AiResult;
+  contract?: Partial<ContractFields>;
+};
+
+const TEST_CASES: TestCase[] = [
+  {
+    id: "maria",
+    label: MARIA_TEST_CASE.label,
+    relevantFacts: MARIA_TEST_CASE.relevantFacts,
+    guide: MARIA_TEST_CASE.guide,
+    result: MARIA_TEST_CASE.result,
+    contract: MARIA_TEST_CASE.contract,
+  },
+  {
+    id: "individual_sin_masa",
+    label: "Individual · Sin masa",
+    relevantFacts: [
+      "Soltero, sin hijos, alquiler",
+      "Ingresos ~1.350€/mes, gastos ~700€",
+      "Sin vivienda ni coche en propiedad",
+      "Tarjetas y microcréditos impagados",
+    ],
+    guide: {
+      profile: "particular_soltero",
+      debts: [
+        { type: "tarjetas", entity: "WiZink", amount: 9000, monthlyPayment: 220, isDefault: true },
+        { type: "microcreditos", entity: "Vivus", amount: 4000, monthlyPayment: 130, isDefault: true },
+      ],
+      entities: ["tarjetas", "microcreditos"],
+      debtAmount: 13000,
+      isDefault: true,
+      monthlyIncome: 1350,
+      monthlyExpenses: 700,
+      housing: "alquiler",
+      housingPayment: 550,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "individual_liquidacion",
+    label: "Individual · Liquidación",
+    relevantFacts: [
+      "Soltero, alquiler",
+      "Ingresos ~1.400€/mes, gastos ~800€",
+      "Coche financiado con equity, no quiere retenerlo",
+      "Impagos en tarjetas",
+    ],
+    guide: {
+      profile: "particular_soltero",
+      debts: [
+        { type: "tarjetas", entity: "WiZink", amount: 12000, monthlyPayment: 260, isDefault: true },
+      ],
+      entities: ["tarjetas"],
+      debtAmount: 12000,
+      isDefault: true,
+      monthlyIncome: 1400,
+      monthlyExpenses: 800,
+      housing: "alquiler",
+      housingPayment: 550,
+      vehicle: "financiado",
+      vehicleValue: 9000,
+      vehiclePaid: 3000,
+      vehiclePayment: 220,
+      wantsToKeepVehicle: false,
+    },
+  },
+  {
+    id: "individual_plan_pagos",
+    label: "Individual · Plan de pagos",
+    relevantFacts: [
+      "Soltero, alquiler",
+      "Ingresos ~2.500€/mes, gastos ~2.100€",
+      "Deuda alta con préstamos y tarjetas, impagada",
+    ],
+    guide: {
+      profile: "particular_soltero",
+      debts: [
+        { type: "prestamos", entity: "Cofidis", amount: 12000, monthlyPayment: 320, isDefault: true },
+        { type: "tarjetas", entity: "WiZink", amount: 6000, monthlyPayment: 180, isDefault: true },
+      ],
+      entities: ["prestamos", "tarjetas"],
+      debtAmount: 18000,
+      isDefault: true,
+      monthlyIncome: 2500,
+      monthlyExpenses: 2100,
+      housing: "alquiler",
+      housingPayment: 850,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "conjunta_sin_masa",
+    label: "Conjunta · Sin masa",
+    relevantFacts: [
+      "Pareja casada en gananciales, dos hijos",
+      "Ingresos conjuntos ~2.400€/mes, gastos ~1.500€",
+      "Viven de alquiler, sin coche",
+      "Deuda de tarjetas impagada",
+    ],
+    guide: {
+      profile: "particular_gananciales",
+      debts: [
+        { type: "tarjetas", entity: "WiZink", amount: 10000, monthlyPayment: 250, isDefault: true },
+        { type: "microcreditos", entity: "Cetelem", amount: 6000, monthlyPayment: 150, isDefault: true },
+      ],
+      entities: ["tarjetas", "microcreditos"],
+      debtAmount: 16000,
+      isDefault: true,
+      monthlyIncome: 2400,
+      monthlyExpenses: 1500,
+      housing: "alquiler",
+      housingPayment: 750,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "conjunta_liquidacion",
+    label: "Conjunta · Liquidación",
+    relevantFacts: [
+      "Pareja gananciales, alquiler",
+      "Ingresos conjuntos ~2.500€/mes (bajo umbral)",
+      "Coche financiado con equity, no lo retienen",
+      "Impagos en tarjetas y préstamo",
+    ],
+    guide: {
+      profile: "particular_gananciales",
+      debts: [
+        { type: "tarjetas", entity: "WiZink", amount: 9000, monthlyPayment: 220, isDefault: true },
+        { type: "prestamos", entity: "Cofidis", amount: 8000, monthlyPayment: 240, isDefault: true },
+      ],
+      entities: ["tarjetas", "prestamos"],
+      debtAmount: 17000,
+      isDefault: true,
+      monthlyIncome: 2500,
+      monthlyExpenses: 1800,
+      housing: "alquiler",
+      housingPayment: 800,
+      vehicle: "financiado",
+      vehicleValue: 10000,
+      vehiclePaid: 3000,
+      vehiclePayment: 250,
+      wantsToKeepVehicle: false,
+    },
+  },
+  {
+    id: "conjunta_plan_pagos",
+    label: "Conjunta · Plan de pagos",
+    relevantFacts: [
+      "Pareja gananciales, hijos, alquiler",
+      "Ingresos conjuntos ~3.800€/mes, gastos ~3.200€",
+      "Deuda alta con varios acreedores, impagada",
+    ],
+    guide: {
+      profile: "particular_gananciales",
+      debts: [
+        { type: "prestamos", entity: "Santander", amount: 15000, monthlyPayment: 380, isDefault: true },
+        { type: "tarjetas", entity: "WiZink", amount: 7000, monthlyPayment: 200, isDefault: true },
+      ],
+      entities: ["prestamos", "tarjetas"],
+      debtAmount: 22000,
+      isDefault: true,
+      monthlyIncome: 3800,
+      monthlyExpenses: 3200,
+      housing: "alquiler",
+      housingPayment: 1100,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "autonomo_sin_masa",
+    label: "Autónomo · Sin masa",
+    relevantFacts: [
+      "Autónomo (persona física, no sociedad)",
+      "Ingresos netos ~1.400€/mes, gastos ~900€",
+      "Alquiler, sin coche, sin bienes",
+      "Deuda con proveedores y tarjetas",
+    ],
+    guide: {
+      profile: "autonomo",
+      debts: [
+        { type: "prestamos", entity: "Proveedor", amount: 9000, monthlyPayment: 220, isDefault: true },
+        { type: "tarjetas", entity: "WiZink", amount: 5000, monthlyPayment: 150, isDefault: true },
+      ],
+      entities: ["prestamos", "tarjetas"],
+      debtAmount: 14000,
+      isDefault: true,
+      monthlyIncome: 1400,
+      monthlyExpenses: 900,
+      housing: "alquiler",
+      housingPayment: 600,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "autonomo_liquidacion",
+    label: "Autónomo · Liquidación",
+    relevantFacts: [
+      "Autónomo, alquiler",
+      "Ingresos ~1.500€/mes",
+      "Furgoneta financiada con equity, no la retiene",
+      "Deudas de proveedores impagadas",
+    ],
+    guide: {
+      profile: "autonomo",
+      debts: [
+        { type: "prestamos", entity: "Proveedores", amount: 16000, monthlyPayment: 380, isDefault: true },
+      ],
+      entities: ["prestamos"],
+      debtAmount: 16000,
+      isDefault: true,
+      monthlyIncome: 1500,
+      monthlyExpenses: 900,
+      housing: "alquiler",
+      housingPayment: 600,
+      vehicle: "financiado",
+      vehicleValue: 12000,
+      vehiclePaid: 4000,
+      vehiclePayment: 280,
+      wantsToKeepVehicle: false,
+    },
+  },
+  {
+    id: "autonomo_plan_pagos",
+    label: "Autónomo · Plan de pagos",
+    relevantFacts: [
+      "Autónomo con actividad viable",
+      "Ingresos ~2.500€/mes, gastos ~2.100€",
+      "Deuda alta con Hacienda y bancos",
+    ],
+    guide: {
+      profile: "autonomo",
+      debts: [
+        { type: "hacienda", entity: "AEAT", amount: 8000, monthlyPayment: 0, isDefault: true },
+        { type: "prestamos", entity: "BBVA", amount: 14000, monthlyPayment: 360, isDefault: true },
+      ],
+      entities: ["hacienda", "prestamos"],
+      debtAmount: 22000,
+      isDefault: true,
+      publicDebtAmount: 8000,
+      monthlyIncome: 2500,
+      monthlyExpenses: 2100,
+      housing: "alquiler",
+      housingPayment: 800,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "admin_lso",
+    label: "Administrador · deriva (LSO viable)",
+    relevantFacts: [
+      "Administrador de una sociedad activa",
+      "Sin avales personales significativos",
+      "Deuda personal impagada de tarjetas",
+      "Ingresos ~1.800€/mes",
+    ],
+    guide: {
+      profile: "administrador_sociedad",
+      debts: [
+        { type: "tarjetas", entity: "WiZink", amount: 10000, monthlyPayment: 240, isDefault: true },
+      ],
+      entities: ["tarjetas"],
+      debtAmount: 10000,
+      isDefault: true,
+      monthlyIncome: 1800,
+      monthlyExpenses: 1200,
+      housing: "alquiler",
+      housingPayment: 700,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "admin_no_lso",
+    label: "Administrador · deriva (concurso ordinario)",
+    relevantFacts: [
+      "Administrador único con sociedad en pérdidas",
+      "Avales personales por 120.000€",
+      "Deuda societaria y personal cruzada",
+      "Requiere concurso de acreedores ordinario",
+    ],
+    guide: {
+      profile: "administrador_sociedad",
+      debts: [
+        { type: "prestamos", entity: "Banco Sabadell", amount: 60000, monthlyPayment: 1200, isDefault: true },
+        { type: "hacienda", entity: "AEAT", amount: 25000, monthlyPayment: 0, isDefault: true },
+      ],
+      entities: ["prestamos", "hacienda"],
+      debtAmount: 120000,
+      isDefault: true,
+      publicDebtAmount: 25000,
+      monthlyIncome: 2200,
+      monthlyExpenses: 1600,
+      housing: "alquiler",
+      housingPayment: 900,
+      vehicle: "no",
+    },
+  },
+  {
+    id: "no_insolvente",
+    label: "No insolvente",
+    relevantFacts: [
+      "Soltero, con capacidad de pago",
+      "Ingresos ~3.000€/mes, gastos ~1.200€",
+      "Deuda modesta al corriente, sin usura",
+      "Quiere ordenar cuotas pero no insolvencia real",
+    ],
+    guide: {
+      profile: "particular_soltero",
+      debts: [
+        { type: "prestamos", entity: "BBVA", amount: 8000, monthlyPayment: 200, isDefault: false },
+      ],
+      entities: ["prestamos"],
+      debtAmount: 8000,
+      isDefault: false,
+      monthlyIncome: 3000,
+      monthlyExpenses: 1200,
+      housing: "alquiler",
+      housingPayment: 700,
+      vehicle: "no",
+    },
+  },
+];
+
 const AdminVentas = () => {
   const DRAFT_KEY = "calma_ventas_draft";
   const navigate = useNavigate();
@@ -1104,6 +1433,32 @@ const AdminVentas = () => {
   const [relevantFacts, setRelevantFacts] = useState<string[]>([]);
   const [newFact, setNewFact] = useState("");
   const [guide, setGuide] = useState<GuideFields>(emptyGuide());
+  // Pendiente = valor − pagado (solo en vivienda y coche): campo derivado
+  // que se mantiene sincronizado automáticamente para el triaje.
+  useEffect(() => {
+    setGuide((g) => {
+      const nextMortgage =
+        g.housing === "hipoteca"
+          ? Math.max(0, (g.housingValue ?? 0) - (g.mortgagePaid ?? 0))
+          : undefined;
+      const nextVehicle =
+        g.vehicle === "financiado"
+          ? Math.max(0, (g.vehicleValue ?? 0) - (g.vehiclePaid ?? 0))
+          : undefined;
+      if (
+        g.mortgageRemaining === nextMortgage &&
+        g.vehicleRemaining === nextVehicle
+      ) return g;
+      return { ...g, mortgageRemaining: nextMortgage, vehicleRemaining: nextVehicle };
+    });
+  }, [
+    guide.housing,
+    guide.housingValue,
+    guide.mortgagePaid,
+    guide.vehicle,
+    guide.vehicleValue,
+    guide.vehiclePaid,
+  ]);
   const [generating, setGenerating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
@@ -1300,23 +1655,24 @@ const AdminVentas = () => {
     }
   };
 
-  const loadTestCase = () => {
+  const loadTestCase = (id: string = "maria") => {
+    const tc = TEST_CASES.find((c) => c.id === id) ?? TEST_CASES[0];
     setReinforceByStep({});
     setSub(0);
-    setLabel(TEST_CASE.label);
-    setRelevantFacts(TEST_CASE.relevantFacts);
+    setLabel(tc.label);
+    setRelevantFacts(tc.relevantFacts);
     setNewFact("");
-    setGuide({ ...emptyGuide(), ...TEST_CASE.guide });
-    setResult(TEST_CASE.result);
+    setGuide({ ...emptyGuide(), ...tc.guide });
+    setResult(tc.result ?? null);
     setSavedId(null);
     setStep(0);
     setEngagementByPhase([1, 1, 1, 1, 1, 1]);
     setReactions([]);
-    setContract({ ...emptyContract(), ...TEST_CASE.contract });
+    setContract({ ...emptyContract(), ...(tc.contract ?? {}) });
     setSignatureStatus("pendiente");
     setReinforceByStep({});
     autoGenRef.current = {};
-    toast.success("Caso de prueba cargado");
+    toast.success(`Caso cargado: ${tc.label}`);
   };
 
   const addDebt = () =>
@@ -2438,14 +2794,9 @@ const AdminVentas = () => {
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.mortgageRemaining ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, mortgageRemaining: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="120000"
-                          />
+                          <div className="flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-sm text-foreground">
+                            {Math.max(0, (guide.housingValue ?? 0) - (guide.mortgagePaid ?? 0)).toLocaleString("es-ES")}
+                          </div>
                         </div>
                       </>
                     )}
@@ -2551,14 +2902,9 @@ const AdminVentas = () => {
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.vehicleRemaining ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, vehicleRemaining: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="6000"
-                          />
+                          <div className="flex h-10 items-center rounded-md border border-input bg-muted/40 px-3 text-sm text-foreground">
+                            {Math.max(0, (guide.vehicleValue ?? 0) - (guide.vehiclePaid ?? 0)).toLocaleString("es-ES")}
+                          </div>
                         </div>
                       </>
                     )}
@@ -2909,7 +3255,7 @@ const AdminVentas = () => {
                   <Button variant="outline" size="sm" onClick={() => setStep(1)}>
                     <ArrowLeft className="mr-1 h-4 w-4" /> Ir a Cualificación
                   </Button>
-                  <Button variant="orange" size="sm" onClick={loadTestCase}>
+                  <Button variant="orange" size="sm" onClick={() => loadTestCase()}>
                     <Sparkles className="mr-1 h-4 w-4" /> Caso de prueba
                   </Button>
                 </div>
@@ -2963,9 +3309,22 @@ const AdminVentas = () => {
                       Datos
                       <Badge variant="secondary" className="ml-0.5">{relevantFacts.length}</Badge>
                     </button>
-                    <Button variant="orange" size="sm" onClick={loadTestCase}>
-                      <Sparkles className="mr-1 h-4 w-4" /> Prueba
-                    </Button>
+                    <Select onValueChange={(v) => loadTestCase(v)}>
+                      <SelectTrigger
+                        className="h-8 gap-1 border-0 bg-orange-500 px-2 text-[11px] font-semibold text-white hover:bg-orange-600 focus:ring-0 focus:ring-offset-0"
+                        aria-label="Cargar perfil de prueba"
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <SelectValue placeholder="Prueba" />
+                      </SelectTrigger>
+                      <SelectContent align="end" className="max-h-96">
+                        {TEST_CASES.map((tc) => (
+                          <SelectItem key={tc.id} value={tc.id} className="text-xs">
+                            {tc.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <Button variant="outline" size="sm" onClick={resetForm}>
                       <Plus className="mr-1 h-4 w-4" /> Nuevo
                     </Button>
