@@ -2201,34 +2201,117 @@ const AdminVentas = () => {
               </div>
             ),
           });
-          // Empleo
+          // Perfil legal (reemplaza al selector de empleo: fija umbral LSO y
+          // deriva el caso a concurso ordinario si es administrador).
           screens.push({
-            key: "empleo",
+            key: "perfil",
             kind: "content",
             node: (
               <div className="space-y-4">
-                {kicker("Cualificación · empleo")}
+                {kicker("Cualificación · perfil legal")}
                 <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
-                  Situación laboral
+                  ¿Qué perfil tiene la persona?
                 </h2>
-                <Select
-                  value={guide.employment ?? ""}
-                  onValueChange={(v) => setGuide((g) => ({ ...g, employment: v as Employment }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {EMPLOYMENT_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>
-                        {o.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <p className="text-sm text-muted-foreground">
+                  Determina el umbral LSO y si el caso encaja o hay que derivar.
+                </p>
+                <div className="space-y-2">
+                  {PROFILE_OPTIONS.map((o) => {
+                    const on = guide.profile === o.value;
+                    return (
+                      <button
+                        key={o.value}
+                        type="button"
+                        onClick={() =>
+                          setGuide((g) => ({
+                            ...g,
+                            profile: o.value,
+                            // Autónomo: alinea la situación laboral para el
+                            // análisis de embargabilidad que ya usa el edge fn.
+                            employment:
+                              o.value === "autonomo"
+                                ? "autonomo"
+                                : g.employment === "autonomo"
+                                  ? "empleado_indefinido"
+                                  : g.employment,
+                          }))
+                        }
+                        className={
+                          "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors " +
+                          (on ? "hover:opacity-90" : "hover:bg-muted/40")
+                        }
+                        style={on ? phasePrimaryBtn : phaseOutlineBtn}
+                      >
+                        <span
+                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border"
+                          style={{
+                            borderColor: on ? "currentColor" : "hsl(var(--phase) / 0.4)",
+                          }}
+                        >
+                          {on && <Check className="h-3.5 w-3.5" />}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-tight">
+                            {o.label}
+                          </p>
+                          <p className="mt-0.5 text-[11px] opacity-80">
+                            {o.hint}
+                          </p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                {guide.profile === "administrador_sociedad" && (
+                  <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-3 text-xs text-destructive">
+                    <AlertTriangle className="mr-1 inline h-3.5 w-3.5" />
+                    Como administrador/a de sociedad, el caso no encaja con la
+                    LSO estándar. En la fase Solución se muestra el guion de
+                    derivación a abogado concursal.
+                  </div>
+                )}
               </div>
             ),
           });
+          // Deuda pública (Hacienda/SS): solo se pregunta si el comercial ya ha
+          // marcado ese tipo en las deudas o si el perfil es autónomo (habitual).
+          if (hasDebtsPublicHint || guide.profile === "autonomo") {
+            screens.push({
+              key: "deuda_publica",
+              kind: "content",
+              node: (
+                <div className="space-y-4">
+                  {kicker("Cualificación · deuda pública")}
+                  <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
+                    Deuda con Hacienda o Seguridad Social
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Importe con un mismo organismo. Por encima de 10.000€ esa
+                    parte NO se cancela con LSO (se avisa al cliente).
+                  </p>
+                  <Input
+                    type="number"
+                    value={guide.publicDebtAmount ?? ""}
+                    onChange={(e) =>
+                      setGuide((g) => ({
+                        ...g,
+                        publicDebtAmount: e.target.value
+                          ? Number(e.target.value)
+                          : undefined,
+                      }))
+                    }
+                    placeholder="0"
+                  />
+                  {(guide.publicDebtAmount ?? 0) > 10000 && (
+                    <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-xs text-amber-700">
+                      La parte que exceda 10.000€ con este organismo NO se
+                      cancela con LSO. Se comunicará al cliente.
+                    </p>
+                  )}
+                </div>
+              ),
+            });
+          }
           // Ingresos
           screens.push({
             key: "ingresos",
