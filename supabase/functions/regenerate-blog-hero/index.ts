@@ -9,53 +9,39 @@ const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const MAX_WIDTH = 1200;
 const JPEG_QUALITY = 82;
 
-async function describeSceneFromTitle(title: string, category: string): Promise<string> {
-  const fallback = `una persona española corriente en su día a día, en una situación cotidiana que refleja directamente "${title}"`;
-  try {
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          {
-            role: "system",
-            content:
-              "Describes en 1-2 frases (máx 60 palabras) una escena cotidiana española real que ilustre LITERALMENTE el título de un artículo de blog sobre finanzas personales. Debe reconocerse a simple vista relacionada con el tema. Nada abstracto, nada metafórico. Incluye: quién (persona genérica española), qué hace exactamente, con qué objeto o documento concreto, en qué lugar cotidiano. Nada de emociones ni estética, solo la escena. Responde SOLO con la frase, sin comillas.",
-          },
-          { role: "user", content: `Título: "${title}" (categoría: ${category}).` },
-        ],
-        temperature: 0.7,
-        max_tokens: 200,
-      }),
-    });
-    if (!res.ok) return fallback;
-    const data = await res.json();
-    const text = data?.choices?.[0]?.message?.content?.trim();
-    if (!text || text.length < 10) return fallback;
-    return text.replace(/^["'“”]|["'“”]$/g, "").slice(0, 400);
-  } catch {
-    return fallback;
-  }
+// Deriva localmente (sin llamada IA) una escena literal ligada al título.
+// Ahorra 1 llamada de LLM por imagen sin perder relevancia visual.
+function sceneFromTitle(title: string, category: string): string {
+  const t = `${title} ${category}`.toLowerCase();
+  const rules: { re: RegExp; scene: string }[] = [
+    { re: /burofax|carta certificad|requerimiento|notificaci[oó]n/, scene: "manos de una persona española sosteniendo una carta certificada con logotipo bancario, sobre la mesa de una cocina normal" },
+    { re: /juzgado|demanda|sentencia|judicial|monitorio/, scene: "persona española esperando sentada con una carpeta de papeles en el pasillo de un juzgado español corriente" },
+    { re: /embargo|n[oó]mina|sueldo|salario/, scene: "recibo de nómina en papel sobre una mesa de comedor, junto a un bolígrafo y una calculadora doméstica" },
+    { re: /hipoteca|vivienda|piso|casa|inmueble|desahucio/, scene: "portal de un bloque de viviendas español visto desde la acera, buzones a la vista" },
+    { re: /tarjeta|revolving|usura|cr[eé]dito/, scene: "tarjeta de crédito y un extracto bancario impreso en primer plano sobre una mesa de comedor" },
+    { re: /reunific|refinanc|cuota|consolidar|mensualidad/, scene: "persona española revisando varios recibos y facturas extendidos sobre la mesa del salón" },
+    { re: /concurso|ley de la segunda oportunidad|lso|insolvenc/, scene: "persona española con una carpeta abierta llena de facturas encima de la mesa de la cocina" },
+    { re: /banco|entidad|sucursal/, scene: "fachada corriente de una oficina bancaria en una calle española, con transeúntes pasando" },
+    { re: /deuda|impago|moros|asnef/, scene: "montón de facturas y sobres sin abrir apilados en la mesa del recibidor de una casa española normal" },
+    { re: /pensi[oó]n|jubilaci[oó]n|mayor/, scene: "persona mayor española sentada en el sofá revisando una carta oficial en papel" },
+    { re: /aut[oó]nomo|freelance|hacienda|impuesto|iva|irpf/, scene: "autónomo español en la mesa del salón con el portátil abierto y papeles de facturas alrededor" },
+  ];
+  for (const r of rules) if (r.re.test(t)) return r.scene;
+  return `persona española corriente en una situación cotidiana relacionada con "${title}", con documentos o facturas visibles en primer plano`;
 }
 
-async function buildPrompt(title: string, category: string): Promise<string> {
-  const sceneDescription = await describeSceneFromTitle(title, category);
-  return `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO es fotografía profesional, NO es reportaje editorial, NO es publicidad, NO es stock.
+function buildPrompt(title: string, category: string): string {
+  const scene = sceneFromTitle(title, category);
+  return `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
 
-Escena literal a representar (debe reconocerse a simple vista y coincidir con el título "${title}"): ${sceneDescription}
+Escena literal (debe reconocerse a simple vista y coincidir con el título "${title}"): ${scene}
 
-Estética obligatoria y coherente en TODAS las portadas del blog:
-- Cámara: smartphone sujeto a mano, ligera imperfección de encuadre, sin trípode.
-- Óptica: focal equivalente a lente principal de móvil (~24-28mm), profundidad de campo amplia (todo razonablemente enfocado), SIN bokeh cinematográfico.
-- Luz: exclusivamente luz natural existente del sitio (ventana, calle, lámpara doméstica). Sin flash, sin luces de estudio, sin difusores, sin rebotes, sin golden hour, sin dominante amarilla ni dorada. Balance de blancos neutro.
-- Postproducción: ninguna evidente. Sin filtros de Instagram, sin HDR, sin viñeteo, sin desaturación estilizada, sin tinte cinematográfico.
-- Colores: apagados y reales, tal cual salen del móvil.
-- Sujetos y objetos: personas y espacios españoles corrientes, ropa normal ligeramente arrugada, objetos con uso real, casas normales (no pisos de revista).
+Estética coherente en todas las portadas:
+- Smartphone a mano, ligera imperfección de encuadre, focal ~24-28mm, profundidad de campo amplia sin bokeh cinematográfico.
+- Solo luz natural existente (ventana, calle, lámpara doméstica). Balance de blancos neutro. Colores apagados y reales tal cual salen del móvil.
+- Personas y espacios españoles corrientes, ropa normal, objetos con uso real, casas normales no de revista.
 
-Prohibido explícitamente: aspecto de anuncio, sonrisas de catálogo, composición perfectamente simétrica de portafolio, familia perfecta con tablet en salón blanco, plantas decorativas exageradas, escritorios ordenadísimos, luces cálidas naranjas, look "producción audiovisual".
-
-Sin texto en imagen, sin logos, sin marcas de agua, sin collage, sin tipografías inventadas. La foto debe parecer que la ha tomado el propio protagonista o alguien cercano con su móvil.`;
+Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages.`;
 }
 
 async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
@@ -66,22 +52,54 @@ async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
   } catch { return null; }
 }
 
+// Llama a un modelo de imagen vía /v1/images/generations. Modelo por defecto:
+// gemini-3.1-flash-lite-image (Nano Banana 2 Lite, el más barato de Gemini).
+// Body en formato Vertex generateContent, que es lo que este modelo requiere.
+async function generateImageBytes(prompt: string): Promise<Uint8Array | null> {
+  const attempts: { model: string; body: unknown }[] = [
+    {
+      model: "google/gemini-3.1-flash-lite-image",
+      body: {
+        model: "google/gemini-3.1-flash-lite-image",
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
+      },
+    },
+    {
+      model: "google/gemini-2.5-flash-image",
+      body: {
+        model: "google/gemini-2.5-flash-image",
+        messages: [{ role: "user", content: prompt }],
+        modalities: ["image", "text"],
+      },
+    },
+  ];
+  for (const a of attempts) {
+    try {
+      const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify(a.body),
+      });
+      if (!res.ok) {
+        console.error(`image AI ${a.model} ${res.status}: ${await res.text()}`);
+        continue;
+      }
+      const data = await res.json();
+      const b64: string | undefined = data?.data?.[0]?.b64_json;
+      if (!b64) { console.error(`image AI ${a.model}: no b64_json`); continue; }
+      return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    } catch (e) {
+      console.error(`image AI ${a.model} threw: ${String(e)}`);
+    }
+  }
+  return null;
+}
+
 async function regenerate(supabase: ReturnType<typeof createClient>, slug: string, title: string, category: string) {
-  const prompt = await buildPrompt(title, category);
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash-image-preview",
-      messages: [{ role: "user", content: prompt }],
-      modalities: ["image", "text"],
-    }),
-  });
-  if (!res.ok) throw new Error(`AI ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  const dataUrl: string | undefined = data?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-  if (!dataUrl || !dataUrl.includes(",")) throw new Error("no image returned");
-  const raw = Uint8Array.from(atob(dataUrl.split(",")[1]), (c) => c.charCodeAt(0));
+  const prompt = buildPrompt(title, category);
+  const raw = await generateImageBytes(prompt);
+  if (!raw) throw new Error("no image returned");
   const optimized = await optimize(raw);
   const isJpeg = optimized !== null;
   const bytes = optimized ?? raw;
