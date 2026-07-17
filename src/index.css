@@ -255,142 +255,213 @@ All colors MUST be HSL.
    incrustados como HTML (dangerouslySetInnerHTML). Sin Tailwind
    inline porque JIT no ve el HTML del modelo.
    ============================================================ */
-@layer components {
-  /* Truco .clase.clase para elevar especificidad y GANAR al wrapper de
-     BlogPost.tsx (que usa selectores hijos tipo [&_a]:underline etc.). */
-  .blog-cta.blog-cta {
+/* IMPORTANT: estas reglas están fuera de @layer components a propósito.
+   Tailwind coloca `@layer utilities` después de `components`, y en CSS con
+   capas los estilos de capas posteriores ganan aunque la especificidad sea
+   menor. Como el wrapper de BlogPost usa utilidades tipo [&_ul]:list-disc,
+   necesitamos que estas reglas queden SIN capa para poder ganar por
+   especificidad (truco .clase.clase). */
+.blog-cta.blog-cta {
     @apply my-8 rounded-3xl border border-accent/30 bg-accent/5 p-6 md:p-8 not-italic;
-  }
-  .blog-cta.blog-cta h3 {
+}
+.blog-cta.blog-cta h3 {
     @apply mt-0 text-xl font-semibold text-foreground md:text-2xl;
-  }
-  .blog-cta.blog-cta p {
+}
+.blog-cta.blog-cta p {
     @apply mt-2 text-base text-foreground/80;
-  }
-  .blog-cta.blog-cta a,
-  .blog-cta.blog-cta a:hover,
-  .blog-cta.blog-cta a:visited {
+}
+.blog-cta.blog-cta a,
+.blog-cta.blog-cta a:hover,
+.blog-cta.blog-cta a:visited {
     @apply mt-4 inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground no-underline shadow-sm transition hover:bg-accent/90;
     color: hsl(var(--accent-foreground));
-  }
+}
 
-  .blog-before-after.blog-before-after {
+.blog-before-after.blog-before-after {
     @apply my-8 grid gap-4 md:grid-cols-2;
-  }
-  .blog-before-after.blog-before-after > div {
+}
+.blog-before-after.blog-before-after > div {
     @apply rounded-2xl border border-border p-5;
-  }
-  .blog-before-after.blog-before-after .before {
+}
+.blog-before-after.blog-before-after .before {
     @apply bg-destructive/5 border-destructive/30;
-  }
-  .blog-before-after.blog-before-after .after {
+}
+.blog-before-after.blog-before-after .after {
     @apply bg-accent/5 border-accent/40;
-  }
-  .blog-before-after.blog-before-after h4 {
+}
+.blog-before-after.blog-before-after h4 {
     @apply mt-0 mb-3 text-sm font-semibold uppercase tracking-wide;
-  }
-  .blog-before-after.blog-before-after .before h4 { @apply text-destructive; }
-  .blog-before-after.blog-before-after .after h4 { @apply text-accent-deep; }
-  .blog-before-after.blog-before-after ul {
+}
+.blog-before-after.blog-before-after .before h4 { @apply text-destructive; }
+.blog-before-after.blog-before-after .after h4 { @apply text-accent-deep; }
+.blog-before-after.blog-before-after ul {
     @apply m-0 list-none space-y-2 pl-0;
-  }
-  .blog-before-after.blog-before-after li {
+}
+.blog-before-after.blog-before-after li {
     @apply relative pl-6 text-sm leading-relaxed;
-  }
-  .blog-before-after.blog-before-after .before li::before {
+    list-style: none;
+}
+.blog-before-after.blog-before-after .before li::before {
     content: "✕";
     @apply absolute left-0 font-bold text-destructive;
-  }
-  .blog-before-after.blog-before-after .after li::before {
+}
+.blog-before-after.blog-before-after .after li::before {
     content: "✓";
     @apply absolute left-0 font-bold text-accent-deep;
-  }
+}
 
-  .blog-myth-reality.blog-myth-reality {
+.blog-myth-reality.blog-myth-reality {
     @apply my-8 overflow-hidden rounded-2xl border border-border;
-  }
-  .blog-myth-reality.blog-myth-reality .row {
+}
+.blog-myth-reality.blog-myth-reality .row {
     @apply grid gap-0 border-b border-border last:border-b-0 md:grid-cols-2;
-  }
-  .blog-myth-reality.blog-myth-reality .myth,
-  .blog-myth-reality.blog-myth-reality .reality {
+}
+.blog-myth-reality.blog-myth-reality .myth,
+.blog-myth-reality.blog-myth-reality .reality {
     @apply p-5;
-  }
-  .blog-myth-reality.blog-myth-reality .myth {
+}
+.blog-myth-reality.blog-myth-reality .myth {
     @apply border-b border-border bg-muted/40 md:border-b-0 md:border-r;
-  }
-  .blog-myth-reality.blog-myth-reality .reality {
+}
+.blog-myth-reality.blog-myth-reality .reality {
     @apply bg-accent/5;
-  }
-  .blog-myth-reality.blog-myth-reality .label {
+}
+.blog-myth-reality.blog-myth-reality .label {
     @apply mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground;
-  }
-  .blog-myth-reality.blog-myth-reality .reality .label {
+}
+.blog-myth-reality.blog-myth-reality .reality .label {
     @apply text-accent-deep;
-  }
-  .blog-myth-reality.blog-myth-reality p { @apply m-0; }
+}
+.blog-myth-reality.blog-myth-reality p { @apply m-0; }
 
-  .blog-timeline.blog-timeline {
+.blog-timeline.blog-timeline {
     @apply my-8 space-y-4;
-  }
-  .blog-timeline.blog-timeline .step {
+}
+.blog-timeline.blog-timeline .step {
     @apply relative rounded-2xl border border-border bg-surface p-5 pl-16;
-  }
-  .blog-timeline.blog-timeline .step .num {
+}
+.blog-timeline.blog-timeline .step .num {
     @apply absolute left-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-accent font-semibold text-accent-foreground;
-  }
-  .blog-timeline.blog-timeline .step h4 {
+}
+.blog-timeline.blog-timeline .step h4 {
     @apply mt-0 mb-1 text-base font-semibold text-foreground;
-  }
-  .blog-timeline.blog-timeline .step p {
+}
+.blog-timeline.blog-timeline .step p {
     @apply m-0 text-sm text-foreground/75;
-  }
+}
 
-  .blog-comparison.blog-comparison {
+.blog-comparison.blog-comparison {
     @apply my-8 w-full overflow-hidden rounded-2xl border border-border text-sm;
-  }
-  .blog-comparison.blog-comparison table {
+}
+.blog-comparison.blog-comparison table {
     @apply w-full border-collapse;
-  }
-  .blog-comparison.blog-comparison th,
-  .blog-comparison.blog-comparison td {
+}
+.blog-comparison.blog-comparison th,
+.blog-comparison.blog-comparison td {
     @apply border-b border-border p-3 text-left align-top;
-  }
-  .blog-comparison.blog-comparison th {
+}
+.blog-comparison.blog-comparison th {
     @apply bg-muted/50 font-semibold text-foreground;
-  }
-  .blog-comparison.blog-comparison tr:last-child td { @apply border-b-0; }
+}
+.blog-comparison.blog-comparison tr:last-child td { @apply border-b-0; }
 
-  /* Nuevos diagramas para dar variedad al blog automático. */
-  .blog-callout.blog-callout {
+/* Nuevos diagramas para dar variedad al blog automático. */
+.blog-callout.blog-callout {
     @apply my-8 flex gap-4 rounded-2xl border-l-4 border-accent bg-accent/5 p-5;
-  }
-  .blog-callout.blog-callout .icon {
+}
+.blog-callout.blog-callout .icon {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-lg font-semibold text-accent-foreground;
-  }
-  .blog-callout.blog-callout h4 {
+}
+.blog-callout.blog-callout h4 {
     @apply mt-0 mb-1 text-base font-semibold text-foreground;
-  }
-  .blog-callout.blog-callout p { @apply m-0 text-sm text-foreground/80; }
-  .blog-callout.blog-callout.warning {
+}
+.blog-callout.blog-callout p { @apply m-0 text-sm text-foreground/80; }
+.blog-callout.blog-callout.warning {
     @apply border-destructive bg-destructive/5;
-  }
-  .blog-callout.blog-callout.warning .icon { @apply bg-destructive text-destructive-foreground; }
+}
+.blog-callout.blog-callout.warning .icon { @apply bg-destructive text-destructive-foreground; }
 
-  .blog-checklist.blog-checklist {
+.blog-checklist.blog-checklist {
     @apply my-8 rounded-2xl border border-border bg-surface p-6;
-  }
-  .blog-checklist.blog-checklist h4 {
+}
+.blog-checklist.blog-checklist h4 {
     @apply mt-0 mb-4 text-base font-semibold text-foreground;
-  }
-  .blog-checklist.blog-checklist ul {
+}
+.blog-checklist.blog-checklist ul {
     @apply m-0 list-none space-y-3 pl-0;
-  }
-  .blog-checklist.blog-checklist li {
+}
+.blog-checklist.blog-checklist li {
     @apply relative pl-9 text-sm leading-relaxed text-foreground/85;
-  }
-  .blog-checklist.blog-checklist li::before {
+    list-style: none;
+}
+.blog-checklist.blog-checklist li::before {
     content: "✓";
     @apply absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 font-bold text-accent-deep;
-  }
+}
+
+/* Diagramas HTML adicionales (más variedad para posts auto-generados) */
+.blog-stats.blog-stats {
+  @apply my-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3;
+}
+.blog-stats.blog-stats .stat {
+  @apply rounded-2xl border border-border bg-surface p-5 text-center;
+}
+.blog-stats.blog-stats .stat .num {
+  @apply block font-poppins text-3xl font-semibold text-accent-deep md:text-4xl;
+}
+.blog-stats.blog-stats .stat .label {
+  @apply mt-1 block text-sm text-muted-foreground;
+}
+
+.blog-pros-cons.blog-pros-cons {
+  @apply my-8 grid gap-4 md:grid-cols-2;
+}
+.blog-pros-cons.blog-pros-cons > div {
+  @apply rounded-2xl border border-border p-5;
+}
+.blog-pros-cons.blog-pros-cons .pros { @apply bg-accent/5 border-accent/40; }
+.blog-pros-cons.blog-pros-cons .cons { @apply bg-destructive/5 border-destructive/30; }
+.blog-pros-cons.blog-pros-cons h4 {
+  @apply mt-0 mb-3 text-sm font-semibold uppercase tracking-wide;
+}
+.blog-pros-cons.blog-pros-cons .pros h4 { @apply text-accent-deep; }
+.blog-pros-cons.blog-pros-cons .cons h4 { @apply text-destructive; }
+.blog-pros-cons.blog-pros-cons ul {
+  @apply m-0 list-none space-y-2 pl-0;
+}
+.blog-pros-cons.blog-pros-cons li {
+  @apply relative pl-6 text-sm leading-relaxed;
+  list-style: none;
+}
+.blog-pros-cons.blog-pros-cons .pros li::before {
+  content: "✓";
+  @apply absolute left-0 font-bold text-accent-deep;
+}
+.blog-pros-cons.blog-pros-cons .cons li::before {
+  content: "✕";
+  @apply absolute left-0 font-bold text-destructive;
+}
+
+.blog-quote.blog-quote {
+  @apply my-8 rounded-2xl border-l-4 border-accent bg-surface p-6 md:p-8;
+}
+.blog-quote.blog-quote blockquote,
+.blog-quote.blog-quote p {
+  @apply m-0 border-0 p-0 not-italic text-lg leading-relaxed text-foreground;
+}
+.blog-quote.blog-quote .author {
+  @apply mt-3 block text-sm font-medium text-muted-foreground;
+}
+
+.blog-faq-inline.blog-faq-inline {
+  @apply my-8 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface;
+}
+.blog-faq-inline.blog-faq-inline .qa {
+  @apply p-5;
+}
+.blog-faq-inline.blog-faq-inline .q {
+  @apply mt-0 mb-2 text-base font-semibold text-foreground;
+}
+.blog-faq-inline.blog-faq-inline .a {
+  @apply m-0 text-sm leading-relaxed text-foreground/80;
 }
