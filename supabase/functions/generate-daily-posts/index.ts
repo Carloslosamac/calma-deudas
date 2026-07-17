@@ -779,7 +779,7 @@ Deno.serve(async (req) => {
       try {
         const secs = (article.sections as { html?: string }[] | undefined) ?? [];
         const joined = secs.map((s) => s?.html ?? "").join("\n");
-        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist)/g) ?? [];
+        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist|stats|pros-cons|quote|faq-inline)/g) ?? [];
         const diagramCount = diagramMatches.length;
         const uniqueDiagramTypes = new Set(diagramMatches).size;
         const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
