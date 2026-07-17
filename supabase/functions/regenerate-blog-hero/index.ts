@@ -10,28 +10,106 @@ const MAX_WIDTH = 1200;
 const JPEG_QUALITY = 82;
 
 // Deriva localmente (sin llamada IA) una escena literal ligada al título.
-// Ahorra 1 llamada de LLM por imagen sin perder relevancia visual.
-function sceneFromTitle(title: string, category: string): string {
+// Cada regla tiene varias variantes; la elegida es determinista por slug para
+// dar variedad entre posts sin que una imagen cambie entre regeneraciones.
+// Solo una minoría de variantes menciona papeles/facturas para evitar el
+// cliché de "mesa llena de papeleo" en todas las portadas.
+function hashSlug(slug: string): number {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+}
+function pick<T>(arr: T[], seed: number): T { return arr[seed % arr.length]; }
+
+const SCENE_RULES: { re: RegExp; variants: string[] }[] = [
+  { re: /burofax|carta certificad|requerimiento|notificaci[oó]n/, variants: [
+    "manos de una persona española sosteniendo un sobre certificado en el recibidor de casa",
+    "buzón metálico de portal en un bloque de pisos español, con un sobre asomando",
+    "cartero español dejando un sobre en el buzón de un portal de vecinos",
+    "sobre cerrado sin abrir apoyado en el felpudo de la entrada de un piso",
+  ]},
+  { re: /juzgado|demanda|sentencia|judicial|monitorio/, variants: [
+    "fachada de un juzgado español visto desde la acera, con el cartel institucional en piedra",
+    "pasillo vacío de un juzgado español con bancos de madera pegados a la pared",
+    "persona española esperando sentada en el banco del pasillo de un juzgado, con las manos cruzadas",
+    "puerta cerrada de una sala de vistas con la placa del número en la pared",
+  ]},
+  { re: /embargo|n[oó]mina|sueldo|salario/, variants: [
+    "móvil en la mano mostrando la pantalla de una app bancaria con el saldo",
+    "cajero automático encastrado en la fachada de una sucursal en una calle española",
+    "ticket de compra arrugado sobre la encimera de una cocina corriente",
+    "monedas y algún billete pequeño sueltos sobre la mesa del comedor",
+  ]},
+  { re: /hipoteca|vivienda|piso|casa|inmueble|desahucio/, variants: [
+    "portal de un bloque de viviendas español visto desde la acera",
+    "ventana de un piso con las persianas medio bajadas vista desde la calle",
+    "llaves con llavero corriente sobre la encimera de una cocina española",
+    "balcón de un piso con un cartel de 'Se vende' colgado, calle de barrio",
+  ]},
+  { re: /tarjeta|revolving|usura|cr[eé]dito/, variants: [
+    "tarjeta bancaria apoyada sobre la mesa del salón junto a un móvil",
+    "TPV de una cafetería española con una tarjeta apoyada encima",
+    "móvil pagando contactless en el datáfono de una tienda de barrio",
+    "cajero automático de una calle española con una persona de espaldas usándolo",
+  ]},
+  { re: /reunific|refinanc|cuota|consolidar|mensualidad/, variants: [
+    "persona española hablando por teléfono sentada en el sofá del salón",
+    "calendario de pared en una cocina, con marcas hechas a bolígrafo en varios días",
+    "hucha de cerámica sobre una estantería del salón, junto a un marco de foto",
+    "calculadora doméstica sola sobre la mesa del comedor, sin nada más alrededor",
+  ]},
+  { re: /concurso|ley de la segunda oportunidad|lso|insolvenc/, variants: [
+    "fachada de un despacho de abogados corriente en una calle española",
+    "sala de espera vacía con sillas de plástico y una revista sobre una mesa baja",
+    "persona española sentada frente a un abogado en un despacho normal, vista desde atrás",
+    "placa institucional de 'Juzgado de lo Mercantil' en la pared exterior de un edificio",
+  ]},
+  { re: /banco|entidad|sucursal/, variants: [
+    "fachada corriente de una oficina bancaria en una calle española con transeúntes pasando",
+    "cajero automático empotrado en la pared exterior de una sucursal",
+    "cola de personas esperando dentro de una oficina bancaria corriente",
+    "letrero genérico de un banco en la fachada visto desde la acera opuesta",
+  ]},
+  { re: /deuda|impago|moros|asnef/, variants: [
+    "móvil sobre una mesa mostrando una notificación push de una app bancaria",
+    "buzón de portal a rebosar, con sobres asomando por la ranura",
+    "timbre y placa metálica de un portal de vecinos en una calle española",
+    "manos de una persona mirando el móvil sentada en el bordillo de una acera",
+  ]},
+  { re: /pensi[oó]n|jubilaci[oó]n|mayor/, variants: [
+    "persona mayor española sentada en un banco de una plaza de barrio",
+    "persona mayor con gafas mirando su móvil en el sofá del salón",
+    "cartilla del banco antigua sobre la mesa camilla del comedor",
+    "pareja mayor española caminando por la acera de una calle corriente",
+  ]},
+  { re: /aut[oó]nomo|freelance|hacienda|impuesto|iva|irpf/, variants: [
+    "autónomo español detrás del mostrador de su tienda de barrio",
+    "portátil abierto sobre una mesa de bar con un café al lado",
+    "furgoneta comercial pequeña aparcada en una calle española",
+    "mecánico o electricista trabajando en su taller corriente, herramientas a la vista",
+  ]},
+];
+
+const DEFAULT_VARIANTS = [
+  "cocina de un piso español corriente, sin personas, luz suave de ventana",
+  "salón de una casa española con la tele encendida de fondo",
+  "calle de barrio español con transeúntes al fondo",
+  "mesa de un bar de barrio español con un café servido",
+  "portal de vecinos español visto desde dentro hacia la calle",
+  "acera de una calle española a media mañana, sin nadie en primer plano",
+];
+
+function sceneFromTitle(title: string, category: string, slug: string): string {
   const t = `${title} ${category}`.toLowerCase();
-  const rules: { re: RegExp; scene: string }[] = [
-    { re: /burofax|carta certificad|requerimiento|notificaci[oó]n/, scene: "manos de una persona española sosteniendo una carta certificada con logotipo bancario, sobre la mesa de una cocina normal" },
-    { re: /juzgado|demanda|sentencia|judicial|monitorio/, scene: "persona española esperando sentada con una carpeta de papeles en el pasillo de un juzgado español corriente" },
-    { re: /embargo|n[oó]mina|sueldo|salario/, scene: "recibo de nómina en papel sobre una mesa de comedor, junto a un bolígrafo y una calculadora doméstica" },
-    { re: /hipoteca|vivienda|piso|casa|inmueble|desahucio/, scene: "portal de un bloque de viviendas español visto desde la acera, buzones a la vista" },
-    { re: /tarjeta|revolving|usura|cr[eé]dito/, scene: "tarjeta de crédito y un extracto bancario impreso en primer plano sobre una mesa de comedor" },
-    { re: /reunific|refinanc|cuota|consolidar|mensualidad/, scene: "persona española revisando varios recibos y facturas extendidos sobre la mesa del salón" },
-    { re: /concurso|ley de la segunda oportunidad|lso|insolvenc/, scene: "persona española con una carpeta abierta llena de facturas encima de la mesa de la cocina" },
-    { re: /banco|entidad|sucursal/, scene: "fachada corriente de una oficina bancaria en una calle española, con transeúntes pasando" },
-    { re: /deuda|impago|moros|asnef/, scene: "montón de facturas y sobres sin abrir apilados en la mesa del recibidor de una casa española normal" },
-    { re: /pensi[oó]n|jubilaci[oó]n|mayor/, scene: "persona mayor española sentada en el sofá revisando una carta oficial en papel" },
-    { re: /aut[oó]nomo|freelance|hacienda|impuesto|iva|irpf/, scene: "autónomo español en la mesa del salón con el portátil abierto y papeles de facturas alrededor" },
-  ];
-  for (const r of rules) if (r.re.test(t)) return r.scene;
-  return `persona española corriente en una situación cotidiana relacionada con "${title}", con documentos o facturas visibles en primer plano`;
+  const h = hashSlug(slug);
+  for (const r of SCENE_RULES) if (r.re.test(t)) return pick(r.variants, h);
+  return pick(DEFAULT_VARIANTS, h);
 }
 
-function buildPrompt(title: string, category: string): string {
-  const scene = sceneFromTitle(title, category);
+function buildPrompt(title: string, category: string, slug: string): string {
+  const scene = sceneFromTitle(title, category, slug);
+  const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
+  const banPapers = !paperWords.test(scene);
   return `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
 
 Escena literal (debe reconocerse a simple vista y coincidir con el título "${title}"): ${scene}
@@ -41,7 +119,7 @@ Estética coherente en todas las portadas:
 - Solo luz natural existente (ventana, calle, lámpara doméstica). Balance de blancos neutro. Colores apagados y reales tal cual salen del móvil.
 - Personas y espacios españoles corrientes, ropa normal, objetos con uso real, casas normales no de revista.
 
-Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages.`;
+Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
 }
 
 async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
@@ -97,7 +175,7 @@ async function generateImageBytes(prompt: string): Promise<Uint8Array | null> {
 }
 
 async function regenerate(supabase: ReturnType<typeof createClient>, slug: string, title: string, category: string) {
-  const prompt = buildPrompt(title, category);
+  const prompt = buildPrompt(title, category, slug);
   const raw = await generateImageBytes(prompt);
   if (!raw) throw new Error("no image returned");
   const optimized = await optimize(raw);
