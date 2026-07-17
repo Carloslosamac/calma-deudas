@@ -1,30 +1,46 @@
-## Plan: rehacer las 3 fotos de "Cómo funciona"
+## Por qué no cuadran los números
 
-**Enfoque:** misma protagonista en los 3 pasos, pero con luz de día nublado difuso, poses menos escenificadas y estética documental (nada de moody, contraluz, golden hour ni claroscuro).
+- **GSC**: 232 indexadas + 58 no indexadas = **290 URLs** conocidas por Google (incluye URLs históricas, redirecciones, parámetros, variantes fuera del sitemap actual).
+- **/admin**: parte del `sitemap.xml` (**240 URLs**) y solo inspecciona **80 por ejecución** vía URL Inspection API. El resto queda "sin comprobar", así que los totales indexada/no indexada nunca se acercan a los de GSC hasta pasar varios días.
+- Además, `/admin` usa `verdict === "PASS"` como "indexada"; GSC usa `coverageState` (más granular: "Indexada", "Duplicada canónica seleccionada por Google", "Excluida noindex", "Descubierta - actualmente sin indexar", "Rastreada - actualmente sin indexar", "Página con redirección"). Por eso una URL puede aparecer como "indexada" en GSC y "no indexada" (o al revés) en `/admin`.
 
-### Dirección visual común
+## Qué haré (solo UI + edge function, sin cambios de datos)
 
-- **Luz**: día nublado, ventana grande sin sol directo, sombras muy suaves, balance blancos ~5500K, tonos fríos-neutros (paleta seleccionada `#E8ECEF / #C9D1D4 / #8A9299 / #4A5157`).
-- **Cámara**: 35mm equivalente, ISO bajo, apertura media (f/4-5.6, no bokeh cremoso), grano fino y natural.
-- **Sujeto**: misma mujer española 40-45 años, pelo recogido, ropa neutra (puede variar prenda entre fotos pero mantener registro sobrio y realista, sin jersey negro monocorde en las 3).
-- **Prohibido**: contraluz, siluetas, sombras marcadas, tonos naranjas/dorados, filtros Instagram, poses "banco de imágenes premium", miradas perdidas al vacío.
+### 1. Alinear la métrica con GSC
 
-### Foto por paso
+En `supabase/functions/gsc-index-status/index.ts`:
 
-1. **`src/assets/step-form.jpg` — Cuéntanos tu situación**
-   - Mesa de comedor con luz de ventana lateral difusa. Ella rellenando el formulario en el móvil (o portátil) con una expresión concentrada normal, ligeramente inclinada. Sobre la mesa: taza, un par de cartas abiertas, bolígrafo. Encuadre medio, algo de aire arriba.
-2. **`src/assets/step-strategy.jpg` — Diseñamos tu estrategia legal**
-   - Despacho luminoso (paredes claras, sin librería oscura de fondo). Un abogado 45-55a, camisa clara, revisando documentos con ella. Interacción activa: él señala un párrafo, ella asiente. Mesa clara con carpetas. Luz plana de ventanal.
-3. **`src/assets/step-freedom.jpg` — Recuperas tu calma**
-   - Ella en un espacio cotidiano diurno (cocina abierta o salón claro), sonrisa contenida y natural mientras hace algo mundano: cerrar una carpeta y guardarla, servir café, mirar por la ventana pero con luz plana no dramática. Nada de "melancolía junto al cristal".
+- Guardar también las URLs **conocidas por Google pero NO en el sitemap** (las descubro consultando la Index Coverage / listándolas desde `searchAnalytics` como fallback: URLs con impresiones en 90d que no estén en el sitemap).
+- Nuevos campos en `seo_index_checks` (via migration): `discovered_outside_sitemap boolean`, `google_canonical text`, `user_canonical text`.
+- Considerar "indexada" cuando `coverageState` empiece por `"Submitted and indexed"`, `"Indexed"` o `"Indexed, not submitted in sitemap"` (mapear como en GSC), en lugar de fiarnos solo del `verdict`.
+- Subir el batch por defecto a **200** y añadir modo "full sweep" (paginado hasta cubrir todo el sitemap en una sola ejecución, respetando 2.000/día).
 
-### Implementación
+### 2. Nueva vista en `/admin/contenido/indexacion`
 
-1. Regenerar las 3 imágenes con `google/gemini-3.1-flash-image` (o `gemini-3-pro-image` si la calidad no llega) usando prompts derivados de la dirección anterior con las prohibiciones explícitas.
-2. Descargar, redimensionar a **1600px de ancho** y comprimir a **JPEG calidad 82** (mismo formato que las actuales).
-3. Sustituir los tres archivos en `src/assets/` manteniendo los mismos nombres (`step-form.jpg`, `step-strategy.jpg`, `step-freedom.jpg`) — no hay que tocar imports ni componentes.
-4. Revisar visualmente las 3 con `code--view` antes de dar por bueno el resultado; regenerar la que no cumpla los criterios.
+Rediseño ligero para que se lea como GSC:
 
-### Fuera de alcance
+- **Cabecera resumen** con las mismas 2 cifras que GSC:
+  - Indexadas / No indexadas (total = suma).
+  - Diferencia con GSC destacada: "Comprobadas X de Y del sitemap · Google conoce además Z URLs fuera del sitemap".
+- **Desglose por motivo** (tipo tabla de GSC "¿Por qué hay páginas que no se indexan?"): agrupar las no indexadas por `coverage_state` con contador y expandible para ver URLs. Motivos típicos: `noindex`, `Duplicate without canonical`, `Page with redirect`, `Alternate page with canonical tag`, `Discovered - not indexed`, `Crawled - not indexed`.
+- **Sección "Fuera del sitemap"**: URLs que Google conoce pero no están en `sitemap.xml` (para decidir si añadirlas o dejarlas 410/301).
+- Mantengo el checklist manual y el buscador; solo cambia la parte superior y añado el desglose.
 
-No se toca `HowItWorks.tsx`, ni copy, ni layout. Sólo sustitución de los tres binarios.
+### 3. Aclarar en la UI qué mide cada tarjeta
+
+Texto explícito bajo cada tarjeta:
+- Manual: "Tu checklist de solicitudes en Search Console".
+- Estado real: "Estado de la última comprobación vía URL Inspection API. Puede tardar 24-48 h en igualar al informe de Páginas de Google Search Console porque GSC muestra datos consolidados diarios."
+
+## Detalles técnicos
+
+- Migración: `alter table public.seo_index_checks add column discovered_outside_sitemap boolean default false, add column google_canonical text, add column user_canonical text;` (+ GRANTs ya existentes).
+- `gsc-index-status`: nuevo paso previo `fetchIndexedFromSearchAnalytics()` que llama `POST /webmasters/v3/sites/{site}/searchAnalytics/query` con `dimensions:["page"]` últimos 90 días, y hace `upsert` de las que no estén ya en la tabla marcándolas `discovered_outside_sitemap = true` si no aparecen en el sitemap actual.
+- Frontend `AdminIndexacion.tsx`: nuevas cifras derivadas de `checks` + agrupación por `coverage_state`; una `Card` extra con URLs fuera del sitemap.
+- Sin cambios en rutas ni en la lógica del checklist manual.
+
+## Fuera del alcance
+
+- No fuerzo indexación por API (Google no lo permite salvo Job Posting / Broadcast Event).
+- No toco el sitemap ni añado/borro URLs; solo lo reporto.
+- No cambio la estructura del panel /admin.
