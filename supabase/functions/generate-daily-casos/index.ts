@@ -371,35 +371,51 @@ async function generateCaso(seed: CasoSeed): Promise<Record<string, unknown> | n
 
 Elige un importe de deuda realista y coherente con la categoría (no exagerado) y la solución legal adecuada según el triage. Escribe el reportaje completo.`;
 
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
-  });
-
-  if (!res.ok) {
-    console.error(`AI error ${res.status}: ${await res.text()}`);
-    return null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const messages: { role: string; content: string }[] = [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ];
+    if (attempt === 1) {
+      messages.push({
+        role: "user",
+        content: "Tu respuesta anterior no era JSON válido. Devuelve SOLO un único objeto JSON, sin texto antes ni después, sin comentarios, sin ```.",
+      });
+    }
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        "https://ai.gateway.lovable.dev/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash",
+            messages,
+            response_format: { type: "json_object" },
+          }),
+        },
+        60_000,
+      );
+    } catch (e) {
+      console.error(`AI fetch aborted for caso (attempt ${attempt + 1}): ${String(e)}`);
+      continue;
+    }
+    if (!res.ok) {
+      console.error(`AI error ${res.status} caso (attempt ${attempt + 1}): ${(await res.text()).slice(0, 300)}`);
+      continue;
+    }
+    const data = await res.json();
+    const content = data?.choices?.[0]?.message?.content;
+    if (!content) continue;
+    const parsed = extractFirstJsonObject(content);
+    if (parsed) return parsed;
+    console.error(`JSON parse failed for caso (attempt ${attempt + 1})`);
   }
-  const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) return null;
-  try {
-    return JSON.parse(content);
-  } catch (_e) {
-    console.error("JSON parse failed for caso");
-    return null;
-  }
+  return null;
 }
 
 async function uniqueSlug(supabase: ReturnType<typeof createClient>, base: string): Promise<string> {
