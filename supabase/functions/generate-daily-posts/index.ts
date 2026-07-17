@@ -290,7 +290,7 @@ REGLAS EDITORIALES INNEGOCIABLES:
     F) Checklist accionable — para pre-requisitos, documentación o verificaciones (mín 4 items):
        <div class="blog-checklist"><h4>Antes de reclamar, verifica que:</h4><ul><li>...</li><li>...</li></ul></div>
   * Cada post debe combinar 3-5 tipos DISTINTOS. Nunca uses los mismos 4 (timeline+myth+comparison+before-after) por defecto: elige los que encajen con el tema real. Ejemplo: un post de plazos → timeline + callout warning + checklist; un post de reclamación → checklist + myth-reality + before-after; un post de comparativas de soluciones → comparison + callout + timeline.
-  * Todos los diagramas deben tener el div raíz con clase EXACTA (`blog-timeline`, `blog-myth-reality`, `blog-comparison`, `blog-before-after`, `blog-callout`, `blog-checklist`) para que hereden estilo. Nunca uses estilos inline.
+  * Todos los diagramas deben tener el div raíz con clase EXACTA (blog-timeline, blog-myth-reality, blog-comparison, blog-before-after, blog-callout, blog-checklist) para que hereden estilo. Nunca uses estilos inline.
   * Al menos 2 CTAs inline dentro de secciones intermedias distintas (NO al final: el final lo añade el sistema):
       <div class="blog-cta"><h3>Título específico del CTA (alineado con el tema del post)</h3><p>Descripción breve orientada a valoración gratuita.</p><a href="#hero-form">Etiqueta de acción específica</a></div>
   El título/descripción del CTA deben ser específicos del tema del artículo, nunca genéricos.
