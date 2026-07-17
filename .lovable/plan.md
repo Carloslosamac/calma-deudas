@@ -1,41 +1,37 @@
-## Diagnóstico rápido
+## Problema
+En `sceneFromTitle` (regenerate-blog-hero + generate-daily-posts) casi todas las reglas describen "papeles / facturas / carta / recibo / extracto / carpeta". Resultado: mires el post que mires, la portada es una mesa llena de papeles. Rompe la variedad aunque el estilo (móvil, luz natural) sea correcto.
 
-**1. Coste real, no 1 crédito por imagen**
+## Cambio propuesto
 
-Consulté los logs del AI Gateway para las 5 regeneraciones de este último lote. Todas usaron el modelo previsto y costaron mucho menos que 1 crédito:
+Reescribir `sceneFromTitle` con:
 
-- Modelo: `google/gemini-3.1-flash-lite-image` en `image_generations` (no chat_completions).
-- Coste por imagen: **≈ 0,1346 créditos** (5 llamadas: 0,1346 + 0,1347 + 0,1346 + 0,1347 + 0,1346 ≈ **0,67 créditos en total para las 5**).
-- Duración por imagen: ~2,8–3,0 s.
-- 0 llamadas de LLM de descripción de escena (se sustituyó por lógica local): también contabilizado en 0 créditos extra.
+1. **Varias variantes por regla** (2-4 escenas alternativas por temática). Se elige de forma determinista con un hash del slug, así cada post tiene siempre la misma imagen pero entre posts hay variedad. Solo una variante por regla puede incluir papeles.
+2. **Prohibir "papeles" en la mayoría de variantes**. Alternativas concretas por temática:
+   - Burofax/carta → 1 variante con carta en mano; el resto: buzón de portal, cartero repartiendo, sobre cerrado sin abrir sobre el felpudo.
+   - Juzgado/demanda → fachada del juzgado desde la calle, cartel de "Juzgado de Primera Instancia", pasillo vacío, persona esperando (sin carpeta).
+   - Embargo/nómina → móvil mostrando la app del banco con saldo, cajero automático de calle, ticket de compra en la mano.
+   - Hipoteca/vivienda → portal de bloque, ventana de piso desde la calle, llaves sobre encimera, cartel "Se vende" en balcón.
+   - Tarjeta/revolving → tarjeta sobre mesa, TPV en comercio, móvil pagando contactless, cajero.
+   - Reunificación/cuota → persona hablando por teléfono en el salón, calendario de pared con marcas, hucha vacía, calculadora sola.
+   - Concurso/LSO/insolvencia → despacho de abogado corriente visto desde fuera, sala de espera, sello oficial en una carta (sin papeleo desperdigado).
+   - Banco/entidad → fachada de sucursal, cajero, cola en oficina bancaria.
+   - Deuda/impago/ASNEF → móvil con notificación push, buzón lleno, timbre de puerta.
+   - Pensión/jubilación → persona mayor en un banco de plaza, persona mayor con el móvil, cartilla del banco antigua.
+   - Autónomo/hacienda → autónomo en su taller/tienda, portátil sobre mesa de bar, furgoneta comercial aparcada.
+   - Default (sin match) → variantes cotidianas neutras: cocina española normal, salón con la tele encendida, calle de barrio, mesa de bar, portal de vecinos. Sin papeles.
+3. **`buildPrompt`**: añadir a la lista de "Prohibido" explícitamente "montones de papeles, facturas o documentos desperdigados como cliché" salvo que la escena elegida los incluya. Se resuelve dinámicamente concatenando la prohibición solo cuando `scene` no menciona papel/carta/factura/recibo/extracto/carpeta.
 
-Los 5,4 créditos que ves en el desglose de la sesión incluyen otras llamadas anteriores (por ejemplo la prueba inicial con Nano Banana estándar antes del cambio, que sí costó ~0,155 créditos, y los intentos previos que usaban el chat model + la llamada extra de descripción de escena, que sumaban ~1 crédito por imagen). Desde este lote, el ratio real es ~7× más barato que antes.
+## Archivos a tocar
 
-**2. Los posts SÍ están cambiados**
+- `supabase/functions/regenerate-blog-hero/index.ts` — reescribir `sceneFromTitle` con variantes + hash de slug, y ajustar `buildPrompt` para recibir el slug y la prohibición condicional. Cambiar la llamada de `regenerate()` para pasar `slug` a `buildPrompt`.
+- `supabase/functions/generate-daily-posts/index.ts` — misma reescritura de `sceneFromTitle` + `buildPrompt` para que las nuevas portadas diarias hereden la variedad.
 
-Confirmado en BD: los 5 slugs de este lote tienen `hero_image` con URL firmada nueva y `updated_at` de las 09:35–09:36 UTC de hoy. El frontend (`src/data/blog/dbPosts.ts`) lee `hero_image` desde la BD y mapea a `heroImage` en el componente, así que la vista de /blog los está sirviendo.
+Sin cambios en frontend, tipos, migraciones ni cron. Coste por imagen sigue en ~0,135 créditos.
 
-Los slugs actualizados en este lote son antiguos, no de la portada del blog:
-- `toda-informacion-sobre-pagas-extras-son-embargables`
-- `saber-sepe-ha-aprobado-paro`
-- `significa-deuda-post-concursal`
-- `avalistas-ley-segunda-oportunidad`
-- `delitos-contra-derechos-trabajdores`
+## Después del cambio
 
-En /blog aparecen ordenados por fecha de publicación descendente, así que estos están en páginas posteriores, no arriba. Los 4 primeros del listado (los de ayer) ya se refrescaron antes.
-
-## Qué te propongo hacer
-
-1. Abrir directamente uno de los 5 posts refrescados y comprobar que ves la imagen nueva. Ejemplo: `/blog/toda-informacion-sobre-pagas-extras-son-embargables`. Si ahí sí se ve el cambio, la refactorización funciona y el problema es solo de dónde estás mirando.
-2. Si quieres verlo reflejado ya en la portada del blog, tiene sentido cambiar el criterio de refresco: en vez de posts "más antiguos", refrescar los que aún tienen el estilo viejo pero **en orden descendente de fecha de publicación**, para que los cambios aparezcan primero en la home del blog. Se puede parametrizar `regenerate-blog-hero` con `order: "desc" | "asc"` y `offset` para ir avanzando por lotes.
-3. Presupuesto: a 0,135 créditos por imagen, refrescar 100 posts ≈ 13,5 créditos. Puedo lanzarlo en lotes de 5 hasta terminar, mostrando el progreso y el coste acumulado real tras cada lote para que puedas cortar en el punto que quieras.
-
-## Cambios de código (si aceptas)
-
-- `supabase/functions/regenerate-blog-hero/index.ts`: añadir parámetros opcionales `order` (`"desc"` | `"asc"`, default `"desc"` para que aparezcan en portada) y `offset` (default 0). Reemplazan al `limit` puro cuando no se pasan `slugs`.
-- Sin cambios en frontend ni migraciones.
-- Ningún cambio en cron ni en la generación diaria (esa ya usa la pipeline barata).
+Continuar el refresco desde donde se quedó (offset 5, orden desc, lotes de 5) hasta cubrir todos los posts publicados restantes. Reporto coste acumulado tras cada lote.
 
 ## Fuera de alcance
-- Rediseño visual del blog.
-- Cambiar de modelo otra vez (los 0,135 créditos son ya el mínimo razonable del catálogo Gemini de imagen).
+- Redibujar los ya generados con papeles si la nueva escena elegida para ese slug también incluye papeles (será minoritario y coherente con el título).
+- Cambios de modelo, tamaño de imagen o pipeline de subida.
