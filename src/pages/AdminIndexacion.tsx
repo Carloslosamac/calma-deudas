@@ -99,15 +99,16 @@ const AdminIndexacion = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("seo_index_checks")
-        .select("url, requested, indexed, coverage_state, last_inspected_at");
+        .select("url, requested, indexed, coverage_state, last_inspected_at, discovered_outside_sitemap");
       if (error) throw error;
-      const map: Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }> = {};
+      const map: Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null; outside: boolean }> = {};
       (data ?? []).forEach((row) => {
         map[row.url] = {
           requested: row.requested,
           indexed: row.indexed,
           coverage: row.coverage_state,
           inspectedAt: row.last_inspected_at,
+          outside: !!row.discovered_outside_sitemap,
         };
       });
       return map;
@@ -117,11 +118,11 @@ const AdminIndexacion = () => {
 
   const toggle = async (url: string, requested: boolean) => {
     // Optimista
-    queryClient.setQueryData<Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null }>>(
+    queryClient.setQueryData<Record<string, { requested: boolean; indexed: boolean | null; coverage: string | null; inspectedAt: string | null; outside: boolean }>>(
       ["index-checks"],
       (prev) => ({
         ...(prev ?? {}),
-        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null }), requested },
+        [url]: { ...(prev?.[url] ?? { indexed: null, coverage: null, inspectedAt: null, outside: false }), requested },
       }),
     );
     const { error } = await supabase
