@@ -519,6 +519,45 @@ async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
 // hiperrealista) y la sube al bucket público blog-images. Devuelve la URL
 // pública o null si algo falla (en cuyo caso se usa el fallback por categoría).
 async function generateAndUploadHero(
+
+// Pide a un LLM una descripción concreta de escena que represente literalmente
+// el título del artículo. Devuelve una frase breve en español (una escena real
+// cotidiana). Si falla, cae a un fallback genérico centrado en el título para
+// no bloquear la generación.
+async function describeSceneFromTitle(title: string, category: string): Promise<string> {
+  const fallback = `una persona española corriente en su día a día, en una situación cotidiana que refleja directamente "${title}"`;
+  try {
+    const res = await fetchWithTimeout("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Describes en 1-2 frases (máx 60 palabras) una escena cotidiana española real que ilustre LITERALMENTE el título de un artículo de blog sobre finanzas personales. Debe reconocerse a simple vista relacionada con el tema. Nada abstracto, nada metafórico. Incluye: quién (persona genérica española), qué hace exactamente, con qué objeto o documento concreto, en qué lugar cotidiano (casa, calle, oficina bancaria, cocina, etc.). Nada de emociones ni estética, solo la escena. Responde SOLO con la frase, sin comillas.",
+          },
+          {
+            role: "user",
+            content: `Título: "${title}" (categoría: ${category}).`,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 200,
+      }),
+    }, 20_000);
+    if (!res.ok) return fallback;
+    const data = await res.json();
+    const text = data?.choices?.[0]?.message?.content?.trim();
+    if (!text || text.length < 10) return fallback;
+    return text.replace(/^["'“”]|["'“”]$/g, "").slice(0, 400);
+  } catch {
+    return fallback;
+  }
+}
+
+async function _unusedHeroSignature(
   supabase: ReturnType<typeof createClient>,
   slug: string,
   title: string,
