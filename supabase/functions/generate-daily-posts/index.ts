@@ -7,6 +7,79 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
+// Extrae el primer objeto JSON balanceado dentro de un string. Aguanta:
+//  - bloques ```json ... ``` alrededor.
+//  - texto pegado tras el `}` final (causa habitual de "Unexpected non-whitespace character after JSON").
+//  - llaves dentro de strings escapadas.
+function extractFirstJsonObject(raw: string): Record<string, unknown> | null {
+  if (!raw) return null;
+  // 1) intento directo
+  try { return JSON.parse(raw); } catch (_e) { /* seguir */ }
+  const text = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') inStr = false;
+      continue;
+    }
+    if (ch === '"') { inStr = true; continue; }
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) {
+        try { return JSON.parse(text.slice(start, i + 1)); } catch { return null; }
+      }
+    }
+  }
+  return null;
+}
+
+// fetch con timeout duro. Sin esto, una llamada a IA/imagen que se cuelga
+// consume TODO el presupuesto del edge function.
+async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Promise<Response> {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { ...init, signal: ctrl.signal });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+// Marca una fila de roadmap como fallida. Tras 3 intentos consecutivos, la saca
+// de la cola (estado="fallo_generacion") para que el cron no la vuelva a coger
+// al día siguiente y así bloquear a las siguientes.
+async function markRoadmapFailure(
+  supabase: ReturnType<typeof createClient>,
+  id: number,
+  errorMsg: string,
+): Promise<void> {
+  try {
+    const { data } = await supabase
+      .from("seo_roadmap")
+      .select("attempts")
+      .eq("id", id)
+      .maybeSingle();
+    const next = ((data?.attempts as number | null) ?? 0) + 1;
+    const patch: Record<string, unknown> = {
+      attempts: next,
+      last_attempt_at: new Date().toISOString(),
+      last_error: errorMsg.slice(0, 500),
+    };
+    if (next >= 3) patch.estado = "fallo_generacion";
+    await supabase.from("seo_roadmap").update(patch).eq("id", id);
+  } catch (e) {
+    console.error(`markRoadmapFailure(${id}) error: ${String(e)}`);
+  }
+}
+
 // Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget:
 // nunca debe romper la generación si falla.
 async function notifyIndexNow(slugs: string[]): Promise<void> {
@@ -262,37 +335,53 @@ CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
 - 2–3 enlaces internos relativos a /blog/... dentro de una sección "Recursos".
 - Citas de artículos legales concretos donde apliquen (TRLC, LEC, Ley Azcárate, Ley 16/2022, LCCC).`;
 
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    console.error(`AI error ${res.status} for roadmap ${row.id}: ${body}`);
-    return null;
+  // Reintento único con prompt reforzado si el modelo devuelve texto no-JSON.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const messages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ];
+    if (attempt === 1) {
+      messages.push({
+        role: "user",
+        content: "Tu respuesta anterior no era JSON válido. Devuelve SOLO un único objeto JSON, sin texto antes ni después, sin comentarios, sin ```.",
+      });
+    }
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        "https://ai.gateway.lovable.dev/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash",
+            messages,
+            response_format: { type: "json_object" },
+          }),
+        },
+        60_000,
+      );
+    } catch (e) {
+      console.error(`AI fetch aborted for roadmap ${row.id} (attempt ${attempt + 1}): ${String(e)}`);
+      continue;
+    }
+    if (!res.ok) {
+      const body = await res.text();
+      console.error(`AI error ${res.status} for roadmap ${row.id} (attempt ${attempt + 1}): ${body.slice(0, 300)}`);
+      continue;
+    }
+    const data = await res.json();
+    const content = data?.choices?.[0]?.message?.content;
+    if (!content) continue;
+    const parsed = extractFirstJsonObject(content);
+    if (parsed) return parsed;
+    console.error(`JSON parse failed for roadmap ${row.id} (attempt ${attempt + 1})`);
   }
-
-  const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) return null;
-  try {
-    return JSON.parse(content);
-  } catch (_e) {
-    console.error(`JSON parse failed for roadmap ${row.id}`);
-    return null;
-  }
+  return null;
 }
 
 // ---- Validación dura del seoTitle (patrón agresivo de CTR) ----
@@ -526,9 +615,10 @@ Deno.serve(async (req) => {
     // wall-clock ~150s. Cada post cuesta ~30-40s (texto + imagen + upload),
     // así que reservamos margen para cerrar el run limpiamente.
     const startedAt = Date.now();
-    // Presupuesto agresivo: cada iteración tarda ~30-45s, así que dejamos
-    // ~70s de margen respecto al timeout de 150s para el UPDATE final.
-    const TIME_BUDGET_MS = 80_000;
+    // Cada iteración tarda ~30-45s. Damos margen respecto al timeout wall-clock
+    // de los edge functions (~150s) para el UPDATE final. Con 130s cabe ~1 post
+    // más de los que cabían antes.
+    const TIME_BUDGET_MS = 130_000;
 
     const { data: rows, error: selErr } = await supabase
       .from("seo_roadmap")
@@ -583,7 +673,9 @@ Deno.serve(async (req) => {
         `Bloqueadas ${blockedForCompetitor.length} filas de roadmap por marca de competidor: ${blockedForCompetitor.join(", ")}`,
       );
     }
-    const batch = filtered.slice(0, target);
+    // Cogemos hasta 3x el target para que, si algunas filas fallan (JSON, imagen,
+    // etc.), aún tengamos candidatas para intentar cumplir el objetivo del día.
+    const batch = filtered.slice(0, Math.max(target * 3, target + 3));
 
     const published: string[] = [];
     const failed: number[] = [];
@@ -610,9 +702,15 @@ Deno.serve(async (req) => {
         );
         break;
       }
+      // Si ya cumplimos el objetivo del día, cerramos sin gastar más presupuesto.
+      if (published.length >= target) break;
       const article = await generateArticle(row);
       if (!article) {
         failed.push(row.id);
+        // Marca en el roadmap: incrementa intentos y guarda el error. Tras 3
+        // intentos fallidos deja de aparecer en la cola para no bloquear el
+        // cron mañana con la misma fila envenenada.
+        await markRoadmapFailure(supabase, row.id, "IA no devolvió JSON válido");
         // Heartbeat: guarda el fallo en el run para que no quede huérfano.
         if (runId) {
           await supabase
@@ -711,6 +809,7 @@ Deno.serve(async (req) => {
       if (insErr) {
         console.error(`Insert failed for roadmap ${row.id}: ${insErr.message}`);
         failed.push(row.id);
+        await markRoadmapFailure(supabase, row.id, `insert: ${insErr.message}`);
         if (runId) {
           await supabase
             .from("generator_runs")

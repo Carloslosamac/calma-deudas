@@ -6,6 +6,45 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
+// Extrae el primer objeto JSON balanceado. Aguanta ```json fences y texto extra
+// después del `}` final (causa habitual de fallos de parseo).
+function extractFirstJsonObject(raw: string): Record<string, unknown> | null {
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch (_e) { /* seguir */ }
+  const text = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0, inStr = false, esc = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') inStr = false;
+      continue;
+    }
+    if (ch === '"') { inStr = true; continue; }
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) {
+        try { return JSON.parse(text.slice(start, i + 1)); } catch { return null; }
+      }
+    }
+  }
+  return null;
+}
+
+async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Promise<Response> {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { ...init, signal: ctrl.signal });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 // Marcas de competidores que jamás deben aparecer en nuestro contenido.
 const COMPETITOR_BRANDS = [
   "Soluciona\\s+Mi\\s+Deuda",
@@ -332,35 +371,51 @@ async function generateCaso(seed: CasoSeed): Promise<Record<string, unknown> | n
 
 Elige un importe de deuda realista y coherente con la categoría (no exagerado) y la solución legal adecuada según el triage. Escribe el reportaje completo.`;
 
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
-  });
-
-  if (!res.ok) {
-    console.error(`AI error ${res.status}: ${await res.text()}`);
-    return null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const messages: { role: string; content: string }[] = [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ];
+    if (attempt === 1) {
+      messages.push({
+        role: "user",
+        content: "Tu respuesta anterior no era JSON válido. Devuelve SOLO un único objeto JSON, sin texto antes ni después, sin comentarios, sin ```.",
+      });
+    }
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        "https://ai.gateway.lovable.dev/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash",
+            messages,
+            response_format: { type: "json_object" },
+          }),
+        },
+        60_000,
+      );
+    } catch (e) {
+      console.error(`AI fetch aborted for caso (attempt ${attempt + 1}): ${String(e)}`);
+      continue;
+    }
+    if (!res.ok) {
+      console.error(`AI error ${res.status} caso (attempt ${attempt + 1}): ${(await res.text()).slice(0, 300)}`);
+      continue;
+    }
+    const data = await res.json();
+    const content = data?.choices?.[0]?.message?.content;
+    if (!content) continue;
+    const parsed = extractFirstJsonObject(content);
+    if (parsed) return parsed;
+    console.error(`JSON parse failed for caso (attempt ${attempt + 1})`);
   }
-  const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) return null;
-  try {
-    return JSON.parse(content);
-  } catch (_e) {
-    console.error("JSON parse failed for caso");
-    return null;
-  }
+  return null;
 }
 
 async function uniqueSlug(supabase: ReturnType<typeof createClient>, base: string): Promise<string> {
@@ -426,9 +481,26 @@ Deno.serve(async (req) => {
     const published: string[] = [];
     let failed = 0;
 
+    const startedAt = Date.now();
+    const TIME_BUDGET_MS = 130_000;
+
     for (const forceLso of lsoFlags) {
-      const seed = buildSeed(forceLso);
-      const article = await generateCaso(seed);
+      if (Date.now() - startedAt > TIME_BUDGET_MS) {
+        console.warn("Presupuesto de tiempo agotado en casos");
+        break;
+      }
+      // Hasta 3 seeds distintas por slot: si la IA falla o la imagen no sale,
+      // reintentamos con otra persona/localización antes de dar por fallado el slot.
+      let article: Record<string, unknown> | null = null;
+      let seed = buildSeed(forceLso);
+      for (let tries = 0; tries < 3; tries++) {
+        seed = buildSeed(forceLso);
+        const candidate = await generateCaso(seed);
+        if (candidate && !containsCompetitor(candidate)) {
+          article = candidate;
+          break;
+        }
+      }
       if (!article) {
         failed++;
         continue;
