@@ -515,11 +515,6 @@ async function optimizeImage(pngBytes: Uint8Array): Promise<Uint8Array | null> {
   }
 }
 
-// Genera una imagen de portada ÚNICA por artículo (estilo fotoperiodístico
-// hiperrealista) y la sube al bucket público blog-images. Devuelve la URL
-// pública o null si algo falla (en cuyo caso se usa el fallback por categoría).
-async function generateAndUploadHero(
-
 // Pide a un LLM una descripción concreta de escena que represente literalmente
 // el título del artículo. Devuelve una frase breve en español (una escena real
 // cotidiana). Si falla, cae a un fallback genérico centrado en el título para
@@ -557,7 +552,10 @@ async function describeSceneFromTitle(title: string, category: string): Promise<
   }
 }
 
-async function _unusedHeroSignature(
+// Genera una imagen de portada ÚNICA por artículo (estética coherente de foto
+// hecha con móvil, escena derivada del título) y la sube al bucket público
+// blog-images. Devuelve la URL pública o null si algo falla.
+async function generateAndUploadHero(
   supabase: ReturnType<typeof createClient>,
   slug: string,
   title: string,
