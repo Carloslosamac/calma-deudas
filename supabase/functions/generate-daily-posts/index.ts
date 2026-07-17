@@ -53,6 +53,33 @@ async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Pro
   }
 }
 
+// Marca una fila de roadmap como fallida. Tras 3 intentos consecutivos, la saca
+// de la cola (estado="fallo_generacion") para que el cron no la vuelva a coger
+// al día siguiente y así bloquear a las siguientes.
+async function markRoadmapFailure(
+  supabase: ReturnType<typeof createClient>,
+  id: number,
+  errorMsg: string,
+): Promise<void> {
+  try {
+    const { data } = await supabase
+      .from("seo_roadmap")
+      .select("attempts")
+      .eq("id", id)
+      .maybeSingle();
+    const next = ((data?.attempts as number | null) ?? 0) + 1;
+    const patch: Record<string, unknown> = {
+      attempts: next,
+      last_attempt_at: new Date().toISOString(),
+      last_error: errorMsg.slice(0, 500),
+    };
+    if (next >= 3) patch.estado = "fallo_generacion";
+    await supabase.from("seo_roadmap").update(patch).eq("id", id);
+  } catch (e) {
+    console.error(`markRoadmapFailure(${id}) error: ${String(e)}`);
+  }
+}
+
 // Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget:
 // nunca debe romper la generación si falla.
 async function notifyIndexNow(slugs: string[]): Promise<void> {
