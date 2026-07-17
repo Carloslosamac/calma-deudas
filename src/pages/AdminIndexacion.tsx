@@ -278,10 +278,82 @@ const AdminIndexacion = () => {
               {indexedCount} + {notIndexedCount} + {total - indexedCount - notIndexedCount} = {total} URLs.
             </p>
             <p className="mt-3 text-xs text-muted-foreground">
-              «Comprobar en Google» reenvía el sitemap y consulta el estado real vía Search Console (también cada día automáticamente). Google no permite forzar la indexación por API; este estado refleja lo que Google decide.
+              Estado de la última comprobación vía URL Inspection API. Puede tardar 24-48 h en igualar al informe «Páginas» de GSC (que consolida datos diarios). Google conoce además <strong>{outsideSitemap.length}</strong> URL(s) fuera del sitemap.
             </p>
           </Card>
         </div>
+
+        {notIndexedByReason.length > 0 && (
+          <div className="mt-8">
+            <h2 className="font-poppins text-xl font-semibold text-foreground">
+              ¿Por qué hay páginas que no se indexan?
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Agrupadas por el motivo que reporta Google (mismo criterio que la tabla de GSC).
+            </p>
+            <Card className="mt-3 divide-y divide-border">
+              {notIndexedByReason.map(([reason, urls]) => (
+                <details key={reason} className="group">
+                  <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 hover:bg-muted/40">
+                    <span className="text-sm text-foreground">{reason}</span>
+                    <span className="text-sm font-semibold text-muted-foreground">{urls.length}</span>
+                  </summary>
+                  <div className="divide-y divide-border bg-muted/20">
+                    {urls.map((u) => (
+                      <div key={u} className="flex items-center justify-between gap-3 px-6 py-2 text-xs">
+                        <span className="truncate text-muted-foreground">{u.replace("https://mi-calma.es", "") || "/"}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(u);
+                            toast.success("URL copiada");
+                          }}
+                          className="inline-flex items-center gap-1 text-accent-deep hover:underline"
+                        >
+                          Copiar <Copy className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </Card>
+          </div>
+        )}
+
+        {outsideSitemap.length > 0 && (
+          <div className="mt-8">
+            <h2 className="font-poppins text-xl font-semibold text-foreground">
+              URLs fuera del sitemap ({outsideSitemap.length})
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Google las conoce (aparecen en Search Analytics de los últimos 90 días) pero no están en <code>sitemap.xml</code>. Decide si añadirlas, redirigir o dejar 410.
+            </p>
+            <Card className="mt-3 divide-y divide-border">
+              {outsideSitemap.slice(0, 100).map((row) => (
+                <div key={row.url} className="flex items-center gap-3 px-4 py-2 text-xs">
+                  <span className="flex-1 truncate text-muted-foreground">{row.url.replace("https://mi-calma.es", "") || "/"}</span>
+                  {row.indexed === true && (
+                    <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">Indexada</Badge>
+                  )}
+                  {row.indexed === false && (
+                    <Badge variant="outline" className="border-amber-200 bg-amber-50 text-amber-700">{row.coverage ?? "No indexada"}</Badge>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(row.url);
+                      toast.success("URL copiada");
+                    }}
+                    className="inline-flex items-center gap-1 text-accent-deep hover:underline"
+                  >
+                    Copiar <Copy className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </Card>
+          </div>
+        )}
 
         <div className="relative mt-6">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
