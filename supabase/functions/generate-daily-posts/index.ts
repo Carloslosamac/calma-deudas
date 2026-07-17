@@ -665,7 +665,9 @@ async function generateAndUploadHero(
   category: string,
 ): Promise<string | null> {
   try {
-    const scene = sceneFromTitle(title, category);
+    const scene = sceneFromTitle(title, category, slug);
+    const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
+    const banPapers = !paperWords.test(scene);
     const prompt = `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
 
 Escena literal (debe reconocerse a simple vista y coincidir con el título "${title}"): ${scene}
@@ -675,7 +677,7 @@ Estética coherente en todas las portadas:
 - Solo luz natural existente (ventana, calle, lámpara doméstica). Balance de blancos neutro. Colores apagados y reales tal cual salen del móvil.
 - Personas y espacios españoles corrientes, ropa normal, objetos con uso real, casas normales no de revista.
 
-Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages.`;
+Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
     const rawBytes = await generateImageBytes(prompt, slug);
     if (!rawBytes) {
       console.error(`No image returned for ${slug}`);
