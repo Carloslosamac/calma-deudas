@@ -588,9 +588,10 @@ Deno.serve(async (req) => {
     // wall-clock ~150s. Cada post cuesta ~30-40s (texto + imagen + upload),
     // así que reservamos margen para cerrar el run limpiamente.
     const startedAt = Date.now();
-    // Presupuesto agresivo: cada iteración tarda ~30-45s, así que dejamos
-    // ~70s de margen respecto al timeout de 150s para el UPDATE final.
-    const TIME_BUDGET_MS = 80_000;
+    // Cada iteración tarda ~30-45s. Damos margen respecto al timeout wall-clock
+    // de los edge functions (~150s) para el UPDATE final. Con 130s cabe ~1 post
+    // más de los que cabían antes.
+    const TIME_BUDGET_MS = 130_000;
 
     const { data: rows, error: selErr } = await supabase
       .from("seo_roadmap")
@@ -645,7 +646,9 @@ Deno.serve(async (req) => {
         `Bloqueadas ${blockedForCompetitor.length} filas de roadmap por marca de competidor: ${blockedForCompetitor.join(", ")}`,
       );
     }
-    const batch = filtered.slice(0, target);
+    // Cogemos hasta 3x el target para que, si algunas filas fallan (JSON, imagen,
+    // etc.), aún tengamos candidatas para intentar cumplir el objetivo del día.
+    const batch = filtered.slice(0, Math.max(target * 3, target + 3));
 
     const published: string[] = [];
     const failed: number[] = [];
@@ -672,9 +675,15 @@ Deno.serve(async (req) => {
         );
         break;
       }
+      // Si ya cumplimos el objetivo del día, cerramos sin gastar más presupuesto.
+      if (published.length >= target) break;
       const article = await generateArticle(row);
       if (!article) {
         failed.push(row.id);
+        // Marca en el roadmap: incrementa intentos y guarda el error. Tras 3
+        // intentos fallidos deja de aparecer en la cola para no bloquear el
+        // cron mañana con la misma fila envenenada.
+        await markRoadmapFailure(supabase, row.id, "IA no devolvió JSON válido");
         // Heartbeat: guarda el fallo en el run para que no quede huérfano.
         if (runId) {
           await supabase
@@ -773,6 +782,7 @@ Deno.serve(async (req) => {
       if (insErr) {
         console.error(`Insert failed for roadmap ${row.id}: ${insErr.message}`);
         failed.push(row.id);
+        await markRoadmapFailure(supabase, row.id, `insert: ${insErr.message}`);
         if (runId) {
           await supabase
             .from("generator_runs")
