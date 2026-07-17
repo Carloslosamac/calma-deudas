@@ -275,7 +275,7 @@ REGLAS EDITORIALES INNEGOCIABLES:
   11) Recursos y enlaces internos: menciona 2–3 artículos hermanos del blog con <a href="/blog/slug"> relativos (usa slugs plausibles: guia-ley-segunda-oportunidad, guia-reunificar-deudas, guia-cancelar-microcreditos, guia-cancelar-revolving, embargos-segunda-oportunidad, juicio-monitorio-deuda, salir-asnef, autonomos-con-deudas)
 - DIAGRAMAS Y CTAs OBLIGATORIOS DENTRO DEL HTML DE LAS SECCIONES:
   Como el contenido se renderiza como HTML crudo, usa SIEMPRE estos bloques semánticos (NO Tailwind inline, NO estilos inline). Debes incluir, repartidos por el artículo:
-  * MÍNIMO 3 diagramas visuales, MÁXIMO 5, elegidos ENTRE ESTOS 6 tipos según lo que aporte el tema (no repitas tipo dentro del mismo post, no metas los 4 por defecto en todos los artículos):
+  * MÍNIMO 3 diagramas visuales, MÁXIMO 5, elegidos ENTRE ESTOS 10 tipos según lo que aporte el tema (no repitas tipo dentro del mismo post, no metas los 4 por defecto en todos los artículos):
     A) Antes vs. Después — SOLO si el post habla de una transformación, cifras o resultados:
        <div class="blog-before-after"><div class="before"><h4>Antes</h4><ul><li>...</li></ul></div><div class="after"><h4>Después</h4><ul><li>...</li></ul></div></div>
     B) Mito vs. Realidad — SOLO si el post desmonta creencias o errores comunes (mínimo 3 filas):
@@ -289,8 +289,16 @@ REGLAS EDITORIALES INNEGOCIABLES:
        <div class="blog-callout"><div class="icon">i</div><div><h4>Dato clave</h4><p>...</p></div></div>
     F) Checklist accionable — para pre-requisitos, documentación o verificaciones (mín 4 items):
        <div class="blog-checklist"><h4>Antes de reclamar, verifica que:</h4><ul><li>...</li><li>...</li></ul></div>
-  * Cada post debe combinar 3-5 tipos DISTINTOS. Nunca uses los mismos 4 (timeline+myth+comparison+before-after) por defecto: elige los que encajen con el tema real. Ejemplo: un post de plazos → timeline + callout warning + checklist; un post de reclamación → checklist + myth-reality + before-after; un post de comparativas de soluciones → comparison + callout + timeline.
-  * Todos los diagramas deben tener el div raíz con clase EXACTA (blog-timeline, blog-myth-reality, blog-comparison, blog-before-after, blog-callout, blog-checklist) para que hereden estilo. Nunca uses estilos inline.
+     G) Estadísticas destacadas — para cifras clave del tema (3–6 números con etiqueta):
+        <div class="blog-stats"><div class="stat"><span class="num">70%</span><span class="label">de los casos ...</span></div>...</div>
+     H) Pros y contras — para valorar UNA opción concreta (no comparativa entre opciones):
+        <div class="blog-pros-cons"><div class="pros"><h4>A favor</h4><ul><li>...</li></ul></div><div class="cons"><h4>En contra</h4><ul><li>...</li></ul></div></div>
+     I) Cita destacada — para una frase legal, principio jurídico o resumen potente (una sola por post):
+        <div class="blog-quote"><blockquote>«...»</blockquote><span class="author">Fuente / referencia</span></div>
+     J) Mini FAQ inline — 2–4 preguntas cortas dentro de una sección concreta (independiente del bloque final de FAQ):
+        <div class="blog-faq-inline"><div class="qa"><p class="q">¿Pregunta?</p><p class="a">Respuesta breve.</p></div>...</div>
+  * Cada post debe combinar 3–5 tipos DISTINTOS del pool de 10. Elige los que encajen con el tema real, no siempre los mismos. Ejemplos: post de plazos → timeline + callout warning + checklist + stats; post de reclamación → checklist + myth-reality + before-after + quote; post de comparativas → comparison + pros-cons + callout; post explicativo → stats + faq-inline + quote + timeline.
+  * Todos los diagramas deben tener el div raíz con clase EXACTA (blog-timeline, blog-myth-reality, blog-comparison, blog-before-after, blog-callout, blog-checklist, blog-stats, blog-pros-cons, blog-quote, blog-faq-inline) para que hereden estilo. Nunca uses estilos inline.
   * Al menos 2 CTAs inline dentro de secciones intermedias distintas (NO al final: el final lo añade el sistema):
       <div class="blog-cta"><h3>Título específico del CTA (alineado con el tema del post)</h3><p>Descripción breve orientada a valoración gratuita.</p><a href="#hero-form">Etiqueta de acción específica</a></div>
   El título/descripción del CTA deben ser específicos del tema del artículo, nunca genéricos.
@@ -335,7 +343,7 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
 CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
 - ≥ 8 secciones H2 cubriendo las 11 dimensiones de la estructura obligatoria.
 - ≥ 2.500 palabras totales sumando todas las secciones.
-- 3-5 diagramas visuales combinando tipos DISTINTOS (blog-timeline / blog-myth-reality / blog-comparison / blog-before-after / blog-callout / blog-checklist) elegidos por lo que encaje con el tema. NUNCA los mismos 4 por defecto.
+- 3-5 diagramas visuales combinando tipos DISTINTOS del pool de 10 (blog-timeline / blog-myth-reality / blog-comparison / blog-before-after / blog-callout / blog-checklist / blog-stats / blog-pros-cons / blog-quote / blog-faq-inline) elegidos por lo que encaje con el tema. NUNCA los mismos por defecto.
 - ≥ 2 CTAs intermedios (.blog-cta) con títulos específicos del tema.
 - ≥ 8 preguntas FAQ con respuestas de 3–5 frases.
 - ≥ 1 ejemplo ilustrativo con cifras etiquetadas como "ejemplo ilustrativo".
@@ -771,7 +779,7 @@ Deno.serve(async (req) => {
       try {
         const secs = (article.sections as { html?: string }[] | undefined) ?? [];
         const joined = secs.map((s) => s?.html ?? "").join("\n");
-        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist)/g) ?? [];
+        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist|stats|pros-cons|quote|faq-inline)/g) ?? [];
         const diagramCount = diagramMatches.length;
         const uniqueDiagramTypes = new Set(diagramMatches).size;
         const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
