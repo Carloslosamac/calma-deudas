@@ -100,11 +100,11 @@ Deno.serve(async (req) => {
   try {
     const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
-    let batchSize = 80;
+    let batchSize = 200;
     try {
       const body = await req.json();
       if (typeof body?.batchSize === "number") {
-        batchSize = Math.max(1, Math.min(500, body.batchSize));
+        batchSize = Math.max(1, Math.min(1000, body.batchSize));
       }
     } catch (_e) {
       // sin body: usar valor por defecto
