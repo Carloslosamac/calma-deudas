@@ -124,10 +124,14 @@ Deno.serve(async (req) => {
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
   let slugs: string[] = [];
   let limit = 0;
+  let offset = 0;
+  let order: "asc" | "desc" = "desc";
   try {
     const body = await req.json();
     if (Array.isArray(body?.slugs)) slugs = body.slugs;
     if (typeof body?.limit === "number") limit = body.limit;
+    if (typeof body?.offset === "number") offset = body.offset;
+    if (body?.order === "asc" || body?.order === "desc") order = body.order;
   } catch { /* body opcional */ }
 
   let rows: { slug: string; title: string; category: string }[] = [];
@@ -142,8 +146,8 @@ Deno.serve(async (req) => {
       .from("generated_posts")
       .select("slug,title,category,published_at")
       .eq("status", "published")
-      .order("published_at", { ascending: false, nullsFirst: false })
-      .limit(limit);
+      .order("published_at", { ascending: order === "asc", nullsFirst: false })
+      .range(offset, offset + limit - 1);
     rows = (data ?? []) as typeof rows;
   }
 
