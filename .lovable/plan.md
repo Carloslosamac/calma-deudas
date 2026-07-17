@@ -1,46 +1,49 @@
-## Por qué no cuadran los números
+## Objetivo
+Seguir refrescando las hero images del blog con el estilo "foto de móvil realista + escena ligada al título", pero bajando el coste por imagen para que no se acerque a 1 crédito.
 
-- **GSC**: 232 indexadas + 58 no indexadas = **290 URLs** conocidas por Google (incluye URLs históricas, redirecciones, parámetros, variantes fuera del sitemap actual).
-- **/admin**: parte del `sitemap.xml` (**240 URLs**) y solo inspecciona **80 por ejecución** vía URL Inspection API. El resto queda "sin comprobar", así que los totales indexada/no indexada nunca se acercan a los de GSC hasta pasar varios días.
-- Además, `/admin` usa `verdict === "PASS"` como "indexada"; GSC usa `coverageState` (más granular: "Indexada", "Duplicada canónica seleccionada por Google", "Excluida noindex", "Descubierta - actualmente sin indexar", "Rastreada - actualmente sin indexar", "Página con redirección"). Por eso una URL puede aparecer como "indexada" en GSC y "no indexada" (o al revés) en `/admin`.
+## De dónde viene el coste actual
+Cada regeneración hace hoy 2 llamadas a AI Gateway:
+1. `google/gemini-2.5-flash` para extraer la escena del título (`describeSceneFromTitle`).
+2. `google/gemini-2.5-flash-image-preview` (Nano Banana) para generar la imagen 1200px.
 
-## Qué haré (solo UI + edge function, sin cambios de datos)
+La llamada de texto + un modelo de imagen "preview" es la parte cara. Vamos a recortar ambas.
 
-### 1. Alinear la métrica con GSC
+## Cambios
 
-En `supabase/functions/gsc-index-status/index.ts`:
+### 1. Eliminar la llamada LLM de escena
+Sustituir `describeSceneFromTitle` por un derivador local determinista basado en el título + `keywords`/`category` del post:
+- Diccionario de disparadores (regex) → escena literal en español, p. ej.:
+  - "carta|burofax|requerimiento" → "manos sosteniendo una carta certificada con logo bancario, sobre mesa de cocina"
+  - "juzgado|demanda|sentencia" → "pasillo de juzgado español, persona esperando en un banco de madera con carpeta"
+  - "nómina|embargo" → "recibo de nómina impreso sobre mesa, con marcas de bolígrafo"
+  - "hipoteca|vivienda|piso" → "portal de bloque de viviendas español visto desde la acera"
+  - "tarjeta revolving|usura" → "tarjeta de crédito y extracto bancario en primer plano sobre mesa"
+  - "reunificar|refinanciar|cuota" → "persona revisando varios recibos en la mesa del salón"
+  - default → escena neutra basada en `subject` aleatorio + objeto genérico (carpeta/documento).
+- Se combina con los pools existentes (`light`, `lens`, `mood`, `subject`) para variedad, pero el "qué se ve" sale del título sin coste de IA.
 
-- Guardar también las URLs **conocidas por Google pero NO en el sitemap** (las descubro consultando la Index Coverage / listándolas desde `searchAnalytics` como fallback: URLs con impresiones en 90d que no estén en el sitemap).
-- Nuevos campos en `seo_index_checks` (via migration): `discovered_outside_sitemap boolean`, `google_canonical text`, `user_canonical text`.
-- Considerar "indexada" cuando `coverageState` empiece por `"Submitted and indexed"`, `"Indexed"` o `"Indexed, not submitted in sitemap"` (mapear como en GSC), en lugar de fiarnos solo del `verdict`.
-- Subir el batch por defecto a **200** y añadir modo "full sweep" (paginado hasta cubrir todo el sitemap en una sola ejecución, respetando 2.000/día).
+Esto elimina 100% del coste de texto por imagen.
 
-### 2. Nueva vista en `/admin/contenido/indexacion`
+### 2. Modelo de imagen más barato
+Cambiar el modelo por defecto a `google/gemini-3.1-flash-lite-image` (Nano Banana 2 Lite, el más económico del catálogo Gemini image) manteniendo la misma llamada al endpoint `/v1/images/generations`. Se ajusta el body a la forma Vertex `generateContent` que este modelo requiere (`contents` + `generationConfig.responseModalities: ["TEXT","IMAGE"]`), no la de chat.
 
-Rediseño ligero para que se lea como GSC:
+Fallback: si devuelve error, reintentar 1 vez con `google/gemini-2.5-flash-image` (el actual). Sin más reintentos para no inflar coste.
 
-- **Cabecera resumen** con las mismas 2 cifras que GSC:
-  - Indexadas / No indexadas (total = suma).
-  - Diferencia con GSC destacada: "Comprobadas X de Y del sitemap · Google conoce además Z URLs fuera del sitemap".
-- **Desglose por motivo** (tipo tabla de GSC "¿Por qué hay páginas que no se indexan?"): agrupar las no indexadas por `coverage_state` con contador y expandible para ver URLs. Motivos típicos: `noindex`, `Duplicate without canonical`, `Page with redirect`, `Alternate page with canonical tag`, `Discovered - not indexed`, `Crawled - not indexed`.
-- **Sección "Fuera del sitemap"**: URLs que Google conoce pero no están en `sitemap.xml` (para decidir si añadirlas o dejarlas 410/301).
-- Mantengo el checklist manual y el buscador; solo cambia la parte superior y añado el desglose.
+### 3. Ahorros menores
+- Bajar `optimize()` a máx. 1000px de ancho y `quality: 78` en JPEG (hoy 1200/82). Diferencia visual imperceptible en tarjetas de blog, menos bytes en storage/CDN.
+- Prompt algo más corto (quitar frases redundantes de "no HDR / no filtro / no golden hour" duplicadas — dejar una sola línea de prohibiciones).
 
-### 3. Aclarar en la UI qué mide cada tarjeta
-
-Texto explícito bajo cada tarjeta:
-- Manual: "Tu checklist de solicitudes en Search Console".
-- Estado real: "Estado de la última comprobación vía URL Inspection API. Puede tardar 24-48 h en igualar al informe de Páginas de Google Search Console porque GSC muestra datos consolidados diarios."
+### 4. Aplicar a los posts pendientes
+- Desplegar los cambios en `generate-daily-posts/index.ts` y `regenerate-blog-hero/index.ts`.
+- Ejecutar `regenerate-blog-hero` en lotes de 5, avanzando por los posts publicados más antiguos que aún tengan el estilo viejo (excluyendo los 4 ya refrescados). Parar tras cada lote para revisar resultado y coste antes de seguir.
 
 ## Detalles técnicos
+- Ficheros a tocar: `supabase/functions/generate-daily-posts/index.ts`, `supabase/functions/regenerate-blog-hero/index.ts`.
+- Nuevo helper compartido `sceneFromTitle(title, keywords)` inline en ambos (mismos diccionarios).
+- El body para `gemini-3.1-flash-lite-image` sigue exactamente la forma documentada en `ai-image-generation` (Vertex `generateContent`, no chat).
+- No se toca frontend, ni tipos, ni migraciones.
 
-- Migración: `alter table public.seo_index_checks add column discovered_outside_sitemap boolean default false, add column google_canonical text, add column user_canonical text;` (+ GRANTs ya existentes).
-- `gsc-index-status`: nuevo paso previo `fetchIndexedFromSearchAnalytics()` que llama `POST /webmasters/v3/sites/{site}/searchAnalytics/query` con `dimensions:["page"]` últimos 90 días, y hace `upsert` de las que no estén ya en la tabla marcándolas `discovered_outside_sitemap = true` si no aparecen en el sitemap actual.
-- Frontend `AdminIndexacion.tsx`: nuevas cifras derivadas de `checks` + agrupación por `coverage_state`; una `Card` extra con URLs fuera del sitemap.
-- Sin cambios en rutas ni en la lógica del checklist manual.
-
-## Fuera del alcance
-
-- No fuerzo indexación por API (Google no lo permite salvo Job Posting / Broadcast Event).
-- No toco el sitemap ni añado/borro URLs; solo lo reporto.
-- No cambio la estructura del panel /admin.
+## Fuera de alcance
+- Cambiar el cron de posts diarios o el número objetivo.
+- Rediseñar las tarjetas del blog.
+- Añadir alt-text nuevo (se reutiliza el existente).
