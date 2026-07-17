@@ -308,37 +308,53 @@ CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
 - 2–3 enlaces internos relativos a /blog/... dentro de una sección "Recursos".
 - Citas de artículos legales concretos donde apliquen (TRLC, LEC, Ley Azcárate, Ley 16/2022, LCCC).`;
 
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userPrompt },
-      ],
-      response_format: { type: "json_object" },
-    }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text();
-    console.error(`AI error ${res.status} for roadmap ${row.id}: ${body}`);
-    return null;
+  // Reintento único con prompt reforzado si el modelo devuelve texto no-JSON.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const messages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: userPrompt },
+    ];
+    if (attempt === 1) {
+      messages.push({
+        role: "user",
+        content: "Tu respuesta anterior no era JSON válido. Devuelve SOLO un único objeto JSON, sin texto antes ni después, sin comentarios, sin ```.",
+      });
+    }
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        "https://ai.gateway.lovable.dev/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${LOVABLE_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash",
+            messages,
+            response_format: { type: "json_object" },
+          }),
+        },
+        60_000,
+      );
+    } catch (e) {
+      console.error(`AI fetch aborted for roadmap ${row.id} (attempt ${attempt + 1}): ${String(e)}`);
+      continue;
+    }
+    if (!res.ok) {
+      const body = await res.text();
+      console.error(`AI error ${res.status} for roadmap ${row.id} (attempt ${attempt + 1}): ${body.slice(0, 300)}`);
+      continue;
+    }
+    const data = await res.json();
+    const content = data?.choices?.[0]?.message?.content;
+    if (!content) continue;
+    const parsed = extractFirstJsonObject(content);
+    if (parsed) return parsed;
+    console.error(`JSON parse failed for roadmap ${row.id} (attempt ${attempt + 1})`);
   }
-
-  const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) return null;
-  try {
-    return JSON.parse(content);
-  } catch (_e) {
-    console.error(`JSON parse failed for roadmap ${row.id}`);
-    return null;
-  }
+  return null;
 }
 
 // ---- Validación dura del seoTitle (patrón agresivo de CTR) ----
