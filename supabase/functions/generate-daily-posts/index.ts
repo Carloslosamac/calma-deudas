@@ -275,15 +275,22 @@ REGLAS EDITORIALES INNEGOCIABLES:
   11) Recursos y enlaces internos: menciona 2–3 artículos hermanos del blog con <a href="/blog/slug"> relativos (usa slugs plausibles: guia-ley-segunda-oportunidad, guia-reunificar-deudas, guia-cancelar-microcreditos, guia-cancelar-revolving, embargos-segunda-oportunidad, juicio-monitorio-deuda, salir-asnef, autonomos-con-deudas)
 - DIAGRAMAS Y CTAs OBLIGATORIOS DENTRO DEL HTML DE LAS SECCIONES:
   Como el contenido se renderiza como HTML crudo, usa SIEMPRE estos bloques semánticos (NO Tailwind inline, NO estilos inline). Debes incluir, repartidos por el artículo:
-  * Al menos 4 diagramas visuales repartidos (uno por sección relevante). La combinación por defecto es: 1 timeline + 1 mito/realidad + 1 comparativa + 1 antes/después. Si el tema no admite alguno, sustitúyelo por otro del mismo tipo pero JUSTIFICADO por el contenido:
-    - Antes vs. Después (obligatorio si el post habla de una transformación, cifras o resultados):
-      <div class="blog-before-after"><div class="before"><h4>Antes</h4><ul><li>Punto negativo</li><li>...</li></ul></div><div class="after"><h4>Después</h4><ul><li>Punto positivo</li><li>...</li></ul></div></div>
-    - Mito vs. Realidad (obligatorio si el post desmonta creencias/errores comunes):
-      <div class="blog-myth-reality"><div class="row"><div class="myth"><span class="label">Mito</span><p>...</p></div><div class="reality"><span class="label">Realidad</span><p>...</p></div></div><div class="row">...</div></div>
-    - Cronología del proceso (obligatorio si explicas pasos o procedimiento):
-      <div class="blog-timeline"><div class="step"><span class="num">1</span><h4>Título</h4><p>...</p></div><div class="step"><span class="num">2</span><h4>...</h4><p>...</p></div></div>
-    - Comparativa (para contrastar opciones/soluciones):
-      <div class="blog-comparison"><table><thead><tr><th>Opción</th><th>Ventaja</th><th>Inconveniente</th></tr></thead><tbody><tr><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+  * MÍNIMO 3 diagramas visuales, MÁXIMO 5, elegidos ENTRE ESTOS 6 tipos según lo que aporte el tema (no repitas tipo dentro del mismo post, no metas los 4 por defecto en todos los artículos):
+    A) Antes vs. Después — SOLO si el post habla de una transformación, cifras o resultados:
+       <div class="blog-before-after"><div class="before"><h4>Antes</h4><ul><li>...</li></ul></div><div class="after"><h4>Después</h4><ul><li>...</li></ul></div></div>
+    B) Mito vs. Realidad — SOLO si el post desmonta creencias o errores comunes (mínimo 3 filas):
+       <div class="blog-myth-reality"><div class="row"><div class="myth"><span class="label">Mito</span><p>...</p></div><div class="reality"><span class="label">Realidad</span><p>...</p></div></div>...</div>
+    C) Cronología / pasos — SOLO si explicas un procedimiento con orden temporal:
+       <div class="blog-timeline"><div class="step"><span class="num">1</span><h4>...</h4><p>...</p></div>...</div>
+    D) Comparativa — SOLO si contrastas 3+ opciones/soluciones (no la uses si ya hay antes/después):
+       <div class="blog-comparison"><table><thead><tr><th>Opción</th><th>Ventaja</th><th>Inconveniente</th></tr></thead><tbody><tr><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+    E) Callout / aviso destacado — para datos legales críticos, plazos o advertencias. Usa "warning" cuando sea un riesgo:
+       <div class="blog-callout warning"><div class="icon">!</div><div><h4>Ojo con este plazo</h4><p>...</p></div></div>
+       <div class="blog-callout"><div class="icon">i</div><div><h4>Dato clave</h4><p>...</p></div></div>
+    F) Checklist accionable — para pre-requisitos, documentación o verificaciones (mín 4 items):
+       <div class="blog-checklist"><h4>Antes de reclamar, verifica que:</h4><ul><li>...</li><li>...</li></ul></div>
+  * Cada post debe combinar 3-5 tipos DISTINTOS. Nunca uses los mismos 4 (timeline+myth+comparison+before-after) por defecto: elige los que encajen con el tema real. Ejemplo: un post de plazos → timeline + callout warning + checklist; un post de reclamación → checklist + myth-reality + before-after; un post de comparativas de soluciones → comparison + callout + timeline.
+  * Todos los diagramas deben tener el div raíz con clase EXACTA (`blog-timeline`, `blog-myth-reality`, `blog-comparison`, `blog-before-after`, `blog-callout`, `blog-checklist`) para que hereden estilo. Nunca uses estilos inline.
   * Al menos 2 CTAs inline dentro de secciones intermedias distintas (NO al final: el final lo añade el sistema):
       <div class="blog-cta"><h3>Título específico del CTA (alineado con el tema del post)</h3><p>Descripción breve orientada a valoración gratuita.</p><a href="#hero-form">Etiqueta de acción específica</a></div>
   El título/descripción del CTA deben ser específicos del tema del artículo, nunca genéricos.
