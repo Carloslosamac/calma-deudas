@@ -95,7 +95,6 @@ export type Database = {
           faq: Json
           hero_alt: string | null
           hero_image: string | null
-          hero_regenerated_at: string | null
           id: string
           key_takeaways: string[] | null
           keywords: string[] | null
@@ -120,7 +119,6 @@ export type Database = {
           faq?: Json
           hero_alt?: string | null
           hero_image?: string | null
-          hero_regenerated_at?: string | null
           id?: string
           key_takeaways?: string[] | null
           keywords?: string[] | null
@@ -145,7 +143,6 @@ export type Database = {
           faq?: Json
           hero_alt?: string | null
           hero_image?: string | null
-          hero_regenerated_at?: string | null
           id?: string
           key_takeaways?: string[] | null
           keywords?: string[] | null

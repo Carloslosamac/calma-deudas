@@ -1,1 +1,0 @@
-ALTER TABLE public.generated_posts ADD COLUMN IF NOT EXISTS hero_regenerated_at timestamptz;
