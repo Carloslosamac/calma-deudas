@@ -1,49 +1,41 @@
-## Objetivo
-Seguir refrescando las hero images del blog con el estilo "foto de móvil realista + escena ligada al título", pero bajando el coste por imagen para que no se acerque a 1 crédito.
+## Diagnóstico rápido
 
-## De dónde viene el coste actual
-Cada regeneración hace hoy 2 llamadas a AI Gateway:
-1. `google/gemini-2.5-flash` para extraer la escena del título (`describeSceneFromTitle`).
-2. `google/gemini-2.5-flash-image-preview` (Nano Banana) para generar la imagen 1200px.
+**1. Coste real, no 1 crédito por imagen**
 
-La llamada de texto + un modelo de imagen "preview" es la parte cara. Vamos a recortar ambas.
+Consulté los logs del AI Gateway para las 5 regeneraciones de este último lote. Todas usaron el modelo previsto y costaron mucho menos que 1 crédito:
 
-## Cambios
+- Modelo: `google/gemini-3.1-flash-lite-image` en `image_generations` (no chat_completions).
+- Coste por imagen: **≈ 0,1346 créditos** (5 llamadas: 0,1346 + 0,1347 + 0,1346 + 0,1347 + 0,1346 ≈ **0,67 créditos en total para las 5**).
+- Duración por imagen: ~2,8–3,0 s.
+- 0 llamadas de LLM de descripción de escena (se sustituyó por lógica local): también contabilizado en 0 créditos extra.
 
-### 1. Eliminar la llamada LLM de escena
-Sustituir `describeSceneFromTitle` por un derivador local determinista basado en el título + `keywords`/`category` del post:
-- Diccionario de disparadores (regex) → escena literal en español, p. ej.:
-  - "carta|burofax|requerimiento" → "manos sosteniendo una carta certificada con logo bancario, sobre mesa de cocina"
-  - "juzgado|demanda|sentencia" → "pasillo de juzgado español, persona esperando en un banco de madera con carpeta"
-  - "nómina|embargo" → "recibo de nómina impreso sobre mesa, con marcas de bolígrafo"
-  - "hipoteca|vivienda|piso" → "portal de bloque de viviendas español visto desde la acera"
-  - "tarjeta revolving|usura" → "tarjeta de crédito y extracto bancario en primer plano sobre mesa"
-  - "reunificar|refinanciar|cuota" → "persona revisando varios recibos en la mesa del salón"
-  - default → escena neutra basada en `subject` aleatorio + objeto genérico (carpeta/documento).
-- Se combina con los pools existentes (`light`, `lens`, `mood`, `subject`) para variedad, pero el "qué se ve" sale del título sin coste de IA.
+Los 5,4 créditos que ves en el desglose de la sesión incluyen otras llamadas anteriores (por ejemplo la prueba inicial con Nano Banana estándar antes del cambio, que sí costó ~0,155 créditos, y los intentos previos que usaban el chat model + la llamada extra de descripción de escena, que sumaban ~1 crédito por imagen). Desde este lote, el ratio real es ~7× más barato que antes.
 
-Esto elimina 100% del coste de texto por imagen.
+**2. Los posts SÍ están cambiados**
 
-### 2. Modelo de imagen más barato
-Cambiar el modelo por defecto a `google/gemini-3.1-flash-lite-image` (Nano Banana 2 Lite, el más económico del catálogo Gemini image) manteniendo la misma llamada al endpoint `/v1/images/generations`. Se ajusta el body a la forma Vertex `generateContent` que este modelo requiere (`contents` + `generationConfig.responseModalities: ["TEXT","IMAGE"]`), no la de chat.
+Confirmado en BD: los 5 slugs de este lote tienen `hero_image` con URL firmada nueva y `updated_at` de las 09:35–09:36 UTC de hoy. El frontend (`src/data/blog/dbPosts.ts`) lee `hero_image` desde la BD y mapea a `heroImage` en el componente, así que la vista de /blog los está sirviendo.
 
-Fallback: si devuelve error, reintentar 1 vez con `google/gemini-2.5-flash-image` (el actual). Sin más reintentos para no inflar coste.
+Los slugs actualizados en este lote son antiguos, no de la portada del blog:
+- `toda-informacion-sobre-pagas-extras-son-embargables`
+- `saber-sepe-ha-aprobado-paro`
+- `significa-deuda-post-concursal`
+- `avalistas-ley-segunda-oportunidad`
+- `delitos-contra-derechos-trabajdores`
 
-### 3. Ahorros menores
-- Bajar `optimize()` a máx. 1000px de ancho y `quality: 78` en JPEG (hoy 1200/82). Diferencia visual imperceptible en tarjetas de blog, menos bytes en storage/CDN.
-- Prompt algo más corto (quitar frases redundantes de "no HDR / no filtro / no golden hour" duplicadas — dejar una sola línea de prohibiciones).
+En /blog aparecen ordenados por fecha de publicación descendente, así que estos están en páginas posteriores, no arriba. Los 4 primeros del listado (los de ayer) ya se refrescaron antes.
 
-### 4. Aplicar a los posts pendientes
-- Desplegar los cambios en `generate-daily-posts/index.ts` y `regenerate-blog-hero/index.ts`.
-- Ejecutar `regenerate-blog-hero` en lotes de 5, avanzando por los posts publicados más antiguos que aún tengan el estilo viejo (excluyendo los 4 ya refrescados). Parar tras cada lote para revisar resultado y coste antes de seguir.
+## Qué te propongo hacer
 
-## Detalles técnicos
-- Ficheros a tocar: `supabase/functions/generate-daily-posts/index.ts`, `supabase/functions/regenerate-blog-hero/index.ts`.
-- Nuevo helper compartido `sceneFromTitle(title, keywords)` inline en ambos (mismos diccionarios).
-- El body para `gemini-3.1-flash-lite-image` sigue exactamente la forma documentada en `ai-image-generation` (Vertex `generateContent`, no chat).
-- No se toca frontend, ni tipos, ni migraciones.
+1. Abrir directamente uno de los 5 posts refrescados y comprobar que ves la imagen nueva. Ejemplo: `/blog/toda-informacion-sobre-pagas-extras-son-embargables`. Si ahí sí se ve el cambio, la refactorización funciona y el problema es solo de dónde estás mirando.
+2. Si quieres verlo reflejado ya en la portada del blog, tiene sentido cambiar el criterio de refresco: en vez de posts "más antiguos", refrescar los que aún tienen el estilo viejo pero **en orden descendente de fecha de publicación**, para que los cambios aparezcan primero en la home del blog. Se puede parametrizar `regenerate-blog-hero` con `order: "desc" | "asc"` y `offset` para ir avanzando por lotes.
+3. Presupuesto: a 0,135 créditos por imagen, refrescar 100 posts ≈ 13,5 créditos. Puedo lanzarlo en lotes de 5 hasta terminar, mostrando el progreso y el coste acumulado real tras cada lote para que puedas cortar en el punto que quieras.
+
+## Cambios de código (si aceptas)
+
+- `supabase/functions/regenerate-blog-hero/index.ts`: añadir parámetros opcionales `order` (`"desc"` | `"asc"`, default `"desc"` para que aparezcan en portada) y `offset` (default 0). Reemplazan al `limit` puro cuando no se pasan `slugs`.
+- Sin cambios en frontend ni migraciones.
+- Ningún cambio en cron ni en la generación diaria (esa ya usa la pipeline barata).
 
 ## Fuera de alcance
-- Cambiar el cron de posts diarios o el número objetivo.
-- Rediseñar las tarjetas del blog.
-- Añadir alt-text nuevo (se reutiliza el existente).
+- Rediseño visual del blog.
+- Cambiar de modelo otra vez (los 0,135 créditos son ya el mínimo razonable del catálogo Gemini de imagen).
