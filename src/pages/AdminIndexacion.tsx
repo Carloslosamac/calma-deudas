@@ -173,6 +173,30 @@ const AdminIndexacion = () => {
   const notIndexedCount = items.filter((i) => checks[i.url]?.indexed === false).length;
   const pct = total ? Math.round((requestedCount / total) * 100) : 0;
 
+  // Desglose por motivo de las URLs no indexadas (estilo tabla GSC).
+  const notIndexedByReason = useMemo(() => {
+    const map = new Map<string, string[]>();
+    items.forEach((i) => {
+      const e = checks[i.url];
+      if (e?.indexed === false) {
+        const key = e.coverage ?? "Sin motivo reportado";
+        if (!map.has(key)) map.set(key, []);
+        map.get(key)!.push(i.url);
+      }
+    });
+    return [...map.entries()].sort((a, b) => b[1].length - a[1].length);
+  }, [items, checks]);
+
+  // URLs conocidas por Google pero fuera del sitemap.
+  const outsideSitemap = useMemo(
+    () =>
+      Object.entries(checks)
+        .filter(([, e]) => e.outside)
+        .map(([url, e]) => ({ url, indexed: e.indexed, coverage: e.coverage }))
+        .sort((a, b) => a.url.localeCompare(b.url)),
+    [checks],
+  );
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/admin/auth", { replace: true });
