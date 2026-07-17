@@ -488,6 +488,7 @@ export type Database = {
       }
       seo_roadmap: {
         Row: {
+          attempts: number
           cluster: string | null
           created_at: string
           entidad: string | null
@@ -495,6 +496,8 @@ export type Database = {
           id: number
           intencion: string | null
           keywords: string[] | null
+          last_attempt_at: string | null
+          last_error: string | null
           post_slug: string | null
           prioridad: string | null
           sprint: string | null
@@ -504,6 +507,7 @@ export type Database = {
           url_sugerida: string | null
         }
         Insert: {
+          attempts?: number
           cluster?: string | null
           created_at?: string
           entidad?: string | null
@@ -511,6 +515,8 @@ export type Database = {
           id: number
           intencion?: string | null
           keywords?: string[] | null
+          last_attempt_at?: string | null
+          last_error?: string | null
           post_slug?: string | null
           prioridad?: string | null
           sprint?: string | null
@@ -520,6 +526,7 @@ export type Database = {
           url_sugerida?: string | null
         }
         Update: {
+          attempts?: number
           cluster?: string | null
           created_at?: string
           entidad?: string | null
@@ -527,6 +534,8 @@ export type Database = {
           id?: number
           intencion?: string | null
           keywords?: string[] | null
+          last_attempt_at?: string | null
+          last_error?: string | null
           post_slug?: string | null
           prioridad?: string | null
           sprint?: string | null
