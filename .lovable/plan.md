@@ -1,48 +1,42 @@
-Tienes razón — borrarlos tira tráfico SEO potencial. Los arreglamos en sitio.
+## Resumen de decisiones
 
-## Los 5 posts a corregir
+- **Grupo 1 (telegráficos):** reescribir solo `title` / `seo_title` / `meta_description`. Mismo slug, mismo contenido interno. Cambio en `generated_posts`.
+- **Grupo 3 (noticias caducadas):** regenerar completo → mando el roadmap a `pendiente` con un título evergreen y el cron los republica.
+- **Grupo 4 (off-topic):** mantener como están, no toco nada.
+- **Marcas/gramática (Endesa, Title Case):** no tocar.
 
-1. **Typo "trabajdores"** → "trabajadores" (fix directo en `content` y `seo_title`/`title` si aplica).
-2. **"Diego C. ... con Soluciona Mi Deuda"** → quitar mención de competidor. Reescribir mención a "con Calma" o simplemente sin marca ("consigue cancelar…").
-3. **"Manuel cancela … con el asesoramiento de Soluciona Mi Deuda"** → misma limpieza.
-4. **"Soluciona Mi Deuda recibe una subvención…"** → este es un post *sobre* el competidor, no es reciclable. Aquí sí procede descartar (o reescribirlo como pieza genérica del sector sin nombrar competidor). Propongo **descartar este solo**.
-5. **"…precio de los alimentos se ralentizará en 2024"** → actualizar a 2026 y revisar el resto del cuerpo por referencias temporales obsoletas.
+## Grupo 1 — Reescritura de títulos (7 posts)
 
-## Cómo se ejecuta
+Actualizo `title`, `seo_title` y `meta_description` en `generated_posts`. Todos con la regla CTR (title <60, desc <160, sin "| Calma").
 
-- **Revertir el DELETE anterior**: los 5 posts ya fueron borrados de `generated_posts` y su roadmap marcado `descartado_calidad`. Hay que:
-  - Restaurar 4 de los 5 desde el historial (los tengo en el resultado del query previo, con `content`, `title`, `seo_title`, `slug`, etc.).
-  - Reinsertarlos en `generated_posts` con las correcciones aplicadas.
-  - Volver a poner sus `seo_roadmap` a `estado = 'publicado'` (o el estado que tenían).
-  - Dejar solo el post #4 (subvención a competidor) como `descartado_calidad`.
+| Actual | Propuesto |
+|---|---|
+| Monedo Now cierre | Monedo Now cierra: qué pasa con tu deuda y cómo reclamar |
+| Monedo Now denuncias | Denuncias contra Monedo Now: motivos frecuentes y cómo actuar |
+| Twinero no funciona | Twinero no funciona: alternativas y qué hacer con tu préstamo |
+| Qué significa la deuda post concursal | Deuda post concursal: qué es y cómo afecta tras la Ley de Segunda Oportunidad |
+| Así podrás saber las deudas que tienes | Cómo saber todas las deudas que tienes a tu nombre en 2026 |
+| Te contamos qué significa el concepto inflación | Qué es la inflación y cómo afecta a tus deudas y ahorros |
+| Toda la información sobre si las pagas extras son embargables | ¿Se pueden embargar las pagas extras? Límites y protección legal |
 
-- **Fixes aplicados al reinsertar**:
-  - `sanitizeTitle` + `sanitizeContent` para quitar "Soluciona Mi Deuda" (añadir a la lista de marcas prohibidas en `generate-daily-posts/index.ts` — hoy no está).
-  - Sustituir "trabajdores" → "trabajadores".
-  - Sustituir "2024" → "2026" en el post de inflación, revisando frases circundantes.
+## Grupo 3 — Regeneración a evergreen (3 posts)
 
-- **Prevención futura**: añadir "Soluciona Mi Deuda" a la lista `sanitizeTitle` del edge function `generate-daily-posts` para que futuras generaciones no lo dejen pasar.
+Estos 3 posts son noticias caducadas. Los tira ahora, cambio el `titulo` del roadmap por uno evergreen y los devuelvo a `pendiente` para que el cron los republique como guía atemporal.
 
-## Migración
+| Actual (roadmap) | Nuevo tema evergreen |
+|---|---|
+| El tribunal europeo respalda el doble control en situaciones específicas de cláusulas abusivas | Cláusulas abusivas en hipotecas y préstamos: cómo reclamarlas |
+| Aumenta el número de personas que piden préstamos personales para poder irse de vacaciones | Préstamo personal para vacaciones: riesgos y alternativas si no puedes pagar |
+| La subida de los precios impulsa a los españoles a buscar más créditos, pluriempleo y horas extras | Cómo la inflación empuja al endeudamiento: guía para no caer en la espiral |
 
-Una sola migración SQL con:
-```sql
--- Restaurar 4 posts corregidos
-INSERT INTO generated_posts (...) VALUES (...), (...), (...), (...);
--- Reactivar sus roadmap
-UPDATE seo_roadmap SET estado = 'publicado' WHERE id IN (...);
--- Dejar el post de "subvención al competidor" descartado (ya está)
-```
+## Ejecución
 
-Y una edición a `supabase/functions/generate-daily-posts/index.ts` añadiendo "Soluciona Mi Deuda" al `sanitizeTitle`/`sanitizeContent`.
+1. **Un solo insert** con 7 `UPDATE` en `generated_posts` (grupo 1) — cambio `title`, `seo_title`, `meta_description` para cada uno.
+2. **Un segundo insert** con:
+   - `DELETE` de los 3 posts del grupo 3 en `generated_posts`.
+   - `UPDATE` en `seo_roadmap` para poner sus 3 filas a `estado='pendiente'`, `titulo=` nuevo evergreen, `attempts=0`, `last_error=NULL`, `post_slug=NULL`.
+3. Sin cambios en código: el pipeline actual ya sanitiza competidores y ya aplica la política CTR en títulos.
 
-## Antes de ejecutar
+## Verificación
 
-Necesito volver a consultar `generated_posts` — pero ya están borrados. ¿Los tengo en algún backup? Opciones:
-
-- **A.** Consulto `seo_roadmap` para recuperar títulos/temas de los 4 y **regenero el contenido desde cero** con el pipeline actual (limpio, sin typos ni competidor). Es lo más limpio.
-- **B.** Intento reconstruir manualmente desde memoria/logs (frágil).
-
-Recomiendo **A**: reactivo los 4 roadmap rows a `pendiente`, y el cron los republica limpios en las próximas tandas (o los fuerzo con un run manual).
-
-¿Voy con la opción A (regenerar limpios desde el roadmap) o prefieres la B (reconstrucción manual del contenido antiguo)?
+Al terminar: `SELECT id, title FROM generated_posts WHERE id IN (...)` para confirmar los 7 nuevos títulos, y `SELECT id, titulo, estado FROM seo_roadmap WHERE id IN (...)` para confirmar los 3 evergreen en `pendiente`.
