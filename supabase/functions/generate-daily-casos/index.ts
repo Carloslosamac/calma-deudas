@@ -481,9 +481,26 @@ Deno.serve(async (req) => {
     const published: string[] = [];
     let failed = 0;
 
+    const startedAt = Date.now();
+    const TIME_BUDGET_MS = 130_000;
+
     for (const forceLso of lsoFlags) {
-      const seed = buildSeed(forceLso);
-      const article = await generateCaso(seed);
+      if (Date.now() - startedAt > TIME_BUDGET_MS) {
+        console.warn("Presupuesto de tiempo agotado en casos");
+        break;
+      }
+      // Hasta 3 seeds distintas por slot: si la IA falla o la imagen no sale,
+      // reintentamos con otra persona/localización antes de dar por fallado el slot.
+      let article: Record<string, unknown> | null = null;
+      let seed = buildSeed(forceLso);
+      for (let tries = 0; tries < 3; tries++) {
+        seed = buildSeed(forceLso);
+        const candidate = await generateCaso(seed);
+        if (candidate && !containsCompetitor(candidate)) {
+          article = candidate;
+          break;
+        }
+      }
       if (!article) {
         failed++;
         continue;
