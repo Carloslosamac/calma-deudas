@@ -335,7 +335,7 @@ Optimiza para GEO/AEO: el tldr debe responder directamente la pregunta del títu
 CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
 - ≥ 8 secciones H2 cubriendo las 11 dimensiones de la estructura obligatoria.
 - ≥ 2.500 palabras totales sumando todas las secciones.
-- ≥ 4 diagramas visuales (blog-timeline + blog-myth-reality + blog-comparison + blog-before-after como default).
+- 3-5 diagramas visuales combinando tipos DISTINTOS (blog-timeline / blog-myth-reality / blog-comparison / blog-before-after / blog-callout / blog-checklist) elegidos por lo que encaje con el tema. NUNCA los mismos 4 por defecto.
 - ≥ 2 CTAs intermedios (.blog-cta) con títulos específicos del tema.
 - ≥ 8 preguntas FAQ con respuestas de 3–5 frases.
 - ≥ 1 ejemplo ilustrativo con cifras etiquetadas como "ejemplo ilustrativo".
@@ -771,13 +771,16 @@ Deno.serve(async (req) => {
       try {
         const secs = (article.sections as { html?: string }[] | undefined) ?? [];
         const joined = secs.map((s) => s?.html ?? "").join("\n");
-        const diagramCount = (joined.match(/blog-(timeline|myth-reality|comparison|before-after)/g) ?? []).length;
+        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist)/g) ?? [];
+        const diagramCount = diagramMatches.length;
+        const uniqueDiagramTypes = new Set(diagramMatches).size;
         const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
         const faqCount = Array.isArray(article.faq) ? (article.faq as unknown[]).length : 0;
         const wordCount = joined.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
         const warn: string[] = [];
         if (secs.length < 8) warn.push(`sections=${secs.length}<8`);
         if (diagramCount < 3) warn.push(`diagrams=${diagramCount}<3`);
+        if (uniqueDiagramTypes < 3) warn.push(`diagram_types=${uniqueDiagramTypes}<3 (repetitivo)`);
         if (ctaCount < 1) warn.push(`ctas=${ctaCount}<1`);
         if (faqCount < 6) warn.push(`faq=${faqCount}<6`);
         if (wordCount < 2000) warn.push(`words=${wordCount}<2000`);
