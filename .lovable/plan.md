@@ -1,74 +1,46 @@
+## Por qué no cuadran los números
 
-# Rediseño del panel /admin
+- **GSC**: 232 indexadas + 58 no indexadas = **290 URLs** conocidas por Google (incluye URLs históricas, redirecciones, parámetros, variantes fuera del sitemap actual).
+- **/admin**: parte del `sitemap.xml` (**240 URLs**) y solo inspecciona **80 por ejecución** vía URL Inspection API. El resto queda "sin comprobar", así que los totales indexada/no indexada nunca se acercan a los de GSC hasta pasar varios días.
+- Además, `/admin` usa `verdict === "PASS"` como "indexada"; GSC usa `coverageState` (más granular: "Indexada", "Duplicada canónica seleccionada por Google", "Excluida noindex", "Descubierta - actualmente sin indexar", "Rastreada - actualmente sin indexar", "Página con redirección"). Por eso una URL puede aparecer como "indexada" en GSC y "no indexada" (o al revés) en `/admin`.
 
-Hoy `/admin` es la cola diaria de publicación y el resto de páginas están escondidas detrás de enlaces sueltos (por ejemplo, para llegar a los leads hay que pasar por Ventas). La navegación no refleja las dos áreas reales del negocio: **Ventas** (leads + diagnóstico) y **Contenido/SEO** (posts, casos, indexación, salud).
+## Qué haré (solo UI + edge function, sin cambios de datos)
 
-## Objetivo
+### 1. Alinear la métrica con GSC
 
-- `/admin` pasa a ser un **dashboard-home** con accesos rápidos y KPIs.
-- Todas las páginas cuelgan de un **shell con sidebar** persistente y agrupado por área.
-- Los **leads son ciudadanos de primera clase** (no un submenú de Ventas).
-- La cola diaria de publicación deja de ser la home y se mueve a Contenido.
+En `supabase/functions/gsc-index-status/index.ts`:
 
-## Nueva estructura de rutas
+- Guardar también las URLs **conocidas por Google pero NO en el sitemap** (las descubro consultando la Index Coverage / listándolas desde `searchAnalytics` como fallback: URLs con impresiones en 90d que no estén en el sitemap).
+- Nuevos campos en `seo_index_checks` (via migration): `discovered_outside_sitemap boolean`, `google_canonical text`, `user_canonical text`.
+- Considerar "indexada" cuando `coverageState` empiece por `"Submitted and indexed"`, `"Indexed"` o `"Indexed, not submitted in sitemap"` (mapear como en GSC), en lugar de fiarnos solo del `verdict`.
+- Subir el batch por defecto a **200** y añadir modo "full sweep" (paginado hasta cubrir todo el sitemap en una sola ejecución, respetando 2.000/día).
 
-```text
-/admin                     → Dashboard (nuevo)
-/admin/ventas              → Diagnóstico de venta (actual AdminVentas)
-/admin/ventas/leads        → Leads de llamadas (actual AdminLeads)
-/admin/leads-web           → Leads capturados en la web (actual AdminWebLeads, movido)
-/admin/contenido/cola      → Cola diaria (actual AdminQueue, movida desde /admin)
-/admin/contenido/indexacion→ (actual AdminIndexacion)
-/admin/contenido/salud     → (actual AdminHealth)
-/admin/auth                → Login (sin sidebar)
-```
+### 2. Nueva vista en `/admin/contenido/indexacion`
 
-Se mantienen redirecciones desde las rutas antiguas (`/admin/web-leads`, `/admin/indexacion`, `/admin/health`) a las nuevas para no romper marcadores.
+Rediseño ligero para que se lea como GSC:
 
-## Shell con sidebar (`AdminLayout`)
+- **Cabecera resumen** con las mismas 2 cifras que GSC:
+  - Indexadas / No indexadas (total = suma).
+  - Diferencia con GSC destacada: "Comprobadas X de Y del sitemap · Google conoce además Z URLs fuera del sitemap".
+- **Desglose por motivo** (tipo tabla de GSC "¿Por qué hay páginas que no se indexan?"): agrupar las no indexadas por `coverage_state` con contador y expandible para ver URLs. Motivos típicos: `noindex`, `Duplicate without canonical`, `Page with redirect`, `Alternate page with canonical tag`, `Discovered - not indexed`, `Crawled - not indexed`.
+- **Sección "Fuera del sitemap"**: URLs que Google conoce pero no están en `sitemap.xml` (para decidir si añadirlas o dejarlas 410/301).
+- Mantengo el checklist manual y el buscador; solo cambia la parte superior y añado el desglose.
 
-Layout compartido usando `SidebarProvider` de shadcn (variant `collapsible="icon"`), con `SidebarTrigger` en un header fino y `Outlet` para las páginas. Grupos del sidebar:
+### 3. Aclarar en la UI qué mide cada tarjeta
 
-- **Panel** — Dashboard (`/admin`)
-- **Ventas** — Diagnóstico · Leads llamadas · Leads web
-- **Contenido** — Cola de publicación · Indexación · Salud
-- **Cuenta** — Cerrar sesión
-
-Item activo resaltado con `NavLink` + `isActive`. Colapsable a modo icono. Se elimina el patrón actual de "chips de navegación" (los tres `<Link>` en la cabecera de AdminQueue, el back-link "← Ventas" en AdminLeads, etc.) porque el sidebar ya cubre esa función.
-
-## Dashboard nuevo (`/admin`)
-
-Contenido, sin inventar métricas nuevas: consume lo que ya existe.
-
-1. **Tarjetas de acción rápida** (grid 2×3):
-   - Nuevo diagnóstico de venta → `/admin/ventas`
-   - Leads de llamadas → `/admin/ventas/leads`
-   - Leads web → `/admin/leads-web`
-   - Cola de publicación → `/admin/contenido/cola`
-   - Indexación → `/admin/contenido/indexacion`
-   - Salud del sitio → `/admin/contenido/salud`
-
-2. **KPIs de un vistazo** (lecturas ligeras, ya disponibles):
-   - Nº de posts/casos pendientes hoy en la cola.
-   - Nº de leads web en las últimas 24 h.
-   - Nº de leads de ventas abiertos.
-   
-   Si alguna consulta es cara o no está lista, la tarjeta se degrada a "Ver detalle →" sin número.
-
-3. **Últimos leads web** (tabla mini de 5 filas, enlace a "Ver todos").
+Texto explícito bajo cada tarjeta:
+- Manual: "Tu checklist de solicitudes en Search Console".
+- Estado real: "Estado de la última comprobación vía URL Inspection API. Puede tardar 24-48 h en igualar al informe de Páginas de Google Search Console porque GSC muestra datos consolidados diarios."
 
 ## Detalles técnicos
 
-- Nuevo archivo `src/pages/admin/AdminLayout.tsx` con el `SidebarProvider` + `AppSidebar` + `<Outlet />`. Protege con `useAdminAuth` una sola vez (hoy cada página lo hace por su cuenta — se puede dejar el guard duplicado en cada page para no tocarlas, pero preferiblemente centralizarlo aquí).
-- Nuevo `src/components/admin/AdminSidebar.tsx` con la estructura de grupos anterior.
-- Nuevo `src/pages/admin/AdminDashboard.tsx` (la home).
-- En `src/App.tsx`: envolver las rutas `/admin/*` bajo `<Route element={<AdminLayout />}>` con rutas hijas. `/admin/auth` queda fuera del layout.
-- Añadir redirects: `/admin/web-leads → /admin/leads-web`, `/admin/indexacion → /admin/contenido/indexacion`, `/admin/health → /admin/contenido/salud`.
-- Quitar de cada página admin los "chips" de navegación superior y el back-link "← Ventas", ahora redundantes con el sidebar.
-- No se toca lógica de negocio, edge functions, triage, ni la UI interna de cada página — solo su cascarón y sus enlaces.
+- Migración: `alter table public.seo_index_checks add column discovered_outside_sitemap boolean default false, add column google_canonical text, add column user_canonical text;` (+ GRANTs ya existentes).
+- `gsc-index-status`: nuevo paso previo `fetchIndexedFromSearchAnalytics()` que llama `POST /webmasters/v3/sites/{site}/searchAnalytics/query` con `dimensions:["page"]` últimos 90 días, y hace `upsert` de las que no estén ya en la tabla marcándolas `discovered_outside_sitemap = true` si no aparecen en el sitemap actual.
+- Frontend `AdminIndexacion.tsx`: nuevas cifras derivadas de `checks` + agrupación por `coverage_state`; una `Card` extra con URLs fuera del sitemap.
+- Sin cambios en rutas ni en la lógica del checklist manual.
 
-## Fuera de alcance
+## Fuera del alcance
 
-- Rediseño visual de las páginas internas (Ventas, Leads, Cola…).
-- Cambios en RLS, edge functions o esquema de datos.
-- Métricas nuevas que requieran queries no existentes.
+- No fuerzo indexación por API (Google no lo permite salvo Job Posting / Broadcast Event).
+- No toco el sitemap ni añado/borro URLs; solo lo reporto.
+- No cambio la estructura del panel /admin.

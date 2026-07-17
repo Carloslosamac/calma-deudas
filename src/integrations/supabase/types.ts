@@ -436,8 +436,10 @@ export type Database = {
         Row: {
           coverage_state: string | null
           created_at: string
+          discovered_outside_sitemap: boolean
           done: boolean
           done_at: string | null
+          google_canonical: string | null
           indexed: boolean | null
           last_crawl_time: string | null
           last_inspected_at: string | null
@@ -445,13 +447,16 @@ export type Database = {
           requested_at: string | null
           updated_at: string
           url: string
+          user_canonical: string | null
           verdict: string | null
         }
         Insert: {
           coverage_state?: string | null
           created_at?: string
+          discovered_outside_sitemap?: boolean
           done?: boolean
           done_at?: string | null
+          google_canonical?: string | null
           indexed?: boolean | null
           last_crawl_time?: string | null
           last_inspected_at?: string | null
@@ -459,13 +464,16 @@ export type Database = {
           requested_at?: string | null
           updated_at?: string
           url: string
+          user_canonical?: string | null
           verdict?: string | null
         }
         Update: {
           coverage_state?: string | null
           created_at?: string
+          discovered_outside_sitemap?: boolean
           done?: boolean
           done_at?: string | null
+          google_canonical?: string | null
           indexed?: boolean | null
           last_crawl_time?: string | null
           last_inspected_at?: string | null
@@ -473,6 +481,7 @@ export type Database = {
           requested_at?: string | null
           updated_at?: string
           url?: string
+          user_canonical?: string | null
           verdict?: string | null
         }
         Relationships: []
