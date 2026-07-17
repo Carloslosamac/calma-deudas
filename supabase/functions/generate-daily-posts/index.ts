@@ -612,6 +612,43 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
   return pick(DEFAULT_VARIANTS, h);
 }
 
+// Pide a un modelo de texto barato UNA escena literal y única por título.
+// Devuelve null si falla; el llamante hace fallback a sceneFromTitle().
+async function sceneFromLLM(title: string, category: string): Promise<string | null> {
+  const sys = `Eres director de fotografía documental. Devuelves UNA sola escena visual concreta para la portada de un artículo del blog Calma (deudas y finanzas personales en España). Responde SOLO con la escena en UNA línea, en español, sin comillas, entre 80 y 200 caracteres.`;
+  const usr = `Título del artículo: ${title}
+Categoría: ${category}
+
+Requisitos ESTRICTOS:
+- La escena debe ser inequívocamente reconocible y específica del título (no una escena genérica de "finanzas" o "deudas").
+- Contexto España: gente, edificios, objetos y comercios corrientes.
+- Si aparece una persona, descríbela de espaldas, de perfil o mostrando solo manos. NUNCA mirando a cámara.
+- Si aparece un móvil, NUNCA con la pantalla enfocada de frente a cámara. Móvil visto de lado, en un bolsillo, boca abajo o desde detrás del hombro.
+- Prohibido por defecto: montones de papeles/facturas sobre una mesa, cocinas como escenario, familias sonrientes, salones de anuncio, calculadoras solas, tickets arrugados.
+- Prefiere lugares u objetos ESPECÍFICOS del tema: p. ej. oficina del SEPE para paro, notaría para herencia, sede de Hacienda o gestoría para autónomos, sala de vistas para juicio monitorio, sucursal bancaria concreta para embargo de cuenta, taller mecánico para autónomo, portal de vecinos para requerimiento, cajero automático para saldo, mostrador de un ayuntamiento para trámite, sala de espera de un juzgado de lo mercantil para concurso/LSO.
+- Solo escena, sin adjetivos de estilo fotográfico (esos se añaden aparte).`;
+  try {
+    const res = await fetchWithTimeout("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "google/gemini-3.1-flash-lite",
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: usr },
+        ],
+      }),
+    }, 20000);
+    if (!res.ok) { console.error(`sceneFromLLM ${res.status}: ${await res.text()}`); return null; }
+    const data = await res.json();
+    const raw: string | undefined = data?.choices?.[0]?.message?.content;
+    if (!raw) return null;
+    const line = raw.replace(/^["'`\s]+|["'`\s]+$/g, "").split("\n")[0].trim();
+    if (line.length < 40 || line.length > 260) return null;
+    return line;
+  } catch (e) { console.error(`sceneFromLLM threw: ${String(e)}`); return null; }
+}
+
 // Llama al modelo de imagen más barato (Nano Banana 2 Lite) con fallback a
 // gemini-2.5-flash-image si el primero falla. Un solo intento por modelo.
 async function generateImageBytes(prompt: string, slug: string): Promise<Uint8Array | null> {
@@ -665,7 +702,8 @@ async function generateAndUploadHero(
   category: string,
 ): Promise<string | null> {
   try {
-    const scene = sceneFromTitle(title, category, slug);
+    const llmScene = await sceneFromLLM(title, category);
+    const scene = llmScene ?? sceneFromTitle(title, category, slug);
     const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
     const banPapers = !paperWords.test(scene);
     const prompt = `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
@@ -676,8 +714,10 @@ Estética coherente en todas las portadas:
 - Smartphone a mano, ligera imperfección de encuadre, focal ~24-28mm, profundidad de campo amplia sin bokeh cinematográfico.
 - Solo luz natural existente (ventana, calle, lámpara doméstica). Balance de blancos neutro. Colores apagados y reales tal cual salen del móvil.
 - Personas y espacios españoles corrientes, ropa normal, objetos con uso real, casas normales no de revista.
+- Si hay una persona, aparece de espaldas, de perfil o solo sus manos. NUNCA mira al objetivo.
+- Si aparece un móvil, se ve de lado, boca abajo o desde detrás del hombro. NUNCA con la pantalla encarada a cámara.
 
-Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
+Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
     const rawBytes = await generateImageBytes(prompt, slug);
     if (!rawBytes) {
       console.error(`No image returned for ${slug}`);
