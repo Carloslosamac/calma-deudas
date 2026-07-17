@@ -7,6 +7,52 @@ const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
+// Extrae el primer objeto JSON balanceado dentro de un string. Aguanta:
+//  - bloques ```json ... ``` alrededor.
+//  - texto pegado tras el `}` final (causa habitual de "Unexpected non-whitespace character after JSON").
+//  - llaves dentro de strings escapadas.
+function extractFirstJsonObject(raw: string): Record<string, unknown> | null {
+  if (!raw) return null;
+  // 1) intento directo
+  try { return JSON.parse(raw); } catch (_e) { /* seguir */ }
+  const text = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') inStr = false;
+      continue;
+    }
+    if (ch === '"') { inStr = true; continue; }
+    if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) {
+        try { return JSON.parse(text.slice(start, i + 1)); } catch { return null; }
+      }
+    }
+  }
+  return null;
+}
+
+// fetch con timeout duro. Sin esto, una llamada a IA/imagen que se cuelga
+// consume TODO el presupuesto del edge function.
+async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Promise<Response> {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { ...init, signal: ctrl.signal });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 // Avisa a IndexNow (Bing/Yandex/etc.) de las URLs nuevas. Fire-and-forget:
 // nunca debe romper la generación si falla.
 async function notifyIndexNow(slugs: string[]): Promise<void> {
