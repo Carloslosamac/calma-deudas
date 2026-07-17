@@ -525,69 +525,30 @@ async function generateAndUploadHero(
   category: string,
 ): Promise<string | null> {
   try {
-    // Rotamos entre varios "archetypes" fotográficos, ubicaciones, encuadres y
-    // condiciones de luz para evitar que todas las portadas parezcan la misma
-    // familia-con-tablet-en-salón-neutro (síntoma clásico de imagen generada
-    // por IA). Se elige un combo pseudo-aleatorio por slug.
-    const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
-    const framing = pick([
-      "primer plano cerrado de manos sosteniendo una carta o factura, cara fuera de encuadre",
-      "retrato medio ligeramente descentrado, mirada perdida hacia una ventana",
-      "plano cenital de un escritorio real con papeles, bolígrafo y taza a medio terminar",
-      "plano medio en escorzo por detrás del hombro, viendo una pantalla de móvil con un SMS bancario",
-      "detalle macro de un extracto bancario impreso con anotaciones a mano",
-      "plano general sobrio con la persona pequeña dentro del encuadre y mucho aire alrededor",
-      "retrato cuadrado tipo reportaje, luz lateral dura, expresión pensativa",
-      "plano contrapicado desde el suelo mirando hacia una figura de pie leyendo un documento",
-      "detalle de un buzón real con cartas certificadas asomando",
-      "plano medio caminando por la calle con carpeta bajo el brazo, motion blur ligero",
-    ]);
-    const location = pick([
-      "cocina antigua de piso español con azulejos gastados",
-      "acera de barrio obrero de Madrid a media tarde",
-      "portal de finca antigua con buzones metálicos",
-      "oficina de sucursal bancaria vista desde la calle a través del cristal",
-      "juzgado o pasillo institucional con bancos de madera",
-      "bar de barrio con luz de fluorescente",
-      "salón modesto con muebles de los 90 y luz de ventana única",
-      "estación de metro o autobús interurbano",
-      "coche aparcado, plano interior desde el asiento del copiloto",
-      "pequeña asesoría o gestoría con papeles apilados",
-      "terraza de bloque de pisos periférico al atardecer nublado",
-      "mesa de camping en un piso a medio amueblar",
-    ]);
-    const light = pick([
-      "luz de ventana lateral, día nublado, sombras suaves, 5500K",
-      "luz cenital fría de fluorescente de oficina, ligeramente verdosa",
-      "luz mixta de tarde con neones cálidos de fondo pero sujeto en sombra neutra",
-      "contraluz duro con silueta parcial, sin dominante de color",
-      "luz de mañana muy tenue, casi monocroma, tonos apagados",
-      "luz de calle nocturna con farolas frías, sin filtro naranja",
-    ]);
-    const lens = pick([
-      "35mm, ligera distorsión de perspectiva",
-      "50mm, compresión natural",
-      "85mm, fondo desenfocado suave",
-      "28mm gran angular, sensación documental",
-      "lente macro para detalle",
-    ]);
-    const mood = pick([
-      "tensión contenida, no dramática",
-      "cansancio silencioso",
-      "alivio sobrio recién estrenado",
-      "concentración analítica",
-      "espera burocrática",
-      "determinación tranquila",
-    ]);
-    const subject = pick([
-      "mujer de unos 40, ropa de calle sin marcas",
-      "hombre de unos 50, camisa arrugada",
-      "persona joven de unos 30 sin género evidente",
-      "señor mayor de unos 65",
-      "trabajadora autónoma con delantal o uniforme",
-      "ninguna persona en cámara, solo objetos y contexto",
-    ]);
-    const prompt = `Fotografía documental española real, estilo reportaje periodístico de prensa nacional (no stock, no publicidad, no IA). Artículo: "${title}" (categoría: ${category}). Escena concreta: ${framing}. Ubicación: ${location}. Sujeto: ${subject}. Luz: ${light}. Óptica: ${lens}. Ambiente: ${mood}. Detalles físicos verosímiles: objetos gastados, ligeras imperfecciones, texturas reales, ropa arrugada, pelo despeinado, superficies con marcas de uso. Grano fotográfico sutil. Balance de blancos neutro (evita explícitamente: filtro amarillo/dorado, golden hour, dominante cálida, look Instagram, HDR, estética "familia perfecta con tablet", salones neutros idénticos, sonrisas de catálogo, ropa impecable, plantas decorativas obvias, iluminación difusa uniforme). Sin texto, sin logos, sin marcas de agua, sin collage, sin tipografías inventadas. Composición asimétrica y decidida, no simétrica de catálogo.`;
+    // Estrategia:
+    //  1) Pedimos a un LLM barato una descripción DE ESCENA concreta que
+    //     ilustre literalmente el título del artículo (objeto, acción, lugar
+    //     cotidiano). Así la portada se relaciona claramente con el texto.
+    //  2) Envolvemos esa escena en un "envelope" de estética fija: foto
+    //     tomada con smartphone, luz natural existente, sin postproducción.
+    //     El envelope no cambia entre posts → coherencia visual entre todas
+    //     las portadas.
+    const sceneDescription = await describeSceneFromTitle(title, category);
+    const prompt = `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO es fotografía profesional, NO es reportaje editorial, NO es publicidad, NO es stock.
+
+Escena literal a representar (debe reconocerse a simple vista y coincidir con el título "${title}"): ${sceneDescription}
+
+Estética obligatoria y coherente en TODAS las portadas del blog:
+- Cámara: smartphone sujeto a mano, ligera imperfección de encuadre, sin trípode.
+- Óptica: focal equivalente a lente principal de móvil (~24-28mm), profundidad de campo amplia (todo razonablemente enfocado), SIN bokeh cinematográfico.
+- Luz: exclusivamente luz natural existente del sitio (ventana, calle, lámpara doméstica). Sin flash, sin luces de estudio, sin difusores, sin rebotes, sin golden hour, sin dominante amarilla ni dorada. Balance de blancos neutro.
+- Postproducción: ninguna evidente. Sin filtros de Instagram, sin HDR, sin viñeteo, sin desaturación estilizada, sin tinte cinematográfico.
+- Colores: apagados y reales, tal cual salen del móvil.
+- Sujetos y objetos: personas y espacios españoles corrientes, ropa normal ligeramente arrugada, objetos con uso real, casas normales (no pisos de revista).
+
+Prohibido explícitamente: aspecto de anuncio, sonrisas de catálogo, composición perfectamente simétrica de portafolio, familia perfecta con tablet en salón blanco, plantas decorativas exageradas, escritorios ordenadísimos, luces cálidas naranjas, look "producción audiovisual".
+
+Sin texto en imagen, sin logos, sin marcas de agua, sin collage, sin tipografías inventadas. La foto debe parecer que la ha tomado el propio protagonista o alguien cercano con su móvil.`;
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
