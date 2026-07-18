@@ -1,42 +1,46 @@
-## Resumen de decisiones
+## Filtrar bots del analytics de Lovable
 
-- **Grupo 1 (telegráficos):** reescribir solo `title` / `seo_title` / `meta_description`. Mismo slug, mismo contenido interno. Cambio en `generated_posts`.
-- **Grupo 3 (noticias caducadas):** regenerar completo → mando el roadmap a `pendiente` con un título evergreen y el cron los republica.
-- **Grupo 4 (off-topic):** mantener como están, no toco nada.
-- **Marcas/gramática (Endesa, Title Case):** no tocar.
+### Diagnóstico
 
-## Grupo 1 — Reescritura de títulos (7 posts)
+Las 6 visitas de hoy tienen firma inequívoca de bots: 100% bounce, 0s sesión, 5/6 Direct, geo US, URLs SEO dispersas. Son crawlers (GPTBot, ClaudeBot, Perplexity, Ahrefs, Semrush, GoogleBot US) rastreando `/sitemap.xml` y `llms.txt`.
 
-Actualizo `title`, `seo_title` y `meta_description` en `generated_posts`. Todos con la regla CTR (title <60, desc <160, sin "| Calma").
+### Limitación importante
 
-| Actual | Propuesto |
-|---|---|
-| Monedo Now cierre | Monedo Now cierra: qué pasa con tu deuda y cómo reclamar |
-| Monedo Now denuncias | Denuncias contra Monedo Now: motivos frecuentes y cómo actuar |
-| Twinero no funciona | Twinero no funciona: alternativas y qué hacer con tu préstamo |
-| Qué significa la deuda post concursal | Deuda post concursal: qué es y cómo afecta tras la Ley de Segunda Oportunidad |
-| Así podrás saber las deudas que tienes | Cómo saber todas las deudas que tienes a tu nombre en 2026 |
-| Te contamos qué significa el concepto inflación | Qué es la inflación y cómo afecta a tus deudas y ahorros |
-| Toda la información sobre si las pagas extras son embargables | ¿Se pueden embargar las pagas extras? Límites y protección legal |
+El widget de Analytics que ves (`totalVisits`, fuentes, países) es el **analytics gestionado de Lovable** (server-side, basado en logs de la CDN). **No lo controlamos desde el código** — no hay hook cliente que podamos manipular para excluir bots, y no expone filtro por user-agent en el panel.
 
-## Grupo 3 — Regeneración a evergreen (3 posts)
+Por tanto solo hay dos vías reales:
 
-Estos 3 posts son noticias caducadas. Los tira ahora, cambio el `titulo` del roadmap por uno evergreen y los devuelvo a `pendiente` para que el cron los republique como guía atemporal.
+### Opción implementable: bloquear scrapers en `robots.txt`
 
-| Actual (roadmap) | Nuevo tema evergreen |
-|---|---|
-| El tribunal europeo respalda el doble control en situaciones específicas de cláusulas abusivas | Cláusulas abusivas en hipotecas y préstamos: cómo reclamarlas |
-| Aumenta el número de personas que piden préstamos personales para poder irse de vacaciones | Préstamo personal para vacaciones: riesgos y alternativas si no puedes pagar |
-| La subida de los precios impulsa a los españoles a buscar más créditos, pluriempleo y horas extras | Cómo la inflación empuja al endeudamiento: guía para no caer en la espiral |
+Filtramos por la fuente: si los bots no entran, no aparecen en analytics. Esto sí lo controlamos.
 
-## Ejecución
+Añadir al `public/robots.txt` actual bloques `Disallow: /` para crawlers de scraping SEO comercial y LLM-scrapers no útiles, manteniendo los útiles (Googlebot, Bingbot, GPTBot, ClaudeBot, PerplexityBot, Google-Extended — necesarios para SEO y AI search).
 
-1. **Un solo insert** con 7 `UPDATE` en `generated_posts` (grupo 1) — cambio `title`, `seo_title`, `meta_description` para cada uno.
-2. **Un segundo insert** con:
-   - `DELETE` de los 3 posts del grupo 3 en `generated_posts`.
-   - `UPDATE` en `seo_roadmap` para poner sus 3 filas a `estado='pendiente'`, `titulo=` nuevo evergreen, `attempts=0`, `last_error=NULL`, `post_slug=NULL`.
-3. Sin cambios en código: el pipeline actual ya sanitiza competidores y ya aplica la política CTR en títulos.
+Bots a bloquear (sin valor para nosotros, solo ruido):
+- `AhrefsBot`, `SemrushBot`, `MJ12bot`, `DotBot`, `BLEXBot` — SEO scrapers de terceros
+- `Bytespider` (TikTok), `Amazonbot`, `Applebot-Extended` — poco valor
+- `CCBot` (Common Crawl) — rastreador masivo genérico
+- Genéricos: `PetalBot`, `DataForSeoBot`, `SEOkicks`
 
-## Verificación
+Mantenidos (importantes):
+- `Googlebot`, `Bingbot`, `GPTBot`, `ClaudeBot`, `PerplexityBot`, `Google-Extended`, `OAI-SearchBot`
+- Facebook/Twitter para previews
 
-Al terminar: `SELECT id, title FROM generated_posts WHERE id IN (...)` para confirmar los 7 nuevos títulos, y `SELECT id, titulo, estado FROM seo_roadmap WHERE id IN (...)` para confirmar los 3 evergreen en `pendiente`.
+### Lo que NO se puede hacer
+
+- Añadir un filtro de user-agent en el analytics UI (no expuesto).
+- Interceptar server-side los eventos ya registrados (el pipeline es interno de Lovable).
+
+### Efecto esperado
+
+- Los scrapers respetuosos de `robots.txt` (mayoría) dejarán de golpear el sitio → desaparecen de los totales.
+- Los que ignoran robots seguirán apareciendo (pocos). Para esos, la única vía sería un WAF/regla en Cloudflare a nivel de dominio, fuera del alcance de este proyecto.
+- Tráfico humano real (poco por ahora) queda intacto.
+
+### Archivos a tocar
+
+- `public/robots.txt` — añadir bloques `User-agent` con `Disallow: /` para los scrapers listados, preservando los bloques existentes y el `Sitemap:`.
+
+### Alternativa complementaria (opcional)
+
+Si además quieres, puedo dejar una nota en `README.md` explicando por qué los primeros meses el analytics de Lovable inflará números con bots hasta que el tráfico humano crezca — así no te descolocan las métricas.
