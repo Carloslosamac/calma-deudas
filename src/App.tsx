@@ -41,6 +41,7 @@ const AdminLeads = lazy(() => import("./pages/AdminLeads"));
 const AdminWebLeads = lazy(() => import("./pages/AdminWebLeads"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminIaVisibility = lazy(() => import("./pages/admin/AdminIaVisibility"));
 import ScrollToTop from "./components/ScrollToTop";
 import { moneyPages } from "./data/seo/moneyPages";
 import { comparativas } from "./data/seo/comparativas";
@@ -70,6 +71,7 @@ const App = () => (
             <Route path="/admin/leads-web" element={<AdminWebLeads />} />
             <Route path="/admin/contenido/cola" element={<AdminQueue />} />
             <Route path="/admin/contenido/indexacion" element={<AdminIndexacion />} />
+            <Route path="/admin/contenido/ia" element={<AdminIaVisibility />} />
             <Route path="/admin/contenido/salud" element={<AdminHealth />} />
           </Route>
           {/* Redirects legacy → nueva estructura */}
