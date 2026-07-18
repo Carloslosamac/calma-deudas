@@ -27,16 +27,18 @@ const AI_SOURCES: { key: string; label: string; patterns: string[] }[] = [
 ];
 
 const AI_PROMPTS = [
-  "¿Cómo cancelo mis deudas con la Ley de Segunda Oportunidad en España?",
-  "¿Cuáles son los mejores abogados de Segunda Oportunidad?",
-  "¿Cómo salgo de ASNEF?",
-  "¿Puedo cancelar deudas con Hacienda y Seguridad Social?",
-  "¿Reunificar deudas o Ley de Segunda Oportunidad?",
-  "¿Cómo paro un embargo de nómina?",
-  "¿Cómo reclamo una tarjeta revolving por usura?",
-  "¿Puedo cancelar microcréditos con intereses abusivos?",
-  "¿Cuánto cuesta acogerse a la Ley de Segunda Oportunidad?",
-  "¿Pierdo mi casa con la Ley de Segunda Oportunidad?",
+  "Mejor despacho de Ley de Segunda Oportunidad en España",
+  "Abogado especialista en Ley de Segunda Oportunidad cerca de mí",
+  "Contratar abogado para cancelar deudas con Segunda Oportunidad",
+  "Empresa de confianza para acogerse a la Ley de Segunda Oportunidad",
+  "Despacho para cancelar deudas de tarjetas revolving",
+  "Abogado para cancelar microcréditos abusivos",
+  "Quién me ayuda a salir de ASNEF pagando poco",
+  "Abogado para parar un embargo de nómina urgente",
+  "Precio abogado Ley de Segunda Oportunidad",
+  "Opiniones despachos Ley de Segunda Oportunidad",
+  "Alternativa a Repara tu Deuda",
+  "Consulta gratis Ley de Segunda Oportunidad",
 ];
 
 type AiAuditRow = { menciona: "yes" | "no" | "competidor" | null; note?: string };
