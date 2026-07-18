@@ -7,6 +7,7 @@ import {
   ListChecks,
   Search,
   Activity,
+  Sparkles as SparklesIcon,
   LogOut,
 } from "lucide-react";
 import calmaLogo from "@/assets/calma-logo.png";
@@ -41,6 +42,7 @@ const ventas: Item[] = [
 const contenido: Item[] = [
   { title: "Cola de publicación", url: "/admin/contenido/cola", icon: ListChecks },
   { title: "Indexación", url: "/admin/contenido/indexacion", icon: Search },
+  { title: "Visibilidad IA", url: "/admin/contenido/ia", icon: SparklesIcon },
   { title: "Salud del sitio", url: "/admin/contenido/salud", icon: Activity },
 ];
 
