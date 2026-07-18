@@ -14,98 +14,178 @@
 
 - [Inicio](https://mi-calma.es/): Qué es Calma, cómo funciona la Ley de Segunda Oportunidad y análisis gratuito de tu caso.
 - [Blog](https://mi-calma.es/blog): Guías y artículos sobre cancelación de deudas, embargos, ASNEF y la Ley de Segunda Oportunidad.
+- [Casos de éxito](https://mi-calma.es/casos-de-exito): Casos reales anonimizados de personas que han cancelado sus deudas con Calma.
+- [Herramientas gratuitas](https://mi-calma.es/herramientas): Simuladores y calculadoras para diagnosticar tu deuda: cancelable, cuota inembargable, usura, plan de pagos.
 
 ## Soluciones (páginas transaccionales)
 
-- [Ley de Segunda Oportunidad](https://mi-calma.es/ley-segunda-oportunidad): Mecanismo legal para cancelar las deudas que no puedes pagar y empezar de cero. Análisis gratuito del caso.
-- [Abogados de la Ley de Segunda Oportunidad](https://mi-calma.es/abogados-ley-segunda-oportunidad): Abogados especialistas que estudian tu caso gratis y tramitan la cancelación de tus deudas.
-- [Cancelar deudas](https://mi-calma.es/cancelar-deudas): Qué vía legal te conviene para eliminar tu deuda según tu situación. Diagnóstico gratuito.
-- [Cancelación de deudas en España](https://mi-calma.es/cancelacion-de-deudas): Cuándo puedes cancelar tus deudas, requisitos, plazos y opciones legales.
-- [Reunificación de deudas](https://mi-calma.es/reunificacion-deudas): Negociación extrajudicial que baja tu cuota y el total a pagar, sin pedir un préstamo nuevo.
-- [Reunificar deudas paso a paso](https://mi-calma.es/reunificar-deudas): Cómo reunificar tus deudas para reducir la cuota mensual y lo que debes.
-- [Salir de ASNEF](https://mi-calma.es/asnef/salir-de-asnef): Cómo salir de los ficheros de morosidad de forma legal según el origen de la deuda.
-- [Parar un embargo](https://mi-calma.es/embargos/parar-embargo): Qué hacer hoy para frenar un embargo de nómina, cuenta o vivienda.
-- [Cancelar tarjetas revolving](https://mi-calma.es/tarjetas-revolving/cancelar-tarjetas-revolving): Reclamar y anular tarjetas revolving por intereses usurarios y recuperar lo pagado de más.
-- [Cancelar microcréditos](https://mi-calma.es/microcreditos-prestamos/cancelar-microcreditos): Anular microcréditos y préstamos rápidos con intereses abusivos.
-- [Exoneración del pasivo insatisfecho](https://mi-calma.es/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho): Qué deudas borra el mecanismo de exoneración, modalidades y límites.
-- [Concurso de persona física](https://mi-calma.es/autonomos-concurso-acreedores/concurso-persona-fisica): Cuándo y cómo solicitar el concurso de acreedores de persona física tras la reforma concursal.
-- [Juicio monitorio por deuda](https://mi-calma.es/juicio-monitorio-recobro/juicio-monitorio-deuda): Cómo responder a un juicio monitorio y los plazos para no perder el caso.
-- [Deudas con Hacienda](https://mi-calma.es/deudas-hacienda-seguridad-social/deudas-hacienda): Cómo aplazar o cancelar deudas con Hacienda y qué límites existen.
-- [Deudas con la Seguridad Social](https://mi-calma.es/deudas-hacienda-seguridad-social/deudas-seguridad-social): Opciones reales para autónomos y particulares con deuda pública en la Seguridad Social.
+- [Ley de Segunda Oportunidad](https://mi-calma.es/ley-segunda-oportunidad): Cancela tus deudas legalmente con la Ley de Segunda Oportunidad. Analizamos tu caso gratis y sin compromiso. [Pendiente revisión legal]
+- [Abogados LSO](https://mi-calma.es/abogados-ley-segunda-oportunidad): Abogados especialistas en la Ley de Segunda Oportunidad. Estudiamos tu caso gratis y te acompañamos para cancelar tus deudas legalmente.
+- [Cancelar deudas](https://mi-calma.es/cancelar-deudas): ¿Quieres eliminar tu deuda pero no sabes cómo? Comparamos las vías legales y te decimos cuál es la tuya. Diagnóstico gratuito de tu caso.
+- [Cancelación de deudas](https://mi-calma.es/cancelacion-de-deudas): Todo sobre la cancelación de deudas en España: vías legales, requisitos, plazos y opciones para empezar con un diagnóstico gratuito.
+- [Reunificación de deudas](https://mi-calma.es/reunificacion-deudas): Reunifica tus deudas en una sola cuota mensual y compara si te conviene frente a la Ley de Segunda Oportunidad.
+- [Reunificar deudas](https://mi-calma.es/reunificar-deudas): Aprende a reunificar tus deudas, reducir tu cuota mensual y decidir si esta opción encaja con tu situación actual.
+- [Salir de ASNEF](https://mi-calma.es/asnef/salir-de-asnef): Te explicamos cómo salir de ASNEF y otros ficheros de morosos de forma legal, según el origen de tu deuda.
+- [Parar embargo](https://mi-calma.es/embargos/parar-embargo): Pasos para parar un embargo de nómina, cuenta o vivienda y revisar si puedes cancelar la deuda que lo provoca.
+- [Cancelar revolving](https://mi-calma.es/tarjetas-revolving/cancelar-tarjetas-revolving): Reclama y cancela tu tarjeta revolving por intereses abusivos. Revisamos tu contrato gratis y sin compromiso.
+- [Cancelar microcréditos](https://mi-calma.es/microcreditos-prestamos/cancelar-microcreditos): Cancela microcréditos y préstamos rápidos con intereses abusivos. Analizamos si puedes reclamar o cancelar la deuda.
+- [Exoneración del pasivo](https://mi-calma.es/ley-segunda-oportunidad/exoneracion-pasivo-insatisfecho): Qué es la exoneración del pasivo insatisfecho: deudas que cubre, modalidades, límites y revocación. Guía jurídica clara. [Pendiente revisión legal]
+- [Concurso persona física](https://mi-calma.es/autonomos-concurso-acreedores/concurso-persona-fisica): Concurso de acreedores de persona física tras la reforma concursal. [Pendiente revisión legal]
+- [Juicio monitorio](https://mi-calma.es/juicio-monitorio-recobro/juicio-monitorio-deuda): Te ha llegado un juicio monitorio por una deuda: conoce los plazos, opciones y cómo responder antes de que avance.
+- [Deudas con Hacienda](https://mi-calma.es/deudas-hacienda-seguridad-social/deudas-hacienda): Qué hacer si tienes deudas con Hacienda: aplazamientos, límites y LSO. [Pendiente revisión legal]
+- [Deudas con Seguridad Social](https://mi-calma.es/deudas-hacienda-seguridad-social/deudas-seguridad-social): Soluciones para deudas con la Seguridad Social, especialmente autónomos. [Pendiente revisión legal]
+- [Requisitos LSO](https://mi-calma.es/ley-segunda-oportunidad/requisitos): Requisitos reales de la Ley de Segunda Oportunidad: insolvencia, buena fe, deuda máxima y errores que la bloquean. Diagnóstico gratis.
+- [Coste LSO](https://mi-calma.es/ley-segunda-oportunidad/coste-precio): Cuánto cuesta la Ley de Segunda Oportunidad de verdad: honorarios, tasas, plazos y por qué 'gratis' es un espejismo. Presupuesto cerrado.
+- [Plazos LSO](https://mi-calma.es/ley-segunda-oportunidad/plazos-duracion): Plazos reales de la Ley de Segunda Oportunidad: fases, cuánto tarda cada una y cuándo se frenan los embargos. Análisis gratis.
+- [¿Pierdo mi casa?](https://mi-calma.es/ley-segunda-oportunidad/pierdo-mi-casa): ¿La Ley de Segunda Oportunidad me quita la casa? Cuándo la conservas y cuándo no, con criterios reales del juzgado. Valoramos tu caso gratis.
+- [¿Es fiable?](https://mi-calma.es/ley-segunda-oportunidad/es-fiable): ¿Es fiable la Ley de Segunda Oportunidad? Ley en vigor, sentencias reales, límites y qué exigirle a tu abogado para que funcione.
+- [Cómo funciona](https://mi-calma.es/ley-segunda-oportunidad/como-funciona): Cómo funciona la Ley de Segunda Oportunidad de verdad: fases, plazos, actores y qué se cancela. Explicado claro por abogados.
+- [LSO Autónomos](https://mi-calma.es/ley-segunda-oportunidad/perfiles/autonomos): Ley de Segunda Oportunidad para autónomos: qué se cancela de AEAT y Seguridad Social, límites y cómo salvar tu actividad. Análisis gratis.
+- [LSO Avalistas](https://mi-calma.es/ley-segunda-oportunidad/perfiles/avalistas): Eres avalista y te reclaman la deuda: cómo te libera la Ley de Segunda Oportunidad y qué pasa con el deudor principal. Valoramos gratis.
+- [LSO Funcionarios](https://mi-calma.es/ley-segunda-oportunidad/perfiles/funcionarios): Ley de Segunda Oportunidad para funcionarios: no pierdes la plaza ni te embargan la nómina más allá de lo legal. Diagnóstico gratis.
+- [LSO Pensionistas](https://mi-calma.es/ley-segunda-oportunidad/perfiles/pensionistas-jubilados): Ley de Segunda Oportunidad para pensionistas: qué parte de tu pensión es inembargable y cómo cancelar deudas sin arruinar la jubilación.
+- [LSO Exempresarios](https://mi-calma.es/ley-segunda-oportunidad/perfiles/exempresarios): Cerraste tu SL y arrastras avales y deudas personales: la Ley de Segunda Oportunidad las cancela. Estudiamos tu caso gratis.
 
-## Guía principal
+## Guías
 
-- [Guía de la Ley de Segunda Oportunidad](https://mi-calma.es/blog/guia-ley-segunda-oportunidad): La guía más completa y actualizada para cancelar tus deudas: proceso, costes, embargos, vivienda, deuda pública y vida después.
+- [Cómo hacer un presupuesto](https://mi-calma.es/guias/como-hacer-un-presupuesto): Aprende a hacer un presupuesto familiar realista paso a paso: ingresos, gastos, regla 50/30/20 y cómo recuperar el control de tu dinero.
+- [Qué es la TAE](https://mi-calma.es/guias/que-es-la-tae): Qué es la TAE, en qué se diferencia del TIN y cómo usarla para comparar préstamos y tarjetas sin caer en intereses abusivos.
+- [Fondo de emergencia](https://mi-calma.es/guias/fondo-de-emergencia): Qué es un fondo de emergencia, cuánto deberías ahorrar y cómo crearlo desde cero para no volver a depender de créditos rápidos.
+- [Alternativas a los microcréditos](https://mi-calma.es/guias/alternativas-a-los-microcreditos): Antes de pedir un microcrédito, conoce las alternativas más baratas y seguras para conseguir liquidez y evitar la espiral de deuda.
 
-## Herramientas gratuitas
+## Comparativas
 
-- [Herramientas para personas con deudas](https://mi-calma.es/herramientas): Calculadoras y tests gratuitos para entender tu situación de deuda en minutos.
-- [Test: ¿qué solución necesito?](https://mi-calma.es/herramientas/test-solucion-deuda): Responde 3 preguntas y descubre si te conviene la Ley de Segunda Oportunidad, reunificar o reclamar por usura.
-- [Calculadora de deuda cancelable](https://mi-calma.es/herramientas/calculadora-deuda-cancelable): Estima cuánto de tu deuda podrías cancelar y el alivio mensual según el tipo de deuda.
-- [Calculadora de sueldo inembargable](https://mi-calma.es/herramientas/calculadora-sueldo-inembargable): Calcula qué parte de tu nómina protege la ley frente a un embargo (art. 607 LEC).
-- [Simulador de revolving / usura](https://mi-calma.es/herramientas/simulador-revolving-usura): Comprueba si la TAE de tu tarjeta o microcrédito es usuraria y cuánto pagas de más.
-- [Simulador de plan de pagos](https://mi-calma.es/herramientas/simulador-plan-pagos): Calcula cuántos años y cuántos intereses te costaría liquidar tu deuda pagando solo cuotas.
-- [Comparador de soluciones de deuda](https://mi-calma.es/herramientas/comparador-soluciones-deuda): Compara la Ley de Segunda Oportunidad, la reunificación y la reclamación por usura según tu caso.
+- [Reunificar o cancelar deudas](https://mi-calma.es/reunificacion-deudas/reunificar-o-cancelar): Reunificar deudas o cancelarlas con la Ley de Segunda Oportunidad: diferencias, ventajas, riesgos y cuándo conviene cada opción.
+- [Segunda Oportunidad vs concurso](https://mi-calma.es/ley-segunda-oportunidad/segunda-oportunidad-vs-concurso): Diferencias entre la Ley de Segunda Oportunidad y el concurso de acreedores: para quién es cada uno, plazos, coste y resultado.
+- [Acuerdo de pago vs cancelación](https://mi-calma.es/cancelar-deudas/acuerdo-de-pago-vs-cancelacion): Negociar un acuerdo de pago con tus acreedores o cancelar la deuda legalmente: ventajas, riesgos y cuándo elegir cada vía.
+
+## Herramientas
+
+- [Test: ¿qué solución necesito?](https://mi-calma.es/herramientas/test-solucion-deuda): Responde 3 preguntas y descubre qué vía te conviene: Ley de Segunda Oportunidad, reunificación o reclamación.
+- [Calculadora de deuda cancelable](https://mi-calma.es/herramientas/calculadora-deuda-cancelable): Estima cuánto de tu deuda podrías cancelar y el alivio mensual aproximado según el tipo de deuda.
+- [Calculadora de sueldo inembargable](https://mi-calma.es/herramientas/calculadora-sueldo-inembargable): Calcula cuánto de tu nómina está protegido frente a un embargo según los tramos del SMI (art. 607 LEC).
+- [Simulador revolving / usura](https://mi-calma.es/herramientas/simulador-revolving-usura): Comprueba si la TAE de tu tarjeta o microcrédito es potencialmente usuraria y cuánto pagas de más.
+- [Simulador de plan de pagos](https://mi-calma.es/herramientas/simulador-plan-pagos): Descubre cuántos años y cuántos intereses te costaría liquidar tu deuda pagando solo cuotas mensuales.
+- [Comparador de soluciones](https://mi-calma.es/herramientas/comparador-soluciones-deuda): Compara la Ley de Segunda Oportunidad, la reunificación y la reclamación por usura y descubre cuál encaja contigo.
+
+## Abogados por ciudad
+
+- [Abogados LSO en Madrid](https://mi-calma.es/abogados-ley-segunda-oportunidad/madrid): Abogados especialistas en Ley de Segunda Oportunidad en Madrid (Madrid).
+- [Abogados LSO en Barcelona](https://mi-calma.es/abogados-ley-segunda-oportunidad/barcelona): Abogados especialistas en Ley de Segunda Oportunidad en Barcelona (Barcelona).
+- [Abogados LSO en Valencia](https://mi-calma.es/abogados-ley-segunda-oportunidad/valencia): Abogados especialistas en Ley de Segunda Oportunidad en Valencia (Valencia).
+- [Abogados LSO en Sevilla](https://mi-calma.es/abogados-ley-segunda-oportunidad/sevilla): Abogados especialistas en Ley de Segunda Oportunidad en Sevilla (Sevilla).
+- [Abogados LSO en Zaragoza](https://mi-calma.es/abogados-ley-segunda-oportunidad/zaragoza): Abogados especialistas en Ley de Segunda Oportunidad en Zaragoza (Zaragoza).
+- [Abogados LSO en Málaga](https://mi-calma.es/abogados-ley-segunda-oportunidad/malaga): Abogados especialistas en Ley de Segunda Oportunidad en Málaga (Málaga).
+- [Abogados LSO en Murcia](https://mi-calma.es/abogados-ley-segunda-oportunidad/murcia): Abogados especialistas en Ley de Segunda Oportunidad en Murcia (Murcia).
+- [Abogados LSO en Palma de Mallorca](https://mi-calma.es/abogados-ley-segunda-oportunidad/palma): Abogados especialistas en Ley de Segunda Oportunidad en Palma de Mallorca (Islas Baleares).
+- [Abogados LSO en Las Palmas de Gran Canaria](https://mi-calma.es/abogados-ley-segunda-oportunidad/las-palmas-de-gran-canaria): Abogados especialistas en Ley de Segunda Oportunidad en Las Palmas de Gran Canaria (Las Palmas).
+- [Abogados LSO en Bilbao](https://mi-calma.es/abogados-ley-segunda-oportunidad/bilbao): Abogados especialistas en Ley de Segunda Oportunidad en Bilbao (Bizkaia).
+- [Abogados LSO en Alicante](https://mi-calma.es/abogados-ley-segunda-oportunidad/alicante): Abogados especialistas en Ley de Segunda Oportunidad en Alicante (Alicante).
+- [Abogados LSO en Córdoba](https://mi-calma.es/abogados-ley-segunda-oportunidad/cordoba): Abogados especialistas en Ley de Segunda Oportunidad en Córdoba (Córdoba).
+- [Abogados LSO en Valladolid](https://mi-calma.es/abogados-ley-segunda-oportunidad/valladolid): Abogados especialistas en Ley de Segunda Oportunidad en Valladolid (Valladolid).
+- [Abogados LSO en Vigo](https://mi-calma.es/abogados-ley-segunda-oportunidad/vigo): Abogados especialistas en Ley de Segunda Oportunidad en Vigo (Pontevedra).
+- [Abogados LSO en Gijón](https://mi-calma.es/abogados-ley-segunda-oportunidad/gijon): Abogados especialistas en Ley de Segunda Oportunidad en Gijón (Asturias).
 
 ## Artículos del blog
 
-- [Cómo saber si puedes cancelar tus deudas](https://mi-calma.es/blog/cancelar-deudas-requisitos): Requisitos para acogerse a la Segunda Oportunidad y qué deudas se pueden cancelar.
-- [Qué ocurre con los embargos](https://mi-calma.es/blog/embargos-segunda-oportunidad): Tipos de embargo y cómo frenarlos al iniciar el proceso legal.
-- [Cómo salir de ASNEF](https://mi-calma.es/blog/salir-asnef): Cómo salir de un fichero de morosidad después de cancelar la deuda.
-- [Autónomos con deudas](https://mi-calma.es/blog/autonomos-con-deudas): Cómo proteger tu actividad y empezar de nuevo siendo autónomo.
-- [Renegociar o iniciar vía legal](https://mi-calma.es/blog/renegociar-acreedores): Cuándo conviene renegociar con acreedores y cuándo acudir a la vía legal.
-- [Vida después de la deuda](https://mi-calma.es/blog/vida-despues-deuda): Hábitos sencillos para no volver al bloqueo financiero.
+- [Antecedentes penales: ¿me impiden cancelar mis deudas?](https://mi-calma.es/blog/antecedentes-penales-me-impiden-cancelar-mis-deudas): Tener deudas es una situación estresante, y si a ello se suman dudas sobre cómo influyen los antecedentes penales en la posibilidad de cancelarlas, la preocupación se multiplica. Este artículo aborda en profundidad si tus antecedentes penales pueden ser un obstáculo para acogerte a mecanismos de cancelación de deudas en España, como la Ley de Segunda Oportunidad.
+- [Abrir cuenta bancaria tras cancelar tus deudas](https://mi-calma.es/blog/abrir-cuenta-bancaria-tras-cancelar-tus-deudas): Recuperar la normalidad financiera después de una cancelación de deudas, ya sea por Ley de Segunda Oportunidad o por una negociación, implica volver a interactuar con el sistema bancario. Abrir una cuenta corriente es un paso fundamental, pero pueden surgir dudas sobre las facilidades para conseguirlo. Te explicamos tus derechos y las opciones disponibles.
+- [Ahorrar y planificar tras cancelar tu deuda](https://mi-calma.es/blog/ahorrar-y-planificar-tras-cancelar-tu-deuda): Cancelar deudas es un primer paso enorme, pero la libertad financiera duradera requiere una planificación inteligente. Este artículo te guiará en cómo reconstruir tu economía post-deuda.
+- [¿Puedo pedir una hipoteca si tengo deudas?](https://mi-calma.es/blog/puedo-pedir-hipoteca-deudas): Obtener una hipoteca con deudas previas es una preocupación común. Analizamos a fondo cómo los bancos evalúan tu solvencia y las estrategias clave para mejorar tus posibilidades o encontrar soluciones alternativas.
+- [Qué es la inflación y cómo afecta a tus deudas y ahorros](https://mi-calma.es/blog/contamos-significa-concepto-inflacion): La inflación es un concepto económico que escuchamos constantemente, pero ¿sabemos realmente qué significa y cómo afecta nuestro día a día? Comprenderla es el primer paso para proteger nuestra economía personal y familiar.
+- [Regla 50 30 20: El método efectivo para ahorrar](https://mi-calma.es/blog/regla-50-30-20-metodo-efectivo-ahorrar): La regla 50/30/20 es un método sencillo y eficaz para gestionar tus finanzas personales que te permite destinar tu dinero de forma inteligente a necesidades, deseos y ahorro. Su aplicación te ayudará a mantener el control sobre tu economía y alcanzar tus objetivos financieros.
+- [¿Se pueden embargar las pagas extras? Límites y protección legal](https://mi-calma.es/blog/toda-informacion-sobre-pagas-extras-son-embargables): Si tienes deudas y te preocupa un posible embargo, es crucial entender cómo afecta a tus pagas extras. ¿Se consideran un salario más o tienen un tratamiento especial? Te lo explicamos a fondo.
+- [Los avalistas y la Ley de Segunda Oportunidad](https://mi-calma.es/blog/avalistas-ley-segunda-oportunidad): La Ley de Segunda Oportunidad (LSO) es un salvavidas para muchos, pero ¿qué ocurre con los avalistas cuando el deudor principal se acoge a ella? Esta es una pregunta crucial que genera mucha incertidumbre y preocupación.
+- [Deuda post concursal: qué es y cómo afecta a la Ley de Segunda Oportunidad](https://mi-calma.es/blog/significa-deuda-post-concursal): La deuda postconcursal es un concepto clave para quienes atraviesan o han atravesado un proceso de insolvencia. Entenderla es fundamental para garantizar una recuperación financiera plena y sin sobresaltos.
+- [Cómo saber si el SEPE me ha aprobado el paro](https://mi-calma.es/blog/saber-sepe-ha-aprobado-paro): Tramitar una solicitud de desempleo puede generar mucha incertidumbre. Es crucial saber cómo y dónde verificar el estado de tu expediente para no perder ninguna gestión.
+- [¿Se puede sacar dinero de una cuenta embargada?](https://mi-calma.es/blog/sacar-dinero-cuenta-embargada): Enfrentarse a un embargo de cuenta es una situación compleja que genera muchas dudas, especialmente sobre el dinero que aún puede haber en ella. Aquí te explicamos qué puedes hacer y qué no con una cuenta bancaria bajo embargo.
+- [¿Cómo saber quién ha embargado nómina?](https://mi-calma.es/blog/saber-quien-ha-embargado-nomina): Cuando tu nómina sufre un embargo, la incertidumbre puede ser tan abrumadora como la propia deuda. Saber quién ha ordenado la retención es el primer paso crucial para entender tu situación y buscar soluciones efectivas.
+- [¿Qué es la insuficiencia de masa activa?](https://mi-calma.es/blog/insuficiencia-masa-activa): La insuficiencia de masa activa es un concepto legal fundamental si te planteas la Ley de Segunda Oportunidad (LSO). Entenderla es crucial para saber si tu caso es viable y cómo proceder para cancelar tus deudas definitivamente.
+- [Qué ocurre cuando el juzgado no me localiza](https://mi-calma.es/blog/ocurre-juzgado-no-localiza): Si te encuentras en una situación donde tu nombre aparece en un procedimiento judicial pero el juzgado no logra notificarte, es fundamental entender las implicaciones. No ser localizado por la justicia no es una vía para evitar una deuda o un problema legal, de hecho, puede complicar seriamente tu situación.
+- [Cuánto tiempo se puede estar en ERTE](https://mi-calma.es/blog/tiempo-estar-erte): El Expediente de Regulación Temporal de Empleo (ERTE) es una medida flexible para empresas en dificultades, que afecta directamente a la situación laboral y económica de los trabajadores. Es natural preguntarse cuánto tiempo puede prolongarse esta situación y qué implicaciones tiene.
+- [He recibido una herencia pero tengo deudas ¿qué hago?](https://mi-calma.es/blog/he-recibido-herencia-pero-deudas-hago): Recibir una herencia es a menudo un alivio… hasta que recuerdas que tienes deudas pendientes. ¿Qué hacer en esta encrucijada para proteger el legado familiar y no caer en un agujero aún más profundo?
+- [Estrés financiero: su impacto en la salud supera a duelos y divorcios](https://mi-calma.es/blog/estres-financiero-su-impacto-salud-supera-duelos-divorcios): El estrés financiero no es un problema menor, sus repercusiones van más allá de la cuenta bancaria. Afecta directamente a nuestra salud física y mental, dejando una huella profunda en la vida de quienes lo padecen.
+- [Todo lo que debes saber sobre el IRPH](https://mi-calma.es/blog/todo-lo-debes-saber-sobre-irph): El IRPH (Índice de Referencia de Préstamos Hipotecarios) ha sido, durante años, un motivo de preocupación y disputa para miles de hipotecados en España. Entenderlo es clave para saber si tu hipoteca es justa o si tienes opciones de reclamación.
+- [Cómo las emociones impactan en las decisiones relacionadas con el dinero](https://mi-calma.es/blog/emociones-impactan-decisiones-relacionadas-dinero): El dinero y las emociones forman un binomio complejo. Antes de tomar una decisión financiera importante, es crucial entender cómo nuestro estado de ánimo puede influir en ella, a menudo llevándonos por caminos indeseables.
+- [Qué son los intereses ordinarios y moratorios](https://mi-calma.es/blog/son-intereses-ordinarios-moratorios): Explorar el mundo de los intereses puede ser confuso, pero es fundamental para entender cómo funcionan nuestras deudas. Aprender la diferencia entre intereses ordinarios y moratorios te dará herramientas clave para gestionar tus finanzas.
+- [Qué es Aplazame y cómo funciona](https://mi-calma.es/blog/aplazame-funciona): Aplazame es una plataforma de financiación cómoda, pero como todo instrumento de crédito, tiene implicaciones que debes conocer a fondo antes de usarlo. Descubre cómo funciona, sus costes y posibles riesgos.
+- [¿Se puede bloquear cuenta bancaria sin previo aviso?](https://mi-calma.es/blog/bloquear-cuenta-bancaria-sin-previo-aviso): Despertar y encontrar tu cuenta bancaria bloqueada puede ser una situación alarmante. A menudo, surge la duda de si esta acción es legal y si las entidades tienen la obligación de informar con antelación.
+- [El endeudamiento de familias en España: aumento de créditos y comportamientos comunes](https://mi-calma.es/blog/endeudamiento-familias-espana-aumento-creditos-comportamientos-comunes): El endeudamiento de las familias españolas es un tema crucial que afecta a miles de hogares. Un reciente informe del Banco de España reveló un incremento significativo en los créditos al consumo, poniendo de manifiesto una situación económica compleja para muchos.
+- [Twinero no funciona: alternativas y qué hacer con tu préstamo](https://mi-calma.es/blog/twinero-no-funciona): Si te encuentras en la difícil situación de no poder hacer frente al pago de un microcrédito o préstamo de Twinero, es crucial que sepas que existen opciones legales para protegerte. No estás solo y la desesperación no es la única salida.
+- [Monedo Now cierra: qué pasa con tu deuda y cómo reclamar](https://mi-calma.es/blog/monedo-now-cierre): ¿Monedo Now era una de tus entidades prestamistas? Si has oído hablar de su cierre, es normal que te preocupe el futuro de tu deuda. Te explicamos qué ha pasado y, sobre todo, cómo debes actuar.
+- [Denuncias contra Monedo Now: motivos frecuentes y cómo actuar](https://mi-calma.es/blog/monedo-now-denuncias): ¿Te enfrentas a una reclamación de Monedo Now? Descubre las claves para entender su situación y cómo puedes defenderte legalmente. Es fundamental conocer tus derechos y las opciones disponibles.
+- [¿Puedo pedir préstamo después de la Ley de Segunda Oportunidad?](https://mi-calma.es/blog/puedo-pedir-prestamo-despues-ley-segunda-oportunidad): La Ley de Segunda Oportunidad es un borrón y cuenta nueva para tus deudas. Pero, ¿qué pasa después con tu capacidad para acceder a nueva financiación? Te lo explicamos en detalle.
+- [¿Cuál es la responsabilidad del administrador por las deudas de la empresa?](https://mi-calma.es/blog/cual-responsabilidad-administrador-deudas-empresa): La responsabilidad de los administradores societarios es una preocupación recurrente al frente de una empresa. Entender las implicaciones legales de las deudas es crucial para cualquier directivo en España.
+- [Juicio verbal por deuda](https://mi-calma.es/blog/juicio-verbal-deuda): ¿Te enfrentas a un juicio verbal por deudas y no sabes qué hacer? Este artículo te guiará paso a paso por todo el proceso, despejando tus dudas y ofreciéndote las estrategias para defender tus derechos.
+- [¿Qué es una póliza de crédito y cómo funciona?](https://mi-calma.es/blog/poliza-credito-funciona): La póliza de crédito es una herramienta financiera fundamental para empresas y autónomos, pero también relevante para comprender el endeudamiento. Conocer su funcionamiento es clave para tomar decisiones informadas.
+- [¿Cómo liquidar la empresa con deudas?](https://mi-calma.es/blog/liquidar-empresa-deudas): Cerrar una empresa con deudas en España puede parecer un laberinto, pero existen vías legales para hacerlo de forma ordenada y proteger el patrimonio personal. Entender el proceso es crucial para evitar complicaciones futuras y asegurar una salida digna.
+- [¿Qué es el método bola nieve?](https://mi-calma.es/blog/metodo-bola-nieve): El método bola de nieve es una estrategia popular y efectiva para saldar deudas, especialmente útiles para personas que tienen múltiples obligaciones financieras. Se basa en una psicología del éxito que te impulsa a seguir adelante.
+- [Tabla para ahorrar dinero en euros: 3 métodos para ahorrar hasta 1.378 € al año](https://mi-calma.es/blog/tabla-ahorrar-dinero-euros-3-metodos-ahorrar-hasta-1): ¿Te gustaría ahorrar una suma considerable de dinero cada año sin que suponga un gran sacrificio? Existen estrategias sencillas y efectivas que pueden ayudarte a conseguirlo, mejorando significativamente tu salud financiera.
+- [¿Qué es la insolvencia punible?](https://mi-calma.es/blog/insolvencia-punible): La insolvencia punible es un delito grave que afecta a personas y empresas que, ante una situación de quiebra, actúan de mala fe para perjudicar a sus acreedores. Comprenderla es fundamental para evitar consecuencias legales y económicas devastadoras.
+- [Reconocimiento de Deuda: Modelo y explicación en 2025](https://mi-calma.es/blog/reconocimiento-deuda-modelo-explicacion-2025): Un reconocimiento de deuda es un documento clave que formaliza la obligación de pago entre dos partes. Entender su funcionamiento y sus implicaciones legales es fundamental para proteger tus intereses, ya seas acreedor o deudor.
+- [¿Pueden cobrarte una deuda en otro país? Esto dice la ley](https://mi-calma.es/blog/cobrarte-deuda-otro-pais-esto-dice-ley): ¿Vives en el extranjero y te preguntas si tu antigua deuda española puede perseguirte? O, ¿quizás al revés? El cobro de deudas a nivel internacional es una cuestión compleja que genera muchas dudas.
+- [¿Invest capital te reclama una deuda? ¡Sigue estos pasos!](https://mi-calma.es/blog/invest-capital-reclama-deuda-sigue-estos-pasos): ¿Has recibido una notificación de Invest Capital reclamando una deuda? No te asustes. Es una situación común que tiene solución si sabes cómo actuar.
+- [¿Qué es un concurso de acreedores?](https://mi-calma.es/blog/concurso-acreedores): Si eres autónomo o empresario y las deudas te ahogan, el concurso de acreedores es una vía legal para reorganizar o eliminar lo que debes. Abordaremos sus fases, tipos y cómo puede ser tu tabla de salvación.
+- [¿Cómo cerrar una empresa? Actualizado 2025](https://mi-calma.es/blog/cerrar-empresa-actualizado-2025): Cerrar una empresa es un proceso complejo que requiere seguir una serie de pasos legales y administrativos. No se trata simplemente de bajar la persiana, sino de cumplir con una disolución y posterior liquidación para evitar futuras responsabilidades.
+- [Concurso acreedores microempresas: guía actualizada 2025](https://mi-calma.es/blog/concurso-acreedores-microempresas-guia-actualizada-2025): La insolvencia no implica el fin de tu actividad. El Concurso de Acreedores para microempresas ofrece un camino específico para gestionar deudas, proteger tu negocio y, en muchas ocasiones, permitirte continuar operando.
 
-## Comparativas (qué opción te conviene)
+## Casos de éxito
 
-- [Reunificar o cancelar deudas](https://mi-calma.es/reunificacion-deudas/reunificar-o-cancelar): Cuándo conviene reunificar y cuándo cancelar las deudas según tu situación.
-- [Segunda Oportunidad vs concurso de acreedores](https://mi-calma.es/ley-segunda-oportunidad/segunda-oportunidad-vs-concurso): Diferencias, requisitos y cuál encaja con tu caso.
-- [Acuerdo de pago vs cancelación](https://mi-calma.es/cancelar-deudas/acuerdo-de-pago-vs-cancelacion): Negociar con los acreedores o cancelar la deuda por vía legal.
+- [8.500 € recuperados cancelados en Alicante](https://mi-calma.es/casos-de-exito/pablo-r-alicante-8-500-recuperados): Pablo R., de Alicante, se vio atrapado en la espiral de los intereses abusivos de las tarjetas revolving. Con Calma, no solo se liberó, sino que recuperó miles de euros.
+- [Nómina liberada cancelados en Almería](https://mi-calma.es/casos-de-exito/ivan-p-almeria-nomina-liberada): Un embargo asfixiaba la nómina de Iván P. en Almería, impidiéndole remontar. Calma le devolvió el control de su salario.
+- [Cuota -35% cancelados en Toledo](https://mi-calma.es/casos-de-exito/sergio-f-toledo-cuota-35): Antes, cada mes era un suplicio para Sergio. Hoy, gracias a la reunificación con Calma, ha encontrado la estabilidad financiera que tanto anhelaba.
+- [Apremio parado cancelados en Lugo](https://mi-calma.es/casos-de-exito/diego-n-lugo-apremio-parado): Diego N. de Lugo recibió un aviso de embargo de la Agencia Tributaria que supuso un antes y un después. La situación era límite, pero la acción rápida de Calma evitó males mayores.
+- [28.500 € cancelados cancelados en Bilbao](https://mi-calma.es/casos-de-exito/elena-c-bilbao-28-500-cancelados): Elena C. se encontró con el cierre de su negocio y una deuda que no podía afrontar. Gracias a la Ley de Segunda Oportunidad pudo rehacer su vida.
+- [Embargo levantado cancelados en Santander](https://mi-calma.es/casos-de-exito/daniel-s-santander-8-500): Daniel, de Santander, enfrentó embargos derivados de intereses abusivos. Gracias a Calma, recuperó el control de su economía y puso fin a una situación asfixiante.
+- [32.450 € cancelados cancelados en Córdoba](https://mi-calma.es/casos-de-exito/antonio-a-cordoba-32-450): La tranquilidad ha vuelto al hogar de Antonio A. en Córdoba tras conseguir reducir drásticamente el peso de sus deudas. Su caso es un ejemplo de cómo una buena estrategia puede cambiar la vida.
+- [Embargo levantado cancelados en Girona](https://mi-calma.es/casos-de-exito/marta-d-girona-32-450): Marta se enfrentó a un embargo que la dejó sin aliento, pero encontró en la Ley de Segunda Oportunidad el camino para empezar de nuevo en Girona.
+- [28.500 € cancelados cancelados en Santander](https://mi-calma.es/casos-de-exito/carlos-p-santander-28-500): Carlos P. de Santander se veía agobiado por cuotas mensuales inasumibles. Gracias a la negociación experta de Calma, ha conseguido una solución para volver a respirar tranquilo.
+- [8.760 € recuperados cancelados en Murcia](https://mi-calma.es/casos-de-exito/sara-l-murcia-8-760): Sara L. de Murcia encontró una salida a la trampa de las tarjetas revolving. Con Calma, logró anular una deuda de casi 9.000 euros.
+- [Fuera de ASNEF cancelados en Barcelona](https://mi-calma.es/casos-de-exito/lucia-n-barcelona-8-500): Lucía N., una trabajadora infatigable de Barcelona, vio cómo una deuda que creía haber saldado volvía para atormentarla, impidiéndole acceder a financiación básica. Gracias a la intervención de Calma, su nombre fue eliminado de ASNEF y su deuda, declarada nula por usura.
+- [42.170 € cancelados cancelados en Ourense](https://mi-calma.es/casos-de-exito/raquel-b-ourense-42-170): Gracias a la Ley de Segunda Oportunidad, nuestra clienta ha podido dejar atrás sus problemas financieros y empezar de nuevo en su vida en Ourense.
+- [32.450 € cancelados cancelados en Valladolid](https://mi-calma.es/casos-de-exito/andres-d-valladolid-32-450): La "mochila" de las deudas asfixiaba a Andrés D. Con la ayuda de Calma, este vallisoletano ha podido dejar atrás una situación económica insostenible y empezar de cero.
+- [42.180 € cancelados cancelados en Castellón](https://mi-calma.es/casos-de-exito/noelia-n-castellon-42-180): Una situación financiera asfixiante llevó a Noelia a buscar ayuda. Hoy, mira el futuro con optimismo tras cancelar su deuda en Castellón.
+- [32.480 € cancelados cancelados en Valladolid](https://mi-calma.es/casos-de-exito/hugo-a-valladolid-32-480): Un giro inesperado en su salud lo dejó sin ingresos. Hugo A., de Valladolid, encontró en Calma la vía para cancelar sus deudas y recuperar la tranquilidad.
+- [87.312 € cancelados cancelados en Barcelona](https://mi-calma.es/casos-de-exito/hugo-a-barcelona-87-312): La crisis sanitaria y una inversión fallida ahogaron a Hugo, pero la Ley de Segunda Oportunidad le ha permitido empezar de cero.
+- [28.700 € cancelados cancelados en Zaragoza](https://mi-calma.es/casos-de-exito/nuria-d-zaragoza-28-700): Con la ayuda de Calma y la Ley de Segunda Oportunidad, Nuria D. ha podido rehacer su vida en Zaragoza, dejando atrás una deuda que la ahogaba.
+- [42.180 € cancelados cancelados en Cádiz](https://mi-calma.es/casos-de-exito/nuria-b-cadiz-42-180): Nuria, una gaditana de 48 años, vio cómo la vida le ponía contra las cuerdas tras un despido inesperado. Con la ayuda de Calma, ha logrado la cancelación total de sus deudas, recuperando la tranquilidad financiera.
+- [8.750 € cancelados cancelados en Jaén](https://mi-calma.es/casos-de-exito/diego-v-jaen-8-750): Gracias a la Ley de Segunda Oportunidad, este vecino de Jaén ha podido dejar atrás una pesada carga con la Agencia Tributaria. Su historia es un ejemplo de cómo es posible recuperar la tranquilidad financiera.
+- [32.450 € cancelados cancelados en Pamplona](https://mi-calma.es/casos-de-exito/andres-v-pamplona-32-450): Un giro inesperado en su salud sumió a Andrés en una espiral de deudas. Gracias a la Ley de Segunda Oportunidad, ha podido empezar de nuevo en Pamplona.
+- [87.400 € cancelados cancelados en Valencia](https://mi-calma.es/casos-de-exito/hugo-r-valencia-87-400): La LSO ha permitido a Hugo, un autónomo de Valencia, liberarse de una carga fiscal que ahogaba su futuro y recuperar la tranquilidad. Un proceso complejo que culmina con una nueva oportunidad.
+- [28.700 € cancelados cancelados en Lugo](https://mi-calma.es/casos-de-exito/daniel-t-lugo-28-700): Un autónomo de Lugo logra un nuevo comienzo al liberarse de una deuda insostenible con Hacienda y la Seguridad Social, gracias a la Ley de Segunda Oportunidad.
+- [42.000 € cancelados cancelados en Burgos](https://mi-calma.es/casos-de-exito/antonio-t-burgos-42-000): Un giro inesperado en su salud lo dejó sin ingresos. La Ley de Segunda Oportunidad le ha permitido empezar de cero en Burgos, libre de deudas.
+- [42.180 € cancelados cancelados en Valladolid](https://mi-calma.es/casos-de-exito/sara-l-valladolid-42-180): Con la Ley de Segunda Oportunidad y Calma, esta vallisoletana ha podido dejar atrás una pesada carga financiera, recuperando la esperanza de un futuro sin deudas.
+- [32.450 € cancelados cancelados en Bilbao](https://mi-calma.es/casos-de-exito/veronica-v-bilbao-32-450): La tranquilidad ha vuelto a la vida de Verónica, una ama de casa bilbaína, tras superar una difícil situación económica gracias a la Ley de Segunda Oportunidad. Descubre cómo Calma la acompañó en este proceso.
+- [42.150 € cancelados cancelados en Zaragoza](https://mi-calma.es/casos-de-exito/lucia-d-zaragoza-42-150): Lucía D., una madre trabajadora de Zaragoza, se vio atrapada en un torbellino de deudas tras varios imprevistos financieros. Con el apoyo de Calma, ha logrado la cancelación de más de 42.000 € y la oportunidad de un nuevo comienzo.
+- [42.180 € cancelados cancelados en Girona](https://mi-calma.es/casos-de-exito/adrian-c-girona-42-180): Adrián C., un joven de Girona, vio cómo sus deudas se acumulaban tras un negocio fallido. La Ley de Segunda Oportunidad le permitió borrar casi 42.200 € y empezar de cero.
+- [32.450 € cancelados cancelados en Ourense](https://mi-calma.es/casos-de-exito/sara-g-ourense-32-450): Tras años de lucha, Sara encontró en la Ley de Segunda Oportunidad el alivio que tanto necesitaba. Su historia es un testimonio de esperanza para quienes se sienten ahogados por las deudas.
+- [38.500 € cancelados cancelados en Madrid](https://mi-calma.es/casos-de-exito/manuel-g-madrid-38-500): Con una situación económica que se tornó insostenible, Manuel encontró en Calma la serenidad para reorganizar sus finanzas y mirar hacia adelante.
+- [32.450 € cancelados cancelados en Lleida](https://mi-calma.es/casos-de-exito/raquel-m-lleida-32-450): Una situación personal complicada llevó a Raquel a acumular deudas que no podía afrontar. Gracias a la Ley de Segunda Oportunidad, ha podido empezar de nuevo.
 
-## Deudas por entidad (fichas con tus derechos y opciones)
+## Fichas y perfiles
 
-Empresas de recobro:
-- [Deudas con Kruk](https://mi-calma.es/empresas-de-recobro/kruk)
-- [Deudas con Intrum](https://mi-calma.es/empresas-de-recobro/intrum)
-- [Deudas con EOS Spain](https://mi-calma.es/empresas-de-recobro/eos)
-- [Deudas con Axactor](https://mi-calma.es/empresas-de-recobro/axactor)
+- [kruk](https://mi-calma.es/empresas-de-recobro/kruk): 
+- [intrum](https://mi-calma.es/empresas-de-recobro/intrum): 
+- [eos](https://mi-calma.es/empresas-de-recobro/eos): 
+- [axactor](https://mi-calma.es/empresas-de-recobro/axactor): 
+- [link-finanzas](https://mi-calma.es/empresas-de-recobro/link-finanzas): 
+- [gescobro](https://mi-calma.es/empresas-de-recobro/gescobro): 
+- [hoist-finance](https://mi-calma.es/empresas-de-recobro/hoist-finance): 
+- [servdebt](https://mi-calma.es/empresas-de-recobro/servdebt): 
+- [gesif](https://mi-calma.es/empresas-de-recobro/gesif): 
+- [procobro](https://mi-calma.es/empresas-de-recobro/procobro): 
+- [iberia-collections](https://mi-calma.es/empresas-de-recobro/iberia-collections): 
+- [garnet](https://mi-calma.es/empresas-de-recobro/garnet): 
+- [medina-cuadros](https://mi-calma.es/empresas-de-recobro/medina-cuadros): 
+- [gcbe](https://mi-calma.es/empresas-de-recobro/gcbe): 
+- [prime-credit](https://mi-calma.es/empresas-de-recobro/prime-credit): 
+- [hipoges](https://mi-calma.es/empresas-de-recobro/hipoges): 
+- [solvia-servicer](https://mi-calma.es/empresas-de-recobro/solvia-servicer): 
+- [pepper-advantage](https://mi-calma.es/empresas-de-recobro/pepper-advantage): 
+- [abanca-servicing](https://mi-calma.es/empresas-de-recobro/abanca-servicing): 
+- [dovalue](https://mi-calma.es/empresas-de-recobro/dovalue): 
 
-Microcréditos y préstamos rápidos:
-- [Deudas con Vivus](https://mi-calma.es/microcreditos-prestamos/vivus)
-- [Deudas con Cofidis](https://mi-calma.es/microcreditos-prestamos/cofidis)
-- [Deudas con Creditea](https://mi-calma.es/microcreditos-prestamos/creditea)
-- [Deudas con Moneyman](https://mi-calma.es/microcreditos-prestamos/moneyman)
-- [Deudas con Ferratum](https://mi-calma.es/microcreditos-prestamos/ferratum)
-- [Deudas con Younited Credit](https://mi-calma.es/microcreditos-prestamos/younited)
+## Optional
 
-Tarjetas revolving:
-- [Tarjeta WiZink](https://mi-calma.es/tarjetas-revolving/wizink)
-- [Tarjeta Cetelem](https://mi-calma.es/tarjetas-revolving/cetelem)
-- [Tarjeta Oney](https://mi-calma.es/tarjetas-revolving/oney)
-- [Tarjeta Carrefour (Oney)](https://mi-calma.es/tarjetas-revolving/carrefour)
-- [Tarjeta El Corte Inglés](https://mi-calma.es/tarjetas-revolving/el-corte-ingles)
-
-Bancos:
-- [Deudas con Banco Santander](https://mi-calma.es/bancos-hipoteca-vivienda/santander)
-- [Deudas con BBVA](https://mi-calma.es/bancos-hipoteca-vivienda/bbva)
-- [Deudas con CaixaBank](https://mi-calma.es/bancos-hipoteca-vivienda/caixabank)
-- [Deudas con Bankinter](https://mi-calma.es/bancos-hipoteca-vivienda/bankinter)
-- [Deudas con Banco Sabadell](https://mi-calma.es/bancos-hipoteca-vivienda/sabadell)
-
-## Abogados de la Ley de Segunda Oportunidad por ciudad
-
-- [Madrid](https://mi-calma.es/abogados-ley-segunda-oportunidad/madrid)
-- [Barcelona](https://mi-calma.es/abogados-ley-segunda-oportunidad/barcelona)
-- [Valencia](https://mi-calma.es/abogados-ley-segunda-oportunidad/valencia)
-- [Sevilla](https://mi-calma.es/abogados-ley-segunda-oportunidad/sevilla)
-- [Zaragoza](https://mi-calma.es/abogados-ley-segunda-oportunidad/zaragoza)
-- [Málaga](https://mi-calma.es/abogados-ley-segunda-oportunidad/malaga)
-- [Murcia](https://mi-calma.es/abogados-ley-segunda-oportunidad/murcia)
-- [Palma](https://mi-calma.es/abogados-ley-segunda-oportunidad/palma)
-- [Las Palmas de Gran Canaria](https://mi-calma.es/abogados-ley-segunda-oportunidad/las-palmas-de-gran-canaria)
-- [Bilbao](https://mi-calma.es/abogados-ley-segunda-oportunidad/bilbao)
-
-## Legal
-
-- [Política de privacidad](https://mi-calma.es/politica-de-privacidad)
-- [Términos y condiciones](https://mi-calma.es/terminos-y-condiciones)
+- [Política de privacidad](https://mi-calma.es/politica-de-privacidad): Tratamiento de datos y cookies.
+- [Términos y condiciones](https://mi-calma.es/terminos-y-condiciones): Condiciones de uso del sitio.

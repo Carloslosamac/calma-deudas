@@ -5,15 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "predev": "bun run scripts/generate-sitemap.ts",
+    "predev": "bun run scripts/generate-sitemap.ts && bun run scripts/generate-llms-txt.ts",
     "build": "vite build",
-    "prebuild": "bun run scripts/generate-sitemap.ts",
+    "prebuild": "bun run scripts/generate-sitemap.ts && bun run scripts/generate-llms-txt.ts",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "sitemap": "bun run scripts/generate-sitemap.ts"
+    "sitemap": "bun run scripts/generate-sitemap.ts",
+    "llms": "bun run scripts/generate-llms-txt.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
