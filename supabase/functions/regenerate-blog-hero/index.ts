@@ -144,7 +144,8 @@ Requisitos ESTRICTOS:
 }
 
 async function buildPrompt(title: string, category: string, slug: string): Promise<string> {
-  const llmScene = await sceneFromLLM(title, category);
+  let llmScene = await sceneFromLLM(title, category);
+  if (!llmScene) llmScene = await sceneFromLLM(title, category);
   const scene = llmScene ?? sceneFromTitle(title, category, slug);
   const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
   const banPapers = !paperWords.test(scene);
@@ -174,44 +175,44 @@ async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
 // gemini-3.1-flash-lite-image (Nano Banana 2 Lite, el más barato de Gemini).
 // Body en formato Vertex generateContent, que es lo que este modelo requiere.
 async function generateImageBytes(prompt: string): Promise<Uint8Array | null> {
-  const attempts: { model: string; body: unknown }[] = [
-    {
-      model: "google/gemini-3.1-flash-lite-image",
-      body: {
-        model: "google/gemini-3.1-flash-lite-image",
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
-      },
-    },
-    {
-      model: "google/gemini-2.5-flash-image",
-      body: {
-        model: "google/gemini-2.5-flash-image",
-        messages: [{ role: "user", content: prompt }],
-        modalities: ["image", "text"],
-      },
-    },
-  ];
-  for (const a of attempts) {
+  const liteBody = {
+    model: "google/gemini-3.1-flash-lite-image",
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
+  };
+  const proBody = {
+    model: "google/gemini-3.1-flash-image",
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
+  };
+  const tryOnce = async (model: string, body: unknown): Promise<Uint8Array | null> => {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 45000);
     try {
       const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-        body: JSON.stringify(a.body),
+        body: JSON.stringify(body),
+        signal: ctrl.signal,
       });
-      if (!res.ok) {
-        console.error(`image AI ${a.model} ${res.status}: ${await res.text()}`);
-        continue;
-      }
+      if (!res.ok) { console.error(`image AI ${model} ${res.status}: ${await res.text()}`); return null; }
       const data = await res.json();
       const b64: string | undefined = data?.data?.[0]?.b64_json;
-      if (!b64) { console.error(`image AI ${a.model}: no b64_json`); continue; }
+      if (!b64) { console.error(`image AI ${model}: no b64_json`); return null; }
       return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
     } catch (e) {
-      console.error(`image AI ${a.model} threw: ${String(e)}`);
-    }
+      console.error(`image AI ${model} threw: ${String(e)}`);
+      return null;
+    } finally { clearTimeout(t); }
+  };
+  const backoffs = [0, 1000, 3000];
+  for (let i = 0; i < backoffs.length; i++) {
+    if (backoffs[i] > 0) await new Promise((r) => setTimeout(r, backoffs[i]));
+    const bytes = await tryOnce("google/gemini-3.1-flash-lite-image", liteBody);
+    if (bytes) return bytes;
   }
-  return null;
+  console.warn(`image AI: Lite falló 3 veces, probando Nano Banana 2 no-Lite`);
+  return await tryOnce("google/gemini-3.1-flash-image", proBody);
 }
 
 async function regenerate(supabase: ReturnType<typeof createClient>, slug: string, title: string, category: string) {

@@ -660,47 +660,52 @@ Requisitos ESTRICTOS:
   } catch (e) { console.error(`sceneFromLLM threw: ${String(e)}`); return null; }
 }
 
-// Llama al modelo de imagen más barato (Nano Banana 2 Lite) con fallback a
-// gemini-2.5-flash-image si el primero falla. Un solo intento por modelo.
+// Genera imagen con Nano Banana 2 Lite (3 intentos, 45s c/u). Si tras los
+// reintentos falla, cae a Nano Banana 2 no-Lite (mismo estilo, ~3x más caro)
+// una única vez. NUNCA cae a gemini-2.5-flash-image: ese modelo produce el
+// look editorial/stock que rompe la coherencia visual del blog.
 async function generateImageBytes(prompt: string, slug: string): Promise<Uint8Array | null> {
-  const attempts: { model: string; body: unknown }[] = [
-    {
-      model: "google/gemini-3.1-flash-lite-image",
-      body: {
-        model: "google/gemini-3.1-flash-lite-image",
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
-      },
-    },
-    {
-      model: "google/gemini-2.5-flash-image",
-      body: {
-        model: "google/gemini-2.5-flash-image",
-        messages: [{ role: "user", content: prompt }],
-        modalities: ["image", "text"],
-      },
-    },
-  ];
-  for (const a of attempts) {
+  const liteBody = {
+    model: "google/gemini-3.1-flash-lite-image",
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
+  };
+  const proBody = {
+    model: "google/gemini-3.1-flash-image",
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
+  };
+  const tryOnce = async (model: string, body: unknown): Promise<Uint8Array | null> => {
     try {
-      const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
+      const res = await fetchWithTimeout("https://ai.gateway.lovable.dev/v1/images/generations", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-        body: JSON.stringify(a.body),
-      });
+        body: JSON.stringify(body),
+      }, 45000);
       if (!res.ok) {
-        console.error(`image AI ${a.model} ${res.status} for ${slug}: ${await res.text()}`);
-        continue;
+        console.error(`image AI ${model} ${res.status} for ${slug}: ${await res.text()}`);
+        return null;
       }
       const data = await res.json();
       const b64: string | undefined = data?.data?.[0]?.b64_json;
-      if (!b64) { console.error(`image AI ${a.model} for ${slug}: no b64_json`); continue; }
+      if (!b64) { console.error(`image AI ${model} for ${slug}: no b64_json`); return null; }
       return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
     } catch (e) {
-      console.error(`image AI ${a.model} threw for ${slug}: ${String(e)}`);
+      console.error(`image AI ${model} threw for ${slug}: ${String(e)}`);
+      return null;
     }
+  };
+  // Primary: Nano Banana 2 Lite, 3 intentos con backoff 0/1s/3s.
+  const backoffs = [0, 1000, 3000];
+  for (let i = 0; i < backoffs.length; i++) {
+    if (backoffs[i] > 0) await new Promise((r) => setTimeout(r, backoffs[i]));
+    const bytes = await tryOnce("google/gemini-3.1-flash-lite-image", liteBody);
+    if (bytes) return bytes;
   }
-  return null;
+  // Último recurso: Nano Banana 2 no-Lite (mismo estilo, más caro).
+  console.warn(`image AI: Lite falló 3 veces para ${slug}, probando Nano Banana 2 no-Lite`);
+  const bytes = await tryOnce("google/gemini-3.1-flash-image", proBody);
+  return bytes;
 }
 
 // Genera una imagen de portada ÚNICA por artículo (estética coherente de foto
@@ -713,7 +718,9 @@ async function generateAndUploadHero(
   category: string,
 ): Promise<string | null> {
   try {
-    const llmScene = await sceneFromLLM(title, category);
+    // 2 intentos al scene LLM antes de caer al regex genérico.
+    let llmScene = await sceneFromLLM(title, category);
+    if (!llmScene) llmScene = await sceneFromLLM(title, category);
     const scene = llmScene ?? sceneFromTitle(title, category, slug);
     const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
     const banPapers = !paperWords.test(scene);
@@ -964,7 +971,7 @@ Deno.serve(async (req) => {
       try {
         heroUrl = await withTimeout(
           generateAndUploadHero(supabase, slug, cleanTitle, category),
-          120_000,
+          180_000,
           `hero(${slug})`,
         );
       } catch (e) {
