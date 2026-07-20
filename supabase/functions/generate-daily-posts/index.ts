@@ -53,6 +53,17 @@ async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Pro
   }
 }
 
+// Timeout duro por promesa. Si `p` no resuelve en `ms`, rechaza con Error(label).
+// Se usa para blindar cada post: si generateArticle o generateAndUploadHero se
+// cuelgan (p. ej. una llamada a IA sin respuesta), el run continúa con el
+// siguiente post en vez de dejar el edge function colgado hasta el saneamiento.
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(`timeout ${label} tras ${ms}ms`)), ms);
+    p.then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+  });
+}
+
 // Marca una fila de roadmap como fallida. Tras 3 intentos consecutivos, la saca
 // de la cola (estado="fallo_generacion") para que el cron no la vuelva a coger
 // al día siguiente y así bloquear a las siguientes.
@@ -891,7 +902,12 @@ Deno.serve(async (req) => {
       }
       // Si ya cumplimos el objetivo del día, cerramos sin gastar más presupuesto.
       if (published.length >= target) break;
-      const article = await generateArticle(row);
+      let article: Record<string, unknown> | null = null;
+      try {
+        article = await withTimeout(generateArticle(row), 180_000, `generateArticle(${row.id})`);
+      } catch (e) {
+        console.error(`Roadmap ${row.id}: ${String(e)}`);
+      }
       if (!article) {
         failed.push(row.id);
         // Marca en el roadmap: incrementa intentos y guarda el error. Tras 3
@@ -944,7 +960,17 @@ Deno.serve(async (req) => {
       );
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
-      const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
+      let heroUrl: string | null = null;
+      try {
+        heroUrl = await withTimeout(
+          generateAndUploadHero(supabase, slug, cleanTitle, category),
+          120_000,
+          `hero(${slug})`,
+        );
+      } catch (e) {
+        console.warn(`Roadmap ${row.id}: hero falló (${String(e)}), publicamos sin hero.`);
+        heroUrl = null;
+      }
 
       // Validación no bloqueante: solo loguea si el artículo se quedó corto.
       // No reintentamos para no reventar el presupuesto de tiempo.
