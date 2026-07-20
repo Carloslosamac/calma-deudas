@@ -902,7 +902,12 @@ Deno.serve(async (req) => {
       }
       // Si ya cumplimos el objetivo del día, cerramos sin gastar más presupuesto.
       if (published.length >= target) break;
-      const article = await generateArticle(row);
+      let article: Record<string, unknown> | null = null;
+      try {
+        article = await withTimeout(generateArticle(row), 180_000, `generateArticle(${row.id})`);
+      } catch (e) {
+        console.error(`Roadmap ${row.id}: ${String(e)}`);
+      }
       if (!article) {
         failed.push(row.id);
         // Marca en el roadmap: incrementa intentos y guarda el error. Tras 3
@@ -955,7 +960,17 @@ Deno.serve(async (req) => {
       );
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
-      const heroUrl = await generateAndUploadHero(supabase, slug, cleanTitle, category);
+      let heroUrl: string | null = null;
+      try {
+        heroUrl = await withTimeout(
+          generateAndUploadHero(supabase, slug, cleanTitle, category),
+          120_000,
+          `hero(${slug})`,
+        );
+      } catch (e) {
+        console.warn(`Roadmap ${row.id}: hero falló (${String(e)}), publicamos sin hero.`);
+        heroUrl = null;
+      }
 
       // Validación no bloqueante: solo loguea si el artículo se quedó corto.
       // No reintentamos para no reventar el presupuesto de tiempo.
