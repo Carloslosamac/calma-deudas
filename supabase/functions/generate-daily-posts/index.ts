@@ -53,6 +53,17 @@ async function fetchWithTimeout(url: string, init: RequestInit, ms: number): Pro
   }
 }
 
+// Timeout duro por promesa. Si `p` no resuelve en `ms`, rechaza con Error(label).
+// Se usa para blindar cada post: si generateArticle o generateAndUploadHero se
+// cuelgan (p. ej. una llamada a IA sin respuesta), el run continúa con el
+// siguiente post en vez de dejar el edge function colgado hasta el saneamiento.
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(`timeout ${label} tras ${ms}ms`)), ms);
+    p.then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+  });
+}
+
 // Marca una fila de roadmap como fallida. Tras 3 intentos consecutivos, la saca
 // de la cola (estado="fallo_generacion") para que el cron no la vuelva a coger
 // al día siguiente y así bloquear a las siguientes.
