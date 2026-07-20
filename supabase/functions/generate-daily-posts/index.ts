@@ -971,7 +971,7 @@ Deno.serve(async (req) => {
       try {
         heroUrl = await withTimeout(
           generateAndUploadHero(supabase, slug, cleanTitle, category),
-          120_000,
+          180_000,
           `hero(${slug})`,
         );
       } catch (e) {
