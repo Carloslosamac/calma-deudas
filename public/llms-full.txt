@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas con compañías de suministros y telefonía
+URL: https://mi-calma.es/blog/cancelar-deudas-con-companias-de-suministros-y-telefonia
+
+Para cancelar deudas con compañías de suministros y telefonía en España, puedes intentar la negociación directa para una quita o un plan de pago. Si la deuda es significativa y entras en situación de insolvencia, la Ley de Segunda Oportunidad permite la exoneración de estas deudas. Es crucial no ignorarlas, ya que pueden llevar a cortes de servicio, recargos y la inclusión en ficheros de morosos, dificultando el acceso a otros servicios.
+
+- **¿Se pueden cancelar las deudas de luz, agua y gas con la Ley de Segunda Oportunidad?** Sí, las deudas con compañías de suministros y telefonía son consideradas créditos ordinarios o subordinados en un concurso de acreedores y, por lo tanto, son totalmente exonerables si te acoges a la Ley de Segunda Oportunidad y cumples sus requisitos.
+- **¿Qué pasa si no pago una factura de teléfono o internet?** Tras un período de impago y varios avisos, la compañía puede suspender el servicio y posteriormente incluirte en ficheros de morosos como ASNEF. La deuda seguirá existiendo y es susceptible de ser reclamada judicialmente, además de acumular recargos.
+- **¿Cuánto tiempo tienen las empresas para reclamar una deuda de suministro?** El plazo general para reclamar deudas de suministros (luz, agua, gas) y telefonía es de tres años, según el artículo 1967 del Código Civil. Sin embargo, este plazo puede variar según la normativa específica de cada servicio y la interrupción de la prescripción por requerimientos de pago.
+
+### Cancelar deudas con Cofidis, Wizink y Cetelem
+URL: https://mi-calma.es/blog/cancelar-deudas-con-cofidis-wizink-y-cetelem
+
+Para cancelar deudas con Cofidis, WiZink o Cetelem, la estrategia más efectiva pasa por el análisis legal de los contratos. Si el crédito o tarjeta tiene intereses usurarios o falta de transparencia, se puede reclamar judicialmente para anular el contrato y recuperar los intereses pagados de más. En casos de insolvencia generalizada, la Ley de Segunda Oportunidad permite cancelar todas las deudas, incluidas estas.
+
+- **¿Puedo cancelar mi deuda con Cofidis si tengo otros préstamos?** Sí, es posible. Si el problema son los intereses abusivos de Cofidis, puedes reclamar específicamente esa deuda. Si tu situación es de sobreendeudamiento general con múltiples préstamos, la Ley de Segunda Oportunidad puede cancelar todas tus deudas, incluida la de Cofidis.
+- **¿Qué es un interés usurario y cómo se detecta?** Un interés usurario es aquel "notablemente superior al normal del dinero y manifiestamente desproporcionado" al momento de la contratación. Se detecta comparando la TAE de tu contrato con la TAE media de productos similares publicada por el Banco de España en esa fecha. Nuestros abogados pueden realizar este análisis por ti.
+- **¿Necesito pagar algo para que Calma analice mi caso?** No. En Calma ofrecemos una primera consulta y pre-análisis de viabilidad completamente gratuitos y sin compromiso. Es el primer paso esencial para determinar la mejor estrategia sin coste inicial para ti.
+
 ### Cancelar deudas con BBVA, Santander y CaixaBank
 URL: https://mi-calma.es/blog/cancelar-deudas-con-bbva-santander-y-caixabank
 
@@ -626,22 +644,4 @@ Si eres avalista y tu avalado se acoge a la Ley de Segunda Oportunidad (LSO), la
 - **¿La Ley de Segunda Oportunidad del avalado me libera como avalista?** No, lamentablemente no. La exoneración de deudas del deudor principal a través de la LSO no se extiende automáticamente al avalista, quien sigue siendo responsable de la deuda ante el acreedor.
 - **¿Puedo yo, como avalista, acogerme a la Ley de Segunda Oportunidad?** Sí, si asumir la deuda del avalado te ha llevado a una situación de insolvencia y cumples los demás requisitos (buena fe, etc.), puedes acogerte a la LSO para cancelar la deuda derivada del aval y otras deudas propias.
 - **¿Es posible que el contrato de aval sea nulo?** Sí, es posible. Un abogado experto debería revisar el contrato de préstamo y aval en busca de cláusulas abusivas, intereses usurarios, falta de transparencia o defectos formales que podrían llevar a la nulidad parcial o total de la deuda o del aval.
-
-### Deuda post concursal: qué es y cómo afecta a la Ley de Segunda Oportunidad
-URL: https://mi-calma.es/blog/significa-deuda-post-concursal
-
-La deuda postconcursal es aquella que nace después de que se declara el concurso de acreedores de una persona (física o jurídica) y antes de su finalización. Es fundamentalmente todo el pasivo generado por la actividad normal de la persona o empresa durante el proceso concursal, y a diferencia de la deuda concursal, no está sujeta al mismo régimen de quitas o esperas. Entender su naturaleza es crucial para la viabilidad y recuperación financiera del deudor, especialmente en el contexto de la Ley de Segunda Oportunidad.
-
-- **¿La deuda postconcursal se perdona con la Ley de Segunda Oportunidad?** No, la Ley de Segunda Oportunidad se aplica a las deudas concursales (anteriores a la declaración del concurso). Las deudas postconcursales, generadas posteriormente, no son objeto de exoneración y deben ser pagadas íntegramente.
-- **¿Quién tiene prioridad de cobro: la deuda concursal o la postconcursal?** La deuda postconcursal, también conocida como créditos contra la masa, tiene prioridad absoluta de cobro. Se paga antes que cualquier otra deuda concursal, sin estar sujeta a quitas o esperas.
-- **¿Qué ejemplos hay de deuda postconcursal?** Ejemplos comunes incluyen los honorarios del administrador concursal, deudas tributarias o de Seguridad Social generadas durante el concurso, salarios de empleados posteriores a la declaración o cualquier gasto necesario para la continuidad o conservación del patrimonio del deudor.
-
-### Cómo saber si el SEPE me ha aprobado el paro
-URL: https://mi-calma.es/blog/saber-sepe-ha-aprobado-paro
-
-Para saber si el SEPE te ha aprobado el paro, la forma más directa es consultarlo a través de la Sede Electrónica del SEPE, en el apartado 'Consulta tus prestaciones'. Necesitarás tu certificado digital, DNI electrónico o usuario y contraseña cl@ve. También puedes llamar por teléfono o acudir a una oficina, pero la vía online es la más rápida y eficiente.
-
-- **¿Cuánto tiempo tarda el SEPE en aprobar el paro?** El SEPE tiene un plazo legal de 15 días hábiles para resolver y notificar tu solicitud de paro desde su presentación o desde que se complete la documentación.
-- **¿Qué documentos necesito para consultar el estado de mi paro online?** Para consultar el estado de tu paro online en la Sede Electrónica del SEPE, necesitas identificarte con certificado digital, DNI electrónico o el sistema Cl@ve (Cl@ve PIN o Cl@ve Permanente).
-- **¿Qué pasa si mi solicitud de paro aparece 'En estudio' por mucho tiempo?** Si tu solicitud permanece 'En estudio' más allá del plazo habitual, puedes intentar contactar con el SEPE por teléfono o consultar en la Sede Electrónica si hay algún requerimiento de documentación pendiente. La situación de tu expediente se actualizará si hay algún cambio.
 
