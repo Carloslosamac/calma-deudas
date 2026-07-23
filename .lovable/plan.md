@@ -1,31 +1,32 @@
-## Diagnóstico confirmado
+## Diagnóstico
 
-Comparando las capturas: las dos primeras (batch reciente) son fotos "de móvil" reales; la tercera (posts 19-20 julio, del cron) tiene el look editorial/stock (salas de reuniones con trajes, sello CANCELLED, familias perfectas). Ese estilo es el que produce `google/gemini-2.5-flash-image`, no Nano Banana 2 Lite.
+Las portadas del cron (22 jul) que has marcado como "cliché IA" (pareja de mediana edad frente al portátil, pareja en concesionario con llaves) usan el **mismo modelo y prompt** que las buenas del batch (mujer sola frente a papeles, mostrador de banco, buzones). No es un fallback al modelo malo.
 
-El pipeline del cron y el del regenerador manual comparten prompt y modelo primario (`google/gemini-3.1-flash-lite-image`), pero ambos tienen a `google/gemini-2.5-flash-image` como fallback. En el cron, bajo presión de wall-clock y con `withTimeout(hero, 2min)`, el intento primario falla o vence más a menudo, se cae al fallback, y ese modelo es el que devuelve las imágenes tipo stock que ves en la tercera captura. El batch manual, sin esa presión, casi siempre resolvía con el primario y por eso quedaron consistentes.
+Lo que las diferencia es **el sujeto de la escena**: las buenas describen **una sola persona o solo objetos** ("mujer mayor sola ante un cajero", "buzones de portal"); las malas describen **dos personas interactuando** ("pareja consultando móvil", "pareja recogiendo llaves del coche"). Nano Banana 2 Lite, con dos personas + oficina + ventana, siempre produce el look "stock corporativo" que ves — es un patrón conocido del modelo.
 
-## Cambios
+El fallo real está en `sceneFromLLM` (`generate-daily-posts` y `regenerate-blog-hero`): el prompt permite parejas/grupos y el modelo cae en ellos por defecto para temas de deuda familiar.
 
-Todo en `supabase/functions/generate-daily-posts/index.ts` (y espejo en `regenerate-blog-hero/index.ts` para que ambos se comporten igual):
+## Plan
 
-1. **Eliminar el fallback a `gemini-2.5-flash-image`.** Es la fuente del "AI look". Si Lite falla, mejor no publicar imagen que publicar una que rompe la coherencia visual del blog.
-2. **Timeout explícito + 2 reintentos en Nano Banana 2 Lite.** `fetchWithTimeout(45s)` por intento, hasta 3 intentos con backoff corto (1s, 3s). Cubre picos transitorios sin caer al modelo malo.
-3. **Fallback de calidad, no de estilo.** Si tras los 3 intentos sigue fallando Lite, intentar UNA vez `google/gemini-3.1-flash-image` (Nano Banana 2 no-Lite, mismo estilo, ~3x más caro pero coherente). Si también falla, publicar sin hero (comportamiento actual del `withTimeout`).
-4. **Endurecer `sceneFromLLM`:** si devuelve null, reintentar una vez antes de caer al regex `sceneFromTitle` (el regex también contribuye al look genérico cuando el LLM falla bajo carga).
-5. **Subir el timeout de `generateAndUploadHero`** de 2min → 3min para dar margen a los reintentos sin cortar prematuro.
+### 1. Endurecer `sceneFromLLM` para forzar sujeto único (o ninguno)
+En el prompt del scene-LLM (compartido por cron y regenerador):
+- Añadir: "**Máximo UNA persona** en la escena. Prohibido parejas, familias, grupos, dos personas frente a un portátil, gestor atendiendo a cliente. Prioriza escenas **sin personas** (objetos, lugares, exteriores) o con una sola persona de espaldas/perfil/manos."
+- Añadir a la lista de prohibidos por defecto: "pareja o gestor+cliente frente a un ordenador", "dos personas conversando en oficina", "familia mirando papeles".
 
-## Regeneración de los posts afectados
+### 2. Reforzar el prompt de imagen como red de seguridad
+En `generateAndUploadHero` (ambos archivos), añadir a la lista de "Prohibido":
+- "dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas".
+- "escenas tipo consulta profesional con dos personas frente a una pantalla".
 
-Después del cambio, regenerar los posts con look editorial de los últimos días (aprox. 8-12 posts del 18-20 julio) llamando a `regenerate-blog-hero` con offset acotado, para que igualen a los del batch anterior.
+### 3. Regenerar las portadas afectadas
+Los 7 posts de 20-22 jul con este cliché (los del screenshot y los adyacentes) — llamada a `regenerate-blog-hero` con la lista de slugs, coste ~0.135 cr × 7.
 
-## Coste
-
-- Caso normal (Lite acierta al primero): igual que ahora, ~0.135 cr/imagen.
-- Caso reintento en Lite: aún ~0.135 cr (los intentos fallidos no facturan imagen).
-- Caso fallback a Nano Banana 2 no-Lite: ~0.4 cr en ese post aislado. Debería ser marginal (<5% de posts).
+### Fuera de scope
+No se toca el modelo (seguimos con Nano Banana 2 Lite + fallback a Nano Banana 2), no se toca el flujo del cron ni los timeouts. Solo cambian dos strings de prompt.
 
 ## Detalles técnicos
 
-- Archivos: `supabase/functions/generate-daily-posts/index.ts`, `supabase/functions/regenerate-blog-hero/index.ts`.
-- No cambia el prompt ni la escena; solo la política de modelos, timeouts y reintentos.
-- Sin migración de BD.
+Archivos a editar:
+- `supabase/functions/generate-daily-posts/index.ts` — `sceneFromLLM` (líneas ~630-640) y prompt de `generateAndUploadHero` (línea ~738).
+- `supabase/functions/regenerate-blog-hero/index.ts` — mismas dos secciones (`sceneFromLLM` y `buildPrompt`).
+- Llamada final: POST a `regenerate-blog-hero` con `{ slugs: [<7 slugs de 20-22 jul>] }`.
