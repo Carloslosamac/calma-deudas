@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas con particulares y familiares
+URL: https://mi-calma.es/blog/cancelar-deudas-con-particulares-y-familiares
+
+Cancelar deudas con particulares o familiares exige un enfoque distinto al de los bancos, priorizando la comunicación, la transparencia y, en caso de insolvencia, explorando soluciones legales como la Ley de Segunda Oportunidad. Es fundamental reconocer que, aunque la relación personal añada complejidad, las opciones para resolverlo existen y deben abordarse con seriedad para proteger tanto tu patrimonio como tus vínculos más cercanos.
+
+- **¿Puede un particular o familiar reclamar judicialmente una deuda sin un contrato escrito?** Sí, si puede probar la existencia de la deuda y sus condiciones por otros medios, como transferencias bancarias, mensajes de texto (WhatsApp), correos electrónicos o testimonios. La ausencia de un contrato formal no invalida automáticamente la deuda.
+- **¿La Ley de Segunda Oportunidad cancela las deudas con familiares y amigos?** Sí, la Ley de Segunda Oportunidad (LSO) está diseñada para cancelar la mayoría de las deudas, incluidas las contraídas con particulares y familiares, siempre que se cumplan los requisitos de insolvencia generalizada y buena fe establecidos en la ley.
+- **¿Qué pasa si un familiar me prestó dinero, pero no quiero meterlo en el proceso de Segunda Oportunidad?** Al acogerte a la Ley de Segunda Oportunidad, debes incluir a todos tus acreedores. No puedes elegir qué deudas cancelar y cuáles no. Si no incluyes a un acreedor, la deuda seguirá existiendo tras el proceso.
+
 ### Cancelar deudas con la cuenta bancaria ya embargada
 URL: https://mi-calma.es/blog/cancelar-deudas-con-la-cuenta-bancaria-ya-embargada
 
@@ -635,13 +644,4 @@ Sí, es posible solicitar una hipoteca teniendo deudas, pero la aprobación depe
 - **¿El ASNEF te impide siempre pedir una hipoteca?** Sí, en la práctica, figurar en ficheros de morosidad como ASNEF es un obstáculo casi insalvable para conseguir una hipoteca. Los bancos lo interpretan como un alto riesgo de impago, por lo que es fundamental salir de estos listados antes de solicitar financiación.
 - **¿Qué es el ratio de endeudamiento y por qué es tan importante?** El ratio de endeudamiento es el porcentaje de tus ingresos netos que destinas al pago de deudas. Los bancos consideran riesgoso un ratio superior al 35%-40% (incluyendo la nueva hipoteca), ya que indica que tus ingresos no son suficientes para afrontar todos los pagos cómodamente.
 - **¿Puedo ocultar mis deudas al banco al pedir una hipoteca?** No es posible ni aconsejable ocultar las deudas. Los bancos consultan bases de datos como CIRBE (Central de Información de Riesgos del Banco de España) y ficheros de morosidad, donde figurarán todos tus compromisos crediticios. La falta de transparencia puede llevar al rechazo inmediato o a problemas futuros.
-
-### Qué es la inflación y cómo afecta a tus deudas y ahorros
-URL: https://mi-calma.es/blog/contamos-significa-concepto-inflacion
-
-La inflación es el aumento generalizado y sostenido de los precios de bienes y servicios en una economía durante un periodo de tiempo, lo que provoca una disminución del poder adquisitivo de la moneda. En pocas palabras, con la misma cantidad de dinero, hoy puedes comprar menos cosas que ayer. Esto afecta directamente tu capacidad de compra y el valor real de tus ahorros.
-
-- **¿La inflación es siempre mala?** Una inflación moderada y controlada (alrededor del 2% anual) suele considerarse saludable para la economía, ya que estimula el consumo y la inversión. El problema surge cuando la inflación es muy alta (hiperinflación) o muy baja/negativa (deflación), ya que ambas situaciones generan inestabilidad económica.
-- **¿Qué es la estanflación?** La estanflación es un fenómeno económico preocupante y poco común que combina un alto nivel de inflación con un estancamiento económico (bajo crecimiento del PIB y alto desempleo). Es un escenario difícil de abordar por las políticas económicas tradicionales.
-- **¿Cómo afecta la inflación a las hipotecas?** Para hipotecas a tipo fijo, la inflación no afecta directamente tu cuota mensual. Sin embargo, para hipotecas a tipo variable, la inflación suele ir acompañada de subidas en los tipos de interés (como el Euríbor), lo que sí eleva el importe de tus cuotas.
 
