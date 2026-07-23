@@ -116,9 +116,9 @@ Categoría: ${category}
 Requisitos ESTRICTOS:
 - La escena debe ser inequívocamente reconocible y específica del título (no una escena genérica de "finanzas" o "deudas").
 - Contexto España: gente, edificios, objetos y comercios corrientes.
-- Si aparece una persona, descríbela de espaldas, de perfil o mostrando solo manos. NUNCA mirando a cámara.
+- Máximo UNA persona en la escena. Prohibido parejas, familias, grupos, dos personas frente a un portátil, gestor atendiendo a cliente, cualquier interacción entre dos personas. Prioriza escenas SIN personas (objetos, lugares, exteriores, interiores vacíos) o con una sola persona de espaldas, de perfil o mostrando solo manos. NUNCA mirando a cámara.
 - Si aparece un móvil, NUNCA con la pantalla enfocada de frente a cámara. Móvil visto de lado, en un bolsillo, boca abajo o desde detrás del hombro.
-- Prohibido por defecto: montones de papeles/facturas sobre una mesa, cocinas como escenario, familias sonrientes, salones de anuncio, calculadoras solas, tickets arrugados.
+- Prohibido por defecto: montones de papeles/facturas sobre una mesa, cocinas como escenario, familias sonrientes, salones de anuncio, calculadoras solas, tickets arrugados, parejas o gestor+cliente frente a un ordenador, dos personas conversando en oficina, familia mirando papeles.
 - Prefiere lugares u objetos ESPECÍFICOS del tema: p. ej. oficina del SEPE para paro, notaría para herencia, sede de Hacienda o gestoría para autónomos, sala de vistas para juicio monitorio, sucursal bancaria concreta para embargo de cuenta, taller mecánico para autónomo, portal de vecinos para requerimiento, cajero automático para saldo, mostrador de un ayuntamiento para trámite, sala de espera de un juzgado de lo mercantil para concurso/LSO.
 - Solo escena, sin adjetivos de estilo fotográfico (esos se añaden aparte).`;
   try {
@@ -160,7 +160,7 @@ Estética coherente en todas las portadas:
 - Si hay una persona, aparece de espaldas, de perfil o solo sus manos. NUNCA mira al objetivo.
 - Si aparece un móvil, se ve de lado, boca abajo o desde detrás del hombro. NUNCA con la pantalla encarada a cámara.
 
-Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
+Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo, dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas, escenas tipo consulta profesional con dos personas frente a una pantalla${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
 }
 
 async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
