@@ -510,6 +510,33 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas con la cuenta bancaria ya embargada
+URL: https://mi-calma.es/blog/cancelar-deudas-con-la-cuenta-bancaria-ya-embargada
+
+Sí, es posible cancelar deudas incluso con la cuenta bancaria ya embargada. La Ley de Segunda Oportunidad (LSO) en España ofrece una vía para eliminar el endeudamiento y paralizar nuevos embargos, permitiendo a las personas físicas, tanto particulares como autónomos, reestructurar o exonerar sus deudas, ofreciendo una solución definitiva al problema financiero.
+
+- **¿Puede un banco embargar mi cuenta sin previo aviso?** No, un banco no puede embargar tu cuenta sin una orden judicial o administrativa previa. Debes ser notificado con anterioridad sobre la deuda y la intención de ejecución, aunque en ocasiones las notificaciones pueden no llegar a tu conocimiento o ser confusas.
+- **¿Qué parte de mi dinero en cuenta es inembargable?** La Ley de Enjuiciamiento Civil (Art. 607 LEC) establece que el importe equivalente al Salario Mínimo Interprofesional (SMI) es inembargable. Por encima de este límite, se aplican porcentajes progresivos de embargo.
+- **¿Se pueden embargar las pensiones o prestaciones por desempleo?** Sí, las pensiones y prestaciones por desempleo pueden ser embargadas, pero siempre respetando los límites de inembargabilidad establecidos por el SMI, al igual que ocurre con los salarios. El importe que exceda el SMI es embargable según la escala de la LEC.
+
+### Cancelar deudas con financieras de coche
+URL: https://mi-calma.es/blog/cancelar-deudas-con-financieras-de-coche
+
+Sí, es posible cancelar o al menos reducir significativamente la deuda de un coche si la financiación incluye intereses usurarios o cláusulas abusivas. La Ley de Usura y la legislación de protección al consumidor permiten reclamar la anulabilidad del contrato, lo que podría llevar a la devolución de lo pagado en exceso y la cancelación de la deuda restante, recuperando así el control sobre tu economía.
+
+- **¿Qué pasa con el coche si se anula el contrato de financiación?** Si se anula el contrato de financiación, la consecuencia principal es que se extinguen los intereses y comisiones abusivas. En la práctica, te quedarás únicamente con la obligación de devolver el capital principal prestado, descontando lo que ya hayas abonado. En muchos casos, esto significa que la deuda pendiente se reduce drásticamente o incluso desaparece, y el coche es tuyo una vez pagues el capital restante sin intereses. No se te quita el coche.
+- **¿Puedo reclamar si ya he terminado de pagar la financiación del coche?** Sí, la acción de nulidad por usura no prescribe, lo que significa que puedes reclamar la nulidad del contrato en cualquier momento, incluso si ya has terminado de pagar la financiación. Si el contrato se declara nulo, la entidad deberá devolverte todas las cantidades que hayas pagado en concepto de intereses y comisiones por encima del capital inicialmente prestado.
+- **¿Cómo sé si mi interés es usurario?** Un interés se considera usurario si es "notablemente superior al normal del dinero y manifiestamente desproporcionado con las circunstancias del caso". Se compara la TAE de tu contrato con la media de las TAE de préstamos al consumo de características similares en el momento de la firma, publicadas oficialmente por el Banco de España. Si la diferencia es de varios puntos porcentuales, es muy probable que lo sea.
+
+### Cancelar deudas con embargo de nómina activo
+URL: https://mi-calma.es/blog/cancelar-deudas-con-embargo-de-nomina-activo
+
+Sí, es posible cancelar tus deudas incluso si ya tienes la nómina embargada. La Ley de Segunda Oportunidad (LSO) te ofrece un mecanismo legal para paralizar los embargos, negociar con tus acreedores o, en última instancia, conseguir la exoneración de gran parte de tus obligaciones económicas, permitiéndote empezar de cero.
+
+- **¿Puede la Ley de Segunda Oportunidad detener un embargo de nómina que ya está en curso?** Sí, uno de los efectos inmediatos de la admisión a trámite de la solicitud de la Ley de Segunda Oportunidad es la paralización de todos los embargos y ejecuciones, incluyendo los de nómina. Esto proporciona un alivio significativo al deudor.
+- **¿Qué parte de mi nómina es inembargable?** La parte de tu salario, sueldo o pensión que no supere el Salario Mínimo Interprofesional (SMI) es inembargable por ley. Solo las cantidades que excedan el SMI son susceptibles de embargo, y se aplican porcentajes progresivos.
+- **¿Puedo acogerme a la LSO si tengo deudas con Hacienda o la Seguridad Social?** Sí, puedes. La reforma de 2022 permite la exoneración de hasta 10.000€ por cada una de estas administraciones (Hacienda y Seguridad Social). El resto deberá abonarse mediante un plan de pagos o se aplicarán sus propias normativas de aplazamiento.
+
 ### Cancelar deudas con compañías de suministros y telefonía
 URL: https://mi-calma.es/blog/cancelar-deudas-con-companias-de-suministros-y-telefonia
 
@@ -617,31 +644,4 @@ La inflación es el aumento generalizado y sostenido de los precios de bienes y 
 - **¿La inflación es siempre mala?** Una inflación moderada y controlada (alrededor del 2% anual) suele considerarse saludable para la economía, ya que estimula el consumo y la inversión. El problema surge cuando la inflación es muy alta (hiperinflación) o muy baja/negativa (deflación), ya que ambas situaciones generan inestabilidad económica.
 - **¿Qué es la estanflación?** La estanflación es un fenómeno económico preocupante y poco común que combina un alto nivel de inflación con un estancamiento económico (bajo crecimiento del PIB y alto desempleo). Es un escenario difícil de abordar por las políticas económicas tradicionales.
 - **¿Cómo afecta la inflación a las hipotecas?** Para hipotecas a tipo fijo, la inflación no afecta directamente tu cuota mensual. Sin embargo, para hipotecas a tipo variable, la inflación suele ir acompañada de subidas en los tipos de interés (como el Euríbor), lo que sí eleva el importe de tus cuotas.
-
-### Regla 50 30 20: El método efectivo para ahorrar
-URL: https://mi-calma.es/blog/regla-50-30-20-metodo-efectivo-ahorrar
-
-La regla 50/30/20 es un método efectivo para ahorrar que divide tus ingresos netos mensuales de la siguiente manera: el 50% se destina a necesidades básicas (alquiler, comida, transporte), el 30% a deseos o gastos variables (ocio, cenas fuera, suscripciones) y el 20% restante a ahorro y pago de deudas. Este sistema te proporciona una estructura clara para gestionar tu dinero, asegurando que cubres tus gastos esenciales, disfrutas de cierta libertad financiera y avanzas hacia tus metas económicas.
-
-- **¿Qué son los ingresos netos para aplicar la regla 50/30/20?** Los ingresos netos son la cantidad de dinero que realmente recibes en tu cuenta bancaria después de que se han deducido impuestos, Seguridad Social y otras retenciones obligatorias de tu salario. Es el dinero disponible para gastar o ahorrar.
-- **¿Qué gastos se consideran 'necesidades'?** Las necesidades son los gastos esenciales e ineludibles para mantener tu vida básica y tu trabajo. Incluyen vivienda (alquiler/hipoteca), servicios (agua, luz, gas), comida, transporte indispensable, seguros básicos de salud o coche, y los pagos mínimos de deudas.
-- **¿Puedo adaptar los porcentajes de la regla 50/30/20?** Sí, la regla 50/30/20 es una guía, no un dogma. Si tu situación particular (por ejemplo, un alto coste de vivienda o muchas deudas) lo requiere, puedes ajustar los porcentajes temporalmente. Lo importante es que mantengas un plan y trabajes para acercarte a los porcentajes ideales con el tiempo.
-
-### ¿Se pueden embargar las pagas extras? Límites y protección legal
-URL: https://mi-calma.es/blog/toda-informacion-sobre-pagas-extras-son-embargables
-
-Sí, las pagas extras son embargables, pero no en su totalidad y bajo ciertas condiciones. Se consideran parte del salario y están sujetas a los mismos límites de inembargabilidad establecidos en la Ley de Enjuiciamiento Civil, calculados aplicando una escala progresiva sobre el Salario Mínimo Interprofesional (SMI).
-
-- **¿Se embargan las pagas extras igual que el salario mensual?** Sí, las pagas extras se consideran parte del salario y están sujetas a los mismos límites de inembargabilidad establecidos en el artículo 607 de la Ley de Enjuiciamiento Civil, calculados en función del Salario Mínimo Interprofesional (SMI).
-- **¿Qué parte de mi paga extra es inembargable?** La parte de tu paga extra que no supere el Salario Mínimo Interprofesional (SMI) vigente en el momento es completamente inembargable. Solo el excedente está sujeto a embargo, y lo hace de forma progresiva por tramos.
-- **¿Pueden embargarme toda mi paga extra si tengo muchas deudas?** No, la ley protege una parte de tus ingresos para asegurar tu subsistencia. Nunca se te podrá embargar la totalidad de tu paga extra, incluso si tienes muchas deudas, salvo excepciones muy específicas como las deudas por pensión de alimentos.
-
-### Los avalistas y la Ley de Segunda Oportunidad
-URL: https://mi-calma.es/blog/avalistas-ley-segunda-oportunidad
-
-Si eres avalista y tu avalado se acoge a la Ley de Segunda Oportunidad (LSO), la cancelación de su deuda NO te exime automáticamente de tu obligación de pago. Los acreedores pueden reclamarte a ti el cumplimiento del aval. Sin embargo, en algunos casos, el propio avalista también podría acogerse a la LSO para protegerse de esa deuda, o la deuda original podría ser nula por usura en el préstamo avalado.
-
-- **¿La Ley de Segunda Oportunidad del avalado me libera como avalista?** No, lamentablemente no. La exoneración de deudas del deudor principal a través de la LSO no se extiende automáticamente al avalista, quien sigue siendo responsable de la deuda ante el acreedor.
-- **¿Puedo yo, como avalista, acogerme a la Ley de Segunda Oportunidad?** Sí, si asumir la deuda del avalado te ha llevado a una situación de insolvencia y cumples los demás requisitos (buena fe, etc.), puedes acogerte a la LSO para cancelar la deuda derivada del aval y otras deudas propias.
-- **¿Es posible que el contrato de aval sea nulo?** Sí, es posible. Un abogado experto debería revisar el contrato de préstamo y aval en busca de cláusulas abusivas, intereses usurarios, falta de transparencia o defectos formales que podrían llevar a la nulidad parcial o total de la deuda o del aval.
 
