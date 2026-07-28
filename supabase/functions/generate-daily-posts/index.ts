@@ -639,43 +639,6 @@ function photoStyleForSlug(slug: string): string {
   return pick(PHOTO_STYLE_VARIANTS, hashSlug(`${slug}-style`));
 }
 
-// Pide a un modelo de texto barato UNA escena literal y única por título.
-// Devuelve null si falla; el llamante hace fallback a sceneFromTitle().
-async function sceneFromLLM(title: string, category: string): Promise<string | null> {
-  const sys = `Eres director de fotografía documental. Devuelves UNA sola escena visual concreta para la portada de un artículo del blog Calma (deudas y finanzas personales en España). Responde SOLO con la escena en UNA línea, en español, sin comillas, entre 80 y 200 caracteres.`;
-  const usr = `Título del artículo: ${title}
-Categoría: ${category}
-
-Requisitos ESTRICTOS:
-- La escena debe ser inequívocamente reconocible y específica del título (no una escena genérica de "finanzas" o "deudas").
-- Contexto España: gente, edificios, objetos y comercios corrientes.
-- Máximo UNA persona en la escena. Prohibido parejas, familias, grupos, dos personas frente a un portátil, gestor atendiendo a cliente, cualquier interacción entre dos personas. Prioriza escenas SIN personas (objetos, lugares, exteriores, interiores vacíos) o con una sola persona de espaldas, de perfil o mostrando solo manos. NUNCA mirando a cámara.
-- Si aparece un móvil, NUNCA con la pantalla enfocada de frente a cámara. Móvil visto de lado, en un bolsillo, boca abajo o desde detrás del hombro.
-- Prohibido por defecto: montones de papeles/facturas sobre una mesa, cocinas como escenario, familias sonrientes, salones de anuncio, calculadoras solas, tickets arrugados, parejas o gestor+cliente frente a un ordenador, dos personas conversando en oficina, familia mirando papeles.
-- Prefiere lugares u objetos ESPECÍFICOS del tema: p. ej. oficina del SEPE para paro, notaría para herencia, sede de Hacienda o gestoría para autónomos, sala de vistas para juicio monitorio, sucursal bancaria concreta para embargo de cuenta, taller mecánico para autónomo, portal de vecinos para requerimiento, cajero automático para saldo, mostrador de un ayuntamiento para trámite, sala de espera de un juzgado de lo mercantil para concurso/LSO.
-- Solo escena, sin adjetivos de estilo fotográfico (esos se añaden aparte).`;
-  try {
-    const res = await fetchWithTimeout("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "google/gemini-3.1-flash-lite",
-        messages: [
-          { role: "system", content: sys },
-          { role: "user", content: usr },
-        ],
-      }),
-    }, 20000);
-    if (!res.ok) { console.error(`sceneFromLLM ${res.status}: ${await res.text()}`); return null; }
-    const data = await res.json();
-    const raw: string | undefined = data?.choices?.[0]?.message?.content;
-    if (!raw) return null;
-    const line = raw.replace(/^["'`\s]+|["'`\s]+$/g, "").split("\n")[0].trim();
-    if (line.length < 40 || line.length > 260) return null;
-    return line;
-  } catch (e) { console.error(`sceneFromLLM threw: ${String(e)}`); return null; }
-}
-
 // Genera imagen con Nano Banana 2 Lite (3 intentos, 45s c/u). Si tras los
 // reintentos falla, cae a Nano Banana 2 no-Lite (mismo estilo, ~3x más caro)
 // una única vez. NUNCA cae a gemini-2.5-flash-image: ese modelo produce el
