@@ -141,10 +141,13 @@ const CATEGORIES = [
 // volumen diario, hay que programar más invocaciones o refactorizar.
 // Artículos long-form (2.500–3.500 palabras) → más tokens y latencia por
 // post. Bajamos la cadencia por invocación para caber en el timeout de 150s.
-const DAILY_DISTRIBUTION = [2, 2, 3, 3, 3, 4];
+// Objetivo por invocación: 2 fijo. Con 130s de presupuesto y hasta ~3 min
+// de imagen en el peor caso, 2 posts caben sin sobresaltos. Para llegar a
+// 5-7/día programamos 3 invocaciones distintas (08:15, 12:15, 16:15 UTC).
+const DAILY_TARGET_PER_RUN = 2;
 
 function pickDailyCount(): number {
-  return DAILY_DISTRIBUTION[Math.floor(Math.random() * DAILY_DISTRIBUTION.length)];
+  return DAILY_TARGET_PER_RUN;
 }
 
 function pickAuthors(): string[] {
