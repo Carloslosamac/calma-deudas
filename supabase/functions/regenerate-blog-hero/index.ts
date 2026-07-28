@@ -23,46 +23,46 @@ function pick<T>(arr: T[], seed: number): T { return arr[seed % arr.length]; }
 
 const SCENE_RULES: { re: RegExp; variants: string[] }[] = [
   { re: /burofax|carta certificad|requerimiento|notificaci[oó]n/, variants: [
-    "manos de una persona española sosteniendo un sobre certificado en el recibidor de casa",
+    "sobre certificado medio metido en un buzón metálico de portal antiguo, pared con azulejos verdes gastados",
     "buzón metálico de portal en un bloque de pisos español, con un sobre asomando",
-    "cartero español dejando un sobre en el buzón de un portal de vecinos",
-    "sobre cerrado sin abrir apoyado en el felpudo de la entrada de un piso",
+    "sobre cerrado sin abrir apoyado en un felpudo rojo de la entrada de un piso",
+    "aviso postal amarillo pegado con celo en la puerta de un portal de vecinos",
   ]},
   { re: /juzgado|demanda|sentencia|judicial|monitorio/, variants: [
     "fachada de un juzgado español visto desde la acera, con el cartel institucional en piedra",
     "pasillo vacío de un juzgado español con bancos de madera pegados a la pared",
-    "persona española esperando sentada en el banco del pasillo de un juzgado, con las manos cruzadas",
-    "puerta cerrada de una sala de vistas con la placa del número en la pared",
+    "puerta cerrada de una sala de vistas con una placa numerada y suelo de terrazo",
+    "tablón de anuncios judicial con papeles desenfocados y una carpeta azul apoyada debajo",
   ]},
   { re: /embargo|n[oó]mina|sueldo|salario/, variants: [
-    "móvil en la mano mostrando la pantalla de una app bancaria con el saldo",
+    "cajero automático en una calle española con persiana de comercio azul al lado, sin personas",
     "cajero automático encastrado en la fachada de una sucursal en una calle española",
-    "ticket de compra arrugado sobre la encimera de una cocina corriente",
-    "monedas y algún billete pequeño sueltos sobre la mesa del comedor",
+    "monedas y algún billete pequeño sobre una mesa de formica verde de bar de barrio",
+    "libreta bancaria vieja junto a un bolígrafo barato sobre una mesa de comedor con mantel estampado",
   ]},
   { re: /hipoteca|vivienda|piso|casa|inmueble|desahucio/, variants: [
-    "portal de un bloque de viviendas español visto desde la acera",
+    "portal de un bloque de viviendas español con fachada de ladrillo y toldos rojos visto desde la acera",
     "ventana de un piso con las persianas medio bajadas vista desde la calle",
     "llaves con llavero corriente sobre la encimera de una cocina española",
     "balcón de un piso con un cartel de 'Se vende' colgado, calle de barrio",
   ]},
   { re: /tarjeta|revolving|usura|cr[eé]dito/, variants: [
-    "tarjeta bancaria apoyada sobre la mesa del salón junto a un móvil",
+    "tarjeta bancaria gastada sobre una mesa de bar junto a un café cortado y una servilleta",
     "TPV de una cafetería española con una tarjeta apoyada encima",
-    "móvil pagando contactless en el datáfono de una tienda de barrio",
-    "cajero automático de una calle española con una persona de espaldas usándolo",
+    "datáfono de una tienda de barrio sobre un mostrador con azulejos amarillos, sin manos",
+    "cajero automático de una calle española fotografiado desde un ángulo torcido, sin personas",
   ]},
   { re: /reunific|refinanc|cuota|consolidar|mensualidad/, variants: [
-    "persona española hablando por teléfono sentada en el sofá del salón",
     "calendario de pared en una cocina, con marcas hechas a bolígrafo en varios días",
     "hucha de cerámica sobre una estantería del salón, junto a un marco de foto",
-    "calculadora doméstica sola sobre la mesa del comedor, sin nada más alrededor",
+    "pizarra pequeña de cocina con varios pagos mensuales escritos a mano y un imán de nevera",
+    "sobre de banco abierto junto a una taza azul en una mesa de terraza de barrio",
   ]},
   { re: /concurso|ley de la segunda oportunidad|lso|insolvenc/, variants: [
     "fachada de un despacho de abogados corriente en una calle española",
     "sala de espera vacía con sillas de plástico y una revista sobre una mesa baja",
-    "persona española sentada frente a un abogado en un despacho normal, vista desde atrás",
     "placa institucional de 'Juzgado de lo Mercantil' en la pared exterior de un edificio",
+    "carpeta azul cerrada sobre una silla de plástico en una sala de espera vacía",
   ]},
   { re: /banco|entidad|sucursal/, variants: [
     "fachada corriente de una oficina bancaria en una calle española con transeúntes pasando",
@@ -71,32 +71,32 @@ const SCENE_RULES: { re: RegExp; variants: string[] }[] = [
     "letrero genérico de un banco en la fachada visto desde la acera opuesta",
   ]},
   { re: /deuda|impago|moros|asnef/, variants: [
-    "móvil sobre una mesa mostrando una notificación push de una app bancaria",
+    "móvil boca abajo sobre una mesa de terraza con una notificación desenfocada de banco",
     "buzón de portal a rebosar, con sobres asomando por la ranura",
     "timbre y placa metálica de un portal de vecinos en una calle española",
-    "manos de una persona mirando el móvil sentada en el bordillo de una acera",
+    "papel de aviso doblado junto a unas llaves sobre una mesilla de entrada con pared color salmón",
   ]},
   { re: /pensi[oó]n|jubilaci[oó]n|mayor/, variants: [
-    "persona mayor española sentada en un banco de una plaza de barrio",
-    "persona mayor con gafas mirando su móvil en el sofá del salón",
     "cartilla del banco antigua sobre la mesa camilla del comedor",
-    "pareja mayor española caminando por la acera de una calle corriente",
+    "banco vacío de una plaza de barrio con una bolsa de la compra apoyada al lado",
+    "pastillero semanal y recibo doblado sobre una mesa camilla con hule de flores",
+    "fachada de una oficina de pensiones o administración pública vista desde la acera",
   ]},
   { re: /aut[oó]nomo|freelance|hacienda|impuesto|iva|irpf/, variants: [
-    "autónomo español detrás del mostrador de su tienda de barrio",
+    "mostrador de una tienda de barrio con datáfono, cinta adhesiva y libreta de cuentas, sin personas",
     "portátil abierto sobre una mesa de bar con un café al lado",
     "furgoneta comercial pequeña aparcada en una calle española",
-    "mecánico o electricista trabajando en su taller corriente, herramientas a la vista",
+    "taller mecánico corriente con herramientas colgadas y una factura doblada en el banco de trabajo, sin personas",
   ]},
 ];
 
 const DEFAULT_VARIANTS = [
-  "cocina de un piso español corriente, sin personas, luz suave de ventana",
-  "salón de una casa española con la tele encendida de fondo",
-  "calle de barrio español con transeúntes al fondo",
-  "mesa de un bar de barrio español con un café servido",
-  "portal de vecinos español visto desde dentro hacia la calle",
-  "acera de una calle española a media mañana, sin nadie en primer plano",
+  "mesa de bar de barrio con café, servilletero metálico y luz de mediodía entrando desde la calle",
+  "portal de vecinos español con azulejos azules, buzones antiguos y luz fría de fluorescente",
+  "fachada de una gestoría de barrio con persiana verde medio subida y papeles pegados en el cristal",
+  "parada de autobús de barrio tras una lluvia ligera, con pavimento brillante y carteles pegados",
+  "encimera de cocina real con llaves, una carta cerrada y una taza naranja usada",
+  "mesa de comedor con mantel estampado, libreta abierta y bolígrafo rojo, sin personas",
 ];
 
 function sceneFromTitle(title: string, category: string, slug: string): string {
@@ -104,6 +104,19 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
   const h = hashSlug(slug);
   for (const r of SCENE_RULES) if (r.re.test(t)) return pick(r.variants, h);
   return pick(DEFAULT_VARIANTS, h);
+}
+
+const PHOTO_STYLE_VARIANTS = [
+  "flash automático suave de móvil en interior, sombras pequeñas bajo los objetos, colores de barrio sin corregir",
+  "luz lateral de una ventana real, una zona algo subexpuesta y balance de blancos imperfecto",
+  "mediodía nublado en calle española, pavimento gris, toldos y fachadas con color real",
+  "luz de fluorescente de portal o comercio, ligera dominante verdosa, textura visible en paredes y suelo",
+  "foto vertical recortada después a horizontal, encuadre torcido y bordes con elementos cortados",
+  "luz de tarde normal, no dorada, contraste medio y ruido fino típico de sensor de móvil",
+];
+
+function photoStyleForSlug(slug: string): string {
+  return pick(PHOTO_STYLE_VARIANTS, hashSlug(`${slug}-style`));
 }
 
 // Pide a un modelo de texto barato UNA escena literal y única por título.
@@ -144,23 +157,26 @@ Requisitos ESTRICTOS:
 }
 
 async function buildPrompt(title: string, category: string, slug: string): Promise<string> {
-  let llmScene = await sceneFromLLM(title, category);
-  if (!llmScene) llmScene = await sceneFromLLM(title, category);
-  const scene = llmScene ?? sceneFromTitle(title, category, slug);
+  // No usamos un LLM para inventar escenas: fue la fuente de parejas,
+  // consultores y fotos stock. La escena sale de reglas cerradas y baratas.
+  const scene = sceneFromTitle(title, category, slug);
   const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
   const banPapers = !paperWords.test(scene);
-  return `Fotografía casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
+  const style = photoStyleForSlug(slug);
+  return `Fotografía documental casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
 
 Escena literal (debe reconocerse a simple vista y coincidir con el título "${title}"): ${scene}
 
-Estética coherente en todas las portadas:
+Restricción principal: imagen SIN personas reconocibles. No caras, no parejas, no familias, no asesor con cliente, no reunión, no dos personas. Si aparece una figura humana solo puede ser fondo lejano desenfocado o manos parciales, nunca protagonista.
+
+Estética coherente pero NO neutra:
 - Smartphone a mano, ligera imperfección de encuadre, focal ~24-28mm, profundidad de campo amplia sin bokeh cinematográfico.
-- Solo luz natural existente (ventana, calle, lámpara doméstica). Balance de blancos neutro. Colores apagados y reales tal cual salen del móvil.
-- Personas y espacios españoles corrientes, ropa normal, objetos con uso real, casas normales no de revista.
-- Si hay una persona, aparece de espaldas, de perfil o solo sus manos. NUNCA mira al objetivo.
+- ${style}.
+- Incluir al menos 2 detalles con color realista y cotidiano (toldo rojo, azulejo verde/azul, taza naranja, persiana amarilla, cartel municipal, mantel estampado), sin convertirlo en imagen saturada.
+- Espacios españoles corrientes con objetos usados, marcas de desgaste, polvo leve, esquinas imperfectas, nada de casa de revista.
 - Si aparece un móvil, se ve de lado, boca abajo o desde detrás del hombro. NUNCA con la pantalla encarada a cámara.
 
-Prohibido: HDR, filtros, viñeteo, golden hour, dominantes amarillas o cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo, dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas, escenas tipo consulta profesional con dos personas frente a una pantalla${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
+Prohibido: paleta beige/gris neutra dominante, oficinas blancas luminosas, fotos de banco de imágenes, personas posando, personas sentadas revisando papeles, HDR, filtros, viñeteo, golden hour, dominantes amarillas cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos legibles en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo, dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas, escenas tipo consulta profesional con dos personas frente a una pantalla${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
 }
 
 async function optimize(pngBytes: Uint8Array): Promise<Uint8Array | null> {
