@@ -1,32 +1,34 @@
-## Diagnóstico
+## Objetivo
+Llegar a 5-7 posts publicados al día sin cambiar la calidad de imagen ni tocar los timeouts que ya funcionan. Mantener el "fallido por presupuesto" visible como está.
 
-Las portadas del cron (22 jul) que has marcado como "cliché IA" (pareja de mediana edad frente al portátil, pareja en concesionario con llaves) usan el **mismo modelo y prompt** que las buenas del batch (mujer sola frente a papeles, mostrador de banco, buzones). No es un fallback al modelo malo.
+## Cambios
 
-Lo que las diferencia es **el sujeto de la escena**: las buenas describen **una sola persona o solo objetos** ("mujer mayor sola ante un cajero", "buzones de portal"); las malas describen **dos personas interactuando** ("pareja consultando móvil", "pareja recogiendo llaves del coche"). Nano Banana 2 Lite, con dos personas + oficina + ventana, siempre produce el look "stock corporativo" que ves — es un patrón conocido del modelo.
+### 1. Reducir el objetivo por invocación a 2 fijo
+En `supabase/functions/generate-daily-posts/index.ts`:
+- Cambiar `DAILY_DISTRIBUTION = [2, 2, 3, 3, 3, 4]` a `[2, 2, 2]` (o `pickDailyCount → 2`). Con 2 posts caben cómodos en los 130s de presupuesto (30-40s texto + hasta 3 min imagen en el peor caso; el 2º arranca antes del corte).
+- Motivo: los últimos runs muestran que el 2º post entra en zona de riesgo y el 3º casi nunca cabe.
 
-El fallo real está en `sceneFromLLM` (`generate-daily-posts` y `regenerate-blog-hero`): el prompt permite parejas/grupos y el modelo cae en ellos por defecto para temas de deuda familiar.
+### 2. Programar 3 crons al día en vez de 1
+En Cloud (SQL via `supabase--insert` porque lleva project ref y anon key, no migration):
+- Desprogramar el cron actual (`cron.unschedule`) de `generate-daily-posts`.
+- Reprogramar 3 invocaciones distintas: `08:15`, `12:15` y `16:15` UTC (nombres separados, p.ej. `daily-posts-am`, `daily-posts-noon`, `daily-posts-pm`).
+- Cada uno llama al mismo edge function; con objetivo 2 por invocación → 6 posts/día en media, rango 4-6 si algún run pierde 1 por presupuesto.
 
-## Plan
+### 3. Sin cambios en el manejo de fallidos
+- Se mantiene: si el 2º post no cabe en el presupuesto, queda como `Fallaron roadmap ids: X (parado por presupuesto de tiempo)` en `generator_runs`, visible en `/admin/contenido/salud`. Sirve como señal para saber cuándo el sistema no llega.
 
-### 1. Endurecer `sceneFromLLM` para forzar sujeto único (o ninguno)
-En el prompt del scene-LLM (compartido por cron y regenerador):
-- Añadir: "**Máximo UNA persona** en la escena. Prohibido parejas, familias, grupos, dos personas frente a un portátil, gestor atendiendo a cliente. Prioriza escenas **sin personas** (objetos, lugares, exteriores) o con una sola persona de espaldas/perfil/manos."
-- Añadir a la lista de prohibidos por defecto: "pareja o gestor+cliente frente a un ordenador", "dos personas conversando en oficina", "familia mirando papeles".
-
-### 2. Reforzar el prompt de imagen como red de seguridad
-En `generateAndUploadHero` (ambos archivos), añadir a la lista de "Prohibido":
-- "dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas".
-- "escenas tipo consulta profesional con dos personas frente a una pantalla".
-
-### 3. Regenerar las portadas afectadas
-Los 7 posts de 20-22 jul con este cliché (los del screenshot y los adyacentes) — llamada a `regenerate-blog-hero` con la lista de slugs, coste ~0.135 cr × 7.
-
-### Fuera de scope
-No se toca el modelo (seguimos con Nano Banana 2 Lite + fallback a Nano Banana 2), no se toca el flujo del cron ni los timeouts. Solo cambian dos strings de prompt.
+## Fuera de scope
+- No se toca el modelo de imagen, ni retries, ni timeouts de hero, ni el flujo de scene-LLM.
+- No se toca `generate-daily-casos` (distinto cron, sin este problema).
+- No se cambia la UI de salud.
 
 ## Detalles técnicos
-
-Archivos a editar:
-- `supabase/functions/generate-daily-posts/index.ts` — `sceneFromLLM` (líneas ~630-640) y prompt de `generateAndUploadHero` (línea ~738).
-- `supabase/functions/regenerate-blog-hero/index.ts` — mismas dos secciones (`sceneFromLLM` y `buildPrompt`).
-- Llamada final: POST a `regenerate-blog-hero` con `{ slugs: [<7 slugs de 20-22 jul>] }`.
+- Archivo a editar: `supabase/functions/generate-daily-posts/index.ts` (líneas 144-148).
+- SQL a ejecutar vía `supabase--insert` (contiene URL del proyecto + anon key, no puede ir en migration):
+  ```sql
+  select cron.unschedule('<nombre-actual>');
+  select cron.schedule('daily-posts-am',   '15 8 * * *',  $$ select net.http_post(...) $$);
+  select cron.schedule('daily-posts-noon', '15 12 * * *', $$ select net.http_post(...) $$);
+  select cron.schedule('daily-posts-pm',   '15 16 * * *', $$ select net.http_post(...) $$);
+  ```
+- Antes de reprogramar, listar `cron.job` para obtener el nombre exacto del actual.
