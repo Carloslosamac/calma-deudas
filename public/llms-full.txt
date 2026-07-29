@@ -510,6 +510,33 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas vs. dación en pago
+URL: https://mi-calma.es/blog/cancelar-deudas-vs-dacion-en-pago
+
+La dación en pago implica entregar un bien, generalmente la vivienda hipotecada, al acreedor para saldar la deuda asociada a ese bien, lo que NO cancela otras deudas. En cambio, cancelar deudas bajo la Ley de Segunda Oportunidad permite exonerar la totalidad de las deudas (hipotecarias y no hipotecarias) sin perder necesariamente la vivienda, siempre que se cumplan los requisitos de insolvencia.
+
+- **¿La dación en pago cancela todas mis deudas?** No, la dación en pago, por sí sola, solo cancela la deuda hipotecaria asociada al bien que se entrega al banco. Otras deudas como préstamos personales, tarjetas de crédito o deudas públicas seguirán vigentes y podrán ser reclamadas.
+- **¿Puedo mantener mi vivienda si me acojo a la Ley de Segunda Oportunidad?** Sí, en muchos casos es posible. Si optas por la vía del plan de pagos dentro de la LSO, puedes conservar la vivienda habitual si la hipoteca está al día o si puedes incluir su pago en un plan de viabilidad aprobado por el juez.
+- **¿Qué pasa si mi banco no acepta la dación en pago?** Si el banco no acepta la dación en pago de forma voluntaria y no cumples los requisitos del Código de Buenas Prácticas (que permite forzarla en casos de extrema vulnerabilidad), la deuda hipotecaria persistirá, y el banco podrá continuar con los procedimientos de reclamación o incluso iniciar un embargo.
+
+### Cancelar deudas sin perder la vivienda habitual
+URL: https://mi-calma.es/blog/cancelar-deudas-sin-perder-la-vivienda-habitual
+
+Cancelar deudas sin perder la vivienda habitual es posible principalmente a través de la Ley de Segunda Oportunidad si no tienes hipoteca o mediante la reunificación extrajudicial de deudas. Es crucial analizar tu situación para elegir la vía legal más adecuada que proteja tu patrimonio y te permita negociar con los acreedores sin necesidad de un nuevo préstamo.
+
+- **¿Puedo perder mi casa si me acojo a la Ley de Segunda Oportunidad?** Depende. Si tu casa tiene una hipoteca y la sigues pagando, o puedes hacer un plan de pagos viable para mantenerla, podrías conservarla. Si no tiene hipoteca, o es inasumible, el bien se liquidaría para pagar a los acreedores, aunque siempre se estudiaría la opción de ofrecer un plan de liquidación donde puedas pagarla.
+- **¿La reunificación de deudas es una hipoteca nueva?** No en Calma. Nuestra reunificación es un proceso de negociación extrajudicial con tus acreedores para reducir tus cuotas y el capital total adeudado. NUNCA implicará que contrates un nuevo préstamo ni que hipoteques tu vivienda de nuevo.
+- **¿Qué tipos de deudas se pueden cancelar para proteger la vivienda?** La Ley de Segunda Oportunidad puede cancelar préstamos personales, deudas de tarjetas de crédito, microcréditos, deudas con suministros, y hasta 10.000€ con Hacienda y con la Seguridad Social. Las deudas hipotecarias tienen un tratamiento diferente y pueden requerir una negociación específica o un plan de pagos.
+
+### Cancelar deudas sin anticipos: cómo funciona
+URL: https://mi-calma.es/blog/cancelar-deudas-sin-anticipos-como-funciona
+
+Cancelar deudas sin entregar anticipos leoninos es posible en España, principalmente a través de la Ley de Segunda Oportunidad (LSO) o mediante la gestión especializada de negociaciones extrajudiciales. Estas vías legales y profesionales buscan reestructurar o eliminar tus obligaciones financieras sin que debas asumir costes iniciales elevados y sin garantía de éxito, permitiendo que solo pagues si se consiguen resultados tangibles.
+
+- **¿Quién puede acogerse a la Ley de Segunda Oportunidad?** La LSO está diseñada para personas físicas (particulares y autónomos) que se encuentren en una situación de insolvencia actual o inminente, lo que significa que no pueden afrontar regularmente el pago de sus deudas o prevén que no podrán hacerlo.
+- **¿Es posible cancelar el 100% de mis deudas con la LSO?** Sí, la Ley de Segunda Oportunidad permite la exoneración del 100% de las deudas insatisfechas, incluyendo aquellas con la Agencia Tributaria y la Seguridad Social, siempre que se cumplan las condiciones de buena fe y se siga el procedimiento establecido en la Ley Concursal.
+- **¿Qué significa que el abogado trabaje 'sin anticipos' o 'a éxito'?** Significa que no tendrás que pagar ninguna cantidad por adelantado para iniciar el proceso. Los honorarios del abogado se devengan y se pagan únicamente cuando se obtiene la resolución judicial que cancela tus deudas, alineando el interés del despacho con tu éxito.
+
 ### Cancelar deudas siendo solvente: ¿existe esa opción?
 URL: https://mi-calma.es/blog/cancelar-deudas-siendo-solvente-existe-esa-opcion
 
@@ -617,31 +644,4 @@ Para cancelar deudas con compañías de suministros y telefonía en España, pue
 - **¿Se pueden cancelar las deudas de luz, agua y gas con la Ley de Segunda Oportunidad?** Sí, las deudas con compañías de suministros y telefonía son consideradas créditos ordinarios o subordinados en un concurso de acreedores y, por lo tanto, son totalmente exonerables si te acoges a la Ley de Segunda Oportunidad y cumples sus requisitos.
 - **¿Qué pasa si no pago una factura de teléfono o internet?** Tras un período de impago y varios avisos, la compañía puede suspender el servicio y posteriormente incluirte en ficheros de morosos como ASNEF. La deuda seguirá existiendo y es susceptible de ser reclamada judicialmente, además de acumular recargos.
 - **¿Cuánto tiempo tienen las empresas para reclamar una deuda de suministro?** El plazo general para reclamar deudas de suministros (luz, agua, gas) y telefonía es de tres años, según el artículo 1967 del Código Civil. Sin embargo, este plazo puede variar según la normativa específica de cada servicio y la interrupción de la prescripción por requerimientos de pago.
-
-### Cancelar deudas con Cofidis, Wizink y Cetelem
-URL: https://mi-calma.es/blog/cancelar-deudas-con-cofidis-wizink-y-cetelem
-
-Para cancelar deudas con Cofidis, WiZink o Cetelem, la estrategia más efectiva pasa por el análisis legal de los contratos. Si el crédito o tarjeta tiene intereses usurarios o falta de transparencia, se puede reclamar judicialmente para anular el contrato y recuperar los intereses pagados de más. En casos de insolvencia generalizada, la Ley de Segunda Oportunidad permite cancelar todas las deudas, incluidas estas.
-
-- **¿Puedo cancelar mi deuda con Cofidis si tengo otros préstamos?** Sí, es posible. Si el problema son los intereses abusivos de Cofidis, puedes reclamar específicamente esa deuda. Si tu situación es de sobreendeudamiento general con múltiples préstamos, la Ley de Segunda Oportunidad puede cancelar todas tus deudas, incluida la de Cofidis.
-- **¿Qué es un interés usurario y cómo se detecta?** Un interés usurario es aquel "notablemente superior al normal del dinero y manifiestamente desproporcionado" al momento de la contratación. Se detecta comparando la TAE de tu contrato con la TAE media de productos similares publicada por el Banco de España en esa fecha. Nuestros abogados pueden realizar este análisis por ti.
-- **¿Necesito pagar algo para que Calma analice mi caso?** No. En Calma ofrecemos una primera consulta y pre-análisis de viabilidad completamente gratuitos y sin compromiso. Es el primer paso esencial para determinar la mejor estrategia sin coste inicial para ti.
-
-### Cancelar deudas con BBVA, Santander y CaixaBank
-URL: https://mi-calma.es/blog/cancelar-deudas-con-bbva-santander-y-caixabank
-
-Para cancelar deudas con BBVA, Santander o CaixaBank en España, la Ley de Segunda Oportunidad (LSO) es la herramienta principal para personas insolventes sin bienes de valor. Si tienes bienes importantes como una casa pagada, una reunificación de deudas extrajudicial que reduzca la cuota y el total adeudado puede ser tu mejor vía. En casos de usura o falta de transparencia, una reclamación judicial puede ser efectiva. La solución ideal depende de tu situación financiera personal.
-
-- **¿La Ley de Segunda Oportunidad me sirve si tengo deudas solo con BBVA, Santander o CaixaBank?** Sí, la Ley de Segunda Oportunidad se aplica a todo tipo de deudas con entidades financieras, incluyendo las contraídas con grandes bancos. No importa si tienes deudas con una sola entidad o con varias; lo relevante es tu situación de insolvencia general.
-- **¿Pueden los bancos negarse a la aplicación de la Ley de Segunda Oportunidad?** Los bancos son considerados acreedores y, como tales, tienen voz en el proceso intentando cobrar su deuda. Sin embargo, si cumples los requisitos de buena fe e insolvencia según el TRLC, un juez puede dictar la exoneración de la deuda, incluso si los bancos se oponen. Su oposición no bloquea el proceso.
-- **¿Perderé mi casa si me acojo a la Ley de Segunda Oportunidad?** Depende. Si tu casa es tu vivienda habitual y tiene un valor considerado razonable, y cumples ciertos requisitos, la Ley permite en algunos casos mantenerla si se establece un plan de pagos. Pero si tienes una casa pagada y es un bien de valor, la Ley espera que se liquide para pagar a los acreedores. Por eso es vital una buena valoración jurídica.
-
-### Cancelar deudas cedidas a fondos (Lindorff, Intrum, Axactor)
-URL: https://mi-calma.es/blog/cancelar-deudas-cedidas-a-fondos-lindorff-intrum-axactor
-
-Si un fondo de inversión ha comprado tu deuda, como Lindorff, Intrum o Axactor, tienes la posibilidad legal de anularla o reducirla significativamente. Esto se conoce como derecho de retracto de créditos litigiosos, que te permite adquirir la deuda por el mismo precio que pagó el fondo, a menudo una fracción de su valor nominal.
-
-- **¿Qué es un fondo buitre y por qué compra mi deuda?** Un fondo buitre es una empresa de inversión que compra carteras de deudas (a menudo problemáticas o incobrables) a bancos y otras entidades por un precio muy inferior a su valor nominal. Su objetivo es intentar recuperar el máximo posible de esa deuda, obteniendo un beneficio. Lo hacen para limpiar los balances de los bancos y porque ven una oportunidad de negocio en el recobro.
-- **¿Lindorff, Intrum o Axactor pueden embargarme directamente?** Lindorff, Intrum, Axactor y otros fondos de inversión tienen los mismos derechos que cualquier otro acreedor una vez que adquieren tu deuda. Esto significa que pueden iniciar acciones judiciales, como un juicio monitorio, y si obtienen una resolución favorable y sigues sin pagar, pueden solicitar un embargo de bienes, cuentas o nóminas.
-- **¿Qué significa que un crédito sea 'litigioso' en el derecho de retracto?** Según el Artículo 1535 del Código Civil, un crédito es litigioso cuando existe un procedimiento judicial en marcha relacionado con su validez o cobro, usualmente desde que se contesta a la demanda o se presentan escritos importantes en el juzgado. Es la condición indispensable para poder ejercer el derecho de retracto de créditos.
 
