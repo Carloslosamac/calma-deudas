@@ -585,9 +585,9 @@ const SCENE_RULES: { re: RegExp; variants: string[] }[] = [
     "carpeta azul cerrada sobre una silla de plástico en una sala de espera vacía",
   ]},
   { re: /banco|entidad|sucursal/, variants: [
-    "fachada corriente de una oficina bancaria en una calle española con transeúntes pasando",
+    "fachada corriente de una oficina bancaria en una calle española vacía, con persiana azul y acera mojada",
     "cajero automático empotrado en la pared exterior de una sucursal",
-    "cola de personas esperando dentro de una oficina bancaria corriente",
+    "dispensador de turnos y sillas vacías dentro de una oficina bancaria corriente",
     "letrero genérico de un banco en la fachada visto desde la acera opuesta",
   ]},
   { re: /deuda|impago|moros|asnef/, variants: [
@@ -703,20 +703,20 @@ async function generateAndUploadHero(
     const paperWords = /papel|carta|factura|recibo|extracto|carpeta|sobre|ticket|documento/;
     const banPapers = !paperWords.test(scene);
     const style = photoStyleForSlug(slug);
-    const prompt = `Fotografía documental casual tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
+    const prompt = `Fotografía documental casual de OBJETOS O LUGARES VACÍOS, tomada con un teléfono móvil moderno (iPhone/Samsung), estilo snapshot cotidiano español. NO profesional, NO editorial, NO publicidad, NO stock.
 
 Escena literal (debe reconocerse a simple vista y coincidir con el título "${title}"): ${scene}
 
-Restricción principal: imagen SIN personas reconocibles. No caras, no parejas, no familias, no asesor con cliente, no reunión, no dos personas. Si aparece una figura humana solo puede ser fondo lejano desenfocado o manos parciales, nunca protagonista.
+Restricción principal absoluta: CERO HUMANOS en la imagen. ZERO PEOPLE. No personas, no caras, no manos, no brazos, no siluetas, no cuerpos, no parejas, no familias, no asesor con cliente, no reunión, no gente de fondo. Si la escena sugiere una consulta o una pareja, sustitúyela por el lugar vacío o por objetos cotidianos relacionados.
 
 Estética coherente pero NO neutra:
 - Smartphone a mano, ligera imperfección de encuadre, focal ~24-28mm, profundidad de campo amplia sin bokeh cinematográfico.
 - ${style}.
 - Incluir al menos 2 detalles con color realista y cotidiano (toldo rojo, azulejo verde/azul, taza naranja, persiana amarilla, cartel municipal, mantel estampado), sin convertirlo en imagen saturada.
 - Espacios españoles corrientes con objetos usados, marcas de desgaste, polvo leve, esquinas imperfectas, nada de casa de revista.
-- Si aparece un móvil, se ve de lado, boca abajo o desde detrás del hombro. NUNCA con la pantalla encarada a cámara.
+- Si aparece un móvil, se ve de lado o boca abajo sobre una mesa vacía. NUNCA desde detrás del hombro y NUNCA con pantalla encarada a cámara.
 
-Prohibido: paleta beige/gris neutra dominante, oficinas blancas luminosas, fotos de banco de imágenes, personas posando, personas sentadas revisando papeles, HDR, filtros, viñeteo, golden hour, dominantes amarillas cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos legibles en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo, dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas, escenas tipo consulta profesional con dos personas frente a una pantalla${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
+Prohibido: cualquier humano o parte humana, manos, dedos, brazos, espaldas, siluetas, reflejos de personas, gente desenfocada, paleta beige/gris neutra dominante, oficinas blancas luminosas, fotos de banco de imágenes, personas posando, personas sentadas revisando papeles, HDR, filtros, viñeteo, golden hour, dominantes amarillas cinematográficas, sonrisas de catálogo, familia perfecta con tablet, salones blancos de anuncio, plantas decorativas exageradas, texto o logos legibles en la imagen, marcas de agua, collages, pantallas de móvil orientadas a cámara, personas mirando al objetivo, dos personas juntas en el encuadre, parejas, familias, gestor+cliente, cualquier interacción entre dos personas, escenas tipo consulta profesional con dos personas frente a una pantalla${banPapers ? ", montones de papeles/facturas/documentos desperdigados sobre mesas (cliché a evitar salvo que la escena lo pida explícitamente)" : ""}.`;
     const rawBytes = await generateImageBytes(prompt, slug);
     if (!rawBytes) {
       console.error(`No image returned for ${slug}`);
