@@ -1,34 +1,50 @@
-## Objetivo
-Llegar a 5-7 posts publicados al día sin cambiar la calidad de imagen ni tocar los timeouts que ya funcionan. Mantener el "fallido por presupuesto" visible como está.
+Diagnóstico confirmado (leído en el código desplegado):
 
-## Cambios
+- El prompt actual pide literalmente “objetos usados”, “marcas de desgaste”, “polvo leve”, “paredes gastadas”, “bolígrafo barato”, “mesa de formica”, “portal antiguo”. De ahí la sensación de sucio y pobre.
+- Además prohíbe cualquier presencia humana (“CERO HUMANOS”), lo que empuja a portadas frías de objetos aislados.
 
-### 1. Reducir el objetivo por invocación a 2 fijo
-En `supabase/functions/generate-daily-posts/index.ts`:
-- Cambiar `DAILY_DISTRIBUTION = [2, 2, 3, 3, 3, 4]` a `[2, 2, 2]` (o `pickDailyCount → 2`). Con 2 posts caben cómodos en los 130s de presupuesto (30-40s texto + hasta 3 min imagen en el peor caso; el 2º arranca antes del corte).
-- Motivo: los últimos runs muestran que el 2º post entra en zona de riesgo y el 3º casi nunca cabe.
+Nueva dirección visual: personas SÍ, stock NO.
 
-### 2. Programar 3 crons al día en vez de 1
-En Cloud (SQL via `supabase--insert` porque lleva project ref y anon key, no migration):
-- Desprogramar el cron actual (`cron.unschedule`) de `generate-daily-posts`.
-- Reprogramar 3 invocaciones distintas: `08:15`, `12:15` y `16:15` UTC (nombres separados, p.ej. `daily-posts-am`, `daily-posts-noon`, `daily-posts-pm`).
-- Cada uno llama al mismo edge function; con objetivo 2 por invocación → 6 posts/día en media, rango 4-6 si algún run pierde 1 por presupuesto.
+1. Reabrir la presencia humana con reglas duras
+   - Permitido: 1 persona (excepcionalmente 2 si la escena lo justifica), integrada en un entorno real, haciendo algo cotidiano y creíble.
+   - Persona no protagonista de catálogo: puede aparecer de espaldas, de perfil, parcialmente cortada por el encuadre o a media distancia.
+   - Prohibido: mirar a cámara, sonrisa de catálogo, pose de anuncio, gestos de "preocupación" teatral, manos entrelazadas sobre la mesa, asesor+cliente frente a un portátil, familia perfecta, apretón de manos.
 
-### 3. Sin cambios en el manejo de fallidos
-- Se mantiene: si el 2º post no cabe en el presupuesto, queda como `Fallaron roadmap ids: X (parado por presupuesto de tiempo)` en `generator_runs`, visible en `/admin/contenido/salud`. Sirve como señal para saber cuándo el sistema no llega.
+2. Matar el look stock por entorno, no por ausencia de gente
+   - Prohibido: fondos blancos, oficinas neutras luminosas, salas acristaladas, paredes lisas sin contexto, mobiliario de catálogo, plantas decorativas de escaparate.
+   - Obligatorio: entorno español identificable y con contexto (cocina real, terraza de bar, portal de vecinos, calle con toldos, mostrador de comercio local, oficina modesta con objetos reales).
 
-## Fuera de scope
-- No se toca el modelo de imagen, ni retries, ni timeouts de hero, ni el flujo de scene-LLM.
-- No se toca `generate-daily-casos` (distinto cron, sin este problema).
-- No se cambia la UI de salud.
+3. Quitar el sesgo "pobre/sucio" del prompt
+   - Eliminar: polvo, desgaste, suciedad, deterioro, objetos rotos, "cutre", "barato", "antiguo".
+   - Sustituir por: cotidiano, ordenado, digno, vivido pero cuidado.
+   - Mantener imperfección fotográfica (encuadre, luz, ruido), no imperfección social.
 
-## Detalles técnicos
-- Archivo a editar: `supabase/functions/generate-daily-posts/index.ts` (líneas 144-148).
-- SQL a ejecutar vía `supabase--insert` (contiene URL del proyecto + anon key, no puede ir en migration):
-  ```sql
-  select cron.unschedule('<nombre-actual>');
-  select cron.schedule('daily-posts-am',   '15 8 * * *',  $$ select net.http_post(...) $$);
-  select cron.schedule('daily-posts-noon', '15 12 * * *', $$ select net.http_post(...) $$);
-  select cron.schedule('daily-posts-pm',   '15 16 * * *', $$ select net.http_post(...) $$);
-  ```
-- Antes de reprogramar, listar `cron.job` para obtener el nombre exacto del actual.
+4. Reescribir el bloque de escenas
+   - Actualizar `SCENE_RULES` y `DEFAULT_VARIANTS` para que muchas variantes incluyan una persona en acción concreta y creíble, por ejemplo:
+     - alguien abriendo el buzón en un portal de vecinos
+     - alguien mirando el móvil en una terraza de bar
+     - alguien sacando dinero en un cajero de calle
+     - alguien en el mostrador de su propio negocio
+     - alguien cerrando la puerta de casa con las llaves
+   - Conservar variantes sin personas para dar ritmo visual entre posts.
+
+5. Reescribir el prompt final en ambas funciones
+   - `supabase/functions/generate-daily-posts/index.ts`
+   - `supabase/functions/regenerate-blog-hero/index.ts`
+
+   Intención resultante:
+
+   ```text
+   fotografía realista tipo móvil en España, cotidiana, limpia y digna;
+   puede aparecer 1 persona natural e integrada, nunca posando ni mirando a cámara;
+   entorno real con contexto, nunca fondo blanco ni oficina neutra;
+   nada de banco de imágenes, nada de suciedad ni estética de pobreza.
+   ```
+
+6. Validar con muestra corta antes del barrido
+   - Desplegar y regenerar solo los últimos 4 posts.
+   - Revisar visualmente y comparar contra el feed actual.
+
+7. Barrido posterior
+   - Si la muestra convence, regenerar el resto de posts automáticos recientes.
+   - No tocar imágenes manuales ni las de guías pilares salvo petición expresa.
