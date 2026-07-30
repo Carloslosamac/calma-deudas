@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas vs. mediación extrajudicial
+URL: https://mi-calma.es/blog/cancelar-deudas-vs-mediacion-extrajudicial
+
+Cuando afrontas deudas, la decisión entre cancelar deudas legalmente (como la Ley de Segunda Oportunidad) o intentar una mediación extrajudicial depende de tu situación financiera. La mediación puede ser útil para deudas manejables y solventes, buscando aliviar la cuota, mientras que la vía legal es para situaciones de insolvencia, permitiendo la cancelación o reestructuración bajo el amparo de la ley, idealmente con el fin de cancelar el total adeudado sin préstamo nuevo.
+
+- **¿Cuál es la diferencia principal entre negociación extrajudicial y Ley de Segunda Oportunidad?** La negociación extrajudicial busca acuerdos directos con acreedores para reducir cuotas o deuda. La Ley de Segunda Oportunidad es un proceso legal para personas insolventes, que permite la cancelación total o parcial de deudas bajo amparo judicial, otorgando una exoneración y un nuevo comienzo.
+- **¿Puedo perder mis bienes con la Ley de Segunda Oportunidad?** En la LSO, si tienes bienes no esenciales o no protegidos, podría contemplarse su liquidación para pagar parte de la deuda. Sin embargo, se prioriza el mantenimiento de la vivienda habitual y existen mecanismos para proteger ciertos activos. Un abogado evaluará tu patrimonio para minimizar este riesgo.
+- **¿Qué significa 'deudor de buena fe' en la LSO?** Ser deudor de buena fe implica no haber cometido delitos socioeconómicos en los últimos 10 años, no haber utilizado la LSO en los 5 años previos y no haber provocado tu insolvencia de forma dolosa o gravemente culposa. Es un requisito fundamental para acceder a la exoneración.
+
+### Cancelar deudas vs. concurso de acreedores
+URL: https://mi-calma.es/blog/cancelar-deudas-vs-concurso-de-acreedores
+
+La Ley de Segunda Oportunidad (LSO) es el procedimiento diseñado específicamente para cancelar las deudas de particulares y autónomos, ofreciendo una exoneración completa de la deuda con los acreedores. El concurso de acreedores, aunque similar en concepto, está orientado principalmente a empresas y personas jurídicas, y su aplicación a personas físicas sin actividad empresarial es, en la práctica, lo que ahora se entiende como LSO.
+
+- **¿Qué diferencia hay entre concurso de acreedores y Ley de Segunda Oportunidad?** El concurso de acreedores es el proceso general de insolvencia, aplicable a empresas y personas físicas. La Ley de Segunda Oportunidad es el mecanismo específico dentro del concurso para personas físicas (particulares y autónomos) que permite la exoneración o cancelación de deudas.
+- **¿Puedo cancelar todas mis deudas con la Ley de Segunda Oportunidad?** La LSO permite cancelar la mayoría de las deudas (préstamos, tarjetas, microcréditos, etc.). Las deudas públicas son exonerables hasta 10.000€ por acreedor. Ciertas deudas, como pensiones de alimentos o multas graves, no suelen ser exonerables.
+- **¿Qué significa ser deudor de buena fe?** Ser deudor de buena fe implica no haber sido condenado por delitos económicos en los últimos 10 años, no haber rechazado ofertas de empleo adecuadas, y no haber provocado intencionadamente la insolvencia. Es un requisito fundamental para acceder al BEPI.
+
 ### Cancelar deudas vs. dación en pago
 URL: https://mi-calma.es/blog/cancelar-deudas-vs-dacion-en-pago
 
@@ -626,22 +644,4 @@ Sí, es posible cancelar o al menos reducir significativamente la deuda de un co
 - **¿Qué pasa con el coche si se anula el contrato de financiación?** Si se anula el contrato de financiación, la consecuencia principal es que se extinguen los intereses y comisiones abusivas. En la práctica, te quedarás únicamente con la obligación de devolver el capital principal prestado, descontando lo que ya hayas abonado. En muchos casos, esto significa que la deuda pendiente se reduce drásticamente o incluso desaparece, y el coche es tuyo una vez pagues el capital restante sin intereses. No se te quita el coche.
 - **¿Puedo reclamar si ya he terminado de pagar la financiación del coche?** Sí, la acción de nulidad por usura no prescribe, lo que significa que puedes reclamar la nulidad del contrato en cualquier momento, incluso si ya has terminado de pagar la financiación. Si el contrato se declara nulo, la entidad deberá devolverte todas las cantidades que hayas pagado en concepto de intereses y comisiones por encima del capital inicialmente prestado.
 - **¿Cómo sé si mi interés es usurario?** Un interés se considera usurario si es "notablemente superior al normal del dinero y manifiestamente desproporcionado con las circunstancias del caso". Se compara la TAE de tu contrato con la media de las TAE de préstamos al consumo de características similares en el momento de la firma, publicadas oficialmente por el Banco de España. Si la diferencia es de varios puntos porcentuales, es muy probable que lo sea.
-
-### Cancelar deudas con embargo de nómina activo
-URL: https://mi-calma.es/blog/cancelar-deudas-con-embargo-de-nomina-activo
-
-Sí, es posible cancelar tus deudas incluso si ya tienes la nómina embargada. La Ley de Segunda Oportunidad (LSO) te ofrece un mecanismo legal para paralizar los embargos, negociar con tus acreedores o, en última instancia, conseguir la exoneración de gran parte de tus obligaciones económicas, permitiéndote empezar de cero.
-
-- **¿Puede la Ley de Segunda Oportunidad detener un embargo de nómina que ya está en curso?** Sí, uno de los efectos inmediatos de la admisión a trámite de la solicitud de la Ley de Segunda Oportunidad es la paralización de todos los embargos y ejecuciones, incluyendo los de nómina. Esto proporciona un alivio significativo al deudor.
-- **¿Qué parte de mi nómina es inembargable?** La parte de tu salario, sueldo o pensión que no supere el Salario Mínimo Interprofesional (SMI) es inembargable por ley. Solo las cantidades que excedan el SMI son susceptibles de embargo, y se aplican porcentajes progresivos.
-- **¿Puedo acogerme a la LSO si tengo deudas con Hacienda o la Seguridad Social?** Sí, puedes. La reforma de 2022 permite la exoneración de hasta 10.000€ por cada una de estas administraciones (Hacienda y Seguridad Social). El resto deberá abonarse mediante un plan de pagos o se aplicarán sus propias normativas de aplazamiento.
-
-### Cancelar deudas con compañías de suministros y telefonía
-URL: https://mi-calma.es/blog/cancelar-deudas-con-companias-de-suministros-y-telefonia
-
-Para cancelar deudas con compañías de suministros y telefonía en España, puedes intentar la negociación directa para una quita o un plan de pago. Si la deuda es significativa y entras en situación de insolvencia, la Ley de Segunda Oportunidad permite la exoneración de estas deudas. Es crucial no ignorarlas, ya que pueden llevar a cortes de servicio, recargos y la inclusión en ficheros de morosos, dificultando el acceso a otros servicios.
-
-- **¿Se pueden cancelar las deudas de luz, agua y gas con la Ley de Segunda Oportunidad?** Sí, las deudas con compañías de suministros y telefonía son consideradas créditos ordinarios o subordinados en un concurso de acreedores y, por lo tanto, son totalmente exonerables si te acoges a la Ley de Segunda Oportunidad y cumples sus requisitos.
-- **¿Qué pasa si no pago una factura de teléfono o internet?** Tras un período de impago y varios avisos, la compañía puede suspender el servicio y posteriormente incluirte en ficheros de morosos como ASNEF. La deuda seguirá existiendo y es susceptible de ser reclamada judicialmente, además de acumular recargos.
-- **¿Cuánto tiempo tienen las empresas para reclamar una deuda de suministro?** El plazo general para reclamar deudas de suministros (luz, agua, gas) y telefonía es de tres años, según el artículo 1967 del Código Civil. Sin embargo, este plazo puede variar según la normativa específica de cada servicio y la interrupción de la prescripción por requerimientos de pago.
 
