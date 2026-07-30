@@ -106,6 +106,10 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
   return pick(DEFAULT_VARIANTS, h);
 }
 
+function heroAltFromScene(title: string, scene: string): string {
+  return `Fotografía documental sin personas de ${scene}, relacionada con ${title}`;
+}
+
 const PHOTO_STYLE_VARIANTS = [
   "flash automático suave de móvil en interior, sombras pequeñas bajo los objetos, colores de barrio sin corregir",
   "luz lateral de una ventana real, una zona algo subexpuesta y balance de blancos imperfecto",
@@ -195,6 +199,7 @@ async function generateImageBytes(prompt: string): Promise<Uint8Array | null> {
 }
 
 async function regenerate(supabase: ReturnType<typeof createClient>, slug: string, title: string, category: string) {
+  const scene = sceneFromTitle(title, category, slug);
   const prompt = await buildPrompt(title, category, slug);
   const raw = await generateImageBytes(prompt);
   if (!raw) throw new Error("no image returned");
@@ -213,7 +218,10 @@ async function regenerate(supabase: ReturnType<typeof createClient>, slug: strin
     .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
   const url = signed?.signedUrl;
   if (!url) throw new Error("sign failed");
-  await supabase.from("generated_posts").update({ hero_image: url }).eq("slug", slug);
+  await supabase
+    .from("generated_posts")
+    .update({ hero_image: url, hero_alt: heroAltFromScene(title, scene) })
+    .eq("slug", slug);
   return url;
 }
 
