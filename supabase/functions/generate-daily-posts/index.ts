@@ -627,7 +627,7 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
 }
 
 function heroAltFromScene(title: string, scene: string): string {
-  return `Fotografía documental sin personas de ${scene}, relacionada con ${title}`;
+  return `Fotografía documental de ${scene}, relacionada con ${title}`;
 }
 
 const PHOTO_STYLE_VARIANTS = [
@@ -955,7 +955,7 @@ Deno.serve(async (req) => {
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
       let heroUrl: string | null = null;
-      let heroAlt = `Fotografía documental sin personas relacionada con ${cleanTitle}`;
+      let heroAlt = `Fotografía documental relacionada con ${cleanTitle}`;
       try {
         const hero = await withTimeout(
           generateAndUploadHero(supabase, slug, cleanTitle, category),

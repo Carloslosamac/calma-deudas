@@ -107,7 +107,7 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
 }
 
 function heroAltFromScene(title: string, scene: string): string {
-  return `Fotografía documental sin personas de ${scene}, relacionada con ${title}`;
+  return `Fotografía documental de ${scene}, relacionada con ${title}`;
 }
 
 const PHOTO_STYLE_VARIANTS = [
