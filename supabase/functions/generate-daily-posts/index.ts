@@ -626,6 +626,10 @@ function sceneFromTitle(title: string, category: string, slug: string): string {
   return pick(DEFAULT_VARIANTS, h);
 }
 
+function heroAltFromScene(title: string, scene: string): string {
+  return `Fotografía documental sin personas de ${scene}, relacionada con ${title}`;
+}
+
 const PHOTO_STYLE_VARIANTS = [
   "flash automático suave de móvil en interior, sombras pequeñas bajo los objetos, colores de barrio sin corregir",
   "luz lateral de una ventana real, una zona algo subexpuesta y balance de blancos imperfecto",
@@ -695,7 +699,7 @@ async function generateAndUploadHero(
   slug: string,
   title: string,
   category: string,
-): Promise<string | null> {
+): Promise<{ url: string; alt: string } | null> {
   try {
     // No usamos un LLM para inventar escenas: fue la fuente de parejas,
     // consultores y fotos stock. La escena sale de reglas cerradas y baratas.
@@ -725,7 +729,7 @@ Prohibido: cualquier humano o parte humana, manos, dedos, brazos, espaldas, silu
     const optimized = await optimizeImage(rawBytes);
     const isJpeg = optimized !== null;
     const bytes = optimized ?? rawBytes;
-    const path = `${slug}.${isJpeg ? "jpg" : "png"}`;
+    const path = `${slug}-${Date.now()}.${isJpeg ? "jpg" : "png"}`;
     const { error: upErr } = await supabase.storage
       .from("blog-images")
       .upload(path, bytes, {
@@ -740,7 +744,9 @@ Prohibido: cualquier humano o parte humana, manos, dedos, brazos, espaldas, silu
     const { data: signed } = await supabase.storage
       .from("blog-images")
       .createSignedUrl(path, 60 * 60 * 24 * 365 * 10); // 10 años
-    return signed?.signedUrl ?? null;
+    return signed?.signedUrl
+      ? { url: signed.signedUrl, alt: heroAltFromScene(title, scene) }
+      : null;
   } catch (e) {
     console.error(`generateAndUploadHero error for ${slug}: ${String(e)}`);
     return null;
@@ -949,12 +955,15 @@ Deno.serve(async (req) => {
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
       let heroUrl: string | null = null;
+      let heroAlt = `Fotografía documental sin personas relacionada con ${cleanTitle}`;
       try {
-        heroUrl = await withTimeout(
+        const hero = await withTimeout(
           generateAndUploadHero(supabase, slug, cleanTitle, category),
           180_000,
           `hero(${slug})`,
         );
+        heroUrl = hero?.url ?? null;
+        heroAlt = hero?.alt ?? heroAlt;
       } catch (e) {
         console.warn(`Roadmap ${row.id}: hero falló (${String(e)}), publicamos sin hero.`);
         heroUrl = null;
@@ -991,7 +1000,7 @@ Deno.serve(async (req) => {
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
         hero_image: heroUrl,
-        hero_alt: (article.heroAlt as string) ?? cleanTitle,
+        hero_alt: heroAlt,
         sections: ensureFinalCta(
           article.sections as { id: string; title: string; html: string }[] | undefined,
           cleanTitle,
