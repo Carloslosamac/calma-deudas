@@ -211,7 +211,7 @@ const FormSection = () => {
       // Paso 2: invocamos zoho-lead. Si tenemos submissionId, usamos modo
       // reintento (no vuelve a insertar); si no, pasamos el payload completo.
       const invokeBody = submissionId ? { submissionId } : payload;
-      const { data: resp, error } = await supabase.functions.invoke("zoho-lead", {
+      const { data: resp, error } = await (await getSupabase()).functions.invoke("zoho-lead", {
         body: invokeBody,
       });
       if (error) {
