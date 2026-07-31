@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
-import calmaLogo from "@/assets/calma-logo.png?format=webp&w=680&quality=92";
+import calmaLogo from "@/assets/calma-logo.png?format=webp&w=360&quality=90";
 import SeoFooterLinks from "./SeoFooterLinks";
 
 const Footer = () => {

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
-import calmaLogo from "@/assets/calma-logo.png?format=webp&w=680&quality=92";
+import calmaLogo from "@/assets/calma-logo.png?format=webp&w=360&quality=90";
 import {
   Sheet,
   SheetContent,

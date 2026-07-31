@@ -1,9 +1,9 @@
-import team1 from "@/assets/team-lawyer-1.jpg";
-import team2 from "@/assets/team-lawyer-2.jpg";
-import team3 from "@/assets/team-lawyer-3.jpg";
-import team4 from "@/assets/team-lawyer-4.jpg";
-import team5 from "@/assets/team-lawyer-5.jpg";
-import team6 from "@/assets/team-lawyer-6.jpg";
+import team1 from "@/assets/team-lawyer-1.jpg?w=96&format=webp&quality=80";
+import team2 from "@/assets/team-lawyer-2.jpg?w=96&format=webp&quality=80";
+import team3 from "@/assets/team-lawyer-3.jpg?w=96&format=webp&quality=80";
+import team4 from "@/assets/team-lawyer-4.jpg?w=96&format=webp&quality=80";
+import team5 from "@/assets/team-lawyer-5.jpg?w=96&format=webp&quality=80";
+import team6 from "@/assets/team-lawyer-6.jpg?w=96&format=webp&quality=80";
 
 /** Miembro del equipo jurídico de Calma (fuente única de verdad). */
 export type TeamMember = {

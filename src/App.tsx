@@ -5,9 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
-// La home se importa de forma eager: es la ruta LCP crítica y evita un
-// round-trip extra de chunk en la primera carga.
-import Index from "./pages/Index";
+// La home también va lazy: así el bundle inicial no arrastra el wizard ni
+// las secciones de la home en las rutas de blog/SEO (la mayoría del tráfico).
+const Index = lazy(() => import("./pages/Index"));
 // El resto de rutas se cargan bajo demanda (code-splitting) para que el
 // bundle inicial no arrastre posts, casos ni los datos SEO pesados.
 const Blog = lazy(() => import("./pages/Blog"));
