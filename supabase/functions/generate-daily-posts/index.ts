@@ -39,7 +39,44 @@ function extractFirstJsonObject(raw: string): Record<string, unknown> | null {
       }
     }
   }
-  return null;
+  // 3) La respuesta se cortó (finish_reason=length): reparamos cerrando
+  //    la cadena abierta y las llaves/corchetes pendientes.
+  return repairTruncatedJson(text.slice(start));
+}
+
+// Cierra un JSON truncado para poder aprovechar los campos ya recibidos.
+function repairTruncatedJson(text: string): Record<string, unknown> | null {
+  const stack: string[] = [];
+  let inStr = false;
+  let esc = false;
+  let lastSafe = -1; // último índice tras un valor completo en el nivel raíz
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') { inStr = false; lastSafe = i; }
+      continue;
+    }
+    if (ch === '"') { inStr = true; continue; }
+    if (ch === "{" || ch === "[") stack.push(ch);
+    else if (ch === "}" || ch === "]") { stack.pop(); lastSafe = i; }
+    else if (/[0-9truefalsn]/.test(ch)) lastSafe = i;
+  }
+  if (lastSafe === -1) return null;
+  let candidate = text.slice(0, lastSafe + 1).replace(/,\s*$/, "");
+  // si quedó una clave sin valor ("titulo": ) la quitamos
+  candidate = candidate.replace(/,\s*"[^"]*"\s*:\s*$/, "");
+  for (let i = stack.length - 1; i >= 0; i--) {
+    candidate += stack[i] === "{" ? "}" : "]";
+  }
+  try {
+    const obj = JSON.parse(candidate);
+    console.warn("JSON truncado reparado; se aprovechan los campos recibidos.");
+    return obj;
+  } catch {
+    return null;
+  }
 }
 
 // fetch con timeout duro. Sin esto, una llamada a IA/imagen que se cuelga
