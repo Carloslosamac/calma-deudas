@@ -61,6 +61,31 @@ const formatDate = (iso?: string | null): string => {
   }
 };
 
+/**
+ * Sirve las imágenes de storage a través del transformador de imágenes
+ * (WebP/AVIF automático según Accept) en lugar del JPEG original.
+ * Las imágenes locales importadas por Vite se devuelven intactas.
+ */
+export const optimizedImage = (src?: string, width = 1200, quality = 72): string => {
+  if (!src || !src.includes("/storage/v1/object/sign/")) return src ?? "";
+  const url = src.replace("/storage/v1/object/sign/", "/storage/v1/render/image/sign/");
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}width=${width}&quality=${quality}`;
+};
+
+const unusedFormatDate = (iso?: string | null): string => {
+  if (!iso) return "";
+  try {
+    return new Date(iso).toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "";
+  }
+};
+
 export const rowToBlogPost = (row: GeneratedPostRow): BlogPost => ({
   slug: row.slug,
   category: row.category,
