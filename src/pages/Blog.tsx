@@ -38,7 +38,7 @@ import {
   buildOrganization,
 } from "@/lib/seo/structuredData";
 import { blogPosts } from "@/data/blog";
-import { fetchGeneratedPosts } from "@/data/blog/dbPosts";
+import { fetchGeneratedPostsIndex, optimizedImage } from "@/data/blog/dbPosts";
 import stepStrategy from "@/assets/step-strategy.jpg";
 
 const categoryIcons: Record<string, LucideIcon> = {
@@ -235,8 +235,10 @@ const Blog = () => {
   const INITIAL_VISIBLE = 6;
 
   const { data: dbPosts } = useQuery({
-    queryKey: ["generated-posts"],
-    queryFn: fetchGeneratedPosts,
+    queryKey: ["generated-posts-index"],
+    queryFn: fetchGeneratedPostsIndex,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const articles = useMemo<BlogArticle[]>(() => {
@@ -250,7 +252,7 @@ const Blog = () => {
         excerpt: post.excerpt,
         date: post.date,
         readTime: post.readTime,
-        image: post.heroImage,
+        image: optimizedImage(post.heroImage, 640),
         imageAlt: post.heroAlt,
         authors: post.authors,
         author: post.author,
