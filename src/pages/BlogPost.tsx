@@ -9,6 +9,7 @@ import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import AnswerSummary from "@/components/blog/AnswerSummary";
+import BlogHeroImage from "@/components/blog/BlogHeroImage";
 import { blogPosts, getPostBySlug } from "@/data/blog";
 import {
   fetchGeneratedPostBySlug,
@@ -229,13 +230,13 @@ const BlogPost = () => {
           </header>
 
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
-            <img
-              src={optimizedImage(post.heroImage, 1200)}
+            <BlogHeroImage
+              src={post.heroImage}
               alt={post.heroAlt}
               width={1600}
               height={900}
-              fetchPriority="high"
-              decoding="async"
+              priority
+              sizes="(max-width: 768px) 100vw, 1024px"
               className="aspect-[16/9] w-full object-cover"
             />
           </figure>
@@ -357,13 +358,12 @@ const BlogPost = () => {
                     className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-surface transition-shadow hover:shadow-medium"
                   >
                     <div className="overflow-hidden">
-                      <img
-                        src={optimizedImage(rp.heroImage, 640)}
+                      <BlogHeroImage
+                        src={rp.heroImage}
                         alt={rp.heroAlt}
-                        loading="lazy"
-                        decoding="async"
                         width={640}
                         height={400}
+                        sizes="(max-width: 640px) 100vw, 400px"
                         className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     </div>
