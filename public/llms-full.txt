@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cómo saber si puedes cancelar tus deudas: test rápido 2026
+URL: https://mi-calma.es/blog/como-saber-si-puedes-cancelar-tus-deudas-test-rapido-2026
+
+Para saber si puedes cancelar tus deudas en España debes evaluar tu nivel de insolvencia, tu historial de buena fe y el origen de las deudas. Si estás sobreendeudado y no tienes bienes pagados de alto valor, puedes exonerar hasta el 100% de tus deudas privadas y públicas con la Ley de Segunda Oportunidad (arts. 486 a 502 TRLC). Si posees patrimonio o ingresos regulares pero cuotas asfixiantes, la vía adecuada es la reunificación o la reclamación por usura de tarjetas revolving y microcréditos.
+
+- **¿Qué ocurre si no cumplo todos los requisitos de la Ley de Segunda Oportunidad?** Si no cumples con las condiciones del TRLC para la exoneración concursal, no quedas desprotegido. Dependiendo de tu situación, se puede instar una renegociación extrajudicial de deudas o interponer demandas individuales para anular préstamos por usura y falta de transparencia. Esto permite reducir drásticamente las cantidades exigidas por los bancos sin necesidad de acudir a la insolvencia.
+- **¿Puedo cancelar mis deudas si estoy cobrando la prestación por desempleo o el Ingreso Mínimo Vital?** Sí, el nivel o la fuente de tus ingresos no impiden acogerse a la Ley de Segunda Oportunidad. Estar en desempleo o percibir subsidios públicos es, de hecho, una prueba objetiva del estado de insolvencia del deudor. Además, las prestaciones sociales de cuantía inferior al Salario Mínimo Interprofesional son absolutamente inembargables por ley.
+- **¿Te quitan la vivienda si te acoges a la Ley de Segunda Oportunidad en 2026?** No necesariamente. La reforma del TRLC permite conservar la vivienda habitual si presentas un plan de pagos a 3 o 5 años para satisfacer las deudas no exonerables, o si la hipoteca pendiente es superior al valor de mercado del inmueble, haciendo inviable su venta en liquidación.
+
 ### Cancelar deudas y volver a facturar sin bloqueos
 URL: https://mi-calma.es/blog/cancelar-deudas-y-volver-a-facturar-sin-bloqueos
 
@@ -635,13 +644,4 @@ Cancelar deudas con particulares o familiares exige un enfoque distinto al de lo
 - **¿Puede un particular o familiar reclamar judicialmente una deuda sin un contrato escrito?** Sí, si puede probar la existencia de la deuda y sus condiciones por otros medios, como transferencias bancarias, mensajes de texto (WhatsApp), correos electrónicos o testimonios. La ausencia de un contrato formal no invalida automáticamente la deuda.
 - **¿La Ley de Segunda Oportunidad cancela las deudas con familiares y amigos?** Sí, la Ley de Segunda Oportunidad (LSO) está diseñada para cancelar la mayoría de las deudas, incluidas las contraídas con particulares y familiares, siempre que se cumplan los requisitos de insolvencia generalizada y buena fe establecidos en la ley.
 - **¿Qué pasa si un familiar me prestó dinero, pero no quiero meterlo en el proceso de Segunda Oportunidad?** Al acogerte a la Ley de Segunda Oportunidad, debes incluir a todos tus acreedores. No puedes elegir qué deudas cancelar y cuáles no. Si no incluyes a un acreedor, la deuda seguirá existiendo tras el proceso.
-
-### Cancelar deudas con la cuenta bancaria ya embargada
-URL: https://mi-calma.es/blog/cancelar-deudas-con-la-cuenta-bancaria-ya-embargada
-
-Sí, es posible cancelar deudas incluso con la cuenta bancaria ya embargada. La Ley de Segunda Oportunidad (LSO) en España ofrece una vía para eliminar el endeudamiento y paralizar nuevos embargos, permitiendo a las personas físicas, tanto particulares como autónomos, reestructurar o exonerar sus deudas, ofreciendo una solución definitiva al problema financiero.
-
-- **¿Puede un banco embargar mi cuenta sin previo aviso?** No, un banco no puede embargar tu cuenta sin una orden judicial o administrativa previa. Debes ser notificado con anterioridad sobre la deuda y la intención de ejecución, aunque en ocasiones las notificaciones pueden no llegar a tu conocimiento o ser confusas.
-- **¿Qué parte de mi dinero en cuenta es inembargable?** La Ley de Enjuiciamiento Civil (Art. 607 LEC) establece que el importe equivalente al Salario Mínimo Interprofesional (SMI) es inembargable. Por encima de este límite, se aplican porcentajes progresivos de embargo.
-- **¿Se pueden embargar las pensiones o prestaciones por desempleo?** Sí, las pensiones y prestaciones por desempleo pueden ser embargadas, pero siempre respetando los límites de inembargabilidad establecidos por el SMI, al igual que ocurre con los salarios. El importe que exceda el SMI es embargable según la escala de la LEC.
 

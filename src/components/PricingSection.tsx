@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
-import family from "@/assets/person-family-table.jpg?format=webp&w=900&quality=72";
+import family from "@/assets/person-family-table.jpg?format=webp&quality=85";
 
 const PricingSection = () => {
   return (
