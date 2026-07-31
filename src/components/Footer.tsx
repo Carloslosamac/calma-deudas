@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-2 md:col-span-1 space-y-4">
-            <img src={calmaLogo} alt="Calma logo" width={340} height={122} loading="lazy" decoding="async" className="h-7" />
+            <img src={calmaLogo} alt="Calma logo" width={340} height={122} loading="lazy" decoding="async" className="h-7 w-auto object-contain" />
             <p className="text-sm text-muted-foreground max-w-xs">
               Especialistas en cancelación de deuda al amparo de la Ley
               de Segunda Oportunidad.

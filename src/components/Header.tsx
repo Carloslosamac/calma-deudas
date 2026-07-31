@@ -89,7 +89,7 @@ const Header = () => {
             height={122}
             fetchPriority="high"
             decoding="async"
-            className="h-8"
+            className="h-8 w-auto object-contain"
           />
           <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground ml-2">
             <span className="relative flex h-2 w-2">
