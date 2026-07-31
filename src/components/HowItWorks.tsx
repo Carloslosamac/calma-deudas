@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ClipboardList, Scale, Sparkles } from "lucide-react";
-import stepForm from "@/assets/step-form.jpg?format=webp&w=800&quality=72";
-import stepStrategy from "@/assets/step-strategy.jpg?format=webp&w=800&quality=72";
-import stepFreedom from "@/assets/step-freedom.jpg?format=webp&w=800&quality=72";
+import stepForm from "@/assets/step-form.jpg?format=webp&w=1200&quality=82";
+import stepStrategy from "@/assets/step-strategy.jpg?format=webp&w=1200&quality=82";
+import stepFreedom from "@/assets/step-freedom.jpg?format=webp&w=1200&quality=82";
 
 const steps = [
   {

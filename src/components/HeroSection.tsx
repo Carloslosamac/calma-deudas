@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import personWoman from "@/assets/person-woman-walking.jpg?format=webp&w=96&quality=72";
-import personMan from "@/assets/person-man-portrait.jpg?format=webp&w=96&quality=72";
-import personCouple from "@/assets/person-couple-sofa.jpg?format=webp&w=96&quality=72";
+import personWoman from "@/assets/person-woman-walking.jpg?format=webp&w=160&quality=85";
+import personMan from "@/assets/person-man-portrait.jpg?format=webp&w=160&quality=85";
+import personCouple from "@/assets/person-couple-sofa.jpg?format=webp&w=160&quality=85";
 
 const HeroSection = () => {
   const scrollToForm = () => {
