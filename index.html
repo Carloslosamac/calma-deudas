@@ -9,19 +9,9 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="theme-color" content="#0a3a23" />
 
-    <!-- Fuentes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Carga de fuentes sin bloquear el render: se aplica al terminar de descargar -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
-    </noscript>
+    <!-- Fuentes auto-hospedadas vía @font-face en index.css (sin round-trips a
+         Google Fonts). Sin preload: hoy la tipografía real que pinta la home es
+         la del sistema, así que precargar Poppins solo añadiría bytes. -->
 
     <!-- Open Graph (los pisará react-helmet-async por ruta) -->
     <meta property="og:site_name" content="Calma" />

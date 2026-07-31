@@ -6,10 +6,14 @@ import HowItWorks from "@/components/HowItWorks";
 import FormSection from "@/components/FormSection";
 import FeatureSection from "@/components/FeatureSection";
 import BenefitsSection from "@/components/BenefitsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import TrustBadges from "@/components/TrustBadges";
-import PricingSection from "@/components/PricingSection";
-import Footer from "@/components/Footer";
+import { lazy, Suspense } from "react";
+// Bloques bajo el pliegue: chunk aparte para aligerar el JS inicial.
+// Se montan igualmente en el primer render (sin IntersectionObserver) para
+// que el contenido siga disponible al renderizar la página los buscadores.
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
+const TrustBadges = lazy(() => import("@/components/TrustBadges"));
+const PricingSection = lazy(() => import("@/components/PricingSection"));
+const Footer = lazy(() => import("@/components/Footer"));
 import Seo from "@/components/seo/Seo";
 import {
   buildBreadcrumb,
@@ -67,11 +71,19 @@ const Index = () => {
         <FormSection />
         <FeatureSection />
         <BenefitsSection />
-        <TestimonialsSection />
-        <TrustBadges />
-        <PricingSection />
+        <Suspense fallback={<div style={{ minHeight: 640 }} aria-hidden />}>
+          <TestimonialsSection />
+        </Suspense>
+        <Suspense fallback={<div style={{ minHeight: 160 }} aria-hidden />}>
+          <TrustBadges />
+        </Suspense>
+        <Suspense fallback={<div style={{ minHeight: 520 }} aria-hidden />}>
+          <PricingSection />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={<div style={{ minHeight: 400 }} aria-hidden />}>
+        <Footer />
+      </Suspense>
     </div>
   );
 };

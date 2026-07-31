@@ -87,7 +87,7 @@ const Header = () => {
             alt="Calma Logo"
             width={340}
             height={122}
-            fetchPriority="high"
+            {...{ fetchpriority: "high" }}
             decoding="async"
             className="h-8 w-auto object-contain"
           />
