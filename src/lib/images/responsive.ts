@@ -7,17 +7,18 @@ const WIDTHS = [480, 768, 1200];
  * imágenes locales del blog. Solo se resuelven URLs (no bytes en el bundle),
  * así que el coste en runtime es nulo.
  */
-const eager = { eager: true, import: "default" } as const;
-
-const plain = import.meta.glob("/src/assets/blog-*.jpg", eager) as Record<string, string>;
-const avifSets = import.meta.glob(
-  "/src/assets/blog-*.jpg?w=480;768;1200&format=avif&as=srcset",
-  eager
-) as Record<string, string>;
-const webpSets = import.meta.glob(
-  "/src/assets/blog-*.jpg?w=480;768;1200&format=webp&as=srcset",
-  eager
-) as Record<string, string>;
+const plain = import.meta.glob("/src/assets/blog-*.jpg", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+const avifSets = import.meta.glob("/src/assets/blog-*.jpg?w=480;768;1200&format=avif&as=srcset", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+const webpSets = import.meta.glob("/src/assets/blog-*.jpg?w=480;768;1200&format=webp&as=srcset", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
 
 const QUERY_AVIF = "?w=480;768;1200&format=avif&as=srcset";
 const QUERY_WEBP = "?w=480;768;1200&format=webp&as=srcset";
