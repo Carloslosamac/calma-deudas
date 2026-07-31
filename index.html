@@ -10,8 +10,14 @@
     <meta name="theme-color" content="#0a3a23" />
 
     <!-- Fuentes auto-hospedadas vía @font-face en index.css (sin round-trips a
-         Google Fonts). Sin preload: hoy la tipografía real que pinta la home es
-         la del sistema, así que precargar Poppins solo añadiría bytes. -->
+         Google Fonts). Precargamos solo los dos pesos que pintan por encima
+         del pliegue (400 cuerpo, 600 titulares). -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/poppins-latin-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/poppins-latin-600.woff2" crossorigin />
+
+    <!-- Las imágenes de los posts generados viven en storage: abrimos la
+         conexión antes de que el chunk de la ruta las descubra. -->
+    <link rel="preconnect" href="https://tjmaeeagoenecoiqwyld.supabase.co" crossorigin />
 
     <!-- Open Graph (los pisará react-helmet-async por ruta) -->
     <meta property="og:site_name" content="Calma" />
