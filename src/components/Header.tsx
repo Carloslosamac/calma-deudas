@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
-import calmaLogo from "@/assets/calma-logo.png";
+import calmaLogo from "@/assets/calma-logo.png?format=webp&w=340&quality=72";
 import {
   Sheet,
   SheetContent,
@@ -85,6 +85,10 @@ const Header = () => {
           <img
             src={calmaLogo}
             alt="Calma Logo"
+            width={340}
+            height={122}
+            fetchPriority="high"
+            decoding="async"
             className="h-8"
           />
           <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground ml-2">
