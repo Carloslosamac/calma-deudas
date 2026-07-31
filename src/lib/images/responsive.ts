@@ -11,23 +11,22 @@ const plain = import.meta.glob("/src/assets/blog-*.jpg", {
   eager: true,
   import: "default",
 }) as Record<string, string>;
-const avifSets = import.meta.glob("/src/assets/blog-*.jpg?w=480;768;1200&format=avif&as=srcset", {
+const avifSets = import.meta.glob("/src/assets/blog-*.jpg", {
   eager: true,
   import: "default",
+  query: "?w=480;768;1200&format=avif&as=srcset",
 }) as Record<string, string>;
-const webpSets = import.meta.glob("/src/assets/blog-*.jpg?w=480;768;1200&format=webp&as=srcset", {
+const webpSets = import.meta.glob("/src/assets/blog-*.jpg", {
   eager: true,
   import: "default",
+  query: "?w=480;768;1200&format=webp&as=srcset",
 }) as Record<string, string>;
-
-const QUERY_AVIF = "?w=480;768;1200&format=avif&as=srcset";
-const QUERY_WEBP = "?w=480;768;1200&format=webp&as=srcset";
 
 const byUrl = new Map<string, { avif?: string; webp?: string }>();
 for (const [key, url] of Object.entries(plain)) {
   byUrl.set(url, {
-    avif: avifSets[`${key}${QUERY_AVIF}`],
-    webp: webpSets[`${key}${QUERY_WEBP}`],
+    avif: avifSets[key],
+    webp: webpSets[key],
   });
 }
 
