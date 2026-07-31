@@ -19,7 +19,10 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+// El cliente del backend se carga bajo demanda al enviar el formulario:
+// así el SDK no entra en el bundle inicial de la home.
+const getSupabase = async () =>
+  (await import("@/integrations/supabase/client")).supabase;
 import { triage, type Housing, type Vehicle } from "@/lib/seo/triage";
 import { getUtms, getConversionSlug } from "@/lib/tracking";
 
@@ -177,6 +180,7 @@ const FormSection = () => {
       // aparece en /admin/web-leads como pendiente para reintentar.
       let submissionId: string | null = null;
       try {
+        const supabase = await getSupabase();
         const { data: inserted, error: insertErr } = await supabase
           .from("web_submissions")
           .insert({
