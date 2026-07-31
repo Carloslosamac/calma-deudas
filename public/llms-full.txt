@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cancelar deudas y volver a facturar sin bloqueos
+URL: https://mi-calma.es/blog/cancelar-deudas-y-volver-a-facturar-sin-bloqueos
+
+Para cancelar deudas y volver a facturar sin bloqueos en España, la principal vía es la Ley de Segunda Oportunidad (LSO). Este mecanismo legal permite a particulares y autónomos insolventes extinguir o reestructurar sus deudas, ofreciendo un nuevo comienzo financiero. Es crucial evaluar la situación individual para determinar la idoneidad, especialmente si hay bienes o la deuda es manejable.
+
+- **¿Qué deudas se pueden cancelar con la Ley de Segunda Oportunidad?** La LSO permite cancelar la mayoría de las deudas privadas, como préstamos personales, hipotecarios (saldo remanente no cubierto por el bien), tarjetas de crédito, microcréditos y deudas con proveedores. También se pueden cancelar hasta 10.000€ con Hacienda y 10.000€ con la Seguridad Social.
+- **¿Puedo conservar mi vivienda si me acojo a la LSO?** Depende. Si tu vivienda tiene una hipoteca y su valor es inferior a la deuda pendiente, es más probable que puedas mantenerla. Si está pagada y libre de cargas, el juez podría exigir su liquidación, o podrías proponer un plan de pagos que te permita conservarla, siempre que sea tu residencia habitual.
+- **¿Cuánto tiempo tarda el proceso de la Ley de Segunda Oportunidad?** El plazo varía según la complejidad del caso. Para deudores sin bienes (la mayoría), puede durar entre 6 y 18 meses. Si hay liquidación de patrimonio o se establece un plan de pagos, el proceso podría extenderse hasta los 2 años o más.
+
 ### Cancelar deudas vs. mediación extrajudicial
 URL: https://mi-calma.es/blog/cancelar-deudas-vs-mediacion-extrajudicial
 
@@ -635,13 +644,4 @@ Sí, es posible cancelar deudas incluso con la cuenta bancaria ya embargada. La 
 - **¿Puede un banco embargar mi cuenta sin previo aviso?** No, un banco no puede embargar tu cuenta sin una orden judicial o administrativa previa. Debes ser notificado con anterioridad sobre la deuda y la intención de ejecución, aunque en ocasiones las notificaciones pueden no llegar a tu conocimiento o ser confusas.
 - **¿Qué parte de mi dinero en cuenta es inembargable?** La Ley de Enjuiciamiento Civil (Art. 607 LEC) establece que el importe equivalente al Salario Mínimo Interprofesional (SMI) es inembargable. Por encima de este límite, se aplican porcentajes progresivos de embargo.
 - **¿Se pueden embargar las pensiones o prestaciones por desempleo?** Sí, las pensiones y prestaciones por desempleo pueden ser embargadas, pero siempre respetando los límites de inembargabilidad establecidos por el SMI, al igual que ocurre con los salarios. El importe que exceda el SMI es embargable según la escala de la LEC.
-
-### Cancelar deudas con financieras de coche
-URL: https://mi-calma.es/blog/cancelar-deudas-con-financieras-de-coche
-
-Sí, es posible cancelar o al menos reducir significativamente la deuda de un coche si la financiación incluye intereses usurarios o cláusulas abusivas. La Ley de Usura y la legislación de protección al consumidor permiten reclamar la anulabilidad del contrato, lo que podría llevar a la devolución de lo pagado en exceso y la cancelación de la deuda restante, recuperando así el control sobre tu economía.
-
-- **¿Qué pasa con el coche si se anula el contrato de financiación?** Si se anula el contrato de financiación, la consecuencia principal es que se extinguen los intereses y comisiones abusivas. En la práctica, te quedarás únicamente con la obligación de devolver el capital principal prestado, descontando lo que ya hayas abonado. En muchos casos, esto significa que la deuda pendiente se reduce drásticamente o incluso desaparece, y el coche es tuyo una vez pagues el capital restante sin intereses. No se te quita el coche.
-- **¿Puedo reclamar si ya he terminado de pagar la financiación del coche?** Sí, la acción de nulidad por usura no prescribe, lo que significa que puedes reclamar la nulidad del contrato en cualquier momento, incluso si ya has terminado de pagar la financiación. Si el contrato se declara nulo, la entidad deberá devolverte todas las cantidades que hayas pagado en concepto de intereses y comisiones por encima del capital inicialmente prestado.
-- **¿Cómo sé si mi interés es usurario?** Un interés se considera usurario si es "notablemente superior al normal del dinero y manifiestamente desproporcionado con las circunstancias del caso". Se compara la TAE de tu contrato con la media de las TAE de préstamos al consumo de características similares en el momento de la firma, publicadas oficialmente por el Banco de España. Si la diferencia es de varios puntos porcentuales, es muy probable que lo sea.
 
