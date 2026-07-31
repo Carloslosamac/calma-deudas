@@ -38,7 +38,8 @@ import {
   buildOrganization,
 } from "@/lib/seo/structuredData";
 import { blogPosts } from "@/data/blog";
-import { fetchGeneratedPostsIndex, optimizedImage } from "@/data/blog/dbPosts";
+import { fetchGeneratedPostsIndex } from "@/data/blog/dbPosts";
+import BlogHeroImage from "@/components/blog/BlogHeroImage";
 import stepStrategy from "@/assets/step-strategy.jpg";
 
 const categoryIcons: Record<string, LucideIcon> = {
@@ -162,13 +163,12 @@ const BlogCard = ({ article }: { article: BlogArticle }) => {
     className="group block overflow-hidden rounded-[2rem] border border-border bg-surface-elevated shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-large focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-deep focus-visible:ring-offset-2"
   >
     <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-      <img
+      <BlogHeroImage
         src={article.image}
         alt={article.imageAlt}
-        loading="lazy"
-        decoding="async"
         width={640}
         height={400}
+        sizes="(max-width: 640px) 100vw, 400px"
         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
@@ -255,7 +255,7 @@ const Blog = () => {
         excerpt: post.excerpt,
         date: post.date,
         readTime: post.readTime,
-        image: optimizedImage(post.heroImage, 640),
+        image: post.heroImage,
         imageAlt: post.heroAlt,
         authors: post.authors,
         author: post.author,
@@ -365,9 +365,13 @@ const Blog = () => {
             className="group mx-auto mt-9 grid max-w-5xl overflow-hidden rounded-[2rem] border border-border bg-[hsl(160_45%_8%)] shadow-large transition-shadow hover:shadow-[0_18px_60px_-12px_hsl(145_60%_30%/0.45)] md:grid-cols-[0.95fr_1.35fr]"
           >
             <div className="relative min-h-[270px] overflow-hidden bg-muted md:min-h-full">
-              <img
+              <BlogHeroImage
                 src={featuredArticle.image}
                 alt={featuredArticle.imageAlt}
+                width={800}
+                height={600}
+                priority
+                sizes="(max-width: 768px) 100vw, 480px"
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[hsl(160_45%_8%)]/20" />
@@ -434,10 +438,12 @@ const Blog = () => {
                   >
                     <div className="relative min-h-[220px] overflow-hidden bg-muted">
                       {post ? (
-                        <img
+                        <BlogHeroImage
                           src={post.heroImage}
                           alt={post.heroAlt}
-                          loading="lazy"
+                          width={480}
+                          height={480}
+                          sizes="(max-width: 768px) 45vw, 320px"
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
                       ) : null}
