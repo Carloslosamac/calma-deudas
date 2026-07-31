@@ -7,12 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import testimonial1 from "@/assets/testimonial-1.jpg";
-import testimonial2 from "@/assets/testimonial-2.jpg";
-import testimonial3 from "@/assets/testimonial-3.jpg";
-import testimonial4 from "@/assets/testimonial-4.jpg";
-import testimonial5 from "@/assets/testimonial-5.jpg";
-import testimonial6 from "@/assets/testimonial-6.jpg";
+import testimonial1 from "@/assets/testimonial-1.jpg?format=webp&w=600&quality=72";
+import testimonial2 from "@/assets/testimonial-2.jpg?format=webp&w=600&quality=72";
+import testimonial3 from "@/assets/testimonial-3.jpg?format=webp&w=600&quality=72";
+import testimonial4 from "@/assets/testimonial-4.jpg?format=webp&w=600&quality=72";
+import testimonial5 from "@/assets/testimonial-5.jpg?format=webp&w=600&quality=72";
+import testimonial6 from "@/assets/testimonial-6.jpg?format=webp&w=600&quality=72";
 
 const testimonials = [
   {
@@ -103,8 +103,9 @@ const TestimonialsSection = () => {
                       src={t.photo}
                       alt={`${t.name}, cliente de Calma en ${t.location}`}
                       loading="lazy"
-                      width={800}
-                      height={1000}
+                      decoding="async"
+                      width={600}
+                      height={750}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-transparent" />
