@@ -388,7 +388,8 @@ CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: "google/gemini-3.6-flash",
+            reasoning_effort: "none",
             messages,
             response_format: { type: "json_object" },
           }),
@@ -462,7 +463,8 @@ async function rewriteTitle(rawTitle: string, topic: string, category: string): 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3.6-flash",
+            reasoning_effort: "none",
         messages: [
           {
             role: "system",
