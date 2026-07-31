@@ -7,12 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import testimonial1 from "@/assets/testimonial-1.jpg?format=webp&quality=85";
-import testimonial2 from "@/assets/testimonial-2.jpg?format=webp&quality=85";
-import testimonial3 from "@/assets/testimonial-3.jpg?format=webp&quality=85";
-import testimonial4 from "@/assets/testimonial-4.jpg?format=webp&quality=85";
-import testimonial5 from "@/assets/testimonial-5.jpg?format=webp&quality=85";
-import testimonial6 from "@/assets/testimonial-6.jpg?format=webp&quality=85";
+import testimonial1 from "@/assets/testimonial-1.jpg?format=webp&w=800&quality=82";
+import testimonial2 from "@/assets/testimonial-2.jpg?format=webp&w=800&quality=82";
+import testimonial3 from "@/assets/testimonial-3.jpg?format=webp&w=800&quality=82";
+import testimonial4 from "@/assets/testimonial-4.jpg?format=webp&w=800&quality=82";
+import testimonial5 from "@/assets/testimonial-5.jpg?format=webp&w=800&quality=82";
+import testimonial6 from "@/assets/testimonial-6.jpg?format=webp&w=800&quality=82";
 
 const testimonials = [
   {
