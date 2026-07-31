@@ -61,6 +61,18 @@ const formatDate = (iso?: string | null): string => {
   }
 };
 
+/**
+ * Sirve las imágenes de storage a través del transformador de imágenes
+ * (WebP/AVIF automático según Accept) en lugar del JPEG original.
+ * Las imágenes locales importadas por Vite se devuelven intactas.
+ */
+export const optimizedImage = (src?: string, width = 1200, quality = 72): string => {
+  if (!src || !src.includes("/storage/v1/object/sign/")) return src ?? "";
+  const url = src.replace("/storage/v1/object/sign/", "/storage/v1/render/image/sign/");
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}width=${width}&quality=${quality}`;
+};
+
 export const rowToBlogPost = (row: GeneratedPostRow): BlogPost => ({
   slug: row.slug,
   category: row.category,
@@ -94,6 +106,34 @@ export const fetchGeneratedPosts = async (): Promise<BlogPost[]> => {
     .order("published_at", { ascending: false });
   if (error || !data) return [];
   return (data as GeneratedPostRow[]).map(rowToBlogPost);
+};
+
+/**
+ * Índice ligero: solo los campos que necesitan el listado, los relacionados y
+ * el enlazado interno. Evita descargar el HTML completo de todos los posts
+ * (≈1 MB gzip) en cada visita.
+ */
+export const fetchGeneratedPostsIndex = async (): Promise<BlogPost[]> => {
+  const { data, error } = await supabase
+    .from("generated_posts")
+    .select(
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,keywords,published_at"
+    )
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+  if (error || !data) return [];
+  return (data as Partial<GeneratedPostRow>[]).map((row) =>
+    rowToBlogPost({
+      sections: [],
+      faq: [],
+      seo_title: null,
+      meta_description: null,
+      sidebar: null,
+      tldr: null,
+      key_takeaways: null,
+      ...row,
+    } as GeneratedPostRow)
+  );
 };
 
 export const fetchGeneratedPostBySlug = async (slug: string): Promise<BlogPost | null> => {

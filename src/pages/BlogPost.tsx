@@ -10,7 +10,11 @@ import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import AnswerSummary from "@/components/blog/AnswerSummary";
 import { blogPosts, getPostBySlug } from "@/data/blog";
-import { fetchGeneratedPostBySlug, fetchGeneratedPosts } from "@/data/blog/dbPosts";
+import {
+  fetchGeneratedPostBySlug,
+  fetchGeneratedPostsIndex,
+  optimizedImage,
+} from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
 import AuthorChips from "@/components/blog/AuthorChips";
@@ -49,9 +53,10 @@ const BlogPost = () => {
   // enlazado interno por intención. Sin esto los posts auto-generados no
   // se enlazan entre sí ni con la guía madre de su cluster.
   const { data: generatedPosts = [] } = useQuery({
-    queryKey: ["generated-posts", "all"],
-    queryFn: fetchGeneratedPosts,
-    staleTime: 5 * 60 * 1000,
+    queryKey: ["generated-posts-index"],
+    queryFn: fetchGeneratedPostsIndex,
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const allPosts = useMemo(() => {
@@ -224,7 +229,15 @@ const BlogPost = () => {
           </header>
 
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
-            <img src={post.heroImage} alt={post.heroAlt} className="aspect-[16/9] w-full object-cover" />
+            <img
+              src={optimizedImage(post.heroImage, 1200)}
+              alt={post.heroAlt}
+              width={1600}
+              height={900}
+              fetchPriority="high"
+              decoding="async"
+              className="aspect-[16/9] w-full object-cover"
+            />
           </figure>
 
           <AnswerSummary tldr={post.tldr} takeaways={post.keyTakeaways} />
@@ -345,9 +358,12 @@ const BlogPost = () => {
                   >
                     <div className="overflow-hidden">
                       <img
-                        src={rp.heroImage}
+                        src={optimizedImage(rp.heroImage, 640)}
                         alt={rp.heroAlt}
                         loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={400}
                         className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     </div>
