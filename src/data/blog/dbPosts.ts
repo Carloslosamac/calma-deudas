@@ -73,19 +73,6 @@ export const optimizedImage = (src?: string, width = 1200, quality = 72): string
   return `${url}${sep}width=${width}&quality=${quality}`;
 };
 
-const unusedFormatDate = (iso?: string | null): string => {
-  if (!iso) return "";
-  try {
-    return new Date(iso).toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  } catch {
-    return "";
-  }
-};
-
 export const rowToBlogPost = (row: GeneratedPostRow): BlogPost => ({
   slug: row.slug,
   category: row.category,
