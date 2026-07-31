@@ -410,7 +410,9 @@ CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
     if (!content) continue;
     const parsed = extractFirstJsonObject(content);
     if (parsed) return parsed;
-    console.error(`JSON parse failed for roadmap ${row.id} (attempt ${attempt + 1})`);
+    console.error(
+      `JSON parse failed for roadmap ${row.id} (attempt ${attempt + 1}) len=${content.length} finish=${data?.choices?.[0]?.finish_reason} head=${JSON.stringify(content.slice(0, 120))} tail=${JSON.stringify(content.slice(-120))}`,
+    );
   }
   return null;
 }
