@@ -10,7 +10,7 @@ import BlogSidebar, { type TocItem } from "@/components/blog/BlogSidebar";
 import FaqList from "@/components/blog/FaqList";
 import AnswerSummary from "@/components/blog/AnswerSummary";
 import BlogHeroImage from "@/components/blog/BlogHeroImage";
-import { blogPosts, getPostBySlug } from "@/data/blog";
+import { blogPosts, isStaticPost, loadStaticPost } from "@/data/blog";
 import { fetchGeneratedPostBySlug, fetchGeneratedPostsIndex } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
@@ -38,12 +38,19 @@ const BlogPost = () => {
   if (slug && SLUG_REDIRECTS[slug]) {
     return <Navigate to={`/blog/${SLUG_REDIRECTS[slug]}`} replace />;
   }
-  const staticPost = getPostBySlug(slug);
-  const { data: dbPost, isLoading } = useQuery({
+  const isStatic = isStaticPost(slug);
+  const { data: staticPost, isLoading: loadingStatic } = useQuery({
+    queryKey: ["static-post", slug],
+    queryFn: () => loadStaticPost(slug),
+    enabled: isStatic,
+    staleTime: Infinity,
+  });
+  const { data: dbPost, isLoading: loadingDb } = useQuery({
     queryKey: ["generated-post", slug],
     queryFn: () => fetchGeneratedPostBySlug(slug!),
-    enabled: !!slug && !staticPost,
+    enabled: !!slug && !isStatic,
   });
+  const isLoading = isStatic ? loadingStatic : loadingDb;
   const post = staticPost ?? dbPost ?? undefined;
 
   // Pool completo (estáticos + generados) para calcular relacionados y
