@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import personWoman from "@/assets/person-woman-walking.jpg";
-import personMan from "@/assets/person-man-portrait.jpg";
-import personCouple from "@/assets/person-couple-sofa.jpg";
+import personWoman from "@/assets/person-woman-walking.jpg?format=webp&w=96&quality=72";
+import personMan from "@/assets/person-man-portrait.jpg?format=webp&w=96&quality=72";
+import personCouple from "@/assets/person-couple-sofa.jpg?format=webp&w=96&quality=72";
 
 const HeroSection = () => {
   const scrollToForm = () => {
@@ -83,9 +83,9 @@ const HeroSection = () => {
           className="flex items-center justify-center gap-3 text-foreground/70"
         >
           <div className="flex -space-x-2">
-            <img src={personWoman} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
-            <img src={personCouple} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
-            <img src={personMan} alt="Cliente Calma" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personWoman} alt="Cliente Calma" width={40} height={40} decoding="async" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personCouple} alt="Cliente Calma" width={40} height={40} decoding="async" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
+            <img src={personMan} alt="Cliente Calma" width={40} height={40} decoding="async" className="h-10 w-10 rounded-full border-2 border-background object-cover shadow-soft" />
           </div>
           <div className="text-left">
             <div className="flex items-center gap-1 text-amber-500 text-sm">

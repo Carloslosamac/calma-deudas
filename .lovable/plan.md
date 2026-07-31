@@ -1,35 +1,39 @@
-## Qué he verificado
+## Objetivo
 
-- Los runs de 44m no son "lentos": el edge function muere sin cerrar el run y lo cierra después `close_stale_generator_runs` (>30 min). Por eso la duración es 44m y el estado queda "Fallo".
-- Causa concreta: en `generate-daily-posts` el presupuesto es `TIME_BUDGET_MS = 130s`, pero cada post puede consumir `withTimeout(generateArticle, 180s)` + `withTimeout(hero, 180s)` = hasta 360s. El límite wall-clock del edge function llega antes → proceso matado → run huérfano, sin `published_count` ni cierre.
-- El post del 30/07 16:17 (`cancelar-deudas-y-volver-a-facturar-sin-bloqueos`) tiene la imagen guardada como `slug.jpg` **sin timestamp**, mientras que las que regeneré ayer sí lo llevan. Es decir: el cron ejecutó una versión desplegada anterior a los últimos cambios de prompt/rutas. Además su `hero_alt` describe "mujer de perfil en terraza" pero la imagen es la pareja en mesa blanca: la imagen no corresponde al prompt nuevo.
+Bajar el peso de la web de ~154 MB de assets a unos pocos MB y arreglar los avisos de PageSpeed (LCP, CLS, "serve images in next-gen formats", "properly size images").
 
-## Plan
+## Fase completa
 
-### 1. Que el run nunca se cuelgue
+### 1. Compresión y redimensionado masivo de `src/assets` (~150 archivos)
+- Procesar todas las imágenes con `sharp` desde un script puntual en el sandbox:
+  - Testimoniales / avatares → 256 px de lado, WebP calidad 78.
+  - Imágenes de pasos "Cómo funciona" y secciones → máx. 1200 px de ancho, WebP calidad 80.
+  - Portadas de `src/assets/casos/` (76 archivos, 120 MB) → máx. 1280 px, WebP calidad 78.
+  - Logo `calma-logo.png` (806 KB, 1694x608) → PNG/WebP a 340x122 real de uso.
+- Se eliminan los originales pesados y se dejan solo las versiones optimizadas, manteniendo el mismo nombre de import donde sea posible para no tocar cientos de call sites.
 
-- Bajar los timeouts por fase a valores que quepan en la ventana real: artículo 70s, hero 45s.
-- Comprobar el presupuesto **antes de cada fase** (no solo al inicio del bucle) y saltar el hero si no queda margen.
-- Envolver todo el bucle en un deadline global (~120s) y cerrar el run en un `finally`, de modo que siempre se escriba `status`, `published_count`, `failed_count` aunque algo falle.
-- Heartbeat: actualizar `generator_runs` tras cada post (ya existe parcialmente) para que la duración refleje trabajo real.
+### 2. Migrar los assets grandes al CDN
+- Todo lo que quede por encima de ~100 KB tras comprimir (principalmente `casos/`) pasa a `.asset.json` servido desde el CDN de Lovable, para que no viaje en el bundle ni en el repo.
+- Se reescriben los imports afectados a `import x from "...asset.json"` + `x.url`.
 
-### 2. Que el objetivo diario se cumpla
+### 3. `vite-imagetools` + formatos modernos
+- Añadir el plugin y usar variantes AVIF/WebP en las imágenes de la home, con `<picture>` donde el ahorro lo justifique.
 
-- Mantener 3 crons/día (08:15, 12:15, 16:15 UTC) con objetivo 1–2 por run, ahora sí alcanzable dentro de la ventana.
-- Si el presupuesto corta el run, cerrarlo como **OK parcial** (no "Fallo") con motivo `presupuesto`, para distinguir fallo real de corte planificado.
+### 4. Dimensiones explícitas y prioridad de carga
+- `HeroSection`: `width`/`height` explícitos, `fetchpriority="high"`, sin `lazy`, y `<link rel="preload">` de la imagen LCP en `index.html`.
+- `TestimonialsSection` y `HowItWorks`: `width`/`height` en cada `img`, `loading="lazy"`, `decoding="async"` — elimina el CLS.
+- Revisar el resto de componentes de la home con imágenes para el mismo tratamiento.
 
-### 3. Que el cron use de verdad el prompt nuevo
+### 5. Verificación
+- `bun run build` y comprobación del tamaño del bundle antes/después.
+- Captura con Playwright de la home para confirmar que ninguna imagen se rompe ni cambia de encuadre.
+- Reporte final: MB eliminados, peso de la home antes/después.
 
-- Añadir una constante `PIPELINE_VERSION` en `generate-daily-posts` y guardarla en `generator_runs` y en el post creado (o en el log), para poder comprobar en `/admin/contenido/salud` qué build generó cada imagen.
-- Unificar el bloque de escenas/prompt/estilo entre `generate-daily-posts` y `regenerate-blog-hero` moviéndolo a `supabase/functions/_shared/hero-prompt.ts`, para que no puedan volver a divergir.
-- Forzar ruta con timestamp también en el cron y `upsert: true`, evitando reutilizar ficheros antiguos.
-- Redesplegar ambas funciones y comprobar en logs que el run nuevo reporta la versión esperada.
+### 6. Aparte: arreglar el parseo JSON del cron
+- Leer los logs de diagnóstico ya desplegados de `generate-daily-posts` (`finish_reason` + inicio/fin de la respuesta) y cerrar el fallo de parseo con `gemini-3.6-flash` (probablemente respuesta truncada o envuelta en texto → aplicar el mismo `extractFirstJsonObject` y subir `max_tokens`).
 
-### 4. Corregir lo ya publicado
+## Notas técnicas
 
-- Regenerar la portada del post del 30/07 con entorno blanco.
-- Revisar los posts de los últimos 3 días y regenerar los que no lleven timestamp en la ruta (marcador de pipeline viejo).
-
-## Detalle técnico
-
-Archivos: `supabase/functions/generate-daily-posts/index.ts`, `supabase/functions/regenerate-blog-hero/index.ts`, nuevo `supabase/functions/_shared/hero-prompt.ts`. Sin cambios de esquema salvo, si hace falta, una columna `pipeline_version` en `generator_runs`.
+- El procesado de imágenes se hace en el sandbox, no añade dependencias de runtime.
+- La migración a CDN es reversible revirtiendo el commit; los `.asset.json` quedan versionados.
+- No se toca contenido, copy ni lógica de negocio.

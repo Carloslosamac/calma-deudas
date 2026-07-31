@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
-import family from "@/assets/person-family-table.jpg";
+import family from "@/assets/person-family-table.jpg?format=webp&w=900&quality=72";
 
 const PricingSection = () => {
   return (
@@ -20,6 +20,9 @@ const PricingSection = () => {
               src={family}
               alt="Familia española disfrutando una comida juntos sin preocupaciones financieras"
               loading="lazy"
+              decoding="async"
+              width={900}
+              height={506}
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-foreground/90 md:to-foreground" />

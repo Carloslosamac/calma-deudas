@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { ClipboardList, Scale, Sparkles } from "lucide-react";
-import stepForm from "@/assets/step-form.jpg";
-import stepStrategy from "@/assets/step-strategy.jpg";
-import stepFreedom from "@/assets/step-freedom.jpg";
+import stepForm from "@/assets/step-form.jpg?format=webp&w=800&quality=72";
+import stepStrategy from "@/assets/step-strategy.jpg?format=webp&w=800&quality=72";
+import stepFreedom from "@/assets/step-freedom.jpg?format=webp&w=800&quality=72";
 
 const steps = [
   {
@@ -61,6 +61,9 @@ const HowItWorks = () => {
                   src={step.image}
                   alt={step.imageAlt}
                   loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={536}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-surface/40 via-transparent to-transparent" />
