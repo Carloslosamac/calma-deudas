@@ -11,11 +11,7 @@ import FaqList from "@/components/blog/FaqList";
 import AnswerSummary from "@/components/blog/AnswerSummary";
 import BlogHeroImage from "@/components/blog/BlogHeroImage";
 import { blogPosts, getPostBySlug } from "@/data/blog";
-import {
-  fetchGeneratedPostBySlug,
-  fetchGeneratedPostsIndex,
-  optimizedImage,
-} from "@/data/blog/dbPosts";
+import { fetchGeneratedPostBySlug, fetchGeneratedPostsIndex } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
 import AuthorChips from "@/components/blog/AuthorChips";
