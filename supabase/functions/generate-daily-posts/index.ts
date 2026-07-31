@@ -428,6 +428,7 @@ CHECKLIST OBLIGATORIO antes de devolver el JSON (auto-verifica cada punto):
             model: "google/gemini-3.6-flash",
             reasoning_effort: "none",
             messages,
+            max_tokens: 32000,
             response_format: { type: "json_object" },
           }),
         },
