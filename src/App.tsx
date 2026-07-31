@@ -43,10 +43,14 @@ const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminIaVisibility = lazy(() => import("./pages/admin/AdminIaVisibility"));
 import ScrollToTop from "./components/ScrollToTop";
-import { moneyPages } from "./data/seo/moneyPages";
-import { comparativas } from "./data/seo/comparativas";
-import { guias } from "./data/seo/guias";
-import { tools } from "./data/seo/tools";
+// Solo los paths (auto-generados): los datasets SEO completos viven en los
+// chunks lazy de cada página, fuera del bundle inicial.
+import {
+  moneyPagePaths,
+  toolPaths,
+  guiaPaths,
+  comparativaPaths,
+} from "./data/seo/routePaths.generated";
 
 const queryClient = new QueryClient();
 
@@ -92,12 +96,12 @@ const App = () => (
           <Route path="/servicios" element={<Servicios />} />
           {/* Herramientas: hub + una página por herramienta */}
           <Route path="/herramientas" element={<HerramientasHub />} />
-          {tools.map((t) => (
-            <Route key={t.path} path={t.path} element={<ToolPage />} />
+          {toolPaths.map((path) => (
+            <Route key={path} path={path} element={<ToolPage />} />
           ))}
           {/* Money pages (paths explícitos, generados desde data) */}
-          {moneyPages.map((p) => (
-            <Route key={p.path} path={p.path} element={<MoneyLanding />} />
+          {moneyPagePaths.map((path) => (
+            <Route key={path} path={path} element={<MoneyLanding />} />
           ))}
           {/* Página antigua de casos: redirige a la única página de casos */}
           <Route path="/ley-segunda-oportunidad/casos" element={<Navigate to="/casos-de-exito" replace />} />
@@ -107,12 +111,12 @@ const App = () => (
             element={<LocalizacionPage />}
           />
           {/* Guías de educación financiera: /guias/<slug> */}
-          {guias.map((g) => (
-            <Route key={g.path} path={g.path} element={<GuiaPage />} />
+          {guiaPaths.map((path) => (
+            <Route key={path} path={path} element={<GuiaPage />} />
           ))}
           {/* Comparativas: /<cluster>/<slug> (antes del catch-all de entidad) */}
-          {comparativas.map((c) => (
-            <Route key={c.path} path={c.path} element={<ComparativaPage />} />
+          {comparativaPaths.map((path) => (
+            <Route key={path} path={path} element={<ComparativaPage />} />
           ))}
           {/* Fichas de entidad: /<cluster>/<slug> */}
           <Route path="/:cluster/:slug" element={<EntityPage />} />
