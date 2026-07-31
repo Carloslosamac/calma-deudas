@@ -333,7 +333,10 @@ const FormSection = () => {
               style={{ width: `${progress}%` }}
             />
             <input
+              id={`slider-${valueKey}`}
               type="range"
+              aria-label={title}
+              aria-valuetext={eur(displayValue)}
               value={data[valueKey]}
               min={min}
               max={max}
