@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Cuánto cuesta cancelar deudas en 2026: precios reales
+URL: https://mi-calma.es/blog/cuanto-cuesta-cancelar-deudas-en-2026-precios-reales
+
+El coste de cancelar deudas en España varía entre los 0 € (si reclamas por usura con condena en costas a la entidad) y una horquilla habitual de 1.500 € a 4.000 € en procedimientos de Ley de Segunda Oportunidad. Este precio abarca honorarios de abogado, procurador y eventuales costes de liquidación, pudiendo abonarse habitualmente en cuotas mensuales adaptadas.
+
+- **¿Puedo cancelar mis deudas gratis con la Ley de Segunda Oportunidad?** Es posible solicitar un Abogado de Oficio y Procurador de Oficio a través del Colegio de Abogados si cumples los requisitos de la Ley de Asistencia Jurídica Gratuita. Sin embargo, la especialización en derecho concursal es clave para evitar que el concurso sea denegado o se dilate durante años. Con despachos privados, el servicio tiene un coste pero se adapta en cuotas mensuales asumibles.
+- **¿El procurador va incluido en el precio que cobran los abogados?** Depende de la firma. Algunos despachos incluyen los honorarios de procurador en su presupuesto global cerrado, mientras que otros lo cobran por separado al inicio o a la conclusión del proceso. En Calma siempre detallamos los derechos de procurador expresamente en la hoja de encargo para evitar desviaciones.
+- **¿Hay que pagarle algo al Mediador Concursal en 2026?** No. Tras la reforma del TRLC mediante la Ley 16/2022, la figura del mediador concursal desapareció para los procedimientos de personas físicas no empresarias. Ya no existe la fase de acuerdo extrajudicial de pagos previa, por lo que este coste ha quedado completamente eliminado.
+
 ### Cómo saber si puedes cancelar tus deudas: test rápido 2026
 URL: https://mi-calma.es/blog/como-saber-si-puedes-cancelar-tus-deudas-test-rapido-2026
 
@@ -635,13 +644,4 @@ Generalmente, no es recomendable ni sencillo usar un plan de pensiones para sald
 - **¿Pueden embargarme el plan de pensiones por deudas?** Generalmente no. Los planes de pensiones son inembargables hasta el momento en que se produce una contingencia o supuesto de rescate anticipado (jubilación, desempleo de larga duración, etc.). Una vez rescatado, el dinero sí podría ser objeto de embargo.
 - **¿Es buena idea usar todos mis ahorros para pagar deudas?** No siempre es la mejor estrategia. Agotar todos tus ahorros te deja sin un colchón de emergencia para imprevistos. Es crucial evaluar si existen alternativas legales que te permitan cancelar la deuda sin descapitalizarte por completo.
 - **¿La Ley de Segunda Oportunidad protege mis ahorros?** Sí, la Ley de Segunda Oportunidad busca salvaguardar un mínimo vital y, en muchos casos, los ahorros que sean razonables para la subsistencia del deudor. Los planes de pensiones también suelen estar protegidos en el marco de este proceso.
-
-### Cancelar deudas con particulares y familiares
-URL: https://mi-calma.es/blog/cancelar-deudas-con-particulares-y-familiares
-
-Cancelar deudas con particulares o familiares exige un enfoque distinto al de los bancos, priorizando la comunicación, la transparencia y, en caso de insolvencia, explorando soluciones legales como la Ley de Segunda Oportunidad. Es fundamental reconocer que, aunque la relación personal añada complejidad, las opciones para resolverlo existen y deben abordarse con seriedad para proteger tanto tu patrimonio como tus vínculos más cercanos.
-
-- **¿Puede un particular o familiar reclamar judicialmente una deuda sin un contrato escrito?** Sí, si puede probar la existencia de la deuda y sus condiciones por otros medios, como transferencias bancarias, mensajes de texto (WhatsApp), correos electrónicos o testimonios. La ausencia de un contrato formal no invalida automáticamente la deuda.
-- **¿La Ley de Segunda Oportunidad cancela las deudas con familiares y amigos?** Sí, la Ley de Segunda Oportunidad (LSO) está diseñada para cancelar la mayoría de las deudas, incluidas las contraídas con particulares y familiares, siempre que se cumplan los requisitos de insolvencia generalizada y buena fe establecidos en la ley.
-- **¿Qué pasa si un familiar me prestó dinero, pero no quiero meterlo en el proceso de Segunda Oportunidad?** Al acogerte a la Ley de Segunda Oportunidad, debes incluir a todos tus acreedores. No puedes elegir qué deudas cancelar y cuáles no. Si no incluyes a un acreedor, la deuda seguirá existiendo tras el proceso.
 
