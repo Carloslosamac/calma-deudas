@@ -108,6 +108,34 @@ export const fetchGeneratedPosts = async (): Promise<BlogPost[]> => {
   return (data as GeneratedPostRow[]).map(rowToBlogPost);
 };
 
+/**
+ * Índice ligero: solo los campos que necesitan el listado, los relacionados y
+ * el enlazado interno. Evita descargar el HTML completo de todos los posts
+ * (≈1 MB gzip) en cada visita.
+ */
+export const fetchGeneratedPostsIndex = async (): Promise<BlogPost[]> => {
+  const { data, error } = await supabase
+    .from("generated_posts")
+    .select(
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,keywords,published_at"
+    )
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+  if (error || !data) return [];
+  return (data as Partial<GeneratedPostRow>[]).map((row) =>
+    rowToBlogPost({
+      sections: [],
+      faq: [],
+      seo_title: null,
+      meta_description: null,
+      sidebar: null,
+      tldr: null,
+      key_takeaways: null,
+      ...row,
+    } as GeneratedPostRow)
+  );
+};
+
 export const fetchGeneratedPostBySlug = async (slug: string): Promise<BlogPost | null> => {
   const { data, error } = await supabase
     .from("generated_posts")
