@@ -34,7 +34,7 @@ const BlogHeroImage = ({
       width={width}
       height={height}
       loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : "auto"}
+      {...(priority ? { fetchpriority: "high" } : {})}
       decoding="async"
       className={className}
     />
