@@ -4,7 +4,7 @@
  */
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { blogPosts } from "../src/data/blog";
+import { blogPostsMeta as blogPosts } from "../src/data/blog/meta";
 import { SITE_URL } from "../src/lib/seo/config";
 import { moneyPages } from "../src/data/seo/moneyPages";
 import { tools } from "../src/data/seo/tools";

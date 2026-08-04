@@ -17,7 +17,7 @@ import { comparativas } from "../src/data/seo/comparativas";
 import { tools } from "../src/data/seo/tools";
 import { localizaciones } from "../src/data/seo/localizaciones";
 import { entities } from "../src/data/seo/entities";
-import { blogPosts as staticBlogPosts } from "../src/data/blog";
+import { blogPostsMeta as staticBlogPosts } from "../src/data/blog/meta";
 import { casosExito } from "../src/data/casos";
 import { moneyContentByPath } from "../src/data/seo/content";
 

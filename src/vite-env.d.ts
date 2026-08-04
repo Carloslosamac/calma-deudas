@@ -18,3 +18,12 @@ declare module "*&quality=95" {
   const src: string;
   export default src;
 }
+
+declare module "*&quality=80" {
+  const src: string;
+  export default src;
+}
+declare module "*&quality=90" {
+  const src: string;
+  export default src;
+}
