@@ -1,35 +1,25 @@
-## Diagnóstico (móvil, /blog/guia-ley-segunda-oportunidad)
+# Arreglar "No se pudo generar el diagnóstico" en /admin/ventas
 
-76 de rendimiento con TBT 10 ms y CLS 0: no es JavaScript pesado ni saltos de layout, es **tiempo hasta pintar** (FCP 3,2 s / LCP 4,1 s / Speed Index 5,9 s). Tres causas confirmadas en el código:
+## Qué está pasando (verificado)
 
-1. **Hero sin versión móvil.** En los posts estáticos (como esta guía) `heroImage` es un JPEG importado por Vite (`blog-guia-segunda-oportunidad.jpg`, ~158 KB) que se sirve tal cual: `optimizedImage()` en `dbPosts.ts` solo transforma URLs de storage, así que a los posts estáticos no les aplica nada. En una pantalla móvil de 390 px se descarga la imagen completa en JPEG, sin WebP/AVIF ni `srcset`.
-2. **Cadena de arranque en serie.** `/blog/:slug` es una ruta `lazy()`: el navegador descarga `index.html` → bundle principal → chunk de la ruta → módulo del post → recién entonces conoce la URL del hero y lo pide. En 4G móvil eso son 3-4 saltos antes de empezar a descargar el LCP.
-3. **Tipografía.** Poppins se autohospeda por `@font-face` sin preload; en móvil el descubrimiento tardío de la fuente retrasa el pintado del H1 (que es parte de lo que mide el Speed Index).
+Los logs de la función `sales-diagnosis` muestran que todas las llamadas de esta mañana devuelven **400 en unos 110 ms** (ni siquiera llegan a la IA). Ese 400 sale de una única validación de la función: exige un texto de caso de al menos 10 caracteres.
 
-## Qué haré
+Desde que simplificamos el flujo ya no hay textarea: el texto se compone en el cliente con la etiqueta más los "datos relevantes" añadidos uno a uno. Si no hay etiqueta y el único dato añadido es corto (como en la captura, "Datos 1"), el texto no llega a 10 caracteres y la petición se rechaza antes de generar nada.
 
-**Imagen hero (el mayor impacto sobre LCP)**
-- Generar variantes responsive de las imágenes hero locales con `vite-imagetools` (ya instalado): AVIF + WebP en anchos 480/768/1200 y usar `<picture>` con `srcset`/`sizes` en el hero del artículo.
-- Para los posts generados (storage), añadir `srcset` con el transformador ya existente (`optimizedImage(src, 480/768/1200)`) en lugar de un único 1200.
-- Crear un componente compartido `BlogHeroImage` para no duplicar esta lógica entre `BlogPost.tsx`, `Blog.tsx` y `CasoExitoPost.tsx`.
-- Bajar el hero de ~158 KB a ~25-40 KB en móvil.
+No es un problema de IA ni de créditos: es una validación heredada del flujo antiguo que ya no encaja con cómo se introducen los datos ahora.
 
-**Arranque más corto**
-- Preconnect al dominio de storage de imágenes en `index.html` para que las imágenes de posts generados no paguen el handshake TLS al final de la cadena.
-- Precargar el chunk de la ruta de artículo con `modulepreload` cuando el HTML es de `/blog/...` no es posible sin SSR; en su lugar, prefetch del chunk `BlogPost` desde el listado `/blog` (hover/idle) para las navegaciones internas, y reducir el peso del chunk del artículo sacando del bundle las miniaturas de "Sigue explorando".
-- Diferir el bloque de posts relacionados y el CTA de compartir por debajo del pliegue (carga tras el primer pintado) para que el Speed Index no espere a ellos.
+## Qué voy a cambiar
 
-**Tipografía**
-- Preload de los dos `woff2` de Poppins realmente usados por encima del pliegue (400 y 600) con `font-display: swap` ya presente, solo en el `<head>`.
+1. **Enviar el contexto completo, no solo las frases sueltas.** El texto del caso incluirá también un resumen legible de los datos del guion (deuda, ingresos, gastos, vivienda, vehículo, situación laboral, variante y modalidad de triaje), para que la IA reciba todo lo ya rellenado en fases anteriores.
+
+2. **Cambiar la validación de la función.** En vez de exigir 10 caracteres de texto libre, aceptará la petición cuando haya contexto suficiente: datos del guion rellenados o al menos un dato relevante. Solo se rechazará cuando no haya nada con lo que trabajar, con un mensaje claro ("Añade al menos un dato o completa el guion antes de generar el diagnóstico").
+
+3. **Bloquear el botón antes de fallar.** "Generar diagnóstico" quedará deshabilitado, con una pista visible, mientras no haya contexto suficiente, en lugar de dejar pulsar y mostrar un error después.
+
+4. **Mostrar el motivo real del error.** El aviso mostrará el mensaje que devuelve el servidor en vez del genérico, para no volver a quedarnos a ciegas.
 
 ## Detalles técnicos
 
-- `src/components/blog/BlogHeroImage.tsx` (nuevo): recibe `src`, `alt`, `priority`; si la URL es de storage genera `srcset` con `optimizedImage`; si es un import local usa las variantes de imagetools; siempre con `width`/`height`, `fetchPriority="high"` y `decoding="async"` para mantener CLS en 0.
-- `src/data/blog/dbPosts.ts`: añadir `imageSrcSet(src)` junto a `optimizedImage`.
-- `src/pages/BlogPost.tsx`: usar el nuevo componente; envolver relacionados/recursos en carga diferida.
-- `index.html`: `preconnect` a storage + preload de las dos fuentes.
-- No toco contenido, SEO ni estructura de datos.
-
-## Verificación
-
-Auditoría Lighthouse móvil en local (Playwright + throttling) sobre `/blog/guia-ley-segunda-oportunidad` antes y después, comparando FCP, LCP y Speed Index. El número real de PageSpeed solo se actualizará tras publicar.
+- `supabase/functions/sales-diagnosis/index.ts`: sustituir el guard de longitud mínima por una comprobación de contexto (texto no vacío **o** `guide` con campos significativos), con mensaje de error específico. Redespliegue de la función.
+- `src/pages/AdminVentas.tsx`: ampliar la composición del texto del caso con un resumen de `guide` + `triageExtra`; usar el mismo criterio para `hasCaseData` y el `disabled` del botón; propagar `data.error` al toast.
+- Verificación: llamada directa a la función con un perfil de prueba para confirmar 200, y comprobación del flujo completo en el navegador.
