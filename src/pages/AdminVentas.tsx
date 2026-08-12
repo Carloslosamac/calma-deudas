@@ -43,6 +43,7 @@ import {
   emptyContract,
 } from "@/lib/contratoPdf";
 import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
+import { useCrmAutoSync } from "@/hooks/useCrmAutoSync";
 import {
   triage as computeTriage,
   type Profile as TriageProfile,
@@ -1776,6 +1777,38 @@ const AdminVentas = () => {
     (d) => d.type === "hacienda",
   );
 
+  // Sincronización continua con el CRM: se envía el delta mientras se rellena
+  // el guion, sin esperar al guardado. Nunca en casos de prueba.
+  const liveZohoFields = useMemo(
+    () =>
+      buildZohoLeadFields({
+        debtTotal: debtsTotal > 0 ? debtsTotal : (guide.debtAmount ?? null),
+        isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault || null,
+        entitiesCount: guide.debts.length || null,
+        entitiesList: Array.from(
+          new Set(guide.debts.map((d) => d.entity?.trim()).filter(Boolean) as string[]),
+        ),
+        housing: guide.housing || null,
+        mortgagePaid: guide.mortgagePaid ?? null,
+        vehicle: guide.vehicle || null,
+        income: guide.monthlyIncome ?? null,
+        expenses: guide.monthlyExpenses ?? null,
+        housingPayment: guide.housingPayment ?? null,
+        vehiclePayment: guide.vehiclePayment ?? null,
+        debtsMonthlyPaying,
+        monthlyOutflow,
+        paymentCapacity,
+        affordablePayment,
+        employment: guide.employment ?? null,
+        solution: triageResult.title ?? null,
+      }),
+    [
+      guide, debtsTotal, debtsMonthlyPaying, monthlyOutflow, paymentCapacity,
+      affordablePayment, triageResult.title,
+    ],
+  );
+  const crmSync = useCrmAutoSync(leadExternalId, liveZohoFields, isTestCase);
+
   const runGeneration = async (
     nextStep: number,
     target: "diagnosis" | "solution" = "diagnosis",
@@ -3321,6 +3354,28 @@ const AdminVentas = () => {
                       <span className="shrink-0 rounded-full bg-orange-500 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                         Prueba
                       </span>
+                    )}
+                    {!isTestCase && (
+                      crmSync.status === "error" ? (
+                        <button
+                          type="button"
+                          onClick={crmSync.retry}
+                          title={crmSync.error}
+                          className="shrink-0 rounded-full border border-destructive px-1.5 py-0.5 text-[10px] font-semibold text-destructive hover:bg-destructive/10"
+                        >
+                          CRM: error · Reintentar
+                        </button>
+                      ) : (
+                        <span className="shrink-0 text-[10px] font-medium text-muted-foreground">
+                          {crmSync.status === "unlinked"
+                            ? "Sin vincular al CRM"
+                            : crmSync.status === "saving"
+                              ? "CRM: guardando…"
+                              : crmSync.lastSyncedAt
+                                ? `CRM: sincronizado ${new Date(crmSync.lastSyncedAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`
+                                : "CRM: en espera"}
+                        </span>
+                      )
                     )}
                   </div>
                   <div className="flex shrink-0 items-center gap-1.5">
