@@ -43,6 +43,7 @@ import {
   emptyContract,
 } from "@/lib/contratoPdf";
 import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
+import { useCrmAutoSync } from "@/hooks/useCrmAutoSync";
 import {
   triage as computeTriage,
   type Profile as TriageProfile,
