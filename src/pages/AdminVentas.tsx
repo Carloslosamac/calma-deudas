@@ -3355,6 +3355,28 @@ const AdminVentas = () => {
                         Prueba
                       </span>
                     )}
+                    {!isTestCase && (
+                      crmSync.status === "error" ? (
+                        <button
+                          type="button"
+                          onClick={crmSync.retry}
+                          title={crmSync.error}
+                          className="shrink-0 rounded-full border border-destructive px-1.5 py-0.5 text-[10px] font-semibold text-destructive hover:bg-destructive/10"
+                        >
+                          CRM: error · Reintentar
+                        </button>
+                      ) : (
+                        <span className="shrink-0 text-[10px] font-medium text-muted-foreground">
+                          {crmSync.status === "unlinked"
+                            ? "Sin vincular al CRM"
+                            : crmSync.status === "saving"
+                              ? "CRM: guardando…"
+                              : crmSync.lastSyncedAt
+                                ? `CRM: sincronizado ${new Date(crmSync.lastSyncedAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`
+                                : "CRM: en espera"}
+                        </span>
+                      )
+                    )}
                   </div>
                   <div className="flex shrink-0 items-center gap-1.5">
                     <button
