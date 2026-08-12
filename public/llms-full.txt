@@ -510,6 +510,42 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### En qué consiste el método ninja para terminar con las deudas
+URL: https://mi-calma.es/blog/consiste-metodo-ninja-terminar-deudas
+
+El método ninja para terminar con las deudas es una estrategia de gestión financiera agresiva que combina la amortización en cascada (o bola de nieve) con el recorte drástico e inmediato de gastos no esenciales. Aunque ayuda a liquidar compromisos menores en personas solventes, no sirve ante situaciones de insolvencia grave, donde la Ley de Segunda Oportunidad o la renegociación extrajudicial son las únicas vías legales eficaces.
+
+- **1. ¿Qué es exactamente el método ninja para pagar deudas?** El método ninja es un sistema informal de gestión financiera presupuestaria que propone recortar drásticamente los gastos variables para destinar todo el dinero ahorrado a amortizar préstamos de forma acelerada. A diferencia de las soluciones legales, no renegocia las condiciones contractuales ni elimina intereses por la vía judicial.
+- **2. ¿Es legal aplicar el método ninja para dejar de pagar a unos acreedores y pagar a otros?** A nivel presupuestario personal cada uno administra su dinero libremente, pero si estás al borde del concurso de acreedores o en insolvencia formal, favorecer voluntariamente a unos acreedores sobre otros de forma arbitraria puede generar problemas de clasificación de créditos según el Texto Refundido de la Ley Concursal.
+- **3. ¿Funciona el método ninja si estoy cobrando el Salario Mínimo Interprofesional?** Resulta extremadamente difícil. Con ingresos equivalentes al Salario Mínimo Interprofesional (SMI), la capacidad de margen para recortar gastos es prácticamente inexistente, ya que la totalidad de los recursos se destina a la subsistencia básica. En estos casos, las herramientas legales como la Ley de Segunda Oportunidad son la única alternativa eficaz.
+
+### ¿Qué es línea de crédito? Guía Completa
+URL: https://mi-calma.es/blog/linea-credito-guia-completa
+
+Una línea de crédito es un acuerdo financiero mediante el cual una entidad pone a disposición del cliente un importe máximo de dinero durante un plazo determinado. A diferencia de un préstamo tradicional, el cliente no recibe el capital de golpe, sino que dispone de los fondos según sus necesidades y solo paga intereses por la cantidad utilizada, además de las comisiones de apertura o disponibilidad pactadas.
+
+- **¿Cuál es la diferencia principal entre un préstamo y una línea de crédito?** En un préstamo, el banco entrega todo el dinero concedido de una sola vez y el cliente amortiza la deuda en cuotas fijas prestablecidas. En una línea de crédito, el banco pone a disposición un límite de dinero del que el cliente puede retirar el importe que necesite en cada momento, pagando intereses únicamente sobre el saldo efectivamente utilizado.
+- **¿Cuándo se considera que los intereses de una línea de crédito son usura?** Según la doctrina fijada por el Tribunal Supremo basada en la Ley de Usura de 1908, un interés se considera usurario cuando el TAE aplicado en el contrato es notablemente superior al tipo medio de interés publicado por el Banco de España para productos de financiación equivalentes en la fecha de contratación.
+- **¿Qué ocurre si la entidad declara nula la línea de crédito por usura?** Cuando un juzgado declara la nulidad de la línea de crédito por usura, el contrato queda invalidado desde el origen. El cliente queda obligado únicamente a devolver la cantidad neta que haya dispuesto de la línea. Si el total de cuotas pagadas supera el capital dispuesto, la entidad bancaria debe devolver el dinero cobrado de más.
+
+### Interés legal del dinero: ¿Qué es y cómo se calcula?
+URL: https://mi-calma.es/blog/interes-legal-dinero-calcula
+
+El interés legal del dinero es un porcentaje fijado anualmente en la Ley de Presupuestos Generales del Estado que sirve como tipo de referencia para indemnizar los daños y perjuicios derivados del retraso en el cumplimiento de una obligación dineraria cuando no existe un pacto previo entre las partes. En 2024 y 2025 se sitúa en el 3,25%, mientras que el interés de demora procesal u ordinario añade recargos específicos según la materia.
+
+- **¿Cuál es el interés legal del dinero en 2024 y 2025 en España?** El interés legal del dinero fijado en los Presupuestos Generales del Estado se sitúa en el 3,25%. Salvo aprobación de una nueva norma que lo modifique formalmente, esta tasa se mantiene prorrogada durante el ejercicio actual para todos los cálculos de mora civil u obligaciones dinerarias sin tipo contractual específico.
+- **¿En qué se diferencia el interés legal del dinero del interés de demora?** El interés legal del dinero es una tasa supletoria establecida por el Estado para compensar el retraso en el pago cuando no hay pacto expreso. El interés de demora, en cambio, es la penalización fijada contractual o legalmente para situaciones de mora específicas, como el interés de demora tributario (4,0625%) o las cláusulas de demora en préstamos comerciales.
+- **¿Qué es el interés de demora procesal y cuándo se aplica?** El interés de demora procesal viene regulado en el artículo 576 de la Ley de Enjuiciamiento Civil. Se aplica desde el momento en que un juzgado dicta sentencia condenatoria al pago de una cantidad dineraria líquida. Su cálculo equivale al tipo de interés legal del dinero vigente incrementado en dos puntos porcentuales (actualmente un 5,25%).
+
+### ¿Qué pasa si no pagas multa ayuntamiento?
+URL: https://mi-calma.es/blog/pasa-no-pagas-multa-ayuntamiento
+
+Si no pagas una multa del ayuntamiento dentro del periodo voluntario, la sanción pasa a vía ejecutiva. Esto implica la pérdida del descuento del 50%, la aplicación de recargos que oscilan entre el 5% y el 20%, e intereses de demora. Si persistes en el impago, la tesorería municipal ejecutará el embargo directo de tus salarios, devoluciones de la Renta o saldos bancarios.
+
+- **¿Me pueden embargar la cuenta bancaria por una multa de tráfico municipal?** Sí. Una vez agotado el periodo voluntario y notificada la providencia de apremio, el tesorero municipal tiene potestad legal para emitir una orden de embargo de saldos bancarios. Las entidades bancarias están obligadas por ley a retener el importe solicitado hasta cubrir el total de la deuda con recargos.
+- **¿Cuánto tarda en prescribir una multa de un ayuntamiento?** El plazo de prescripción para el cobro de una sanción económica firme es de 4 años, según establece la Ley General Tributaria. No obstante, cualquier actuación oficial de la administración notificada al interesado, o cualquier intento de embargo, interrumpe el plazo y hace que vuelva a empezar desde cero.
+- **¿Puede un ayuntamiento embargarme si vivo en otra ciudad o Comunidad Autónoma?** Sí. Aunque los ayuntamientos tienen competencia territorial limitada, utilizan convenios de colaboración con las Haciendas Autonómicas, las Diputaciones Provinciales o la propia Agencia Estatal de Administración Tributaria (AEAT) para ejecutar embargos de deudores en cualquier punto de España.
+
 ### Qué pasos debo seguir para hacer separación de bienes en España
 URL: https://mi-calma.es/blog/pasos-debo-seguir-hacer-separacion-bienes-espana
 
@@ -608,40 +644,4 @@ El Código de Buenas Prácticas es un conjunto de medidas legales de adhesión v
 - **¿Qué es el Código de Buenas Prácticas bancarias?** Es un conjunto de medidas legales aprobadas por el Gobierno (a través del Real Decreto-ley 6/2012 y el Real Decreto-ley 19/2022) para proteger a familias vulnerables o en riesgo de vulnerabilidad económica. Permite congelar el capital de la hipoteca, reducir el interés aplicado o alargar el plazo de devolución para aminorar la cuota mensual.
 - **¿El banco está obligado a concederme el Código de Buenas Prácticas?** Sí, siempre que la entidad financiera esté adherida al Código (la inmensa mayoría en España lo está) y el solicitante acredite documentalmente que cumple con todos los requisitos de ingresos, vulnerabilidad y carga financiera fijados por la ley.
 - **¿Puedo perder mi vivienda si solicito el Código de Buenas Prácticas?** No. Al contrario, la finalidad de este protocolo legal es proteger la vivienda habitual impidiendo que el banco inicie o continúe un procedimiento de ejecución hipotecaria o subasta mientras se aplican los planes de reestructuración.
-
-### Cómo puedo saber si tengo multas por aparcar mal
-URL: https://mi-calma.es/blog/puedo-saber-multas-aparcar-mal
-
-Para saber si tienes multas de aparcamiento o tráfico pendientes puedes consultar el BOPTRA (a través del TESTRA o TEU en la Sede Electrónica de la DGT) con tu DNI o matrícula, o acceder al Portal Mi DGT. Si la sanción ya no está en fase administrativa, deberás revisar el estado de tus deudas en la Sede Electrónica de la Agencia Tributaria o tu Recaudación Municipal.
-
-- **¿Dónde puedo mirar si tengo multas de aparcamiento por matrícula gratis?** Puedes consultar las multas de forma totalmente gratuita accediendo al servicio TESTRA en la Sede Electrónica de la DGT o al Tablón Edictal Único (TEU) de la Sede del BOE. Solo necesitas introducir la matrícula de tu vehículo o tu NIF/NIE en el buscador. No requiere certificado digital para las búsquedas básicas.
-- **¿Qué pasa si no pago una multa de aparcamiento a tiempo?** Si no abonas la sanción en el periodo voluntario (normalmente 20 días naturales), pierdes el derecho al descuento del 50%. El expediente pasa a la vía ejecutiva, donde la providencia de apremio añadirá recargos del 5%, 10% o hasta el 20%, además de intereses de demora, pudiendo derivar en el embargo de tus cuentas o sueldo.
-- **¿Cuándo prescribe una multa de aparcamiento mal notificada?** La infracción de aparcamiento (de carácter leve o grave) prescribe entre los 3 y los 6 meses si la Administración no efectúa ningún acto de notificación. Una vez sancionada firmemente, la Administración dispone de 4 años para cobrar la deuda antes de que prescriba, siempre que no haya interrupción del plazo por acciones de cobro.
-
-### El Banco Central Europeo alerta que los hogares tendrán dificultades en la devolución de deudas
-URL: https://mi-calma.es/blog/banco-central-europeo-alerta-hogares-tendran-dificultades-devolucion-deudas
-
-El Banco Central Europeo (BCE) ha alertado de que el endurecimiento monetario y la inflación reducen la capacidad de pago de los hogares, incrementando la morosidad. Si el pago de deudas ahoga tu presupuesto mensual, existen vías legales para reestructurar o exonerar tus obligaciones mediante la negociación de reunificación sin nuevo crédito o el acogimiento a la Ley de Segunda Oportunidad.
-
-- **¿Por qué el Banco Central Europeo advierte del riesgo en las deudas de los hogares?** El BCE advierte que las subidas consecutivas de los tipos de interés para contener la inflación han incrementado directamente el coste de los préstamos variables y del crédito al consumo. Esto reduce la capacidad adquisitiva de los hogares, elevando la probabilidad de que familias con ingresos medios entren en situación de impago y sobreendeudamiento.
-- **¿Qué ocurre si dejo de pagar la tarjeta de crédito o un préstamo personal?** Cuando se produce el impago de las primeras cuotas, la entidad financiera aplica comisiones por mora e intereses de demora regulados por la Ley de Contratos de Crédito al Consumo. Transcurridos habitualmente 90 días, el crédito se declara en mora, tus datos pueden ser inscritos en ficheros como ASNEF y la entidad puede vender la deuda a un fondo o iniciar un juicio monitorio para reclamar el embargo de tus bienes.
-- **¿Pueden embargarme la nómina entera por no pagar mis deudas?** No. El artículo 607 de la Ley de Enjuiciamiento Civil establece que es inembargable la cuantía del Salario Mínimo Interprofesional (SMI). Los ingresos que superen dicho umbral se embargan de forma progresiva mediante tramos porcentuales (del 30% al 90%), protegiendo siempre una cantidad mínima para la subsistencia del deudor.
-
-### Conoce cómo tributan las donaciones de dinero de padres a hijos
-URL: https://mi-calma.es/blog/conoce-tributan-donaciones-dinero-padres-hijos
-
-La donación de dinero de padres a hijos tributa en el Impuesto sobre Sucesiones y Donaciones (ISD) según la regulación de la Comunidad Autónoma donde resida el hijo. Aunque la tarifa estatal es progresiva y va del 7,65% al 34%, la mayoría de las CCAA aplican bonificaciones de entre el 90% y el 99% si el acto se formaliza ante notario en escritura pública dentro del plazo legal de 30 días hábiles.
-
-- **¿Hay una cantidad mínima de dinero donado que no sea obligatorio declarar?** No, según la Ley del Impuesto sobre Sucesiones y Donaciones no existe ningún mínimo exento. Legalmente, toda donación dineraria debe tributarse y declararse desde el primer euro. Aunque los bancos informan sistemáticamente de operaciones a partir de 3.000 € en efectivo o 10.000 € por transferencia, cualquier traspaso gratuito está sujeto al control de la Agencia Tributaria.
-- **¿En qué Comunidad Autónoma se paga el impuesto de donaciones dinerarias?** Tratándose de dinero (bien mueble), el impuesto se liquida y se paga en la Comunidad Autónoma donde el donatario (el hijo que recibe el dinero) tenga su residencia habitual. Se entiende por residencia habitual el territorio donde haya permanecido la mayor parte de los días durante los 5 años inmediatos anteriores a la donación.
-- **¿Qué ocurre si no presento el Modelo 651 en el plazo de 30 días hábiles?** Si no se presenta la autoliquidación en plazo, el contribuyente pierde el derecho a aplicar las bonificaciones y reducciones autonómicas en muchas CCAA. Hacienda exigirá el pago del impuesto según la escala estatal (del 7,65% al 34%), añadiendo los correspondientes recargos por extemporaneidad, intereses de demora y posibles sanciones por infracción tributaria.
-
-### Los riesgos de pedir un préstamo a un banco extranjero
-URL: https://mi-calma.es/blog/riesgos-pedir-prestamo-banco-extranjero
-
-Pedir un préstamo a un banco extranjero implica perder la protección directa del Banco de España y la normativa nacional de consumo, sometiéndose a jurisdicciones lejanas, tipos de cambio fluctuantes y comisiones opacas. Aunque la Unión Europea armoniza ciertos préstamos, la distancia jurídica complica la resolución de abusos y la renegociación del crédito en caso de insolvencia.
-
-- **¿Puede un banco extranjero embargar mi nómina o cuenta bancaria en España?** Sí, un banco extranjero puede solicitar la ejecución de una deuda en España. Dentro de la Unión Europea se utiliza el procedimiento monitorio europeo o la ejecución transfronteriza dictada por la normativa comunitaria. Una vez reconocida la deuda por un juzgado español, se aplican los embargos habituales regulados en la Ley de Enjuiciamiento Civil sobre tu nómina y saldos bancarios.
-- **¿Se aplica la Ley Azcárate contra la usura a préstamos concedidos desde el extranjero?** Depende de la legislación aplicable estipulada en el contrato y del lugar donde se haya perfeccionado la relación de consumo. Si el prestatario es un consumidor con residencia habitual en España, las directivas europeas de protección al consumidor permiten invocar la normativa imperativa española. No obstante, anular estos préstamos por usura suele requerir un procedimiento judicial más complejo.
-- **¿Qué ocurre si no puedo pagar las cuotas de un préstamo internacional?** Al incurrir en impago, la entidad extranjera aplicará comisiones de mora e intereses punitivos. Posteriormente, suele ceder el crédito a empresas de recobro o fondos de inversión que iniciarán reclamaciones extrajudiciales e intentarán interponer demandas judiciales en España. Es recomendable buscar asesoramiento antes de que la deuda sea judicializada.
 
