@@ -1545,24 +1545,34 @@ const AdminVentas = () => {
 
   // Precarga desde la lista de llamadas: rellena etiqueta y datos económicos
   // conocidos del lead y guarda el vínculo para sincronizar su estado.
+  // Reacciona a cada lead entrante (batch de llamadas seguidas sin recargar).
+  const incomingLead = (location.state as { lead?: {
+    id: string;
+    external_id?: string | null;
+    label?: string;
+    guide?: Partial<GuideFields>;
+  } } | null)?.lead;
   useEffect(() => {
-    const lead = (location.state as { lead?: {
-      id: string;
-      external_id?: string | null;
-      label?: string;
-      guide?: Partial<GuideFields>;
-    } } | null)?.lead;
+    const lead = incomingLead;
 
-    // Intenta restaurar un borrador guardado.
+    // Un lead entrante siempre manda: limpia cualquier caso previo (incluida
+    // una prueba cargada) antes de aplicar sus datos.
+    if (lead) resetForm();
+
+    // Intenta restaurar un borrador guardado (nunca los de prueba).
     let restored = false;
     try {
       const raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
         const draft = JSON.parse(raw) as Record<string, unknown>;
+        const isTestDraft = draft.isTestCase === true;
         // Si se abre un lead concreto, solo se restaura si el borrador es suyo.
-        if (!lead || draft.leadId === lead.id) {
+        if (!isTestDraft && (!lead || draft.leadId === lead.id)) {
           applyDraft(draft);
           restored = true;
+        } else if (isTestDraft && !lead) {
+          // Borrador de prueba huérfano: se descarta para empezar limpio.
+          localStorage.removeItem(DRAFT_KEY);
         }
       }
     } catch {
@@ -1571,6 +1581,7 @@ const AdminVentas = () => {
 
     if (lead) {
       // El vínculo al lead siempre se refresca desde el state entrante.
+      setIsTestCase(false);
       setLeadId(lead.id);
       setLeadExternalId(lead.external_id ?? null);
       if (!restored) {
@@ -1582,7 +1593,7 @@ const AdminVentas = () => {
     }
     hydratedRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [incomingLead?.id]);
 
   // Guarda el borrador ante cualquier cambio, una vez hidratado.
   useEffect(() => {
@@ -1590,7 +1601,7 @@ const AdminVentas = () => {
     const snapshot = {
       step, sub, qualStep, selectedPresentations, label, relevantFacts,
       guide, result, savedId, leadId, leadExternalId, engagementByPhase,
-      reactions, contract, signatureStatus, reinforceByStep,
+      reactions, contract, signatureStatus, reinforceByStep, isTestCase,
     };
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify(snapshot));
@@ -1600,7 +1611,7 @@ const AdminVentas = () => {
   }, [
     step, sub, qualStep, selectedPresentations, label, relevantFacts, guide,
     result, savedId, leadId, leadExternalId, engagementByPhase, reactions,
-    contract, signatureStatus, reinforceByStep,
+    contract, signatureStatus, reinforceByStep, isTestCase,
   ]);
 
   // Sincroniza datos económicos / vínculo del lead. NO cambia el estado del
