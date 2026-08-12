@@ -1651,6 +1651,7 @@ const AdminVentas = () => {
     setLabel("");
     setLeadExternalId(null);
     setLeadId(null);
+    setIsTestCase(false);
     setRelevantFacts([]);
     setNewFact("");
     setGuide(emptyGuide());
@@ -1673,6 +1674,10 @@ const AdminVentas = () => {
     const tc = TEST_CASES.find((c) => c.id === id) ?? TEST_CASES[0];
     setReinforceByStep({});
     setSub(0);
+    // Una prueba nunca debe quedar enganchada a un lead real.
+    setIsTestCase(true);
+    setLeadId(null);
+    setLeadExternalId(null);
     setLabel(tc.label);
     setRelevantFacts(tc.relevantFacts);
     setNewFact("");
