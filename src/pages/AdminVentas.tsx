@@ -1466,6 +1466,9 @@ const AdminVentas = () => {
   // estado y vincular el caso trabajado.
   const [leadId, setLeadId] = useState<string | null>(null);
   const [leadExternalId, setLeadExternalId] = useState<string | null>(null);
+  // Marca que lo cargado es un perfil de prueba: nunca debe restaurarse como
+  // trabajo en curso ni confundirse con un lead real.
+  const [isTestCase, setIsTestCase] = useState(false);
   const [result, setResult] = useState<AiResult | null>(null);
   // Evita re-disparar la pre-generación automática del guion de contrato/firma.
   const autoGenRef = useRef<Record<number, boolean>>({});
