@@ -1776,6 +1776,38 @@ const AdminVentas = () => {
     (d) => d.type === "hacienda",
   );
 
+  // Sincronización continua con el CRM: se envía el delta mientras se rellena
+  // el guion, sin esperar al guardado. Nunca en casos de prueba.
+  const liveZohoFields = useMemo(
+    () =>
+      buildZohoLeadFields({
+        debtTotal: debtsTotal > 0 ? debtsTotal : (guide.debtAmount ?? null),
+        isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault || null,
+        entitiesCount: guide.debts.length || null,
+        entitiesList: Array.from(
+          new Set(guide.debts.map((d) => d.entity?.trim()).filter(Boolean) as string[]),
+        ),
+        housing: guide.housing || null,
+        mortgagePaid: guide.mortgagePaid ?? null,
+        vehicle: guide.vehicle || null,
+        income: guide.monthlyIncome ?? null,
+        expenses: guide.monthlyExpenses ?? null,
+        housingPayment: guide.housingPayment ?? null,
+        vehiclePayment: guide.vehiclePayment ?? null,
+        debtsMonthlyPaying,
+        monthlyOutflow,
+        paymentCapacity,
+        affordablePayment,
+        employment: guide.employment ?? null,
+        solution: triageResult.title ?? null,
+      }),
+    [
+      guide, debtsTotal, debtsMonthlyPaying, monthlyOutflow, paymentCapacity,
+      affordablePayment, triageResult.title,
+    ],
+  );
+  const crmSync = useCrmAutoSync(leadExternalId, liveZohoFields, isTestCase);
+
   const runGeneration = async (
     nextStep: number,
     target: "diagnosis" | "solution" = "diagnosis",
