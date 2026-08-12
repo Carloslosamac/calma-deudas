@@ -3317,6 +3317,11 @@ const AdminVentas = () => {
                     {label.trim() && (
                       <span className="truncate text-[11px] text-muted-foreground">· {label.trim()}</span>
                     )}
+                    {isTestCase && (
+                      <span className="shrink-0 rounded-full bg-orange-500 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                        Prueba
+                      </span>
+                    )}
                   </div>
                   <div className="flex shrink-0 items-center gap-1.5">
                     <button
