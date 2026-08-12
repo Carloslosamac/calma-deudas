@@ -1,25 +1,24 @@
-# Arreglar "No se pudo generar el diagnóstico" en /admin/ventas
+# Revisión y ampliación del envío de datos al CRM
 
-## Qué está pasando (verificado)
+## Estado actual (verificado)
 
-Los logs de la función `sales-diagnosis` muestran que todas las llamadas de esta mañana devuelven **400 en unos 110 ms** (ni siquiera llegan a la IA). Ese 400 sale de una única validación de la función: exige un texto de caso de al menos 10 caracteres.
+La conexión con el CRM **no se ha roto** con los cambios del diagnóstico. El envío se construye en `src/lib/zohoSync.ts` y se dispara al guardar el caso en `/admin/ventas`, y todos los campos del guion que usa siguen existiendo tal cual: deuda total, impago, nº de entidades y lista, vivienda, importe pagado de hipoteca, vehículo, ingresos, gastos, cuota de vivienda, cuota de vehículo, cuotas de deuda, salidas mensuales, capacidad de pago, importe asumible, situación laboral y solución recomendada.
 
-Desde que simplificamos el flujo ya no hay textarea: el texto se compone en el cliente con la etiqueta más los "datos relevantes" añadidos uno a uno. Si no hay etiqueta y el único dato añadido es corto (como en la captura, "Datos 1"), el texto no llega a 10 caracteres y la petición se rechaza antes de generar nada.
+Dos matices detectados:
 
-No es un problema de IA ni de créditos: es una validación heredada del flujo antiguo que ya no encaja con cómo se introducen los datos ahora.
+- Los datos **nuevos** que introdujimos al simplificar el flujo no viajan al CRM: valor de la vivienda, valor y pagado del vehículo, el "pendiente" calculado, y la variante (individual / conjunta / autónomo) y modalidad (sin masa / liquidación / plan de pagos) del triaje. Al CRM solo llega el título de la solución.
+- La sincronización solo ocurre si el caso viene de un lead con ID del CRM. Un caso creado desde cero no envía nada, que es el comportamiento esperado pero conviene que sea visible.
 
-## Qué voy a cambiar
+## Qué voy a hacer
 
-1. **Enviar el contexto completo, no solo las frases sueltas.** El texto del caso incluirá también un resumen legible de los datos del guion (deuda, ingresos, gastos, vivienda, vehículo, situación laboral, variante y modalidad de triaje), para que la IA reciba todo lo ya rellenado en fases anteriores.
+1. **Comprobar los nombres de campo contra el CRM.** Consultar los metadatos del módulo Leads y contrastar uno a uno los nombres que usamos, para detectar cualquiera renombrado o eliminado antes de tocar código.
 
-2. **Cambiar la validación de la función.** En vez de exigir 10 caracteres de texto libre, aceptará la petición cuando haya contexto suficiente: datos del guion rellenados o al menos un dato relevante. Solo se rechazará cuando no haya nada con lo que trabajar, con un mensaje claro ("Añade al menos un dato o completa el guion antes de generar el diagnóstico").
+2. **Añadir los datos nuevos al envío.** Incorporar valor de vivienda, valor y pagado del vehículo, pendiente calculado, variante y modalidad del triaje — solo aquellos que existan realmente en el CRM tras la comprobación del paso 1. Los que no existan se listarán para que decidas si crearlos allí.
 
-3. **Bloquear el botón antes de fallar.** "Generar diagnóstico" quedará deshabilitado, con una pista visible, mientras no haya contexto suficiente, en lugar de dejar pulsar y mostrar un error después.
-
-4. **Mostrar el motivo real del error.** El aviso mostrará el mensaje que devuelve el servidor en vez del genérico, para no volver a quedarnos a ciegas.
+3. **Hacer visible el estado del envío.** Indicar en la pantalla de ventas si el caso está vinculado a un lead del CRM y, tras guardar, si el envío fue correcto y cuántos campos se han actualizado.
 
 ## Detalles técnicos
 
-- `supabase/functions/sales-diagnosis/index.ts`: sustituir el guard de longitud mínima por una comprobación de contexto (texto no vacío **o** `guide` con campos significativos), con mensaje de error específico. Redespliegue de la función.
-- `src/pages/AdminVentas.tsx`: ampliar la composición del texto del caso con un resumen de `guide` + `triageExtra`; usar el mismo criterio para `hasCaseData` y el `disabled` del botón; propagar `data.error` al toast.
-- Verificación: llamada directa a la función con un perfil de prueba para confirmar 200, y comprobación del flujo completo en el navegador.
+- Verificación: llamada de solo lectura a los metadatos de campos del módulo Leads a través del conector, sin escribir nada.
+- `src/lib/zohoSync.ts`: ampliar `SalesZohoInput` y `buildZohoLeadFields` con las claves confirmadas.
+- `src/pages/AdminVentas.tsx`: pasar los valores nuevos en la llamada al guardar y usar `syncLeadDetailed` para reportar resultado y nº de campos en el aviso.
