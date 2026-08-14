@@ -47,6 +47,11 @@ export interface TriageInput {
   vehiclePaid?: number;
   vehicleRemaining?: number;
   wantsToKeepVehicle?: boolean;
+  /**
+   * "public" (por defecto): incluye reglas de marca (reunificación, usura).
+   * "sales": solo el árbol LSO (derivar / LSO con variante+modalidad / no insolvente).
+   */
+  mode?: "public" | "sales";
 }
 
 export interface TriageResult {
@@ -83,6 +88,7 @@ export const MODALITY_LABEL: Record<Modality, string> = {
 export const triage = (i: TriageInput): TriageResult => {
   const warnings: string[] = [];
   const debt = i.debtAmount ?? 0;
+  const isSales = i.mode === "sales";
   const insolventClassic = i.isDefault || debt >= 15000;
   const hasUsury = i.entities.some((e) => USURY_ENTITIES.includes(e));
 
@@ -103,7 +109,7 @@ export const triage = (i: TriageInput): TriageResult => {
   }
 
   // 2. Reclamación por usura (regla de marca: al día + TAE abusiva + deuda baja)
-  if (!insolventClassic && hasUsury && debt < 15000) {
+  if (!isSales && !insolventClassic && hasUsury && debt < 15000) {
     return {
       solution: "reclamacion",
       warnings,
@@ -126,7 +132,7 @@ export const triage = (i: TriageInput): TriageResult => {
   }
 
   // 4. Solvente sin datos financieros → reunificar (fallback conservador form público)
-  if (!insolventClassic && i.monthlyIncome == null) {
+  if (!isSales && !insolventClassic && i.monthlyIncome == null) {
     return {
       solution: "reunificar",
       warnings,
@@ -142,7 +148,7 @@ export const triage = (i: TriageInput): TriageResult => {
   }
 
   // 5. Insolvente con activos pagados de valor → reunificar (proteger patrimonio)
-  if (insolventClassic && hasValuableAssets(i)) {
+  if (!isSales && insolventClassic && hasValuableAssets(i)) {
     return {
       solution: "reunificar",
       warnings,
@@ -172,12 +178,19 @@ export const triage = (i: TriageInput): TriageResult => {
   let modality: Modality;
 
   const modalityByAssets = (): Modality => {
+    // Ventas: los bienes pagados no bloquean la LSO, definen la modalidad.
+    if (isSales && i.housing === "propiedad" && (i.housingValue ?? 0) > 0) {
+      return i.isPrimaryResidence ? "plan_pagos" : "liquidacion";
+    }
     if (
       i.housing === "hipoteca" &&
-      (i.housingValue ?? 0) - (i.mortgageRemaining ?? 0) > 0 &&
-      i.isPrimaryResidence
+      (i.housingValue ?? 0) - (i.mortgageRemaining ?? 0) > 0
     ) {
-      return "plan_pagos";
+      if (i.isPrimaryResidence) return "plan_pagos";
+      if (isSales) return "liquidacion";
+    }
+    if (isSales && i.vehicle === "propiedad" && (i.vehicleValue ?? 0) > 0) {
+      return i.wantsToKeepVehicle ? "plan_pagos" : "liquidacion";
     }
     if (
       i.vehicle === "financiado" &&

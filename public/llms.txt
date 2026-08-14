@@ -88,6 +88,7 @@
 
 ## Artículos del blog
 
+- [Detalles sobre los seguros que cubren las tarjetas de crédito](https://mi-calma.es/blog/detalles-sobre-seguros-cubren-tarjetas-credito): Muchos usuarios pagan cada mes una prima de seguro vinculada a su tarjeta de crédito sin haberlo solicitado ni firmado formalmente. Analizamos la legalidad de estas pólizas, sus coberturas reales y los pasos para reclamar la devolución de tu dinero.
 - [¿Las deudas se heredan?](https://mi-calma.es/blog/deudas-heredan): Al fallecer un familiar no solo se transmiten sus bienes, sino también sus obligaciones financieras. Te explicamos los mecanismos legales para proteger tus ahorros y no asumir deudas ajenas.
 - [Qué significa pignorar dinero en un préstamo](https://mi-calma.es/blog/significa-pignorar-dinero-prestamo): Pignorar dinero implica dejar un depósito o depósito a plazo fijo como garantía del pago de un préstamo. Explicamos sus riesgos, costes y marco legal.
 - [Cómo saber si una deuda ha prescrito, caducado o vencido](https://mi-calma.es/blog/saber-deuda-ha-prescrito-caducado-vencido): Muchos deudores siguen pagando reclamaciones de deudas que, según el derecho procesal y civil español, han prescrito o caducado. Analizamos la diferencia técnica entre vencimiento, prescripción y caducidad para evitar cobros indebidos.
@@ -127,7 +128,6 @@
 - [Cancelar deudas y volver a facturar sin bloqueos](https://mi-calma.es/blog/cancelar-deudas-y-volver-a-facturar-sin-bloqueos): Cancelar deudas y retomar tu actividad económica sin el lastre de impagos es posible. Exploramos las vías legales que te permiten limpiar tu historial, liberarte de la carga financiera y volver a 'facturar' sin bloqueos.
 - [Cancelar deudas vs. mediación extrajudicial](https://mi-calma.es/blog/cancelar-deudas-vs-mediacion-extrajudicial): En el laberinto de las deudas, entender las opciones es clave. ¿Es mejor intentar un acuerdo directamente con tus acreedores o necesitas una solución legal más contundente? Aquí desglosamos las diferencias y te ofrecemos la claridad que necesitas.
 - [Cancelar deudas vs. concurso de acreedores](https://mi-calma.es/blog/cancelar-deudas-vs-concurso-de-acreedores): Cuando las deudas superan tu capacidad de pago, surgen dos términos principales: el concurso de acreedores y la Ley de Segunda Oportunidad. Es crucial entender sus diferencias para elegir la vía adecuada hacia la cancelación.
-- [Cancelar deudas vs. dación en pago](https://mi-calma.es/blog/cancelar-deudas-vs-dacion-en-pago): Enfrentarse a deudas impagables puede ser abrumador, especialmente cuando la posibilidad de perder una propiedad como la vivienda habitual entra en juego. Dos mecanismos destacan para abordar esta situación en España: la dación en pago y la cancelación de deudas mediante la Ley de Segunda Oportunidad. Es crucial entender sus diferencias para elegir la vía más adecuada a tu situación.
 
 ## Casos de éxito
 
