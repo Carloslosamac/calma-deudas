@@ -681,16 +681,28 @@ const AdminLeads = () => {
                   onChange={(v) => void updateStatus(current.id, v)}
                   triggerClassName={`h-11 w-[210px] ${statusTone(current.lead_status)}`}
                 />
-                {/* Fecha/hora de la reunión agendada — debajo del estado */}
+                {/* Fecha/hora de la reunión agendada — requiere confirmar con el botón */}
                 <div className="flex items-center gap-1.5 rounded-md border border-border px-2 py-1">
                   <CalendarClock className="h-4 w-4 text-primary" />
                   <Input
                     type="datetime-local"
-                    value={toLocalInput(current.appointment_at)}
-                    onChange={(e) => void updateAppointment(current.id, e.target.value)}
+                    value={apptDraft}
+                    onChange={(e) => setApptDraft(e.target.value)}
                     className="h-8 w-[190px] border-0 p-0 text-sm shadow-none focus-visible:ring-0"
                     aria-label="Fecha y hora de la reunión"
                   />
+                  <Button
+                    size="sm"
+                    className="h-8"
+                    disabled={savingAppt || apptDraft === toLocalInput(current.appointment_at)}
+                    onClick={async () => {
+                      setSavingAppt(true);
+                      await updateAppointment(current.id, apptDraft);
+                      setSavingAppt(false);
+                    }}
+                  >
+                    {savingAppt ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : "Guardar"}
+                  </Button>
                 </div>
               </div>
             </div>
