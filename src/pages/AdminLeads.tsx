@@ -443,6 +443,13 @@ const AdminLeads = () => {
 
   const current = filtered[currentIdx] ?? null;
 
+  // Borrador de la cita: sólo se guarda al pulsar "Guardar".
+  const [apptDraft, setApptDraft] = useState("");
+  const [savingAppt, setSavingAppt] = useState(false);
+  useEffect(() => {
+    setApptDraft(toLocalInput(current?.appointment_at ?? null));
+  }, [current?.id, current?.appointment_at]);
+
   const enterBatch = (id: string) => {
     setActiveBatch(id);
     setCurrentIdx(0);
