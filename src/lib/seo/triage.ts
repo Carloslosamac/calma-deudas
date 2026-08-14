@@ -184,9 +184,10 @@ export const triage = (i: TriageInput): TriageResult => {
     }
     if (
       i.housing === "hipoteca" &&
-      (i.housingValue ?? 0) - (i.mortgageRemaining ?? 0) > 0 &&
+      (i.housingValue ?? 0) - (i.mortgageRemaining ?? 0) > 0
     ) {
-      return i.isPrimaryResidence ? "plan_pagos" : "liquidacion";
+      if (i.isPrimaryResidence) return "plan_pagos";
+      if (isSales) return "liquidacion";
     }
     if (isSales && i.vehicle === "propiedad" && (i.vehicleValue ?? 0) > 0) {
       return i.wantsToKeepVehicle ? "plan_pagos" : "liquidacion";
