@@ -90,37 +90,34 @@ const ENGAGEMENT_GUIDE: Record<number, string> = {
   3: "ENGAGEMENT 3 (QUIERE LIBRARSE DE LA LLAMADA): Sé TOTALMENTE TAJANTE. Plantéalo como un punto de no retorno: o asume la responsabilidad de actuar AHORA, o lo da todo por perdido y las consecuencias caerán enteras sobre ella (embargos, deuda creciendo, sin salida). Mensajes cortos, directos y sin rodeos, sin suavizar. Confronta la evasión: no actuar es elegir perderlo todo.",
 };
 
-// --- Triaje de marca (réplica de src/lib/seo/triage.ts) ---
-const USURY_ENTITIES = ["tarjetas", "microcreditos"];
-
-function hasValuableAssets(g: GuideFields): boolean {
-  // Vivienda en propiedad sin deuda = bien de valor que bloquea la LSO.
-  if (g.housing === "propiedad") return true;
-  // Hipoteca con patrimonio neto positivo (valor > pendiente) también es bien de valor.
-  if (
-    g.housing === "hipoteca" &&
-    (g.housingValue ?? 0) - (g.mortgageRemaining ?? 0) >= 20000
-  ) {
-    return true;
-  }
-  if (g.vehicle === "propiedad" && (g.vehicleValue ?? 0) >= 4000) return true;
-  return false;
-}
-
+// --- Triaje de ventas: SOLO el árbol LSO (réplica de src/lib/seo/triage.ts
+// en modo "sales"). Salidas posibles: derivar, lso, no_insolvente. ---
 function triage(g: GuideFields): { solution: string; title: string } {
-  const insolvent = !!g.isDefault || (g.debtAmount ?? 0) >= 15000;
-  const hasUsury = (g.entities ?? []).some((e) => USURY_ENTITIES.includes(e));
+  if (g.profile === "administrador_sociedad") {
+    return { solution: "derivar", title: "Derivar a abogado concursal" };
+  }
 
-  if (!insolvent && hasUsury && (g.debtAmount ?? 0) < 15000) {
-    return { solution: "reclamacion", title: "Reclamación judicial por usura" };
+  const variant =
+    g.profile === "autonomo"
+      ? "autonomo"
+      : g.profile === "particular_gananciales"
+        ? "conjunta"
+        : "individual";
+  const incomeThreshold = variant === "conjunta" ? 3000 : 1700;
+  const income = g.monthlyIncome;
+  const expenses = g.monthlyExpenses;
+
+  if (
+    income != null &&
+    income > 0 &&
+    income >= incomeThreshold &&
+    expenses != null &&
+    expenses / income < 0.5
+  ) {
+    return { solution: "no_insolvente", title: "No insolvente" };
   }
-  if (insolvent && hasValuableAssets(g)) {
-    return { solution: "reunificar", title: "Reunificación de deudas" };
-  }
-  if (insolvent) {
-    return { solution: "lso", title: "Ley de Segunda Oportunidad" };
-  }
-  return { solution: "reunificar", title: "Reunificación de deudas" };
+
+  return { solution: "lso", title: "Ley de Segunda Oportunidad" };
 }
 
 // --- Análisis de embargabilidad real (art. 607 LEC) ---
@@ -185,10 +182,10 @@ function buildEmbargoGuide(g: GuideFields): string {
 // el guion no confunda "cancelación íntegra" (solo sin masa) con plan de pagos
 // (cuota 3–5 años + exoneración diferida) ni con liquidación (venta del bien +
 // exoneración del resto).
-const REUNIFICAR_BRIEF =
-  "Reunificación de deudas = negociación EXTRAJUDICIAL para bajar la cuota mensual Y el total que se debe, SIN pedir un préstamo nuevo, SIN agrupar en una hipoteca y SIN alargar plazos. NUNCA la describas como un préstamo nuevo ni como agrupar deudas.";
-const RECLAMACION_BRIEF =
-  "Reclamación judicial por usura: si la TAE de tarjetas revolving o microcréditos es desproporcionada, la deuda puede anularse por usura y se recupera lo pagado de más.";
+const DERIVAR_BRIEF =
+  "Administrador/a de sociedad: el caso va por CONCURSO DE ACREEDORES ORDINARIO y se deriva a un abogado concursal. No prometas LSO estándar ni plazos: el objetivo de la llamada es explicar la derivación con seguridad.";
+const NO_INSOLVENTE_BRIEF =
+  "El caso NO cumple insolvencia real (capacidad de pago suficiente frente a gastos). No fuerces la LSO: explica con honestidad que hoy no encaja y qué tendría que cambiar para que encajara.";
 
 function lsoBriefByModality(m?: string): string {
   if (m === "plan_pagos") {
@@ -229,8 +226,8 @@ function solutionBrief(
   modality?: string,
   variant?: string,
 ): string {
-  if (solution === "reunificar") return REUNIFICAR_BRIEF;
-  if (solution === "reclamacion") return RECLAMACION_BRIEF;
+  if (solution === "derivar") return DERIVAR_BRIEF;
+  if (solution === "no_insolvente") return NO_INSOLVENTE_BRIEF;
   if (solution === "lso") {
     const clause = variant ? VARIANT_CLAUSE[variant] ?? "" : "";
     return `${lsoBriefByModality(modality)}${clause ? `\n${clause}` : ""}`;
@@ -239,10 +236,10 @@ function solutionBrief(
 }
 
 function solutionBenefits(solution: string, modality?: string): string {
-  if (solution === "reunificar")
-    return "Beneficios a aterrizar con los datos del caso: (1) BAJA la cuota mensual que hoy pagas y el TOTAL que debes, mediante negociación extrajudicial con [entidades concretas]; (2) pasas de lidiar con N acreedores a una sola gestión que llevamos nosotros; (3) frenas el deterioro (intereses de demora, ASNEF, embargos) que crece cada mes sobre los X € de deuda; (4) conservas tu vivienda/vehículo. Nunca lo describas como préstamo nuevo, agrupar ni alargar plazos.";
-  if (solution === "reclamacion")
-    return "Beneficios a aterrizar con los datos del caso: (1) se ANULA la deuda usuraria de [entidad concreta] por TAE abusiva; (2) recuperas el dinero pagado de más en intereses desproporcionados; (3) se detiene el cobro y la presión de esa entidad. Cita la entidad y el importe reales del caso.";
+  if (solution === "derivar")
+    return "No vendas resultado: el valor es que el caso se deriva a un abogado especializado en concursal, que es la vía correcta para un administrador de sociedad. Explica el siguiente paso con claridad.";
+  if (solution === "no_insolvente")
+    return "No hay beneficio que prometer: transmite honestidad y deja la puerta abierta si su situación empeora. Nada de forzar el cierre.";
   if (solution === "lso") return lsoBenefitsByModality(modality);
   return "";
 }
