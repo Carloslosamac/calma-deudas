@@ -510,6 +510,69 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### ¿Las deudas se heredan?
+URL: https://mi-calma.es/blog/deudas-heredan
+
+Sí, las deudas se heredan en España porque la sucesión comprende tanto los bienes como las cargas del fallecido. Sin embargo, los herederos pueden proteger su patrimonio personal aceptando la herencia a beneficio de inventario o rechazándola mediante la repudiación pura y simple ante notario.
+
+- **¿Si rechazo la herencia, tengo que pagar las deudas del difunto?** No. Al repudiar la herencia de forma pura, simple y explícita ante notario, pierdes todo derecho sobre los bienes, pero quedas plenamente liberado de cualquier responsabilidad respecto a las deudas del fallecido.
+- **¿Qué ocurre si varios herederos aceptan y uno renuncia?** La parte del heredero que renuncia acrece proporcionalmente a los demás coherederos que acepten, salvo que el testamento prevea una sustitución vulgar o la renuncia haga saltar el derecho al siguiente nivel sucesorio.
+- **¿Las deudas con Hacienda y la Seguridad Social prescriben al fallecer?** No prescriben por el mero fallecimiento. Las obligaciones tributarias pendientes se transmiten a los herederos con arreglo al artículo 39 de la Ley General Tributaria. Únicamente las sanciones de carácter penal o administrativo estrictamente personal se extinguen.
+
+### Qué significa pignorar dinero en un préstamo
+URL: https://mi-calma.es/blog/significa-pignorar-dinero-prestamo
+
+Pignorar dinero en un préstamo significa dejar una suma de dinero liquida, un fondo de inversión o un depósito a plazo fijo pignorado a favor de una entidad financiera como garantía de cobro. El prestatario mantiene la titularidad del saldo, pero pierde su disponibilidad total hasta que amortice la deuda principal.
+
+- **¿Puedo sacar dinero de una cuenta si está pignorada por un préstamo?** No. El efecto jurídico central de la pignoración dineraria es la indisponibilidad del saldo trabado. Mientras la prenda esté vigente y la deuda no sea amortizada o cancelada, la entidad depositaria mantendrá el dinero bloqueado informáticamente, impidiendo transferencias, reintegros en cajero u operaciones con tarjetas asociadas a esa suma.
+- **¿Qué diferencia hay entre pignorar dinero y constituir una hipoteca?** La pignoración recae sobre bienes muebles o activos financieros líquidos (dinero, depósitos, fondos de inversión o acciones) y se constituye mediante indisponibilidad o entrega de la posesión, sin requerir inscripción registral. La hipoteca, por el contrario, recae sobre bienes inmuebles (viviendas, locales o terrenos) y exige de forma obligatoria su inscripción en el Registro de la Propiedad.
+- **¿Puedo liberar parte del dinero pignorado conforme voy pagando las cuotas?** Solo si se ha especificado expresamente en la póliza o contrato de pignoración mediante una cláusula de liberación parcial o proporcional. De lo contrario, el banco tiene derecho a mantener retenida la totalidad de la suma pignorada hasta que se haya abonado la última cuota del préstamo principal.
+
+### Cómo saber si una deuda ha prescrito, caducado o vencido
+URL: https://mi-calma.es/blog/saber-deuda-ha-prescrito-caducado-vencido
+
+Una deuda prescribe en España, de forma general, a los 5 años (artículo 1964 del Código Civil) si el acreedor no ha realizado ninguna reclamación fehaciente ni el deudor ha reconocido el pago. El plazo varía según el tipo de obligación: 4 años para deudas con Hacienda y Seguridad Social, y 5 años para tarjetas revolving, préstamos personales o alquileres.
+
+- **¿Cuándo empieza a contar exactamente el plazo de prescripción de una deuda?** El plazo de prescripción comienza a contar desde el día en que la obligación pudo ser exigida por el acreedor, conocido técnicamente como 'dies a quo'. En préstamos y tarjetas, suele coincidir con el día siguiente al vencimiento de la primera cuota impagada o la fecha en que la entidad declara el vencimiento anticipado del contrato. A partir de ese momento transcurren los 5 años regulados en el Código Civil.
+- **¿Una carta ordinaria en el buzón interrumpe la prescripción?** No, las cartas ordinarias o los folletos dejados en el buzón no interrumpen la prescripción. Para que una reclamación extrajudicial tenga la capacidad de reiniciar el plazo, el acreedor debe probar fehacientemente que la notificación llegó a conocimiento del deudor. Esto exige el uso de burofax con acuse de recibo y certificación de texto, requerimiento notarial o citación judicial.
+- **¿Qué ocurre si un fondo buitre me llama por teléfono constantemente?** Las llamadas telefónicas no tienen validez legal para interrumpir la prescripción extintiva porque no existe prueba fehaciente del contenido de la conversación ni de la correcta identificación de los interlocutores. Si la agencia de recobro no ha enviado burofax ni planteado demanda en el juzgado durante 5 años, la deuda habrá prescrito independientemente del número de llamadas realizadas.
+
+### Definición y concepto sobre el apalancamiento financiero
+URL: https://mi-calma.es/blog/definicion-concepto-sobre-apalancamiento-financiero
+
+El apalancamiento financiero es una estrategia económica que consiste en utilizar deuda o crédito junto al capital propio para financiar una inversión o gasto. Su objetivo es multiplicar la rentabilidad de la operación, aunque amplifica de forma simétrica el riesgo de pérdida si los ingresos previstos no se cumplen.
+
+- **¿Cuál es la diferencia entre apalancamiento financiero y endeudamiento común?** El endeudamiento es la acción de contraer una obligación de pago con un tercero. El apalancamiento financiero es el uso técnico de ese endeudamiento con el objetivo específico de potenciar la capacidad de inversión o gasto respecto al capital propio del que se dispone.
+- **¿Puede el apalancamiento llevarme a la quiebra personal?** Sí. Cuando el coste del endeudamiento supera los ingresos o los rendimientos generados por los activos comprados, las pérdidas se trasladan directamente contra el patrimonio personal del deudor, pudiendo provocar la insolvencia y la posterior ejecución de sus bienes.
+- **¿Qué es la ratio de apalancamiento financiero?** Es un indicador financiero que mide la proporción entre los fondos prestados y los recursos propios utilizados en una operación o en un patrimonio. Se calcula habitualmente dividiendo la deuda total entre el valor del patrimonio neto.
+
+### Qué es y cómo funciona la figura del colector de deudas
+URL: https://mi-calma.es/blog/funciona-figura-colector-deudas
+
+Un colector de deudas (o fondo buitre/agencia de recobro) es una entidad privada que gestiona o compra carteras de créditos impagados para cobrar el saldo adeudado. Operan mediante cesión de crédito (artículo 1.526 del Código Civil) y están obligados a respetar los derechos fundamentales del deudor, sin incurrir en acoso, coacciones o revelación de datos a terceros.
+
+- **¿Qué es exactamente un colector de deudas en España?** Un colector de deudas es una entidad privada, como una agencia de recobro o un fondo de inversión (fondo buitre), que compra o gestiona carteras de créditos impagados. Su objetivo es cobrar el importe adeudado al deudor, habiendo adquirido previamente esa deuda por una fracción de su valor nominal.
+- **¿Es legal que un banco venda mi deuda a un colector sin mi permiso?** Sí, es completamente legal. El artículo 1.526 del Código Civil permite la cesión de créditos entre empresas sin requerir el consentimiento explícito del deudor. Sin embargo, la empresa está obligada a notificarte la cesión de forma fehaciente antes de exigirte el pago.
+- **¿Puede un colector de deudas embargar mi sueldo o mi cuenta bancaria?** No. Un colector de deudas no posee potestad ni autoridad ejecutiva. Los embargos solo pueden ser decretados por un juez o letrado de la Administración de Justicia mediante un procedimiento judicial previo en el que hayas tenido la oportunidad de defenderte.
+
+### Te explicamos cuándo prescriben las deudas con financieras
+URL: https://mi-calma.es/blog/explicamos-prescriben-deudas-financieras
+
+En España, las deudas con entidades financieras y crediticias prescriben por norma general a los 5 años desde el vencimiento de la obligación, según el artículo 1964.2 del Código Civil. Sin embargo, cualquier reclamación fehaciente (burofax, demanda o burofax de recobro) interrumpe este plazo y reinicia el contador desde cero.
+
+- **¿En cuánto tiempo prescriben las deudas de tarjetas revolving y préstamos personales?** Las deudas derivadas de tarjetas revolving, préstamos personales y microcréditos prescriben a los 5 años desde que vence la obligación o la última cuota impagada, en virtud del artículo 1964.2 del Código Civil. No obstante, si el acreedor envía una reclamación fehaciente (como un burofax), dicho plazo de 5 años se reinicia por completo.
+- **¿Las llamadas telefónicas de cobro de deudas interrumpen la prescripción?** No. Las llamadas telefónicas, los mensajes de WhatsApp, los SMS convencionales o las cartas ordinarias no constituyen una notificación fehaciente en derecho, ya que el acreedor no puede probar formalmente ante un juez ni el contenido exacto del mensaje ni su recepción fehaciente por el deudor. Solo las notificaciones certifcadas (burofax, conducto notarial) o demandas judiciales interrumpen la prescripción.
+- **¿Un juez aplica la prescripción de la deuda de forma automática?** En absoluto. La prescripción es un beneficio legal que debe ser alegado e invocado de parte por el deudor. Si una financiera te demanda en un juicio monitorio por una deuda prescrita de hace 7 años y no te opones expresamente alegando la prescripción dentro del plazo legal de 20 días, el juez te condenará a pagar la deuda.
+
+### Si alguien con una deuda muere, ¿ésta desaparece o llega a prescribir?
+URL: https://mi-calma.es/blog/alguien-deuda-muere-esta-desaparece-llega-prescribir
+
+No, las deudas no desaparecen ni prescriben automáticamente con el fallecimiento del deudor. En el derecho civil español, las deudas forman parte de la masa hereditaria y se transmiten a los herederos salvo que se renuncie formalmente a la herencia o se acepte a beneficio de inventario.
+
+- **¿Las deudas prescriben cuando fallece la persona que las adquirió?** No. La muerte del deudor no interrumpe ni hace prescribir las deudas. El pasivo pasa a formar parte de la masa hereditaria y mantiene los mismos plazos de prescripción que tenía en vida el titular (por lo general, 5 años para préstamos y tarjetas, y hasta 20 años para hipotecas), siempre que el acreedor no interrumpa el plazo mediante reclamación.
+- **¿Si renuncio a la herencia me pueden reclamar las deudas de mi familiar?** No. Si otorgas ante notario una escritura pública de renuncia o repudiación de la herencia de forma pura y simple, quedas completamente desvinculado de la sucesión. Los acreedores del fallecido no podrán exigir ningún pago ni embargar tus bienes personales.
+- **¿Qué ocurre si acepto una herencia sin saber que tenía deudas?** Si aceptaste la herencia de forma pura y simple (ya sea de manera explícita o tácita), se produce la confusión de patrimonios y responderás de las deudas del difunto con tus propios bienes. Si el volumen de deuda te lleva a la insolvencia, podrías acudir a la Ley de Segunda Oportunidad para cancelar los débitos.
+
 ### En qué consiste el método ninja para terminar con las deudas
 URL: https://mi-calma.es/blog/consiste-metodo-ninja-terminar-deudas
 
@@ -581,67 +644,4 @@ Promontoria Ares Dac es un fondo buitre (titulización con sede en Irlanda) que 
 - **¿Quién es Promontoria Ares Dac y por qué tiene mis datos?** Promontoria Ares Dac es un fondo de inversión oportunista (fondo buitre) con sede en Irlanda. Tiene tus datos porque compró un paquete de deudas impagadas a la entidad bancaria o financiera con la que originalmente contrataste un préstamo o tarjeta.
 - **¿Es legal que un banco venda mi deuda a Promontoria sin avisarme antes?** Sí, la cesión de créditos está permitida por el artículo 1526 del Código Civil sin requerir el consentimiento del deudor. Sin embargo, tienen la obligación legal de notificártelo fehacientemente y acreditar de forma documental la cesión en el juzgado si pretenden demandarte.
 - **¿Puede Promontoria Ares Dac embargar mi sueldo o mi cuenta bancaria?** No directamente. Promontoria Ares Dac no tiene potestad ejecutiva. Para embargarte necesitan presentar un juicio monitorio, que tú no te opongas en plazo y que el juez dicte una orden formal de embargo ejecutiva.
-
-### Ingresos en cuenta embargada ¿pierdes dinero?
-URL: https://mi-calma.es/blog/ingresos-cuenta-embargada-pierdes-dinero
-
-No pierdes todo tu dinero si sufres un embargo en tu cuenta bancaria. La Ley de Enjuiciamiento Civil (artículo 607) protege el Salario Mínimo Interprofesional (SMI), haciendo inembargable el primer tramo de tu nómina o pensión. Si el juzgado o Hacienda retienen dinero por debajo de ese umbral, se trata de un embargo indebido que puedes barrer y recuperar mediante una alegación de inembargabilidad.
-
-- **¿Me pueden embargar la cuenta bancaria si solo cobro el Salario Mínimo (SMI)?** No, el primer tramo correspondiente al Salario Mínimo Interprofesional es totalmente inembargable según el artículo 607 de la Ley de Enjuiciamiento Civil. Si el banco ejecuta una traba telemática sobre ese saldo, se trata de un embargo indebido que debes impugnar inmediatamente aportando tu nómina o pensión para que te devuelvan el dinero retenido.
-- **¿Qué ocurre si mi empresa ya me embarga la nómina y me vuelven a quitar dinero en el banco?** Estarías sufriendo un doble embargo ilegal. La empresa retiene el porcentaje legalmente embargable directamente del sueldo y te ingresa el líquido inembargable. Si el banco vuelve a retener dinero sobre ese ingreso en la cuenta corriente, vulnera el artículo 607 de la LEC. Debes solicitar la cancelación de la orden bancaria acreditando la retención efectuada en origen por tu empleador.
-- **¿Pueden embargar una cuenta corriente compartida con otra persona que no tiene deudas?** En las cuentas de cotitularidad, la administración o el juzgado solo pueden embargar la parte del saldo atribuible al deudor. Se presume por defecto que el saldo pertenece a partes iguales a los titulares. Si retienen el 100% de la cuenta, el cotitular no deudor puede interponer un recurso acreditando la propiedad de los fondos (mediante justificantes de sus propios ingresos) para recuperar su parte.
-
-### ¿Qué es un exhorto civil por deudas?
-URL: https://mi-calma.es/blog/exhorto-civil-deudas
-
-Un exhorto civil por deudas es una petición formal que hace un juzgado (donde el acreedor interpuso la demanda) a otro juzgado (el del domicilio del deudor) para que este le entregue en mano una notificación o requerimiento de pago. Recibirlo no implica una condena automática ni un embargo inmediato, sino el inicio del plazo legal para pagar, oponerte a la deuda o solicitar asesoramiento para revisar posibles cláusulas abusivas.
-
-- **¿Qué pasa si me niego a recoger un exhorto civil en mi casa?** Negarse a recoger un exhorto o rehusar la firma de la cédula de notificación no detiene el procedimiento judicial. El funcionario anotará la negativa en el acta y el juzgado dará el acto por notificado o procederá a la notificación mediante publicación en el Boletín Oficial (edictos). Al hacer esto, perderás el plazo para oponerte y el tribunal continuará el proceso dictando orden de embargo contra tus bienes.
-- **¿Un exhorto civil es lo mismo que una orden de embargo?** No, un exhorto civil es simplemente un mecanismo de auxilio entre dos juzgados para entregarte una comunicación oficial (como una demanda o un requerimiento de pago). El embargo solo se produce en una etapa posterior, denominada fase de ejecución, si tras recibir el exhorto no pagas la cantidad reclamada ni te opones justificadamente dentro del plazo legal otorgado.
-- **¿Cuánto tiempo tengo para responder a un exhorto por deudas?** En la inmensa mayoría de los procedimientos monitorios o juicios verbales de reclamación de cantidad, el plazo es de 20 días hábiles a contar desde el día siguiente a la entrega del exhorto. En el cómputo de días hábiles se excluyen de forma estricta los sábados, los domingos y los días festivos (tanto nacionales como autonómicos y locales).
-
-### Motivos por los que se puede alargar un desahucio
-URL: https://mi-calma.es/blog/motivos-alargar-desahucio
-
-Un desahucio en España puede alargarse por defectos en la notificación judicial, solicitud de justicia gratuita, incidentes de oposición por cláusulas abusivas, acreditación de vulnerabilidad social (Real Decreto-ley 11/2020 y sus prórrogas) o la suspensión del procedimiento en concurrencia con la Ley de Segunda Oportunidad. Estos motivos legales pueden posponer el lanzamiento desde varios meses hasta más de un año.
-
-- **¿Cuánto tiempo se puede retrasar un desahucio solicitando un abogado de oficio?** Solicitar la asistencia jurídica gratuita suspende los plazos procesales para contestar a la demanda mientras el Colegio de Abogados designa al profesional. En la práctica, esta gestión suele aplazar la tramitación entre 3 semanas y 2 meses, dependiendo de la agilidad del Colegio de Abogados y de la comisión de asistencia jurídica de la provincia.
-- **¿Qué ocurre si declaro la Ley de Segunda Oportunidad antes de la fecha de desahucio?** La presentación de la solicitud de concurso de persona física bajo la Ley de Segunda Oportunidad (TRLC) ordena la suspensión de los ejecuciones e interrumpe los embargos y lanzamientos sobre bienes necesarios para la continuidad de la actividad o la vivienda habitual, siempre que se cumplan las condiciones fijadas por el juez concursal.
-- **¿Es posible aplazar un desahucio por tener un informe de Servicios Sociales?** Sí. En virtud del artículo 441 de la Ley de Enjuiciamiento Civil y las normativas extraordinarias de protección social, cuando los Servicios Sociales confirman que la familia se encuentra en situación de vulnerabilidad económica y sin alternativa habitacional, el juzgado puede suspender el lanzamiento por un periodo de 2 a 4 meses (o el plazo fijado por el escudo social vigente).
-
-### Qué es la tasación de un inmueble, en qué consiste y para qué sirve
-URL: https://mi-calma.es/blog/tasacion-inmueble-consiste-sirve
-
-La tasación de un inmueble es una valoración oficial y legalmente regulada emitida por una sociedad homologada por el Banco de España. Sirve para fijar el valor de garantía de un inmueble, determinando el importe máximo del préstamo hipotecario que concederá el banco (habitualmente hasta el 80% de dicho valor).
-
-- **¿Qué diferencia hay entre la tasación de un inmueble y la valoración comercial?** La tasación es un informe pericial con validez jurídica emitido por una sociedad homologada por el Banco de España bajo la estricta Orden ECO/805/2003. La valoración comercial es una mera estimación orientativa realizada por una agencia inmobiliaria para fijar un precio de venta aproximado en el mercado, sin ninguna validez frente a bancos, notarios o juzgados.
-- **¿Cuánto tiempo de validez tiene legalmente un informe de tasación?** La tasación oficial de un inmueble tiene un periodo de caducidad legal de 6 meses a contar desde la fecha de su firma e informe por la sociedad de tasación, según dicta la Orden ECO/805/2003. Si la operación hipotecaria no se firma ante notario en ese plazo, la entidad bancaria solicitará una actualización o revalidación.
-- **¿Puedo utilizar la misma tasación para pedir la hipoteca en diferentes bancos?** Sí, rotundamente. La Ley 5/2019 de Crédito Inmobiliario exige a los bancos aceptar cualquier certificado de tasación presentado por el cliente, siempre que proceda de una sociedad homologada por el Banco de España y esté vigente dentro de los 6 meses de validez. El banco no puede imponerte contratar una nueva empresa ni cobrarte de nuevo por este concepto.
-
-### Cómo funcionan las herencias en España
-URL: https://mi-calma.es/blog/funcionan-herencias-espana
-
-En España, una herencia se compone tanto de bienes y derechos como de deudas e de obligaciones. Al heredar, el sucesor no recibe solo el activo, sino que se subroga en la posición del fallecido; por ello, existen tres opciones legales: aceptar de forma pura y simple (asumiendo las deudas con el patrimonio propio), aceptar a beneficio de inventario (pagando deudas solo hasta donde alcance el activo heredado) o repudiar la herencia ante notario.
-
-- **Si rechazo la herencia de mi padre, ¿mis hijos tienen que renunciar también?** Sí, al repudiar una herencia, tu parte no desaparece ni se extingue, sino que la ley pasa la condición de heredero a tus descendientes directos (tus hijos). Si estos son menores de edad, los progenitores necesitarán autorización del Juez de Familia para repudiar en su nombre demostrando que la herencia es perjudicial o claramente insolvente.
-- **¿Puedo repudiar la herencia si ya he pagado el entierro con dinero de la cuenta del fallecido?** El pago de los gastos funerales se considera por la jurisprudencia como un acto de mera administración o deber piadoso, por lo que en principio no implica la aceptación tácita de la herencia. Sin embargo, es vital guardar todas las facturas y justificantes que demuestren que el dinero gastado se destinó exclusivamente a los costes de la sepultura.
-- **¿Cuál es el plazo exacto para pedir el beneficio de inventario?** El Código Civil establece plazos muy breves: si el heredero tiene en su poder la herencia o parte de ella, debe manifestarlo al notario en un plazo de 30 días desde que conoce su condición. Si no tiene los bienes en su poder, el plazo de 30 días se cuenta desde que se vence el plazo que le fijó el notario tras la 'interpellatio in iure' o desde que gestionó la herencia como tal.
-
-### Cómo es la amortización de una deuda: en qué consiste y pasos a seguir
-URL: https://mi-calma.es/blog/amortizacion-deuda-consiste-pasos-seguir
-
-La amortización de una deuda es la devolución progresiva del capital prestado mediante pagos periódicos que cubren tanto el dinero principal como los intereses generados. En España, el método más común es el sistema francés, donde las cuotas son fijas pero la proporción dedicada a capital e intereses cambia con el tiempo. Amortizar anticipadamente permite recortar años de condena financiera o reducir la cuota mensual de forma sustancial.
-
-- **¿Qué es exactamente amortizar una deuda?** Amortizar una deuda es el proceso mediante el cual devuelves de forma gradual o de una sola vez el capital que te fue prestado por una entidad financiera. Cada pago que realizas se divide en una parte que liquida el capital principal y otra parte que paga los intereses devengados.
-- **¿Qué es un cuadro de amortización bancario?** Es un documento o tabla detallada confeccionada por el banco donde se desglosa el calendario de pagos de un préstamo desde la primera cuota hasta la última. Muestra la fecha de cada recibo, la cuota total a pagar, el importe destinado a capital, la parte de intereses y el saldo deudor pendiente tras cada pago.
-- **¿Es siempre mejor amortizar reduciendo plazo que reduciendo cuota?** Desde una perspectiva puramente matemática, reducir plazo es más beneficioso porque acorta el tiempo en que el capital genera intereses, logrando un ahorro total mayor. Sin embargo, reducir cuota es la mejor opción si tu prioridad es rebajar la presión financiera mensual para disponer de mayor liquidez a corto plazo.
-
-### En qué consiste y significado de Código de Buenas Prácticas
-URL: https://mi-calma.es/blog/consiste-significado-codigo-buenas-practicas
-
-El Código de Buenas Prácticas es un conjunto de medidas legales de adhesión voluntaria para los bancos pero de obligado cumplimiento una vez firmadas, diseñadas para proteger a deudores hipotecarios en situación de vulnerabilidad económica. Permite reestructurar la deuda mediante carencia de principal, bajada de tipos de interés, ampliación del plazo de amortización y, en última instancia, quita parcial o dación en pago.
-
-- **¿Qué es el Código de Buenas Prácticas bancarias?** Es un conjunto de medidas legales aprobadas por el Gobierno (a través del Real Decreto-ley 6/2012 y el Real Decreto-ley 19/2022) para proteger a familias vulnerables o en riesgo de vulnerabilidad económica. Permite congelar el capital de la hipoteca, reducir el interés aplicado o alargar el plazo de devolución para aminorar la cuota mensual.
-- **¿El banco está obligado a concederme el Código de Buenas Prácticas?** Sí, siempre que la entidad financiera esté adherida al Código (la inmensa mayoría en España lo está) y el solicitante acredite documentalmente que cumple con todos los requisitos de ingresos, vulnerabilidad y carga financiera fijados por la ley.
-- **¿Puedo perder mi vivienda si solicito el Código de Buenas Prácticas?** No. Al contrario, la finalidad de este protocolo legal es proteger la vivienda habitual impidiendo que el banco inicie o continúe un procedimiento de ejecución hipotecaria o subasta mientras se aplican los planes de reestructuración.
 
