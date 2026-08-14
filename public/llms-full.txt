@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Detalles sobre los seguros que cubren las tarjetas de crédito
+URL: https://mi-calma.es/blog/detalles-sobre-seguros-cubren-tarjetas-credito
+
+Los seguros vinculados a tarjetas de crédito y revolving suelen comercializarse de forma transparente o mediante casillas preseleccionadas sin consentimiento expreso. Si la póliza de protección de pagos o desempleo no cumple con la Ley de Contrato de Seguro (falta de firma, boletín de adhesión omiso o falta de entrega de condiciones generales), puedes reclamar la nulidad de la prima y exigir la devolución íntegra de las cuotas pagadas más los intereses acumulados.
+
+- **¿Es obligatorio contratar un seguro al solicitar una tarjeta de crédito?** No. La ley prohíbe imponer la contratación de seguros vinculados en tarjetas de crédito o préstamos al consumo de forma obligatoria. Si la entidad financiera te obligó a contratarlo como condición indispensable sin alternativa, el contrato incurre en una práctica abusiva y nula.
+- **¿Cómo sé si el seguro de mi tarjeta tiene un boletín de adhesión válido?** Un boletín de adhesión válido debe estar formalizado en un documento independiente de la solicitud de crédito, firmado expresamente por el titular y contener las condiciones particulares y generales del seguro, detallando sumas aseguradas y exclusiones.
+- **¿Puedo recuperar el dinero del seguro si ya cancelé y pagué la tarjeta hace años?** Sí. Las acciones de nulidad por falta de transparencia o inexistencia de contrato de seguro son imprescriptibles en el derecho español. Puedes reclamar la devolución de las primas e intereses aunque la tarjeta esté cancelada.
+
 ### ¿Las deudas se heredan?
 URL: https://mi-calma.es/blog/deudas-heredan
 
@@ -635,13 +644,4 @@ Si WCM España te reclama una deuda, no debes pagar de inmediato ni ignorar la r
 - **¿Qué es WCM España y por qué tienen mis datos personales?** WCM España es una firma gestora o fondo de inversión especializado en la adquisición de carteras de deuda fallida a bancos, prestamistas de microcréditos y empresas financieras. Tienen tus datos porque han comprado legalmente el crédito que mantenías con el acreedor original, subrogándose en la posición contractual de este de acuerdo con los artículos 1526 y siguientes del Código Civil.
 - **¿Puede WCM España embargar directamente mi sueldo o mi cuenta bancaria?** No. WCM España no tiene la potestad administrativa de ejecutar un embargo de forma directa. Para poder embargar tus bienes, obligatoriamente deben presentar una demanda de procedimiento monitorio ante un juez y obtener una sentencia o decreto firme que ordene la ejecución de tus activos.
 - **¿Cuándo prescibe legalmente una deuda reclamada por WCM España?** El plazo general de prescripción de las acciones personales para deudas derivadas de préstamos o tarjetas es de 5 años, según lo estipulado en el artículo 1964 del Código Civil. Este cómputo se interrumpe cada vez que el acreedor realiza un requerimiento de pago fehaciente (por ejemplo, vía burofax o citación judicial) o si el deudor reconoce explícitamente la deuda.
-
-### ¿Por qué me exige una deuda Promontoria Ares Dac?
-URL: https://mi-calma.es/blog/exige-deuda-promontoria-ares-dac
-
-Promontoria Ares Dac es un fondo buitre (titulización con sede en Irlanda) que compra carteras de deudas impagadas a entidades como Banco Santander o Kutxabank por un porcentaje mínimo de su valor original. Te exigen el pago porque ahora son los nuevos titulares del crédito, pero puedes oponerte si la deuda ha prescrito, incluye intereses usureros o si no acreditan correctamente la cesión.
-
-- **¿Quién es Promontoria Ares Dac y por qué tiene mis datos?** Promontoria Ares Dac es un fondo de inversión oportunista (fondo buitre) con sede en Irlanda. Tiene tus datos porque compró un paquete de deudas impagadas a la entidad bancaria o financiera con la que originalmente contrataste un préstamo o tarjeta.
-- **¿Es legal que un banco venda mi deuda a Promontoria sin avisarme antes?** Sí, la cesión de créditos está permitida por el artículo 1526 del Código Civil sin requerir el consentimiento del deudor. Sin embargo, tienen la obligación legal de notificártelo fehacientemente y acreditar de forma documental la cesión en el juzgado si pretenden demandarte.
-- **¿Puede Promontoria Ares Dac embargar mi sueldo o mi cuenta bancaria?** No directamente. Promontoria Ares Dac no tiene potestad ejecutiva. Para embargarte necesitan presentar un juicio monitorio, que tú no te opongas en plazo y que el juez dicte una orden formal de embargo ejecutiva.
 
