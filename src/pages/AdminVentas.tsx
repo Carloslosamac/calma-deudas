@@ -1748,6 +1748,7 @@ const AdminVentas = () => {
       new Set(guide.debts.map((d) => d.type).filter(Boolean) as string[]),
     );
     return computeTriage({
+      mode: "sales",
       debtAmount: debtsTotal > 0 ? debtsTotal : (guide.debtAmount ?? 0),
       isDefault: guide.debts.some((d) => d.isDefault) || !!guide.isDefault,
       entities: derivedEntities.length ? derivedEntities : (guide.entities ?? []),
