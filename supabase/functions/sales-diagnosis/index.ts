@@ -455,7 +455,7 @@ REGLAS:
 
 REGLAS:
 - No inventes datos concretos de Calma (porcentajes, número de clientes, resultados garantizados). Los importes que uses son los del caso, no inventados.
-- Respeta estrictamente la descripción de la solución recomendada (reunificar NUNCA es préstamo/agrupar/alargar).
+- Respeta estrictamente la solución del triaje: solo LSO (con su modalidad), derivación a concursal o no insolvente. NUNCA propongas reunificación ni reclamación por usura.
 - ${SOURCE_OF_TRUTH_RULE}
 - ${ANTI_VAGUE_RULE}
 - ${DEFAULT_DEBTS_RULE}
