@@ -166,8 +166,8 @@ const TermsAndConditions = () => {
                 Para preguntas sobre estos términos y condiciones, puedes contactarnos en:
               </p>
               <p className="font-semibold">
-                Email: info@adiosdeudas.com<br />
-                Teléfono: +34 900 123 456<br />
+                Email: hello@mi-calma.es<br />
+                Teléfono: +34 611 62 56 98<br />
                 Dirección: Madrid, España
               </p>
             </section>

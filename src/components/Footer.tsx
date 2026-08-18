@@ -41,8 +41,8 @@ const Footer = () => {
           <div>
             <h4 className="font-poppins font-semibold text-foreground mb-4 text-sm">Contacto</h4>
             <ul className="space-y-3 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@calma.com</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +34 900 123 456</li>
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> hello@mi-calma.es</li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +34 611 62 56 98</li>
               <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Madrid, España</li>
             </ul>
           </div>

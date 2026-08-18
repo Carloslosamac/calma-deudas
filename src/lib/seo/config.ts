@@ -16,8 +16,8 @@ export const ORGANIZATION = {
   legalName: "Calma Legal",
   url: SITE_URL,
   logo: `${SITE_URL}/favicon-192.png`,
-  email: "hola@mi-calma.es",
-  telephone: "+34900000000",
+  email: "hello@mi-calma.es",
+  telephone: "+34611625698",
   areaServed: "ES",
   sameAs: [] as string[], // añadir LinkedIn / Instagram cuando existan
 };
