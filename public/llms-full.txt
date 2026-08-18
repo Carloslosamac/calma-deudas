@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Juan Carlos: “Es una empresa seria y tiene un capital humano muy grande”
+URL: https://mi-calma.es/blog/juan-carlos-empresa-seria-tiene-capital-humano-muy-grande
+
+El testimonio de Juan Carlos demuestra que un autónomo sepultado por deudas empresariales y públicas puede exonerar su pasivo mediante el procedimiento concursal y la Ley de Segunda Oportunidad. Gracias a la reforma del TRLC introducida por la Ley 16/2022, los profesionales por cuenta propia pueden cancelar hasta 10.000 € con Hacienda y otros 10.000 € con la Seguridad Social, protegiendo sus bienes esenciales o refinanciando el resto sin ahogar su actividad futura.
+
+- **¿Un autónomo puede librarse de las deudas con Hacienda y la Seguridad Social?** Sí, el Texto Refundido de la Ley Concursal (TRLC) permite exonerar hasta 10.000 € de deuda con la Agencia Tributaria y otros 10.000 € con la Seguridad Social. Los primeros 5.000 € se exoneran al 100%, y la franja entre 5.000 € y 10.000 € se exonera al 50%. El resto de la deuda pública no condonada se estructura en un plan de pagos a plazos flexibilizado.
+- **¿Qué ocurre con las herramientas y la furgoneta de trabajo si me acojo a la Ley de Segunda Oportunidad?** Si el autónomo opta por la vía de la exoneración mediante un plan de pagos (art. 492 TRLC), puede conservar los bienes necesarios para el desarrollo de su actividad profesional, como maquinaria, utilajes o vehículos comerciales, siempre que acredite que son indispensables para generar sus ingresos futuros.
+- **¿Puedo seguir facturando y trabajando como autónomo durante el proceso concursal?** Absolutamente. Salvo en situaciones excepcionales de fraude, la apertura del concurso de persona física no inhabilita al profesional para continuar con su actividad. La reforma de 2022 fomenta la continuidad de la masa activa y la capacidad de producción del deudor durante la sustanciación de la causa.
+
+### ¿Qué es empeñar? Significado y cómo funciona el empeño
+URL: https://mi-calma.es/blog/empenar-significado-funciona-empeno
+
+Empeñar es un contrato pignoraticio mediante el cual entregan dinero en efectivo al instante a cambio de dejar un bien de valor como garantía (prenda). Si devuelves el capital solicitado más los intereses y comisiones pactados en el plazo fijado, recuperas tu objeto; si no pagas, la casa de empeño o el Monte de Piedad vende o subasta el bien para cobrarse la deuda.
+
+- **¿Qué pasa si empeño algo y no tengo dinero para recuperarlo?** Si no abonas el importe acordado ni los intereses de demora o prorroga al vencimiento del plazo, la casa de empeño o el Monte de Piedad procederá a la venta directa o subasta pública del bien para saldar la deuda abonando la demasía si la hubiera.
+- **¿Te meten en ASNEF por no pagar un empeño?** Por norma general no. El contrato de empeño es un préstamo prendario donde el propio bien depositado actúa como liquidación del impago. La entidad cobra la deuda ejecutando el objeto, sin recurrir habitualmente a ficheros de morosidad.
+- **¿Se puede empeñar un coche manteniendo el derecho a conducirlo?** Existen empresas que ofrecen el empeño de vehículos manteniendo el uso del coche mediante un contrato de alquiler o arrendamiento. No obstante, estas operaciones entrañan elevados costes por alquiler y riesgo de pérdida del vehículo si se impaga la cuota.
+
 ### Deudor o avalista: ¿a quién embargan primero?
 URL: https://mi-calma.es/blog/deudor-avalista-quien-embargan-primero
 
@@ -626,22 +644,4 @@ Para renunciar a una herencia debes acudir a una notaría y otorgar una escritur
 - **¿Cuánto cuesta renunciar a una herencia en la notaría?** El coste de otorgar una escritura pública de renuncia o repudiación de herencia suele situarse entre los 80 y 150 euros por heredero, según el arancel notarial regulado por el Real Decreto 1426/1989. Si varios herederos formalizan la renuncia en el mismo documento notarial, el coste unitario suele ser algo menor.
 - **¿Qué ocurre con las deudas si todos los herederos renuncian?** Si todos los herederos testamentarios y parientes en línea consanguínea hasta el cuarto grado (sobrinos, tíos, primos) renuncian a la herencia, la sucesión recae en el Estado o en la Comunidad Autónoma correspondiente (artículo 956 del Código Civil). En este supuesto, la Administración pública siempre acepta a beneficio de inventario, por lo que responde de las deudas únicamente hasta el límite del valor de los bienes heredados.
 - **¿Puedo renunciar a la herencia si ya me ha llegado una carta del juzgado o de Hacienda?** Sí, es posible renunciar siempre que no hayas realizado previamente actos de administración que impliquen una aceptación tácita de la herencia. Sin embargo, si has recibido un requerimiento notarial específico amparado en el artículo 1005 del Código Civil, dispones estrictamente de 30 días naturales para comunicar tu renuncia formal; de lo contrario, la ley asumirá que la aceptas pura y simplemente.
-
-### Todo sobre la condonación de deuda y su significado
-URL: https://mi-calma.es/blog/todo-sobre-condonacion-deuda-su-significado
-
-La condonación de deuda es un acto jurídico mediante el cual un acreedor libera voluntariamente al deudor del pago total o parcial de lo adeudado, o bien se decreta judicialmente mediante mecanismos como la Ley de Segunda Oportunidad. Supone el perdón de la deuda, pero exige analizar su impacto en IRPF o Sucesiones y si implica la extinción definitiva del compromiso financiero.
-
-- **¿Qué es la condonación de una deuda exactamente?** La condonación de deuda es el acto jurídico mediante el cual el acreedor renuncia voluntariamente a su derecho de cobro o un juez ordena la exoneración del débito. Este acto extingue total o parcialmente la obligación de pago liberando legalmente al deudor.
-- **¿Qué diferencia hay entre condonación y quita de deuda?** En la práctica jurídica se utilizan como sinónimos. Sin embargo, técnicamente la quita suele referirse a una condonación parcial acordada voluntariamente en una renegociación (por ejemplo, perdonar el 40% del saldo), mientras que la condonación puede ser del 100% de la obligación.
-- **¿Cómo tributa la condonación de deuda en la declaración de la renta (IRPF)?** Cuando una entidad financiera condona de forma voluntaria una deuda a un particular, la Agencia Tributaria puede considerarlo un incremento patrimonial a integrar en el IRPF. En cambio, si la condonación se obtiene judicialmente mediante la Ley de Segunda Oportunidad, existen exenciones fiscales específicas.
-
-### Obligaciones y responsabilidades de los deudores solidarios
-URL: https://mi-calma.es/blog/obligaciones-responsabilidades-deudores-solidarios
-
-Un deudor solidario es una persona obligada a responder por el 100% de una deuda contratada con un tercero, sin que el acreedor tenga que reclamar primero al deudor principal. La responsabilidad solidaria implica el riesgo de embargos de nómina y bienes, aunque el deudor solidario no haya disfrutado del dinero. Tras el pago, la ley le otorga el derecho de repetición para reclamar al cotitular la parte correspondiente.
-
-- **¿Puede el banco ir solo a por mí si el deudor principal no paga?** Sí, de forma contundente. La cláusula de solidaridad contractual otorgada en el préstamo faculta al acreedor (banco o fondo de titulación) a dirigir sus acciones de cobro o demandas judiciales contra cualquiera de los deudores o contra todos a la vez (artículo 1144 del Código Civil), sin necesidad de demandar ni embargar previamente al otro titular.
-- **¿Qué diferencia existe entre un deudor solidario y un avalista?** El deudor solidario o cotitular es titular directo del contrato de préstamo desde el momento de la firma. El avalista o fiador es una figura de garantía subsidiaria que interviene para respaldar la obligación de un tercero. No obstante, en la práctica bancaria, casi todos los contratos obligan al avalista a renunciar a los beneficios de orden y excusión, equiparando su responsabilidad a la del deudor solidario.
-- **Si pago toda la deuda solidaria, ¿puedo exigirle la mitad (o el total) al otro titular?** Sí. En virtud del artículo 1145 del Código Civil, quien abona la deuda se subroga en la posición del acreedor y dispone del derecho de repetición. Podrás reclamar judicialmente al otro cotitular la parte que le correspondía abonar (el 50% si era al 50%, o el 100% si se demuestra en juicio que tú solo actuaste como prestamista de favor y el bien fue disfrutado íntegramente por la otra parte).
 
