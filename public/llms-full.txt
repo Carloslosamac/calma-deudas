@@ -510,6 +510,42 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Juana: “Son un equipo humano, atento en todo momento”
+URL: https://mi-calma.es/blog/juana-son-equipo-humano-atento-todo-momento
+
+El testimonio de Juana destaca la importancia del acompañamiento humano e integral durante la Ley de Segunda Oportunidad. Contar con un equipo legal profesional no solo garantiza el cumplimiento de los trámites jurídicos del TRLC, sino que aporta la calma y seguridad emocional necesarias para superar una situación de insolvencia.
+
+- **¿Por qué es tan relevante el trato humano en un proceso legal de deudas?** El sobreendeudamiento provoca elevados niveles de estrés y angustia. Un equipo humano atento no solo realiza el trabajo técnico en los juzgados, sino que ofrece tranquilidad, escucha activa y explicaciones claras en cada paso del procedimiento, reduciendo la incertidumbre del cliente.
+- **¿Es posible cancelar deudas con Hacienda y la Seguridad Social?** Sí, el artículo 489 del TRLC permite la exoneración de hasta 10.000 euros de deuda con la Agencia Tributaria y hasta 10.000 euros con la Seguridad Social. Los importes excedentes pueden reestructurarse mediante un plan de pagos adaptado.
+- **¿Qué ocurre con el acoso de las agencias de cobro cuando se inicia el proceso?** Una vez presentada la solicitud de concurso ante el Juzgado de lo Mercantil, las ejecuciones singulares quedan paralizadas de forma legal. El despacho notifica la situación concursal a los acreedores para que cesen el contacto directo con el deudor.
+
+### ¿Qué es un aval?
+URL: https://mi-calma.es/blog/aval
+
+Un aval es un compromiso legal mediante el cual una persona (avalista) se obliga a pagar una deuda u obligación contractual asumida por otra (deudor principal) en caso de que esta última no lo haga. Al avalar, el firmante responde de la deuda con todos sus bienes presentes y futuros según el artículo 1.911 del Código Civil.
+
+- **¿Qué diferencia hay entre un avalista y un cotitular?** El cotitular o titular solidario es el dueño del préstamo desde el primer momento y dispone del dinero prestado. El avalista no recibe el dinero ni disfruta del bien financiado, pero asume la obligación de pagar el total de la deuda en caso de que el titular principal falle en las cuotas.
+- **¿Puedo dejar de ser avalista si el deudor principal está al día?** Únicamente si el banco lo autoriza expresamente mediante una novación del contrato. Para quitar a un avalista, las entidades bancarias suelen exigir que el deudor principal aporte nuevas garantías, como otro avalista de igual solvencia, una finca sin cargas o que amortice una parte sustancial de la deuda.
+- **¿Si el deudor fallece, me quedo yo con la deuda como avalista?** Sí, pero con matices. Al fallecer el deudor, la deuda pasa a sus herederos. Si los herederos aceptan la herencia, ellos se convierten en los deudores principales. Sin embargo, si los herederos renuncian a la herencia por las deudas, el avalista tendrá que responder del pago íntegro ante el banco.
+
+### Para qué sirve un generador de tarjetas de crédito
+URL: https://mi-calma.es/blog/sirve-generador-tarjetas-credito
+
+Un generador de tarjetas de crédito es una herramienta informática que crea números de tarjeta ficticios que cumplen con el algoritmo de Luhn. Sirve exclusivamente para que desarrolladores prueben pasarelas de pago e e-commerce en entornos de prueba, pero carece de saldo, titular o fondos reales, por lo que su uso para compras o fraude constituye un delito de estafa.
+
+- **¿Un generador de tarjetas de crédito tiene saldo de verdad?** No. Un generador de tarjetas solo crea una secuencia de números que cumple con la fórmula matemática del algoritmo de Luhn. Carece de cualquier tipo de fondos, saldo o respaldo por parte de una entidad bancaria real.
+- **¿Es ilegal usar un generador de tarjetas de crédito?** Utilizar estas herramientas en entornos de desarrollo informático y pruebas de software es completamente legal. No obstante, intentar usar esos números para realizar compras, contratar servicios o evitar pagos en webs reales constituye un delito de estafa informática tipificado en el Código Penal.
+- **¿Por qué las páginas web aceptan a veces el número pero falla el pago?** El formulario web inicial solo comprueba que los dígitos sigan la estructura del algoritmo de Luhn. El pago falla un segundo después porque la pasarela bancaria conecta con el banco emisor y comprueba que la tarjeta no existe en la base de datos o carece de CVV y autenticación.
+
+### Jesús: “Fueron rápidos. Me lo pusieron muy fácil para no pasar calamidades”
+URL: https://mi-calma.es/blog/jesus-fueron-rapidos-lo-pusieron-muy-facil-no-pasar
+
+El testimonio de Jesús ilustra cómo la Ley de la Segunda Oportunidad (TRLC arts. 486 a 502) permite exonerar el 100 % de las deudas privadas a personas insolventes de buena fe. El procedimiento judicial bloquea embargos de nómina y acoso de cobradores desde su admisión a trámite, protegiendo los ingresos mínimos del deudor para evitar situaciones de precariedad mientras se tramita el perdón definitivo.
+
+- **¿Te quitan la nómina entera si entras en Segunda Oportunidad?** No, en ningún caso se retiene la nómina completa. El artículo 607 de la Ley de Enjuiciamiento Civil protege el Salario Mínimo Interprofesional como inembargable. Además, con el auto de declaración de concurso dictado por el juez, se suspenden de forma tajante todos los embargos decretados sobre la nómina del deudor.
+- **¿Qué requisitos son imprescindibles para acogerse a la Ley de Segunda Oportunidad?** Es imprescindible ser una persona física (particular o autónomo), hallarse en estado de insolvencia actual o inminente, contar con más de un acreedor y no haber sido condenado por delitos socioeconómicos en los últimos 10 años. Asimismo, se debe actuar con buena fe procesal aportando datos veraces.
+- **¿Se pueden cancelar las deudas con Hacienda y la Seguridad Social?** Sí, la Ley 16/2022 permite la exoneración de deudas públicas hasta un límite máximo de 10.000 € con la Agencia Tributaria y otros 10.000 € con la Seguridad Social. La cuantía exonerable cubre el 100 % de los primeros 5.000 € y el 50 % del tramo hasta los 15.000 €. El resto no exonerado se abona mediante un plan de pagos.
+
 ### Juan Carlos: “Es una empresa seria y tiene un capital humano muy grande”
 URL: https://mi-calma.es/blog/juan-carlos-empresa-seria-tiene-capital-humano-muy-grande
 
@@ -608,40 +644,4 @@ Para evitar la subasta de tu vivienda habitual en España puedes paralizar el pr
 - **¿Se puede parar una subasta el día antes de su celebración?** Sí, es legalmente posible paralizar una subasta en el Portal del BOE de forma urgente mediante la presentación de un escrito de concurso de acreedores o una solicitud de paralización cautelar por el mecanismo de la Ley de Segunda Oportunidad. El juzgado de lo mercantil notificará telefónicamente o telemáticamente la suspensión al juzgado de primera instancia antes del cierre de las pujas.
 - **¿Si ejecutan la subasta y no cubre el total de la deuda, me siguen cobrando?** Lamentablemente sí. En el ordenamiento español rige el principio de responsabilidad patrimonial universal (artículo 1.911 del Código Civil). Si la vivienda se adjudica en subasta por un importe inferior al importe reclamado más las costas, el banco mantendrá la ejecución activa sobre tus nóminas, cuentas bancarias y otros bienes por el saldo remanente.
 - **¿Qué porcentaje del valor de tasación se exige en la subasta de vivienda habitual?** Según el artículo 670 de la Ley de Enjuiciamiento Civil, si la postura ofrecida en la subasta sobre la vivienda habitual es inferior al 70% del valor de tasación fijado en la escritura, el ejecutado tiene un plazo para presentar a un tercero que mejore la postura. De no ser así, el ejecutante solo podrá adjudicársela por el 60% del valor o por la cantidad adeudada.
-
-### Consulta el tiempo que tienes para devolver un recibo
-URL: https://mi-calma.es/blog/consulta-tiempo-tienes-devolver-recibo
-
-El plazo legal para devolver un recibo bancario en España es de 8 semanas para cobros autorizados previa directamente por ti y de 13 meses si el cargo no estaba autorizado o fue tramitado de forma incorrecta. La entidad financiera dispone de 10 días hábiles tras tu solicitud para devolver el dinero o justificar por escrito su rechazo.
-
-- **¿Cuánto tiempo tengo para devolver un recibo del banco de forma general?** El plazo general en España es de 8 semanas para recibos autorizados pero con los que no estás de acuerdo en el importe. Si el cobro no estaba autorizado mediante una orden SEPA firmada, el plazo legal se amplía hasta los 13 meses desde la fecha del cargo en cuenta.
-- **¿Qué ocurre si devuelvo un recibo pero ya han pasado las 8 semanas?** Si han transcurrido más de 8 semanas, el banco solo aceptará la devolución si demuestras que el recibo carecía de autorización previa o mandato SEPA firmado. En caso de contar con autorización, la entidad financiera rechazará la solicitud de reembolso y tendrás que reclamar directamente ante la empresa cobradora.
-- **¿El banco me puede cobrar alguna comisión por gestionar la devolución de un recibo?** No. La normativa de servicios de pago prohíbe taxativamente que las entidades bancarias cobren comisiones al usuario por tramitar solicitudes de devolución dentro de los plazos legales fijados por el Real Decreto-ley 19/2018.
-
-### Cuánto se paga por un crédito hipotecario
-URL: https://mi-calma.es/blog/paga-credito-hipotecario
-
-El coste de un crédito hipotecario incluye la cuota mensual (capital más intereses), los gastos iniciales de constitución y las comisiones bancarias. Por una hipoteca media de 150.000 euros a 25 años al 3% de interés, la cuota ronda los 711 euros al mes, generando un coste total de intereses superior a los 63.000 euros a lo largo de la vida del préstamo.
-
-- **¿Cuánto se paga de comisión por amortizar anticipadamente una hipoteca?** La Ley 5/2019 establece límites máximos. En hipotecas a tipo variable, la comisión máxima es del 0,25% durante los primeros 3 años o del 0,15% hasta el quinto año (0% posterior). En tipo fijo, el límite es del 2% durante los primeros 10 años y del 1,5% el resto del periodo.
-- **¿Es obligatorio contratar los seguros con el banco que concede la hipoteca?** No. La legislación vigente prohíbe las ventas vinculadas obligatorias. El banco solo puede exigir un seguro de daños sobre el inmueble y, en su caso, de vida, pero el prestatario tiene pleno derecho a contratarlos con la compañía aseguradora de su preferencia sin penalizaciones administrativas.
-- **¿Qué ocurre si no puedo pagar las cuotas de mi crédito hipotecario?** Si incurres en impagos, la entidad iniciará el cobro de intereses de demora. Si la situación se prolonga (12 cuotas impagadas en la primera mitad del préstamo o 15 en la segunda), el banco puede instar la ejecución hipotecaria para subastar el inmueble. Es vital negociar o acogerse a la Ley de Segunda Oportunidad antes de llegar a ese punto.
-
-### ¿Qué es un microcrédito?
-URL: https://mi-calma.es/blog/microcredito
-
-Un microcrédito es un préstamo de bajo importe (normalmente entre 50 y 1.000 euros) concedido de forma rápida y con mínimos requisitos documentales. Su principal característica es una tasa de interés desproporcionada (TAE que suele superar el 1.000% a 3.000%) y plazos de devolución extremadamente cortos, lo que convierte a estos productos en trampas financieras que derivan en espirales de endeudamiento.
-
-- **¿Qué diferencia hay entre un microcrédito y un préstamo personal convencional?** La principal diferencia radica en el importe, los plazos de devolución y la exigencia de solvencia. Los microcréditos ofrecen importes reducidos (hasta 1.000 €) a devolver en 30 días con escasa verificación documental y TAEs que superan habitualmente el 1.000%. Un préstamo personal bancario ofrece importes mayores a amortizar en años con tipos de interés supervisados y estrictos controles de solvencia.
-- **¿A partir de qué porcentaje de interés se considera que un microcrédito tiene usura?** Según la jurisprudencia del Tribunal Supremo basada en la Ley de Usura de 1908, un interés se considera usurario cuando es notablemente superior al interés medio publicado por el Banco de España para la categoría del producto. En el caso de los microcréditos rápidos a corto plazo, cuando las TAEs superan el 200% o 500% (siendo habituales cifras del 2.000%), los juzgados declaran la usura de forma sistemática.
-- **¿Qué pasa si dejo de pagar un microcrédito?** Si impagas un microcrédito, la entidad aplicará de inmediato comisiones por demora desproporcionadas e iniciará un recobro insistente. Posteriormente, incluirán tus datos en ficheros de morosidad como ASNEF y podrán interponer un juicio monitorio en el juzgado. No obstante, en dicho procedimiento judicial se puede alegar la usura del contrato para reducir drásticamente la cantidad reclamada.
-
-### Pasos a seguir para renunciar a una herencia
-URL: https://mi-calma.es/blog/pasos-seguir-renunciar-herencia
-
-Para renunciar a una herencia debes acudir a una notaría y otorgar una escritura pública de repudiación tras el fallecimiento del causante. Es un acto formal, irrevocable y total que impide que las deudas del difunto se trasladen a tu patrimonio personal. Si existen deudas pero también bienes de valor, la alternativa legal es la aceptación a beneficio de inventario.
-
-- **¿Cuánto cuesta renunciar a una herencia en la notaría?** El coste de otorgar una escritura pública de renuncia o repudiación de herencia suele situarse entre los 80 y 150 euros por heredero, según el arancel notarial regulado por el Real Decreto 1426/1989. Si varios herederos formalizan la renuncia en el mismo documento notarial, el coste unitario suele ser algo menor.
-- **¿Qué ocurre con las deudas si todos los herederos renuncian?** Si todos los herederos testamentarios y parientes en línea consanguínea hasta el cuarto grado (sobrinos, tíos, primos) renuncian a la herencia, la sucesión recae en el Estado o en la Comunidad Autónoma correspondiente (artículo 956 del Código Civil). En este supuesto, la Administración pública siempre acepta a beneficio de inventario, por lo que responde de las deudas únicamente hasta el límite del valor de los bienes heredados.
-- **¿Puedo renunciar a la herencia si ya me ha llegado una carta del juzgado o de Hacienda?** Sí, es posible renunciar siempre que no hayas realizado previamente actos de administración que impliquen una aceptación tácita de la herencia. Sin embargo, si has recibido un requerimiento notarial específico amparado en el artículo 1005 del Código Civil, dispones estrictamente de 30 días naturales para comunicar tu renuncia formal; de lo contrario, la ley asumirá que la aceptas pura y simplemente.
 

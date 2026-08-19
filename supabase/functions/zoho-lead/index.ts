@@ -1,14 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { zohoFetch } from "../_shared/zoho-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
-
-// Zoho EU data center
-const ACCOUNTS_DOMAIN = "https://accounts.zoho.eu";
-const API_DOMAIN = "https://www.zohoapis.eu";
 
 interface FormData {
   debt_amount?: string;
@@ -41,75 +38,6 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
-
-const CLIENT_ID = Deno.env.get("ZOHO_CLIENT_ID")!;
-const CLIENT_SECRET = Deno.env.get("ZOHO_CLIENT_SECRET")!;
-const GRANT_TOKEN = Deno.env.get("ZOHO_GRANT_TOKEN");
-
-async function getStoredRefreshToken(): Promise<string | null> {
-  const { data } = await supabase
-    .from("zoho_tokens")
-    .select("refresh_token")
-    .eq("id", 1)
-    .maybeSingle();
-  return data?.refresh_token ?? null;
-}
-
-async function storeRefreshToken(refreshToken: string): Promise<void> {
-  await supabase
-    .from("zoho_tokens")
-    .upsert({ id: 1, refresh_token: refreshToken, updated_at: new Date().toISOString() });
-}
-
-// Exchange the one-time grant token for a permanent refresh token (+ first access token)
-async function exchangeGrantToken(): Promise<string> {
-  if (!GRANT_TOKEN) {
-    throw new Error("No refresh token stored and ZOHO_GRANT_TOKEN is missing");
-  }
-  const params = new URLSearchParams({
-    grant_type: "authorization_code",
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
-    code: GRANT_TOKEN,
-  });
-  const res = await fetch(`${ACCOUNTS_DOMAIN}/oauth/v2/token?${params.toString()}`, {
-    method: "POST",
-  });
-  const json = await res.json();
-  if (!res.ok || json.error) {
-    throw new Error(`Grant token exchange failed: ${JSON.stringify(json)}`);
-  }
-  if (!json.refresh_token) {
-    throw new Error(`No refresh_token in response: ${JSON.stringify(json)}`);
-  }
-  await storeRefreshToken(json.refresh_token);
-  return json.access_token as string;
-}
-
-async function refreshAccessToken(refreshToken: string): Promise<string> {
-  const params = new URLSearchParams({
-    grant_type: "refresh_token",
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
-    refresh_token: refreshToken,
-  });
-  const res = await fetch(`${ACCOUNTS_DOMAIN}/oauth/v2/token?${params.toString()}`, {
-    method: "POST",
-  });
-  const json = await res.json();
-  if (!res.ok || json.error || !json.access_token) {
-    throw new Error(`Access token refresh failed: ${JSON.stringify(json)}`);
-  }
-  return json.access_token as string;
-}
-
-async function getAccessToken(): Promise<string> {
-  const stored = await getStoredRefreshToken();
-  if (stored) {
-    return await refreshAccessToken(stored);
-  }
-  return await exchangeGrantToken();
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -256,18 +184,12 @@ serve(async (req) => {
       if (leadRecord[k] === null || leadRecord[k] === undefined) delete leadRecord[k];
     });
 
-    const accessToken = await getAccessToken();
-
     let leadId: string | undefined;
     try {
-      const res = await fetch(`${API_DOMAIN}/crm/v2/Leads`, {
-      method: "POST",
-      headers: {
-        Authorization: `Zoho-oauthtoken ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: [leadRecord], trigger: ["workflow"] }),
-    });
+      const res = await zohoFetch(`/crm/v2/Leads`, {
+        method: "POST",
+        body: JSON.stringify({ data: [leadRecord], trigger: ["workflow"] }),
+      });
       const json = await res.json();
       if (!res.ok || json.data?.[0]?.status === "error") {
         console.error("Zoho Leads API error:", JSON.stringify(json));
