@@ -1,20 +1,14 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { formatEsNumber, parseFlexibleNumber } from "@/lib/numberFormat";
 
 /**
  * Campo de importe tolerante al formato español: "14.000", "14.000,50",
  * "14000 €" se interpretan todos como 14000/14000,5. Un `<input type="number">`
  * leía "14.000" como 14, lo que enviaba cifras erróneas al CRM.
  */
-export function parseEsNumber(raw: string): number | undefined {
-  const cleaned = raw.replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", ".");
-  if (cleaned === "" || cleaned === "-") return undefined;
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : undefined;
-}
-
-const format = (n: number | undefined) =>
-  n === undefined ? "" : new Intl.NumberFormat("es-ES", { maximumFractionDigits: 2 }).format(n);
+export const parseEsNumber = parseFlexibleNumber;
+const format = formatEsNumber;
 
 type Props = {
   value: number | undefined;
