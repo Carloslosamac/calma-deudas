@@ -52,6 +52,7 @@ import {
   VARIANT_LABEL,
   MODALITY_LABEL,
 } from "@/lib/seo/triage";
+import { checkEligibility } from "@/lib/sales/eligibility";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
@@ -1764,6 +1765,21 @@ const AdminVentas = () => {
     estimatedInstallment: triageResult.estimatedInstallment,
     warnings: triageResult.warnings,
   };
+  // Comprobación de encaje ANTES de presentar diagnóstico: con la mínima
+  // información necesaria. Si no está soportado, el guion se genera en modo
+  // prudente (sin diagnóstico definitivo ni urgencia).
+  const eligibility = useMemo(
+    () =>
+      checkEligibility({
+        debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+        isDefault: guide.isDefault,
+        hasPaymentSituation: guide.debts.length > 0 || guide.isDefault != null,
+        monthlyIncome: guide.monthlyIncome,
+        monthlyExpenses: guide.monthlyExpenses,
+        solution: triageResult.solution,
+      }),
+    [guide, debtsTotal, triageResult.solution],
+  );
   const hasDebtsPublicHint = guide.debts.some(
     (d) => d.type === "hacienda",
   );
@@ -1822,7 +1838,17 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, triageExtra, engagement, engagementByPhase, reactions, contract, phase: target },
+        body: {
+          caseText: caseText.trim(),
+          guide: payloadGuide,
+          triageExtra,
+          engagement,
+          engagementByPhase,
+          reactions,
+          contract,
+          phase: target,
+          eligibility: { status: eligibility.status, missing: eligibility.missing, reason: eligibility.reason },
+        },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1875,6 +1901,14 @@ const AdminVentas = () => {
 
   // Cualificación → Diagnóstico: prepara el diagnóstico según el engagement.
   const generate = () => {
+    if (!eligibility.canDiagnose) {
+      toast.info(
+        eligibility.status === "insufficient"
+          ? `Confirma primero el encaje: ${eligibility.missing.join(", ")}.`
+          : `${eligibility.title}. Se prepara un guion prudente, sin diagnóstico definitivo.`,
+      );
+      if (eligibility.status === "insufficient") return;
+    }
     setResult(null);
     void runGeneration(2);
   };
@@ -2213,11 +2247,41 @@ const AdminVentas = () => {
       );
     if (step === 1)
       return (
-        <EngagementGate
+        <div className="space-y-3">
+          <div
+            className={`rounded-xl border p-3 text-sm ${
+              eligibility.status === "eligible"
+                ? "border-emerald-500/40 bg-emerald-500/10"
+                : eligibility.status === "insufficient"
+                  ? "border-amber-500/40 bg-amber-500/10"
+                  : "border-destructive/40 bg-destructive/10"
+            }`}
+          >
+            <p className="font-semibold">
+              {eligibility.status === "eligible" ? "✅ " : "⚠️ "}
+              {eligibility.title}
+            </p>
+            <p className="mt-1 text-muted-foreground">{eligibility.reason}</p>
+            {eligibility.missing.length > 0 && (
+              <ul className="mt-2 list-disc pl-5 text-muted-foreground">
+                {eligibility.missing.map((m) => (
+                  <li key={m}>{m}</li>
+                ))}
+              </ul>
+            )}
+            <p className="mt-2">{eligibility.guidance}</p>
+          </div>
+          <EngagementGate
           value={engagement}
           onChange={setEngagement}
           title="Engagement antes del diagnóstico"
-          ctaLabel="Generar diagnóstico"
+          ctaLabel={
+            eligibility.status === "insufficient"
+              ? "Completa el encaje para diagnosticar"
+              : eligibility.canDiagnose
+                ? "Generar diagnóstico"
+                : "Generar guion prudente"
+          }
           onContinue={generate}
           loading={generating}
           phrases={REACTION_PHRASES_QUALIFICATION}
@@ -2226,7 +2290,8 @@ const AdminVentas = () => {
           onReinforce={() => void reinforcePhase(1)}
           reinforceLoading={reinforcing}
           reinforceData={reinforceByStep[1]}
-        />
+          />
+        </div>
       );
     if (step === 2 && result)
       return (

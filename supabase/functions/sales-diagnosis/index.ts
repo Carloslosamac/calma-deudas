@@ -707,6 +707,15 @@ Deno.serve(async (req) => {
           .slice(0, 5)
       : [];
     const phase = typeof body.phase === "string" ? body.phase : "";
+    // Encaje (elegibilidad) comprobado en el cliente antes del diagnóstico.
+    const eligibilityStatus: string =
+      body.eligibility && typeof body.eligibility.status === "string"
+        ? body.eligibility.status
+        : "eligible";
+    const eligibilityReason: string =
+      body.eligibility && typeof body.eligibility.reason === "string"
+        ? body.eligibility.reason.slice(0, 300)
+        : "";
     const contract: ContractInput =
       body.contract && typeof body.contract === "object" ? body.contract : {};
     const triageExtra: TriageExtra =
@@ -748,7 +757,7 @@ Deno.serve(async (req) => {
     }
 
     const t = triage(guide);
-    const prompt =
+    const basePrompt =
       phase === "signing"
         ? buildSigningPrompt(caseText, guide, t, engagement, reactions, engagementByPhase, contract, triageExtra)
         : phase === "contract_message"
@@ -758,6 +767,18 @@ Deno.serve(async (req) => {
             : phase === "solution"
               ? buildPrompt(caseText, guide, t, engagement, reactions, contract, "solution", triageExtra)
               : buildPrompt(caseText, guide, t, engagement, reactions, contract, "diagnosis", triageExtra);
+    // Si el encaje NO está confirmado, el guion se genera en modo prudente:
+    // sin diagnóstico definitivo y sin marcos de miedo o urgencia.
+    const prompt =
+      eligibilityStatus === "eligible"
+        ? basePrompt
+        : `${basePrompt}
+
+MODO PRUDENTE (OBLIGATORIO · el encaje de esta persona NO está confirmado${eligibilityReason ? `: ${eligibilityReason}` : ""}):
+- NO afirmes que la persona puede cancelar su deuda ni des un diagnóstico definitivo. Habla siempre en condicional ("habría que confirmar", "según lo que veamos").
+- PROHIBIDO cualquier marco de miedo, alarma o urgencia (embargos inminentes, plazos que se acaban, "si no actúas hoy"). Nada de presión.
+- Céntrate en confirmar con preguntas los datos que faltan y en explicar con transparencia qué haría falta para encajar.
+- Si el caso se deriva o la persona no es insolvente, dilo con claridad y sin dramatizar; no vendas.`;
 
     const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
