@@ -873,7 +873,70 @@ const AdminLeads = () => {
                 </div>
                 {open && (
                   <div className="border-t border-border/60 bg-muted/30 px-3 py-3">
-                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                    {/* Todos los datos del lead */}
+                    <div className="text-[11px] font-medium text-muted-foreground">Datos del lead</div>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                      <Field label="Nombre" value={fmtValue(l.name)} />
+                      <Field label="Teléfono" value={fmtValue(l.phone)} />
+                      <Field label="Email" value={fmtValue(l.email)} />
+                      <Field label="Estado" value={fmtValue(l.lead_status)} />
+                      <Field label="Deuda" value={eur(l.debt)} />
+                      <Field label="Ingresos" value={eur(l.income)} />
+                      <Field label="Gastos" value={eur(l.expense)} />
+                      <Field label="Impago" value={fmtValue(l.is_default)} />
+                      <Field label="Laboral" value={fmtValue(l.employment)} />
+                      <Field label="Vivienda" value={fmtValue(l.housing)} />
+                      <Field label="Vehículo" value={fmtValue(l.vehicle)} />
+                      <Field label="Tier" value={fmtValue(l.tier)} />
+                      <Field label="Fuente" value={fmtValue(l.source)} />
+                      <Field label="Cita" value={fmtAppointment(l.appointment_at) || "—"} />
+                      <Field label="ID Zoho" value={fmtValue(l.external_id)} />
+                      <Field label="Alta" value={new Date(l.created_at).toLocaleDateString("es-ES")} />
+                    </div>
+
+                    {(() => {
+                      const c = l.sales_case_id ? caseById.get(l.sales_case_id) : null;
+                      const gf = (c?.guide_fields ?? {}) as Record<string, unknown>;
+                      const keys = Object.keys(GUIDE_LABELS).filter((k) => {
+                        const v = gf[k];
+                        return v != null && v !== "" && !(Array.isArray(v) && v.length === 0);
+                      });
+                      if (!c) return null;
+                      return (
+                        <div className="mt-3">
+                          <div className="text-[11px] font-medium text-muted-foreground">
+                            Diagnóstico en curso
+                            {c.triage_title ? ` · ${c.triage_title}` : ""}
+                          </div>
+                          {keys.length ? (
+                            <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                              {keys.map((k) => (
+                                <Field key={k} label={GUIDE_LABELS[k]} value={fmtValue(gf[k])} />
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="mt-1 text-[11px] text-muted-foreground">Sin datos todavía.</div>
+                          )}
+                        </div>
+                      );
+                    })()}
+
+                    {l.raw && Object.keys(l.raw).length ? (
+                      <details className="mt-3">
+                        <summary className="cursor-pointer text-[11px] font-medium text-muted-foreground">
+                          Datos originales del CSV ({Object.keys(l.raw).length})
+                        </summary>
+                        <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                          {Object.entries(l.raw)
+                            .filter(([, v]) => v != null && String(v).trim() !== "")
+                            .map(([k, v]) => (
+                              <Field key={k} label={k} value={fmtValue(v)} />
+                            ))}
+                        </div>
+                      </details>
+                    ) : null}
+
+                    <div className="mt-4 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
                       <Zap className="h-3.5 w-3.5 text-primary" />
                       Sincronización con Zoho CRM
                     </div>
