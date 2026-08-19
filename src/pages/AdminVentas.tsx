@@ -2270,6 +2270,21 @@ const AdminVentas = () => {
               </ul>
             )}
             <p className="mt-2">{eligibility.guidance}</p>
+            <div className="mt-3 rounded-lg border border-border bg-background/70 p-2">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                Solo para ti · orientación provisional
+              </p>
+              <p className="mt-1 font-medium">
+                {triageResult.title}
+                {triageResult.variant ? ` · ${VARIANT_LABEL[triageResult.variant]}` : ""}
+                {triageResult.modality ? ` · ${MODALITY_LABEL[triageResult.modality]}` : ""}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {eligibility.canDiagnose
+                  ? "Es la vía que sale con los datos actuales."
+                  : "Hipótesis con los datos actuales; puede cambiar. No se la comuniques al cliente todavía."}
+              </p>
+            </div>
           </div>
           <EngagementGate
           value={engagement}
