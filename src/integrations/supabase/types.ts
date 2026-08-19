@@ -362,6 +362,7 @@ export type Database = {
           name: string | null
           phone: string | null
           raw: Json | null
+          relevant_facts: string[]
           sales_case_id: string | null
           source: string | null
           tier: string | null
@@ -389,6 +390,7 @@ export type Database = {
           name?: string | null
           phone?: string | null
           raw?: Json | null
+          relevant_facts?: string[]
           sales_case_id?: string | null
           source?: string | null
           tier?: string | null
@@ -416,6 +418,7 @@ export type Database = {
           name?: string | null
           phone?: string | null
           raw?: Json | null
+          relevant_facts?: string[]
           sales_case_id?: string | null
           source?: string | null
           tier?: string | null

@@ -570,40 +570,16 @@ const CaseFactsPanel = ({
   label,
   onLabelChange,
   facts,
-  newFact,
-  onNewFactChange,
-  onAddFact,
   onRemoveFact,
 }: {
   label: string;
   onLabelChange: (v: string) => void;
   facts: string[];
-  newFact: string;
-  onNewFactChange: (v: string) => void;
-  onAddFact: () => void;
   onRemoveFact: (i: number) => void;
 }) => {
   const [open, setOpen] = useState(false);
   return (
     <div className="mt-2 rounded-xl border border-border bg-card/80 p-2.5">
-      {/* Añadir dato: siempre visible */}
-      <div className="flex gap-2">
-        <Input
-          value={newFact}
-          onChange={(e) => onNewFactChange(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              onAddFact();
-            }
-          }}
-          placeholder="Añadir dato relevante y pulsa Enter…"
-        />
-        <Button type="button" size="icon" onClick={onAddFact} aria-label="Añadir dato relevante">
-          <Plus className="h-4 w-4" />
-        </Button>
-      </div>
-
       {/* Datos del caso: siempre minimizados (colapsados por defecto) */}
       <button
         type="button"
@@ -1553,6 +1529,7 @@ const AdminVentas = () => {
     external_id?: string | null;
     label?: string;
     guide?: Partial<GuideFields>;
+    relevantFacts?: string[];
   } } | null)?.lead;
   useEffect(() => {
     const lead = incomingLead;
@@ -1589,6 +1566,7 @@ const AdminVentas = () => {
       if (!restored) {
         if (lead.label) setLabel(lead.label);
         if (lead.guide) setGuide((prev) => ({ ...prev, ...lead.guide }));
+        if (Array.isArray(lead.relevantFacts)) setRelevantFacts(lead.relevantFacts);
       }
       // Limpia el state para no re-precargar al navegar internamente.
       navigate(location.pathname, { replace: true, state: null });
@@ -1626,6 +1604,17 @@ const AdminVentas = () => {
       .eq("id", leadId);
     if (error) console.error("No se pudo sincronizar el lead", error);
   };
+
+  // Los datos relevantes pertenecen al lead, no solo al caso final. Se guardan
+  // mientras se escriben para que todos los administradores los vean al abrir
+  // el desplegable del paquete, aunque aún no se haya generado/guardado el caso.
+  useEffect(() => {
+    if (!leadId || isTestCase || !hydratedRef.current) return;
+    const timer = window.setTimeout(() => {
+      void syncLead({ relevant_facts: relevantFacts });
+    }, 500);
+    return () => window.clearTimeout(timer);
+  }, [leadId, isTestCase, relevantFacts]);
 
   // Al cambiar de fase, reposiciona la sub-pantalla: 0 al avanzar, o la última
   // de la fase si venimos de un "Atrás" que cruza el límite de fase.
@@ -1803,10 +1792,11 @@ const AdminVentas = () => {
         affordablePayment,
         employment: guide.employment ?? null,
         solution: triageResult.title ?? null,
+        relevantFacts,
       }),
     [
       guide, debtsTotal, debtsMonthlyPaying, monthlyOutflow, paymentCapacity,
-      affordablePayment, triageResult.title,
+      affordablePayment, triageResult.title, relevantFacts,
     ],
   );
   const crmSync = useCrmAutoSync(leadExternalId, liveZohoFields, isTestCase);
@@ -2102,6 +2092,7 @@ const AdminVentas = () => {
           debt: debtsTotal > 0 ? debtsTotal : guide.debtAmount ?? null,
           income: guide.monthlyIncome ?? null,
           expense: guide.monthlyExpenses ?? null,
+          relevant_facts: relevantFacts,
         });
       }
       // Sincroniza los datos económicos del caso hacia Zoho CRM.
@@ -2127,6 +2118,7 @@ const AdminVentas = () => {
           affordablePayment,
           employment: guide.employment ?? null,
           solution: result.triage?.title ?? null,
+          relevantFacts,
         });
         void syncLeadToZoho(leadExternalId, fields).then((ok) => {
           if (!ok) toast.warning("Caso guardado, pero no se pudo sincronizar con Zoho");
@@ -2506,9 +2498,6 @@ const AdminVentas = () => {
                   label={label}
                   onLabelChange={setLabel}
                   facts={relevantFacts}
-                  newFact={newFact}
-                  onNewFactChange={setNewFact}
-                  onAddFact={addFact}
                   onRemoveFact={removeFact}
                 />
               </div>
@@ -3402,9 +3391,6 @@ const AdminVentas = () => {
                     label={label}
                     onLabelChange={setLabel}
                     facts={relevantFacts}
-                    newFact={newFact}
-                    onNewFactChange={setNewFact}
-                    onAddFact={addFact}
                     onRemoveFact={removeFact}
                   />
                 )}
