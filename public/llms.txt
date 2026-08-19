@@ -88,6 +88,7 @@
 
 ## Artículos del blog
 
+- [¿Cómo crear un plan de ahorro?](https://mi-calma.es/blog/crear-plan-ahorro): Ahorrar cuando los gastos superan los ingresos parece imposible, pero con una estructura adecuada es el primer paso para proteger tu economía frente a deudas e impagos.
 - [Juana: “Son un equipo humano, atento en todo momento”](https://mi-calma.es/blog/juana-son-equipo-humano-atento-todo-momento): El endeudamiento no solo afecta a las finanzas, sino también a la salud emocional. Analizamos por qué el acompañamiento cercano y el trato humano son pilares fundamentales para cancelar deudas con éxito.
 - [¿Qué es un aval?](https://mi-calma.es/blog/aval): Avalar a un familiar o amigo no es un mero trámite: implica asumir una deuda ajena con todo tu patrimonio presente y futuro. Analizamos el alcance legal de esta figura y cómo protegerte.
 - [Para qué sirve un generador de tarjetas de crédito](https://mi-calma.es/blog/sirve-generador-tarjetas-credito): Analizamos en profundidad la función técnica de los generadores de tarjetas de crédito, su validez algorítmica y los graves riesgos legales de intentar usarlos en operaciones financieras.
@@ -127,7 +128,6 @@
 - [Qué pasos debo seguir para hacer separación de bienes en España](https://mi-calma.es/blog/pasos-debo-seguir-hacer-separacion-bienes-espana): Cambiar el régimen económico matrimonial a separación de bienes protege tu patrimonio personal frente a deudas y simplifica la gestión financiera de la pareja.
 - [¿Qué es la figura del hipotecante no deudor?](https://mi-calma.es/blog/figura-hipotecante-no-deudor): Aportar un inmueble para garantizar la hipoteca de otra persona sin firmar como deudor parece una ayuda inofensiva, pero entraña graves riesgos patrimoniales que debes conocer antes de firmar en notaría.
 - [¿Qué hacer si WCM España te reclama una deuda?](https://mi-calma.es/blog/hacer-wcm-espana-reclama-deuda): Si has recibido una carta, llamada o citación judicial de WCM España, es fundamental mantener la calma. Te explicamos cómo comprobar si la deuda existe, si contiene abusos o si legalmente ya ha prescrito.
-- [¿Por qué me exige una deuda Promontoria Ares Dac?](https://mi-calma.es/blog/exige-deuda-promontoria-ares-dac): Si has recibido una carta, llamada o notificación judicial de Promontoria Ares Dac, te explicamos cómo han comprado tu crédito y qué vías legales tienes para impugnarlo o reducir la cuantía.
 
 ## Casos de éxito
 

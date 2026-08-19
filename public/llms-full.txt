@@ -510,6 +510,15 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### ¿Cómo crear un plan de ahorro?
+URL: https://mi-calma.es/blog/crear-plan-ahorro
+
+Un plan de ahorro estructurado consiste en diagnosticar tus ingresos netos reales, recortar o reestructurar compromisos financieros preexistentes y destinar un porcentaje fijo mensual —incluso si es del 5%— a un fondo de emergencia intocable. Si las deudas acumuladas impiden cualquier margen de maniobra, el plan exige renegociar las condiciones o acudir a mecanismos legales como la Ley de Segunda Oportunidad.
+
+- **1. ¿Cuánto dinero debo destinar al ahorro cada mes?** La recomendación financiera general sugiere destinar entre un 10% y un 20% de los ingresos netos. Sin embargo, si tu presupuesto está ajustado o afrontas deudas, es preferible comenzar con un porcentaje modesto pero constante, como un 5%, e ir incrementándolo a medida que sanees tus cuotas mensuales.
+- **2. ¿Es conveniente ahorrar si tengo deudas pendientes de pago?** Sí, es prioritario constituir un pequeño fondo de emergencia (de entre 500 € y 1.000 €) antes de volcar todo el remanente en amortizar deudas. Sin este colchón mínimo, cualquier imprevisto cotidiano te obligará a recurrir a nueva financiación rápida o a incurrir en impagos.
+- **3. ¿Qué hago si a mitad de mes no me queda dinero para ahorrar?** El problema radica en ahorrar 'lo que sobra' al final del periodo. El método correcto exige automatizar la transferencia del ahorro el mismo día en que cobras la nómina. De este modo, el presupuesto mensual se adapta desde el inicio al saldo disponible restante.
+
 ### Juana: “Son un equipo humano, atento en todo momento”
 URL: https://mi-calma.es/blog/juana-son-equipo-humano-atento-todo-momento
 
@@ -635,13 +644,4 @@ Un pasivo financiero es cualquier obligación contractual, deuda o compromiso de
 - **¿Cuál es la diferencia exacta entre un activo y un pasivo financiero?** Un activo financiero representa un derecho de cobro o una inversión que genera ingresos o rentabilidad para su titular (como depósitos o acciones). En cambio, un pasivo financiero representa una obligación contractual de pago frente a terceros que implica la salida de dinero en el futuro para amortizar el capital e intereses adeudados.
 - **¿Una hipoteca se considera un pasivo financiero corriente o no corriente?** La hipoteca es de forma general un pasivo financiero no corriente (a largo plazo), dado que su plazo de amortización se extiende durante varios años o décadas. Sin embargo, la parte del principal de la hipoteca que vence dentro de los siguientes 12 meses se reclasifica contablemente como pasivo corriente.
 - **¿Se puede anular un pasivo financiero si los intereses son muy altos?** Sí, si la Tasa Anual Equivalente (TAE) de un préstamo o tarjeta supera notablemente el interés medio publicado por el Banco de España para ese producto, se puede solicitar la nulidad del contrato por usura al amparo de la Ley Azcárate. En ese escenario, la obligación se limita a devolver exclusivamente el capital prestado sin intereses.
-
-### ¿Cómo evitar subasta vivienda habitual?
-URL: https://mi-calma.es/blog/evitar-subasta-vivienda-habitual
-
-Para evitar la subasta de tu vivienda habitual en España puedes paralizar el procedimiento mediante el pago de las cuotas vencidas (enervación hipotecaria), alegar cláusulas abusivas en la hipoteca o préstamo, renegociar la deuda antes del remate o acogerte al plan de pagos de la Ley de Segunda Oportunidad. La clave es actuar inmediatamente tras recibir el requerimiento judicial o la notificación de ejecución.
-
-- **¿Se puede parar una subasta el día antes de su celebración?** Sí, es legalmente posible paralizar una subasta en el Portal del BOE de forma urgente mediante la presentación de un escrito de concurso de acreedores o una solicitud de paralización cautelar por el mecanismo de la Ley de Segunda Oportunidad. El juzgado de lo mercantil notificará telefónicamente o telemáticamente la suspensión al juzgado de primera instancia antes del cierre de las pujas.
-- **¿Si ejecutan la subasta y no cubre el total de la deuda, me siguen cobrando?** Lamentablemente sí. En el ordenamiento español rige el principio de responsabilidad patrimonial universal (artículo 1.911 del Código Civil). Si la vivienda se adjudica en subasta por un importe inferior al importe reclamado más las costas, el banco mantendrá la ejecución activa sobre tus nóminas, cuentas bancarias y otros bienes por el saldo remanente.
-- **¿Qué porcentaje del valor de tasación se exige en la subasta de vivienda habitual?** Según el artículo 670 de la Ley de Enjuiciamiento Civil, si la postura ofrecida en la subasta sobre la vivienda habitual es inferior al 70% del valor de tasación fijado en la escritura, el ejecutado tiene un plazo para presentar a un tercero que mejore la postura. De no ser así, el ejecutante solo podrá adjudicársela por el 60% del valor o por la cantidad adeudada.
 
