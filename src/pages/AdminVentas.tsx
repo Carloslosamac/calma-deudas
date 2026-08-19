@@ -2247,11 +2247,41 @@ const AdminVentas = () => {
       );
     if (step === 1)
       return (
-        <EngagementGate
+        <div className="space-y-3">
+          <div
+            className={`rounded-xl border p-3 text-sm ${
+              eligibility.status === "eligible"
+                ? "border-emerald-500/40 bg-emerald-500/10"
+                : eligibility.status === "insufficient"
+                  ? "border-amber-500/40 bg-amber-500/10"
+                  : "border-destructive/40 bg-destructive/10"
+            }`}
+          >
+            <p className="font-semibold">
+              {eligibility.status === "eligible" ? "✅ " : "⚠️ "}
+              {eligibility.title}
+            </p>
+            <p className="mt-1 text-muted-foreground">{eligibility.reason}</p>
+            {eligibility.missing.length > 0 && (
+              <ul className="mt-2 list-disc pl-5 text-muted-foreground">
+                {eligibility.missing.map((m) => (
+                  <li key={m}>{m}</li>
+                ))}
+              </ul>
+            )}
+            <p className="mt-2">{eligibility.guidance}</p>
+          </div>
+          <EngagementGate
           value={engagement}
           onChange={setEngagement}
           title="Engagement antes del diagnóstico"
-          ctaLabel="Generar diagnóstico"
+          ctaLabel={
+            eligibility.status === "insufficient"
+              ? "Completa el encaje para diagnosticar"
+              : eligibility.canDiagnose
+                ? "Generar diagnóstico"
+                : "Generar guion prudente"
+          }
           onContinue={generate}
           loading={generating}
           phrases={REACTION_PHRASES_QUALIFICATION}
@@ -2260,7 +2290,8 @@ const AdminVentas = () => {
           onReinforce={() => void reinforcePhase(1)}
           reinforceLoading={reinforcing}
           reinforceData={reinforceByStep[1]}
-        />
+          />
+        </div>
       );
     if (step === 2 && result)
       return (
