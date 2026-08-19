@@ -46,11 +46,11 @@ serve(async (req) => {
       throw new Error("Invalid or missing zohoId");
     }
 
-    // Filtra a la allowlist y descarta nulos/vacíos.
+    // Filtra a la allowlist. `null` es intencional: vacía el campo en Zoho.
     const fields: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(rawFields)) {
       if (!ALLOWED_FIELDS.has(k)) continue;
-      if (v === null || v === undefined || v === "") continue;
+      if (v === undefined || v === "") continue;
       fields[k] = v;
     }
 
