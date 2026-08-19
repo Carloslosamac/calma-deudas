@@ -61,23 +61,45 @@ serve(async (req) => {
       );
     }
 
-    const res = await zohoFetch(`/crm/v2/Leads/${zohoId}`, {
-      method: "PUT",
-      body: JSON.stringify({ data: [fields], trigger: ["workflow"] }),
-    });
-    const json = await res.json().catch(() => ({}));
+    // Zoho rechaza la actualización COMPLETA si un solo campo no le encaja
+    // (p. ej. un valor fuera del picklist). Reintentamos descartando el campo
+    // conflictivo para que el resto de datos sí lleguen al CRM.
+    const skipped: { field: string; reason: string }[] = [];
+    let payload = { ...fields };
+    let json: Record<string, unknown> = {};
 
-    if (!res.ok || json.data?.[0]?.status === "error") {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      if (Object.keys(payload).length === 0) break;
+      const res = await zohoFetch(`/crm/v2/Leads/${zohoId}`, {
+        method: "PUT",
+        body: JSON.stringify({ data: [payload], trigger: ["workflow"] }),
+      });
+      json = await res.json().catch(() => ({}));
+      const row = (json as { data?: { status?: string; code?: string; message?: string; details?: { api_name?: string } }[] }).data?.[0];
+      if (res.ok && row?.status !== "error") {
+        console.log("Zoho lead updated:", zohoId, Object.keys(payload).join(","));
+        return new Response(
+          JSON.stringify({
+            success: true,
+            id: zohoId,
+            updated: Object.keys(payload),
+            skipped,
+            message: "Lead updated in Zoho CRM",
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
+        );
+      }
+      const badField = row?.details?.api_name;
       console.error("Zoho Leads update error:", JSON.stringify(json));
-      throw new Error(`Failed to update lead in Zoho: ${JSON.stringify(json)}`);
+      if (badField && badField in payload) {
+        skipped.push({ field: badField, reason: row?.message ?? row?.code ?? "rechazado por Zoho" });
+        delete payload[badField];
+        continue;
+      }
+      break;
     }
 
-    console.log("Zoho lead updated:", zohoId, Object.keys(fields).join(","));
-
-    return new Response(
-      JSON.stringify({ success: true, id: zohoId, message: "Lead updated in Zoho CRM" }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
-    );
+    throw new Error(`Failed to update lead in Zoho: ${JSON.stringify(json)}`);
   } catch (error) {
     console.error("Error in zoho-update-lead function:", error);
     return new Response(
