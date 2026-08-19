@@ -64,6 +64,7 @@ type LeadRow = {
   zoho_sync_status: string | null;
   zoho_synced_at: string | null;
   zoho_sync_error: string | null;
+  relevant_facts: string[];
 };
 
 type BatchRow = {
@@ -428,6 +429,7 @@ const AdminLeads = () => {
       housing: l.housing,
       vehicle: l.vehicle,
       isDefault: l.is_default,
+      relevantFacts: l.relevant_facts,
     });
 
   // Sincronización manual (botón "Sincronizar ahora" tipo Zapier).
@@ -484,6 +486,7 @@ const AdminLeads = () => {
             vehicle: l.vehicle ?? "",
             isDefault: l.is_default ?? undefined,
           },
+          relevantFacts: l.relevant_facts ?? [],
         },
       },
     });
@@ -892,6 +895,24 @@ const AdminLeads = () => {
                       <Field label="Cita" value={fmtAppointment(l.appointment_at) || "—"} />
                       <Field label="ID Zoho" value={fmtValue(l.external_id)} />
                       <Field label="Alta" value={new Date(l.created_at).toLocaleDateString("es-ES")} />
+                    </div>
+
+                    <div className="mt-3">
+                      <div className="text-[11px] font-medium text-muted-foreground">
+                        Datos relevantes ({l.relevant_facts?.length ?? 0})
+                      </div>
+                      {l.relevant_facts?.length ? (
+                        <ul className="mt-1.5 space-y-1 rounded-md border border-border bg-background p-2.5 text-xs text-foreground">
+                          {l.relevant_facts.map((fact, factIndex) => (
+                            <li key={`${l.id}-fact-${factIndex}`} className="flex gap-2">
+                              <span className="text-primary">•</span>
+                              <span className="whitespace-pre-wrap">{fact}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div className="mt-1 text-[11px] text-muted-foreground">Sin datos relevantes todavía.</div>
+                      )}
                     </div>
 
                     {(() => {

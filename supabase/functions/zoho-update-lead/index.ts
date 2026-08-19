@@ -28,6 +28,7 @@ const ALLOWED_FIELDS = new Set<string>([
   "importe_asumible",
   "situacion_laboral",
   "solution_recomendada",
+  "Description",
 ]);
 
 serve(async (req) => {

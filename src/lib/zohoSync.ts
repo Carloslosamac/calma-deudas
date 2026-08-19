@@ -55,6 +55,7 @@ export interface SalesZohoInput {
   affordablePayment?: number | null;
   employment?: string | null;
   solution?: string | null;
+  relevantFacts?: string[] | null;
 }
 
 // Construye el objeto de campos de Zoho a partir de los datos del caso.
@@ -85,6 +86,9 @@ export function buildZohoLeadFields(input: SalesZohoInput): ZohoLeadFields {
     put("situacion_laboral", EMPLOYMENT_LABELS[input.employment]);
   }
   put("solution_recomendada", input.solution ?? undefined);
+  if (input.relevantFacts?.length) {
+    put("Description", `DATOS RELEVANTES DE LA LLAMADA:\n${input.relevantFacts.map((fact) => `• ${fact}`).join("\n")}`);
+  }
   return out;
 }
 
