@@ -52,6 +52,7 @@ import {
   VARIANT_LABEL,
   MODALITY_LABEL,
 } from "@/lib/seo/triage";
+import { checkEligibility } from "@/lib/sales/eligibility";
 
 type Housing = "" | "propiedad" | "hipoteca" | "alquiler";
 type Vehicle = "" | "propiedad" | "financiado" | "no";
