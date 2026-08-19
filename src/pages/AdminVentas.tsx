@@ -1838,7 +1838,17 @@ const AdminVentas = () => {
         isDefault: guide.debts.some((d) => d.isDefault) || guide.isDefault,
       };
       const { data, error } = await supabase.functions.invoke("sales-diagnosis", {
-        body: { caseText: caseText.trim(), guide: payloadGuide, triageExtra, engagement, engagementByPhase, reactions, contract, phase: target },
+        body: {
+          caseText: caseText.trim(),
+          guide: payloadGuide,
+          triageExtra,
+          engagement,
+          engagementByPhase,
+          reactions,
+          contract,
+          phase: target,
+          eligibility: { status: eligibility.status, missing: eligibility.missing, reason: eligibility.reason },
+        },
       });
       if (error) throw error;
       if (data?.error) {
@@ -1891,6 +1901,14 @@ const AdminVentas = () => {
 
   // Cualificación → Diagnóstico: prepara el diagnóstico según el engagement.
   const generate = () => {
+    if (!eligibility.canDiagnose) {
+      toast.info(
+        eligibility.status === "insufficient"
+          ? `Confirma primero el encaje: ${eligibility.missing.join(", ")}.`
+          : `${eligibility.title}. Se prepara un guion prudente, sin diagnóstico definitivo.`,
+      );
+      if (eligibility.status === "insufficient") return;
+    }
     setResult(null);
     void runGeneration(2);
   };
