@@ -44,6 +44,7 @@ import {
 } from "@/lib/contratoPdf";
 import { buildZohoLeadFields, syncLeadToZoho } from "@/lib/zohoSync";
 import { useCrmAutoSync } from "@/hooks/useCrmAutoSync";
+import { MoneyInput } from "@/components/ventas/MoneyInput";
 import {
   triage as computeTriage,
   type Profile as TriageProfile,
@@ -2564,22 +2565,16 @@ const AdminVentas = () => {
                         onChange={(e) => updateDebt(i, { entity: e.target.value })}
                         placeholder="Entidad"
                       />
-                      <Input
+                      <MoneyInput
                         className="h-8 text-xs"
-                        type="number"
-                        value={d.amount ?? ""}
-                        onChange={(e) =>
-                          updateDebt(i, { amount: e.target.value ? Number(e.target.value) : undefined })
-                        }
+                        value={d.amount}
+                        onValueChange={(v) => updateDebt(i, { amount: v })}
                         placeholder="Importe €"
                       />
-                      <Input
+                      <MoneyInput
                         className="h-8 text-xs"
-                        type="number"
-                        value={d.monthlyPayment ?? ""}
-                        onChange={(e) =>
-                          updateDebt(i, { monthlyPayment: e.target.value ? Number(e.target.value) : undefined })
-                        }
+                        value={d.monthlyPayment}
+                        onValueChange={(v) => updateDebt(i, { monthlyPayment: v })}
                         placeholder="Cuota €"
                       />
                       <div className="flex h-8 items-center gap-0.5 rounded-md bg-muted p-0.5">
@@ -2727,17 +2722,9 @@ const AdminVentas = () => {
                     Importe con un mismo organismo. Por encima de 10.000€ esa
                     parte NO se cancela con LSO (se avisa al cliente).
                   </p>
-                  <Input
-                    type="number"
-                    value={guide.publicDebtAmount ?? ""}
-                    onChange={(e) =>
-                      setGuide((g) => ({
-                        ...g,
-                        publicDebtAmount: e.target.value
-                          ? Number(e.target.value)
-                          : undefined,
-                      }))
-                    }
+                  <MoneyInput
+                    value={guide.publicDebtAmount}
+                    onValueChange={(v) => setGuide((g) => ({ ...g, publicDebtAmount: v }))}
                     placeholder="0"
                   />
                   {(guide.publicDebtAmount ?? 0) > 10000 && (
@@ -2760,14 +2747,11 @@ const AdminVentas = () => {
                 <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
                   Ingresos mensuales
                 </h2>
-                <Input
-                  type="number"
-                  value={guide.monthlyIncome ?? ""}
-                  onChange={(e) =>
-                    setGuide((g) => ({ ...g, monthlyIncome: e.target.value ? Number(e.target.value) : undefined }))
-                  }
-                  placeholder="1200"
-                />
+                <MoneyInput
+                      value={guide.monthlyIncome}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, monthlyIncome: v }))}
+                      placeholder="1200"
+                    />
                 <p className="text-xs text-muted-foreground">Ingresos netos que entran cada mes (€).</p>
               </div>
             ),
@@ -2782,14 +2766,11 @@ const AdminVentas = () => {
                 <h2 className="font-poppins text-xl font-bold leading-tight text-foreground">
                   Gastos mensuales de vida
                 </h2>
-                <Input
-                  type="number"
-                  value={guide.monthlyExpenses ?? ""}
-                  onChange={(e) =>
-                    setGuide((g) => ({ ...g, monthlyExpenses: e.target.value ? Number(e.target.value) : undefined }))
-                  }
-                  placeholder="650"
-                />
+                <MoneyInput
+                      value={guide.monthlyExpenses}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, monthlyExpenses: v }))}
+                      placeholder="650"
+                    />
                 <p className="text-xs text-muted-foreground">
                   Comida, suministros, etc. (sin contar deudas, vivienda ni coche).
                 </p>
@@ -2823,27 +2804,21 @@ const AdminVentas = () => {
                   <div className="grid gap-3 sm:grid-cols-3">
                     <div className="space-y-1">
                       <Label className="text-xs">Valor estimado (€)</Label>
-                      <Input
-                        type="number"
-                        value={guide.housingValue ?? ""}
-                        onChange={(e) =>
-                          setGuide((g) => ({ ...g, housingValue: e.target.value ? Number(e.target.value) : undefined }))
-                        }
-                        placeholder="180000"
-                      />
+                      <MoneyInput
+                      value={guide.housingValue}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, housingValue: v }))}
+                      placeholder="180000"
+                    />
                     </div>
                     {guide.housing === "hipoteca" && (
                       <>
                         <div className="space-y-1">
                           <Label className="text-xs">Pagado (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.mortgagePaid ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, mortgagePaid: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="40000"
-                          />
+                          <MoneyInput
+                      value={guide.mortgagePaid}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, mortgagePaid: v }))}
+                      placeholder="40000"
+                    />
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
@@ -2860,12 +2835,9 @@ const AdminVentas = () => {
                     <Label className="text-xs">
                       {guide.housing === "alquiler" ? "Cuota de alquiler (€/mes)" : "Cuota de hipoteca (€/mes)"}
                     </Label>
-                    <Input
-                      type="number"
-                      value={guide.housingPayment ?? ""}
-                      onChange={(e) =>
-                        setGuide((g) => ({ ...g, housingPayment: e.target.value ? Number(e.target.value) : undefined }))
-                      }
+                    <MoneyInput
+                      value={guide.housingPayment}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, housingPayment: v }))}
                       placeholder="650"
                     />
                   </div>
@@ -2931,27 +2903,21 @@ const AdminVentas = () => {
                   <div className="grid gap-3 sm:grid-cols-3">
                     <div className="space-y-1">
                       <Label className="text-xs">Valor estimado (€)</Label>
-                      <Input
-                        type="number"
-                        value={guide.vehicleValue ?? ""}
-                        onChange={(e) =>
-                          setGuide((g) => ({ ...g, vehicleValue: e.target.value ? Number(e.target.value) : undefined }))
-                        }
-                        placeholder="9000"
-                      />
+                      <MoneyInput
+                      value={guide.vehicleValue}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, vehicleValue: v }))}
+                      placeholder="9000"
+                    />
                     </div>
                     {guide.vehicle === "financiado" && (
                       <>
                         <div className="space-y-1">
                           <Label className="text-xs">Pagado (€)</Label>
-                          <Input
-                            type="number"
-                            value={guide.vehiclePaid ?? ""}
-                            onChange={(e) =>
-                              setGuide((g) => ({ ...g, vehiclePaid: e.target.value ? Number(e.target.value) : undefined }))
-                            }
-                            placeholder="3000"
-                          />
+                          <MoneyInput
+                      value={guide.vehiclePaid}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, vehiclePaid: v }))}
+                      placeholder="3000"
+                    />
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Pendiente (€)</Label>
@@ -2966,12 +2932,9 @@ const AdminVentas = () => {
                 {guide.vehicle === "financiado" && (
                   <div className="space-y-1">
                     <Label className="text-xs">Cuota del vehículo (€/mes)</Label>
-                    <Input
-                      type="number"
-                      value={guide.vehiclePayment ?? ""}
-                      onChange={(e) =>
-                        setGuide((g) => ({ ...g, vehiclePayment: e.target.value ? Number(e.target.value) : undefined }))
-                      }
+                    <MoneyInput
+                      value={guide.vehiclePayment}
+                      onValueChange={(v) => setGuide((g) => ({ ...g, vehiclePayment: v }))}
                       placeholder="220"
                     />
                   </div>
