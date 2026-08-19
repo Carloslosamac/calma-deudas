@@ -20,13 +20,15 @@ async function describeError(error: unknown): Promise<string> {
 
 // Mapea la situación laboral interna a las opciones del picklist de Zoho.
 // Si no hay coincidencia clara, devuelve undefined (no se envía el campo).
+// El picklist real de Zoho (`situacion_laboral`) solo admite estos valores:
+// Empleado · Pensionista · Autónomo · Desempleado. Enviar cualquier otro texto
+// hace que Zoho rechace la actualización completa.
 const EMPLOYMENT_LABELS: Record<string, string> = {
   autonomo: "Autónomo",
-  empleado_indefinido: "Empleado indefinido",
-  empleado_temporal: "Empleado temporal",
+  empleado_indefinido: "Empleado",
+  empleado_temporal: "Empleado",
   desempleado: "Desempleado",
   pension: "Pensionista",
-  otros: "Otros",
 };
 
 export type ZohoLeadFields = Record<string, string | number>;
