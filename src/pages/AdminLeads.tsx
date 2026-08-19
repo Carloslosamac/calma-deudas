@@ -73,6 +73,56 @@ type BatchRow = {
   created_at: string;
 };
 
+type CaseRow = {
+  id: string;
+  guide_fields: Record<string, unknown> | null;
+  triage_solution: string | null;
+  triage_title: string | null;
+};
+
+// Etiquetas legibles de los campos que se van completando en /admin/ventas.
+const GUIDE_LABELS: Record<string, string> = {
+  debtAmount: "Deuda total",
+  isDefault: "En impago",
+  entities: "Entidades",
+  housing: "Vivienda",
+  housingValue: "Valor vivienda",
+  mortgagePaid: "Hipoteca pagada",
+  mortgageRemaining: "Hipoteca pendiente",
+  housingPayment: "Cuota vivienda",
+  isPrimaryResidence: "Vivienda habitual",
+  vehicle: "Vehículo",
+  vehicleValue: "Valor vehículo",
+  vehiclePaid: "Vehículo pagado",
+  vehicleRemaining: "Vehículo pendiente",
+  vehiclePayment: "Cuota vehículo",
+  wantsToKeepVehicle: "Quiere conservar vehículo",
+  employment: "Situación laboral",
+  monthlyIncome: "Ingresos mensuales",
+  monthlyExpenses: "Gastos mensuales",
+  publicDebtAmount: "Deuda pública",
+  profile: "Perfil",
+};
+
+// Formatea cualquier valor para mostrarlo en la ficha ampliada.
+const fmtValue = (v: unknown): string => {
+  if (v == null || v === "") return "—";
+  if (typeof v === "boolean") return v ? "Sí" : "No";
+  if (Array.isArray(v)) return v.length ? v.map((x) => String(x)).join(", ") : "—";
+  if (typeof v === "object") return JSON.stringify(v);
+  return String(v);
+};
+
+// Fila etiqueta/valor de la ficha ampliada.
+const Field = ({ label, value }: { label: string; value: string }) => (
+  <div className="rounded-md border border-border bg-background px-2 py-1.5">
+    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{label}</div>
+    <div className="truncate text-xs font-medium text-foreground" title={value}>
+      {value}
+    </div>
+  </div>
+);
+
 const eur = (n: number | null): string =>
   n == null ? "—" : new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 
@@ -231,6 +281,24 @@ const AdminLeads = () => {
     },
     enabled: !!session && isAdmin,
   });
+
+  // Datos del diagnóstico (los campos que se van añadiendo en /admin/ventas).
+  const { data: cases = [] } = useQuery({
+    queryKey: ["sales-cases-mini"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("sales_cases")
+        .select("id, guide_fields, triage_solution, triage_title");
+      if (error) throw error;
+      return (data ?? []) as unknown as CaseRow[];
+    },
+    enabled: !!session && isAdmin,
+  });
+  const caseById = useMemo(() => {
+    const m = new Map<string, CaseRow>();
+    cases.forEach((c) => m.set(c.id, c));
+    return m;
+  }, [cases]);
 
   // Ticks de los temporizadores mientras estamos en un paquete y no en pausa.
   useEffect(() => {
@@ -805,7 +873,70 @@ const AdminLeads = () => {
                 </div>
                 {open && (
                   <div className="border-t border-border/60 bg-muted/30 px-3 py-3">
-                    <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                    {/* Todos los datos del lead */}
+                    <div className="text-[11px] font-medium text-muted-foreground">Datos del lead</div>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                      <Field label="Nombre" value={fmtValue(l.name)} />
+                      <Field label="Teléfono" value={fmtValue(l.phone)} />
+                      <Field label="Email" value={fmtValue(l.email)} />
+                      <Field label="Estado" value={fmtValue(l.lead_status)} />
+                      <Field label="Deuda" value={eur(l.debt)} />
+                      <Field label="Ingresos" value={eur(l.income)} />
+                      <Field label="Gastos" value={eur(l.expense)} />
+                      <Field label="Impago" value={fmtValue(l.is_default)} />
+                      <Field label="Laboral" value={fmtValue(l.employment)} />
+                      <Field label="Vivienda" value={fmtValue(l.housing)} />
+                      <Field label="Vehículo" value={fmtValue(l.vehicle)} />
+                      <Field label="Tier" value={fmtValue(l.tier)} />
+                      <Field label="Fuente" value={fmtValue(l.source)} />
+                      <Field label="Cita" value={fmtAppointment(l.appointment_at) || "—"} />
+                      <Field label="ID Zoho" value={fmtValue(l.external_id)} />
+                      <Field label="Alta" value={new Date(l.created_at).toLocaleDateString("es-ES")} />
+                    </div>
+
+                    {(() => {
+                      const c = l.sales_case_id ? caseById.get(l.sales_case_id) : null;
+                      const gf = (c?.guide_fields ?? {}) as Record<string, unknown>;
+                      const keys = Object.keys(GUIDE_LABELS).filter((k) => {
+                        const v = gf[k];
+                        return v != null && v !== "" && !(Array.isArray(v) && v.length === 0);
+                      });
+                      if (!c) return null;
+                      return (
+                        <div className="mt-3">
+                          <div className="text-[11px] font-medium text-muted-foreground">
+                            Diagnóstico en curso
+                            {c.triage_title ? ` · ${c.triage_title}` : ""}
+                          </div>
+                          {keys.length ? (
+                            <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                              {keys.map((k) => (
+                                <Field key={k} label={GUIDE_LABELS[k]} value={fmtValue(gf[k])} />
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="mt-1 text-[11px] text-muted-foreground">Sin datos todavía.</div>
+                          )}
+                        </div>
+                      );
+                    })()}
+
+                    {l.raw && Object.keys(l.raw).length ? (
+                      <details className="mt-3">
+                        <summary className="cursor-pointer text-[11px] font-medium text-muted-foreground">
+                          Datos originales del CSV ({Object.keys(l.raw).length})
+                        </summary>
+                        <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                          {Object.entries(l.raw)
+                            .filter(([, v]) => v != null && String(v).trim() !== "")
+                            .map(([k, v]) => (
+                              <Field key={k} label={k} value={fmtValue(v)} />
+                            ))}
+                        </div>
+                      </details>
+                    ) : null}
+
+                    <div className="mt-4 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
                       <Zap className="h-3.5 w-3.5 text-primary" />
                       Sincronización con Zoho CRM
                     </div>
