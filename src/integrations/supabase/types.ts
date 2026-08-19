@@ -641,16 +641,22 @@ export type Database = {
       }
       zoho_tokens: {
         Row: {
+          access_token: string | null
+          access_token_expires_at: string | null
           id: number
           refresh_token: string
           updated_at: string
         }
         Insert: {
+          access_token?: string | null
+          access_token_expires_at?: string | null
           id?: number
           refresh_token: string
           updated_at?: string
         }
         Update: {
+          access_token?: string | null
+          access_token_expires_at?: string | null
           id?: number
           refresh_token?: string
           updated_at?: string

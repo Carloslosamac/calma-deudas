@@ -2,16 +2,33 @@
 // Invoca la edge function `zoho-update-lead` con el record id de Zoho
 // (guardado como `external_id` en sales_leads) y los campos mapeados.
 import { supabase } from "@/integrations/supabase/client";
+import { FunctionsHttpError } from "@supabase/supabase-js";
+
+// Las funciones edge devuelven "non-2xx status code" sin detalle: leemos el
+// cuerpo real para poder mostrar el motivo (rate limit de Zoho, campo inválido…).
+async function describeError(error: unknown): Promise<string> {
+  if (error instanceof FunctionsHttpError) {
+    try {
+      const body = await error.context.json();
+      if (body?.error) return String(body.error);
+    } catch {
+      /* cuerpo no JSON */
+    }
+  }
+  return error instanceof Error ? error.message : String(error);
+}
 
 // Mapea la situación laboral interna a las opciones del picklist de Zoho.
 // Si no hay coincidencia clara, devuelve undefined (no se envía el campo).
+// El picklist real de Zoho (`situacion_laboral`) solo admite estos valores:
+// Empleado · Pensionista · Autónomo · Desempleado. Enviar cualquier otro texto
+// hace que Zoho rechace la actualización completa.
 const EMPLOYMENT_LABELS: Record<string, string> = {
   autonomo: "Autónomo",
-  empleado_indefinido: "Empleado indefinido",
-  empleado_temporal: "Empleado temporal",
+  empleado_indefinido: "Empleado",
+  empleado_temporal: "Empleado",
   desempleado: "Desempleado",
   pension: "Pensionista",
-  otros: "Otros",
 };
 
 export type ZohoLeadFields = Record<string, string | number>;
@@ -111,7 +128,7 @@ export async function syncLeadDetailed(
     const { data, error } = await supabase.functions.invoke("zoho-update-lead", {
       body: { zohoId, fields },
     });
-    if (error) return { ok: false, error: error.message ?? "Error de red", fieldCount };
+    if (error) return { ok: false, error: await describeError(error), fieldCount };
     if (data?.success === false) {
       return { ok: false, error: data?.error ?? "Zoho rechazó la actualización", fieldCount };
     }

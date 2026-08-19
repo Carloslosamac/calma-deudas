@@ -1,3 +1,4 @@
+import { parseFlexibleNumber } from "@/lib/numberFormat";
 // Utilidades para importar CSVs de leads (export de Zoho CRM) a la lista de
 // llamadas de ventas. Parser robusto (comillas dobles, comas y saltos de línea
 // dentro de campos) + mapeo de columnas Zoho -> nuestros campos.
@@ -132,11 +133,7 @@ export function parseCsv(text: string): Record<string, string>[] {
 }
 
 // --- Helpers de conversión ---
-const num = (v?: string): number | null => {
-  if (!v) return null;
-  const n = parseFloat(String(v).replace(/[^\d.,-]/g, "").replace(/\./g, "").replace(",", "."));
-  return Number.isFinite(n) ? n : null;
-};
+const num = (v?: string): number | null => parseFlexibleNumber(v) ?? null;
 
 const boolish = (v?: string): boolean | null => {
   if (v == null || v === "") return null;
