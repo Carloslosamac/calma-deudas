@@ -1764,6 +1764,21 @@ const AdminVentas = () => {
     estimatedInstallment: triageResult.estimatedInstallment,
     warnings: triageResult.warnings,
   };
+  // Comprobación de encaje ANTES de presentar diagnóstico: con la mínima
+  // información necesaria. Si no está soportado, el guion se genera en modo
+  // prudente (sin diagnóstico definitivo ni urgencia).
+  const eligibility = useMemo(
+    () =>
+      checkEligibility({
+        debtAmount: debtsTotal > 0 ? debtsTotal : guide.debtAmount,
+        isDefault: guide.isDefault,
+        hasPaymentSituation: guide.debts.length > 0 || guide.isDefault != null,
+        monthlyIncome: guide.monthlyIncome,
+        monthlyExpenses: guide.monthlyExpenses,
+        solution: triageResult.solution,
+      }),
+    [guide, debtsTotal, triageResult.solution],
+  );
   const hasDebtsPublicHint = guide.debts.some(
     (d) => d.type === "hacienda",
   );
