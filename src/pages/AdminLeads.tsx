@@ -884,7 +884,14 @@ const AdminLeads = () => {
                       <Field label="Nombre" value={fmtValue(l.name)} />
                       <Field label="Teléfono" value={fmtValue(l.phone)} />
                       <Field label="Email" value={fmtValue(l.email)} />
-                      <Field label="Estado" value={fmtValue(l.lead_status)} />
+                      <Field label="Estado (este paquete)" value={fmtValue(l.lead_status)} />
+                      <Field
+                        label="Estado en CRM (import)"
+                        value={fmtValue(
+                          (l.raw as Record<string, string> | null)?.["Lead Status"] ?? null,
+                        )}
+                      />
+
                       <Field label="Deuda" value={eur(l.debt)} />
                       <Field label="Ingresos" value={eur(l.income)} />
                       <Field label="Gastos" value={eur(l.expense)} />
