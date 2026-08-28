@@ -38,12 +38,12 @@ export function entityFromTitle(title: string): string | null {
   const raw = m[1].replace(/[.,:;?¿!¡]+$/, "").trim();
   const words = raw.split(/\s+/);
   const first = words[0].toLowerCase();
-  if (ENTITY_STOPWORDS.has(first)) return null;
-  if (ENTITY_PREFIXES.has(first) && words.length < 2) return null;
-  if (words.length === 1 && ENTITY_STOPWORDS.has(first)) return null;
+  const prefixOk = ENTITY_PREFIXES.has(first) && words.length >= 2;
+  if (!prefixOk && ENTITY_STOPWORDS.has(first)) return null;
   if (raw.length < 3 || raw.length > 40) return null;
   return raw;
 }
+
 
 
 const ENTITY_SCENES = (name: string): string[] => [
