@@ -18,8 +18,15 @@ const ENTITY_STOPWORDS = new Set([
   "el", "la", "los", "las", "un", "una", "unos", "unas", "de", "del", "con", "sin",
   "para", "por", "que", "qué", "es", "son", "y", "o", "a", "al", "tu", "su", "mi",
   "nómina", "nomina", "aval", "hipoteca", "deudas", "deuda", "crédito", "credito",
-  "préstamo", "prestamo", "tarjeta", "banco", "dinero", "estudios", "empresa",
+  "préstamo", "prestamo", "tarjeta", "dinero", "estudios", "empresa",
+  // Topónimos y genéricos: no son marcas
+  "españa", "madrid", "barcelona", "valencia", "sevilla", "cataluña", "andalucía",
+  "europa", "hacienda", "internet", "google",
 ]);
+
+// Palabras que sí pueden encabezar un nombre de entidad si van seguidas de
+// otra palabra en mayúscula ("Banco Mediolanum", "Caja Rural de Navarra").
+const ENTITY_PREFIXES = new Set(["banco", "caja", "el", "la"]);
 
 // Extrae el nombre propio de la entidad del título: lo que sigue a "con" o "de"
 // cuando empieza por mayúscula y no es una palabra común.
@@ -29,11 +36,15 @@ export function entityFromTitle(title: string): string | null {
   );
   if (!m) return null;
   const raw = m[1].replace(/[.,:;?¿!¡]+$/, "").trim();
-  const first = raw.split(/\s+/)[0].toLowerCase();
+  const words = raw.split(/\s+/);
+  const first = words[0].toLowerCase();
   if (ENTITY_STOPWORDS.has(first)) return null;
+  if (ENTITY_PREFIXES.has(first) && words.length < 2) return null;
+  if (words.length === 1 && ENTITY_STOPWORDS.has(first)) return null;
   if (raw.length < 3 || raw.length > 40) return null;
   return raw;
 }
+
 
 const ENTITY_SCENES = (name: string): string[] => [
   `un recibo o extracto bancario en papel sobre la mesa de una cocina española, con el nombre "${name}" impreso arriba en tipografía sobria y una taza al lado`,
