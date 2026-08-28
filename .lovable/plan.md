@@ -5,21 +5,18 @@
 - Ya regenerados con el nuevo motor de escenas: **50** (los más recientes)
 - Pendientes: **190**
 
-## Presupuesto de tokens (estimación)
+## Presupuesto en Lovable credits (estimación)
 
-Por post, la regeneración hace:
-1. Construcción del prompt de escena (determinista, sin LLM — 0 tokens de modelo)
-2. Una llamada de generación de imagen (Nano Banana 2)
+Por post solo hay UNA llamada de IA: la generación de imagen con `google/gemini-3.1-flash-lite-image` (Nano Banana 2 Lite, el modelo de imagen más barato del gateway). El prompt de escena es determinista y no gasta nada.
 
-| Concepto | Por imagen | × 190 imágenes |
-| --- | --- | --- |
-| Tokens de entrada (prompt) | ~150 | ~28.500 |
-| Tokens de salida (imagen) | ~1.290 | ~245.000 |
-| **Total modelo** | | **~275.000 tokens** |
+- **Estimación: ~190 imágenes ≈ unos 5-10 credits en total** (depende del precio por imagen del modelo Lite; es del orden de céntimos por imagen).
+- Mi trabajo de agente es mínimo: reutilizar la función `regenerate-blog-hero` ya desplegada en lotes de ~25 (8 llamadas). Prácticamente despreciable frente a 1 credit.
+- La estimación se valida gratis: tras el primer lote de 25 se puede mirar el consumo real en los logs del AI Gateway y extrapolar antes de seguir.
 
-Coste de mi trabajo (agente): mínimo — es reutilizar el script de regeneración ya creado, apuntándolo a los 190 restantes en lotes (el límite de tiempo de la función exige lotes de ~25). Estimo **4-6 llamadas de herramienta** en total, es decir una fracción pequeña de un mensaje.
+Riesgo: reintentos por imagen fallida suman su coste; el run anterior de 50 terminó sin fallos.
 
-Riesgo: si alguna imagen falla y se reintenta, el consumo sube proporcionalmente (~1.450 tokens extra por reintento). El run anterior de 50 terminó sin fallos, así que el riesgo es bajo.
+## El cron diario ya usa el nuevo motor
+`generate-daily-posts` importa el mismo `_shared/hero-prompt.ts` que se reescribió y desplegó — los posts nuevos ya salen con escenas coherentes con el título sin tocar nada más.
 
 ## Ejecución
 1. Lanzar la regeneración por lotes de ~25 sobre los 190 posts restantes (excluyendo los 50 ya hechos), del más reciente al más antiguo.
