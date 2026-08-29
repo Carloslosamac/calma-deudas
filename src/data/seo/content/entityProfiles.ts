@@ -17,6 +17,66 @@ export type EntityProfile = {
 };
 
 export const entityProfiles: Record<string, EntityProfile> = {
+  "endesa": {
+    metaDescription: "¿Debes recibos de luz o gas a Endesa? Te explicamos si pueden cortarte el suministro, cómo negociar y cómo cancelar la deuda legalmente.",
+    intro: "Si Endesa te reclama recibos impagados de luz o gas, es normal preocuparse por un corte de suministro. La buena noticia: hay plazos, avisos obligatorios y salidas legales, desde fraccionar el pago hasta cancelar la deuda por completo.",
+    origin: "Endesa es una de las mayores eléctricas de España, con millones de clientes de luz y gas a través de sus comercializadoras (Endesa Energía y la regulada Energía XXI). Como cualquier suministrador, reclama los recibos impagados y puede derivar la deuda a empresas de recobro.",
+    detail: "Las reclamaciones de Endesa suelen empezar con recordatorios de pago y avisos de corte, y continuar con la cesión de la deuda a gestoras como Gescobro o similares. Si eres consumidor vulnerable con bono social, la ley te protege frente al corte de suministro. Y si la deuda convive con otras (tarjetas, préstamos), puede cancelarse junto al resto con la Ley de Segunda Oportunidad.",
+    worries: [
+      { fear: "Me van a cortar la luz esta misma semana.", reality: "El corte exige avisos previos por escrito y plazos legales; si tienes bono social o eres consumidor vulnerable, está directamente prohibido. Actuar a tiempo te da margen real." },
+      { fear: "Una deuda de luz no se puede cancelar nunca.", reality: "Las deudas de suministros son deuda privada exonerable: con la Ley de Segunda Oportunidad se cancelan como cualquier préstamo si actúas de buena fe." },
+    ],
+    faqs: [
+      { q: "¿Puede Endesa cortarme la luz por un recibo impagado?", a: "Puede iniciar el proceso, pero debe avisarte por escrito y respetar plazos. Si eres consumidor vulnerable o tienes el bono social, el corte está prohibido o muy limitado." },
+      { q: "¿La deuda con Endesa prescribe?", a: "Sí: las deudas de suministros prescriben a los 5 años si no hay reclamación judicial ni reconocimiento de la deuda por tu parte." },
+      { q: "¿Puedo fraccionar la deuda con Endesa?", a: "Sí, las comercializadoras suelen aceptar aplazamientos y fraccionamientos; y si el importe se vendió a un recobrador, suele haber margen para una quita." },
+    ],
+  },
+  "iberdrola": {
+    metaDescription: "¿Te reclama Iberdrola recibos de luz o gas impagados? Conoce tus derechos, cómo evitar el corte y cómo cancelar la deuda con la Ley de Segunda Oportunidad.",
+    intro: "Si Iberdrola te reclama facturas de luz o gas sin pagar, respira: el proceso tiene plazos, avisos obligatorios y varias salidas legales antes de que pase nada grave.",
+    origin: "Iberdrola es una de las grandes compañías eléctricas de España, con comercializadoras de mercado libre y regulado (Curenergía). Reclama los recibos impagados y puede ceder la deuda a empresas de recobro o reclamarla judicialmente.",
+    detail: "Con Iberdrola, como con el resto de eléctricas, la reclamación suele escalar de recordatorios a avisos de corte y cesión a recobradores. Los consumidores vulnerables con bono social están protegidos frente al corte, y las deudas de suministro pueden cancelarse con la Ley de Segunda Oportunidad cuando forman parte de una insolvencia real.",
+    worries: [
+      { fear: "Si me cortan la luz, me quedo sin suministro indefinidamente.", reality: "El corte es reversible al pagar o acordar un plan; y si eres vulnerable, la ley lo impide directamente. Además, negociar antes del corte casi siempre es posible." },
+      { fear: "Me meterán en ASNEF y no podré pedir nada nunca más.", reality: "Solo pueden incluirte si la deuda es cierta, vencida y exigible y te avisaron antes; si falla algo, puedes reclamar tu salida del fichero." },
+    ],
+    faqs: [
+      { q: "¿Puede Iberdrola cortarme el suministro por impago?", a: "Tras avisos y plazos legales, sí; pero los consumidores vulnerables y con bono social están protegidos, y casi siempre hay margen para negociar antes." },
+      { q: "¿Cuándo prescribe la deuda con Iberdrola?", a: "A los 5 años, siempre que no haya reclamación judicial ni hayas reconocido la deuda por escrito." },
+      { q: "¿Se puede cancelar la deuda de luz con la Ley de Segunda Oportunidad?", a: "Sí: es deuda privada exonerable, igual que un préstamo, cuando no puedes pagarla de buena fe." },
+    ],
+  },
+  "naturgy": {
+    metaDescription: "¿Debes facturas a Naturgy? Te contamos si pueden cortarte el gas o la luz, cómo negociar la deuda y cómo cancelarla legalmente.",
+    intro: "Si Naturgy te reclama recibos de luz o gas impagados, no estás desprotegido: hay avisos obligatorios, protección para consumidores vulnerables y vías para cancelar la deuda.",
+    origin: "Naturgy (antes Gas Natural Fenosa) es una de las principales compañías de luz y gas de España. Como el resto de comercializadoras, reclama las facturas impagadas y puede derivarlas a recobro o a juicio monitorio.",
+    detail: "Las reclamaciones de Naturgy siguen el patrón habitual del sector: recordatorios, aviso de corte, cesión a empresas de recobro y, en último término, reclamación judicial. La deuda prescribe a los 5 años sin reclamación, y puede cancelarse por completo con la Ley de Segunda Oportunidad si tu situación global es de insolvencia de buena fe.",
+    worries: [
+      { fear: "La deuda del gas me perseguirá para siempre.", reality: "No: prescribe a los 5 años si no hay reclamación judicial, y con la Ley de Segunda Oportunidad puede cancelarse antes." },
+      { fear: "Las eléctricas nunca negocian con particulares.", reality: "Sí negocian: aplazamientos y fraccionamientos son habituales, y si la deuda fue vendida, las quitas son frecuentes." },
+    ],
+    faqs: [
+      { q: "¿Naturgy puede cortarme el gas o la luz por impago?", a: "Solo tras avisos por escrito y plazos; si eres consumidor vulnerable o tienes bono social, el corte está prohibido o muy limitado." },
+      { q: "¿Puedo negociar una quita con Naturgy?", a: "Si la deuda sigue en Naturgy, lo habitual son aplazamientos; si ya la reclama un recobrador que la compró, las quitas son mucho más accesibles." },
+      { q: "¿La deuda con Naturgy se puede cancelar con la Segunda Oportunidad?", a: "Sí, las deudas de suministros son exonerables como cualquier otra deuda privada." },
+    ],
+  },
+  "repsol-luz-gas": {
+    metaDescription: "¿Te reclama Repsol recibos de luz o gas? Conoce tus derechos ante la reclamación, cómo evitar el corte y cómo cancelar la deuda legalmente.",
+    intro: "Si Repsol te reclama facturas de luz o gas sin pagar, tienes derechos y plazos a tu favor: desde fraccionar la deuda hasta cancelarla con la Ley de Segunda Oportunidad.",
+    origin: "Repsol comercializa luz y gas para hogares y negocios en toda España. Al igual que otras comercializadoras, reclama los recibos impagados y puede ceder la deuda a empresas de recobro.",
+    detail: "Con Repsol la reclamación sigue el ciclo típico: recordatorios, avisos de corte y posible cesión de la deuda a recobradores, que es cuando las quitas se vuelven más negociables. Si la deuda forma parte de una situación de insolvencia más amplia, la Ley de Segunda Oportunidad permite cancelarla junto al resto.",
+    worries: [
+      { fear: "Un corte de luz me dejaría en una situación imposible.", reality: "Antes del corte hay avisos y plazos legales, y los consumidores vulnerables están protegidos. Además, negociar o iniciar la Segunda Oportunidad frena la reclamación." },
+      { fear: "Seguro que me reclaman costas e intereses desproporcionados.", reality: "Solo pueden reclamarte lo que el contrato y la ley permiten; los recargos abusivos se pueden revisar y la deuda puede negociarse o cancelarse." },
+    ],
+    faqs: [
+      { q: "¿Puede Repsol cortarme la luz por recibos impagados?", a: "Tras los avisos y plazos legales, sí; pero los consumidores vulnerables con bono social están protegidos y negociar antes del corte casi siempre es posible." },
+      { q: "¿Cuándo prescribe una deuda con Repsol de luz o gas?", a: "A los 5 años si no hay reclamación judicial ni reconocimiento de la deuda." },
+      { q: "¿La deuda con Repsol es cancelable con la Ley de Segunda Oportunidad?", a: "Sí: es deuda privada exonerable cuando no puedes hacer frente a ella de buena fe." },
+    ],
+  },
   "kruk": {
     "metaDescription": "¿Recibes llamadas de Kruk? Descubre cómo gestionar tus deudas con Kruk España, tus derechos ante sus recobros y cómo la Ley de Segunda Oportunidad puede…",
     "faqs": [
