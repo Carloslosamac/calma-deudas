@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
+import { ArrowLeft, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -150,6 +150,20 @@ const BlogPost = () => {
       </div>
     );
   }
+
+  // Puente comercial: si el post no define uno, se genera desde su categoría.
+  const bridge = {
+    title: post.bridge?.title ?? "¿Y si tu caso ya cumple los requisitos?",
+    closingTitle:
+      post.bridge?.title ?? "Comprueba en 2 minutos si puedes cancelar tus deudas",
+    description:
+      post.bridge?.description ??
+      "Revisamos tu situación (deuda, ingresos y bienes) y te decimos con claridad qué salida legal encaja: Ley de Segunda Oportunidad, negociación o reclamación. Sin compromiso.",
+    ctaLabel: post.bridge?.ctaLabel,
+    links: post.bridge?.links,
+  };
+  // Puente intermedio tras la 2ª sección (o antes de la última si el post es corto).
+  const midBridgeIndex = post.sections.length >= 4 ? 2 : -1;
 
   const structured: Record<string, unknown>[] = [
     // Nombre de autoría: abogados del equipo si están definidos, si no el campo legacy.
@@ -424,6 +438,7 @@ const BlogPost = () => {
       </main>
 
       <Footer />
+      <MobileContactBar pageType="blog" />
     </div>
   );
 };
