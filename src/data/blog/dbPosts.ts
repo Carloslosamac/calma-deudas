@@ -46,6 +46,11 @@ export type GeneratedPostRow = {
   published_at: string | null;
   tldr: string | null;
   key_takeaways: string[] | null;
+  direct_answer?: string | null;
+  reviewer?: string | null;
+  reviewed_at?: string | null;
+  content_updated_at?: string | null;
+  bridge?: BlogPost["bridge"] | null;
 };
 
 const formatDate = (iso?: string | null): string => {
@@ -89,18 +94,24 @@ export const rowToBlogPost = (row: GeneratedPostRow): BlogPost => ({
   seoTitle: row.seo_title ?? undefined,
   metaDescription: row.meta_description ?? undefined,
   publishedAt: row.published_at ?? undefined,
-  updatedAt: row.published_at ?? undefined,
+  // `dateModified` solo refleja actualizaciones editoriales reales.
+  updatedAt: row.content_updated_at ?? undefined,
   faq: row.faq ?? undefined,
   sidebar: row.sidebar ?? undefined,
   tldr: row.tldr ?? undefined,
+  directAnswer: row.direct_answer ?? undefined,
   keyTakeaways: row.key_takeaways ?? undefined,
+  reviewer: row.reviewer ?? undefined,
+  reviewedAt: row.reviewed_at ?? undefined,
+  contentUpdatedAt: row.content_updated_at ?? undefined,
+  bridge: row.bridge ?? undefined,
 });
 
 export const fetchGeneratedPosts = async (): Promise<BlogPost[]> => {
   const { data, error } = await supabase
     .from("generated_posts")
     .select(
-      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways"
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways,direct_answer,reviewer,reviewed_at,content_updated_at,bridge"
     )
     .eq("status", "published")
     .order("published_at", { ascending: false });
@@ -140,7 +151,7 @@ export const fetchGeneratedPostBySlug = async (slug: string): Promise<BlogPost |
   const { data, error } = await supabase
     .from("generated_posts")
     .select(
-      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways"
+      "slug,category,title,excerpt,read_time,authors,hero_image,hero_alt,sections,faq,keywords,seo_title,meta_description,sidebar,published_at,tldr,key_takeaways,direct_answer,reviewer,reviewed_at,content_updated_at,bridge"
     )
     .eq("status", "published")
     .eq("slug", slug)

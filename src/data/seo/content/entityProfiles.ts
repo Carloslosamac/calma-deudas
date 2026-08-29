@@ -9,6 +9,24 @@ export type EntityWorry = { fear: string; reality: string };
 export type EntityProfileFaq = { q: string; a: string };
 export type EntityProfile = {
   metaDescription: string;
+  /**
+   * Respuesta directa (40-100 palabras) bajo el H1, escrita para que Google y
+   * los sistemas generativos puedan extraerla tal cual.
+   */
+  directAnswer?: string;
+  /** Puente comercial editorial de la ficha. */
+  bridge?: {
+    title: string;
+    description: string;
+    ctaLabel?: string;
+    links?: { label: string; to: string }[];
+  };
+  /** Id (en TEAM) del abogado que ha revisado realmente esta ficha. */
+  reviewer?: string;
+  /** Fecha de esa revisión (ISO). */
+  reviewedAt?: string;
+  /** Fecha real de última actualización de contenido (ISO). */
+  contentUpdatedAt?: string;
   intro: string;
   origin: string;
   detail: string;
@@ -78,6 +96,15 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ],
   },
   "kruk": {
+    directAnswer: "Kruk compra carteras de deuda impagada: te reclama como nuevo titular, normalmente por un importe muy inferior al que pagó. No puede embargarte por su cuenta ni presionarte fuera de horario. Puedes pedirle el contrato y el detalle de la cesión, negociar una quita o, si no puedes pagar, cancelar la deuda con la Ley de Segunda Oportunidad.",
+    bridge: {
+      title: "Kruk insiste y no sabes si pagar o no",
+      description: "Antes de aceptar un plan de pagos con Kruk, conviene saber si la deuda es exigible y si tu situación permite cancelarla entera. Hacemos ese análisis gratis y te decimos qué salida legal te conviene.",
+      links: [{ label: "Cancelar deudas con la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad" },{ label: "Otras empresas de recobro", to: "/empresas-de-recobro" }],
+    },
+    reviewer: "marta-belmonte",
+    reviewedAt: "2026-08-18",
+    contentUpdatedAt: "2026-08-18",
     "metaDescription": "¿Recibes llamadas de Kruk? Descubre cómo gestionar tus deudas con Kruk España, tus derechos ante sus recobros y cómo la Ley de Segunda Oportunidad puede…",
     "faqs": [
       {
@@ -312,6 +339,15 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "detail": "Gesif actúa como un intermediario que adquiere o gestiona paquetes de deudas procedentes de préstamos personales, tarjetas y líneas de crédito de diversas entidades financieras. El problema principal radica en que la falta de información clara sobre el desglose de la deuda y la aplicación de comisiones adicionales provocan que los afectados se sientan atrapados en un bucle de pagos que nunca termina."
   },
   "procobro": {
+    directAnswer: "Sí, puedes dejar de pagar a Procobro si la deuda no es tuya, ya está prescrita o no puedes asumirla. Procobro es una empresa de recobro: no puede embargarte ni entrar en tu casa, solo reclamar. Antes de pagar nada, exige por escrito la prueba de la deuda y comprueba la fecha del último pago. Si la deuda es real y no puedes pagarla, la Ley de Segunda Oportunidad la cancela por completo.",
+    bridge: {
+      title: "¿Procobro te reclama una deuda que no puedes pagar?",
+      description: "Si la deuda es tuya y real, dejar de responder solo alarga las llamadas. Analizamos tu caso completo (deuda, ingresos y bienes) y te decimos si encaja en la Ley de Segunda Oportunidad, si conviene negociar una quita o si ya está prescrita.",
+      links: [{ label: "Ley de Segunda Oportunidad: requisitos", to: "/ley-segunda-oportunidad" },{ label: "Cómo actuar ante una empresa de recobro", to: "/empresas-de-recobro" }],
+    },
+    reviewer: "marta-belmonte",
+    reviewedAt: "2026-08-18",
+    contentUpdatedAt: "2026-08-18",
     "worries": [
       {
         "fear": "Me dicen que me van a embargar la casa mañana mismo si no pago ahora.",
@@ -910,6 +946,15 @@ export const entityProfiles: Record<string, EntityProfile> = {
     ]
   },
   "quebueno": {
+    directAnswer: "Sí, un microcrédito de QuéBueno con una TAE muy alta puede reclamarse como usurario. Los tribunales españoles vienen anulando préstamos rápidos con intereses desproporcionados: si prospera, solo devuelves el capital prestado y recuperas todo lo pagado de más. Y si arrastras varios microcréditos que no puedes pagar, la Ley de Segunda Oportunidad los cancela todos.",
+    bridge: {
+      title: "¿Un microcrédito de QuéBueno se te ha ido de las manos?",
+      description: "Con microcréditos casi nunca hay una sola respuesta: a veces conviene reclamar por usura y otras cancelar todo el conjunto de deudas. Revisamos tus contratos e importes y te decimos qué sale mejor en tu caso.",
+      links: [{ label: "Reclamar intereses abusivos", to: "/microcreditos-prestamos" },{ label: "Cancelar todas tus deudas", to: "/ley-segunda-oportunidad" }],
+    },
+    reviewer: "marta-belmonte",
+    reviewedAt: "2026-08-18",
+    contentUpdatedAt: "2026-08-18",
     "worries": [
       {
         "fear": "Me han dicho que me van a llevar a juicio mañana mismo por no pagar 300 euros.",
@@ -1508,6 +1553,15 @@ export const entityProfiles: Record<string, EntityProfile> = {
     "intro": "Si las cuotas de tus compras online con Klarna se han convertido en una bola de nieve que no para de crecer, no estás solo ante la pantalla."
   },
   "caixabank-payments": {
+    directAnswer: "Si no puedes pagar la tarjeta revolving de CaixaBank Payments, tienes dos vías. Si la TAE supera claramente la media del mercado, puedes reclamar por usura y recuperar lo pagado de más. Si el problema es que no puedes pagar el conjunto de tus deudas, la Ley de Segunda Oportunidad las cancela. Dejar de pagar sin más solo hace crecer la deuda y te lleva a ASNEF.",
+    bridge: {
+      title: "Tu revolving de CaixaBank Payments no baja por mucho que pagues",
+      description: "Es la trampa clásica de las revolving: pagas cada mes y el capital no se reduce. Calculamos cuánto has pagado de más y te decimos si conviene reclamar, renegociar o cancelar la deuda por completo.",
+      links: [{ label: "Tarjetas revolving: cómo reclamar", to: "/tarjetas-revolving" },{ label: "Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad" }],
+    },
+    reviewer: "marta-belmonte",
+    reviewedAt: "2026-08-18",
+    contentUpdatedAt: "2026-08-18",
     "faqs": [
       {
         "q": "¿Se puede renegociar una deuda con CaixaBank Payments?",

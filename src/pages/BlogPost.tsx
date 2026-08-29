@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock3, Share2 } from "lucide-react";
+import { ArrowLeft, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,7 +14,10 @@ import { blogPosts, isStaticPost, loadStaticPost } from "@/data/blog";
 import { fetchGeneratedPostBySlug, fetchGeneratedPostsIndex } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
 import RelatedResources from "@/components/seo/RelatedResources";
-import AuthorChips from "@/components/blog/AuthorChips";
+import AuthorByline from "@/components/blog/AuthorByline";
+import SolutionBridge from "@/components/seo/SolutionBridge";
+import MobileContactBar from "@/components/MobileContactBar";
+import { getAuthors, TEAM } from "@/data/team";
 import { authorsToName } from "@/data/team";
 import { buildCrossLinks, resolvePostTopic } from "@/data/seo/internalLinks";
 import {
@@ -148,6 +151,20 @@ const BlogPost = () => {
     );
   }
 
+  // Puente comercial: si el post no define uno, se genera desde su categoría.
+  const bridge = {
+    title: post.bridge?.title ?? "¿Y si tu caso ya cumple los requisitos?",
+    closingTitle:
+      post.bridge?.title ?? "Comprueba en 2 minutos si puedes cancelar tus deudas",
+    description:
+      post.bridge?.description ??
+      "Revisamos tu situación (deuda, ingresos y bienes) y te decimos con claridad qué salida legal encaja: Ley de Segunda Oportunidad, negociación o reclamación. Sin compromiso.",
+    ctaLabel: post.bridge?.ctaLabel,
+    links: post.bridge?.links,
+  };
+  // Puente intermedio tras la 2ª sección (o antes de la última si el post es corto).
+  const midBridgeIndex = post.sections.length >= 4 ? 2 : -1;
+
   const structured: Record<string, unknown>[] = [
     // Nombre de autoría: abogados del equipo si están definidos, si no el campo legacy.
     buildBreadcrumb([
@@ -161,10 +178,14 @@ const BlogPost = () => {
       url: `/blog/${post.slug}`,
       image: absoluteUrl(post.ogImage ?? post.heroImage),
       author: authorsToName(post.authors, post.author),
+      authorPersons: getAuthors(post.authors).map((a) => ({ name: a.name, jobTitle: a.role })),
+      reviewer: post.reviewer && TEAM[post.reviewer]
+        ? { name: TEAM[post.reviewer].name, jobTitle: TEAM[post.reviewer].role }
+        : undefined,
       publishedAt: post.publishedAt,
       updatedAt: post.updatedAt,
       keywords: post.keywords,
-      abstract: post.tldr,
+      abstract: post.directAnswer ?? post.tldr,
     }),
   ];
   if (post.faq?.length) structured.push(buildFaq(post.faq));
@@ -217,19 +238,15 @@ const BlogPost = () => {
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {post.excerpt}
             </p>
-            <div className="mt-6 flex flex-col items-center gap-4">
-              <AuthorChips authorIds={post.authors} fallback={post.author} />
-              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5">
-                  <CalendarDays className="h-4 w-4" />
-                  {post.date}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock3 className="h-4 w-4" />
-                  {post.readTime}
-                </span>
-              </div>
-            </div>
+            <AuthorByline
+              authorIds={post.authors}
+              authorFallback={post.author}
+              reviewer={post.reviewer}
+              reviewedAt={post.reviewedAt}
+              publishedLabel={post.date}
+              contentUpdatedAt={post.contentUpdatedAt}
+              readTime={post.readTime}
+            />
           </header>
 
           <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[2rem] border border-border shadow-large">
@@ -244,13 +261,24 @@ const BlogPost = () => {
             />
           </figure>
 
-          <AnswerSummary tldr={post.tldr} takeaways={post.keyTakeaways} />
+          <AnswerSummary tldr={post.directAnswer ?? post.tldr} takeaways={post.keyTakeaways} />
 
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div className="min-w-0">
               <div className="max-w-none">
-                {post.sections.map((section) => (
-                  <section key={section.id} id={section.id} className="scroll-mt-28">
+                {post.sections.map((section, i) => (
+                  <Fragment key={section.id}>
+                  {i === midBridgeIndex && bridge && (
+                    <SolutionBridge
+                      title={bridge.title}
+                      description={bridge.description}
+                      ctaLabel={bridge.ctaLabel}
+                      links={bridge.links}
+                      placement="inline"
+                      pageType="blog"
+                    />
+                  )}
+                  <section id={section.id} className="scroll-mt-28">
                     <h2 className="mt-14 flex items-center gap-3 font-poppins text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
                       <span aria-hidden className="block h-7 w-1 rounded-full bg-accent" />
                       {section.title}
@@ -266,7 +294,19 @@ const BlogPost = () => {
                       )}
                     </div>
                   </section>
+                  </Fragment>
                 ))}
+
+                {bridge && (
+                  <SolutionBridge
+                    title={bridge.closingTitle}
+                    description={bridge.description}
+                    ctaLabel={bridge.ctaLabel}
+                    links={bridge.links}
+                    placement="closing"
+                    pageType="blog"
+                  />
+                )}
 
                 <div className="mt-16 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-border bg-surface p-6">
                   <div>
@@ -398,6 +438,7 @@ const BlogPost = () => {
       </main>
 
       <Footer />
+      <MobileContactBar pageType="blog" />
     </div>
   );
 };

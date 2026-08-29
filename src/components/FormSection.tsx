@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ import { toast } from "@/hooks/use-toast";
 const getSupabase = async () =>
   (await import("@/integrations/supabase/client")).supabase;
 import { triage, type Housing, type Vehicle } from "@/lib/seo/triage";
-import { getUtms, getConversionSlug } from "@/lib/tracking";
+import { getUtms, getConversionSlug, trackEvent } from "@/lib/tracking";
 
 const eur = (n: number) => n.toLocaleString("es-ES", { maximumFractionDigits: 0 }) + " €";
 
@@ -108,6 +108,14 @@ const FormSection = () => {
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [data, setData] = useState<Diagnosis>(initialDiagnosis);
+  const startedRef = useRef(false);
+
+  /** Marca el inicio del diagnóstico la primera vez que el usuario interactúa. */
+  const markStart = () => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackEvent("diagnosis_start", { ctaId: "hero-form", placement: "form" });
+  };
 
   const form = useForm<ContactValues>({
     resolver: zodResolver(formSchema),
@@ -128,10 +136,11 @@ const FormSection = () => {
   const totalSteps = steps.length;
   const currentKey = steps[Math.min(step, totalSteps - 1)];
 
-  const goNext = () => setStep((s) => Math.min(s + 1, totalSteps - 1));
+  const goNext = () => (markStart(), setStep((s) => Math.min(s + 1, totalSteps - 1)));
   const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
   const selectAndAdvance = <K extends keyof Diagnosis>(key: K, value: Diagnosis[K]) => {
+    markStart();
     setData((d) => ({ ...d, [key]: value }));
     setTimeout(goNext, 250);
   };
@@ -146,6 +155,7 @@ const FormSection = () => {
   };
 
   const onSubmit = async (contact: ContactValues) => {
+    markStart();
     setSubmitting(true);
     let ok = false;
     let errDetails = "";
@@ -243,6 +253,11 @@ const FormSection = () => {
     }
 
     if (ok) {
+      trackEvent("diagnosis_complete", {
+        ctaId: "hero-form",
+        placement: "form",
+        meta: { debtAmount: data.debtAmount, entities: data.entities.length },
+      });
       navigate("/gracias", {
         state: {
           result,

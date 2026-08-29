@@ -275,6 +275,10 @@ export const buildArticle = (params: {
   updatedAt?: string;
   keywords?: string[];
   abstract?: string;
+  /** Personas que firman el artículo (E-E-A-T). Si se omite, autoría de marca. */
+  authorPersons?: { name: string; jobTitle?: string }[];
+  /** Revisor jurídico real (solo cuando ha habido revisión editorial). */
+  reviewer?: { name: string; jobTitle?: string };
 }): JsonLd => ({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -287,11 +291,28 @@ export const buildArticle = (params: {
     "@type": "SpeakableSpecification",
     cssSelector: ["[data-geo-summary]", "[data-geo-takeaways]"],
   },
-  author: {
-    "@type": "Organization",
-    name: params.author ?? ORGANIZATION.name,
-    url: SITE_URL,
-  },
+  author: params.authorPersons?.length
+    ? params.authorPersons.map((p) => ({
+        "@type": "Person",
+        name: p.name,
+        ...(p.jobTitle ? { jobTitle: p.jobTitle } : {}),
+        worksFor: { "@type": "Organization", name: ORGANIZATION.name, url: SITE_URL },
+      }))
+    : {
+        "@type": "Organization",
+        name: params.author ?? ORGANIZATION.name,
+        url: SITE_URL,
+      },
+  ...(params.reviewer
+    ? {
+        reviewedBy: {
+          "@type": "Person",
+          name: params.reviewer.name,
+          ...(params.reviewer.jobTitle ? { jobTitle: params.reviewer.jobTitle } : {}),
+          worksFor: { "@type": "Organization", name: ORGANIZATION.name, url: SITE_URL },
+        },
+      }
+    : {}),
   publisher: {
     "@type": "Organization",
     name: ORGANIZATION.name,
