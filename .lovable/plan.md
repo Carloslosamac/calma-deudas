@@ -23,7 +23,7 @@ Rendimiento por tipo de página (3 meses):
 | Empresas de recobro | 23 | 1.187 | 1,9% |
 | Microcréditos | 10 | 1.469 | 0,7% |
 
-Diagnóstico: las páginas de entidad (banco, tarjeta, recobradora, microcrédito) son las que traen clics reales, con posiciones de 6 a 12. Las páginas de ciudad generan el 43% de todas las impresiones y un solo clic porque están en posición 50-90: Google las muestra en la cola larga pero nadie llega hasta ahí. Perseguir "abogados ley segunda oportunidad + ciudad" es competir de frente con despachos con años de autoridad y no está dando retorno.
+Diagnóstico: las páginas de entidad (banco, tarjeta, recobradora, microcrédito) son las que traen clics reales, con posiciones de 6 a 12. Las páginas de ciudad generan el 43% de todas las impresiones y un solo clic porque están en posición 50-90. Semrush confirma que la dificultad es baja (15/100 para "ley segunda oportunidad coruña"), así que el problema no es la competencia: es que nuestras páginas de ciudad son contenido de plantilla con apenas dos elementos únicos por ciudad, y Google las trata como casi duplicadas entre sí. Es demanda recuperable si dejamos de generarlas en serie.
 
 Fuera de eso hay un patrón claro: móvil convierte casi 4x mejor que escritorio (0,93% vs 0,24% CTR), y todos los clics reales son España.
 
@@ -42,7 +42,16 @@ Fuera de eso hay un patrón claro: móvil convierte casi 4x mejor que escritorio
 - `barrido de cuentas` (pos. 19,9)
 - `cancelar préstamo ING` (pos. 7,2)
 
-**3. Dejar de invertir en páginas de ciudad genéricas.** No borrarlas, pero congelar la creación de nuevas y reenfocar las existentes hacia intención local resolutiva (juzgado de lo mercantil de la provincia, plazos reales, casos de esa zona) en lugar de repetir "abogados ley segunda oportunidad en X". Reescribir primero las 6 con más impresiones: A Coruña, Málaga, Zaragoza, Almería, Tarragona, Alicante.
+**3. Convertir las páginas de ciudad en contenido local genuino (no congelarlas).** Empezar por las 6 con más impresiones (A Coruña, Málaga, Zaragoza, Almería, Tarragona, Alicante) y ampliar cada una con datos locales reales y únicos que un competidor de plantilla no puede copiar:
+
+- Juzgado de lo mercantil competente con dirección y datos de contacto reales
+- Plazos medios del procedimiento en esa provincia (diferencian mucho entre juzgados)
+- Coste real del proceso en la zona (tasas, administrador concursal)
+- Perfil de deuda de la zona y barrios/municipios cubiertos
+- FAQ específica de la provincia (no la misma FAQ con la ciudad cambiada)
+- Casos de éxito de la zona enlazados desde la landing local
+
+Si estas 6 primeras suben de posición 50-90 a página 1 en 4-6 semanas, extendemos el tratamiento al resto de ciudades en orden de impresiones. Si no, el esfuerzo se redirige a las entidades, que ya funcionan.
 
 **4. Reforzar la presencia en AI Overviews.** El 62% de las impresiones de IA vienen del blog, y el patrón es siempre pregunta directa. Aplicar al resto del blog el formato que ya gana ahí: respuesta corta en el primer párrafo, FAQ con marcado, datos concretos. Las páginas de entidad casi no aparecen en IA todavía — añadirles bloque de preguntas frecuentes.
 
