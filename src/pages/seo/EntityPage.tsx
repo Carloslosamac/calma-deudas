@@ -111,7 +111,7 @@ const EntityPage = () => {
 
   const crossLinks = buildCrossLinks({ topic: KIND_TOPIC[entity.kind], origin: "none" });
 
-  const tldr = `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
+  const tldr = profile?.directAnswer ?? `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
 
   const structuredData = [
     buildBreadcrumb(
@@ -143,6 +143,11 @@ const EntityPage = () => {
       structuredData={structuredData}
       related={related}
       tldr={tldr}
+      bridge={profile?.bridge}
+      reviewer={profile?.reviewer}
+      reviewedAt={profile?.reviewedAt}
+      contentUpdatedAt={profile?.contentUpdatedAt}
+      pageType={entity.kind}
       sections={content?.sections}
       faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
     >
