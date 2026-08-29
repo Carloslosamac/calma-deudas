@@ -4,7 +4,7 @@
  * Sembramos las entidades top por volumen; el resto se añade por fases.
  */
 
-export type EntityKind = "recobro" | "microcredito" | "revolving" | "banco" | "publica";
+export type EntityKind = "recobro" | "microcredito" | "revolving" | "banco" | "publica" | "suministro";
 
 export type Entity = {
   slug: string;
