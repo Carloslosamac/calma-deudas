@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -253,6 +253,11 @@ const FormSection = () => {
     }
 
     if (ok) {
+      trackEvent("diagnosis_complete", {
+        ctaId: "hero-form",
+        placement: "form",
+        meta: { debtAmount: data.debtAmount, entities: data.entities.length },
+      });
       navigate("/gracias", {
         state: {
           result,
