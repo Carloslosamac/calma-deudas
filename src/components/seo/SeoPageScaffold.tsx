@@ -3,6 +3,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FormSection from "@/components/FormSection";
 import Seo from "@/components/seo/Seo";
+import SolutionBridge from "@/components/seo/SolutionBridge";
+import AuthorByline from "@/components/blog/AuthorByline";
+import MobileContactBar from "@/components/MobileContactBar";
 import Breadcrumbs, { type Crumb } from "@/components/seo/Breadcrumbs";
 import CtaButton from "@/components/seo/CtaButton";
 import FaqList from "@/components/blog/FaqList";
@@ -90,6 +93,21 @@ export type SeoPageScaffoldProps = {
   tools?: Tool[];
   /** marca el contenido como pendiente de revisión legal */
   needsLegalReview?: boolean;
+  /** puente comercial editorial que conecta el contenido con el servicio */
+  bridge?: {
+    title: string;
+    description: string;
+    ctaLabel?: string;
+    links?: { label: string; to: string }[];
+  };
+  /** id (en TEAM) del abogado que ha revisado realmente el contenido */
+  reviewer?: string;
+  /** fecha de esa revisión (ISO) */
+  reviewedAt?: string;
+  /** fecha real de última actualización de contenido (ISO) */
+  contentUpdatedAt?: string;
+  /** tipo de página para la analítica de CTAs */
+  pageType?: string;
   children?: React.ReactNode;
 };
 
@@ -109,6 +127,11 @@ const SeoPageScaffold = ({
   faq,
   tools,
   needsLegalReview,
+  bridge,
+  reviewer,
+  reviewedAt,
+  contentUpdatedAt,
+  pageType,
   children,
 }: SeoPageScaffoldProps) => {
   const placeholderSections = SECTIONS[template];
@@ -193,6 +216,17 @@ const SeoPageScaffold = ({
             )}
           </div>
 
+          {bridge && (
+            <SolutionBridge
+              title={bridge.title}
+              description={bridge.description}
+              ctaLabel={bridge.ctaLabel}
+              links={bridge.links}
+              placement="closing"
+              pageType={pageType}
+            />
+          )}
+
           {children}
 
           {/* Calcula tu caso — enlaces a herramientas relevantes */}
@@ -207,11 +241,19 @@ const SeoPageScaffold = ({
             <p className="font-poppins font-semibold text-foreground">
               Contenido elaborado por el equipo de Calma
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {needsLegalReview
-                ? "Pendiente de revisión por abogado especialista. La información legal debe validarse antes de publicar."
-                : "Revisado por abogado especialista en la Ley de Segunda Oportunidad."}
-            </p>
+            {reviewer ? (
+              <AuthorByline
+                reviewer={reviewer}
+                reviewedAt={reviewedAt}
+                contentUpdatedAt={contentUpdatedAt}
+              />
+            ) : (
+              <p className="mt-1 text-sm text-muted-foreground">
+                {needsLegalReview
+                  ? "Pendiente de revisión por abogado especialista. La información legal debe validarse antes de publicar."
+                  : "Revisado por abogado especialista en la Ley de Segunda Oportunidad."}
+              </p>
+            )}
           </div>
 
           {/* Enlazado interno */}
@@ -240,6 +282,7 @@ const SeoPageScaffold = ({
       {/* Formulario de captación (#hero-form) — destino de todos los CTA */}
       <FormSection />
       <Footer />
+      <MobileContactBar pageType={pageType} />
     </div>
   );
 };
