@@ -142,6 +142,11 @@ const calmaSection = (e: Entity): EntitySection => {
 
 /** Nota corta y específica por entidad (aporta detalle real al copy). */
 const NOTES: Record<string, string> = {
+  // Suministros
+  endesa: "Endesa es una de las mayores comercializadoras de luz y gas de España y reclama recibos impagados con insistencia.",
+  iberdrola: "Iberdrola es una de las grandes eléctricas del país y gestiona la reclamación de facturas de luz y gas impagadas.",
+  naturgy: "Naturgy comercializa luz y gas en toda España y puede reclamar recibos atrasados o cortar el suministro.",
+  "repsol-luz-gas": "Repsol comercializa luz y gas para hogares y negocios, con reclamación activa de facturas impagadas.",
   // Recobro
   kruk: "Kruk es uno de los mayores grupos de recobro de Europa y compra grandes carteras de deuda impagada en España.",
   intrum: "Intrum es la mayor gestora de deuda de Europa y reclama carteras compradas a bancos y financieras.",
@@ -664,6 +669,9 @@ export const getEntityContent = (entity?: Entity): EntityContent | undefined => 
       break;
     case "banco":
       base = bancoContent(entity, note);
+      break;
+    case "suministro":
+      base = suministroContent(entity, note);
       break;
     default:
       return undefined;
