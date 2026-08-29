@@ -54,3 +54,99 @@ export function getConversionSlug(): string {
   if (typeof window === "undefined") return "";
   return window.location.pathname || "/";
 }
+
+/* ------------------------------------------------------------------ *
+ * Capa de eventos de conversión
+ * ------------------------------------------------------------------ */
+
+export type SiteEventName = "cta_click" | "diagnosis_start" | "diagnosis_complete";
+
+export type SiteEventPayload = {
+  /** Tipo de página desde la que se dispara (blog, banco, revolving…). */
+  pageType?: string;
+  /** Identificador estable del CTA (ej. "solution-bridge"). */
+  ctaId?: string;
+  /** Texto visible del CTA. */
+  ctaLabel?: string;
+  /** Posición del CTA dentro de la página (inline, closing, sticky…). */
+  placement?: string;
+  /** Destino del CTA. */
+  targetUrl?: string;
+  /** Datos adicionales libres. */
+  meta?: Record<string, unknown>;
+};
+
+/** Deduce el tipo de página a partir del path cuando no se pasa explícito. */
+export function inferPageType(path = getConversionSlug()): string {
+  if (path.startsWith("/blog/")) return "blog";
+  if (path === "/blog") return "blog-index";
+  if (path.startsWith("/casos-de-exito")) return "caso";
+  if (path.startsWith("/bancos-hipoteca-vivienda/")) return "banco";
+  if (path.startsWith("/tarjetas-revolving/")) return "revolving";
+  if (path.startsWith("/empresas-de-recobro/")) return "recobro";
+  if (path.startsWith("/microcreditos-prestamos/")) return "microcredito";
+  if (path.startsWith("/herramientas")) return "herramienta";
+  if (path === "/") return "home";
+  return "otra";
+}
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
+/**
+ * Registra un evento de conversión.
+ * 1) Push a `window.dataLayer` (se crea si no existe) para que cualquier GTM
+ *    futuro lo recoja sin tocar el código de los componentes.
+ * 2) Insert best-effort en `site_events` (no bloquea ni rompe la interacción).
+ */
+export function trackEvent(name: SiteEventName, payload: SiteEventPayload = {}): void {
+  if (typeof window === "undefined") return;
+
+  const utms = getUtms();
+  const pagePath = getConversionSlug();
+  const pageType = payload.pageType ?? inferPageType(pagePath);
+
+  try {
+    window.dataLayer = window.dataLayer ?? [];
+    window.dataLayer.push({
+      event: name,
+      page_path: pagePath,
+      page_type: pageType,
+      cta_id: payload.ctaId,
+      cta_label: payload.ctaLabel,
+      placement: payload.placement,
+      target_url: payload.targetUrl,
+      ...utms,
+      ...(payload.meta ?? {}),
+    });
+  } catch {
+    // dataLayer nunca debe romper la navegación.
+  }
+
+  // Persistencia propia (import diferido: no entra en el bundle inicial).
+  void import("@/integrations/supabase/client")
+    .then(({ supabase }) =>
+      supabase.from("site_events").insert({
+        event_name: name,
+        page_path: pagePath,
+        page_type: pageType,
+        cta_id: payload.ctaId ?? null,
+        cta_label: payload.ctaLabel ?? null,
+        placement: payload.placement ?? null,
+        target_url: payload.targetUrl ?? null,
+        utm_source: utms.utm_source ?? null,
+        utm_medium: utms.utm_medium ?? null,
+        utm_campaign: utms.utm_campaign ?? null,
+        utm_term: utms.utm_term ?? null,
+        utm_content: utms.utm_content ?? null,
+        referrer: typeof document !== "undefined" ? document.referrer.slice(0, 500) || null : null,
+        meta: (payload.meta ?? {}) as never,
+      }),
+    )
+    .catch(() => {
+      // Silencioso: la medición nunca puede afectar a la conversión.
+    });
+}
