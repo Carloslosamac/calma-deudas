@@ -451,5 +451,38 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     },
   ];
 
+  const enrich = LOCAL_ENRICHMENT[city.slug];
+  if (enrich) {
+    sections.push({
+      title: `Tu caso de segunda oportunidad en ${name}, paso a paso y con datos locales`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Si vives en {name} o en cualquier municipio de {provincia}, tu expediente se
+            tramita ante {enrich.juzgado}. No tendrás que moverte de casa: la práctica
+            totalidad del procedimiento (presentación, comparecencias y resolución) se
+            gestiona de forma telemática.
+          </P>
+          <P>{enrich.detalle}</P>
+          {enrich.casos.length > 0 && (
+            <P>
+              Casos reales de la zona:{" "}
+              {enrich.casos.map((c, i) => (
+                <span key={c.slug}>
+                  {i > 0 && " · "}
+                  <A to={`/casos-de-exito/${c.slug}`}>{c.label}</A>
+                </span>
+              ))}
+              .
+            </P>
+          )}
+        </div>
+      ),
+    });
+    for (const f of enrich.faqs) {
+      faq.push({ q: f.q, a: <>{f.a}</>, plain: f.a });
+    }
+  }
+
   return { intro, sections, faq };
 };
