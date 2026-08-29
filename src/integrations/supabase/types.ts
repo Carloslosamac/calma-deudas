@@ -89,8 +89,11 @@ export type Database = {
       generated_posts: {
         Row: {
           authors: string[]
+          bridge: Json | null
           category: string
+          content_updated_at: string | null
           created_at: string
+          direct_answer: string | null
           excerpt: string
           faq: Json
           hero_alt: string | null
@@ -102,6 +105,8 @@ export type Database = {
           meta_description: string | null
           published_at: string | null
           read_time: string | null
+          reviewed_at: string | null
+          reviewer: string | null
           roadmap_id: number | null
           sections: Json
           seo_title: string | null
@@ -114,8 +119,11 @@ export type Database = {
         }
         Insert: {
           authors?: string[]
+          bridge?: Json | null
           category: string
+          content_updated_at?: string | null
           created_at?: string
+          direct_answer?: string | null
           excerpt: string
           faq?: Json
           hero_alt?: string | null
@@ -127,6 +135,8 @@ export type Database = {
           meta_description?: string | null
           published_at?: string | null
           read_time?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
           roadmap_id?: number | null
           sections?: Json
           seo_title?: string | null
@@ -139,8 +149,11 @@ export type Database = {
         }
         Update: {
           authors?: string[]
+          bridge?: Json | null
           category?: string
+          content_updated_at?: string | null
           created_at?: string
+          direct_answer?: string | null
           excerpt?: string
           faq?: Json
           hero_alt?: string | null
@@ -152,6 +165,8 @@ export type Database = {
           meta_description?: string | null
           published_at?: string | null
           read_time?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
           roadmap_id?: number | null
           sections?: Json
           seo_title?: string | null
@@ -549,6 +564,63 @@ export type Database = {
           titulo?: string
           updated_at?: string
           url_sugerida?: string | null
+        }
+        Relationships: []
+      }
+      site_events: {
+        Row: {
+          created_at: string
+          cta_id: string | null
+          cta_label: string | null
+          event_name: string
+          id: string
+          meta: Json
+          page_path: string | null
+          page_type: string | null
+          placement: string | null
+          referrer: string | null
+          target_url: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string
+          cta_id?: string | null
+          cta_label?: string | null
+          event_name: string
+          id?: string
+          meta?: Json
+          page_path?: string | null
+          page_type?: string | null
+          placement?: string | null
+          referrer?: string | null
+          target_url?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string
+          cta_id?: string | null
+          cta_label?: string | null
+          event_name?: string
+          id?: string
+          meta?: Json
+          page_path?: string | null
+          page_type?: string | null
+          placement?: string | null
+          referrer?: string | null
+          target_url?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: []
       }
