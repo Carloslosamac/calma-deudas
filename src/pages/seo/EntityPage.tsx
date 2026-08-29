@@ -18,6 +18,7 @@ const KIND_EMOJI: Record<EntityKind, string> = {
   revolving: "💳",
   banco: "🏦",
   publica: "🧾",
+  suministro: "💡",
 };
 const KIND_TOPIC: Record<EntityKind, LinkTopic> = {
   recobro: "embargos",
@@ -25,6 +26,17 @@ const KIND_TOPIC: Record<EntityKind, LinkTopic> = {
   revolving: "revolving",
   banco: "lso",
   publica: "hacienda",
+  suministro: "lso",
+};
+
+/** Títulos curados por slug para queries concretas en striking distance (GSC). */
+const TITLE_OVERRIDES: Record<string, string> = {
+  kruk: "🛑 Kruk te reclama por CaixaBank: frena el cobro",
+  quebueno: "💸 QueBueno: ¿intereses abusivos? Reclama YA",
+  wizink: "💳 WiZink: anula tu revolving y recupera intereses",
+  ing: "🏦 Cancelar préstamo ING: tus opciones legales",
+  gcbe: "🛑 GCBE (Grupo de Cobranza Especial): tus derechos",
+  "iberia-cards": "💳 Iberia Cards: ¿usura? Reclama tu tarjeta",
 };
 
 /** Ficha de entidad: /<cluster>/<slug> (banco, financiera, recobro…). */
@@ -72,8 +84,14 @@ const EntityPage = () => {
       `${emoji} ${entity.name}: cómo afrontar la deuda`,
       `${emoji} Deudas con ${entity.name}: tus opciones`,
     ],
+    suministro: [
+      `${emoji} ¿Debes recibos a ${entity.name}? Cancélalos`,
+      `${emoji} Deuda con ${entity.name}: evita el corte`,
+      `${emoji} Deudas de luz/gas con ${entity.name}: salida`,
+    ],
   };
   const seoTitle =
+    TITLE_OVERRIDES[entity.slug] ??
     TITLE_CANDIDATES[entity.kind].find((t) => t.length <= 60) ??
     `${emoji} Deudas con ${entity.name}`;
 

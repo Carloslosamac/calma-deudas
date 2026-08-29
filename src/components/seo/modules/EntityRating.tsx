@@ -24,6 +24,7 @@ const KIND_LABEL: Record<EntityKind, string> = {
   revolving: "Tarjeta revolving",
   banco: "Banco",
   publica: "Organismo público",
+  suministro: "Compañía de luz/gas",
 };
 
 const DOT: Record<RatingLevel, string> = {

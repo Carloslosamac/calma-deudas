@@ -4,7 +4,7 @@
  * Sembramos las entidades top por volumen; el resto se añade por fases.
  */
 
-export type EntityKind = "recobro" | "microcredito" | "revolving" | "banco" | "publica";
+export type EntityKind = "recobro" | "microcredito" | "revolving" | "banco" | "publica" | "suministro";
 
 export type Entity = {
   slug: string;
@@ -131,6 +131,11 @@ export const entities: Entity[] = [
   { slug: "targobank", name: "TargoBank", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
   { slug: "pibank", name: "Pibank", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
   { slug: "banco-cetelem", name: "Banco Cetelem", kind: "banco", cluster: "bancos-hipoteca-vivienda", solutionPath: "/cancelar-deudas" },
+  // Suministros (luz, gas)
+  { slug: "endesa", name: "Endesa", kind: "suministro", cluster: "deudas-suministros", solutionPath: "/cancelar-deudas" },
+  { slug: "iberdrola", name: "Iberdrola", kind: "suministro", cluster: "deudas-suministros", solutionPath: "/cancelar-deudas" },
+  { slug: "naturgy", name: "Naturgy", kind: "suministro", cluster: "deudas-suministros", solutionPath: "/cancelar-deudas" },
+  { slug: "repsol-luz-gas", name: "Repsol (luz y gas)", kind: "suministro", cluster: "deudas-suministros", solutionPath: "/cancelar-deudas" },
 ];
 
 export const entitiesByCluster = (clusterSlug: string): Entity[] =>

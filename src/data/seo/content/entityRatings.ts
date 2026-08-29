@@ -22,6 +22,7 @@ const BASE_BY_KIND: Record<EntityKind, Levels> = {
   revolving: { presion: "ambar", negociacion: "ambar", usura: "rojo" },
   banco: { presion: "ambar", negociacion: "ambar", usura: "ambar" },
   publica: { presion: "ambar", negociacion: "rojo", usura: "verde" },
+  suministro: { presion: "ambar", negociacion: "ambar", usura: "verde" },
 };
 
 /** Ajustes finos curados por entidad concreta (sobrescriben la base de su tipo). */

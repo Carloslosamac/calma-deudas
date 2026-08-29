@@ -40,6 +40,141 @@ export type LocalContent = {
   faq: LocalFaq[];
 };
 
+/**
+ * Enriquecimiento local REAL para las ciudades con más demanda (GSC):
+ * juzgado competente, particularidades de la provincia, casos de éxito
+ * enlazables y FAQ específicas. Solo datos verificables, sin cifras
+ * inventadas: cuando algo depende del juzgado se dice así, sin números.
+ */
+type LocalEnrichment = {
+  /** dato del juzgado/sede competente, en lenguaje de calle */
+  juzgado: string;
+  /** particularidad real del procedimiento o del tejido económico local */
+  detalle: string;
+  /** casos de éxito de la zona para enlazar */
+  casos: { slug: string; label: string }[];
+  /** FAQ específicas de la provincia (pregunta + respuesta en texto plano) */
+  faqs: { q: string; a: string }[];
+};
+
+const LOCAL_ENRICHMENT: Record<string, LocalEnrichment> = {
+  "a-coruna": {
+    juzgado:
+      "los Juzgados de lo Mercantil de A Coruña (sede en la Ciudad Judicial, junto a los de Primera Instancia que tramitan los concursos de particulares)",
+    detalle:
+      "En A Coruña vemos a menudo expedientes de autónomos del comercio y la hostelería y de familias con hipoteca más préstamos personales; los juzgados mercantiles coruñeses tramitan los concursos de autónomos con un volumen moderado, lo que suele agilizar las comparecencias respecto a las grandes capitales.",
+    casos: [],
+    faqs: [
+      {
+        q: "¿Dónde se presenta mi concurso de segunda oportunidad si vivo en A Coruña?",
+        a: "Si eres particular, en los Juzgados de Primera Instancia de A Coruña; si eres autónomo o empresario, en los Juzgados de lo Mercantil, ambos en la Ciudad Judicial. Casi todo el trámite se hace de forma telemática.",
+      },
+      {
+        q: "¿Atendéis municipios como Ferrol, Santiago o Arteixo?",
+        a: "Sí. Atendemos toda la provincia de A Coruña de forma telemática: Ferrol, Santiago de Compostela, Arteixo, Oleiros, Culleredo, Cambre y cualquier otro municipio.",
+      },
+    ],
+  },
+  malaga: {
+    juzgado:
+      "los Juzgados de lo Mercantil y de Primera Instancia de Málaga, ubicados en la Ciudad de la Justicia",
+    detalle:
+      "La Ciudad de la Justicia de Málaga concentra prácticamente todos los juzgados civiles y mercantiles de la ciudad. El sector turístico y de temporada genera muchos expedientes de trabajadores con contratos discontinuos y autónomos de hostelería con deuda acumulada en meses flojos.",
+    casos: [
+      { slug: "hugo-malaga", label: "Hugo (Málaga): reunificó tres préstamos y respira" },
+    ],
+    faqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Málaga?",
+        a: "En la Ciudad de la Justicia de Málaga: Juzgados de Primera Instancia para particulares y Juzgados de lo Mercantil para autónomos y empresarios. La mayor parte del procedimiento es telemática.",
+      },
+      {
+        q: "¿Atendéis la Costa del Sol: Marbella, Fuengirola, Torremolinos, Vélez?",
+        a: "Sí, toda la provincia de Málaga de forma telemática: Marbella, Mijas, Fuengirola, Benalmádena, Torremolinos, Estepona, Antequera, Vélez-Málaga y Ronda, entre otros.",
+      },
+    ],
+  },
+  zaragoza: {
+    juzgado:
+      "los Juzgados de lo Mercantil de Zaragoza, referencia concursal en Aragón, junto a los de Primera Instancia para particulares",
+    detalle:
+      "Zaragoza concentra la práctica totalidad de los concursos de Aragón. El perfil habitual combina hipoteca con préstamos al consumo y deuda de autónomos de la logística y el comercio, sectores con mucho peso en la provincia.",
+    casos: [
+      { slug: "daniel-zaragoza", label: "Daniel (Zaragoza): canceló su deuda con la LSO" },
+      { slug: "lucia-d-zaragoza-42-150", label: "Lucía (Zaragoza): 42.150 € cancelados" },
+      { slug: "nuria-d-zaragoza-28-700", label: "Nuria (Zaragoza): 28.700 € exonerados" },
+    ],
+    faqs: [
+      {
+        q: "¿Cuánto tarda la segunda oportunidad en Zaragoza?",
+        a: "Depende de la carga del juzgado y de la complejidad del expediente; en general el procedimiento completo suele moverse entre 6 y 18 meses, y los embargos pueden suspenderse mucho antes de la exoneración.",
+      },
+      {
+        q: "¿Atendéis el resto de Aragón: Huesca, Teruel, Calatayud?",
+        a: "Sí. Aunque los juzgados mercantiles están en Zaragoza capital, atendemos telemáticamente a clientes de Huesca, Teruel, Calatayud, Utebo y cualquier municipio aragonés.",
+      },
+    ],
+  },
+  almeria: {
+    juzgado:
+      "los Juzgados de lo Mercantil y de Primera Instancia de Almería, en la Ciudad de la Justicia",
+    detalle:
+      "Almería tiene un perfil de deuda muy marcado por la agricultura intensiva y la hostelería: autónomos con campañas irregulares y familias con varios préstamos al consumo. Los juzgados almerienses tramitan los concursos con menos saturación que las grandes capitales.",
+    casos: [
+      { slug: "ivan-p-almeria-nomina-liberada", label: "Iván (Almería): nómina liberada del embargo" },
+    ],
+    faqs: [
+      {
+        q: "¿Dónde se tramita mi caso de segunda oportunidad en Almería?",
+        a: "En la Ciudad de la Justicia de Almería: Juzgados de Primera Instancia si eres particular y de lo Mercantil si eres autónomo. Casi todo se gestiona de forma telemática.",
+      },
+      {
+        q: "¿Atendéis El Ejido, Roquetas, Níjar y el Poniente?",
+        a: "Sí, atendemos toda la provincia de Almería de forma telemática: El Ejido, Roquetas de Mar, Níjar, Adra, Huércal-Overa, Vícar y el resto de municipios.",
+      },
+    ],
+  },
+  tarragona: {
+    juzgado:
+      "los Juzgados de lo Mercantil y de Primera Instancia de Tarragona, competentes para toda la provincia",
+    detalle:
+      "En Tarragona conviven la deuda turística de la Costa Daurada (Salou, Cambrils) con la del cinturón industrial y petroquímico: autónomos estacionales y trabajadores con préstamos acumulados. Los juzgados tarraconenses tramitan los concursos de toda la provincia.",
+    casos: [
+      { slug: "marina-c-tarragona-35-210-cancelados", label: "Marina (Tarragona): 35.210 € cancelados" },
+    ],
+    faqs: [
+      {
+        q: "¿Dónde se presenta el concurso si vivo en Tarragona o Salou?",
+        a: "Ante los juzgados de Tarragona capital: Primera Instancia para particulares y lo Mercantil para autónomos. Se tramita casi todo de forma telemática, sin que tengas que desplazarte salvo excepciones.",
+      },
+      {
+        q: "¿Atendéis Reus, Valls, Tortosa y el resto de la provincia?",
+        a: "Sí: Reus, Valls, Tortosa, Salou, Cambrils, Vendrell y cualquier municipio de la provincia de Tarragona, todo de forma telemática.",
+      },
+    ],
+  },
+  alicante: {
+    juzgado:
+      "los Juzgados de lo Mercantil y de Primera Instancia de Alicante, en la Ciudad de la Justicia",
+    detalle:
+      "Alicante es de las provincias con más expedientes de segunda oportunidad del Levante: turismo, construcción y comercio generan muchos casos de insolvencia de particulares y autónomos. La Ciudad de la Justicia concentra los juzgados civiles y mercantiles de la capital.",
+    casos: [
+      { slug: "sergio-alicante", label: "Sergio (Alicante): canceló su deuda y empezó de cero" },
+      { slug: "pablo-r-alicante-8-500-recuperados", label: "Pablo (Alicante): 8.500 € recuperados por usura" },
+    ],
+    faqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Alicante?",
+        a: "En la Ciudad de la Justicia de Alicante: Juzgados de Primera Instancia para particulares y de lo Mercantil para autónomos. El procedimiento es mayoritariamente telemático.",
+      },
+      {
+        q: "¿Atendéis Elche, Torrevieja, Benidorm y la Vega Baja?",
+        a: "Sí, toda la provincia: Elche, Torrevieja, Orihuela, Benidorm, Alcoy, San Vicente del Raspeig, Elda, Dénia y cualquier municipio alicantino, de forma telemática.",
+      },
+    ],
+  },
+};
+
 export const getLocalizacionContent = (city: Localizacion): LocalContent => {
   const {
     name,
@@ -315,6 +450,39 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       plain: `Sí. ${ejemploCaso} Cada caso es distinto, pero la Ley de Segunda Oportunidad permite cancelar deudas de particulares y autónomos de ${provincia} que actúan de buena fe.`,
     },
   ];
+
+  const enrich = LOCAL_ENRICHMENT[city.slug];
+  if (enrich) {
+    sections.push({
+      title: `Tu caso de segunda oportunidad en ${name}, paso a paso y con datos locales`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Si vives en {name} o en cualquier municipio de {provincia}, tu expediente se
+            tramita ante {enrich.juzgado}. No tendrás que moverte de casa: la práctica
+            totalidad del procedimiento (presentación, comparecencias y resolución) se
+            gestiona de forma telemática.
+          </P>
+          <P>{enrich.detalle}</P>
+          {enrich.casos.length > 0 && (
+            <P>
+              Casos reales de la zona:{" "}
+              {enrich.casos.map((c, i) => (
+                <span key={c.slug}>
+                  {i > 0 && " · "}
+                  <A to={`/casos-de-exito/${c.slug}`}>{c.label}</A>
+                </span>
+              ))}
+              .
+            </P>
+          )}
+        </div>
+      ),
+    });
+    for (const f of enrich.faqs) {
+      faq.push({ q: f.q, a: <>{f.a}</>, plain: f.a });
+    }
+  }
 
   return { intro, sections, faq };
 };

@@ -142,6 +142,11 @@ const calmaSection = (e: Entity): EntitySection => {
 
 /** Nota corta y específica por entidad (aporta detalle real al copy). */
 const NOTES: Record<string, string> = {
+  // Suministros
+  endesa: "Endesa es una de las mayores comercializadoras de luz y gas de España y reclama recibos impagados con insistencia.",
+  iberdrola: "Iberdrola es una de las grandes eléctricas del país y gestiona la reclamación de facturas de luz y gas impagadas.",
+  naturgy: "Naturgy comercializa luz y gas en toda España y puede reclamar recibos atrasados o cortar el suministro.",
+  "repsol-luz-gas": "Repsol comercializa luz y gas para hogares y negocios, con reclamación activa de facturas impagadas.",
   // Recobro
   kruk: "Kruk es uno de los mayores grupos de recobro de Europa y compra grandes carteras de deuda impagada en España.",
   intrum: "Intrum es la mayor gestora de deuda de Europa y reclama carteras compradas a bancos y financieras.",
@@ -624,6 +629,107 @@ const profileFaqs = (profile: EntityProfile): EntityFaq[] =>
     plain: f.a,
   }));
 
+const suministroContent = (e: Entity, note: string): EntityContent => ({
+  intro: `${note} Si debes recibos de luz o gas a ${e.name}, tienes más opciones de las que crees: desde negociar un aplazamiento hasta cancelar la deuda por completo.`,
+  sections: [
+    calmSection(e),
+    {
+      title: `Qué pasa si no pago los recibos de ${e.name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            {note} Cuando dejas de pagar, {e.name} te reclama primero por carta, correo y
+            llamadas. Si la deuda sigue viva, puede <strong>venderla a una empresa de
+            recobro</strong> o llevarla a un juicio monitorio para reclamarla judicialmente.
+          </P>
+          <P>
+            Las deudas de suministros suelen ser de importe moderado, pero si se acumulan con
+            otras deudas (tarjetas, préstamos, alquiler) pueden formar parte de una situación de
+            insolvencia que sí tiene solución legal.
+          </P>
+        </div>
+      ),
+    },
+    {
+      title: "¿Pueden cortarme la luz o el gas?",
+      body: (
+        <P>
+          Sí, pero no de un día para otro: la ley exige avisos previos y plazos. Además, si eres{" "}
+          <strong>consumidor vulnerable</strong> (bono social), el corte está prohibido o muy
+          limitado. Si te han incluido en un fichero de morosos por esta deuda, puedes{" "}
+          <A to="/asnef">reclamar tu salida de ASNEF</A> si no se cumplieron los requisitos.
+        </P>
+      ),
+    },
+    {
+      title: "Tus miedos, resueltos",
+      body: (
+        <MythReality
+          items={[
+            {
+              myth: "Me van a cortar la luz mañana mismo.",
+              reality:
+                "El corte exige avisos y plazos legales, y los consumidores vulnerables están protegidos. Además, negociar o iniciar la Ley de Segunda Oportunidad frena la reclamación.",
+            },
+            {
+              myth: "Una deuda de luz es poca cosa, no vale la pena hacer nada.",
+              reality:
+                "La deuda crece con intereses y costas si llega a juicio, y puede acabar en ficheros de morosos. Actuar pronto es más barato y más fácil.",
+            },
+            {
+              myth: "Las eléctricas nunca aceptan quitar deuda.",
+              reality:
+                "Aceptan aplazamientos y, si venden la deuda, el comprador suele negociar descuentos importantes. Y con la Ley de Segunda Oportunidad la deuda puede cancelarse del todo.",
+            },
+          ]}
+        />
+      ),
+    },
+    {
+      title: `Cómo cancelar tu deuda con ${e.name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Si la deuda de suministros es solo una parte de un problema mayor, la{" "}
+            <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> permite{" "}
+            <A to="/cancelar-deudas">cancelar las deudas</A> de luz y gas junto al resto
+            (préstamos, tarjetas, microcréditos), siempre que actúes de buena fe.
+          </P>
+          <InlineCta label="Cuéntanos tu caso, es gratis" />
+        </div>
+      ),
+    },
+    calmaSection(e),
+  ],
+  faq: [
+    {
+      q: `¿Puede ${e.name} cortarme la luz por no pagar?`,
+      a: <P>Sí, pero solo tras avisarte por escrito y respetar plazos. Si eres consumidor vulnerable o tienes el bono social, el corte está prohibido o muy restringido.</P>,
+      plain: `Sí, pero ${e.name} debe avisarte por escrito y respetar plazos; los consumidores vulnerables con bono social están protegidos frente al corte.`,
+    },
+    {
+      q: "¿Me pueden meter en ASNEF por una factura de luz o gas?",
+      a: <P>Solo si la deuda es cierta, vencida y exigible, y te han avisado previamente. Si no cumplen estos requisitos, puedes reclamar tu salida del fichero.</P>,
+      plain: "Solo si la deuda es cierta, vencida y exigible y te avisaron antes; si no, puedes reclamar tu salida de ASNEF.",
+    },
+    {
+      q: "¿Prescriben las deudas de luz y gas?",
+      a: <P>Sí: las deudas con compañías de suministros prescriben a los 5 años si no hay reclamación judicial ni reconocimiento de la deuda por tu parte.</P>,
+      plain: "Sí, las deudas de suministros prescriben a los 5 años si no hay reclamación judicial ni reconocimiento de la deuda.",
+    },
+    {
+      q: `¿Puedo cancelar la deuda de ${e.name} con la Ley de Segunda Oportunidad?`,
+      a: <P>Sí. Las deudas con comercializadoras de luz y gas son exonerables como cualquier deuda privada cuando no puedes pagarlas de buena fe.</P>,
+      plain: `Sí, la deuda con ${e.name} es exonerable con la Ley de Segunda Oportunidad si no puedes pagarla de buena fe.`,
+    },
+    {
+      q: "¿Merece la pena negociar directamente con la eléctrica?",
+      a: <P>Puedes intentarlo: suelen ofrecer aplazamientos o fraccionamientos. Si la deuda ya la reclama otra empresa o convive con otras deudas, un análisis global te dará una salida mejor.</P>,
+      plain: "Puedes intentarlo: suelen ofrecer aplazamientos; si la deuda ya la reclama otra empresa o tienes más deudas, un análisis global te dará una salida mejor.",
+    },
+  ],
+});
+
 /**
  * Combina la estructura común de cada tipo con el contenido ÚNICO por entidad
  * (intro, origen, prácticas, miedos y FAQ propios) para evitar duplicados.
@@ -664,6 +770,9 @@ export const getEntityContent = (entity?: Entity): EntityContent | undefined => 
       break;
     case "banco":
       base = bancoContent(entity, note);
+      break;
+    case "suministro":
+      base = suministroContent(entity, note);
       break;
     default:
       return undefined;
