@@ -38,8 +38,29 @@ export type BlogPost = {
   noindex?: boolean;
   /** Resumen "answer-first" para motores generativos (GEO/AEO). */
   tldr?: string;
+  /**
+   * Respuesta directa (40-100 palabras) a la intención principal del post.
+   * Tiene prioridad sobre `tldr` en el bloque bajo el H1.
+   */
+  directAnswer?: string;
   /** Puntos clave extraíbles del artículo (GEO/AEO). */
   keyTakeaways?: string[];
+  /** Id (en TEAM) del abogado que ha REVISADO de verdad el contenido. */
+  reviewer?: string;
+  /** Fecha de esa revisión editorial (ISO). */
+  reviewedAt?: string;
+  /**
+   * Fecha real de última actualización de contenido (ISO). Alimenta
+   * `dateModified`; nunca se rellena con timestamps técnicos.
+   */
+  contentUpdatedAt?: string;
+  /** Puente comercial editorial (SolutionBridge) definido por post. */
+  bridge?: {
+    title: string;
+    description: string;
+    ctaLabel?: string;
+    links?: { label: string; to: string }[];
+  };
   /** CTA y beneficios del sidebar, alineados con la intención del post. */
   sidebar?: {
     ctaTitle: string;
