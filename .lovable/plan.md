@@ -23,7 +23,7 @@ Rendimiento por tipo de página (3 meses):
 | Empresas de recobro | 23 | 1.187 | 1,9% |
 | Microcréditos | 10 | 1.469 | 0,7% |
 
-Diagnóstico: las páginas de entidad (banco, tarjeta, recobradora, microcrédito) son las que traen clics reales, con posiciones de 6 a 12. Las páginas de ciudad generan el 43% de todas las impresiones y un solo clic porque están en posición 50-90: Google las muestra en la cola larga pero nadie llega hasta ahí. Perseguir "abogados ley segunda oportunidad + ciudad" es competir de frente con despachos con años de autoridad y no está dando retorno.
+Diagnóstico: las páginas de entidad (banco, tarjeta, recobradora, microcrédito) son las que traen clics reales, con posiciones de 6 a 12. Las páginas de ciudad generan el 43% de todas las impresiones y un solo clic porque están en posición 50-90. Semrush confirma que la dificultad es baja (15/100 para "ley segunda oportunidad coruña"), así que el problema no es la competencia: es que nuestras páginas de ciudad son contenido de plantilla con apenas dos elementos únicos por ciudad, y Google las trata como casi duplicadas entre sí. Es demanda recuperable si dejamos de generarlas en serie.
 
 Fuera de eso hay un patrón claro: móvil convierte casi 4x mejor que escritorio (0,93% vs 0,24% CTR), y todos los clics reales son España.
 
