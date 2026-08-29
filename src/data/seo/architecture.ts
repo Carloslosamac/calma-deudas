@@ -190,6 +190,16 @@ export const clusters: Cluster[] = [
     topics: 14,
     related: ["cancelar-deudas", "reunificacion-deudas"],
   },
+  {
+    slug: "deudas-suministros",
+    label: "Deudas de suministros",
+    title: "Deudas de luz y gas: Endesa, Iberdrola, Naturgy, Repsol",
+    role: "satelite",
+    intent: "urgente",
+    description: "Deudas con compañías de luz y gas: cortes, reclamaciones y cómo cancelarlas.",
+    topics: 20,
+    related: ["embargos", "ley-segunda-oportunidad"],
+  },
 ];
 
 export const clustersBySlug: Record<string, Cluster> = clusters.reduce(
