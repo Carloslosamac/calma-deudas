@@ -510,6 +510,33 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Aspectos a tener en cuenta antes de pedir un préstamo para la reforma de una vivienda
+URL: https://mi-calma.es/blog/aspectos-tener-cuenta-antes-pedir-prestamo-reforma-vivienda
+
+Antes de solicitar un préstamo para la reforma de tu vivienda, debes evaluar el coste total del crédito (TAE, comisiones y vinculaciones), ajustar el presupuesto de la obra con un margen de imprevistos del 15% al 20%, y asegurarte de que la cuota resultante no eleve tu endeudamiento total por encima del 35% de tus ingresos netos. Si ya acumulas otros préstamos o créditos revolving, recurrir a nueva financiación puede provocar un estrangulamiento financiero grave.
+
+- **¿Es mejor pedir un préstamo personal o ampliar la hipoteca para una reforma?** Depende del importe necesario y los costes asociados. Para obras menores (menos de 15.000 €), suele ser preferible un préstamo personal, ya que la ampliación de hipoteca implica gastos de notaría, registro, tasación y comisión por novación. Sin embargo, para reformas integrales de elevado importe, la hipoteca ofrece tipos de interés significativamente más bajos, aunque arriesgas la titularidad del inmueble en caso de impago.
+- **¿Qué diferencia hay entre el TIN y la TAE en un préstamo de reforma?** El TIN (Tipo de Interés Nominal) es el precio que cobra el banco únicamente por el capital prestado. La TAE (Tasa Anual Equivalente) es el coste real del préstamo, ya que incluye el TIN, las comisiones de apertura o estudio, la frecuencia de las cuotas y el coste de los seguros obligatorios. Para comparar ofertas de reforma, fíjate siempre en la TAE más baja.
+- **¿Puedo cancelar el préstamo de reforma antes de tiempo si me entra un dinero?** Sí, la Ley 16/2011 de Contratos de Crédito al Consumo garantiza el derecho a la cancelación anticipada total o parcial. La ley limita la comisión por reembolso anticipado a un máximo del 1% del importe reembolsado si queda más de un año para el fin del contrato, o del 0,5% si queda menos de un año.
+
+### Prestamo personal con Banca Pueyo: todo lo que necesitas saber
+URL: https://mi-calma.es/blog/prestamo-personal-banca-pueyo-todo-lo-necesitas-saber
+
+Un préstamo personal con Banca Pueyo es una operación de crédito al consumo sujeta a la Ley de Contratos de Crédito al Consumo y al Código Civil. Si la TAE del contrato supera notablemente la media del Banco de España o incluye comisiones de apertura sin justificar, se puede reclamar judicialmente la nulidad por usura o falta de transparencia, logrando la devolución de todo lo pagado por encima del capital prestado.
+
+- **¿Qué pasa si dejo de pagar un préstamo personal en Banca Pueyo?** Si dejas de pagar, la entidad te cobrará comisiones por mora e intereses de demora elevados. Transcurridos unos meses, incluirán tus datos en ficheros de morosidad como ASNEF o Badexcug y podrán iniciar un procedimiento judicial monitorio para embargar tu nómina o cuentas corrientes.
+- **¿Es posible anular la comisión de apertura de un préstamo con Banca Pueyo?** Sí. Conforme a la doctrina fijada por el Tribunal Supremo y el TJUE, la comisión de apertura se puede anular si la entidad no demuestra que correspondió a servicios efectivos e individualizados prestados al cliente, obligando a Banca Pueyo a devolver el dinero integro.
+- **¿Cómo puedo saber la TAE de mi préstamo personal?** La TAE aparece detallada en las condiciones particulares del contrato del préstamo personal o en la Información Normalizada Europea (INE). También puedes consultarla en la banca online o en las liquidaciones periódicas que te envía la entidad.
+
+### ¿Qué es un mediador concursal?
+URL: https://mi-calma.es/blog/mediador-concursal
+
+El mediador concursal es un profesional designado por el juzgado o notaría para intervenir en procedimientos de insolvencia. Tras la reforma de la Ley de Segunda Oportunidad (Ley 16/2022), su intervención ya no es obligatoria para las personas físicas no empresarias en el procedimiento abreviado de exoneración del pasivo insatisfecho, quedando su figura redefinida para contextos empresariales o liquidaciones complejas.
+
+- **¿Sigue siendo obligatorio el mediador concursal en 2024?** No. Tras la reforma del Texto Refundido de la Ley Concursal introducida por la Ley 16/2022, el trámite previo del Acuerdo Extrajudicial de Pagos ante mediador concursal fue suprimido para la gran mayoría de las personas físicas. Hoy se acude directamente a la vía judicial.
+- **¿Quién paga los honorarios del mediador concursal si llega a intervenir?** En los casos excepcionales en los que interviene un administrador o mediador concursal nombrado por el juez, sus honorarios se regulan por el arancel oficial establecido por ley y se abonan con cargo a la masa activa (los bienes) del deudor o del concurso.
+- **¿Cuál es la diferencia entre un mediador concursal y un administrador concursal?** Históricamente, el mediador actuaba en la fase extrajudicial buscando un acuerdo voluntario de pagos entre deudor y acreedores. El administrador concursal es la figura nombrada por el juez dentro del proceso judicial para supervisar o gestionar la liquidación de los bienes. Tras la reforma de 2022, las funciones de mediación extrajudicial se han extinguido en favor de la administración concursal judicial.
+
 ### Pedir crédito rápido 24: ¿Es una buena opción?
 URL: https://mi-calma.es/blog/pedir-credito-rapido-24-buena-opcion
 
@@ -617,31 +644,4 @@ Los préstamos personales de Pera Loans son microcréditos de concesión rápida
 - **¿Es legal que Pera Loans me aplique una TAE del 500% o más?** No es legal si supera notablemente el interés medio de los créditos al consumo publicado por el Banco de España, según la jurisprudencia del Tribunal Supremo basada en la Ley Azcárate de 1908. Aplicar tipos tan elevados permite instar la nulidad del contrato por usura. En ese escenario, un tribunal declarará anulado el crédito y solo estarás obligado a devolver el dinero que realmente te prestaron sin ningún tipo de interés.
 - **¿Qué ocurre si no puedo pagar la cuota de Pera Loans a tiempo?** Si no abonas la cuota en la fecha acordada, la plataforma sumará intereses de mora y comisiones fijas por impago. Además, comenzará un proceso de recobradores con llamadas frecuentes para exigir el cobro. Si el impago se prolonga más de 60 o 90 días, la entidad podrá registrar tus datos en ficheros de morosidad como ASNEF e iniciar acciones judiciales reclamando el importe adeudado.
 - **¿Puedo ir a la cárcel por dejar de pagar un microcrédito?** Absolutamente no. En el ordenamiento jurídico español no existe la pena de prisión por deudas de carácter civil o contractual. El impago de un préstamo personal con entidades como Pera Loans conlleva exclusivamente consecuencias de carácter patrimonial, tales como la inclusión en ficheros de solvencia o la posibilidad de un embargo dictado por un juzgado.
-
-### Prestamo personal con Financiera Peugeot: todo lo que necesitas saber
-URL: https://mi-calma.es/blog/prestamo-personal-financiera-peugeot-todo-lo-necesitas-saber
-
-Un préstamo personal o de auto con Peugeot Financiera (Stellantis Financial Services) puede incluir intereses de demora desproporcionados, TIN/TAE rozando la usura y comisiones de apertura o cancelación abusivas. Si la carga financiera liquida tu economía doméstica, es posible reclamar la nulidad de las cláusulas o tramitar la renegociación o cancelación total de tus deudas mediante mecanismos como la Ley de Segunda Oportunidad.
-
-- **¿Qué es Stellantis Financial Services y qué relación tiene con Peugeot Financiera?** Stellantis Financial Services España, E.F.C., S.A. es la entidad financiera oficial del grupo automovilístico Stellantis (que engloba a marcas como Peugeot, Citroën, Opel y Fiat). Comercializa los préstamos personales y contratos de financiación concesionarios conocidos tradicionalmente como Peugeot Financiera o Banque PSA.
-- **¿Puedo reclamar los intereses de mi préstamo personal con Peugeot Financiera?** Sí, es totalmente posible reclamar los intereses si la TAE estipulada en el contrato es notablemente superior al tipo medio de los créditos al consumo publicado por el Banco de España para la fecha de firma (aplicando la Ley de Represión de la Usura de 1908) o si las condiciones carecen de la transparencia exigida por el TRLCU.
-- **¿Es legal la comisión de apertura que me cobraron al financiar el coche?** De acuerdo con la doctrina fijada por el Tribunal de Justicia de la Unión Europea (TJUE) y el Tribunal Supremo español, la comisión de apertura solo es legal si la entidad demuestra que correspondió a servicios efectivamente prestados y costes reales incurridos. Si se cobró como un porcentaje automático sin justificación, puede solicitarse su nulidad y devolución.
-
-### Todo lo que debes saber antes de pedir un crédito con Minicredito24
-URL: https://mi-calma.es/blog/todo-lo-debes-saber-antes-pedir-credito-minicredito24
-
-Minicredito24 no es una entidad financiera directa, sino un intermediario o prestamista de financiación rápida que aplica tipos de interés (TAE) extremadamente elevados, a menudo superiores al 1.000%. Antes de solicitar dinero en esta plataforma, debes conocer el coste real de los honorarios, el riesgo de sobreendeudamiento y las vías legales existentes para anular el contrato por usura conforme a la Ley Azcárate.
-
-- **¿Qué es Minicredito24 y cómo funciona?** Minicredito24 es una plataforma online que actúa como buscador e intermediario de financiación rápida, conectando a usuarios con prestamistas privados de microcréditos. Permite solicitar cuantías pequeñas de dinero a devolver en plazos cortos. Sin embargo, los préstamos derivados suelen aplicar tipos de interés y comisiones extremadamente elevados.
-- **¿Es legal la TAE que aplican los préstamos gestionados por Minicredito24?** En la inmensa mayoría de los casos, la TAE aplicada en este tipo de microcréditos supera el 500% o el 1.000% anual, rebasando con creces los tipos medios fijados por el Banco de España. La jurisprudencia del Tribunal Supremo basada en la Ley Azcárate considera usura estos porcentajes, permitiendo declarar la nulidad de los contratos.
-- **¿Qué ocurre si no puedo devolver a tiempo el dinero de Minicredito24?** Si no realizas el pago en la fecha fijada, la entidad aplicará inmediatamente comisiones por demora e intereses punitivos que incrementarán el total adeudado de forma acelerada. Además, iniciarán un proceso agresivo de recobro telefónico y podrán incluir tus datos en ficheros de morosidad como ASNEF o Badexcug.
-
-### Préstamo personal con Fintya: todo lo que necesitas saber
-URL: https://mi-calma.es/blog/prestamo-personal-fintya-todo-lo-necesitas-saber
-
-Los préstamos personales de Fintya son productos de financiación rápida que suelen aplicar Tasas Anuales Equivalentes (TAE) muy superiores a la media del mercado bancario tradicional. Si el contrato supera desproporcionadamente el interés medio publicado por el Banco de España, los tribunales pueden declararlo usurario, lo que permite al prestatario devolver únicamente el capital prestado sin intereses ni comisiones agregadas.
-
-- **¿Qué es Fintya y qué tipo de préstamos ofrece?** Fintya es una entidad o plataforma financiera que comercializa microcréditos y préstamos personales de concesión rápida a través de internet. Sus productos están orientados a cubrir urgencias de liquidez, concediendo importes que suelen oscilar entre los 100 y varios miles de euros, con plazos de devolución reducidos y tasas de interés sensiblemente superiores a las del crédito bancario tradicional.
-- **¿Puedo reclamar los intereses de un préstamo de Fintya por usura?** Sí, es perfectamente posible reclamar si la Tasa Anual Equivalente (TAE) aplicada en tu contrato es notablemente superior al interés normal del dinero publicado por el Banco de España para productos equivalentes. Si un juez declara que el contrato es usurario al amparo de la Ley de Represión de la Usura de 1908, la entidad estará obligada a anular los intereses y deberás pagar únicamente el capital prestado.
-- **¿Qué pasa si no puedo pagar mi cuota o préstamo a Fintya?** Si incurres en impago, Fintya aplicará comisiones por demora e intereses moratorios que incrementarán rápidamente el total adeudado. Posteriormente, iniciará campañas de recobro telefónico, podrá incluir tus datos en ficheros de morosidad como ASNEF y, finalmente, podrá interponer una demanda de juicio monitorio en los juzgados para solicitar el embargo de tus bienes o salario.
 
