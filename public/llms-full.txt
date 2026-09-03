@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Préstamo entre amigos y familiares: cómo cobrarles
+URL: https://mi-calma.es/blog/prestamo-entre-amigos-familiares-cobrarles
+
+Para cobrar un préstamo entre particulares es imprescindible poder demostrar la entrega del dinero (transferencia bancaria) y la obligación de devolución. Si existe un contrato o reconvención, la vía más directa es el juicio monitorio (art. 815 LEC); si no existió contrato escrito, se debe requerir formalmente mediante burofax para constituir en mora e iniciar la reclamación judicial antes de que prescriba la acción a los 5 años (art. 1964 Código Civil).
+
+- **¿Es obligatorio hacer un contrato escrito para prestar dinero a un amigo?** No es obligatorio para la validez del contrato según el Código Civil, pero sí es muy recomendable por razones probatorias y fiscales. Sin un documento por escrito o un concepto bancario claro, la Agencia Tributaria podría presumir que se trata de una donación y exigir impuestos.
+- **¿Cuánto tiempo tengo para reclamar legalmente un dinero prestado a un familiar?** El plazo general de prescripción para deudas personales nacidas de un préstamo entre particulares es de 5 años, según lo dispuesto en el artículo 1964 del Código Civil. Este plazo se puede reiniciar cada vez que envíes una reclamación fehaciente (como un burofax) o si el deudor reconoce la deuda por escrito.
+- **¿Hay que pagar impuestos por prestar dinero a un conocido?** El préstamo entre particulares está sujeto al Impuesto sobre Transmisiones Patrimoniales (ITP), pero es una operación exenta. Esto significa que debes presentar el Modelo 600 ante la hacienda de tu comunidad autónoma para liquidarlo, pero la tarifa a pagar será de 0 euros.
+
+### Préstamo personal con Nemuru todo lo que necesitas saber
+URL: https://mi-calma.es/blog/prestamo-personal-nemuru-todo-lo-necesitas-saber
+
+Nemuru es una plataforma fintech que gestiona préstamos personales y financiación en punto de venta a través de entidades bancarias aliadas. Aunque facilita el acceso rápido al crédito para compras o reformas, sus tipos de interés (TAE) pueden superar el 20% o incluir comisiones de apertura y demora desproporcionadas. Si no puedes abonar las cuotas o sospechas que el contrato contiene intereses usurarios o falta de transparencia, es posible reclamar la nulidad del crédito o recurrir a mecanismos de reestructuración de deuda.
+
+- **¿Qué es exactamente Nemuru y por qué cobra mis recibos?** Nemuru es una plataforma tecnológica que ejerce como intermediaria de financiación en el punto de venta entre el consumidor, el comercio y una entidad crediticia asociada. Los recibos cobrados corresponden al préstamo que solicitaste para financiar un producto o servicio en un establecimiento colaborador.
+- **¿Es legal el tipo de interés que aplica Nemuru?** Depende de la TAE fijada en el contrato y del año de suscripción. Si la TAE supera notablemente el tipo medio publicado por el Banco de España para los préstamos al consumo en esa fecha, el contrato puede ser considerado usurario por un juez y ser declarado nulo.
+- **¿Qué ocurre si declaran nulo mi préstamo con Nemuru por usura?** Si un tribunal declara la nulidad por usura bajo la Ley Azcárate, el contrato queda sin efecto y solo estás obligado a devolver la cantidad exacta que te prestaron, sin intereses ni comisiones. Todo lo pagado en exceso sobre el capital prestado te debe ser devuelto.
+
 ### Factores que debes tener en cuenta antes de pedir crédito Ibancar
 URL: https://mi-calma.es/blog/factores-debes-tener-cuenta-antes-pedir-credito-ibancar
 
@@ -626,22 +644,4 @@ Para negociar una deuda con Younited Credit existen dos vías principales: la ex
 - **¿Puede Younited Credit embargar directamente mi nómina si dejo de pagar?** No. Younited Credit no tiene potestad para realizar embargos de forma directa. Para embargar una cuenta bancaria o nómina, la entidad debe interponer previamente una demanda judicial (juicio monitorio) y obtener una sentencia o decreto de ejecución dictado por un juez, respetando los límites del Salario Mínimo Interprofesional regulados en el art. 607 de la LEC.
 - **¿Qué pasa si Younited vendió mi deuda a un fondo buitre?** Si Younited Credit ha cedido tu crédito a un fondo o agencia de recobro (como Axactor, Kruk o EOS), la nueva entidad pasa a ser el acreedor. Tienen la obligación legal de notificarte formalmente la cesión. En este escenario, es habitual conseguir pactos de quita muy favorables (incluso del 30% al 60% del importe) mediante negociación profesional, o alegar el derecho de retracto de crédito litigioso según el artículo 1535 del Código Civil si la deuda está judicializada.
 - **¿Acepta Younited Credit ofertas de quita voluntarias?** Rara vez la entidad acepta quitas voluntarias en las primeras fases del impago. Sin embargo, cuando el crédito entra en mora prolongada o se encuentra gestionado por departamentos de recobro especializado, sí es viable pactar un pago único liberatorio por una cifra inferior al total adeudado, siempre que el acuerdo se formalice escrupulosamente por escrito.
-
-### Préstamo hipotecario entre familiares. ¿Conviene hacerlo?
-URL: https://mi-calma.es/blog/prestamo-hipotecario-entre-familiares-conviene-hacerlo
-
-El préstamo hipotecario entre familiares conviene siempre que se formalice en un contrato por escrito y se liquide mediante el Modelo 600 de Transmisiones Patrimoniales. Aunque está exento de impuestos, si no se registra ante la Agencia Tributaria, Hacienda lo considerará una donación encubierta y aplicará duras sanciones más el Impuesto sobre Sucesiones y Donaciones.
-
-- **¿Es legal prestarle dinero a un hijo sin cobrarle intereses?** Sí, es totalmente legal. El Código Civil reconoce la libertad de pactos entre las partes y permite constituir préstamos gratuitos al 0% de interés. No obstante, para que Hacienda no aplique la presunción de intereses imputables en el IRPF del prestamista, es imprescindible reflejar la gratuidad en un contrato por escrito y formalizar el Modelo 600.
-- **¿Hay que pagar algún impuesto por un préstamo entre familiares?** El préstamo entre particulares está sujeto al Impuesto sobre Transmisiones Patrimoniales (ITP), pero se encuentra regulado como una operación exenta según el TRLITPAJD. Esto implica que la cuota tributaria es de 0 euros, aunque subsiste la obligación formal de presentar la declaración tributaria (Modelo 600) en el plazo de 30 días hábiles.
-- **¿Qué pasa si no presento el Modelo 600 de un préstamo entre familiares?** Si no se liquida el Modelo 600, la Agencia Tributaria asumirá que el dinero transferido no es un préstamo con obligación de retorno, sino una donación no declarada. Como consecuencia, notificará una propuesta de liquidación provisional por el Impuesto sobre Sucesiones y Donaciones (ISD) aplicando el tipo impositivo autonómico correspondiente, sumado a recargos e intereses de demora.
-
-### Aspectos a tener en cuenta antes de pedir un préstamo para la reforma de una vivienda
-URL: https://mi-calma.es/blog/aspectos-tener-cuenta-antes-pedir-prestamo-reforma-vivienda
-
-Antes de solicitar un préstamo para la reforma de tu vivienda, debes evaluar el coste total del crédito (TAE, comisiones y vinculaciones), ajustar el presupuesto de la obra con un margen de imprevistos del 15% al 20%, y asegurarte de que la cuota resultante no eleve tu endeudamiento total por encima del 35% de tus ingresos netos. Si ya acumulas otros préstamos o créditos revolving, recurrir a nueva financiación puede provocar un estrangulamiento financiero grave.
-
-- **¿Es mejor pedir un préstamo personal o ampliar la hipoteca para una reforma?** Depende del importe necesario y los costes asociados. Para obras menores (menos de 15.000 €), suele ser preferible un préstamo personal, ya que la ampliación de hipoteca implica gastos de notaría, registro, tasación y comisión por novación. Sin embargo, para reformas integrales de elevado importe, la hipoteca ofrece tipos de interés significativamente más bajos, aunque arriesgas la titularidad del inmueble en caso de impago.
-- **¿Qué diferencia hay entre el TIN y la TAE en un préstamo de reforma?** El TIN (Tipo de Interés Nominal) es el precio que cobra el banco únicamente por el capital prestado. La TAE (Tasa Anual Equivalente) es el coste real del préstamo, ya que incluye el TIN, las comisiones de apertura o estudio, la frecuencia de las cuotas y el coste de los seguros obligatorios. Para comparar ofertas de reforma, fíjate siempre en la TAE más baja.
-- **¿Puedo cancelar el préstamo de reforma antes de tiempo si me entra un dinero?** Sí, la Ley 16/2011 de Contratos de Crédito al Consumo garantiza el derecho a la cancelación anticipada total o parcial. La ley limita la comisión por reembolso anticipado a un máximo del 1% del importe reembolsado si queda más de un año para el fin del contrato, o del 0,5% si queda menos de un año.
 
