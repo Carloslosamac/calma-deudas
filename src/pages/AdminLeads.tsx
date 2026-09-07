@@ -877,6 +877,7 @@ const AdminLeads = () => {
             const open = expandedSync === l.id;
             const isSyncing = !!syncing[l.id];
             const hasZoho = !!l.external_id;
+            const touched = touchedInSession(l);
             return (
               <div
                 key={l.id}
@@ -892,10 +893,24 @@ const AdminLeads = () => {
                     }}
                     className="flex min-w-0 flex-1 items-center gap-3 text-left"
                   >
+                    {touched && (
+                      <span
+                        title={`Tocado en esta sesión · ${new Date(l.status_changed_at!).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`}
+                        className="h-2 w-2 shrink-0 rounded-full bg-emerald-500"
+                      />
+                    )}
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium text-foreground">{l.name || "Sin nombre"}</div>
-                      <div className="truncate text-xs text-muted-foreground">{l.phone || "Sin teléfono"}</div>
+                      <div className="truncate text-xs text-muted-foreground">
+                        {l.phone || "Sin teléfono"}
+                        {touched && (
+                          <span className="ml-2 text-emerald-600">
+                            tocado {new Date(l.status_changed_at!).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}
+                          </span>
+                        )}
+                      </div>
                     </div>
+
                     <div className="hidden text-xs text-muted-foreground sm:block">{eur(l.debt)}</div>
                     <Badge variant="outline" className={`text-[10px] ${statusTone(l.lead_status)}`}>
                       {l.lead_status}
