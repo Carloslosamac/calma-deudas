@@ -252,7 +252,7 @@ const AdminLeads = () => {
       if (activeBatch) {
         localStorage.setItem(
           TIMER_KEY,
-          JSON.stringify({ activeBatch, batchSecs, callSecs, running, savedAt: Date.now() }),
+          JSON.stringify({ activeBatch, batchSecs, callSecs, running, savedAt: Date.now(), sessionStart }),
         );
       } else {
         localStorage.removeItem(TIMER_KEY);
@@ -260,7 +260,8 @@ const AdminLeads = () => {
     } catch {
       /* almacenamiento no disponible */
     }
-  }, [activeBatch, batchSecs, callSecs, running]);
+  }, [activeBatch, batchSecs, callSecs, running, sessionStart]);
+
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
