@@ -198,7 +198,9 @@ type TimerDraft = {
   callSecs: number;
   running: boolean;
   savedAt: number;
+  sessionStart?: number;
 };
+
 
 const AdminLeads = () => {
   const navigate = useNavigate();
