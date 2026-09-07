@@ -380,6 +380,7 @@ export type Database = {
           relevant_facts: string[]
           sales_case_id: string | null
           source: string | null
+          status_changed_at: string | null
           tier: string | null
           updated_at: string
           vehicle: string | null
@@ -408,6 +409,7 @@ export type Database = {
           relevant_facts?: string[]
           sales_case_id?: string | null
           source?: string | null
+          status_changed_at?: string | null
           tier?: string | null
           updated_at?: string
           vehicle?: string | null
@@ -436,6 +438,7 @@ export type Database = {
           relevant_facts?: string[]
           sales_case_id?: string | null
           source?: string | null
+          status_changed_at?: string | null
           tier?: string | null
           updated_at?: string
           vehicle?: string | null
