@@ -859,7 +859,18 @@ const AdminLeads = () => {
             }}
             triggerClassName="w-[200px]"
           />
+          <Button
+            variant={onlyTouched ? "default" : "outline"}
+            size="sm"
+            onClick={() => {
+              setOnlyTouched((v) => !v);
+              setCurrentIdx(0);
+            }}
+          >
+            Tocados hoy · {sessionCount}
+          </Button>
         </div>
+
 
         <div className="space-y-1.5">
           {filtered.map((l, idx) => {
