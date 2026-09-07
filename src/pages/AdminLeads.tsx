@@ -552,10 +552,13 @@ const AdminLeads = () => {
     setCurrentIdx(0);
     setQuery("");
     setStatusFilter("todos");
+    setOnlyTouched(false);
+    setSessionStart(Date.now());
     setBatchSecs(0);
     setCallSecs(0);
     setRunning(true);
   };
+
 
   const nextLead = () => {
     setCallSecs(0);
