@@ -1,0 +1,1 @@
+ALTER TABLE public.sales_leads ADD COLUMN IF NOT EXISTS status_changed_at timestamp with time zone;

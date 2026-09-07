@@ -64,7 +64,9 @@ type LeadRow = {
   zoho_sync_status: string | null;
   zoho_synced_at: string | null;
   zoho_sync_error: string | null;
+  status_changed_at: string | null;
   relevant_facts: string[];
+
 };
 
 type BatchRow = {
@@ -196,7 +198,9 @@ type TimerDraft = {
   callSecs: number;
   running: boolean;
   savedAt: number;
+  sessionStart?: number;
 };
+
 
 const AdminLeads = () => {
   const navigate = useNavigate();
@@ -221,6 +225,11 @@ const AdminLeads = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
+  // Sólo tocados en esta sesión.
+  const [onlyTouched, setOnlyTouched] = useState(false);
+  // Momento en que empezó la sesión de llamadas del paquete activo.
+  const [sessionStart, setSessionStart] = useState<number>(savedTimer?.sessionStart ?? Date.now());
+
   const [expandedSync, setExpandedSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<Record<string, boolean>>({});
 
@@ -243,7 +252,7 @@ const AdminLeads = () => {
       if (activeBatch) {
         localStorage.setItem(
           TIMER_KEY,
-          JSON.stringify({ activeBatch, batchSecs, callSecs, running, savedAt: Date.now() }),
+          JSON.stringify({ activeBatch, batchSecs, callSecs, running, savedAt: Date.now(), sessionStart }),
         );
       } else {
         localStorage.removeItem(TIMER_KEY);
@@ -251,7 +260,8 @@ const AdminLeads = () => {
     } catch {
       /* almacenamiento no disponible */
     }
-  }, [activeBatch, batchSecs, callSecs, running]);
+  }, [activeBatch, batchSecs, callSecs, running, sessionStart]);
+
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -345,9 +355,9 @@ const AdminLeads = () => {
         name: p.name,
         phone: p.phone,
         email: p.email,
-        // La gestión es independiente en cada paquete: todo lead entra sin gestionar.
-        // El estado que traía el CSV (CRM) queda guardado en `raw` a título informativo.
-        lead_status: "No contactado",
+        // Cada lead conserva el estado que traía del CRM en el CSV.
+        lead_status: p.lead_status,
+
         debt: p.debt,
         income: p.income,
         expense: p.expense,
@@ -378,10 +388,15 @@ const AdminLeads = () => {
   };
 
   const updateStatus = async (id: string, lead_status: string) => {
+    const changedAt = new Date().toISOString();
     queryClient.setQueryData<LeadRow[]>(["sales-leads"], (prev) =>
-      (prev ?? []).map((l) => (l.id === id ? { ...l, lead_status } : l)),
+      (prev ?? []).map((l) => (l.id === id ? { ...l, lead_status, status_changed_at: changedAt } : l)),
     );
-    const { error } = await supabase.from("sales_leads").update({ lead_status }).eq("id", id);
+    const { error } = await supabase
+      .from("sales_leads")
+      .update({ lead_status, status_changed_at: changedAt })
+      .eq("id", id);
+
     if (error) {
       toast.error("No se pudo guardar el estado");
       refetch();
@@ -500,10 +515,18 @@ const AdminLeads = () => {
     [leads, activeBatch],
   );
 
+  // ¿El agente ha cambiado el estado de este lead durante la sesión actual?
+  const touchedInSession = (l: LeadRow): boolean =>
+    !!l.status_changed_at && new Date(l.status_changed_at).getTime() >= sessionStart;
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     let list = batchLeads;
     if (statusFilter !== "todos") list = list.filter((l) => l.lead_status === statusFilter);
+    if (onlyTouched)
+      list = list.filter(
+        (l) => !!l.status_changed_at && new Date(l.status_changed_at).getTime() >= sessionStart,
+      );
     if (q)
       list = list.filter(
         (l) =>
@@ -512,7 +535,8 @@ const AdminLeads = () => {
       );
     // Pendientes primero.
     return [...list].sort((a, b) => Number(!isPending(a.lead_status)) - Number(!isPending(b.lead_status)));
-  }, [batchLeads, query, statusFilter]);
+  }, [batchLeads, query, statusFilter, onlyTouched, sessionStart]);
+
 
   const current = filtered[currentIdx] ?? null;
 
@@ -528,10 +552,13 @@ const AdminLeads = () => {
     setCurrentIdx(0);
     setQuery("");
     setStatusFilter("todos");
+    setOnlyTouched(false);
+    setSessionStart(Date.now());
     setBatchSecs(0);
     setCallSecs(0);
     setRunning(true);
   };
+
 
   const nextLead = () => {
     setCallSecs(0);
@@ -644,7 +671,9 @@ const AdminLeads = () => {
   // ============= Modo blitz (paquete activo) =============
   const doneCount = batchLeads.filter((l) => !isPending(l.lead_status)).length;
   const totalCount = batchLeads.length;
+  const sessionCount = batchLeads.filter(touchedInSession).length;
   const pct = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -659,8 +688,9 @@ const AdminLeads = () => {
           <div className="min-w-0 flex-1">
             <div className="truncate font-medium text-foreground">{activeBatchRow?.name}</div>
             <div className="text-xs text-muted-foreground">
-              {doneCount}/{totalCount} gestionados · {pct}%
+              {doneCount}/{totalCount} gestionados · {pct}% · {sessionCount} en esta sesión
             </div>
+
           </div>
           <div className="flex items-center gap-2">
             <div className="rounded-lg border border-border px-2.5 py-1 text-center">
@@ -829,13 +859,25 @@ const AdminLeads = () => {
             }}
             triggerClassName="w-[200px]"
           />
+          <Button
+            variant={onlyTouched ? "default" : "outline"}
+            size="sm"
+            onClick={() => {
+              setOnlyTouched((v) => !v);
+              setCurrentIdx(0);
+            }}
+          >
+            Tocados hoy · {sessionCount}
+          </Button>
         </div>
+
 
         <div className="space-y-1.5">
           {filtered.map((l, idx) => {
             const open = expandedSync === l.id;
             const isSyncing = !!syncing[l.id];
             const hasZoho = !!l.external_id;
+            const touched = touchedInSession(l);
             return (
               <div
                 key={l.id}
@@ -851,10 +893,24 @@ const AdminLeads = () => {
                     }}
                     className="flex min-w-0 flex-1 items-center gap-3 text-left"
                   >
+                    {touched && (
+                      <span
+                        title={`Tocado en esta sesión · ${new Date(l.status_changed_at!).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`}
+                        className="h-2 w-2 shrink-0 rounded-full bg-emerald-500"
+                      />
+                    )}
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium text-foreground">{l.name || "Sin nombre"}</div>
-                      <div className="truncate text-xs text-muted-foreground">{l.phone || "Sin teléfono"}</div>
+                      <div className="truncate text-xs text-muted-foreground">
+                        {l.phone || "Sin teléfono"}
+                        {touched && (
+                          <span className="ml-2 text-emerald-600">
+                            tocado {new Date(l.status_changed_at!).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}
+                          </span>
+                        )}
+                      </div>
                     </div>
+
                     <div className="hidden text-xs text-muted-foreground sm:block">{eur(l.debt)}</div>
                     <Badge variant="outline" className={`text-[10px] ${statusTone(l.lead_status)}`}>
                       {l.lead_status}

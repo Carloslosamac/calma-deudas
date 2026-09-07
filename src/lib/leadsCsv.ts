@@ -56,8 +56,21 @@ export const ZOHO_LEAD_STATUSES: string[] = [
   "Pagado",
 ];
 
+// Normaliza texto para comparar estados sin distinguir mayúsculas ni acentos.
+const canon = (s: string): string =>
+  s.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+// Devuelve el estado del CSV si coincide con la picklist real de Zoho;
+// si viene vacío o desconocido, el lead entra como "No contactado".
+export const normalizeStatus = (raw: string | null | undefined): string => {
+  if (!raw) return "No contactado";
+  const target = canon(raw);
+  return ZOHO_LEAD_STATUSES.find((s) => canon(s) === target) ?? "No contactado";
+};
+
 // Estados que consideramos "sin trabajar" (pendientes de primera gestión).
 export const PENDING_STATUSES: string[] = ["No contactado", "Sin contactar"];
+
 
 // Devuelve una clase de color coherente para cada estado.
 export const statusTone = (s: string): string => {
@@ -188,7 +201,7 @@ export function mapRowToLead(row: Record<string, string>): ParsedLead {
     name: name || null,
     phone: normalizePhone(first(row, ["Phone", "Mobile"]) || undefined),
     email: first(row, ["Email", "Secondary Email"]),
-    lead_status: first(row, ["Lead Status"]) || "No contactado",
+    lead_status: normalizeStatus(first(row, ["Lead Status"])),
     debt: num(row["deuda"] || undefined),
     income: num(row["ingreso"] || undefined),
     expense: num(row["gasto"] || undefined),
