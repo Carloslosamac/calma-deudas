@@ -355,9 +355,9 @@ const AdminLeads = () => {
         name: p.name,
         phone: p.phone,
         email: p.email,
-        // La gestión es independiente en cada paquete: todo lead entra sin gestionar.
-        // El estado que traía el CSV (CRM) queda guardado en `raw` a título informativo.
-        lead_status: "No contactado",
+        // Cada lead conserva el estado que traía del CRM en el CSV.
+        lead_status: p.lead_status,
+
         debt: p.debt,
         income: p.income,
         expense: p.expense,
