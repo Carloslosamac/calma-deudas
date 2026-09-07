@@ -515,10 +515,18 @@ const AdminLeads = () => {
     [leads, activeBatch],
   );
 
+  // ¿El agente ha cambiado el estado de este lead durante la sesión actual?
+  const touchedInSession = (l: LeadRow): boolean =>
+    !!l.status_changed_at && new Date(l.status_changed_at).getTime() >= sessionStart;
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     let list = batchLeads;
     if (statusFilter !== "todos") list = list.filter((l) => l.lead_status === statusFilter);
+    if (onlyTouched)
+      list = list.filter(
+        (l) => !!l.status_changed_at && new Date(l.status_changed_at).getTime() >= sessionStart,
+      );
     if (q)
       list = list.filter(
         (l) =>
@@ -527,7 +535,8 @@ const AdminLeads = () => {
       );
     // Pendientes primero.
     return [...list].sort((a, b) => Number(!isPending(a.lead_status)) - Number(!isPending(b.lead_status)));
-  }, [batchLeads, query, statusFilter]);
+  }, [batchLeads, query, statusFilter, onlyTouched, sessionStart]);
+
 
   const current = filtered[currentIdx] ?? null;
 
