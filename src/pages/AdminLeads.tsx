@@ -688,8 +688,9 @@ const AdminLeads = () => {
           <div className="min-w-0 flex-1">
             <div className="truncate font-medium text-foreground">{activeBatchRow?.name}</div>
             <div className="text-xs text-muted-foreground">
-              {doneCount}/{totalCount} gestionados · {pct}%
+              {doneCount}/{totalCount} gestionados · {pct}% · {sessionCount} en esta sesión
             </div>
+
           </div>
           <div className="flex items-center gap-2">
             <div className="rounded-lg border border-border px-2.5 py-1 text-center">
