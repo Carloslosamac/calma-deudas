@@ -64,7 +64,9 @@ type LeadRow = {
   zoho_sync_status: string | null;
   zoho_synced_at: string | null;
   zoho_sync_error: string | null;
+  status_changed_at: string | null;
   relevant_facts: string[];
+
 };
 
 type BatchRow = {
