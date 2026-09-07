@@ -671,7 +671,9 @@ const AdminLeads = () => {
   // ============= Modo blitz (paquete activo) =============
   const doneCount = batchLeads.filter((l) => !isPending(l.lead_status)).length;
   const totalCount = batchLeads.length;
+  const sessionCount = batchLeads.filter(touchedInSession).length;
   const pct = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+
 
   return (
     <div className="min-h-screen bg-background">
