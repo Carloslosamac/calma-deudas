@@ -388,10 +388,15 @@ const AdminLeads = () => {
   };
 
   const updateStatus = async (id: string, lead_status: string) => {
+    const changedAt = new Date().toISOString();
     queryClient.setQueryData<LeadRow[]>(["sales-leads"], (prev) =>
-      (prev ?? []).map((l) => (l.id === id ? { ...l, lead_status } : l)),
+      (prev ?? []).map((l) => (l.id === id ? { ...l, lead_status, status_changed_at: changedAt } : l)),
     );
-    const { error } = await supabase.from("sales_leads").update({ lead_status }).eq("id", id);
+    const { error } = await supabase
+      .from("sales_leads")
+      .update({ lead_status, status_changed_at: changedAt })
+      .eq("id", id);
+
     if (error) {
       toast.error("No se pudo guardar el estado");
       refetch();
