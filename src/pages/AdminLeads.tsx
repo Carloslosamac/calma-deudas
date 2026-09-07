@@ -225,6 +225,11 @@ const AdminLeads = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("todos");
+  // Sólo tocados en esta sesión.
+  const [onlyTouched, setOnlyTouched] = useState(false);
+  // Momento en que empezó la sesión de llamadas del paquete activo.
+  const [sessionStart, setSessionStart] = useState<number>(savedTimer?.sessionStart ?? Date.now());
+
   const [expandedSync, setExpandedSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<Record<string, boolean>>({});
 
