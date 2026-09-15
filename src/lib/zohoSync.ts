@@ -91,9 +91,29 @@ export function buildZohoLeadFields(input: SalesZohoInput): ZohoLeadFields {
     put("situacion_laboral", EMPLOYMENT_LABELS[input.employment]);
   }
   put("solution_recomendada", input.solution ?? undefined);
+
+  // Zoho aún no tiene campos propios para el valor de la vivienda ni para el
+  // valor/pagado/pendiente del vehículo: van al bloque de notas para no perderlos.
+  const eur = (n: number | null | undefined): string | undefined =>
+    n == null || Number.isNaN(n) ? undefined : `${Math.round(n).toLocaleString("es-ES")} €`;
+  const assetLines = [
+    ["Valor vivienda", eur(input.housingValue)],
+    ["Pendiente hipoteca", eur(input.mortgageRemaining)],
+    ["Valor vehículo", eur(input.vehicleValue)],
+    ["Pagado vehículo", eur(input.vehiclePaid)],
+    ["Pendiente vehículo", eur(input.vehicleRemaining)],
+  ]
+    .filter(([, v]) => v !== undefined)
+    .map(([k, v]) => `• ${k}: ${v}`);
+
+  const blocks: string[] = [];
+  if (assetLines.length) blocks.push(`BIENES:\n${assetLines.join("\n")}`);
   if (input.relevantFacts?.length) {
-    put("Description", `DATOS RELEVANTES DE LA LLAMADA:\n${input.relevantFacts.map((fact) => `• ${fact}`).join("\n")}`);
+    blocks.push(
+      `DATOS RELEVANTES DE LA LLAMADA:\n${input.relevantFacts.map((fact) => `• ${fact}`).join("\n")}`,
+    );
   }
+  if (blocks.length) put("Description", blocks.join("\n\n"));
   return out;
 }
 
