@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Viajar al extranjero con deudas
+URL: https://mi-calma.es/blog/viajar-al-extranjero-deudas
+
+En España, tener deudas financieras o figurar en morosos no impide salir del país ni viajar al extranjero. El derecho a la libre circulación (art. 19 de la Constitución) solo se limita mediante orden judicial expresa en procesos penales gravemente justificados o ejecuciones con medidas cautelares excepcionales, nunca por impagos con bancos, financieras o ASNEF.
+
+- **¿Me pueden detener en el aeropuerto si estoy en el ASNEF?** No, en absoluto. El ASNEF es un fichero de morosidad privado gestionado por Equifax y no tiene ninguna conexión con las bases de datos policiales de los controles de fronteras. La policía solo detiene a personas sobre las que pesa una requisitoria o prohibición de salida dictada por un juzgado en una causa penal.
+- **¿Puedo renovar mi pasaporte español si debo dinero a un banco o a Hacienda?** Sí. La expedición o renovación del pasaporte es un trámite administrativo sujeto a la presentación de la documentación requerida y la tasa correspondiente. Hacienda, la Seguridad Social o las entidades financieras no pueden bloquear la renovación de tus documentos identificativos.
+- **¿Qué pasa si me llega una carta del juzgado mientras estoy fuera de España?** Si no hay nadie para recoger la notificación en tu domicilio, el cartero dejará un aviso. Tras dos intentos fallidos, el juzgado iniciará la averiguación domiciliaria y, eventualmente, la notificación por edictos en el BOE. Los plazos legales para oponerte seguirán corriendo, lo que podría derivar en una sentencia en rebeldía y embargos a tus espaldas.
+
+### Acoso telefónico por deudas: cómo enfrentar este problema
+URL: https://mi-calma.es/blog/acoso-telefonico-deudas-enfrentar-este-problema
+
+El acoso telefónico por deudas se combate ejerciendo el derecho de oposición o supresión de datos bajo el RGPD, denunciando ante la Agencia Española de Protección de Datos (AEPD) si persisten y, si existe insolvencia estructural, resolviendo la deuda de raíz mediante la Ley de Segunda Oportunidad o la negociación de quitas.
+
+- **¿Es legal que una agencia de recobro llame a mis familiares o a mi trabajo?** No, es completamente ilegal. Revelar que tienes una deuda a terceros (familiares, amigos o jefes) vulnera de forma grave la Ley Orgánica de Protección de Datos (LOPDGDD) y el derecho al honor. La Agencia Española de Protección de Datos sanciona duramente este tipo de conductas cuando son probadas.
+- **¿Pueden meterme en la cárcel por no pagar una deuda o no coger las llamadas?** No. En el ordenamiento jurídico español no existe la prisión por deudas civiles. El impago de un préstamo, tarjeta o microcrédito no es un delito penal. Las amenazas de ir a la cárcel vertidas por algunos cobradores son completamente falsas y constituyen un engaño para coaccionarte.
+- **¿Cómo puedo grabar las llamadas de los cobradores para usarlas como prueba?** En España es legal grabar una conversación telefónica en la que tú mismo participas, sin necesidad de avisar al interlocutor. Puedes utilizar aplicaciones de grabación móvil. Dichas grabaciones son válidas como prueba ante la AEPD o en un tribunal para demostrar conductas de acoso o amenazas.
+
 ### ¿Qué es el Cobrador del Frac?
 URL: https://mi-calma.es/blog/cobrador-frac
 
@@ -626,22 +644,4 @@ Los préstamos personales de Welp (operados por Wenance Lender España) suelen a
 - **¿Es legal el interés de los préstamos personales de Welp?** Muchos de los contratos de Welp aplican una TAE superior al 100%, lo que excede ampliamente el interés medio del crédito al consumo fijado por el Banco de España. De acuerdo con la Ley Azcárate y la jurisprudencia del Tribunal Supremo, estos tipos son declarados nulos por usura, obligando a la financiera a devolver los intereses cobrados.
 - **¿Qué pasa si dejo de pagar la cuota de Welp?** Si incurres en impago, Welp aplicará comisiones por demora e intentará reclamar la deuda mediante llamadas continuas. Posteriormente, pueden incluirte en ficheros como ASNEF o vender la deuda a un fondo buitre. Finalmente, podrían interponer un juicio monitorio, momento en el cual puedes oponerte alegando usura y cláusulas abusivas.
 - **¿Welp me puede llevar a un juicio monitorio?** Sí, Welp o la entidad que haya comprado la deuda puede interponer un procedimiento monitorio en el Juzgado de Primera Instancia para reclamar la cantidad pendiente. Dispones de un plazo de 20 días hábiles para oponerte legalmente con la ayuda de un abogado.
-
-### ¿Qué es el TAE en un prestamo personal?
-URL: https://mi-calma.es/blog/tae-prestamo-personal
-
-La Tasa Anual Equivalente (TAE) es el indicador oficial que mide el coste real de un préstamo personal en un año. A diferencia del TIN, la TAE no solo incluye el interés nominal, sino también las comisiones de apertura, cancelación, la frecuencia de las cuotas y los costes de gastos vinculados obligatorios.
-
-- **¿Qué significa exactamente que un préstamo tenga una TAE del 10%?** Significa que el coste global anual del dinero que te han prestado equivale al 10% del capital abonado, integrando en ese porcentaje no solo los intereses ordinarios (TIN), sino también el impacto acumulado de comisiones de apertura, gastos de contratación y la frecuencia de liquidación de las cuotas.
-- **¿Cuál es la diferencia entre TIN y TAE en un préstamo personal?** El TIN (Tipo de Interés Nominal) es el porcentaje puro y simple que el banco te cobra por prestarte el dinero. La TAE (Tasa Anual Equivalente) representa el coste real del préstamo, ya que suma al TIN las comisiones, los gastos de vinculación de productos obligatorios y la periodicidad de los pagos.
-- **¿A partir de qué TAE se considera que un préstamo personal es abusivo o usura?** La jurisprudencia del Tribunal Supremo determina que un interés es usurario cuando la TAE supera en varios puntos porcentuales (habitualmente a partir de 6 puntos por encima) el tipo medio de interés publicado por el Banco de España para esa categoría de préstamo en la fecha de firma del contrato.
-
-### ¿Qué bancos ofrecen microcréditos?
-URL: https://mi-calma.es/blog/bancos-ofrecen-microcreditos
-
-Los bancos tradicionales en España (como BBVA, Santander o Caixabank) no comercializan microcréditos rápidos con intereses usurarios; este producto es exclusivo de financieras EFC y plataformas online (Moneyman, Vivus, MyKredit). Si buscas liquidez, los bancos usan préstamos personales o créditos preconcedidos con TAEs muy inferiores (6%-12%), mientras que las financieras de microcréditos aplican TAEs que superan con frecuencia el 1.000%.
-
-- **¿BBVA, Santander o Caixabank ofrecen microcréditos rápidos?** No. Los grandes bancos tradicionales en España no conceden microcréditos inmediatos a 30 días con TAEs elevadas. Comercializan préstamos personales preconcedidos o líneas de crédito a sus clientes con nómina, aplicando tipos de interés que habitualmente oscilan entre el 6% y el 12% TAE.
-- **¿Qué tipo de entidades concede los préstamos urgentes en 10 minutos?** Estos productos son ofrecidos por Establecimientos Financieros de Crédito (EFC), entidades de pago o sociedades de capital privado especializadas en minicréditos (como Moneyman, Vivus o MyKredit). No son bancos y operan con condiciones de riesgo e intereses infinitamente superiores a la banca común.
-- **¿Por qué un banco me deniega financiación y una plataforma de microcréditos me la concede?** Los bancos están obligados a verificar tu capacidad de pago y solvencia estricta por normativa del Banco de España. Las empresas de microcréditos asumen un altísimo nivel de impago a cambio de aplicar TAEs usureras (superiores al 1.000%) que compensan los impagados a costa de cobrar costes abusivos a quien sí paga.
 
