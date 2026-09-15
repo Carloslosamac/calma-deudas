@@ -43,8 +43,13 @@ export interface SalesZohoInput {
   entitiesCount?: number | null;
   entitiesList?: string[] | null;
   housing?: string | null;
+  housingValue?: number | null;
   mortgagePaid?: number | null;
+  mortgageRemaining?: number | null;
   vehicle?: string | null;
+  vehicleValue?: number | null;
+  vehiclePaid?: number | null;
+  vehicleRemaining?: number | null;
   income?: number | null;
   expenses?: number | null;
   housingPayment?: number | null;
