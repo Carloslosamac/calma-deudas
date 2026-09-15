@@ -92,17 +92,16 @@ export function buildZohoLeadFields(input: SalesZohoInput): ZohoLeadFields {
   }
   put("solution_recomendada", input.solution ?? undefined);
 
-  // Zoho aún no tiene campos propios para el valor de la vivienda ni para el
-  // valor/pagado/pendiente del vehículo: van al bloque de notas para no perderlos.
+  // Campos propios de bienes en Zoho (todos de tipo texto).
+  put("valor_vivienda", s(input.housingValue ?? undefined));
+  put("pendiente_hipoteca", s(input.mortgageRemaining ?? undefined));
+  put("valor_veh_culo", s(input.vehicleValue ?? undefined));
+  put("pagado_veh_culo", s(input.vehiclePaid ?? undefined));
+
+  // El pendiente del vehículo no tiene campo propio: va al bloque de notas.
   const eur = (n: number | null | undefined): string | undefined =>
     n == null || Number.isNaN(n) ? undefined : `${Math.round(n).toLocaleString("es-ES")} €`;
-  const assetLines = [
-    ["Valor vivienda", eur(input.housingValue)],
-    ["Pendiente hipoteca", eur(input.mortgageRemaining)],
-    ["Valor vehículo", eur(input.vehicleValue)],
-    ["Pagado vehículo", eur(input.vehiclePaid)],
-    ["Pendiente vehículo", eur(input.vehicleRemaining)],
-  ]
+  const assetLines = [["Pendiente vehículo", eur(input.vehicleRemaining)]]
     .filter(([, v]) => v !== undefined)
     .map(([k, v]) => `• ${k}: ${v}`);
 

@@ -15,6 +15,7 @@ const TRACKED = [
   "vivienda", "importe_pagado_hipoteca", "vehiculo", "Ingreso", "gastos_mensuales",
   "cuota_vivienda", "cuota_veh_culo", "cuotas_deuda_mensual", "salidas_mensual_total",
   "capacidad_pago", "importe_asumible", "situacion_laboral", "solution_recomendada",
+  "valor_vivienda", "pendiente_hipoteca", "valor_veh_culo", "pagado_veh_culo",
 ];
 
 serve(async (req) => {
