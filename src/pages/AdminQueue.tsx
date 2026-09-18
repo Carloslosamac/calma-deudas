@@ -143,6 +143,17 @@ const fetchPublished = async (): Promise<PublishedRow[]> => {
   return (data as PublishedRow[]) ?? [];
 };
 
+const fetchHeld = async (): Promise<HeldRow[]> => {
+  const { data, error } = await supabase
+    .from("generated_posts")
+    .select("id,slug,title,category,status,quality_score,quality_notes,roadmap_id,created_at")
+    .in("status", ["rejected", "draft"])
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return (data as HeldRow[]) ?? [];
+};
+
 const formatDate = (iso: string | null): string => {
   if (!iso) return "—";
   try {
