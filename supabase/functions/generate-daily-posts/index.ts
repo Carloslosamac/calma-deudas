@@ -2,6 +2,13 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 import { buildHeroPrompt, sceneFromTitle, heroAltFromScene, PIPELINE_VERSION } from "../_shared/hero-prompt.ts";
+import {
+  buildPublishedIndex,
+  postQualityIssues,
+  stripUnsafeHtml,
+  topicIssues,
+  type PublishedIndexEntry,
+} from "../_shared/content-quality.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
