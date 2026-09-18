@@ -57,19 +57,22 @@ const JUNK_PATTERNS: RegExp[] = [
 
 // Temas que no son de nuestro negocio (deuda, insolvencia, embargos…).
 const OFF_TOPIC_PATTERNS: RegExp[] = [
-  /\bcompro oro\b/i,
-  /\bvender (oro|plata|joyas)\b/i,
-  /\bcasas? de empeno\b/i,
-  /\bhoroscopo\b/i,
-  /\bloteria\b/i,
-  /\bcriptomonedas? para invertir\b/i,
-  /\bprecio de los alimentos\b/i,
-  /\bdelitos contra los derechos de los trabajadores\b/i,
+  /compro oro/i,
+  /vender (oro|plata|joyas)/i,
+  /casas? de empeno/i,
+  /horoscopo/i,
+  /loteria/i,
+  /(comprar|invertir en) (bitcoin|cripto)/i,
+  /criptomoneda/i,
+  /cuanto cuesta tener una mascota/i,
+  /vender tu piso/i,
+  /marketing digital/i,
+  /(cumple su primer ano|resultados muy positivos|planes de crecimiento)/i,
 ];
 
-// El tema debe oler a deuda/insolvencia/financiación para ser nuestro.
+// El tema debe oler a dinero/deuda/procedimiento legal para ser nuestro.
 const ON_TOPIC_HINT =
-  /\b(deuda|deudas|deudor|acreedor|impago|moros|asnef|embargo|embargar|concurso|insolven|segunda oportunidad|lso|exonera|microcredito|prestamo|credito|revolving|tarjeta|hipoteca|usura|intereses|monitorio|demanda|recobro|reunifica|refinanc|quita|nomina|hacienda|seguridad social|aval|fianza|financiacion|cuota|banco|financiera|reclamar)\b/i;
+  /(deuda|deudor|acreedor|impag|moros|asnef|embarg|concurs|insolven|segunda oportunidad|\blso\b|exonera|microcredito|prestamo|credito|crediticio|revolving|tarjeta|hipotec|usura|interes|monitorio|demanda|judicial|juzgado|sentencia|apremio|recobro|cobro|reunifica|refinanc|quita|nomina|salario|pension|hacienda|seguridad social|aval|fianza|financ|cuota|banco|caja|reclama|pagar|pago|dinero|multa|herencia|abogad|ley\b|legal|notific|burofax|fichero)/i;
 
 export type TopicRow = {
   id: number;
