@@ -104,6 +104,8 @@ export type Database = {
           keywords: string[] | null
           meta_description: string | null
           published_at: string | null
+          quality_notes: string[]
+          quality_score: number | null
           read_time: string | null
           reviewed_at: string | null
           reviewer: string | null
@@ -134,6 +136,8 @@ export type Database = {
           keywords?: string[] | null
           meta_description?: string | null
           published_at?: string | null
+          quality_notes?: string[]
+          quality_score?: number | null
           read_time?: string | null
           reviewed_at?: string | null
           reviewer?: string | null
@@ -164,6 +168,8 @@ export type Database = {
           keywords?: string[] | null
           meta_description?: string | null
           published_at?: string | null
+          quality_notes?: string[]
+          quality_score?: number | null
           read_time?: string | null
           reviewed_at?: string | null
           reviewer?: string | null

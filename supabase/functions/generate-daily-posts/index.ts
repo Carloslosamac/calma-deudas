@@ -2,6 +2,13 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { Image } from "https://deno.land/x/imagescript@1.3.0/mod.ts";
 import { buildHeroPrompt, sceneFromTitle, heroAltFromScene, PIPELINE_VERSION } from "../_shared/hero-prompt.ts";
+import {
+  buildPublishedIndex,
+  postQualityIssues,
+  stripUnsafeHtml,
+  topicIssues,
+  type PublishedIndexEntry,
+} from "../_shared/content-quality.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -769,14 +776,41 @@ Deno.serve(async (req) => {
     // Barrera pre-generación: bloquea filas cuyo título ya contiene marca de
     // competidor para no gastar créditos de IA. Se marcan con estado propio
     // y NO entran en el batch.
+    // Índice de lo ya publicado para no repetir tema (canibalización).
+    const { data: pubRows } = await supabase
+      .from("generated_posts")
+      .select("title")
+      .eq("status", "published")
+      .limit(1000);
+    const publishedIndex: PublishedIndexEntry[] = buildPublishedIndex(
+      ((pubRows as { title: string }[] | null) ?? []).map((p) => p.title),
+    );
+    const seenThisRun: PublishedIndexEntry[] = [];
+
     const filtered: RoadmapRow[] = [];
     const blockedForCompetitor: number[] = [];
     for (const r of ordered) {
       if (containsCompetitor(r.titulo) || containsCompetitor(r.keywords)) {
         blockedForCompetitor.push(r.id);
-      } else {
-        filtered.push(r);
+        continue;
       }
+      // Barrera de tema: descarta basura de scraping, temas ajenos y duplicados
+      // ANTES de gastar créditos de IA.
+      const topicBad = topicIssues(
+        { id: r.id, titulo: r.titulo, keywords: r.keywords },
+        publishedIndex,
+        seenThisRun,
+      );
+      if (topicBad.length) {
+        console.warn(`Roadmap ${r.id} descartado por tema: ${topicBad.join("; ")}`);
+        await supabase
+          .from("seo_roadmap")
+          .update({ estado: "descartado_calidad", last_error: topicBad.join("; ").slice(0, 500) })
+          .eq("id", r.id);
+        continue;
+      }
+      seenThisRun.push(...buildPublishedIndex([r.titulo]));
+      filtered.push(r);
     }
     if (blockedForCompetitor.length) {
       await supabase
@@ -884,74 +918,74 @@ Deno.serve(async (req) => {
       );
       const cleanSeoTitle = enforced.title;
       if (enforced.rewritten) titlesRewritten++;
-      let heroUrl: string | null = null;
-      let heroAlt = `Fotografía documental relacionada con ${cleanTitle}`;
-      try {
-        if (remaining() < 25_000) {
-          // Publicamos sin portada: el cron `fill-missing-heroes` la añade
-          // después. Mejor un post sin imagen que un run muerto.
-          throw new Error("sin presupuesto de tiempo para la portada");
-        }
-        const hero = await withTimeout(
-          generateAndUploadHero(supabase, slug, cleanTitle, category),
-          Math.min(HERO_TIMEOUT_MS, Math.max(10_000, remaining())),
-          `hero(${slug})`,
-        );
-        heroUrl = hero?.url ?? null;
-        heroAlt = hero?.alt ?? heroAlt;
-      } catch (e) {
-        console.warn(`Roadmap ${row.id}: hero falló (${String(e)}), publicamos sin hero.`);
-        heroUrl = null;
+      // Sanitizado + CTA final garantizado ANTES del examen de calidad.
+      const safeSections = ensureFinalCta(
+        ((article.sections as { id: string; title: string; html: string }[] | undefined) ?? []).map(
+          (s) => ({ ...s, html: stripUnsafeHtml(s?.html ?? "") }),
+        ),
+        cleanTitle,
+      );
+      const excerpt = (article.excerpt as string) ?? "";
+      const metaDescription = sanitizeMetaDescription((article.metaDescription as string) ?? "");
+
+      // Examen BLOQUEANTE: si no cumple, no se publica ni se paga portada.
+      const quality = postQualityIssues({
+        sections: safeSections,
+        faq: (article.faq as unknown[]) ?? [],
+        excerpt,
+        metaDescription,
+      });
+      const passes = quality.issues.length === 0;
+      if (!passes) {
+        console.warn(`Post ${slug} RETENIDO (${quality.score}): ${quality.issues.join("; ")}`);
       }
 
-      // Validación no bloqueante: solo loguea si el artículo se quedó corto.
-      // No reintentamos para no reventar el presupuesto de tiempo.
-      try {
-        const secs = (article.sections as { html?: string }[] | undefined) ?? [];
-        const joined = secs.map((s) => s?.html ?? "").join("\n");
-        const diagramMatches = joined.match(/blog-(timeline|myth-reality|comparison|before-after|callout|checklist|stats|pros-cons|quote|faq-inline)/g) ?? [];
-        const diagramCount = diagramMatches.length;
-        const uniqueDiagramTypes = new Set(diagramMatches).size;
-        const ctaCount = (joined.match(/class=["']blog-cta["']/g) ?? []).length;
-        const faqCount = Array.isArray(article.faq) ? (article.faq as unknown[]).length : 0;
-        const wordCount = joined.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-        const warn: string[] = [];
-        if (secs.length < 8) warn.push(`sections=${secs.length}<8`);
-        if (diagramCount < 3) warn.push(`diagrams=${diagramCount}<3`);
-        if (uniqueDiagramTypes < 3) warn.push(`diagram_types=${uniqueDiagramTypes}<3 (repetitivo)`);
-        if (ctaCount < 1) warn.push(`ctas=${ctaCount}<1`);
-        if (faqCount < 6) warn.push(`faq=${faqCount}<6`);
-        if (wordCount < 2000) warn.push(`words=${wordCount}<2000`);
-        if (warn.length) {
-          console.warn(`Post ${slug} debajo del listón long-form: ${warn.join(", ")}`);
+      let heroUrl: string | null = null;
+      let heroAlt = `Fotografía documental relacionada con ${cleanTitle}`;
+      if (passes) {
+        try {
+          if (remaining() < 25_000) {
+            // Publicamos sin portada: el cron `fill-missing-heroes` la añade
+            // después. Mejor un post sin imagen que un run muerto.
+            throw new Error("sin presupuesto de tiempo para la portada");
+          }
+          const hero = await withTimeout(
+            generateAndUploadHero(supabase, slug, cleanTitle, category),
+            Math.min(HERO_TIMEOUT_MS, Math.max(10_000, remaining())),
+            `hero(${slug})`,
+          );
+          heroUrl = hero?.url ?? null;
+          heroAlt = hero?.alt ?? heroAlt;
+        } catch (e) {
+          console.warn(`Roadmap ${row.id}: hero falló (${String(e)}), publicamos sin hero.`);
+          heroUrl = null;
         }
-      } catch (_e) { /* no-op */ }
+      }
 
       const { error: insErr } = await supabase.from("generated_posts").insert({
-        slug,
+        // Los retenidos guardan un slug propio para no bloquear la URL buena
+        // si el tema se vuelve a intentar.
+        slug: passes ? slug : `${slug}--retenido-${Date.now().toString(36)}`,
         category,
         title: cleanTitle,
-        excerpt: (article.excerpt as string) ?? "",
+        excerpt,
         read_time: (article.readTime as string) ?? "7 min",
         authors: pickAuthors(),
         hero_image: heroUrl,
         hero_alt: heroAlt,
-        sections: ensureFinalCta(
-          article.sections as { id: string; title: string; html: string }[] | undefined,
-          cleanTitle,
-        ),
+        sections: safeSections,
         faq: article.faq ?? [],
         keywords: article.keywords ?? [],
         seo_title: cleanSeoTitle,
-        meta_description: sanitizeMetaDescription(
-          (article.metaDescription as string) ?? "",
-        ),
+        meta_description: metaDescription,
         tldr: (article.tldr as string) ?? null,
         key_takeaways: article.keyTakeaways ?? [],
         sidebar: article.sidebar ?? null,
         roadmap_id: row.id,
-        status: "published",
-        published_at: now,
+        status: passes ? "published" : "rejected",
+        published_at: passes ? now : null,
+        quality_score: quality.score,
+        quality_notes: quality.issues,
       });
 
       if (insErr) {
@@ -966,6 +1000,20 @@ Deno.serve(async (req) => {
               published_count: published.length,
               failed_count: failed.length,
             })
+            .eq("id", runId);
+        }
+        continue;
+      }
+
+      if (!passes) {
+        // El tema sigue siendo válido: queda reintentable (y tras 3 intentos
+        // sale de la cola para no bloquearla).
+        failed.push(row.id);
+        await markRoadmapFailure(supabase, row.id, `calidad: ${quality.issues.join("; ")}`);
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({ target, published_count: published.length, failed_count: failed.length })
             .eq("id", runId);
         }
         continue;

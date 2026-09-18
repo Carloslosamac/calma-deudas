@@ -48,6 +48,18 @@ type PublishedRow = {
   published_at: string | null;
 };
 
+type HeldRow = {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  status: string;
+  quality_score: number | null;
+  quality_notes: string[] | null;
+  roadmap_id: number | null;
+  created_at: string;
+};
+
 const PRIORITY_RANK: Record<string, number> = { Alta: 0, Media: 1, Baja: 2 };
 
 const estadoVariant = (estado: string): "default" | "secondary" | "outline" => {
@@ -131,6 +143,17 @@ const fetchPublished = async (): Promise<PublishedRow[]> => {
   return (data as PublishedRow[]) ?? [];
 };
 
+const fetchHeld = async (): Promise<HeldRow[]> => {
+  const { data, error } = await supabase
+    .from("generated_posts")
+    .select("id,slug,title,category,status,quality_score,quality_notes,roadmap_id,created_at")
+    .in("status", ["rejected", "draft"])
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return (data as HeldRow[]) ?? [];
+};
+
 const formatDate = (iso: string | null): string => {
   if (!iso) return "—";
   try {
@@ -149,7 +172,9 @@ const AdminQueue = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [triggering, setTriggering] = useState(false);
-  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta" | "publicados">("todas");
+  const [filter, setFilter] = useState<
+    "todas" | "alta" | "lso-alta" | "publicados" | "retenidos"
+  >("todas");
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -170,6 +195,63 @@ const AdminQueue = () => {
     queryFn: fetchPublished,
     enabled: !!session && isAdmin && filter === "publicados",
   });
+
+  const {
+    data: heldRows,
+    isLoading: heldLoading,
+    error: heldError,
+    refetch: refetchHeld,
+  } = useQuery({
+    queryKey: ["admin-held"],
+    queryFn: fetchHeld,
+    enabled: !!session && isAdmin && filter === "retenidos",
+  });
+
+  const publishHeld = async (row: HeldRow) => {
+    const cleanSlug = row.slug.replace(/--retenido-.*$/, "");
+    const { error } = await supabase
+      .from("generated_posts")
+      .update({
+        status: "published",
+        slug: cleanSlug,
+        published_at: new Date().toISOString(),
+      })
+      .eq("id", row.id);
+    if (error) return toast.error(error.message);
+    if (row.roadmap_id) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "publicado", post_slug: cleanSlug })
+        .eq("id", row.roadmap_id);
+    }
+    toast.success("Artículo publicado.");
+    await refetchHeld();
+  };
+
+  const discardHeld = async (row: HeldRow) => {
+    const { error } = await supabase.from("generated_posts").delete().eq("id", row.id);
+    if (error) return toast.error(error.message);
+    if (row.roadmap_id) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "descartado_calidad", last_error: "descartado a mano" })
+        .eq("id", row.roadmap_id);
+    }
+    toast.success("Artículo descartado.");
+    await refetchHeld();
+  };
+
+  const retryHeld = async (row: HeldRow) => {
+    if (!row.roadmap_id) return toast.error("Este artículo no tiene tema asociado.");
+    const { error } = await supabase
+      .from("seo_roadmap")
+      .update({ estado: "en_cola", attempts: 0, last_error: null })
+      .eq("id", row.roadmap_id);
+    if (error) return toast.error(error.message);
+    await supabase.from("generated_posts").delete().eq("id", row.id);
+    toast.success("Tema devuelto a la cola para regenerarlo.");
+    await Promise.all([refetchHeld(), refetch()]);
+  };
 
   const rows = data?.rows ?? [];
   const stats = data?.stats ?? {
@@ -323,9 +405,72 @@ const AdminQueue = () => {
           >
             Publicados
           </Button>
+          <Button
+            variant={filter === "retenidos" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("retenidos")}
+          >
+            Retenidos
+          </Button>
         </div>
 
-        {filter === "publicados" ? (
+        {filter === "retenidos" ? (
+          <Card className="mt-8 overflow-hidden">
+            {heldLoading ? (
+              <p className="p-6 text-sm text-muted-foreground">Cargando retenidos…</p>
+            ) : heldError ? (
+              <p className="p-6 text-sm text-destructive">
+                No se pudieron cargar los retenidos: {(heldError as Error).message}
+              </p>
+            ) : (heldRows ?? []).length === 0 ? (
+              <p className="p-6 text-sm text-muted-foreground">
+                No hay artículos retenidos. Todo lo generado ha pasado el control de calidad.
+              </p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Título</TableHead>
+                    <TableHead className="hidden lg:table-cell">Motivo de la retención</TableHead>
+                    <TableHead className="w-[90px]">Nota</TableHead>
+                    <TableHead className="w-[260px]">Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {(heldRows ?? []).map((r) => (
+                    <TableRow key={r.id}>
+                      <TableCell className="max-w-sm">
+                        <span className="font-medium text-foreground">{r.title}</span>
+                        <span className="block text-xs text-muted-foreground">
+                          {r.category} · {formatDate(r.created_at)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="hidden max-w-md text-sm text-muted-foreground lg:table-cell">
+                        {(r.quality_notes ?? []).join(" · ") || "—"}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{r.quality_score ?? "—"}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
+                          <Button size="sm" onClick={() => publishHeld(r)}>
+                            Publicar
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => retryHeld(r)}>
+                            Regenerar
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => discardHeld(r)}>
+                            Descartar
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </Card>
+        ) : filter === "publicados" ? (
           <Card className="mt-8 overflow-hidden">
             {publishedLoading ? (
               <p className="p-6 text-sm text-muted-foreground">Cargando publicados…</p>
@@ -420,7 +565,11 @@ const AdminQueue = () => {
           )}
         </Card>
         )}
-        {filter === "publicados" ? (
+        {filter === "retenidos" ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {heldRows?.length ?? 0} artículos retenidos por el control de calidad.
+          </p>
+        ) : filter === "publicados" ? (
           <p className="mt-3 text-xs text-muted-foreground">
             Mostrando {publishedRows?.length ?? 0} artículos publicados.
           </p>
