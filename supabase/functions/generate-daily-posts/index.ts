@@ -1005,6 +1005,20 @@ Deno.serve(async (req) => {
         continue;
       }
 
+      if (!passes) {
+        // El tema sigue siendo válido: queda reintentable (y tras 3 intentos
+        // sale de la cola para no bloquearla).
+        failed.push(row.id);
+        await markRoadmapFailure(supabase, row.id, `calidad: ${quality.issues.join("; ")}`);
+        if (runId) {
+          await supabase
+            .from("generator_runs")
+            .update({ target, published_count: published.length, failed_count: failed.length })
+            .eq("id", runId);
+        }
+        continue;
+      }
+
       await supabase
         .from("seo_roadmap")
         .update({ estado: "publicado", post_slug: slug })
