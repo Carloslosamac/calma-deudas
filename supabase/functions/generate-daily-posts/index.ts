@@ -776,14 +776,41 @@ Deno.serve(async (req) => {
     // Barrera pre-generación: bloquea filas cuyo título ya contiene marca de
     // competidor para no gastar créditos de IA. Se marcan con estado propio
     // y NO entran en el batch.
+    // Índice de lo ya publicado para no repetir tema (canibalización).
+    const { data: pubRows } = await supabase
+      .from("generated_posts")
+      .select("title")
+      .eq("status", "published")
+      .limit(1000);
+    const publishedIndex: PublishedIndexEntry[] = buildPublishedIndex(
+      ((pubRows as { title: string }[] | null) ?? []).map((p) => p.title),
+    );
+    const seenThisRun: PublishedIndexEntry[] = [];
+
     const filtered: RoadmapRow[] = [];
     const blockedForCompetitor: number[] = [];
     for (const r of ordered) {
       if (containsCompetitor(r.titulo) || containsCompetitor(r.keywords)) {
         blockedForCompetitor.push(r.id);
-      } else {
-        filtered.push(r);
+        continue;
       }
+      // Barrera de tema: descarta basura de scraping, temas ajenos y duplicados
+      // ANTES de gastar créditos de IA.
+      const topicBad = topicIssues(
+        { id: r.id, titulo: r.titulo, keywords: r.keywords },
+        publishedIndex,
+        seenThisRun,
+      );
+      if (topicBad.length) {
+        console.warn(`Roadmap ${r.id} descartado por tema: ${topicBad.join("; ")}`);
+        await supabase
+          .from("seo_roadmap")
+          .update({ estado: "descartado_calidad", last_error: topicBad.join("; ").slice(0, 500) })
+          .eq("id", r.id);
+        continue;
+      }
+      seenThisRun.push(...buildPublishedIndex([r.titulo]));
+      filtered.push(r);
     }
     if (blockedForCompetitor.length) {
       await supabase
