@@ -72,7 +72,7 @@ const OFF_TOPIC_PATTERNS: RegExp[] = [
 
 // El tema debe oler a dinero/deuda/procedimiento legal para ser nuestro.
 const ON_TOPIC_HINT =
-  /(deuda|deudor|acreedor|impag|moros|asnef|embarg|concurs|insolven|segunda oportunidad|\blso\b|exonera|microcredito|prestamo|credito|crediticio|revolving|tarjeta|hipotec|usura|interes|monitorio|demanda|judicial|juzgado|sentencia|apremio|recobro|cobro|reunifica|refinanc|quita|nomina|salario|pension|hacienda|seguridad social|aval|fianza|financ|cuota|banco|caja|reclama|pagar|pago|dinero|multa|herencia|abogad|ley\b|legal|notific|burofax|fichero)/i;
+  /(deuda|deudor|acreedor|impag|moros|asnef|embarg|concurs|insolven|segunda oportunidad|\blso\b|exonera|microcredito|prestamo|credito|crediticio|revolving|tarjeta|hipotec|usura|interes|monitorio|demanda|judicial|juzgado|sentencia|apremio|recobro|cobro|reunifica|refinanc|quita|nomina|salario|pension|hacienda|seguridad social|aval|fianza|financ|cuota|banco|caja|reclama|pagar|pago|dinero|multa|herencia|abogad|ley\b|legal|notific|burofax|fichero|subasta|cargas|buenas practicas|patrimonio|solvencia)/i;
 
 export type TopicRow = {
   id: number;
