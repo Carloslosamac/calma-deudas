@@ -172,7 +172,9 @@ const AdminQueue = () => {
   const queryClient = useQueryClient();
   const { session, isAdmin, loading } = useAdminAuth();
   const [triggering, setTriggering] = useState(false);
-  const [filter, setFilter] = useState<"todas" | "alta" | "lso-alta" | "publicados">("todas");
+  const [filter, setFilter] = useState<
+    "todas" | "alta" | "lso-alta" | "publicados" | "retenidos"
+  >("todas");
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
