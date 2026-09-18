@@ -565,7 +565,11 @@ const AdminQueue = () => {
           )}
         </Card>
         )}
-        {filter === "publicados" ? (
+        {filter === "retenidos" ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {heldRows?.length ?? 0} artículos retenidos por el control de calidad.
+          </p>
+        ) : filter === "publicados" ? (
           <p className="mt-3 text-xs text-muted-foreground">
             Mostrando {publishedRows?.length ?? 0} artículos publicados.
           </p>
