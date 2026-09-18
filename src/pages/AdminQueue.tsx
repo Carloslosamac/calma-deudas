@@ -48,6 +48,18 @@ type PublishedRow = {
   published_at: string | null;
 };
 
+type HeldRow = {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  status: string;
+  quality_score: number | null;
+  quality_notes: string[] | null;
+  roadmap_id: number | null;
+  created_at: string;
+};
+
 const PRIORITY_RANK: Record<string, number> = { Alta: 0, Media: 1, Baja: 2 };
 
 const estadoVariant = (estado: string): "default" | "secondary" | "outline" => {
