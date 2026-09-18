@@ -196,6 +196,63 @@ const AdminQueue = () => {
     enabled: !!session && isAdmin && filter === "publicados",
   });
 
+  const {
+    data: heldRows,
+    isLoading: heldLoading,
+    error: heldError,
+    refetch: refetchHeld,
+  } = useQuery({
+    queryKey: ["admin-held"],
+    queryFn: fetchHeld,
+    enabled: !!session && isAdmin && filter === "retenidos",
+  });
+
+  const publishHeld = async (row: HeldRow) => {
+    const cleanSlug = row.slug.replace(/--retenido-.*$/, "");
+    const { error } = await supabase
+      .from("generated_posts")
+      .update({
+        status: "published",
+        slug: cleanSlug,
+        published_at: new Date().toISOString(),
+      })
+      .eq("id", row.id);
+    if (error) return toast.error(error.message);
+    if (row.roadmap_id) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "publicado", post_slug: cleanSlug })
+        .eq("id", row.roadmap_id);
+    }
+    toast.success("Artículo publicado.");
+    await refetchHeld();
+  };
+
+  const discardHeld = async (row: HeldRow) => {
+    const { error } = await supabase.from("generated_posts").delete().eq("id", row.id);
+    if (error) return toast.error(error.message);
+    if (row.roadmap_id) {
+      await supabase
+        .from("seo_roadmap")
+        .update({ estado: "descartado_calidad", last_error: "descartado a mano" })
+        .eq("id", row.roadmap_id);
+    }
+    toast.success("Artículo descartado.");
+    await refetchHeld();
+  };
+
+  const retryHeld = async (row: HeldRow) => {
+    if (!row.roadmap_id) return toast.error("Este artículo no tiene tema asociado.");
+    const { error } = await supabase
+      .from("seo_roadmap")
+      .update({ estado: "en_cola", attempts: 0, last_error: null })
+      .eq("id", row.roadmap_id);
+    if (error) return toast.error(error.message);
+    await supabase.from("generated_posts").delete().eq("id", row.id);
+    toast.success("Tema devuelto a la cola para regenerarlo.");
+    await Promise.all([refetchHeld(), refetch()]);
+  };
+
   const rows = data?.rows ?? [];
   const stats = data?.stats ?? {
     enCola: 0,
