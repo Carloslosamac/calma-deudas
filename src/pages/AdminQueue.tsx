@@ -405,9 +405,72 @@ const AdminQueue = () => {
           >
             Publicados
           </Button>
+          <Button
+            variant={filter === "retenidos" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFilter("retenidos")}
+          >
+            Retenidos
+          </Button>
         </div>
 
-        {filter === "publicados" ? (
+        {filter === "retenidos" ? (
+          <Card className="mt-8 overflow-hidden">
+            {heldLoading ? (
+              <p className="p-6 text-sm text-muted-foreground">Cargando retenidos…</p>
+            ) : heldError ? (
+              <p className="p-6 text-sm text-destructive">
+                No se pudieron cargar los retenidos: {(heldError as Error).message}
+              </p>
+            ) : (heldRows ?? []).length === 0 ? (
+              <p className="p-6 text-sm text-muted-foreground">
+                No hay artículos retenidos. Todo lo generado ha pasado el control de calidad.
+              </p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Título</TableHead>
+                    <TableHead className="hidden lg:table-cell">Motivo de la retención</TableHead>
+                    <TableHead className="w-[90px]">Nota</TableHead>
+                    <TableHead className="w-[260px]">Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {(heldRows ?? []).map((r) => (
+                    <TableRow key={r.id}>
+                      <TableCell className="max-w-sm">
+                        <span className="font-medium text-foreground">{r.title}</span>
+                        <span className="block text-xs text-muted-foreground">
+                          {r.category} · {formatDate(r.created_at)}
+                        </span>
+                      </TableCell>
+                      <TableCell className="hidden max-w-md text-sm text-muted-foreground lg:table-cell">
+                        {(r.quality_notes ?? []).join(" · ") || "—"}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{r.quality_score ?? "—"}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
+                          <Button size="sm" onClick={() => publishHeld(r)}>
+                            Publicar
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => retryHeld(r)}>
+                            Regenerar
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => discardHeld(r)}>
+                            Descartar
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </Card>
+        ) : filter === "publicados" ? (
           <Card className="mt-8 overflow-hidden">
             {publishedLoading ? (
               <p className="p-6 text-sm text-muted-foreground">Cargando publicados…</p>
