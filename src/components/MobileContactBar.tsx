@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { MessageCircle, Phone } from "lucide-react";
-import { ORGANIZATION } from "@/lib/seo/config";
 import { trackEvent } from "@/lib/tracking";
 
-const PHONE = ORGANIZATION.telephone ?? "+34611625698";
-const WHATSAPP = PHONE.replace(/[^\d]/g, "");
-
 /**
- * Barra de contacto sticky solo en móvil (llamar / WhatsApp).
+ * Barra de contacto sticky solo en móvil (CTA directo al formulario).
  * Se oculta cuando el formulario de diagnóstico o un puente comercial están
  * en pantalla, para no competir con el CTA principal.
  */
@@ -35,14 +30,16 @@ const MobileContactBar = ({ pageType }: { pageType?: string }) => {
     return () => observer.disconnect();
   });
 
-  const track = (label: string, targetUrl: string) =>
+  const goToForm = () => {
     trackEvent("cta_click", {
       pageType,
       ctaId: "mobile-contact-bar",
-      ctaLabel: label,
+      ctaLabel: "Asesórate con un experto",
       placement: "sticky",
-      targetUrl,
+      targetUrl: "#hero-form",
     });
+    document.getElementById("hero-form")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div
@@ -51,25 +48,14 @@ const MobileContactBar = ({ pageType }: { pageType?: string }) => {
         hidden ? "pointer-events-none translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="mx-auto flex max-w-md items-center gap-3 pb-3">
-        <a
-          href={`tel:${PHONE}`}
-          onClick={() => track("Llamar", `tel:${PHONE}`)}
-          className="inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full border border-border bg-surface-elevated px-4 font-semibold text-foreground"
+      <div className="mx-auto max-w-md pb-3">
+        <button
+          type="button"
+          onClick={goToForm}
+          className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-accent px-4 font-semibold text-accent-foreground"
         >
-          <Phone className="h-4 w-4 shrink-0" aria-hidden />
-          Llamar
-        </a>
-        <a
-          href={`https://wa.me/${WHATSAPP}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("WhatsApp", `https://wa.me/${WHATSAPP}`)}
-          className="inline-flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-accent px-4 font-semibold text-accent-foreground"
-        >
-          <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
-          WhatsApp
-        </a>
+          Asesórate con un experto
+        </button>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import BlogHeroImage from "@/components/blog/BlogHeroImage";
 import { blogPosts, isStaticPost, loadStaticPost } from "@/data/blog";
 import { fetchGeneratedPostBySlug, fetchGeneratedPostsIndex } from "@/data/blog/dbPosts";
 import Seo from "@/components/seo/Seo";
+import FormSection from "@/components/FormSection";
 import RelatedResources from "@/components/seo/RelatedResources";
 import AuthorByline from "@/components/blog/AuthorByline";
 import SolutionBridge from "@/components/seo/SolutionBridge";
@@ -430,6 +431,8 @@ const BlogPost = () => {
             </div>
           )}
         </aside>
+
+        <FormSection />
 
         <RelatedResources
           groups={crossLinks}
