@@ -7,9 +7,27 @@
  * a la que enlazan todas las ciudades para no canibalizar.
  */
 
-export type Localizacion = {
+import {
+  type LocalCityData,
+  defaultLocalResources,
+  getLocalCityData,
+  localIntentVariants,
+} from "./localData";
+import { type LocalCase, getLocalCase } from "./localCases";
+
+/**
+ * Local SEO v2: los campos locales ampliados (aliases geográficos, municipios
+ * cercanos, recursos, FAQs y estadísticas) viven en un único dataset,
+ * `src/data/seo/localData.ts`, y se fusionan aquí. Añadir una ciudad nueva
+ * solo requiere añadir su ficha en esos datasets.
+ */
+export type Localizacion = LocalCityData & {
   /** slug de la ciudad (sin cluster) */
   slug: string;
+  /** variantes de intención local que la página debe cubrir */
+  intents: string[];
+  /** caso de la ciudad, integrado en la landing (solo si isReal) */
+  localCase?: LocalCase;
   /** nombre de la ciudad */
   name: string;
   /** ranking poblacional aproximado (1 = más grande) */
@@ -52,6 +70,8 @@ const cities: Omit<
   | "prefijo"
   | "audienciaProvincial"
   | "ejemploCaso"
+  | "intents"
+  | "localCase"
 >[] = [
   {
     slug: "madrid",
@@ -981,12 +1001,23 @@ const localCases: Record<
   },
 };
 
-export const localizaciones: Localizacion[] = cities.map((c) => ({
-  ...c,
-  ...localExtra[c.slug],
-  ...localCases[c.slug],
-  path: `${base}/${c.slug}`,
-}));
+export const localizaciones: Localizacion[] = cities.map((c) => {
+  const localData = getLocalCityData(c.slug);
+  return {
+    ...c,
+    ...localExtra[c.slug],
+    ...localCases[c.slug],
+    ...localData,
+    localResources:
+      localData.localResources ?? defaultLocalResources(c.name, c.provincia),
+    localCase: getLocalCase(c.slug),
+    intents: [
+      ...localIntentVariants(c.name),
+      ...(localData.geoAliases ?? []).flatMap((a) => localIntentVariants(a)),
+    ],
+    path: `${base}/${c.slug}`,
+  };
+});
 
 export const localizacionesByPath: Record<string, Localizacion> =
   localizaciones.reduce(

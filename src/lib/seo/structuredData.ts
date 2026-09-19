@@ -189,14 +189,30 @@ export const buildLocalLegalService = (city: Localizacion): JsonLd => ({
   url: absoluteUrl(`${city.path}/`),
   image: ORGANIZATION.logo,
   description: `Abogados especialistas en la Ley de Segunda Oportunidad que atienden a ${city.name} y toda la provincia de ${city.provincia}. Atención online y presencia en los juzgados cuando el procedimiento lo requiere.`,
-  areaServed: {
-    "@type": "City",
-    name: city.name,
-    containedInPlace: {
-      "@type": "AdministrativeArea",
-      name: city.provincia,
+  ...(city.geoAliases?.length
+    ? { alternateName: city.geoAliases.filter((a) => a !== city.name) }
+    : {}),
+  areaServed: [
+    {
+      "@type": "City",
+      name: city.name,
+      ...(city.geoAliases?.length
+        ? { alternateName: city.geoAliases.filter((a) => a !== city.name) }
+        : {}),
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: city.provincia,
+      },
     },
-  },
+    ...(city.nearbyMunicipalities ?? []).slice(0, 8).map((m) => ({
+      "@type": "City" as const,
+      name: m,
+      containedInPlace: {
+        "@type": "AdministrativeArea" as const,
+        name: city.provincia,
+      },
+    })),
+  ],
   geo: {
     "@type": "GeoCoordinates",
     latitude: city.lat,

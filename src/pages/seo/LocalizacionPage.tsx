@@ -17,19 +17,24 @@ const LocalizacionPage = () => {
 
   // Length-aware (sin marca "| Calma": resta caracteres y no aporta CTR) para
   // no truncar en SERP con nombres de ciudad largos. Gancho diferenciador.
+  // Alias principal (San Sebastián, La Coruña, Vitoria…) para cubrir en el
+  // title la otra forma con la que la gente busca la misma ciudad.
+  const alias = (city.geoAliases ?? []).find((a) => a !== city.name && !a.includes(city.name));
   const titleCandidates = [
-    `⚖️ Abogados Segunda Oportunidad en ${city.name}: cancela deudas`,
+    alias ? `Abogados Segunda Oportunidad ${city.name} (${alias}): cancela deudas` : "",
+    `⚖️ Abogados Segunda Oportunidad ${city.name}: cancela tus deudas`,
     `Abogados Segunda Oportunidad en ${city.name}: cancela tus deudas`,
-    `Abogados Segunda Oportunidad en ${city.name}: cancela deudas`,
-    `Abogados Ley Segunda Oportunidad en ${city.name}`,
+    `Abogados Segunda Oportunidad ${city.name}: cancela deudas`,
+    `Abogados de deudas en ${city.name}: Segunda Oportunidad`,
     `Abogados Segunda Oportunidad en ${city.name}`,
-  ];
+  ].filter(Boolean);
   const seoTitle =
-    titleCandidates.find((t) => t.length <= 60) ?? titleCandidates[2];
+    titleCandidates.find((t) => t.length <= 60) ??
+    titleCandidates[titleCandidates.length - 1];
   const metaVariants = [
-    `Abogados especialistas en la Ley de Segunda Oportunidad en ${city.name} (${city.provincia}). Cancela tus deudas legalmente. Diagnóstico gratis y sin compromiso.`,
-    `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente en toda la provincia de ${city.provincia}. Primer diagnóstico gratuito.`,
-    `Cancela tus deudas en ${city.name} con la Ley de Segunda Oportunidad. Abogados especialistas para ${city.provincia}, atención online y diagnóstico gratis.`,
+    `Abogados de la Ley de Segunda Oportunidad en ${city.name}: cancelamos tus deudas legalmente en ${city.provincia}. Diagnóstico gratis y sin compromiso.`,
+    `¿Deudas en ${city.name}? Abogados especialistas en cancelación de deudas e insolvencia en ${city.provincia} con la Ley de Segunda Oportunidad. Diagnóstico gratuito.`,
+    `Cancela tus deudas en ${city.name} con la Ley de Segunda Oportunidad. Abogados de insolvencia para ${city.provincia}, todo online y primer diagnóstico gratis.`,
   ];
   let h = 0;
   for (let i = 0; i < city.slug.length; i++) h = (h * 31 + city.slug.charCodeAt(i)) >>> 0;
@@ -37,7 +42,7 @@ const LocalizacionPage = () => {
   const metaDescription =
     chosen.length <= 160
       ? chosen
-      : `¿Deudas en ${city.name}? Abogados de la Ley de Segunda Oportunidad para cancelarlas legalmente. Diagnóstico gratuito y sin compromiso.`;
+      : `Abogados de deudas en ${city.name}: cancela lo que no puedes pagar con la Ley de Segunda Oportunidad. Diagnóstico gratuito y sin compromiso.`;
 
   const breadcrumbs = [
     { name: "Inicio", to: "/" },
@@ -96,7 +101,8 @@ const LocalizacionPage = () => {
       En <strong>{city.name}</strong> ({city.provincia}) puedes cancelar tus deudas con la{" "}
       <strong>Ley de Segunda Oportunidad</strong> si estás en situación de insolvencia y actúas de buena fe.
       El procedimiento se tramita en {city.tribunal.toLowerCase()} y puede gestionarse en gran parte online,
-      con un primer diagnóstico gratuito y sin compromiso.
+      con un primer diagnóstico gratuito y sin compromiso. Atendemos {city.name}
+      {alias ? ` (${alias})` : ""} y su provincia.
     </p>
   );
 
