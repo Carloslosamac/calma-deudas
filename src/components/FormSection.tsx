@@ -299,7 +299,7 @@ const FormSection = () => {
     }`;
 
   const QuestionTitle = ({ children }: { children: React.ReactNode }) => (
-    <h3 className="font-poppins text-2xl md:text-3xl font-semibold text-foreground mb-6">
+    <h3 className="font-poppins text-xl md:text-3xl font-semibold text-foreground mb-4 md:mb-6">
       {children}
     </h3>
   );
