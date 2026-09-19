@@ -22,7 +22,7 @@ const LocalizacionPage = () => {
   const norm = (t: string) =>
     t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z]/g, "");
   const alias = (city.geoAliases ?? []).find(
-    (a) => norm(a) !== norm(city.name) && !norm(a).includes(norm(city.name)),
+    (a) => norm(a) !== norm(city.name) && !norm(city.name).includes(norm(a)),
   );
   const titleCandidates = [
     alias ? `Abogados Segunda Oportunidad ${city.name} (${alias}): cancela deudas` : "",

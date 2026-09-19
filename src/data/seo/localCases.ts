@@ -426,7 +426,7 @@ const hash = (s: string) => {
 };
 
 const inRange = (seed: number, [min, max]: [number, number], step = 1) =>
-  min + (seed % Math.floor((max - min) / step + 1)) * step;
+  min + (Math.abs(seed) % Math.floor((max - min) / step + 1)) * step;
 
 const buildCase = (
   tpl: Template,
@@ -440,7 +440,7 @@ const buildCase = (
     city: municipality,
     province,
     profile: tpl.profile,
-    age: inRange(seed >> 3, tpl.age),
+    age: inRange(seed >>> 3, tpl.age),
     debtAmount: debt,
     cancelledAmount: debt ? tpl.cancelled(debt) : undefined,
     creditors: tpl.creditors,
