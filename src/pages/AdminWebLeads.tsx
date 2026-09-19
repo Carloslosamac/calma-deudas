@@ -230,19 +230,15 @@ const AdminWebLeads = () => {
       toast.info("No hay envíos para exportar con estos filtros.");
       return;
     }
-    // La ventana debe abrirse durante el clic, antes de cargar XLSX. Si se
-    // abre después del await, el navegador la considera un popup bloqueado.
     const framed = window.self !== window.top;
-    const downloadWindow = framed ? window.open("", "_blank") : null;
-    if (framed && !downloadWindow) {
-      toast.error("El navegador bloqueó la descarga. Permite ventanas emergentes y vuelve a pulsar.");
+    if (framed) {
+      const standalone = window.open(window.location.href, "_blank", "noopener");
+      if (!standalone) {
+        toast.error("Permite ventanas emergentes para abrir el panel y descargar el Excel.");
+      } else {
+        toast.info("Panel abierto. Pulsa allí «Descargar Excel» una vez.");
+      }
       return;
-    }
-    if (downloadWindow) {
-      downloadWindow.document.write(
-        '<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Preparando Excel</title></head><body style="font-family:system-ui;padding:32px"><p>Preparando el Excel…</p></body></html>',
-      );
-      downloadWindow.document.close();
     }
     setExporting(true);
     try {
@@ -274,33 +270,16 @@ const AdminWebLeads = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       const url = URL.createObjectURL(blob);
-      if (downloadWindow) {
-        const popupDocument = downloadWindow.document;
-        popupDocument.body.innerHTML = "";
-        const message = popupDocument.createElement("p");
-        message.textContent = "El Excel está listo.";
-        const link = popupDocument.createElement("a");
-        link.href = url;
-        link.download = filename;
-        link.textContent = "Guardar Excel";
-        link.style.cssText =
-          "display:inline-block;padding:12px 18px;background:#111;color:#fff;border-radius:6px;text-decoration:none;font-family:system-ui";
-        popupDocument.body.style.cssText = "font-family:system-ui;padding:32px";
-        popupDocument.body.append(message, link);
-        link.click();
-      } else {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        a.rel = "noopener";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 5 * 60 * 1000);
       toast.success(`Excel preparado con ${filtered.length} envíos.`);
     } catch (e) {
-      downloadWindow?.close();
       toast.error(
         `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
       );
