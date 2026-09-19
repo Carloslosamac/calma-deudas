@@ -350,6 +350,23 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "El Ejido", "Roquetas de Mar", "Níjar", "Vícar", "Adra", "Huércal-Overa",
       "Berja", "Cuevas del Almanzora",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia",
+    economyNote:
+      "Almería tiene un perfil de deuda muy marcado por la agricultura intensiva y la hostelería: autónomos con campañas irregulares y familias con varios préstamos al consumo.",
+    caseLinks: [
+      { slug: "ivan-p-almeria-nomina-liberada", label: "Iván (Almería): nómina liberada del embargo" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita mi caso de segunda oportunidad en Almería?",
+        a: "Ante los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia. Casi todo se gestiona de forma telemática.",
+      },
+      {
+        q: "¿Atendéis El Ejido, Roquetas, Níjar y el Poniente?",
+        a: "Sí, atendemos toda la provincia de Almería de forma telemática: El Ejido, Roquetas de Mar, Níjar, Adra, Huércal-Overa, Vícar y el resto de municipios.",
+      },
+    ],
   },
   salamanca: {
     communityAliases: ["Castilla y León"],
