@@ -280,8 +280,8 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
   );
   const faqJuzgado = pick(
     [
-      `Los ${tribunal}. Los particulares acuden a los Juzgados de Primera Instancia y los autónomos y empresarios, a los Juzgados de lo Mercantil.`,
-      `En ${name}, los ${tribunal}. Si eres particular, tu caso va a los Juzgados de Primera Instancia; si eres autónomo o empresario, a los de lo Mercantil.`,
+      `Los ${tribunal}. La competencia concursal corresponde a los juzgados de lo mercantil también cuando el deudor es un particular sin actividad empresarial.`,
+      `En ${name}, los ${tribunal}: son los competentes en materia concursal tanto para autónomos y empresarios como para particulares.`,
     ],
     v,
   );
