@@ -16,6 +16,7 @@ import {
   Phone,
   Mail,
   Ghost,
+  Download,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
