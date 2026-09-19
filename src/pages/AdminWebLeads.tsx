@@ -98,6 +98,7 @@ const AdminWebLeads = () => {
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [exporting, setExporting] = useState(false);
 
   const setQuickRange = (days: number) => {
     const end = new Date();
@@ -229,50 +230,65 @@ const AdminWebLeads = () => {
       toast.info("No hay envíos para exportar con estos filtros.");
       return;
     }
-    const XLSX = await import("xlsx");
-    const data = filtered.map((r) => ({
-      Fecha: new Date(r.created_at).toLocaleString("es-ES"),
-      Nombre: r.name ?? "",
-      Teléfono: r.phone ?? "",
-      Email: r.email ?? "",
-      Deuda: r.debt_amount ?? "",
-      Entidades: (r.entities ?? []).join(", "),
-      Página: r.page ?? "",
-      Canal: canal(r),
-      utm_source: r.utm_source ?? "",
-      utm_medium: r.utm_medium ?? "",
-      utm_campaign: r.utm_campaign ?? "",
-      Zoho: r.zoho_status,
-      "ID Zoho": r.zoho_lead_id ?? "",
-      Error: r.zoho_error ?? "",
-    }));
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Leads web");
-    const rango =
-      fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
-    const filename = `leads-web${rango}.xlsx`;
+    // La ventana debe abrirse durante el clic, antes de cargar XLSX. Si se
+    // abre después del await, el navegador la considera un popup bloqueado.
+    const framed = window.self !== window.top;
+    const downloadWindow = framed ? window.open("", "_blank") : null;
+    if (framed && !downloadWindow) {
+      toast.error("El navegador bloqueó la descarga. Permite ventanas emergentes y vuelve a pulsar.");
+      return;
+    }
+    if (downloadWindow) {
+      downloadWindow.document.write(
+        '<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Preparando Excel</title></head><body style="font-family:system-ui;padding:32px"><p>Preparando el Excel…</p></body></html>',
+      );
+      downloadWindow.document.close();
+    }
+    setExporting(true);
     try {
+      const XLSX = await import("xlsx");
+      const data = filtered.map((r) => ({
+        Fecha: new Date(r.created_at).toLocaleString("es-ES"),
+        Nombre: r.name ?? "",
+        Teléfono: r.phone ?? "",
+        Email: r.email ?? "",
+        Deuda: r.debt_amount ?? "",
+        Entidades: (r.entities ?? []).join(", "),
+        Página: r.page ?? "",
+        Canal: canal(r),
+        utm_source: r.utm_source ?? "",
+        utm_medium: r.utm_medium ?? "",
+        utm_campaign: r.utm_campaign ?? "",
+        Zoho: r.zoho_status,
+        "ID Zoho": r.zoho_lead_id ?? "",
+        Error: r.zoho_error ?? "",
+      }));
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Leads web");
+      const rango =
+        fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
+      const filename = `leads-web${rango}.xlsx`;
       const out = XLSX.write(wb, { bookType: "xlsx", type: "array" }) as ArrayBuffer;
       const blob = new Blob([out], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       const url = URL.createObjectURL(blob);
-      const framed = window.self !== window.top;
-      let ok = false;
-      if (framed) {
-        // Dentro del marco de vista previa las descargas se bloquean:
-        // abrimos una pestaña del mismo origen que dispara la descarga.
-        const w = window.open("", "_blank");
-        if (w) {
-          w.document.write(
-            `<!doctype html><title>${filename}</title><body style="font-family:sans-serif;padding:24px">Preparando descarga…<script>var a=document.createElement('a');a.href=${JSON.stringify(url)};a.download=${JSON.stringify(filename)};document.body.appendChild(a);a.click();setTimeout(function(){window.close()},3000);<\/script></body>`,
-          );
-          w.document.close();
-          ok = true;
-        }
-      }
-      if (!ok) {
+      if (downloadWindow) {
+        const popupDocument = downloadWindow.document;
+        popupDocument.body.innerHTML = "";
+        const message = popupDocument.createElement("p");
+        message.textContent = "El Excel está listo.";
+        const link = popupDocument.createElement("a");
+        link.href = url;
+        link.download = filename;
+        link.textContent = "Guardar Excel";
+        link.style.cssText =
+          "display:inline-block;padding:12px 18px;background:#111;color:#fff;border-radius:6px;text-decoration:none;font-family:system-ui";
+        popupDocument.body.style.cssText = "font-family:system-ui;padding:32px";
+        popupDocument.body.append(message, link);
+        link.click();
+      } else {
         const a = document.createElement("a");
         a.href = url;
         a.download = filename;
@@ -281,14 +297,16 @@ const AdminWebLeads = () => {
         a.click();
         a.remove();
       }
-      setTimeout(() => URL.revokeObjectURL(url), 30000);
-      toast.success(`Descargando ${filtered.length} envíos (${filename}).`);
+      setTimeout(() => URL.revokeObjectURL(url), 5 * 60 * 1000);
+      toast.success(`Excel preparado con ${filtered.length} envíos.`);
     } catch (e) {
+      downloadWindow?.close();
       toast.error(
         `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
       );
+    } finally {
+      setExporting(false);
     }
-
   };
 
   const retry = async (id: string) => {
@@ -352,8 +370,9 @@ const AdminWebLeads = () => {
               />
               Reintentar todos
             </Button>
-            <Button variant="outline" size="sm" onClick={exportExcel}>
-              <Download className="mr-2 h-4 w-4" /> Descargar Excel
+            <Button variant="outline" size="sm" onClick={exportExcel} disabled={exporting}>
+              <Download className="mr-2 h-4 w-4" />
+              {exporting ? "Preparando…" : "Descargar Excel"}
             </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="mr-2 h-4 w-4" /> Refrescar
