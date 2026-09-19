@@ -70,6 +70,8 @@ const cities: Omit<
   | "prefijo"
   | "audienciaProvincial"
   | "ejemploCaso"
+  | "intents"
+  | "localCase"
 >[] = [
   {
     slug: "madrid",
