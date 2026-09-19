@@ -16,6 +16,7 @@ import {
   Phone,
   Mail,
   Ghost,
+  Download,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 
@@ -95,6 +96,17 @@ const AdminWebLeads = () => {
   const [sourceFilter, setSourceFilter] = useState("todas");
   const [campaignFilter, setCampaignFilter] = useState("todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const setQuickRange = (days: number) => {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(end.getDate() - (days - 1));
+    const iso = (d: Date) => d.toISOString().slice(0, 10);
+    setFromDate(iso(start));
+    setToDate(iso(end));
+  };
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
@@ -174,6 +186,8 @@ const AdminWebLeads = () => {
 
   const filtered = rows.filter((r) => {
     if (filter !== "todos" && r.zoho_status !== filter) return false;
+    if (fromDate && new Date(r.created_at) < new Date(`${fromDate}T00:00:00`)) return false;
+    if (toDate && new Date(r.created_at) > new Date(`${toDate}T23:59:59.999`)) return false;
     if (pageFilter !== "todas" && (r.page ?? "") !== pageFilter) return false;
     if (sourceFilter !== "todas") {
       if (sourceFilter === "(sin utm)" ? !!r.utm_source : r.utm_source !== sourceFilter)
@@ -209,6 +223,36 @@ const AdminWebLeads = () => {
       }))
       .sort((a, b) => b.total - a.total);
   })();
+
+  const exportExcel = async () => {
+    if (filtered.length === 0) {
+      toast.info("No hay envíos para exportar con estos filtros.");
+      return;
+    }
+    const XLSX = await import("xlsx");
+    const data = filtered.map((r) => ({
+      Fecha: new Date(r.created_at).toLocaleString("es-ES"),
+      Nombre: r.name ?? "",
+      Teléfono: r.phone ?? "",
+      Email: r.email ?? "",
+      Deuda: r.debt_amount ?? "",
+      Entidades: (r.entities ?? []).join(", "),
+      Página: r.page ?? "",
+      Canal: canal(r),
+      utm_source: r.utm_source ?? "",
+      utm_medium: r.utm_medium ?? "",
+      utm_campaign: r.utm_campaign ?? "",
+      Zoho: r.zoho_status,
+      "ID Zoho": r.zoho_lead_id ?? "",
+      Error: r.zoho_error ?? "",
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Leads web");
+    const rango =
+      fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
+    XLSX.writeFile(wb, `leads-web${rango}.xlsx`);
+  };
 
   const retry = async (id: string) => {
     setRetrying((p) => ({ ...p, [id]: true }));
@@ -271,6 +315,9 @@ const AdminWebLeads = () => {
               />
               Reintentar todos
             </Button>
+            <Button variant="outline" size="sm" onClick={exportExcel}>
+              <Download className="mr-2 h-4 w-4" /> Descargar Excel
+            </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="mr-2 h-4 w-4" /> Refrescar
             </Button>
@@ -329,6 +376,56 @@ const AdminWebLeads = () => {
         </Card>
 
         <Card className="mb-4 p-4">
+          <div className="mb-3 flex flex-wrap items-end gap-3 border-b border-border pb-3">
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Desde
+              </span>
+              <input
+                type="date"
+                value={fromDate}
+                max={toDate || undefined}
+                onChange={(e) => setFromDate(e.target.value)}
+                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+              />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Hasta
+              </span>
+              <input
+                type="date"
+                value={toDate}
+                min={fromDate || undefined}
+                onChange={(e) => setToDate(e.target.value)}
+                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+              />
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { l: "Hoy", d: 1 },
+                { l: "7 días", d: 7 },
+                { l: "30 días", d: 30 },
+                { l: "90 días", d: 90 },
+              ].map((q) => (
+                <Button key={q.l} size="sm" variant="outline" onClick={() => setQuickRange(q.d)}>
+                  {q.l}
+                </Button>
+              ))}
+              {(fromDate || toDate) && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setFromDate("");
+                    setToDate("");
+                  }}
+                >
+                  Todo
+                </Button>
+              )}
+            </div>
+          </div>
           <div className="flex flex-wrap items-end gap-3">
             {[
               {
