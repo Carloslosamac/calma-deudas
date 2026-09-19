@@ -1,7 +1,7 @@
 // Fuente ÚNICA de escenas, estilo fotográfico y prompt de portada.
 // La importan generate-daily-posts y regenerate-blog-hero para que el cron y
 // la regeneración manual no puedan divergir nunca.
-export const PIPELINE_VERSION = "hero-2026-08-28-tema-y-entidad";
+export const PIPELINE_VERSION = "hero-2026-09-19-entidad-inicial";
 
 export function hashSlug(slug: string): number {
   let h = 0;
