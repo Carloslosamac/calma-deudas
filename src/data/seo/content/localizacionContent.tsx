@@ -129,15 +129,19 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
         <div className="space-y-4">
           <P>
             La Ley de Segunda Oportunidad es un procedimiento <strong>judicial</strong>. En{" "}
-            {name}, los expedientes se tramitan ante los <strong>{tribunal}</strong>: los
-            particulares sin actividad empresarial acuden a los Juzgados de Primera Instancia y
-            los autónomos y empresarios, a los Juzgados de lo Mercantil.
+            {name}, los expedientes se tramitan ante los <strong>{tribunal}</strong>, que son
+            los competentes en materia concursal tanto si eres autónomo o empresario como si
+            eres un particular sin actividad empresarial.
           </P>
           <P>
-            En la práctica, tu caso se gestiona en {sedeJudicial}. Aunque la mayor parte del
-            procedimiento es telemático, conocer la sede y los plazos de {name} nos permite
-            coordinar cualquier comparecencia sin que tengas que preocuparte.
+            {city.courtInfo
+              ? `En la práctica, tu caso se gestiona ante ${city.courtInfo}.`
+              : `En la práctica, tu caso se gestiona en ${sedeJudicial}.`}{" "}
+            Aunque la mayor parte del procedimiento es telemático, conocer la sede y los plazos
+            de {name} nos permite coordinar cualquier comparecencia sin que tengas que
+            preocuparte.
           </P>
+
           <P>
             Conocer el criterio de los juzgados de {provincia} nos permite preparar un
             expediente sólido y anticipar lo que el juez espera, lo que aumenta las
