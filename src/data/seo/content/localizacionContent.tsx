@@ -356,8 +356,6 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     });
   }
 
-  }
-
   // ================= Local SEO v2 =================
   // Todo lo que sigue se alimenta del dataset local (src/data/seo/localData.ts
   // y localCases.ts). Si una ciudad no tiene un dato, no se muestra nada.
