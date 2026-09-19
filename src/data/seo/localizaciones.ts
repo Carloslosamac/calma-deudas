@@ -991,12 +991,23 @@ const localCases: Record<
   },
 };
 
-export const localizaciones: Localizacion[] = cities.map((c) => ({
-  ...c,
-  ...localExtra[c.slug],
-  ...localCases[c.slug],
-  path: `${base}/${c.slug}`,
-}));
+export const localizaciones: Localizacion[] = cities.map((c) => {
+  const localData = getLocalCityData(c.slug);
+  return {
+    ...c,
+    ...localExtra[c.slug],
+    ...localCases[c.slug],
+    ...localData,
+    localResources:
+      localData.localResources ?? defaultLocalResources(c.name, c.provincia),
+    localCase: getLocalCase(c.slug),
+    intents: [
+      ...localIntentVariants(c.name),
+      ...(localData.geoAliases ?? []).flatMap((a) => localIntentVariants(a)),
+    ],
+    path: `${base}/${c.slug}`,
+  };
+});
 
 export const localizacionesByPath: Record<string, Localizacion> =
   localizaciones.reduce(
