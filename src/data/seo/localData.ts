@@ -109,12 +109,48 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Utebo", "Cuarte de Huerva", "La Muela", "Calatayud", "Ejea de los Caballeros",
       "Tarazona", "Zuera", "Alagón",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Zaragoza, referencia concursal en Aragón",
+    economyNote:
+      "Zaragoza concentra la mayor parte de los concursos de Aragón. El perfil habitual combina hipoteca con préstamos al consumo y deuda de autónomos de la logística y el comercio, sectores con mucho peso en la provincia.",
+    caseLinks: [
+      { slug: "daniel-zaragoza", label: "Daniel (Zaragoza): canceló su deuda con la LSO" },
+      { slug: "lucia-d-zaragoza-42-150", label: "Lucía (Zaragoza): 42.150 € cancelados" },
+      { slug: "nuria-d-zaragoza-28-700", label: "Nuria (Zaragoza): 28.700 € exonerados" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Cuánto tarda la segunda oportunidad en Zaragoza?",
+        a: "Depende de la carga del juzgado y de la complejidad del expediente; en general el procedimiento completo suele moverse entre 6 y 18 meses, y los embargos pueden suspenderse mucho antes de la exoneración.",
+      },
+      {
+        q: "¿Atendéis el resto de Aragón: Huesca, Teruel, Calatayud?",
+        a: "Sí. Aunque los juzgados de lo mercantil están en Zaragoza capital, atendemos telemáticamente a clientes de Huesca, Teruel, Calatayud, Utebo y cualquier municipio aragonés.",
+      },
+    ],
   },
   malaga: {
     geoAliases: ["Malaga"],
     nearbyMunicipalities: [
       "Marbella", "Vélez-Málaga", "Mijas", "Fuengirola", "Torremolinos",
       "Benalmádena", "Estepona", "Rincón de la Victoria", "Antequera", "Ronda",
+    ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Málaga, ubicados en la Ciudad de la Justicia",
+    economyNote:
+      "El sector turístico y de temporada genera en Málaga muchos expedientes de trabajadores con contratos discontinuos y de autónomos de hostelería con deuda acumulada en los meses flojos.",
+    caseLinks: [
+      { slug: "hugo-malaga", label: "Hugo (Málaga): reunificó tres préstamos y respira" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Málaga?",
+        a: "En los Juzgados de lo Mercantil de Málaga, en la Ciudad de la Justicia. La mayor parte del procedimiento es telemática.",
+      },
+      {
+        q: "¿Atendéis la Costa del Sol: Marbella, Fuengirola, Torremolinos, Vélez?",
+        a: "Sí, toda la provincia de Málaga de forma telemática: Marbella, Mijas, Fuengirola, Benalmádena, Torremolinos, Estepona, Antequera, Vélez-Málaga y Ronda, entre otros.",
+      },
     ],
   },
   murcia: {
