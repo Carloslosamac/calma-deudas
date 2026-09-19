@@ -119,7 +119,7 @@ const Gracias = () => {
                   window.location.href = WHATSAPP_URL;
                 }
               }}
-              className="w-full h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
+              className="w-full min-h-[48px] whitespace-nowrap rounded-full bg-accent px-4 font-semibold text-accent-foreground hover:bg-accent/90 text-[15px] md:text-base shadow-medium"
             >
               Agendar mi cita por WhatsApp
             </button>
