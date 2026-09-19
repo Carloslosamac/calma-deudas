@@ -472,7 +472,7 @@ export const getLocalCases = (
 
   for (let i = 0; i < extra; i++) {
     const len = municipalities.length;
-    const municipality = len > 0 ? municipalities[(seed + i) % len] : cityName;
+    const municipality = len > 0 ? municipalities[i === 0 ? 0 : (seed + i) % len] : cityName;
     if (generated.some((g) => g.city === municipality)) continue;
     const tpl = TEMPLATES[(seed + i * 5) % TEMPLATES.length];
     generated.push(buildCase(tpl, municipality, province, seed + i * 977));
