@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Seo from "@/components/seo/Seo";
@@ -105,10 +105,13 @@ const Gracias = () => {
             </p>
 
             <Button asChild className="h-11 rounded-xl">
-              <Link to="/">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Volver al inicio
-              </Link>
+              <a
+                href="https://wa.me/34611625698?text=Hola%2C%20acabo%20de%20enviar%20mis%20datos%20en%20Calma.%20Me%20gustar%C3%ADa%20agendar%20una%20cita%20para%20revisar%20mi%20caso.%20%C2%BFQu%C3%A9%20horario%20ten%C3%A9is%20disponible%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Agendar mi cita por WhatsApp
+              </a>
             </Button>
           </motion.div>
         </div>
