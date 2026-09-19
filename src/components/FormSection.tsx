@@ -550,7 +550,7 @@ const FormSection = () => {
   };
 
   return (
-    <section id="hero-form" className="py-10 md:py-32 bg-surface relative overflow-hidden">
+    <section id="hero-form" className="py-10 md:py-32 scroll-mt-20 bg-surface relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-50 pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 grid lg:grid-cols-5 gap-8 md:gap-12 items-center">
