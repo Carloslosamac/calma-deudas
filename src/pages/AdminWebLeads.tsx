@@ -95,6 +95,17 @@ const AdminWebLeads = () => {
   const [sourceFilter, setSourceFilter] = useState("todas");
   const [campaignFilter, setCampaignFilter] = useState("todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const setQuickRange = (days: number) => {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(end.getDate() - (days - 1));
+    const iso = (d: Date) => d.toISOString().slice(0, 10);
+    setFromDate(iso(start));
+    setToDate(iso(end));
+  };
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/auth", { replace: true });
