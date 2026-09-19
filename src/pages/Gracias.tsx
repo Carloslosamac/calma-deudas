@@ -5,7 +5,6 @@ import { Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Seo from "@/components/seo/Seo";
-import { Button } from "@/components/ui/button";
 import type { TriageResult } from "@/lib/seo/triage";
 import BenefitSimulator from "@/components/BenefitSimulator";
 import { supabase } from "@/integrations/supabase/client";
