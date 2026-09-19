@@ -38,10 +38,8 @@ const CaseCard = ({ caso, index }: { caso: LocalCase; index: number }) => (
       <Row label="Ingresos" value={caso.income} />
       <Row label="Patrimonio" value={caso.assets} />
       <Row label="Solución aplicada" value={caso.solution} />
-      <Row label="Resultado" value={caso.cancelledAmount ?? caso.outcome} />
-      {caso.cancelledAmount && caso.outcome ? (
-        <Row label="Después" value={caso.outcome} />
-      ) : null}
+      <Row label="Deuda cancelada" value={caso.cancelledAmount} />
+      <Row label="Resultado" value={caso.outcome} />
     </dl>
   </div>
 );
