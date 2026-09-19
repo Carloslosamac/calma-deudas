@@ -309,7 +309,7 @@ const FormSection = () => {
       type="button"
       onClick={goNext}
       disabled={disabled}
-      className="mt-8 w-full h-14 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
+      className="mt-6 md:mt-8 w-full h-14 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
     >
       Continuar
       <ArrowRight className="h-5 w-5 ml-2" />
@@ -336,8 +336,8 @@ const FormSection = () => {
     return (
       <div>
         <QuestionTitle>{title}</QuestionTitle>
-        <div className="rounded-2xl border border-border bg-background p-6">
-          <p className="text-center font-poppins text-4xl font-bold text-accent-deep mb-6">
+        <div className="rounded-2xl border border-border bg-background p-4 md:p-6">
+          <p className="text-center font-poppins text-3xl md:text-4xl font-bold text-accent-deep mb-4 md:mb-6">
             {eur(displayValue)}
             {data[valueKey] >= max ? "+" : ""}
           </p>
