@@ -70,8 +70,6 @@ const REAL_CASES: Record<string, LocalCase[]> = {
       solution: "Ley de Segunda Oportunidad con exoneración total",
       outcome: "Deuda a cero y cierre definitivo de todos los frentes abiertos.",
     },
-  ],
-  lhospitalet: [
     {
       isReal: true,
       city: "Sabadell",
