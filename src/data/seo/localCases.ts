@@ -190,7 +190,6 @@ export const LOCAL_CASES: Record<string, LocalCase> = {
   },
 
   // --- Borradores: pendientes de sustituir por casos reales de la zona ---
-  zaragoza_placeholder: draft("Zaragoza", "Zaragoza"),
   palma: draft("Palma", "Illes Balears"),
   "las-palmas-de-gran-canaria": draft("Las Palmas de Gran Canaria", "Las Palmas"),
   cordoba: draft("Córdoba", "Córdoba"),
