@@ -258,13 +258,11 @@ const AdminWebLeads = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       const url = URL.createObjectURL(blob);
-      const doc = window.top?.document ?? document;
-      const a = doc.createElement("a");
+      const a = document.createElement("a");
       a.href = url;
       a.download = filename;
       a.rel = "noopener";
-      a.target = "_blank";
-      doc.body.appendChild(a);
+      document.body.appendChild(a);
       a.click();
       setTimeout(() => {
         a.remove();
@@ -273,7 +271,7 @@ const AdminWebLeads = () => {
       toast.success(`Descargando ${filtered.length} envíos (${filename}).`);
     } catch (e) {
       toast.error(
-        `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}. Prueba a abrir el panel en una pestaña aparte.`,
+        `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
       );
     }
   };
