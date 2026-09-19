@@ -26,8 +26,8 @@ export type Localizacion = LocalCityData & {
   slug: string;
   /** variantes de intención local que la página debe cubrir */
   intents: string[];
-  /** caso de la ciudad, integrado en la landing (solo si isReal) */
-  localCase?: LocalCase;
+  /** 3-5 casos resueltos de municipios distintos, integrados en la landing */
+  localCases: LocalCase[];
   /** nombre de la ciudad */
   name: string;
   /** ranking poblacional aproximado (1 = más grande) */
