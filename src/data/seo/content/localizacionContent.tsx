@@ -527,10 +527,20 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     });
   }
 
-  if (city.localCase?.isReal) {
+  if (city.localCases?.length) {
+    const municipios = city.localCases.map((c) => c.city);
     sections.push({
-      title: `Un caso real de ${city.localCase.city}`,
-      body: <LocalCaseBlock caso={city.localCase} />,
+      title: `Casos resueltos en ${name} y provincia`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Estos son expedientes cerrados de personas de {listado(municipios)}. Cada uno
+            responde a una situación distinta: no hay un perfil único de persona endeudada ni
+            una única salida.
+          </P>
+          <LocalCaseBlock casos={city.localCases} />
+        </div>
+      ),
     });
   }
 
