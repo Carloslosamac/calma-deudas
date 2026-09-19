@@ -484,5 +484,125 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     }
   }
 
+  // ================= Local SEO v2 =================
+  // Todo lo que sigue se alimenta del dataset local (src/data/seo/localData.ts
+  // y localCases.ts). Si una ciudad no tiene un dato, no se muestra nada.
+  const aliases = (city.geoAliases ?? []).filter((a) => a !== name);
+  const municipios = city.nearbyMunicipalities ?? [];
+  const listado = (arr: string[]) =>
+    arr.length > 1 ? `${arr.slice(0, -1).join(", ")} y ${arr[arr.length - 1]}` : arr[0] ?? "";
+
+  if (aliases.length > 0 || municipios.length > 0) {
+    sections.push({
+      title: `Cancelar deudas en ${name} y su área de influencia`,
+      body: (
+        <div className="space-y-4">
+          {aliases.length > 0 && (
+            <P>
+              Tanto si buscas <strong>abogados de segunda oportunidad en {name}</strong> como si
+              lo escribes {listado(aliases.map((a) => `«${a}»`))}, hablamos del mismo servicio y
+              del mismo equipo: una única atención para toda la ciudad y su provincia (
+              {listado([provincia, ...(city.provinceAliases ?? []).filter((p) => p !== provincia)])}
+              ).
+            </P>
+          )}
+          {municipios.length > 0 && (
+            <P>
+              Trabajamos con clientes de {name} y de municipios como{" "}
+              {listado(municipios.slice(0, 8))}. La <strong>cancelación de deudas</strong> con la
+              Ley de Segunda Oportunidad se tramita ante los juzgados competentes de {provincia},
+              vivas en la capital o en cualquier localidad de su área, y el expediente se prepara
+              a distancia.
+            </P>
+          )}
+          <P>
+            Da igual cómo lo llames —{" "}
+            <strong>abogado de deudas</strong>, <strong>abogado de insolvencia</strong> o{" "}
+            <strong>abogados de la Ley de Segunda Oportunidad</strong> en {name}: el objetivo es el
+            mismo, dejar de deber lo que no puedes pagar dentro de la ley.
+          </P>
+        </div>
+      ),
+    });
+  }
+
+  if (city.localCase?.isReal) {
+    sections.push({
+      title: `Un caso real de ${city.localCase.city}`,
+      body: <LocalCaseBlock caso={city.localCase} />,
+    });
+  }
+
+  if (city.localStats && city.localStats.length > 0) {
+    sections.push({
+      title: `Datos de ${name} que conviene conocer`,
+      body: (
+        <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/85">
+          {city.localStats.map((s) => (
+            <li key={s.label}>
+              <strong>{s.label}:</strong> {s.value}{" "}
+              <span className="text-foreground/60">({s.source})</span>
+            </li>
+          ))}
+        </ul>
+      ),
+    });
+  }
+
+  if (city.localResources && city.localResources.length > 0) {
+    sections.push({
+      title: `Recursos públicos útiles si tienes deudas en ${name}`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Antes o durante el procedimiento, estos recursos públicos pueden ayudarte. Son
+            gratuitos y ninguno sustituye al asesoramiento de un abogado concursalista:
+          </P>
+          <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-foreground/85">
+            {city.localResources.map((r) => (
+              <li key={r.name}>
+                <strong>{r.name}:</strong> {r.what}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ),
+    });
+  }
+
+  // FAQs locales: patrones comunes + las propias de la ciudad, sin duplicar
+  const localFaqPatterns: { q: string; a: string }[] = [
+    {
+      q: `¿Puedo acogerme a la Ley de Segunda Oportunidad si vivo en ${name}?`,
+      a: `Sí. La Ley de Segunda Oportunidad es estatal y se aplica igual en ${name} que en el resto de España: no hay requisitos distintos por ciudad. Lo que decide tu caso es tu situación de insolvencia y la buena fe, no dónde vives.`,
+    },
+    {
+      q: `¿Puedo cancelar mis deudas en ${name} si no tengo vivienda ni bienes?`,
+      a: `Sí, y de hecho es el escenario más habitual: sin bienes que liquidar, el procedimiento va por la vía de exoneración sin masa y suele ser más rápido. No hace falta tener patrimonio para acogerse.`,
+    },
+  ];
+  if (municipios.length > 0) {
+    localFaqPatterns.push({
+      q: `¿También atendéis a clientes de ${municipios[0]} u otros municipios cercanos a ${name}?`,
+      a: `Sí. Atendemos ${name} y su área de influencia: ${listado(municipios.slice(0, 6))} y cualquier otro municipio de ${provincia}. Como el expediente se prepara de forma telemática, la distancia no es un problema.`,
+    });
+  }
+  if (aliases.length > 0) {
+    localFaqPatterns.push({
+      q: `¿Es lo mismo buscar abogados de deudas en ${name} que en ${aliases[0]}?`,
+      a: `Sí. ${listado([name, ...aliases])} son la misma ciudad, así que el servicio, el equipo y el juzgado competente son exactamente los mismos.`,
+    });
+  }
+  for (const f of localFaqPatterns) {
+    if (!faq.some((x) => x.q === f.q)) {
+      faq.push({ q: f.q, a: <>{f.a}</>, plain: f.a });
+    }
+  }
+  for (const f of city.localFaqs ?? []) {
+    if (!faq.some((x) => x.q === f.q)) {
+      faq.push({ q: f.q, a: <>{f.a}</>, plain: f.a });
+    }
+  }
+
   return { intro, sections, faq };
 };
