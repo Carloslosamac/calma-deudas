@@ -155,7 +155,57 @@ const AdminWebLeads = () => {
     toast.success(`Reintentos: ${okCount} ok, ${failCount} fallidos.`);
   };
 
-  const filtered = filter === "todos" ? rows : rows.filter((r) => r.zoho_status === filter);
+  const canal = (r: WebSubmission) => {
+    if (r.utm_source) return r.utm_source;
+    return "orgánico / directo";
+  };
+
+  const uniq = (vals: (string | null)[]) =>
+    Array.from(new Set(vals.filter(Boolean) as string[])).sort((a, b) =>
+      a.localeCompare(b, "es"),
+    );
+
+  const pageOptions = uniq(rows.map((r) => r.page));
+  const sourceOptions = uniq(rows.map((r) => r.utm_source));
+  const campaignOptions = uniq(rows.map((r) => r.utm_campaign));
+
+  const filtered = rows.filter((r) => {
+    if (filter !== "todos" && r.zoho_status !== filter) return false;
+    if (pageFilter !== "todas" && (r.page ?? "") !== pageFilter) return false;
+    if (sourceFilter !== "todas") {
+      if (sourceFilter === "(sin utm)" ? !!r.utm_source : r.utm_source !== sourceFilter)
+        return false;
+    }
+    if (campaignFilter !== "todas") {
+      if (
+        campaignFilter === "(sin campaña)"
+          ? !!r.utm_campaign
+          : r.utm_campaign !== campaignFilter
+      )
+        return false;
+    }
+    return true;
+  });
+
+  // Resumen de procedencia: canal -> páginas
+  const provenance = (() => {
+    const map = new Map<string, { total: number; pages: Map<string, number> }>();
+    for (const r of filtered) {
+      const c = canal(r);
+      if (!map.has(c)) map.set(c, { total: 0, pages: new Map() });
+      const e = map.get(c)!;
+      e.total += 1;
+      const p = r.page || "(sin página)";
+      e.pages.set(p, (e.pages.get(p) ?? 0) + 1);
+    }
+    return Array.from(map.entries())
+      .map(([canal, e]) => ({
+        canal,
+        total: e.total,
+        pages: Array.from(e.pages.entries()).sort((a, b) => b[1] - a[1]),
+      }))
+      .sort((a, b) => b.total - a.total);
+  })();
 
   const retry = async (id: string) => {
     setRetrying((p) => ({ ...p, [id]: true }));
