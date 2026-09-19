@@ -196,6 +196,24 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "San Vicente del Raspeig", "Sant Joan d'Alacant", "El Campello",
       "Elda", "Petrer", "Villena", "Benidorm", "Torrevieja", "Orihuela",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia",
+    economyNote:
+      "Turismo, construcción y comercio marcan el perfil de deuda de la provincia: muchos expedientes de particulares con préstamos al consumo y de autónomos con ingresos estacionales.",
+    caseLinks: [
+      { slug: "sergio-alicante", label: "Sergio (Alicante): canceló su deuda y empezó de cero" },
+      { slug: "pablo-r-alicante-8-500-recuperados", label: "Pablo (Alicante): 8.500 € recuperados por usura" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Alicante?",
+        a: "En los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia. El procedimiento es mayoritariamente telemático.",
+      },
+      {
+        q: "¿Atendéis Elche, Torrevieja, Benidorm y la Vega Baja?",
+        a: "Sí, toda la provincia: Elche, Torrevieja, Orihuela, Benidorm, Alcoy, San Vicente del Raspeig, Elda, Dénia y cualquier municipio alicantino, de forma telemática.",
+      },
+    ],
   },
   cordoba: {
     geoAliases: ["Córdoba"],
