@@ -461,9 +461,11 @@ export const getLocalCases = (
 ): LocalCase[] => {
   const real = REAL_CASES[slug] ?? [];
   const seed = hash(slug);
-  const municipalities = (getLocalCityData(slug).nearbyMunicipalities ?? []).filter(
-    (m) => !real.some((r) => r.city === m),
-  );
+  // La propia ciudad va primero salvo que ya tenga un expediente documentado.
+  const municipalities = [
+    ...(real.some((r) => r.city === cityName) ? [] : [cityName]),
+    ...(getLocalCityData(slug).nearbyMunicipalities ?? []),
+  ].filter((m) => !real.some((r) => r.city === m));
   const target = 3 + (seed % 3); // 3, 4 o 5 casos por página
   const extra = Math.max(0, target - real.length);
   const generated: LocalCase[] = [];
