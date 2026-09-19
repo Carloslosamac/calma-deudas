@@ -28,20 +28,31 @@ const ENTITY_STOPWORDS = new Set([
 // otra palabra en mayúscula ("Banco Mediolanum", "Caja Rural de Navarra").
 const ENTITY_PREFIXES = new Set(["banco", "caja", "el", "la"]);
 
-// Extrae el nombre propio de la entidad del título: lo que sigue a "con" o "de"
-// cuando empieza por mayúscula y no es una palabra común.
+// Extrae el nombre propio de la entidad del título:
+//  a) lo que sigue a "con" o "de" cuando empieza por mayúscula y no es una palabra común;
+//  b) la marca al principio del título si va seguida de un separador ("RealCredito: …", "Flexcash – …").
 export function entityFromTitle(title: string): string | null {
+  const validEntity = (raw0: string): string | null => {
+    const raw = raw0.replace(/[.,:;?¿!¡]+$/, "").trim();
+    const words = raw.split(/\s+/);
+    const first = words[0].toLowerCase();
+    const prefixOk = ENTITY_PREFIXES.has(first) && words.length >= 2;
+    if (!prefixOk && ENTITY_STOPWORDS.has(first)) return null;
+    if (raw.length < 3 || raw.length > 40) return null;
+    return raw;
+  };
+
   const m = title.match(
     /\b(?:con|de)\s+((?:[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*)(?:\s+(?:de\s+(?:los\s+|la\s+|las\s+)?)?[A-ZÁÉÍÓÚÑ0-9][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*){0,3})/,
   );
-  if (!m) return null;
-  const raw = m[1].replace(/[.,:;?¿!¡]+$/, "").trim();
-  const words = raw.split(/\s+/);
-  const first = words[0].toLowerCase();
-  const prefixOk = ENTITY_PREFIXES.has(first) && words.length >= 2;
-  if (!prefixOk && ENTITY_STOPWORDS.has(first)) return null;
-  if (raw.length < 3 || raw.length > 40) return null;
-  return raw;
+  if (m) return validEntity(m[1]);
+
+  const start = title.match(
+    /^((?:[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*)(?:\s+[A-ZÁÉÍÓÚÑ0-9][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*){0,2})\s*[:–—-]/,
+  );
+  if (start) return validEntity(start[1]);
+
+  return null;
 }
 
 
