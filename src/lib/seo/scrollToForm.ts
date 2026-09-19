@@ -2,7 +2,7 @@
 export const scrollToForm = () => {
   const form = document.getElementById("hero-form");
   if (form) {
-    form.scrollIntoView({ behavior: "smooth", block: "center" });
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
     return;
   }
   window.location.href = "/#hero-form";
