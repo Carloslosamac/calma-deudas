@@ -405,6 +405,23 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Reus", "Salou", "Cambrils", "Valls", "El Vendrell", "Tortosa",
       "Amposta", "Vila-seca", "Calafell",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia",
+    economyNote:
+      "En Tarragona conviven la deuda ligada al turismo de la Costa Daurada (Salou, Cambrils) con la del cinturón industrial y petroquímico: autónomos estacionales y trabajadores con préstamos acumulados.",
+    caseLinks: [
+      { slug: "marina-c-tarragona-35-210-cancelados", label: "Marina (Tarragona): 35.210 € cancelados" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se presenta el concurso si vivo en Tarragona o Salou?",
+        a: "Ante los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia. Se tramita casi todo de forma telemática, sin que tengas que desplazarte salvo excepciones.",
+      },
+      {
+        q: "¿Atendéis Reus, Valls, Tortosa y el resto de la provincia?",
+        a: "Sí: Reus, Valls, Tortosa, Salou, Cambrils, El Vendrell y cualquier municipio de la provincia de Tarragona, todo de forma telemática.",
+      },
+    ],
   },
   girona: {
     geoAliases: ["Girona", "Gerona"],
