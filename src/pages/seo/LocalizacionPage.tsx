@@ -54,61 +54,23 @@ const LocalizacionPage = () => {
     { name: city.name },
   ];
 
-  // Enlazado: hub local + ciudades del cluster, priorizando las que ya reciben
-  // impresiones en Search Console para concentrar autoridad interna hacia ellas
-  // (de página 5-9 a página 1) sin canibalizar (cada ciudad es intención local
-  // distinta y todas apuntan al hub maestro).
-  // Orden por impresiones reales en Search Console (ciudades que ya reciben
-  // tráfico y pueden subir de página 5-9 a página 1). Actualizado con datos GSC.
-  const TRACTION_CITIES = [
-    "a-coruna",
-    "almeria",
-    "vigo",
-    "murcia",
-    "donostia",
-    "barcelona",
-    "burgos",
-    "sevilla",
-    "granada",
-    "oviedo",
-    "alicante",
-    "valencia",
-    "las-palmas-de-gran-canaria",
-    "santander",
-    "palma",
-    "gijon",
-  ];
+  // Enlazado: hub local + cluster LSO + otras ciudades, sin priorización
+  // manual por ciudad (cada ciudad es intención local distinta y todas
+  // apuntan al hub maestro).
   const otherCities = localizaciones.filter((l) => l.slug !== city.slug);
-  const prioritized = [
-    ...otherCities.filter((l) => TRACTION_CITIES.includes(l.slug)),
-    ...otherCities.filter((l) => !TRACTION_CITIES.includes(l.slug)),
-  ];
   const related: RelatedLink[] = [
     { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
-    // Enlaces cruzados al cluster LSO (subpilares + perfiles) para que las
-    // ciudades no queden aisladas del resto de la estructura.
     { label: "Requisitos de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/requisitos" },
     { label: "Coste de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/coste-precio" },
     { label: "Plazos y duración de la LSO", to: "/ley-segunda-oportunidad/plazos-duracion" },
     { label: "¿Pierdo mi casa con la LSO?", to: "/ley-segunda-oportunidad/pierdo-mi-casa" },
     { label: "LSO para autónomos", to: "/ley-segunda-oportunidad/perfiles/autonomos" },
     { label: "LSO para avalistas", to: "/ley-segunda-oportunidad/perfiles/avalistas" },
-    ...prioritized
+    ...otherCities
       .slice(0, 6)
       .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path })),
   ];
 
-  // Respuesta directa (AEO): resume la propuesta local en 1-2 frases para
-  // featured snippets y respuestas de IA.
-  const tldr = (
-    <p>
-      En <strong>{city.name}</strong> ({city.provincia}) puedes cancelar tus deudas con la{" "}
-      <strong>Ley de Segunda Oportunidad</strong> si estás en situación de insolvencia y actúas de buena fe.
-      El procedimiento se tramita en {city.tribunal.toLowerCase()} y puede gestionarse en gran parte online,
-      con un primer diagnóstico gratuito y sin compromiso. Atendemos {city.name}
-      {alias ? ` (${alias})` : ""} y su provincia.
-    </p>
-  );
 
   const structuredData = [
     buildBreadcrumb(breadcrumbs.map((b) => ({ name: b.name, url: b.to ?? canonical }))),
