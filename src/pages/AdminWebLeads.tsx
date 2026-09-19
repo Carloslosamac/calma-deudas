@@ -376,6 +376,56 @@ const AdminWebLeads = () => {
         </Card>
 
         <Card className="mb-4 p-4">
+          <div className="mb-3 flex flex-wrap items-end gap-3 border-b border-border pb-3">
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Desde
+              </span>
+              <input
+                type="date"
+                value={fromDate}
+                max={toDate || undefined}
+                onChange={(e) => setFromDate(e.target.value)}
+                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+              />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Hasta
+              </span>
+              <input
+                type="date"
+                value={toDate}
+                min={fromDate || undefined}
+                onChange={(e) => setToDate(e.target.value)}
+                className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+              />
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { l: "Hoy", d: 1 },
+                { l: "7 días", d: 7 },
+                { l: "30 días", d: 30 },
+                { l: "90 días", d: 90 },
+              ].map((q) => (
+                <Button key={q.l} size="sm" variant="outline" onClick={() => setQuickRange(q.d)}>
+                  {q.l}
+                </Button>
+              ))}
+              {(fromDate || toDate) && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setFromDate("");
+                    setToDate("");
+                  }}
+                >
+                  Todo
+                </Button>
+              )}
+            </div>
+          </div>
           <div className="flex flex-wrap items-end gap-3">
             {[
               {
