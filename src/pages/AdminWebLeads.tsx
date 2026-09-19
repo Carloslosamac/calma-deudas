@@ -91,6 +91,9 @@ const AdminWebLeads = () => {
   const navigate = useNavigate();
   const { session, isAdmin, loading } = useAdminAuth();
   const [filter, setFilter] = useState<"todos" | "error" | "pending" | "ok">("todos");
+  const [pageFilter, setPageFilter] = useState("todas");
+  const [sourceFilter, setSourceFilter] = useState("todas");
+  const [campaignFilter, setCampaignFilter] = useState("todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -155,7 +158,57 @@ const AdminWebLeads = () => {
     toast.success(`Reintentos: ${okCount} ok, ${failCount} fallidos.`);
   };
 
-  const filtered = filter === "todos" ? rows : rows.filter((r) => r.zoho_status === filter);
+  const canal = (r: WebSubmission) => {
+    if (r.utm_source) return r.utm_source;
+    return "orgánico / directo";
+  };
+
+  const uniq = (vals: (string | null)[]) =>
+    Array.from(new Set(vals.filter(Boolean) as string[])).sort((a, b) =>
+      a.localeCompare(b, "es"),
+    );
+
+  const pageOptions = uniq(rows.map((r) => r.page));
+  const sourceOptions = uniq(rows.map((r) => r.utm_source));
+  const campaignOptions = uniq(rows.map((r) => r.utm_campaign));
+
+  const filtered = rows.filter((r) => {
+    if (filter !== "todos" && r.zoho_status !== filter) return false;
+    if (pageFilter !== "todas" && (r.page ?? "") !== pageFilter) return false;
+    if (sourceFilter !== "todas") {
+      if (sourceFilter === "(sin utm)" ? !!r.utm_source : r.utm_source !== sourceFilter)
+        return false;
+    }
+    if (campaignFilter !== "todas") {
+      if (
+        campaignFilter === "(sin campaña)"
+          ? !!r.utm_campaign
+          : r.utm_campaign !== campaignFilter
+      )
+        return false;
+    }
+    return true;
+  });
+
+  // Resumen de procedencia: canal -> páginas
+  const provenance = (() => {
+    const map = new Map<string, { total: number; pages: Map<string, number> }>();
+    for (const r of filtered) {
+      const c = canal(r);
+      if (!map.has(c)) map.set(c, { total: 0, pages: new Map() });
+      const e = map.get(c)!;
+      e.total += 1;
+      const p = r.page || "(sin página)";
+      e.pages.set(p, (e.pages.get(p) ?? 0) + 1);
+    }
+    return Array.from(map.entries())
+      .map(([canal, e]) => ({
+        canal,
+        total: e.total,
+        pages: Array.from(e.pages.entries()).sort((a, b) => b[1] - a[1]),
+      }))
+      .sort((a, b) => b.total - a.total);
+  })();
 
   const retry = async (id: string) => {
     setRetrying((p) => ({ ...p, [id]: true }));
@@ -273,6 +326,115 @@ const AdminWebLeads = () => {
               ))}
             </div>
           )}
+        </Card>
+
+        <Card className="mb-4 p-4">
+          <div className="flex flex-wrap items-end gap-3">
+            {[
+              {
+                label: "Página",
+                value: pageFilter,
+                set: setPageFilter,
+                options: pageOptions,
+                all: "Todas las páginas",
+                none: null as string | null,
+              },
+              {
+                label: "Fuente (utm_source)",
+                value: sourceFilter,
+                set: setSourceFilter,
+                options: sourceOptions,
+                all: "Todas las fuentes",
+                none: "(sin utm)",
+              },
+              {
+                label: "Campaña",
+                value: campaignFilter,
+                set: setCampaignFilter,
+                options: campaignOptions,
+                all: "Todas las campañas",
+                none: "(sin campaña)",
+              },
+            ].map((s) => (
+              <label key={s.label} className="flex min-w-[180px] flex-1 flex-col gap-1">
+                <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  {s.label}
+                </span>
+                <select
+                  value={s.value}
+                  onChange={(e) => s.set(e.target.value)}
+                  className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+                >
+                  <option value="todas">{s.all}</option>
+                  {s.none && <option value={s.none}>{s.none}</option>}
+                  {s.options.map((o) => (
+                    <option key={o} value={o}>
+                      {o}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+            {(pageFilter !== "todas" ||
+              sourceFilter !== "todas" ||
+              campaignFilter !== "todas") && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setPageFilter("todas");
+                  setSourceFilter("todas");
+                  setCampaignFilter("todas");
+                }}
+              >
+                Limpiar
+              </Button>
+            )}
+          </div>
+
+          <div className="mt-4 border-t border-border pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Procedencia ({filtered.length} envíos)
+            </p>
+            {provenance.length === 0 ? (
+              <p className="mt-2 text-xs text-muted-foreground">Sin datos.</p>
+            ) : (
+              <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {provenance.map((c) => (
+                  <div key={c.canal} className="rounded-lg border border-border/60 p-3">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="truncate text-sm font-medium text-foreground">
+                        {c.canal}
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">{c.total}</span>
+                    </div>
+                    <ul className="mt-1.5 space-y-0.5">
+                      {c.pages.slice(0, 5).map(([p, n]) => (
+                        <li
+                          key={p}
+                          className="flex justify-between gap-2 text-[11px] text-muted-foreground"
+                        >
+                          <button
+                            type="button"
+                            className="truncate text-left hover:text-foreground hover:underline"
+                            onClick={() => setPageFilter(p === "(sin página)" ? "todas" : p)}
+                          >
+                            {p}
+                          </button>
+                          <span>{n}</span>
+                        </li>
+                      ))}
+                      {c.pages.length > 5 && (
+                        <li className="text-[11px] text-muted-foreground/70">
+                          +{c.pages.length - 5} más
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </Card>
 
         <div className="mb-4 flex flex-wrap gap-2">
