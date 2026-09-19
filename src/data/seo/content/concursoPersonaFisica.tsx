@@ -114,7 +114,7 @@ export const concursoPersonaFisica: MoneyContent = {
       title: "Fases del concurso de persona física",
       subtitle: "Un procedimiento ordenado y bajo control judicial.",
       phases: [
-        { title: "Solicitud y auto de declaración", duration: "Inicio", text: "Se presenta la solicitud de concurso ante el juzgado mercantil o de primera instancia y el juez dicta el auto que declara la insolvencia." },
+        { title: "Solicitud y auto de declaración", duration: "Inicio", text: "Se presenta la solicitud de concurso ante el juzgado de lo mercantil competente y el juez dicta el auto que declara la insolvencia." },
         { title: "Administración concursal", duration: "Primeras semanas", text: "Se nombra al administrador concursal, que verifica el activo y el pasivo y elabora el inventario de la masa." },
         { title: "Fase común", duration: "Meses", text: "Se determinan los créditos y su orden de prelación. Los embargos quedan suspendidos mientras dura el procedimiento." },
         { title: "Convenio o liquidación", duration: "Variable", text: "O bien un convenio con quitas y esperas, o bien la liquidación ordenada de los bienes no necesarios para la actividad." },
