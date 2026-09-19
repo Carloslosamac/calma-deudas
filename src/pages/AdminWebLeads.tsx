@@ -328,6 +328,115 @@ const AdminWebLeads = () => {
           )}
         </Card>
 
+        <Card className="mb-4 p-4">
+          <div className="flex flex-wrap items-end gap-3">
+            {[
+              {
+                label: "Página",
+                value: pageFilter,
+                set: setPageFilter,
+                options: pageOptions,
+                all: "Todas las páginas",
+                none: null as string | null,
+              },
+              {
+                label: "Fuente (utm_source)",
+                value: sourceFilter,
+                set: setSourceFilter,
+                options: sourceOptions,
+                all: "Todas las fuentes",
+                none: "(sin utm)",
+              },
+              {
+                label: "Campaña",
+                value: campaignFilter,
+                set: setCampaignFilter,
+                options: campaignOptions,
+                all: "Todas las campañas",
+                none: "(sin campaña)",
+              },
+            ].map((s) => (
+              <label key={s.label} className="flex min-w-[180px] flex-1 flex-col gap-1">
+                <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  {s.label}
+                </span>
+                <select
+                  value={s.value}
+                  onChange={(e) => s.set(e.target.value)}
+                  className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
+                >
+                  <option value="todas">{s.all}</option>
+                  {s.none && <option value={s.none}>{s.none}</option>}
+                  {s.options.map((o) => (
+                    <option key={o} value={o}>
+                      {o}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+            {(pageFilter !== "todas" ||
+              sourceFilter !== "todas" ||
+              campaignFilter !== "todas") && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setPageFilter("todas");
+                  setSourceFilter("todas");
+                  setCampaignFilter("todas");
+                }}
+              >
+                Limpiar
+              </Button>
+            )}
+          </div>
+
+          <div className="mt-4 border-t border-border pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Procedencia ({filtered.length} envíos)
+            </p>
+            {provenance.length === 0 ? (
+              <p className="mt-2 text-xs text-muted-foreground">Sin datos.</p>
+            ) : (
+              <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {provenance.map((c) => (
+                  <div key={c.canal} className="rounded-lg border border-border/60 p-3">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="truncate text-sm font-medium text-foreground">
+                        {c.canal}
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">{c.total}</span>
+                    </div>
+                    <ul className="mt-1.5 space-y-0.5">
+                      {c.pages.slice(0, 5).map(([p, n]) => (
+                        <li
+                          key={p}
+                          className="flex justify-between gap-2 text-[11px] text-muted-foreground"
+                        >
+                          <button
+                            type="button"
+                            className="truncate text-left hover:text-foreground hover:underline"
+                            onClick={() => setPageFilter(p === "(sin página)" ? "todas" : p)}
+                          >
+                            {p}
+                          </button>
+                          <span>{n}</span>
+                        </li>
+                      ))}
+                      {c.pages.length > 5 && (
+                        <li className="text-[11px] text-muted-foreground/70">
+                          +{c.pages.length - 5} más
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </Card>
+
         <div className="mb-4 flex flex-wrap gap-2">
           {(["todos", "error", "pending", "ok"] as const).map((f) => (
             <Button
