@@ -7,9 +7,19 @@
  * a la que enlazan todas las ciudades para no canibalizar.
  */
 
-export type Localizacion = {
+/**
+ * Local SEO v2: los campos locales ampliados (aliases geográficos, municipios
+ * cercanos, recursos, FAQs y estadísticas) viven en un único dataset,
+ * `src/data/seo/localData.ts`, y se fusionan aquí. Añadir una ciudad nueva
+ * solo requiere añadir su ficha en esos datasets.
+ */
+export type Localizacion = LocalCityData & {
   /** slug de la ciudad (sin cluster) */
   slug: string;
+  /** variantes de intención local que la página debe cubrir */
+  intents: string[];
+  /** caso de la ciudad, integrado en la landing (solo si isReal) */
+  localCase?: LocalCase;
   /** nombre de la ciudad */
   name: string;
   /** ranking poblacional aproximado (1 = más grande) */
