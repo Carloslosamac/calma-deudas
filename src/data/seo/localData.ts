@@ -42,6 +42,10 @@ export type LocalCityData = {
   nearbyMunicipalities?: string[];
   /** matiz real sobre el juzgado o la sede competente */
   courtInfo?: string;
+  /** particularidad real del tejido económico o del perfil de deuda local */
+  economyNote?: string;
+  /** casos de éxito publicados de la zona (slug en /casos-de-exito) */
+  caseLinks?: { slug: string; label: string }[];
   /** recursos públicos de la zona */
   localResources?: LocalResource[];
   /** FAQs propias de la ubicación */
