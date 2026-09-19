@@ -223,6 +223,36 @@ const AdminWebLeads = () => {
       .sort((a, b) => b.total - a.total);
   })();
 
+  const exportExcel = async () => {
+    if (filtered.length === 0) {
+      toast.info("No hay envíos para exportar con estos filtros.");
+      return;
+    }
+    const XLSX = await import("xlsx");
+    const data = filtered.map((r) => ({
+      Fecha: new Date(r.created_at).toLocaleString("es-ES"),
+      Nombre: r.name ?? "",
+      Teléfono: r.phone ?? "",
+      Email: r.email ?? "",
+      Deuda: r.debt_amount ?? "",
+      Entidades: (r.entities ?? []).join(", "),
+      Página: r.page ?? "",
+      Canal: canal(r),
+      utm_source: r.utm_source ?? "",
+      utm_medium: r.utm_medium ?? "",
+      utm_campaign: r.utm_campaign ?? "",
+      Zoho: r.zoho_status,
+      "ID Zoho": r.zoho_lead_id ?? "",
+      Error: r.zoho_error ?? "",
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Leads web");
+    const rango =
+      fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
+    XLSX.writeFile(wb, `leads-web${rango}.xlsx`);
+  };
+
   const retry = async (id: string) => {
     setRetrying((p) => ({ ...p, [id]: true }));
     try {
