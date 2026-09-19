@@ -89,7 +89,6 @@ const LocalizacionPage = () => {
       canonical={canonical}
       breadcrumbs={breadcrumbs}
       structuredData={structuredData}
-      tldr={tldr}
       related={related}
       sections={content.sections}
       faq={content.faq.map((f) => ({ q: f.q, a: f.a }))}
