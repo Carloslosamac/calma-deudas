@@ -251,7 +251,31 @@ const AdminWebLeads = () => {
     XLSX.utils.book_append_sheet(wb, ws, "Leads web");
     const rango =
       fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
-    XLSX.writeFile(wb, `leads-web${rango}.xlsx`);
+    const filename = `leads-web${rango}.xlsx`;
+    try {
+      const out = XLSX.write(wb, { bookType: "xlsx", type: "array" }) as ArrayBuffer;
+      const blob = new Blob([out], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = URL.createObjectURL(blob);
+      const doc = window.top?.document ?? document;
+      const a = doc.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.rel = "noopener";
+      a.target = "_blank";
+      doc.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        a.remove();
+        URL.revokeObjectURL(url);
+      }, 4000);
+      toast.success(`Descargando ${filtered.length} envíos (${filename}).`);
+    } catch (e) {
+      toast.error(
+        `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}. Prueba a abrir el panel en una pestaña aparte.`,
+      );
+    }
   };
 
   const retry = async (id: string) => {
