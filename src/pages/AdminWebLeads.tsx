@@ -240,6 +240,41 @@ const AdminWebLeads = () => {
       }
       return;
     }
+    const rango =
+      fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
+    const filename = `leads-web${rango}.xlsx`;
+    type SaveFilePickerWindow = Window & {
+      showSaveFilePicker?: (options: {
+        suggestedName: string;
+        types: Array<{ description: string; accept: Record<string, string[]> }>;
+      }) => Promise<{
+        createWritable: () => Promise<{
+          write: (data: Blob) => Promise<void>;
+          close: () => Promise<void>;
+        }>;
+      }>;
+    };
+    const savePicker = (window as SaveFilePickerWindow).showSaveFilePicker;
+    let fileHandle: Awaited<ReturnType<NonNullable<typeof savePicker>>> | null = null;
+    if (savePicker) {
+      try {
+        fileHandle = await savePicker({
+          suggestedName: filename,
+          types: [
+            {
+              description: "Archivo Excel",
+              accept: {
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+              },
+            },
+          ],
+        });
+      } catch (e) {
+        if (e instanceof DOMException && e.name === "AbortError") return;
+        toast.error("No se pudo abrir el selector para guardar el Excel.");
+        return;
+      }
+    }
     setExporting(true);
     try {
       const XLSX = await import("xlsx");
@@ -262,13 +297,17 @@ const AdminWebLeads = () => {
       const ws = XLSX.utils.json_to_sheet(data);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Leads web");
-      const rango =
-        fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
-      const filename = `leads-web${rango}.xlsx`;
       const out = XLSX.write(wb, { bookType: "xlsx", type: "array" }) as ArrayBuffer;
       const blob = new Blob([out], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
+      if (fileHandle) {
+        const writable = await fileHandle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        toast.success(`Excel guardado con ${filtered.length} envíos.`);
+        return;
+      }
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
