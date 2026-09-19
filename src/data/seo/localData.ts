@@ -42,6 +42,10 @@ export type LocalCityData = {
   nearbyMunicipalities?: string[];
   /** matiz real sobre el juzgado o la sede competente */
   courtInfo?: string;
+  /** particularidad real del tejido económico o del perfil de deuda local */
+  economyNote?: string;
+  /** casos de éxito publicados de la zona (slug en /casos-de-exito) */
+  caseLinks?: { slug: string; label: string }[];
   /** recursos públicos de la zona */
   localResources?: LocalResource[];
   /** FAQs propias de la ubicación */
@@ -105,12 +109,48 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Utebo", "Cuarte de Huerva", "La Muela", "Calatayud", "Ejea de los Caballeros",
       "Tarazona", "Zuera", "Alagón",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Zaragoza, referencia concursal en Aragón",
+    economyNote:
+      "Zaragoza concentra la mayor parte de los concursos de Aragón. El perfil habitual combina hipoteca con préstamos al consumo y deuda de autónomos de la logística y el comercio, sectores con mucho peso en la provincia.",
+    caseLinks: [
+      { slug: "daniel-zaragoza", label: "Daniel (Zaragoza): canceló su deuda con la LSO" },
+      { slug: "lucia-d-zaragoza-42-150", label: "Lucía (Zaragoza): 42.150 € cancelados" },
+      { slug: "nuria-d-zaragoza-28-700", label: "Nuria (Zaragoza): 28.700 € exonerados" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Cuánto tarda la segunda oportunidad en Zaragoza?",
+        a: "Depende de la carga del juzgado y de la complejidad del expediente; en general el procedimiento completo suele moverse entre 6 y 18 meses, y los embargos pueden suspenderse mucho antes de la exoneración.",
+      },
+      {
+        q: "¿Atendéis el resto de Aragón: Huesca, Teruel, Calatayud?",
+        a: "Sí. Aunque los juzgados de lo mercantil están en Zaragoza capital, atendemos telemáticamente a clientes de Huesca, Teruel, Calatayud, Utebo y cualquier municipio aragonés.",
+      },
+    ],
   },
   malaga: {
     geoAliases: ["Malaga"],
     nearbyMunicipalities: [
       "Marbella", "Vélez-Málaga", "Mijas", "Fuengirola", "Torremolinos",
       "Benalmádena", "Estepona", "Rincón de la Victoria", "Antequera", "Ronda",
+    ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Málaga, ubicados en la Ciudad de la Justicia",
+    economyNote:
+      "El sector turístico y de temporada genera en Málaga muchos expedientes de trabajadores con contratos discontinuos y de autónomos de hostelería con deuda acumulada en los meses flojos.",
+    caseLinks: [
+      { slug: "hugo-malaga", label: "Hugo (Málaga): reunificó tres préstamos y respira" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Málaga?",
+        a: "En los Juzgados de lo Mercantil de Málaga, en la Ciudad de la Justicia. La mayor parte del procedimiento es telemática.",
+      },
+      {
+        q: "¿Atendéis la Costa del Sol: Marbella, Fuengirola, Torremolinos, Vélez?",
+        a: "Sí, toda la provincia de Málaga de forma telemática: Marbella, Mijas, Fuengirola, Benalmádena, Torremolinos, Estepona, Antequera, Vélez-Málaga y Ronda, entre otros.",
+      },
     ],
   },
   murcia: {
@@ -155,6 +195,24 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     nearbyMunicipalities: [
       "San Vicente del Raspeig", "Sant Joan d'Alacant", "El Campello",
       "Elda", "Petrer", "Villena", "Benidorm", "Torrevieja", "Orihuela",
+    ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia",
+    economyNote:
+      "Turismo, construcción y comercio marcan el perfil de deuda de la provincia: muchos expedientes de particulares con préstamos al consumo y de autónomos con ingresos estacionales.",
+    caseLinks: [
+      { slug: "sergio-alicante", label: "Sergio (Alicante): canceló su deuda y empezó de cero" },
+      { slug: "pablo-r-alicante-8-500-recuperados", label: "Pablo (Alicante): 8.500 € recuperados por usura" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Alicante?",
+        a: "En los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia. El procedimiento es mayoritariamente telemático.",
+      },
+      {
+        q: "¿Atendéis Elche, Torrevieja, Benidorm y la Vega Baja?",
+        a: "Sí, toda la provincia: Elche, Torrevieja, Orihuela, Benidorm, Alcoy, San Vicente del Raspeig, Elda, Dénia y cualquier municipio alicantino, de forma telemática.",
+      },
     ],
   },
   cordoba: {
@@ -213,6 +271,20 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     nearbyMunicipalities: [
       "Ferrol", "Santiago de Compostela", "Arteixo", "Oleiros", "Culleredo",
       "Cambre", "Carballo", "Narón", "Betanzos", "Sada",
+    ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de A Coruña, en la Ciudad de la Justicia",
+    economyNote:
+      "En A Coruña son frecuentes los expedientes de autónomos del comercio y la hostelería y de familias con hipoteca más préstamos personales.",
+    localFaqs: [
+      {
+        q: "¿Dónde se presenta mi concurso de segunda oportunidad si vivo en A Coruña?",
+        a: "Ante los Juzgados de lo Mercantil de A Coruña, que son los competentes también para las personas sin actividad empresarial. Casi todo el trámite se hace de forma telemática.",
+      },
+      {
+        q: "¿Atendéis municipios como Ferrol, Santiago o Arteixo?",
+        a: "Sí. Atendemos toda la provincia de A Coruña de forma telemática: Ferrol, Santiago de Compostela, Arteixo, Oleiros, Culleredo, Cambre y cualquier otro municipio.",
+      },
     ],
   },
   granada: {
@@ -278,6 +350,23 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "El Ejido", "Roquetas de Mar", "Níjar", "Vícar", "Adra", "Huércal-Overa",
       "Berja", "Cuevas del Almanzora",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia",
+    economyNote:
+      "Almería tiene un perfil de deuda muy marcado por la agricultura intensiva y la hostelería: autónomos con campañas irregulares y familias con varios préstamos al consumo.",
+    caseLinks: [
+      { slug: "ivan-p-almeria-nomina-liberada", label: "Iván (Almería): nómina liberada del embargo" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se tramita mi caso de segunda oportunidad en Almería?",
+        a: "Ante los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia. Casi todo se gestiona de forma telemática.",
+      },
+      {
+        q: "¿Atendéis El Ejido, Roquetas, Níjar y el Poniente?",
+        a: "Sí, atendemos toda la provincia de Almería de forma telemática: El Ejido, Roquetas de Mar, Níjar, Adra, Huércal-Overa, Vícar y el resto de municipios.",
+      },
+    ],
   },
   salamanca: {
     communityAliases: ["Castilla y León"],
@@ -315,6 +404,23 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     nearbyMunicipalities: [
       "Reus", "Salou", "Cambrils", "Valls", "El Vendrell", "Tortosa",
       "Amposta", "Vila-seca", "Calafell",
+    ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia",
+    economyNote:
+      "En Tarragona conviven la deuda ligada al turismo de la Costa Daurada (Salou, Cambrils) con la del cinturón industrial y petroquímico: autónomos estacionales y trabajadores con préstamos acumulados.",
+    caseLinks: [
+      { slug: "marina-c-tarragona-35-210-cancelados", label: "Marina (Tarragona): 35.210 € cancelados" },
+    ],
+    localFaqs: [
+      {
+        q: "¿Dónde se presenta el concurso si vivo en Tarragona o Salou?",
+        a: "Ante los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia. Se tramita casi todo de forma telemática, sin que tengas que desplazarte salvo excepciones.",
+      },
+      {
+        q: "¿Atendéis Reus, Valls, Tortosa y el resto de la provincia?",
+        a: "Sí: Reus, Valls, Tortosa, Salou, Cambrils, El Vendrell y cualquier municipio de la provincia de Tarragona, todo de forma telemática.",
+      },
     ],
   },
   girona: {

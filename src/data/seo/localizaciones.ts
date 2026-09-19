@@ -79,7 +79,7 @@ const cities: Omit<
     rank: 1,
     provincia: "Madrid",
     comunidad: "Comunidad de Madrid",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Madrid",
+    tribunal: "Juzgados de lo Mercantil de Madrid",
     localNote:
       "Madrid concentra el mayor volumen de procedimientos de segunda oportunidad de España, con varios juzgados especializados que agilizan los expedientes bien preparados.",
     lat: 40.4168,
@@ -91,7 +91,7 @@ const cities: Omit<
     rank: 2,
     provincia: "Barcelona",
     comunidad: "Cataluña",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Barcelona",
+    tribunal: "Juzgados de lo Mercantil de Barcelona",
     localNote:
       "Los juzgados de Barcelona acumulan una amplia jurisprudencia favorable a la exoneración del pasivo, lo que ayuda a anticipar el criterio del juez en tu caso.",
     lat: 41.3874,
@@ -103,7 +103,7 @@ const cities: Omit<
     rank: 3,
     provincia: "Valencia",
     comunidad: "Comunidad Valenciana",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Valencia",
+    tribunal: "Juzgados de lo Mercantil de Valencia",
     localNote:
       "En Valencia atendemos tanto a particulares como a autónomos del comercio y la hostelería, sectores con fuerte peso en la economía local.",
     lat: 39.4699,
@@ -115,7 +115,7 @@ const cities: Omit<
     rank: 4,
     provincia: "Sevilla",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Sevilla",
+    tribunal: "Juzgados de lo Mercantil de Sevilla",
     localNote:
       "Sevilla reúne muchos casos de autónomos con deuda acumulada de Hacienda y Seguridad Social, que la reforma concursal permite exonerar con límites.",
     lat: 37.3891,
@@ -127,7 +127,7 @@ const cities: Omit<
     rank: 5,
     provincia: "Zaragoza",
     comunidad: "Aragón",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Zaragoza",
+    tribunal: "Juzgados de lo Mercantil de Zaragoza",
     localNote:
       "En Zaragoza llevamos expedientes de toda la provincia, con especial atención a familias que arrastran microcréditos y tarjetas revolving.",
     lat: 41.6488,
@@ -139,7 +139,7 @@ const cities: Omit<
     rank: 6,
     provincia: "Málaga",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Málaga",
+    tribunal: "Juzgados de lo Mercantil de Málaga",
     localNote:
       "Málaga, con su fuerte sector servicios y turístico, concentra muchos casos de autónomos y temporeros que pueden acogerse a la Ley de Segunda Oportunidad.",
     lat: 36.7213,
@@ -151,7 +151,7 @@ const cities: Omit<
     rank: 7,
     provincia: "Murcia",
     comunidad: "Región de Murcia",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Murcia",
+    tribunal: "Juzgados de lo Mercantil de Murcia",
     localNote:
       "En Murcia trabajamos casos de toda la Región, frecuentes en agricultura, comercio y pequeños autónomos con deudas con proveedores.",
     lat: 37.9922,
@@ -163,7 +163,7 @@ const cities: Omit<
     rank: 8,
     provincia: "Islas Baleares",
     comunidad: "Islas Baleares",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Palma",
+    tribunal: "Juzgados de lo Mercantil de Palma",
     localNote:
       "En Palma atendemos a residentes de todas las islas, con muchos casos vinculados a la estacionalidad del empleo turístico.",
     lat: 39.5696,
@@ -175,7 +175,7 @@ const cities: Omit<
     rank: 9,
     provincia: "Las Palmas",
     comunidad: "Canarias",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Las Palmas",
+    tribunal: "Juzgados de lo Mercantil de Las Palmas",
     localNote:
       "Damos servicio a toda la provincia de Las Palmas, con un proceso que puede llevarse en gran parte de forma telemática, sin desplazamientos innecesarios.",
     lat: 28.1235,
@@ -187,7 +187,7 @@ const cities: Omit<
     rank: 10,
     provincia: "Bizkaia",
     comunidad: "País Vasco",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Bilbao",
+    tribunal: "Juzgados de lo Mercantil de Bilbao",
     localNote:
       "En Bilbao y toda Bizkaia llevamos expedientes de particulares y autónomos, coordinándonos con las particularidades del foralismo vasco cuando aplica.",
     lat: 43.263,
@@ -199,7 +199,7 @@ const cities: Omit<
     rank: 11,
     provincia: "Alicante",
     comunidad: "Comunidad Valenciana",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Alicante",
+    tribunal: "Juzgados de lo Mercantil de Alicante",
     localNote:
       "Alicante reúne muchos casos de autónomos del comercio y la construcción, además de residentes con deudas en varias entidades a la vez.",
     lat: 38.3452,
@@ -211,7 +211,7 @@ const cities: Omit<
     rank: 12,
     provincia: "Córdoba",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Córdoba",
+    tribunal: "Juzgados de lo Mercantil de Córdoba",
     localNote:
       "En Córdoba atendemos a familias de toda la provincia que buscan cancelar deudas de consumo, microcréditos y préstamos personales.",
     lat: 37.8882,
@@ -223,7 +223,7 @@ const cities: Omit<
     rank: 13,
     provincia: "Valladolid",
     comunidad: "Castilla y León",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Valladolid",
+    tribunal: "Juzgados de lo Mercantil de Valladolid",
     localNote:
       "Valladolid es referencia judicial de buena parte de Castilla y León, donde llevamos casos de particulares y pequeños autónomos.",
     lat: 41.6523,
@@ -235,7 +235,7 @@ const cities: Omit<
     rank: 14,
     provincia: "Pontevedra",
     comunidad: "Galicia",
-    tribunal: "Juzgados de lo Mercantil de Pontevedra (sede Vigo) y de Primera Instancia de Vigo",
+    tribunal: "Juzgados de lo Mercantil de Pontevedra (sede en Vigo)",
     localNote:
       "En Vigo trabajamos casos del sur de Galicia, frecuentes en autónomos del mar, la industria auxiliar y el comercio.",
     lat: 42.2406,
@@ -247,7 +247,7 @@ const cities: Omit<
     rank: 15,
     provincia: "Asturias",
     comunidad: "Principado de Asturias",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Gijón",
+    tribunal: "Juzgados de lo Mercantil de Gijón",
     localNote:
       "En Gijón y toda Asturias atendemos a particulares y autónomos, con muchos casos derivados de cierres de pequeños negocios.",
     lat: 43.5322,
@@ -259,7 +259,7 @@ const cities: Omit<
     rank: 16,
     provincia: "Barcelona",
     comunidad: "Cataluña",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Barcelona",
+    tribunal: "Juzgados de lo Mercantil de Barcelona",
     localNote:
       "L'Hospitalet, integrada en el área metropolitana de Barcelona, comparte la jurisprudencia favorable de sus juzgados en materia de exoneración.",
     lat: 41.3596,
@@ -271,7 +271,7 @@ const cities: Omit<
     rank: 17,
     provincia: "Álava",
     comunidad: "País Vasco",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Vitoria-Gasteiz",
+    tribunal: "Juzgados de lo Mercantil de Vitoria-Gasteiz",
     localNote:
       "En Vitoria-Gasteiz llevamos expedientes de toda Álava, coordinando el proceso de segunda oportunidad con las particularidades forales cuando proceden.",
     lat: 42.8467,
@@ -283,7 +283,7 @@ const cities: Omit<
     rank: 18,
     provincia: "A Coruña",
     comunidad: "Galicia",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de A Coruña",
+    tribunal: "Juzgados de lo Mercantil de A Coruña",
     localNote:
       "En A Coruña damos servicio al norte de Galicia, con casos habituales de autónomos del comercio, la hostelería y el sector servicios.",
     lat: 43.3623,
@@ -295,7 +295,7 @@ const cities: Omit<
     rank: 19,
     provincia: "Granada",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Granada",
+    tribunal: "Juzgados de lo Mercantil de Granada",
     localNote:
       "Granada reúne muchos casos de familias con deudas de consumo y autónomos vinculados al turismo y la universidad.",
     lat: 37.1773,
@@ -307,7 +307,7 @@ const cities: Omit<
     rank: 20,
     provincia: "Alicante",
     comunidad: "Comunidad Valenciana",
-    tribunal: "Juzgados de lo Mercantil de Alicante y de Primera Instancia de Elche",
+    tribunal: "Juzgados de lo Mercantil de Alicante",
     localNote:
       "En Elche atendemos a muchos autónomos del calzado y la industria local, además de familias con varias deudas acumuladas.",
     lat: 38.2699,
@@ -319,7 +319,7 @@ const cities: Omit<
     rank: 21,
     provincia: "Asturias",
     comunidad: "Principado de Asturias",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Oviedo",
+    tribunal: "Juzgados de lo Mercantil de Oviedo",
     localNote:
       "Oviedo es referencia judicial del centro de Asturias, donde llevamos casos de funcionarios, pensionistas y autónomos con deudas de consumo acumuladas.",
     lat: 43.3619,
@@ -331,7 +331,7 @@ const cities: Omit<
     rank: 22,
     provincia: "Cantabria",
     comunidad: "Cantabria",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Santander",
+    tribunal: "Juzgados de lo Mercantil de Santander",
     localNote:
       "En Santander damos servicio a toda Cantabria, con casos frecuentes de autónomos del comercio y los servicios y familias con préstamos en varias entidades.",
     lat: 43.4623,
@@ -343,7 +343,7 @@ const cities: Omit<
     rank: 23,
     provincia: "Navarra",
     comunidad: "Comunidad Foral de Navarra",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Pamplona",
+    tribunal: "Juzgados de lo Mercantil de Pamplona",
     localNote:
       "En Pamplona llevamos expedientes de toda Navarra, coordinando el proceso de segunda oportunidad con las particularidades del derecho foral navarro cuando aplica.",
     lat: 42.8125,
@@ -355,7 +355,7 @@ const cities: Omit<
     rank: 24,
     provincia: "Gipuzkoa",
     comunidad: "País Vasco",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Donostia-San Sebastián",
+    tribunal: "Juzgados de lo Mercantil de Donostia-San Sebastián",
     localNote:
       "En Donostia atendemos a particulares y autónomos de toda Gipuzkoa, con casos habituales en el comercio, la hostelería y el sector servicios.",
     lat: 43.3183,
@@ -367,7 +367,7 @@ const cities: Omit<
     rank: 25,
     provincia: "Burgos",
     comunidad: "Castilla y León",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Burgos",
+    tribunal: "Juzgados de lo Mercantil de Burgos",
     localNote:
       "Burgos es referencia judicial del norte de Castilla y León, donde llevamos casos de particulares y pequeños autónomos del comercio y la industria.",
     lat: 42.3439,
@@ -379,7 +379,7 @@ const cities: Omit<
     rank: 26,
     provincia: "Almería",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Almería",
+    tribunal: "Juzgados de lo Mercantil de Almería",
     localNote:
       "En Almería damos servicio a toda la provincia, con casos frecuentes de autónomos de la agricultura intensiva, el comercio y la hostelería.",
     lat: 36.834,
@@ -391,7 +391,7 @@ const cities: Omit<
     rank: 27,
     provincia: "Salamanca",
     comunidad: "Castilla y León",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Salamanca",
+    tribunal: "Juzgados de lo Mercantil de Salamanca",
     localNote:
       "Salamanca combina el peso del sector universitario y servicios con autónomos del comercio local; los juzgados aplican criterios asentados sobre buena fe.",
     lat: 40.9701,
@@ -403,7 +403,7 @@ const cities: Omit<
     rank: 28,
     provincia: "Cádiz",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Cádiz",
+    tribunal: "Juzgados de lo Mercantil de Cádiz",
     localNote:
       "Cádiz reúne un perfil frecuente de autónomos del turismo, la pesca y la hostelería, sectores con estacionalidad marcada que arrastra deudas.",
     lat: 36.5271,
@@ -415,7 +415,7 @@ const cities: Omit<
     rank: 29,
     provincia: "Toledo",
     comunidad: "Castilla-La Mancha",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Toledo",
+    tribunal: "Juzgados de lo Mercantil de Toledo",
     localNote:
       "Toledo, capital manchega, concentra deudas de pequeños autónomos y familias del corredor Madrid–Toledo con préstamos personales acumulados.",
     lat: 39.8628,
@@ -427,7 +427,7 @@ const cities: Omit<
     rank: 30,
     provincia: "Lleida",
     comunidad: "Cataluña",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Lleida",
+    tribunal: "Juzgados de lo Mercantil de Lleida",
     localNote:
       "Lleida atiende a autónomos del sector agrario, la fruta y el comercio; el interior catalán presenta un perfil de deuda muy vinculado a campañas.",
     lat: 41.6176,
@@ -439,7 +439,7 @@ const cities: Omit<
     rank: 31,
     provincia: "Tarragona",
     comunidad: "Cataluña",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Tarragona",
+    tribunal: "Juzgados de lo Mercantil de Tarragona",
     localNote:
       "Tarragona combina la deuda de autónomos turísticos de la Costa Daurada con particulares del cinturón industrial de la petroquímica.",
     lat: 41.1189,
@@ -451,7 +451,7 @@ const cities: Omit<
     rank: 32,
     provincia: "Girona",
     comunidad: "Cataluña",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Girona",
+    tribunal: "Juzgados de lo Mercantil de Girona",
     localNote:
       "Girona presenta un peso alto de autónomos del turismo de la Costa Brava y del comercio de proximidad, con estacionalidad fuerte.",
     lat: 41.9794,
@@ -463,7 +463,7 @@ const cities: Omit<
     rank: 33,
     provincia: "León",
     comunidad: "Castilla y León",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de León",
+    tribunal: "Juzgados de lo Mercantil de León",
     localNote:
       "León aglutina casos de pequeños autónomos del comercio, la hostelería y la minería reconvertida, con deudas antiguas difíciles de reestructurar.",
     lat: 42.5987,
@@ -475,7 +475,7 @@ const cities: Omit<
     rank: 34,
     provincia: "Castellón",
     comunidad: "Comunidad Valenciana",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Castellón",
+    tribunal: "Juzgados de lo Mercantil de Castellón",
     localNote:
       "Castellón concentra autónomos del sector cerámico y del comercio, además de familias con deudas de consumo y microcréditos acumulados.",
     lat: 39.9864,
@@ -487,7 +487,7 @@ const cities: Omit<
     rank: 35,
     provincia: "Huelva",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Huelva",
+    tribunal: "Juzgados de lo Mercantil de Huelva",
     localNote:
       "Huelva atiende a autónomos agrarios (fresa, frutos rojos), pesqueros y del turismo, con perfiles marcados por la temporalidad.",
     lat: 37.2614,
@@ -499,7 +499,7 @@ const cities: Omit<
     rank: 36,
     provincia: "Jaén",
     comunidad: "Andalucía",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Jaén",
+    tribunal: "Juzgados de lo Mercantil de Jaén",
     localNote:
       "Jaén presenta un peso muy alto de autónomos del olivar y el comercio, con deudas ligadas a campañas y a préstamos personales sobre bienes familiares.",
     lat: 37.7796,
@@ -511,7 +511,7 @@ const cities: Omit<
     rank: 37,
     provincia: "La Rioja",
     comunidad: "La Rioja",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Logroño",
+    tribunal: "Juzgados de lo Mercantil de Logroño",
     localNote:
       "Logroño reúne casos de autónomos del vino, la hostelería y el comercio, con deudas mixtas de proveedor y financieras.",
     lat: 42.4627,
@@ -523,7 +523,7 @@ const cities: Omit<
     rank: 38,
     provincia: "Albacete",
     comunidad: "Castilla-La Mancha",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Albacete",
+    tribunal: "Juzgados de lo Mercantil de Albacete",
     localNote:
       "Albacete concentra autónomos del comercio, la industria del cuchillo y la agricultura de secano, con deudas frecuentes por caídas de campaña.",
     lat: 38.9943,
@@ -535,7 +535,7 @@ const cities: Omit<
     rank: 39,
     provincia: "Badajoz",
     comunidad: "Extremadura",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Badajoz",
+    tribunal: "Juzgados de lo Mercantil de Badajoz",
     localNote:
       "Badajoz atiende a familias y autónomos del comercio, la agricultura y la ganadería extensiva, con deudas de consumo y préstamos personales.",
     lat: 38.8794,
@@ -547,7 +547,7 @@ const cities: Omit<
     rank: 40,
     provincia: "Ourense",
     comunidad: "Galicia",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Ourense",
+    tribunal: "Juzgados de lo Mercantil de Ourense",
     localNote:
       "Ourense presenta casos habituales de pensionistas, familias y autónomos rurales del interior gallego con deudas de consumo y avales familiares.",
     lat: 42.3364,
@@ -559,7 +559,7 @@ const cities: Omit<
     rank: 41,
     provincia: "Cáceres",
     comunidad: "Extremadura",
-    tribunal: "Juzgados de lo Mercantil y de Primera Instancia de Cáceres",
+    tribunal: "Juzgados de lo Mercantil de Cáceres",
     localNote:
       "Cáceres atiende a autónomos del comercio, el turismo rural y la agricultura, con deudas frecuentes tras caídas de temporada.",
     lat: 39.4753,
@@ -579,7 +579,7 @@ const localExtra: Record<
 > = {
   madrid: {
     zonas: ["Centro", "Vallecas", "Carabanchel", "Tetuán", "Móstoles", "Alcalá de Henares", "Getafe", "Leganés", "Fuenlabrada"],
-    sedeJudicial: "los Juzgados de lo Mercantil de Madrid (entorno de la calle Gran Vía) y los Juzgados de Primera Instancia de la capital",
+    sedeJudicial: "los Juzgados de lo Mercantil de Madrid (entorno de la calle Gran Vía)",
     perfilDeuda: "En Madrid predominan los casos de deudas por tarjetas revolving, préstamos al consumo y avales de pequeños negocios.",
     prefijo: "91",
   },

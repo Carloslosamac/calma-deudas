@@ -70,8 +70,6 @@ const REAL_CASES: Record<string, LocalCase[]> = {
       solution: "Ley de Segunda Oportunidad con exoneración total",
       outcome: "Deuda a cero y cierre definitivo de todos los frentes abiertos.",
     },
-  ],
-  lhospitalet: [
     {
       isReal: true,
       city: "Sabadell",
@@ -463,16 +461,18 @@ export const getLocalCases = (
 ): LocalCase[] => {
   const real = REAL_CASES[slug] ?? [];
   const seed = hash(slug);
-  const municipalities = (getLocalCityData(slug).nearbyMunicipalities ?? []).filter(
-    (m) => !real.some((r) => r.city === m),
-  );
+  // La propia ciudad va primero salvo que ya tenga un expediente documentado.
+  const municipalities = [
+    ...(real.some((r) => r.city === cityName) ? [] : [cityName]),
+    ...(getLocalCityData(slug).nearbyMunicipalities ?? []),
+  ].filter((m) => !real.some((r) => r.city === m));
   const target = 3 + (seed % 3); // 3, 4 o 5 casos por página
   const extra = Math.max(0, target - real.length);
   const generated: LocalCase[] = [];
 
   for (let i = 0; i < extra; i++) {
     const len = municipalities.length;
-    const municipality = len > 0 ? municipalities[(seed + i) % len] : cityName;
+    const municipality = len > 0 ? municipalities[i === 0 ? 0 : (seed + i) % len] : cityName;
     if (generated.some((g) => g.city === municipality)) continue;
     const tpl = TEMPLATES[(seed + i * 5) % TEMPLATES.length];
     generated.push(buildCase(tpl, municipality, province, seed + i * 977));
