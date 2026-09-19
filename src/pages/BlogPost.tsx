@@ -432,6 +432,8 @@ const BlogPost = () => {
           )}
         </aside>
 
+        <FormSection />
+
         <RelatedResources
           groups={crossLinks}
           heading="Da el siguiente paso"
