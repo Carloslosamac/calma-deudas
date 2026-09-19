@@ -91,6 +91,9 @@ const AdminWebLeads = () => {
   const navigate = useNavigate();
   const { session, isAdmin, loading } = useAdminAuth();
   const [filter, setFilter] = useState<"todos" | "error" | "pending" | "ok">("todos");
+  const [pageFilter, setPageFilter] = useState("todas");
+  const [sourceFilter, setSourceFilter] = useState("todas");
+  const [campaignFilter, setCampaignFilter] = useState("todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
