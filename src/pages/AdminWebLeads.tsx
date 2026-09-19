@@ -314,6 +314,9 @@ const AdminWebLeads = () => {
               />
               Reintentar todos
             </Button>
+            <Button variant="outline" size="sm" onClick={exportExcel}>
+              <Download className="mr-2 h-4 w-4" /> Descargar Excel
+            </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="mr-2 h-4 w-4" /> Refrescar
             </Button>
