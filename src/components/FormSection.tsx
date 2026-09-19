@@ -550,41 +550,41 @@ const FormSection = () => {
   };
 
   return (
-    <section id="hero-form" className="py-24 md:py-32 bg-surface relative overflow-hidden">
+    <section id="hero-form" className="py-10 md:py-32 bg-surface relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-50 pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 grid lg:grid-cols-5 gap-12 items-center">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 grid lg:grid-cols-5 gap-8 md:gap-12 items-center">
         {/* Left content */}
         <div className="lg:col-span-2">
-          <p className="text-xs uppercase tracking-[0.2em] text-accent-deep font-medium mb-4">
+          <p className="text-xs uppercase tracking-[0.2em] text-accent-deep font-medium mb-3 md:mb-4">
             Análisis gratuito
           </p>
-          <h2 className="font-poppins text-4xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.05] mb-6">
+          <h2 className="font-poppins text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.05] mb-3 md:mb-6">
             Descubre tu solución
             <br />
             <span className="text-accent-deep">en 2 minutos.</span>
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-base md:text-lg text-muted-foreground mb-4 md:mb-8">
             Sin DNI. Sin compromiso. Solo respuestas claras sobre cómo salir
             de tus deudas legalmente.
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             {[
               "Diagnóstico legal personalizado",
               "Estrategia adaptada a tu caso",
               "Te llamamos en menos de 24h",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3">
-                <div className="h-6 w-6 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-                  <Check className="h-3.5 w-3.5 text-foreground" strokeWidth={3} />
+                <div className="h-5 w-5 md:h-6 md:w-6 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <Check className="h-3 w-3 md:h-3.5 md:w-3.5 text-foreground" strokeWidth={3} />
                 </div>
-                <span className="text-foreground/80">{item}</span>
+                <span className="text-sm md:text-base text-foreground/80">{item}</span>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 inline-flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="mt-4 md:mt-8 inline-flex items-center gap-2 text-xs text-muted-foreground">
             <Lock className="h-3.5 w-3.5" />
             Tus datos están protegidos según RGPD
           </div>
@@ -592,10 +592,10 @@ const FormSection = () => {
 
         {/* Right form card */}
         <div className="lg:col-span-3">
-          <div className="bg-surface-elevated border border-border rounded-3xl shadow-large p-6 md:p-10 backdrop-blur-sm">
+          <div className="bg-surface-elevated border border-border rounded-3xl shadow-large p-5 md:p-10 backdrop-blur-sm">
             <>
                 {/* Progress */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-5 md:mb-8">
                   <div className="flex items-center gap-3">
                     {step > 0 && (
                       <button
