@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Localizacion } from "@/data/seo/localizaciones";
 import CityLocationMap from "@/components/seo/CityLocationMap";
+import LocalCaseBlock from "@/components/seo/LocalCaseBlock";
 
 /**
  * Generador de contenido localizado para las landings de abogados por ciudad.
