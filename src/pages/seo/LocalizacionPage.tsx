@@ -19,7 +19,11 @@ const LocalizacionPage = () => {
   // no truncar en SERP con nombres de ciudad largos. Gancho diferenciador.
   // Alias principal (San Sebastián, La Coruña, Vitoria…) para cubrir en el
   // title la otra forma con la que la gente busca la misma ciudad.
-  const alias = (city.geoAliases ?? []).find((a) => a !== city.name && !a.includes(city.name));
+  const norm = (t: string) =>
+    t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z]/g, "");
+  const alias = (city.geoAliases ?? []).find(
+    (a) => norm(a) !== norm(city.name) && !norm(city.name).includes(norm(a)),
+  );
   const titleCandidates = [
     alias ? `Abogados Segunda Oportunidad ${city.name} (${alias}): cancela deudas` : "",
     `⚖️ Abogados Segunda Oportunidad ${city.name}: cancela tus deudas`,

@@ -188,7 +188,6 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     perfilDeuda,
     prefijo,
     audienciaProvincial,
-    ejemploCaso,
   } = city;
   const v = variantIndex(city.slug);
 
@@ -310,14 +309,18 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       ),
     },
     {
-      title: `Casos frecuentes en ${name}`,
+      title: `Cómo se resuelven estos expedientes en ${provincia}`,
       body: (
         <div className="space-y-4">
-          <P>{ejemploCaso}</P>
           <P>
-            Situaciones así se resuelven cada año con la Ley de Segunda Oportunidad. El criterio
-            de {audienciaProvincial} marca cómo se valoran estos expedientes en {provincia}, y por
-            eso preparamos cada caso pensando en lo que el tribunal espera.
+            El criterio de {audienciaProvincial} marca cómo se valoran estos expedientes en{" "}
+            {provincia}: qué se entiende por buena fe, cómo se acredita la insolvencia y qué
+            documentación se exige. Preparamos cada caso pensando en lo que el tribunal espera
+            encontrar.
+          </P>
+          <P>
+            Más abajo tienes expedientes concretos de {name} y su provincia, con las cifras y la
+            solución aplicada en cada uno.
           </P>
         </div>
       ),
@@ -424,6 +427,10 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     v,
   );
 
+  const casosFaq = `Sí. En esta misma página puedes ver ${
+    city.localCases?.length ?? 0
+  } expedientes cerrados de ${name} y de otros municipios de ${provincia}, con el perfil de cada cliente, la deuda de partida, los acreedores y la solución aplicada en cada caso.`;
+
   const faq: LocalFaq[] = [
     {
       q: `¿Atendéis casos de toda la provincia de ${provincia}?`,
@@ -446,9 +453,9 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       plain: faqPresencial,
     },
     {
-      q: `¿Tenéis casos reales resueltos en ${name}?`,
-      a: <>{`Sí. ${ejemploCaso} Cada caso es distinto, pero la Ley de Segunda Oportunidad permite cancelar deudas de particulares y autónomos de ${provincia} que actúan de buena fe.`}</>,
-      plain: `Sí. ${ejemploCaso} Cada caso es distinto, pero la Ley de Segunda Oportunidad permite cancelar deudas de particulares y autónomos de ${provincia} que actúan de buena fe.`,
+      q: `¿Tenéis casos resueltos en ${name}?`,
+      a: <>{casosFaq}</>,
+      plain: casosFaq,
     },
   ];
 
@@ -527,10 +534,20 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     });
   }
 
-  if (city.localCase?.isReal) {
+  if (city.localCases?.length) {
+    const municipios = city.localCases.map((c) => c.city);
     sections.push({
-      title: `Un caso real de ${city.localCase.city}`,
-      body: <LocalCaseBlock caso={city.localCase} />,
+      title: `Casos resueltos en ${name} y provincia`,
+      body: (
+        <div className="space-y-4">
+          <P>
+            Estos son expedientes cerrados de personas de {listado(municipios)}. Cada uno
+            responde a una situación distinta: no hay un perfil único de persona endeudada ni
+            una única salida.
+          </P>
+          <LocalCaseBlock casos={city.localCases} />
+        </div>
+      ),
     });
   }
 

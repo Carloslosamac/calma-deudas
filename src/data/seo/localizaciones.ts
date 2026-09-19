@@ -13,7 +13,7 @@ import {
   getLocalCityData,
   localIntentVariants,
 } from "./localData";
-import { type LocalCase, getLocalCase } from "./localCases";
+import { type LocalCase, getLocalCases } from "./localCases";
 
 /**
  * Local SEO v2: los campos locales ampliados (aliases geográficos, municipios
@@ -26,8 +26,8 @@ export type Localizacion = LocalCityData & {
   slug: string;
   /** variantes de intención local que la página debe cubrir */
   intents: string[];
-  /** caso de la ciudad, integrado en la landing (solo si isReal) */
-  localCase?: LocalCase;
+  /** 3-5 casos resueltos de municipios distintos, integrados en la landing */
+  localCases: LocalCase[];
   /** nombre de la ciudad */
   name: string;
   /** ranking poblacional aproximado (1 = más grande) */
@@ -71,7 +71,7 @@ const cities: Omit<
   | "audienciaProvincial"
   | "ejemploCaso"
   | "intents"
-  | "localCase"
+  | "localCases"
 >[] = [
   {
     slug: "madrid",
@@ -1010,7 +1010,7 @@ export const localizaciones: Localizacion[] = cities.map((c) => {
     ...localData,
     localResources:
       localData.localResources ?? defaultLocalResources(c.name, c.provincia),
-    localCase: getLocalCase(c.slug),
+    localCases: getLocalCases(c.slug, c.name, c.provincia),
     intents: [
       ...localIntentVariants(c.name),
       ...(localData.geoAliases ?? []).flatMap((a) => localIntentVariants(a)),
