@@ -17,6 +17,9 @@ type GraciasState = {
   debtAmount?: number;
 };
 
+const WHATSAPP_URL =
+  "https://wa.me/34611625698?text=Hola%2C%20acabo%20de%20enviar%20mis%20datos%20en%20Calma.%20Me%20gustar%C3%ADa%20agendar%20una%20cita%20para%20revisar%20mi%20caso.%20%C2%BFQu%C3%A9%20horario%20ten%C3%A9is%20disponible%3F";
+
 const Gracias = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -104,15 +107,23 @@ const Gracias = () => {
                 : "Si has llegado aquí directamente, vuelve al inicio para analizar tu deuda."}
             </p>
 
-            <Button asChild className="h-11 rounded-xl">
-              <a
-                href="https://wa.me/34611625698?text=Hola%2C%20acabo%20de%20enviar%20mis%20datos%20en%20Calma.%20Me%20gustar%C3%ADa%20agendar%20una%20cita%20para%20revisar%20mi%20caso.%20%C2%BFQu%C3%A9%20horario%20ten%C3%A9is%20disponible%3F"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Agendar mi cita por WhatsApp
-              </a>
-            </Button>
+            <button
+              type="button"
+              onClick={() => {
+                // En la web publicada navegamos en la misma pestaña: wa.me es un
+                // universal link y Safari/Chrome abren la app de WhatsApp sin el
+                // bloqueo de Cross-Origin-Opener-Policy que sufren los popups.
+                // Solo si estamos embebidos (vista previa) abrimos pestaña nueva.
+                if (window.self !== window.top) {
+                  window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
+                } else {
+                  window.location.href = WHATSAPP_URL;
+                }
+              }}
+              className="w-full h-12 rounded-xl bg-foreground text-background hover:bg-foreground/90 text-base font-medium shadow-medium"
+            >
+              Agendar mi cita por WhatsApp
+            </button>
           </motion.div>
         </div>
       </main>
