@@ -185,6 +185,8 @@ const AdminWebLeads = () => {
 
   const filtered = rows.filter((r) => {
     if (filter !== "todos" && r.zoho_status !== filter) return false;
+    if (fromDate && new Date(r.created_at) < new Date(`${fromDate}T00:00:00`)) return false;
+    if (toDate && new Date(r.created_at) > new Date(`${toDate}T23:59:59.999`)) return false;
     if (pageFilter !== "todas" && (r.page ?? "") !== pageFilter) return false;
     if (sourceFilter !== "todas") {
       if (sourceFilter === "(sin utm)" ? !!r.utm_source : r.utm_source !== sourceFilter)
