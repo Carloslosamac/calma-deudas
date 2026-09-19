@@ -258,22 +258,37 @@ const AdminWebLeads = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.rel = "noopener";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => {
+      const framed = window.self !== window.top;
+      let ok = false;
+      if (framed) {
+        // Dentro del marco de vista previa las descargas se bloquean:
+        // abrimos una pestaña del mismo origen que dispara la descarga.
+        const w = window.open("", "_blank");
+        if (w) {
+          w.document.write(
+            `<!doctype html><title>${filename}</title><body style="font-family:sans-serif;padding:24px">Preparando descarga…<script>var a=document.createElement('a');a.href=${JSON.stringify(url)};a.download=${JSON.stringify(filename)};document.body.appendChild(a);a.click();setTimeout(function(){window.close()},3000);<\/script></body>`,
+          );
+          w.document.close();
+          ok = true;
+        }
+      }
+      if (!ok) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
         a.remove();
-        URL.revokeObjectURL(url);
-      }, 4000);
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
       toast.success(`Descargando ${filtered.length} envíos (${filename}).`);
     } catch (e) {
       toast.error(
         `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
       );
     }
+
   };
 
   const retry = async (id: string) => {
