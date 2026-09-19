@@ -272,6 +272,20 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Ferrol", "Santiago de Compostela", "Arteixo", "Oleiros", "Culleredo",
       "Cambre", "Carballo", "Narón", "Betanzos", "Sada",
     ],
+    courtInfo:
+      "los Juzgados de lo Mercantil de A Coruña, en la Ciudad de la Justicia",
+    economyNote:
+      "En A Coruña son frecuentes los expedientes de autónomos del comercio y la hostelería y de familias con hipoteca más préstamos personales.",
+    localFaqs: [
+      {
+        q: "¿Dónde se presenta mi concurso de segunda oportunidad si vivo en A Coruña?",
+        a: "Ante los Juzgados de lo Mercantil de A Coruña, que son los competentes también para las personas sin actividad empresarial. Casi todo el trámite se hace de forma telemática.",
+      },
+      {
+        q: "¿Atendéis municipios como Ferrol, Santiago o Arteixo?",
+        a: "Sí. Atendemos toda la provincia de A Coruña de forma telemática: Ferrol, Santiago de Compostela, Arteixo, Oleiros, Culleredo, Cambre y cualquier otro municipio.",
+      },
+    ],
   },
   granada: {
     nearbyMunicipalities: [
