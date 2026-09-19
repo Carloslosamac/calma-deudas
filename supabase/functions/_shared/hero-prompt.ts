@@ -22,6 +22,9 @@ const ENTITY_STOPWORDS = new Set([
   // Topónimos y genéricos: no son marcas
   "españa", "madrid", "barcelona", "valencia", "sevilla", "cataluña", "andalucía",
   "europa", "hacienda", "internet", "google",
+  // Temas genéricos que pueden encabezar un título con dos puntos y NO son marcas
+  "embargo", "embargos", "juicio", "sentencia", "ley", "guía", "guia",
+  "pensión", "pension", "pensiones", "herencia", "divorcio", "despido",
 ]);
 
 // Palabras que sí pueden encabezar un nombre de entidad si van seguidas de
@@ -48,9 +51,10 @@ export function entityFromTitle(title: string): string | null {
   if (m) return validEntity(m[1]);
 
   const start = title.match(
-    /^((?:[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*)(?:\s+[A-ZÁÉÍÓÚÑ0-9][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*){0,2})\s*[:–—-]/,
+    /^((?:[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*)(?:\s+[A-ZÁÉÍÓÚÑ0-9][\wÁÉÍÓÚÜÑáéíóúüñ.&-]*){0,2})\s*[:–—-]\s*(.)?/,
   );
-  if (start) return validEntity(start[1]);
+  // Testimonios tipo «Juana: “Son un equipo…”»: lo que sigue es una cita, no una marca.
+  if (start && !/^[“«"']/.test(start[2] ?? "")) return validEntity(start[1]);
 
   return null;
 }
