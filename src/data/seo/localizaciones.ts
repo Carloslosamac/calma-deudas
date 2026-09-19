@@ -7,6 +7,14 @@
  * a la que enlazan todas las ciudades para no canibalizar.
  */
 
+import {
+  type LocalCityData,
+  defaultLocalResources,
+  getLocalCityData,
+  localIntentVariants,
+} from "./localData";
+import { type LocalCase, getLocalCase } from "./localCases";
+
 /**
  * Local SEO v2: los campos locales ampliados (aliases geográficos, municipios
  * cercanos, recursos, FAQs y estadísticas) viven en un único dataset,
