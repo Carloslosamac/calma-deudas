@@ -101,7 +101,8 @@ const LocalizacionPage = () => {
       En <strong>{city.name}</strong> ({city.provincia}) puedes cancelar tus deudas con la{" "}
       <strong>Ley de Segunda Oportunidad</strong> si estás en situación de insolvencia y actúas de buena fe.
       El procedimiento se tramita en {city.tribunal.toLowerCase()} y puede gestionarse en gran parte online,
-      con un primer diagnóstico gratuito y sin compromiso.
+      con un primer diagnóstico gratuito y sin compromiso. Atendemos {city.name}
+      {alias ? ` (${alias})` : ""} y su provincia.
     </p>
   );
 
