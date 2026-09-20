@@ -300,6 +300,7 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
     sections: [
       calmSection(e),
       roleSection(e, d),
+      ratingSection(e),
       {
         title: `Por qué te reclama ${e.name} si tú no contrataste nada con ellos`,
         body: (
@@ -1029,8 +1030,10 @@ const mergeProfile = (base: EntityContent, e: Entity, profile: EntityProfile): E
   const sections = base.sections.filter((s) => s.title !== "Tus miedos, resueltos");
   // tras calmSection (índice 0): origen único
   sections.splice(1, 0, originSection(e, profile));
-  // tras el origen: ficha de valoración semáforo
-  sections.splice(2, 0, ratingSection(e));
+  // tras el origen: ficha de valoración (si la plantilla no la incluye ya)
+  if (!sections.some((s) => s.title === ratingSection(e).title)) {
+    sections.splice(2, 0, ratingSection(e));
+  }
   // antes de la última sección (calmaSection): miedos específicos
   const insertAt = Math.max(1, sections.length - 1);
   sections.splice(insertAt, 0, profileWorriesSection(e, profile));
