@@ -195,116 +195,382 @@ const NOTES: Record<string, string> = {
   ing: "ING opera en España con productos de ahorro, hipoteca, cuenta y financiación al consumo.",
 };
 
-const recobroContent = (e: Entity, note: string): EntityContent => ({
-  intro: `${note} Si ${e.name} te reclama una deuda, tienes derechos: aquí te explicamos cómo comprobar que la deuda es real y qué opciones tienes.`,
-  sections: [
-    calmSection(e),
-    {
-      title: `Por qué te reclama ${e.name}`,
-      body: (
-        <>
-          <P>
-            {note} Las empresas de recobro compran carteras de deuda a bancos y financieras
-            por una fracción de su valor y después reclaman el importe completo. Que {e.name}{" "}
-            te contacte no significa que la deuda sea correcta o esté actualizada.
-          </P>
-          <P>
-            Lo primero es verificar el origen: a menudo son deudas antiguas, ya pagadas o
-            incluso prescritas. Más contexto en{" "}
-            <A to="/empresas-de-recobro">empresas de recobro</A>.
-          </P>
-        </>
-      ),
-    },
-    {
-      title: "Tus derechos frente a las reclamaciones",
-      body: (
-        <UL
-          items={[
-            `Puedes exigir a ${e.name} el documento que acredita la deuda y su importe actual.`,
-            "No pueden acosarte con llamadas constantes ni avisar a tu entorno.",
-            "Comprueba si la deuda está prescrita o si ya la habías abonado.",
-            "Guarda por escrito todas las comunicaciones.",
-          ]}
-        />
-      ),
-    },
-    {
-      title: "Tus miedos, resueltos",
-      body: (
-        <MythReality
-          items={[
-            {
-              myth: `Que ${e.name} mande a alguien a tu casa a cobrar o a llevarse tus cosas.`,
-              reality:
-                "Nadie puede presentarse en tu domicilio a embargar bienes. Solo un juzgado, con una orden judicial, puede embargar, y siempre con avisos previos.",
-            },
-            {
-              myth: "Que llamen a tu trabajo, a tus padres o a tus vecinos y todos se enteren.",
-              reality:
-                "Contar tu deuda a terceros o presionar a tu entorno es ilegal. Puedes exigir que cesen esas prácticas y, si insisten, denunciarlas.",
-            },
-            {
-              myth: "Que de un día para otro te embarguen la nómina o la cuenta.",
-              reality:
-                "Un embargo necesita una sentencia previa. Hay margen de actuación y, además, una parte de tu salario es inembargable por ley.",
-            },
-            {
-              myth: "Estar fichado en ASNEF para siempre.",
-              reality:
-                "Si resuelves o cancelas la deuda, sales de los ficheros. Y si el apunte es incorrecto, puede retirarse antes.",
-            },
-          ]}
-        />
-      ),
-    },
-    {
-      title: "Qué hacer si llegan al juzgado",
-      body: (
+/* ------------------------------------------------------------------ *
+ * RECOBRO — plantilla adaptativa según el papel real de la entidad
+ * ------------------------------------------------------------------ */
+
+/** Descripción del papel de la entidad, adaptada a los datos disponibles. */
+const roleSection = (e: Entity, d?: RecobroEntityData): EntitySection => {
+  const hist = historicalBrandsFor(e.slug);
+  return {
+    title: `Qué es ${e.name} y qué papel tiene en tu deuda`,
+    body: (
+      <>
         <P>
-          Muchas reclamaciones acaban en un{" "}
-          <A to="/juicio-monitorio-recobro/juicio-monitorio-deuda">juicio monitorio</A> o en un{" "}
-          <A to="/embargos/parar-embargo">embargo</A>. Si la deuda es real e inasumible, lo más
-          eficaz es <A to="/cancelar-deudas">cancelarla de forma definitiva</A> con la Ley de
-          Segunda Oportunidad.
+          {d?.legalName ? `${e.name} (${d.legalName}) ` : `${e.name} `}
+          {d
+            ? `opera en España como ${ROLE_LABEL[d.entityType].toLowerCase()}.`
+            : "es una compañía dedicada a la reclamación de deudas impagadas en España."}
+          {d?.group ? ` Forma parte de ${d.group}.` : ""}
+          {d?.formerNames?.length
+            ? ` Anteriormente operaba como ${d.formerNames.join(", ")}.`
+            : ""}
         </P>
-      ),
-    },
-    calmaSection(e),
-  ],
-  faq: [
-    {
-      q: `¿Tengo que pagar a ${e.name}?`,
-      a: <P>Solo si la deuda es real, exigible y está debidamente acreditada. Tienes derecho a pedir la prueba antes de pagar nada.</P>,
-      plain: `Solo si la deuda es real, exigible y está acreditada. Tienes derecho a exigir la prueba a ${e.name} antes de pagar.`,
-    },
-    {
-      q: `¿Puede ${e.name} embargarme?`,
-      a: <P>No directamente. Necesita una resolución judicial previa, normalmente tras un juicio monitorio que no se contestó a tiempo.</P>,
-      plain: `${e.name} no puede embargar directamente: necesita una resolución judicial, normalmente tras un juicio monitorio no contestado.`,
-    },
-    {
-      q: "¿Y si la deuda es muy antigua?",
-      a: <P>Puede estar prescrita. Conviene revisar las fechas antes de reconocer o pagar la deuda reclamada.</P>,
-      plain: "Puede estar prescrita; conviene revisar las fechas antes de reconocer o pagar la deuda reclamada.",
-    },
-    {
-      q: `¿Puede ${e.name} venir a mi casa?`,
-      a: <P>No. Ningún gestor de cobros puede entrar en tu domicilio ni llevarse nada. Solo un juzgado puede ordenar un embargo, con avisos previos.</P>,
-      plain: `No. ${e.name} no puede entrar en tu casa ni llevarse bienes; solo un juzgado puede embargar, con avisos previos.`,
-    },
-    {
-      q: "¿Pueden llamar a mi trabajo o a mi familia?",
-      a: <P>No deben revelar tu deuda a terceros ni presionar a tu entorno. Es una práctica ilegal que puedes exigir que cese y denunciar.</P>,
-      plain: "No. Revelar tu deuda a tu trabajo o familia y presionar a tu entorno es ilegal; puedes exigir que cese y denunciarlo.",
-    },
-    {
-      q: `¿Cómo dejo de tener deudas con ${e.name} para siempre?`,
-      a: <P>Si la deuda es real pero inasumible, la Ley de Segunda Oportunidad permite cancelarla por completo. Analizamos tu caso gratis y te decimos si encajas.</P>,
-      plain: `Si la deuda es real e inasumible, la Ley de Segunda Oportunidad permite cancelarla por completo. Calma analiza tu caso gratis.`,
-    },
-  ],
-});
+        {d ? (
+          <UL
+            items={d.roles.map((r) => (
+              <>
+                <span className="font-semibold text-foreground">{ROLE_LABEL[r]}.</span>{" "}
+                {ROLE_MEANING[r]}
+              </>
+            ))}
+          />
+        ) : (
+          <P>
+            No hay información pública suficiente para afirmar si {e.name} ha comprado tu deuda o
+            si la reclama por cuenta de otra empresa. Puedes (y conviene) exigir que te lo aclaren
+            por escrito: cambia por completo con quién negocias y quién debe acreditar la deuda.
+          </P>
+        )}
+        {d?.debtTypes?.length ? (
+          <P>
+            Tipo de deuda que gestiona habitualmente: {d.debtTypes.join(", ")}.
+          </P>
+        ) : null}
+        {d?.knownOriginators?.length ? (
+          <P>
+            Entidades de origen documentadas públicamente: {d.knownOriginators.join(", ")}. Que
+            aparezcan aquí no significa que tu deuda venga de ninguna de ellas: eso debe
+            acreditarlo {e.name} en tu caso concreto.
+          </P>
+        ) : null}
+        {hist.length > 0 && (
+          <P>
+            {hist.map((h) => `${h.name}: ${h.note}`).join(" ")} Si te reclamaron con ese nombre, la
+            interlocución hoy es con {e.name}.
+          </P>
+        )}
+        {d?.officialWebsite && (
+          <P>
+            Web oficial:{" "}
+            <a
+              href={d.officialWebsite}
+              rel="nofollow noopener noreferrer"
+              target="_blank"
+              className="font-medium text-accent-deep underline-offset-4 hover:underline"
+            >
+              {d.officialWebsite.replace(/^https?:\/\//, "")}
+            </a>
+            . Comprueba siempre que la carta o el correo que has recibido procede de un canal real
+            de la compañía: la suplantación de agencias de recobro existe.
+          </P>
+        )}
+      </>
+    ),
+  };
+};
+
+const recobroContent = (e: Entity, note: string): EntityContent => {
+  const d = getRecobroData(e.slug);
+  const compra = buysDebt(d);
+  const soloGestor =
+    !!d && !compra && (d.roles.includes("gestor-terceros") || d.roles.includes("recobro"));
+  const esDespacho = !!d?.roles.includes("despacho");
+
+  return {
+    intro: `${note ? note + " " : ""}Si ${e.name} te reclama una deuda, aquí tienes lo importante: quién es realmente, por qué te contacta, cómo comprobar que puede reclamarte, qué puede y qué no puede hacer, y qué opciones tienes para negociar, defenderte o cancelar la deuda.`,
+    sections: [
+      calmSection(e),
+      roleSection(e, d),
+      {
+        title: `Por qué te reclama ${e.name} si tú no contrataste nada con ellos`,
+        body: (
+          <>
+            <P>
+              Es la duda más frecuente. Una deuda impagada puede cambiar de manos: la entidad
+              original (banco, financiera, telefonía, suministros) puede{" "}
+              <strong className="text-foreground">venderla</strong> a un comprador de carteras o{" "}
+              <strong className="text-foreground">encargar su cobro</strong> a una agencia sin
+              dejar de ser la titular. En ambos casos quien te llama no es con quien firmaste.
+            </P>
+            <P>
+              {compra
+                ? `Según la información pública disponible, ${e.name} adquiere carteras de deuda, así que es probable que te reclame como nuevo titular. Debe poder acreditar la cesión.`
+                : soloGestor
+                  ? `Según la información pública disponible, ${e.name} gestiona el cobro de deuda de la que no siempre es titular. Pregunta por escrito a quién pertenece hoy la deuda.`
+                  : `Pide por escrito a ${e.name} que te concrete si te reclama como titular de la deuda o en nombre de un tercero.`}
+              {esDespacho
+                ? " Al tratarse de una firma jurídica, sus comunicaciones pueden anticipar una reclamación judicial; aun así, una carta de un despacho no es una notificación del juzgado."
+                : ""}
+            </P>
+            <P>
+              Más contexto sobre el sector en{" "}
+              <A to="/empresas-de-recobro">empresas de recobro</A>.
+            </P>
+          </>
+        ),
+      },
+      {
+        title: `Cómo comprobar que ${e.name} tiene derecho a reclamarte`,
+        body: (
+          <>
+            <P>
+              Antes de pagar, reconocer la deuda o aceptar un plan, pide por escrito (correo
+              electrónico o burofax) esta documentación. Es tu derecho y frena la conversación
+              telefónica:
+            </P>
+            <CheckList
+              items={[
+                "Contrato original que da origen a la deuda y fecha de la última cuota pagada.",
+                "Documento de cesión o mandato: quién es hoy el titular de la deuda y desde cuándo.",
+                "Notificación de la cesión: deben comunicarte el cambio de acreedor.",
+                "Desglose del importe: principal, intereses, intereses de demora y comisiones.",
+                "Identificación de la persona que gestiona el expediente y canal escrito de contacto.",
+              ]}
+            />
+            <P>
+              Mientras no acrediten esos extremos, no estás obligado a pagar nada. Y ojo con la
+              fecha: si han pasado más de 5 años desde la última reclamación o pago (3 en algunos
+              supuestos), la deuda puede estar{" "}
+              <strong className="text-foreground">prescrita</strong>. Reconocerla por teléfono o
+              hacer un pago simbólico reinicia el plazo.
+            </P>
+            <InlineCta label="Que revisemos tu carta de reclamación" />
+          </>
+        ),
+      },
+      {
+        title: `Qué puede y qué no puede hacer ${e.name}`,
+        body: (
+          <>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-3xl border border-border bg-surface-elevated p-5">
+                <p className="font-poppins font-semibold text-foreground">Sí puede</p>
+                <UL
+                  items={[
+                    "Contactarte para reclamar el pago en horario razonable.",
+                    "Proponerte acuerdos, quitas o fraccionamientos.",
+                    "Incluirte en un fichero de morosos (ASNEF y similares) si la deuda es cierta, vencida, exigible y te ha requerido antes.",
+                    "Reclamar judicialmente: demanda o juicio monitorio ante el juzgado.",
+                  ]}
+                />
+              </div>
+              <div className="rounded-3xl border border-border bg-surface-elevated p-5">
+                <p className="font-poppins font-semibold text-foreground">No puede</p>
+                <UL
+                  items={[
+                    "Embargarte la nómina, la cuenta o un bien: el embargo solo lo acuerda un juzgado.",
+                    "Entrar en tu domicilio ni llevarse nada.",
+                    "Contar tu deuda a tu familia, tus vecinos o tu empresa.",
+                    "Acosarte con llamadas continuas, amenazas o avisos falsos de juicio inminente.",
+                    "Cobrarte importes que no puede acreditar.",
+                  ]}
+                />
+              </div>
+            </div>
+            <P>
+              Si las llamadas se vuelven acoso, pídeles por escrito que toda la comunicación sea
+              por escrito y guarda copia. Puedes reclamar ante la Agencia Española de Protección
+              de Datos.
+            </P>
+          </>
+        ),
+      },
+      {
+        title: `Si ${e.name} lleva la deuda al juzgado: monitorio y embargo`,
+        body: (
+          <>
+            <P>
+              La vía habitual es el{" "}
+              <A to="/juicio-monitorio-recobro/juicio-monitorio-deuda">juicio monitorio</A>. Si te
+              llega, tienes{" "}
+              <strong className="text-foreground">20 días hábiles</strong> para oponerte. No
+              responder es el error más caro: el procedimiento sigue y puede terminar en{" "}
+              <A to="/embargos/parar-embargo">embargo</A> de nómina o cuenta.
+            </P>
+            <UL
+              items={[
+                "Una carta con membrete de abogado NO es una notificación judicial: el juzgado notifica por su propio cauce.",
+                "Oponerse permite discutir el importe, los intereses de demora y la propia titularidad de la deuda.",
+                "Una parte de tu salario (el SMI) es inembargable por ley.",
+                "Si inicias la Ley de Segunda Oportunidad, los embargos por deuda ordinaria pueden paralizarse.",
+              ]}
+            />
+          </>
+        ),
+      },
+      {
+        title: `Negociar con ${e.name} o cancelar la deuda: qué te conviene`,
+        body: (
+          <>
+            <P>
+              {compra
+                ? `Los compradores de cartera adquieren la deuda con un fuerte descuento, así que suele existir margen para cerrar con una quita, sobre todo en pago único. Pero negociar solo tiene sentido si puedes pagar el acuerdo: un plan que no puedes sostener reabre el problema meses después.`
+                : `Cuando la entidad gestiona la deuda por cuenta de un tercero, el margen de quita depende del acreedor real, no de quien te llama. Por eso conviene identificar primero a quién pertenece la deuda.`}
+            </P>
+            <P>
+              Si la deuda es real y no puedes asumirla, negociar solo alarga la situación. La{" "}
+              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> permite{" "}
+              <A to="/cancelar-deudas">cancelar la deuda por completo</A> cuando hay insolvencia
+              real y buena fe, incluidas las deudas que reclama {e.name}. Y si la deuda procede de
+              una tarjeta revolving o de microcréditos, puede haber además{" "}
+              <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">intereses reclamables</A>.
+            </P>
+            <InlineCta label="Saber qué salida encaja en mi caso" />
+          </>
+        ),
+      },
+      ...(d?.sources?.length
+        ? [
+            {
+              title: "Fuentes de esta ficha",
+              body: (
+                <>
+                  <UL
+                    items={d.sources.map((s) => (
+                      <a
+                        href={s.url}
+                        rel="nofollow noopener noreferrer"
+                        target="_blank"
+                        className="font-medium text-accent-deep underline-offset-4 hover:underline"
+                      >
+                        {s.label}
+                      </a>
+                    ))}
+                  />
+                  {d.lastVerifiedAt && (
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      Datos verificados el{" "}
+                      {new Date(d.lastVerifiedAt).toLocaleDateString("es-ES")}. Solo publicamos
+                      información contrastable: si un dato no consta en una fuente pública, no
+                      aparece en esta ficha.
+                    </p>
+                  )}
+                </>
+              ),
+            } as EntitySection,
+          ]
+        : []),
+      calmaSection(e),
+    ],
+    faq: [
+      {
+        q: `¿Qué es ${e.name} y quién está detrás?`,
+        a: (
+          <P>
+            {d
+              ? `${e.name}${d.legalName ? ` (${d.legalName})` : ""} opera en España como ${ROLE_LABEL[d.entityType].toLowerCase()}${d.group ? `, dentro de ${d.group}` : ""}.`
+              : `${e.name} es una compañía dedicada a la reclamación de deudas impagadas en España.`}{" "}
+            No es un juzgado ni un organismo público: es una empresa privada.
+          </P>
+        ),
+        plain: d
+          ? `${e.name}${d.legalName ? ` (${d.legalName})` : ""} opera en España como ${ROLE_LABEL[d.entityType].toLowerCase()}${d.group ? `, dentro de ${d.group}` : ""}. Es una empresa privada, no un organismo público.`
+          : `${e.name} es una empresa privada dedicada a la reclamación de deudas impagadas en España; no es un juzgado ni un organismo público.`,
+      },
+      {
+        q: `¿Por qué me reclama ${e.name} una deuda que yo tenía con un banco?`,
+        a: (
+          <P>
+            Porque la deuda se ha vendido o se ha encargado su cobro a un tercero. Puedes exigir
+            que te acrediten la cesión o el mandato y la identidad del titular actual.
+          </P>
+        ),
+        plain: `Porque la entidad original vendió la deuda o encargó su cobro. Puedes exigir a ${e.name} que acredite la cesión o el mandato y quién es el titular actual.`,
+      },
+      {
+        q: `¿${e.name} es fiable?`,
+        a: (
+          <P>
+            {d?.officialWebsite
+              ? `Es una compañía real que opera en España y tiene presencia pública${d.group ? ` dentro de ${d.group}` : ""}.`
+              : "Antes de nada, comprueba que la comunicación procede de un canal oficial de la compañía y no de una suplantación."}{" "}
+            Que la empresa sea legal no significa que la cantidad que te reclama sea correcta: el
+            importe, los intereses y la propia titularidad se pueden discutir.
+          </P>
+        ),
+        plain: `${e.name} puede ser una compañía legalmente constituida, pero eso no implica que el importe reclamado sea correcto: puedes discutir la cantidad, los intereses y la titularidad de la deuda.`,
+      },
+      {
+        q: `¿Puede ${e.name} embargarme la nómina o la cuenta?`,
+        a: (
+          <P>
+            No por su cuenta. El embargo solo lo acuerda un juzgado tras un procedimiento, y una
+            parte del salario es inembargable.
+          </P>
+        ),
+        plain: `No. ${e.name} no puede embargar por su cuenta: el embargo solo lo acuerda un juzgado tras un procedimiento judicial, y parte del salario es inembargable.`,
+      },
+      {
+        q: `¿Puede ${e.name} llevarme a juicio o presentar un monitorio?`,
+        a: (
+          <P>
+            Sí, puede presentar una demanda o un juicio monitorio. Si te notifican uno, tienes 20
+            días hábiles para oponerte; no contestar es lo que abre la puerta al embargo.
+          </P>
+        ),
+        plain: `Sí, ${e.name} puede presentar demanda o juicio monitorio. Si te lo notifican tienes 20 días hábiles para oponerte; no contestar es lo que permite el embargo.`,
+      },
+      {
+        q: `¿Puede ${e.name} incluirme en ASNEF?`,
+        a: (
+          <P>
+            Solo si la deuda es cierta, vencida y exigible y te han requerido de pago antes. Si
+            falla alguno de esos requisitos o la deuda está discutida, puedes pedir la baja del
+            fichero.
+          </P>
+        ),
+        plain: `Solo si la deuda es cierta, vencida y exigible y te requirieron de pago previamente. Si no, puedes exigir a ${e.name} la baja del fichero.`,
+      },
+      {
+        q: `¿Y si la deuda que reclama ${e.name} está prescrita?`,
+        a: (
+          <P>
+            Si han pasado más de 5 años sin reclamación válida ni reconocimiento por tu parte,
+            puede estar prescrita. Cuidado: reconocerla por teléfono o pagar una cantidad pequeña
+            reinicia el plazo.
+          </P>
+        ),
+        plain: "Si han pasado más de 5 años sin reclamación válida ni reconocimiento, la deuda puede estar prescrita; reconocerla por teléfono o pagar algo reinicia el plazo.",
+      },
+      {
+        q: `¿Puedo negociar la deuda con ${e.name}?`,
+        a: (
+          <P>
+            {compra
+              ? "Sí. Al haber comprado la cartera con descuento, suele haber margen para una quita, sobre todo en pago único y por escrito."
+              : "Depende de quién sea el titular real de la deuda: identifícalo primero, porque el margen de quita lo decide el acreedor, no quien gestiona el cobro."}{" "}
+            Cualquier acuerdo, siempre por escrito y con carta de saldo y finiquito.
+          </P>
+        ),
+        plain: compra
+          ? `Sí: ${e.name} suele tener margen para aceptar una quita, sobre todo en pago único. Siempre por escrito y con carta de saldo y finiquito.`
+          : `Depende del titular real de la deuda; identifícalo primero. Cualquier acuerdo con ${e.name} debe quedar por escrito y con carta de saldo y finiquito.`,
+      },
+      {
+        q: `¿Puedo cancelar la deuda con ${e.name} sin pagarla?`,
+        a: (
+          <P>
+            Si hay insolvencia real y buena fe, la Ley de Segunda Oportunidad cancela la deuda de
+            forma definitiva, incluida la que reclama {e.name}. Analizamos tu caso gratis.
+          </P>
+        ),
+        plain: `Sí: con la Ley de Segunda Oportunidad, si hay insolvencia real y buena fe, la deuda que reclama ${e.name} se cancela de forma definitiva.`,
+      },
+      {
+        q: `¿Puede ${e.name} venir a mi casa?`,
+        a: (
+          <P>
+            No. Ninguna empresa de recobro puede entrar en tu domicilio ni llevarse bienes. Solo un
+            juzgado puede embargar, y con notificación previa.
+          </P>
+        ),
+        plain: `No. ${e.name} no puede entrar en tu casa ni llevarse bienes; solo un juzgado puede embargar y con notificación previa.`,
+      },
+    ],
+  };
+};
+
 
 const microcreditoContent = (e: Entity, note: string): EntityContent => ({
   intro: `${note} Si arrastras deuda con ${e.name}, aquí te explicamos cómo funciona este tipo de préstamo y cómo cancelarlo de forma definitiva.`,
