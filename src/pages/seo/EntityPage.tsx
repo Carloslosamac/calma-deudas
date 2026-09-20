@@ -10,6 +10,7 @@ import { buildBreadcrumb, buildLegalService, buildFaq } from "@/lib/seo/structur
 import { buildCrossLinks, type LinkTopic } from "@/data/seo/internalLinks";
 import RelatedResources from "@/components/seo/RelatedResources";
 import type { EntityKind } from "@/data/seo/entities";
+import { getRecobroData } from "@/data/seo/recobroData";
 
 /** Emoji + topic de enlazado según el tipo de entidad. */
 const KIND_EMOJI: Record<EntityKind, string> = {
@@ -109,6 +110,28 @@ const EntityPage = () => {
       .map((e) => ({ label: e.name, to: `/${e.cluster}/${e.slug}` })),
   ];
 
+  const recobro = entity.kind === "recobro" ? getRecobroData(entity.slug) : undefined;
+
+  // Puente comercial: todas las fichas de recobro tienen uno, exista o no un
+  // perfil específico en entityProfiles.
+  const bridge =
+    profile?.bridge ??
+    (entity.kind === "recobro"
+      ? {
+          title: `¿Te reclama ${entity.name}?`,
+          description: `Revisamos quién tiene realmente tu deuda, si la cantidad que reclaman es exigible y si te conviene defenderte, negociar o cancelarla. Análisis gratuito y sin compromiso.`,
+          ctaLabel: "Revisar mi reclamación gratis",
+        }
+      : undefined);
+
+  // Contexto de medición: permite saber qué entidades generan más leads.
+  const ctaMeta = {
+    entity_slug: entity.slug,
+    entity_name: entity.name,
+    entity_type: recobro?.entityType ?? entity.kind,
+    page_path: canonical,
+  };
+
   const crossLinks = buildCrossLinks({ topic: KIND_TOPIC[entity.kind], origin: "none" });
 
   const tldr = profile?.directAnswer ?? `Sí. Si no puedes pagar lo que debes a ${entity.name}, hay salida legal: cancelar la deuda con la Ley de Segunda Oportunidad o reclamar si los intereses son abusivos. El primer paso es un análisis gratuito de tu caso.`;
@@ -143,7 +166,8 @@ const EntityPage = () => {
       structuredData={structuredData}
       related={related}
       tldr={tldr}
-      bridge={profile?.bridge}
+      bridge={bridge}
+      ctaMeta={ctaMeta}
       reviewer={profile?.reviewer}
       reviewedAt={profile?.reviewedAt}
       contentUpdatedAt={profile?.contentUpdatedAt}
