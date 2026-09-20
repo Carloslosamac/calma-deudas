@@ -122,6 +122,37 @@ const note = (axis: "presion" | "negociacion" | "usura", level: RatingLevel, e: 
 };
 
 export const getEntityRating = (e: Entity): RatingIndicator[] => {
+  // Recobro: NO publicamos juicios de valor sobre la conducta de una empresa
+  // concreta. Mostramos información factual (papel en la deuda, límites legales)
+  // y contexto verificable.
+  if (e.kind === "recobro") {
+    const d = getRecobroData(e.slug);
+    const compra = buysDebt(d);
+    return [
+      {
+        label: "Papel en tu deuda",
+        level: "verde",
+        levelLabel: d ? ROLE_LABEL[d.entityType] : "Por confirmar",
+        note: d
+          ? ROLE_MEANING[d.entityType]
+          : `No consta públicamente si ${e.name} ha comprado la deuda o la reclama por cuenta de un tercero: pídelo por escrito.`,
+      },
+      {
+        label: "¿Puede embargar por su cuenta?",
+        level: "verde",
+        levelLabel: "No",
+        note: "El embargo solo lo acuerda un juzgado tras un procedimiento. Una carta o una llamada no embarga nada.",
+      },
+      {
+        label: "Margen para negociar",
+        level: compra ? "verde" : "ambar",
+        levelLabel: compra ? "Lo decide la propia entidad" : "Lo decide el acreedor titular",
+        note: compra
+          ? `${e.name} figura como adquirente de carteras, así que puede aceptar acuerdos o quitas sin consultar a un tercero.`
+          : `Al gestionar deuda de la que no siempre es titular, el acuerdo que te ofrezca ${e.name} depende de quién sea hoy el acreedor.`,
+      },
+    ];
+  }
   const levels: Levels = { ...BASE_BY_KIND[e.kind], ...(OVERRIDES[e.slug] ?? {}) };
   return [
     {
