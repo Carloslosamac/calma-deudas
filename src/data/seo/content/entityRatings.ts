@@ -132,7 +132,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     const out: RatingIndicator[] = [
       {
         label: "Papel en tu deuda",
-        level: "verde",
+        level: "neutro",
         levelLabel: d ? ROLE_LABEL[d.entityType] : "Pídelo por escrito",
         note: d
           ? ROLE_MEANING[d.entityType]
@@ -143,7 +143,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     if (d?.group || d?.legalName) {
       out.push({
         label: "Quién está detrás",
-        level: "verde",
+        level: "neutro",
         levelLabel: d.group ?? d.legalName!,
         note: [
           d.legalName ? `Razón social: ${d.legalName.replace(/\.$/, "")}.` : null,
@@ -158,7 +158,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     if (d?.debtTypes?.length) {
       out.push({
         label: "Deuda que suele reclamar",
-        level: "verde",
+        level: "neutro",
         levelLabel: d.debtTypes[0],
         note: `Carteras habituales: ${d.debtTypes.join(", ")}.${
           d.knownOriginators?.length
@@ -171,13 +171,13 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     out.push(
       {
         label: "¿Puede embargar por su cuenta?",
-        level: "verde",
+        level: "neutro",
         levelLabel: "No",
         note: "El embargo solo lo acuerda un juzgado tras un procedimiento. Una carta o una llamada no embarga nada.",
       },
       {
         label: "Margen para negociar",
-        level: compra ? "verde" : "ambar",
+        level: "neutro",
         levelLabel: compra ? "Lo decide la propia entidad" : "Lo decide el acreedor titular",
         note: compra
           ? `${e.name} figura como adquirente de carteras, así que puede aceptar acuerdos o quitas sin consultar a un tercero.`
