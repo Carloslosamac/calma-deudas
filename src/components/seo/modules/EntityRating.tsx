@@ -51,7 +51,9 @@ const EntityRating = ({ kind, indicators }: EntityRatingProps) => (
       <span className="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 font-poppins text-xs font-semibold uppercase tracking-wide text-accent-deep">
         {KIND_LABEL[kind]}
       </span>
-      <p className="text-sm font-medium text-foreground/70">Valoración rápida de la entidad</p>
+      <p className="text-sm font-medium text-foreground/70">
+        {kind === "recobro" ? "Lo que conviene saber de la entidad" : "Valoración rápida de la entidad"}
+      </p>
     </div>
 
     <ul className="mt-5 space-y-4">
@@ -72,8 +74,9 @@ const EntityRating = ({ kind, indicators }: EntityRatingProps) => (
     </ul>
 
     <p className="mt-5 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
-      Valoración orientativa del equipo de Calma según el perfil de la entidad. No es asesoramiento
-      jurídico: cada caso se estudia de forma individual y gratuita.
+      {kind === "recobro"
+        ? "Información factual sobre el papel de la entidad y los límites legales del recobro, no una valoración de su conducta. No es asesoramiento jurídico: cada caso se estudia de forma individual y gratuita."
+        : "Valoración orientativa del equipo de Calma según el perfil de la entidad. No es asesoramiento jurídico: cada caso se estudia de forma individual y gratuita."}
     </p>
   </div>
 );

@@ -1,5 +1,6 @@
 import type { Entity, EntityKind } from "@/data/seo/entities";
 import type { RatingIndicator, RatingLevel } from "@/components/seo/modules/EntityRating";
+import { getRecobroData, buysDebt, ROLE_LABEL, ROLE_MEANING } from "@/data/seo/recobroData";
 
 /**
  * Valoración cualitativa por entidad (etiquetas semáforo, sin cifras inventadas).

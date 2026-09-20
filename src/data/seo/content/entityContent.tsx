@@ -891,7 +891,10 @@ const originSection = (e: Entity, profile: EntityProfile): EntitySection => ({
 
 /** Ficha visual de valoración (semáforo) por entidad. */
 const ratingSection = (e: Entity): EntitySection => ({
-  title: `Valoración rápida de ${e.name}`,
+  title:
+    e.kind === "recobro"
+      ? `${e.name} de un vistazo`
+      : `Valoración rápida de ${e.name}`,
   body: <EntityRating kind={e.kind} indicators={getEntityRating(e)} />,
 });
 
