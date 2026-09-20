@@ -77,12 +77,6 @@ const ClusterHub = () => {
   ];
 
   const intro = content?.intro ?? cluster.description;
-  const hubEntityClusters = new Set([
-    "empresas-de-recobro",
-    "microcreditos-prestamos",
-    "tarjetas-revolving",
-    "bancos-hipoteca-vivienda",
-  ]);
   const allEntities = [...entitiesByCluster(cluster.slug)].sort((a, b) =>
     a.name.localeCompare(b.name, "es", { sensitivity: "base" }),
   );
