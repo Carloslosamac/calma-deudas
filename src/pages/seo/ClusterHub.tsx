@@ -84,7 +84,10 @@ const ClusterHub = () => {
 
   if (hubEntityClusters.has(cluster.slug) && allEntities.length > 0) {
     sections.push({
-      title: `Todas las entidades de ${cluster.label}`,
+      title:
+        cluster.slug === "empresas-de-recobro"
+          ? "Todas las empresas de recobro"
+          : `Todas las entidades de ${cluster.label}`,
       body: (
         <div className="space-y-5">
           <p className="text-base leading-relaxed text-muted-foreground">
