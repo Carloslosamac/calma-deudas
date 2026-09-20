@@ -1,7 +1,7 @@
 import type { EntityKind } from "@/data/seo/entities";
 
 /** Nivel semáforo cualitativo (sin cifras). */
-export type RatingLevel = "verde" | "ambar" | "rojo";
+export type RatingLevel = "verde" | "ambar" | "rojo" | "neutro";
 
 export type RatingIndicator = {
   /** aspecto valorado, ej. "Presión de recobro" */
@@ -31,12 +31,14 @@ const DOT: Record<RatingLevel, string> = {
   verde: "bg-accent-deep",
   ambar: "bg-amber-deep",
   rojo: "bg-orange-deep",
+  neutro: "bg-muted-foreground/50",
 };
 
 const BADGE: Record<RatingLevel, string> = {
   verde: "bg-accent-soft text-accent-deep",
   ambar: "bg-amber-soft text-amber-deep",
   rojo: "bg-orange-soft text-orange-deep",
+  neutro: "bg-muted text-foreground/70",
 };
 
 /**

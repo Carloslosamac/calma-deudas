@@ -15,7 +15,8 @@ import { getRecobroData, buysDebt, ROLE_LABEL, ROLE_MEANING } from "@/data/seo/r
  *                 opciones de defensa para la persona; por eso lleva nota propia)
  */
 
-type Levels = { presion: RatingLevel; negociacion: RatingLevel; usura: RatingLevel };
+type QualLevel = Exclude<RatingLevel, "neutro">;
+type Levels = { presion: QualLevel; negociacion: QualLevel; usura: QualLevel };
 
 const BASE_BY_KIND: Record<EntityKind, Levels> = {
   recobro: { presion: "rojo", negociacion: "verde", usura: "ambar" },
@@ -50,7 +51,7 @@ const OVERRIDES: Record<string, Partial<Levels>> = {
   caixabank: { presion: "verde", negociacion: "ambar", usura: "ambar" },
 };
 
-const LEVEL_LABEL: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, string>> = {
+const LEVEL_LABEL: Record<"presion" | "negociacion" | "usura", Record<QualLevel, string>> = {
   presion: { verde: "Baja", ambar: "Media", rojo: "Alta" },
   negociacion: { verde: "Alto", ambar: "Medio", rojo: "Bajo" },
   usura: { verde: "Bajo", ambar: "Medio", rojo: "Alto" },
@@ -63,7 +64,7 @@ const slugIndex = (slug: string, mod: number): number => {
   return h % mod;
 };
 
-const NOTES: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, ((n: string) => string)[]>> = {
+const NOTES: Record<"presion" | "negociacion" | "usura", Record<QualLevel, ((n: string) => string)[]>> = {
   presion: {
     rojo: [
       (n) => `${n} suele recurrir a llamadas y cartas insistentes; recuerda que solo un juez puede embargar.`,
@@ -117,7 +118,7 @@ const NOTES: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, ((n
   },
 };
 
-const note = (axis: "presion" | "negociacion" | "usura", level: RatingLevel, e: Entity): string => {
+const note = (axis: "presion" | "negociacion" | "usura", level: QualLevel, e: Entity): string => {
   const variants = NOTES[axis][level];
   return variants[slugIndex(e.slug + axis, variants.length)](e.name);
 };
@@ -132,7 +133,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     const out: RatingIndicator[] = [
       {
         label: "Papel en tu deuda",
-        level: "verde",
+        level: "neutro",
         levelLabel: d ? ROLE_LABEL[d.entityType] : "Pídelo por escrito",
         note: d
           ? ROLE_MEANING[d.entityType]
@@ -143,7 +144,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     if (d?.group || d?.legalName) {
       out.push({
         label: "Quién está detrás",
-        level: "verde",
+        level: "neutro",
         levelLabel: d.group ?? d.legalName!,
         note: [
           d.legalName ? `Razón social: ${d.legalName.replace(/\.$/, "")}.` : null,
@@ -158,7 +159,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     if (d?.debtTypes?.length) {
       out.push({
         label: "Deuda que suele reclamar",
-        level: "verde",
+        level: "neutro",
         levelLabel: d.debtTypes[0],
         note: `Carteras habituales: ${d.debtTypes.join(", ")}.${
           d.knownOriginators?.length
@@ -171,13 +172,13 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
     out.push(
       {
         label: "¿Puede embargar por su cuenta?",
-        level: "verde",
+        level: "neutro",
         levelLabel: "No",
         note: "El embargo solo lo acuerda un juzgado tras un procedimiento. Una carta o una llamada no embarga nada.",
       },
       {
         label: "Margen para negociar",
-        level: compra ? "verde" : "ambar",
+        level: "neutro",
         levelLabel: compra ? "Lo decide la propia entidad" : "Lo decide el acreedor titular",
         note: compra
           ? `${e.name} figura como adquirente de carteras, así que puede aceptar acuerdos o quitas sin consultar a un tercero.`
