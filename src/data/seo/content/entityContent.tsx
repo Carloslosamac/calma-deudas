@@ -253,7 +253,7 @@ const roleSection = (e: Entity, d?: RecobroEntityData): EntitySection => {
           </P>
         ) : null}
         {d?.nowOperatesAs && (
-          <KeyCallout title={`Hoy esta actividad la desarrolla ${d.nowOperatesAs.name}`}>
+          <KeyCallout headline={`Hoy esta actividad la desarrolla ${d.nowOperatesAs.name}`}>
             {d.nowOperatesAs.note}{" "}
             {d.nowOperatesAs.slug ? (
               <A to={`/empresas-de-recobro/${d.nowOperatesAs.slug}`}>
