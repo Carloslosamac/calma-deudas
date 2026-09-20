@@ -7,6 +7,14 @@ import KeyCallout from "@/components/seo/modules/KeyCallout";
 import CheckList from "@/components/seo/modules/CheckList";
 import EntityRating from "@/components/seo/modules/EntityRating";
 import { getEntityRating } from "@/data/seo/content/entityRatings";
+import {
+  getRecobroData,
+  historicalBrandsFor,
+  buysDebt,
+  ROLE_LABEL,
+  ROLE_MEANING,
+  type RecobroEntityData,
+} from "@/data/seo/recobroData";
 import { ShieldCheck, XCircle, CheckCircle2 } from "lucide-react";
 
 /**
