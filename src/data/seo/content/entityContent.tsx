@@ -252,6 +252,16 @@ const roleSection = (e: Entity, d?: RecobroEntityData): EntitySection => {
             acreditarlo {e.name} en tu caso concreto.
           </P>
         ) : null}
+        {d?.nowOperatesAs && (
+          <KeyCallout title={`Hoy esta actividad la desarrolla ${d.nowOperatesAs.name}`}>
+            {d.nowOperatesAs.note}{" "}
+            {d.nowOperatesAs.slug ? (
+              <A to={`/empresas-de-recobro/${d.nowOperatesAs.slug}`}>
+                Ver la ficha de {d.nowOperatesAs.name}
+              </A>
+            ) : null}
+          </KeyCallout>
+        )}
         {hist.length > 0 && (
           <P>
             {hist.map((h) => `${h.name}: ${h.note}`).join(" ")} Si te reclamaron con ese nombre, la
