@@ -129,15 +129,46 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
   if (e.kind === "recobro") {
     const d = getRecobroData(e.slug);
     const compra = buysDebt(d);
-    return [
+    const out: RatingIndicator[] = [
       {
         label: "Papel en tu deuda",
         level: "verde",
-        levelLabel: d ? ROLE_LABEL[d.entityType] : "Por confirmar",
+        levelLabel: d ? ROLE_LABEL[d.entityType] : "Pídelo por escrito",
         note: d
           ? ROLE_MEANING[d.entityType]
-          : `No consta públicamente si ${e.name} ha comprado la deuda o la reclama por cuenta de un tercero: pídelo por escrito.`,
+          : `No hemos podido documentar con fuente pública si ${e.name} ha comprado tu deuda o la reclama por cuenta de un tercero. Puedes exigirle por escrito que identifique al acreedor actual y acredite la cesión antes de pagar nada.`,
       },
+    ];
+
+    if (d?.group || d?.legalName) {
+      out.push({
+        label: "Quién está detrás",
+        level: "verde",
+        levelLabel: d.group ?? d.legalName!,
+        note: [
+          d.legalName ? `Razón social: ${d.legalName.replace(/\.$/, "")}.` : null,
+          d.group ? `Forma parte de ${d.group}.` : null,
+          d.formerNames?.length ? `Nombres anteriores: ${d.formerNames.join(", ")}.` : null,
+        ]
+          .filter(Boolean)
+          .join(" "),
+      });
+    }
+
+    if (d?.debtTypes?.length) {
+      out.push({
+        label: "Deuda que suele reclamar",
+        level: "verde",
+        levelLabel: d.debtTypes[0],
+        note: `Carteras habituales: ${d.debtTypes.join(", ")}.${
+          d.knownOriginators?.length
+            ? ` Entidades de origen documentadas: ${d.knownOriginators.join(", ")}.`
+            : " Pide siempre el contrato de origen para comprobar de dónde viene el importe que te reclaman."
+        }`,
+      });
+    }
+
+    out.push(
       {
         label: "¿Puede embargar por su cuenta?",
         level: "verde",
@@ -152,8 +183,11 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
           ? `${e.name} figura como adquirente de carteras, así que puede aceptar acuerdos o quitas sin consultar a un tercero.`
           : `Al gestionar deuda de la que no siempre es titular, el acuerdo que te ofrezca ${e.name} depende de quién sea hoy el acreedor.`,
       },
-    ];
+    );
+
+    return out;
   }
+
   const levels: Levels = { ...BASE_BY_KIND[e.kind], ...(OVERRIDES[e.slug] ?? {}) };
   return [
     {
