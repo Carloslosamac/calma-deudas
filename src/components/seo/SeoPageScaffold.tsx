@@ -108,6 +108,8 @@ export type SeoPageScaffoldProps = {
   contentUpdatedAt?: string;
   /** tipo de página para la analítica de CTAs */
   pageType?: string;
+  /** contexto extra para la analítica de CTAs (entidad, etc.) */
+  ctaMeta?: Record<string, unknown>;
   children?: React.ReactNode;
 };
 
@@ -132,6 +134,7 @@ const SeoPageScaffold = ({
   reviewedAt,
   contentUpdatedAt,
   pageType,
+  ctaMeta,
   children,
 }: SeoPageScaffoldProps) => {
   const placeholderSections = SECTIONS[template];
@@ -175,7 +178,7 @@ const SeoPageScaffold = ({
               </div>
             )}
             <div className="mt-7">
-              <CtaButton />
+              <CtaButton pageType={pageType} ctaId="hero-cta" meta={ctaMeta} />
             </div>
           </header>
 
@@ -224,6 +227,7 @@ const SeoPageScaffold = ({
               links={bridge.links}
               placement="closing"
               pageType={pageType}
+              meta={ctaMeta}
             />
           )}
 

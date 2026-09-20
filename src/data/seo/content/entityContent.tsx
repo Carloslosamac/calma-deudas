@@ -7,6 +7,14 @@ import KeyCallout from "@/components/seo/modules/KeyCallout";
 import CheckList from "@/components/seo/modules/CheckList";
 import EntityRating from "@/components/seo/modules/EntityRating";
 import { getEntityRating } from "@/data/seo/content/entityRatings";
+import {
+  getRecobroData,
+  historicalBrandsFor,
+  buysDebt,
+  ROLE_LABEL,
+  ROLE_MEANING,
+  type RecobroEntityData,
+} from "@/data/seo/recobroData";
 import { ShieldCheck, XCircle, CheckCircle2 } from "lucide-react";
 
 /**
@@ -244,6 +252,16 @@ const roleSection = (e: Entity, d?: RecobroEntityData): EntitySection => {
             acreditarlo {e.name} en tu caso concreto.
           </P>
         ) : null}
+        {d?.nowOperatesAs && (
+          <KeyCallout headline={`Hoy esta actividad la desarrolla ${d.nowOperatesAs.name}`}>
+            {d.nowOperatesAs.note}{" "}
+            {d.nowOperatesAs.slug ? (
+              <A to={`/empresas-de-recobro/${d.nowOperatesAs.slug}`}>
+                Ver la ficha de {d.nowOperatesAs.name}
+              </A>
+            ) : null}
+          </KeyCallout>
+        )}
         {hist.length > 0 && (
           <P>
             {hist.map((h) => `${h.name}: ${h.note}`).join(" ")} Si te reclamaron con ese nombre, la
@@ -282,6 +300,7 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
     sections: [
       calmSection(e),
       roleSection(e, d),
+      ratingSection(e),
       {
         title: `Por qué te reclama ${e.name} si tú no contrataste nada con ellos`,
         body: (
@@ -873,7 +892,10 @@ const originSection = (e: Entity, profile: EntityProfile): EntitySection => ({
 
 /** Ficha visual de valoración (semáforo) por entidad. */
 const ratingSection = (e: Entity): EntitySection => ({
-  title: `Valoración rápida de ${e.name}`,
+  title:
+    e.kind === "recobro"
+      ? `${e.name} de un vistazo`
+      : `Valoración rápida de ${e.name}`,
   body: <EntityRating kind={e.kind} indicators={getEntityRating(e)} />,
 });
 
@@ -1008,8 +1030,10 @@ const mergeProfile = (base: EntityContent, e: Entity, profile: EntityProfile): E
   const sections = base.sections.filter((s) => s.title !== "Tus miedos, resueltos");
   // tras calmSection (índice 0): origen único
   sections.splice(1, 0, originSection(e, profile));
-  // tras el origen: ficha de valoración semáforo
-  sections.splice(2, 0, ratingSection(e));
+  // tras el origen: ficha de valoración (si la plantilla no la incluye ya)
+  if (!sections.some((s) => s.title === ratingSection(e).title)) {
+    sections.splice(2, 0, ratingSection(e));
+  }
   // antes de la última sección (calmaSection): miedos específicos
   const insertAt = Math.max(1, sections.length - 1);
   sections.splice(insertAt, 0, profileWorriesSection(e, profile));

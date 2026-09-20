@@ -22,6 +22,8 @@ export type SolutionBridgeProps = {
   pageType?: string;
   /** Identificador del CTA para la analítica. */
   ctaId?: string;
+  /** contexto extra para la analítica (entidad, etc.) */
+  meta?: Record<string, unknown>;
   className?: string;
 };
 
@@ -44,6 +46,7 @@ const SolutionBridge = ({
   placement = "inline",
   pageType,
   ctaId = "solution-bridge",
+  meta,
   className,
 }: SolutionBridgeProps) => {
   const isForm = href.includes("#hero-form");
@@ -55,6 +58,7 @@ const SolutionBridge = ({
       ctaLabel,
       placement,
       targetUrl: href,
+      meta,
     });
     if (isForm) {
       e.preventDefault();
