@@ -15,7 +15,8 @@ import { getRecobroData, buysDebt, ROLE_LABEL, ROLE_MEANING } from "@/data/seo/r
  *                 opciones de defensa para la persona; por eso lleva nota propia)
  */
 
-type Levels = { presion: RatingLevel; negociacion: RatingLevel; usura: RatingLevel };
+type QualLevel = Exclude<RatingLevel, "neutro">;
+type Levels = { presion: QualLevel; negociacion: QualLevel; usura: QualLevel };
 
 const BASE_BY_KIND: Record<EntityKind, Levels> = {
   recobro: { presion: "rojo", negociacion: "verde", usura: "ambar" },
@@ -50,7 +51,7 @@ const OVERRIDES: Record<string, Partial<Levels>> = {
   caixabank: { presion: "verde", negociacion: "ambar", usura: "ambar" },
 };
 
-const LEVEL_LABEL: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, string>> = {
+const LEVEL_LABEL: Record<"presion" | "negociacion" | "usura", Record<QualLevel, string>> = {
   presion: { verde: "Baja", ambar: "Media", rojo: "Alta" },
   negociacion: { verde: "Alto", ambar: "Medio", rojo: "Bajo" },
   usura: { verde: "Bajo", ambar: "Medio", rojo: "Alto" },
@@ -63,7 +64,7 @@ const slugIndex = (slug: string, mod: number): number => {
   return h % mod;
 };
 
-const NOTES: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, ((n: string) => string)[]>> = {
+const NOTES: Record<"presion" | "negociacion" | "usura", Record<QualLevel, ((n: string) => string)[]>> = {
   presion: {
     rojo: [
       (n) => `${n} suele recurrir a llamadas y cartas insistentes; recuerda que solo un juez puede embargar.`,
@@ -117,7 +118,7 @@ const NOTES: Record<"presion" | "negociacion" | "usura", Record<RatingLevel, ((n
   },
 };
 
-const note = (axis: "presion" | "negociacion" | "usura", level: RatingLevel, e: Entity): string => {
+const note = (axis: "presion" | "negociacion" | "usura", level: QualLevel, e: Entity): string => {
   const variants = NOTES[axis][level];
   return variants[slugIndex(e.slug + axis, variants.length)](e.name);
 };
