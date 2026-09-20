@@ -146,7 +146,7 @@ export const getEntityRating = (e: Entity): RatingIndicator[] => {
         level: "verde",
         levelLabel: d.group ?? d.legalName!,
         note: [
-          d.legalName ? `Razón social: ${d.legalName}.` : null,
+          d.legalName ? `Razón social: ${d.legalName.replace(/\.$/, "")}.` : null,
           d.group ? `Forma parte de ${d.group}.` : null,
           d.formerNames?.length ? `Nombres anteriores: ${d.formerNames.join(", ")}.` : null,
         ]
