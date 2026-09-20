@@ -893,6 +893,124 @@ export const RECOBRO_DATA: Record<string, RecobroEntityData> = {
     sources: [src("Coface — recobro de deudas", "https://www.coface.es/recobro-de-deudas")],
     lastVerifiedAt: V,
   },
+
+  /* ---------------- fichas históricas sin datos estructurados ---------------- */
+  kruk: {
+    slug: "kruk",
+    name: "Kruk",
+    legalName: "Kruk España, S.L.U.",
+    aliases: ["KRUK", "Kruk España", "Grupo KRUK"],
+    group: "KRUK S.A. (Polonia)",
+    entityType: "comprador",
+    roles: ["comprador", "recobro", "servicer"],
+    debtTypes: ["crédito al consumo", "tarjetas", "microcréditos", "telecomunicaciones", "carteras NPL"],
+    officialWebsite: "https://es.kruk.eu/",
+    notes:
+      "Grupo polaco cotizado que opera en España desde 2007. Adquiere carteras de deuda impagada y también gestiona cobro por cuenta de terceros, por lo que conviene pedir por escrito en qué condición reclama tu caso.",
+    sources: [
+      src("Sobre KRUK España", "https://es.kruk.eu/sobre-nosotros"),
+      src("KRUK S.A. — relación con inversores", "https://en.kruk.eu/investor-relations"),
+    ],
+    lastVerifiedAt: V,
+  },
+  eos: {
+    slug: "eos",
+    name: "EOS Spain",
+    legalName: "EOS Spain, S.L.U.",
+    aliases: ["EOS", "EOS Group", "EOS España"],
+    group: "EOS Group (Grupo Otto, Alemania)",
+    entityType: "comprador",
+    roles: ["comprador", "recobro", "servicer"],
+    debtTypes: ["crédito al consumo", "tarjetas", "carteras NPL", "deuda con garantía"],
+    officialWebsite: "https://es.eos-solutions.com/",
+    notes:
+      "Filial española del grupo alemán EOS (Otto Group). Compra carteras de deuda impagada y además presta servicios de recobro para entidades financieras.",
+    sources: [
+      src("EOS Spain — quiénes somos", "https://es.eos-solutions.com/empresa.html"),
+      src("EOS Group — perfil corporativo", "https://www.eos-solutions.com/company.html"),
+    ],
+    lastVerifiedAt: V,
+  },
+  axactor: {
+    slug: "axactor",
+    name: "Axactor",
+    legalName: "Axactor España, S.A.U.",
+    aliases: ["Axactor SE", "Axactor España"],
+    group: "Axactor SE (Noruega)",
+    entityType: "comprador",
+    roles: ["comprador", "servicer", "recobro"],
+    debtTypes: ["crédito al consumo sin garantía", "tarjetas", "carteras NPL"],
+    officialWebsite: "https://www.axactor.es/",
+    notes:
+      "Grupo noruego cotizado en la bolsa de Oslo, con actividad en España desde 2015. Su negocio principal es la compra de carteras de deuda impagada, además de la gestión de cobro para terceros.",
+    sources: [
+      src("Axactor España — sobre nosotros", "https://www.axactor.es/sobre-nosotros"),
+      src("Axactor SE — relación con inversores", "https://www.axactor.com/investor-relations/"),
+    ],
+    lastVerifiedAt: V,
+  },
+  "hoist-finance": {
+    slug: "hoist-finance",
+    name: "Hoist Finance",
+    legalName: "Hoist Finance AB (publ), sucursal en España",
+    aliases: ["Hoist", "Hoist Finance España"],
+    group: "Hoist Finance AB (Suecia)",
+    entityType: "comprador",
+    roles: ["comprador", "servicer"],
+    debtTypes: ["crédito al consumo", "tarjetas", "carteras NPL", "deuda con garantía"],
+    officialWebsite: "https://www.hoistfinance.es/",
+    notes:
+      "Entidad de crédito sueca supervisada, especializada en la adquisición de carteras de deuda impagada a bancos y financieras. Cuando reclama, normalmente lo hace como nuevo titular de la deuda.",
+    sources: [
+      src("Hoist Finance España", "https://www.hoistfinance.es/"),
+      src("Hoist Finance AB — perfil corporativo", "https://www.hoistfinance.com/about-us/"),
+    ],
+    lastVerifiedAt: V,
+  },
+  procobro: {
+    slug: "procobro",
+    name: "Procobro",
+    aliases: ["Procobro Gestión", "Pro Cobro"],
+    entityType: "recobro",
+    roles: ["recobro", "gestor-terceros"],
+    debtTypes: ["deuda de particulares", "deuda comercial"],
+    officialWebsite: "https://www.procobro.es/",
+    notes:
+      "Agencia española de gestión de cobro extrajudicial. Actúa reclamando por cuenta de la empresa acreedora, por lo que puedes pedirle que identifique por escrito a quién pertenece hoy la deuda.",
+    sources: [src("Procobro — web corporativa", "https://www.procobro.es/")],
+    lastVerifiedAt: V,
+  },
+  "medina-cuadros": {
+    slug: "medina-cuadros",
+    name: "Medina Cuadros",
+    legalName: "Medina Cuadros Abogados",
+    aliases: ["Medina Cuadros Abogados"],
+    entityType: "despacho",
+    roles: ["despacho", "gestor-terceros"],
+    debtTypes: ["reclamación judicial y extrajudicial de deuda"],
+    officialWebsite: "https://www.medinacuadros.com/",
+    notes:
+      "Despacho de abogados con área de recuperación de deuda. Actúa en nombre del acreedor: su carta es una reclamación de un despacho, no una notificación judicial.",
+    sources: [src("Medina Cuadros Abogados — web corporativa", "https://www.medinacuadros.com/")],
+    lastVerifiedAt: V,
+  },
+  "abanca-servicing": {
+    slug: "abanca-servicing",
+    name: "Abanca Servicios Financieros",
+    legalName: "Abanca Servicios Financieros, E.F.C., S.A.",
+    aliases: ["Abanca Servicios Financieros EFC"],
+    group: "Abanca Corporación Bancaria",
+    entityType: "gestor-terceros",
+    roles: ["gestor-terceros", "servicer"],
+    debtTypes: ["crédito al consumo", "tarjetas"],
+    officialWebsite: "https://www.abanca.com/",
+    notes:
+      "Establecimiento financiero de crédito del grupo Abanca. La deuda que reclama suele proceder de financiación o tarjetas del propio grupo, no de una cartera comprada a terceros.",
+    sources: [
+      src("Abanca Servicios Financieros — registro de entidades del Banco de España", "https://www.bde.es/webbe/es/estadisticas/recursos/registro-entidades.html"),
+    ],
+    lastVerifiedAt: V,
+  },
 };
 
 export const HISTORICAL_BRANDS: HistoricalBrand[] = [
