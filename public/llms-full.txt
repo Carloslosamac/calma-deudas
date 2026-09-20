@@ -510,6 +510,24 @@ Preguntas frecuentes:
 
 ## Artículos del blog (resúmenes)
 
+### Tarjeta de crédito American Express: Características, beneficios y cómo obtenerla
+URL: https://mi-calma.es/blog/tarjeta-credito-american-express-caracteristicas-beneficios-obtenerla
+
+Las tarjetas American Express ofrecen elevados límites de crédito y programas de fidelización, pero en sus modalidades de pago aplazado o financiadas pueden aplicar una Tasa Anual Equivalente (TAE) superior al 20%. Si acumulas deudas por aplazar compras con Amex, es posible reclamar la nulidad de las cláusulas por falta de transparencia o usura (conforme a la Ley Azcárate y la doctrina del Tribunal Supremo) para recuperar los intereses cobrados de más o acogerse a la Ley de Segunda Oportunidad si la insolvencia es definitiva.
+
+- **¿Es American Express una tarjeta revolving?** American Express ofrece tarjetas con modalidad de cargo diferido total (pago del 100% a fin de mes sin intereses) y opciones de financiación flexible o pago aplazado. Cuando utilizas la modalidad de cuota fija o fraccionada para saldar tus compras, la tarjeta funciona bajo la mecánica de un crédito revolving, aplicando un tipo de interés sobre el saldo adeudado.
+- **¿Puedo reclamar los intereses de mi tarjeta American Express si la contraté hace años?** Sí. La acción de nulidad radical de un contrato usurario o nulo por falta de transparencia es imprescriptible. Esto significa que puedes iniciar la reclamación judicial aunque la tarjeta fuera contratada hace más de una década o incluso si la cuenta ya se encuentra cancelada, pudiendo recuperar los intereses abonados indebidamente.
+- **¿Qué ocurre si no puedo pagar el extracto mensual de mi tarjeta Amex?** Si incurres en impago, American Express aplicará comisiones por reclamo de mora e intereses de demora sobre el saldo impagado. Tras varios requerimientos, la entidad puede inscribir tus datos en ficheros de morosidad (ASNEF) y reclamar el importe adeudado por la vía judicial mediante un juicio monitorio.
+
+### Tarjeta Leroy Merlín: Todo lo que Debes de Saber
+URL: https://mi-calma.es/blog/tarjeta-leroy-merlin-todo-lo-debes-saber
+
+La tarjeta de pago de Leroy Merlin, emitida en España por Oney Servicios Financieros, opera bajo la modalidad 'revolving' cuando se aplican cuotas mensuales aplazadas. Si la TAE aplicada supera el tipo medio publicado por el Banco de España para tarjetas de crédito en la fecha de contratación por más de 6 puntos, o si existió falta de transparencia en las cláusulas de amortización, es posible interponer una reclamación judicial o extrajudicial para anular el contrato y recuperar la totalidad de los intereses y comisiones indebidamente cobrados.
+
+- **¿Quién emite realmente la tarjeta Leroy Merlin?** La tarjeta comercializada por Leroy Merlin es emitida, concedida y gestionada por la entidad financiera de crédito Oney Servicios Financieros E.F.C., S.A. Leroy Merlin actúa únicamente como canal de prescripción comercial en sus establecimientos y web.
+- **¿Cómo puedo saber si el interés de mi tarjeta Leroy Merlin es de usura?** Debes revisar la TAE estipulada en tu contrato. Si la TAE supera en más de 6 puntos porcentuales el tipo medio publicado por el Banco de España para tarjetas de crédito en la fecha en que contrataste, el contrato puede ser nulo por usura.
+- **¿Qué ocurre si declaran nulo el contrato de la tarjeta Oney?** Se produce una restitución recíproca de prestaciones: el contrato queda rescindido y tú solo estás obligado a pagar el capital prestado. Si con las cuotas abonadas a lo largo del tiempo ya has pagado ese capital, Oney debe devolverte todo lo pagado de más en concepto de intereses, comisiones y seguros.
+
 ### Préstamos rápidos sin nómina ni aval: Información y características
 URL: https://mi-calma.es/blog/prestamos-rapidos-sin-nomina-ni-aval-informacion-caracteristicas
 
@@ -626,22 +644,4 @@ La financiación rápida mediante minipréstamos, tarjetas de crédito, comision
 - **¿Qué ocurre si no puedo pagar un microcrédito o préstamo de una app?** Si dejas de pagar un crédito, la entidad aplicará comisiones de demora e inscribirá tus datos en ficheros de insolvencia patrimonial como ASNEF. Posteriormente, la entidad o un fondo de titulación al que vendan la cartera podrá interponer un juicio monitorio para reclamar el saldo adeudado. Sin embargo, en ese mismo procedimiento judicial, el juez puede declarar nulas las cláusulas y comisiones abusivas.
 - **¿Los neobancos extranjeros aplican la ley de usura española?** Sí. Aunque un neobanco o entidad de dinero electrónico tenga su sede legal en otro estado miembro de la Unión Europea, si comercializa sus productos de crédito dirigidos al público residente en España, queda sujeto a las normas imperativas de protección al consumidor y a la jurisprudencia española sobre usura y transparencia.
 - **¿Cuál es el límite TAE para considerar usura en un préstamo personal?** No existe una cifra fija única en el código civil. El Tribunal Supremo establece que debe compararse la TAE del contrato con la estadística media publicada por el Banco de España para esa categoría en el año de contratación. En préstamos al consumo, los tipos que superen holgadamente el tipo medio (frecuentemente TAEs superiores al 15%-20% en créditos ordinarios o +200% en minipréstamos) son susceptibles de anulación por usura.
-
-### El círculo vicioso del endeudamiento
-URL: https://mi-calma.es/blog/circulo-vicioso-endeudamiento
-
-El círculo vicioso del endeudamiento ocurre cuando se contrata financiación de alto coste (como microcréditos o tarjetas revolving) para pagar deudas previas, generando un interés compuesto insostenible. Se rompe deteniendo la espiral de parches y aplicando la vía legal adecuada: reclamación por usura si hay solvencia, reunificación mediante quita extrajudicial si hay bienes de valor, o la Ley de Segunda Oportunidad si existe insolvencia.
-
-- **¿Qué es exactamente el círculo vicioso del endeudamiento?** Es la situación financiera en la que una persona o familia no puede cubrir sus gastos u obligaciones con sus ingresos ordinarios y recurre habitualmente a nuevos créditos, tarjetas o microcréditos de alto coste para abonar las cuotas de deudas anteriores. Esto genera un crecimiento exponencial del pasivo total por el impacto de los intereses abusivos y comisiones por demora.
-- **¿Por qué los microcréditos y tarjetas revolving perpetúan la deuda?** Porque aplican tipos de interés (TAE) extremadamente elevados y, en el caso del sistema revolving, la cuota mensual contratada se destina casi en su totalidad al pago de intereses y costes operacionales. Como consecuencia, el capital principal adeudado apenas se amortiza, prolongando el pago de manera indefinida.
-- **¿Puedo ir a la cárcel por no poder pagar mis microcréditos o préstamos personales?** No. En el ordenamiento jurídico español no existe la prisión por deudas civiles. Las consecuencias del impago se ciñen al ámbito patrimonial mediante reclamaciones judiciales, inclusión en registros de morosos (ASNEF) y eventuales embargos de bienes o sueldos en lo que exceda del Salario Mínimo Interprofesional.
-
-### ¿Qué es una refinanciación?
-URL: https://mi-calma.es/blog/refinanciacion
-
-Una refinanciación es un acuerdo contractual con tus entidades financieras para modificar las condiciones de tus préstamos vigentes (ampliando el plazo de pago o cambiando el tipo de interés) con el fin de reducir la cuota mensual. Sin embargo, no reduce el total de lo que debes y, al alargar el calendario de amortización, suele incrementar significativamente el coste final de la deuda en intereses.
-
-- **¿Qué diferencia exacta hay entre refinanciar y reunificar deudas?** La refinanciación consiste en modificar las condiciones de los préstamos que ya tienes con la misma entidad (ampliando el plazo o ajustando el tipo de interés). La reunificación, por su parte, busca consolidar varios créditos en una única estrategia; en el modelo de negociación profesional, se acuerda con los acreedores una quita sobre el total adeudado y una cuota única ajustada sin necesidad de contratar un préstamo nuevo.
-- **¿Es obligatorio firmar ante Notario una refinanciación?** Solo es obligatorio si la refinanciación afecta a un préstamo garantizado con hipoteca inmobiliaria o si la cuantía y el tipo de garantía exigen escritura pública conforme a la Ley Reguladora de los Contratos de Crédito Inmobiliario. Préstamos personales o tarjetas suelen modificarse mediante documento privado entre banco y cliente.
-- **¿Me pueden cobrar comisiones por refinanciar mis préstamos?** Sí, las entidades crediticias suelen incluir comisiones por novación o modificación contractual, las cuales oscilan habitualmente entre el 0,5% y el 2% del capital pendiente. Además, suelen repercutir gastos de formalización, tasación o estudio si se requieren nuevas garantías.
 
