@@ -29,14 +29,26 @@ const ClusterHub = () => {
   const metaDescription = content?.metaDescription ?? cluster.description;
   const seoTitle = content?.seoTitle ?? `${cluster.title} | Calma`;
 
+  // Hubs que ya listan todas sus entidades en una sección propia: no las
+  // repetimos en "Contenido relacionado".
+  const hubEntityClusters = new Set([
+    "empresas-de-recobro",
+    "microcreditos-prestamos",
+    "tarjetas-revolving",
+    "bancos-hipoteca-vivienda",
+  ]);
+  const listsAllEntities = hubEntityClusters.has(cluster.slug);
+
   const related: RelatedLink[] = [
     ...moneyPagesByCluster(cluster.slug).map((p) => ({ label: p.h1, to: p.path })),
     ...comparativasByCluster(cluster.slug).map((c) => ({ label: c.label, to: c.path })),
     ...guiasByCluster(cluster.slug).map((g) => ({ label: g.label, to: g.path })),
-    ...entitiesByCluster(cluster.slug).map((e) => ({
-      label: e.name,
-      to: `/${e.cluster}/${e.slug}`,
-    })),
+    ...(listsAllEntities
+      ? []
+      : entitiesByCluster(cluster.slug).map((e) => ({
+          label: e.name,
+          to: `/${e.cluster}/${e.slug}`,
+        }))),
     ...(cluster.related ?? []).map((slug) => {
       const c = getCluster(slug);
       return c ? { label: c.label, to: `/${c.slug}` } : null;
