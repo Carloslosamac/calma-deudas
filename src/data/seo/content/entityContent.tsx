@@ -342,17 +342,17 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
               items={[
                 "Contrato original que da origen a la deuda y fecha de la última cuota pagada.",
                 "Documento de cesión o mandato: quién es hoy el titular de la deuda y desde cuándo.",
-                "Notificación de la cesión: deben comunicarte el cambio de acreedor.",
+                "Comunicación de la cesión, si existe: no suele ser necesaria para que la cesión sea válida, pero te permite saber a quién debes pagar.",
                 "Desglose del importe: principal, intereses, intereses de demora y comisiones.",
                 "Identificación de la persona que gestiona el expediente y canal escrito de contacto.",
               ]}
             />
             <P>
-              Mientras no acrediten esos extremos, no estás obligado a pagar nada. Y ojo con la
-              fecha: si han pasado más de 5 años desde la última reclamación o pago (3 en algunos
-              supuestos), la deuda puede estar{" "}
-              <strong className="text-foreground">prescrita</strong>. Reconocerla por teléfono o
-              hacer un pago simbólico reinicia el plazo.
+              Antes de pagar, comprueba que quien reclama está legitimado y que el importe es
+              exigible; si recibes una demanda, busca asesoramiento. Revisa también la fecha: según
+              el tipo de deuda y las reclamaciones o reconocimientos posteriores, puede estar{" "}
+              <strong className="text-foreground">prescrita</strong>. Reconocerla o hacer un pago
+              puede interrumpir el plazo.
             </P>
             <InlineCta label="Que revisemos tu carta de reclamación" />
           </>
@@ -388,9 +388,12 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
               </div>
             </div>
             <P>
-              Si las llamadas se vuelven acoso, pídeles por escrito que toda la comunicación sea
-              por escrito y guarda copia. Puedes reclamar ante la Agencia Española de Protección
-              de Datos.
+              Si las llamadas se vuelven insistentes, pide que la comunicación sea por escrito y
+              guarda copia de todo. Si usan tus datos de forma indebida (por ejemplo, contactan
+              con terceros o te incluyen en un fichero sin requisitos), puedes reclamar ante la
+              Agencia Española de Protección de Datos, que atiende cuestiones de protección de
+              datos. Las amenazas o el acoso, al margen de los datos, pueden plantearse por otras
+              vías, como consumo o denuncia.
             </P>
           </>
         ),
@@ -424,14 +427,15 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
           <>
             <P>
               {compra
-                ? `Los compradores de cartera adquieren la deuda con un fuerte descuento, así que suele existir margen para cerrar con una quita, sobre todo en pago único. Pero negociar solo tiene sentido si puedes pagar el acuerdo: un plan que no puedes sostener reabre el problema meses después.`
+                ? `Cuando la entidad ha comprado la deuda, es ella quien decide si acepta una quita o un fraccionamiento; si hay margen y cuánto depende de cada caso. Negociar solo tiene sentido si puedes pagar el acuerdo: un plan que no puedes sostener reabre el problema meses después.`
                 : `Cuando la entidad gestiona la deuda por cuenta de un tercero, el margen de quita depende del acreedor real, no de quien te llama. Por eso conviene identificar primero a quién pertenece la deuda.`}
             </P>
             <P>
               Si la deuda es real y no puedes asumirla, negociar solo alarga la situación. La{" "}
-              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> permite{" "}
-              <A to="/cancelar-deudas">cancelar la deuda por completo</A> cuando hay insolvencia
-              real y buena fe, incluidas las deudas que reclama {e.name}. Y si la deuda procede de
+              <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> puede permitir{" "}
+              <A to="/cancelar-deudas">cancelar deudas</A> si se cumplen sus requisitos
+              (insolvencia y buena fe, entre otros), con excepciones legales según el tipo de
+              deuda; las que reclama {e.name} pueden quedar incluidas según su naturaleza. Y si la deuda procede de
               una tarjeta revolving o de microcréditos, puede haber además{" "}
               <A to="/tarjetas-revolving/cancelar-tarjetas-revolving">intereses reclamables</A>.
             </P>
@@ -545,25 +549,26 @@ const recobroContent = (e: Entity, note: string): EntityContent => {
         q: `¿Y si la deuda que reclama ${e.name} está prescrita?`,
         a: (
           <P>
-            Si han pasado más de 5 años sin reclamación válida ni reconocimiento por tu parte,
-            puede estar prescrita. Cuidado: reconocerla por teléfono o pagar una cantidad pequeña
-            reinicia el plazo.
+            Puede estarlo si ha pasado mucho tiempo sin reclamación válida ni reconocimiento por
+            tu parte, pero el plazo depende del tipo de deuda y de la acción, y se interrumpe con
+            reclamaciones o reconocimientos. Conviene revisarlo con la documentación antes de
+            responder: reconocer la deuda o hacer un pago puede interrumpir el plazo.
           </P>
         ),
-        plain: "Si han pasado más de 5 años sin reclamación válida ni reconocimiento, la deuda puede estar prescrita; reconocerla por teléfono o pagar algo reinicia el plazo.",
+        plain: "Puede estar prescrita si ha pasado mucho tiempo sin reclamación válida ni reconocimiento; el plazo depende del tipo de deuda y se interrumpe con reclamaciones o reconocimientos. Revísalo antes de reconocerla o pagar.",
       },
       {
         q: `¿Puedo negociar la deuda con ${e.name}?`,
         a: (
           <P>
             {compra
-              ? "Sí. Al haber comprado la cartera con descuento, suele haber margen para una quita, sobre todo en pago único y por escrito."
+              ? `Normalmente sí: ${e.name} figura como adquirente de carteras, así que decide directamente sobre los acuerdos. Si acepta una quita o un fraccionamiento depende de cada caso.`
               : "Depende de quién sea el titular real de la deuda: identifícalo primero, porque el margen de quita lo decide el acreedor, no quien gestiona el cobro."}{" "}
             Cualquier acuerdo, siempre por escrito y con carta de saldo y finiquito.
           </P>
         ),
         plain: compra
-          ? `Sí: ${e.name} suele tener margen para aceptar una quita, sobre todo en pago único. Siempre por escrito y con carta de saldo y finiquito.`
+          ? `Normalmente sí: ${e.name} decide directamente sobre los acuerdos, aunque la quita o el fraccionamiento dependen de cada caso. Siempre por escrito y con carta de saldo y finiquito.`
           : `Depende del titular real de la deuda; identifícalo primero. Cualquier acuerdo con ${e.name} debe quedar por escrito y con carta de saldo y finiquito.`,
       },
       {
