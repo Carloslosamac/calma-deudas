@@ -50,13 +50,14 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     name,
     provincia,
     comunidad,
-    tribunal,
     zonas,
     prefijo,
   } = city;
   // Solo expedientes documentados del catálogo; sin ellos no hay bloque ni FAQ.
   const realCases = city.localCases ?? [];
   const v = variantIndex(city.slug);
+  // Solo se nombra un órgano concreto si está verificado con fuente oficial.
+  const court = city.verifiedCourt;
 
   const intro = pick(
     [
@@ -125,10 +126,20 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       body: (
         <div className="space-y-4">
           <P>
-            La Ley de Segunda Oportunidad es un procedimiento <strong>judicial</strong>. En{" "}
-            {name}, los expedientes se tramitan ante los <strong>{tribunal}</strong>, que son
-            los competentes en materia concursal tanto si eres autónomo o empresario como si
-            eres un particular sin actividad empresarial.
+            La Ley de Segunda Oportunidad es un procedimiento <strong>judicial</strong>.{" "}
+            {court ? (
+              <>
+                En {name}, el órgano con competencia concursal es la{" "}
+                <a href={court.source} target="_blank" rel="noopener noreferrer"><strong>{court.name}</strong></a>,
+              </>
+            ) : (
+              <>
+                Si vives en {name}, tu expediente lo tramita la sección del Tribunal de Instancia
+                con competencia mercantil que corresponda según tu domicilio,
+              </>
+            )}{" "}
+            competente en materia concursal tanto si eres autónomo o empresario como si eres un
+            particular sin actividad empresarial.
           </P>
           <P>
             El juzgado concreto que lleva tu expediente depende de tu domicilio y del reparto de
@@ -257,11 +268,14 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
   );
   const faqJuzgado = pick(
     [
-      `Los ${tribunal}. La competencia concursal corresponde a los juzgados de lo mercantil también cuando el deudor es un particular sin actividad empresarial.`,
-      `En ${name}, los ${tribunal}: son los competentes en materia concursal tanto para autónomos y empresarios como para particulares.`,
+      `La sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos. La competencia concursal alcanza también a particulares sin actividad empresarial.`,
+      `En ${name}, la sección con competencia mercantil del Tribunal de Instancia que corresponda por domicilio y reparto: es competente en materia concursal tanto para autónomos y empresarios como para particulares.`,
     ],
     v,
   );
+  const faqJuzgadoFinal = court
+    ? `En ${name}, la ${court.name} (denominación oficial publicada en justizia.eus). La competencia concursal alcanza también a particulares sin actividad empresarial.`
+    : faqJuzgado;
   const faqCoste = pick(
     [
       "El primer diagnóstico es gratuito. Si sigues adelante, trabajamos con un presupuesto cerrado desde el inicio y opción de pago fraccionado.",

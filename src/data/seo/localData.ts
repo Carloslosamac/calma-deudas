@@ -44,6 +44,8 @@ export type LocalCityData = {
   nearbyMunicipalities?: string[];
   /** matiz sobre el juzgado o la sede competente. Sin fuente: no se publica. */
   courtInfo?: string;
+  /** órgano concursal verificado con fuente oficial; solo entonces se nombra en público */
+  verifiedCourt?: { name: string; source: string };
   /** nota sobre el tejido económico local. Sin fuente: no se publica. */
   economyNote?: string;
   /** casos de éxito publicados de la zona (slug en /casos-de-exito) */
@@ -127,7 +129,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       },
       {
         q: "¿Atendéis el resto de Aragón: Huesca, Teruel, Calatayud?",
-        a: "Sí. Aunque los juzgados de lo mercantil están en Zaragoza capital, atendemos telemáticamente a clientes de Huesca, Teruel, Calatayud, Utebo y cualquier municipio aragonés.",
+        a: "Sí. Trabajamos de forma telemática y atendemos telemáticamente a clientes de Huesca, Teruel, Calatayud, Utebo y cualquier municipio aragonés.",
       },
     ],
   },
@@ -147,7 +149,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Málaga?",
-        a: "En los Juzgados de lo Mercantil de Málaga, en la Ciudad de la Justicia. La mayor parte del procedimiento es telemática.",
+        a: "Ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos; la competencia concursal alcanza también a particulares sin actividad empresarial. Lo confirmamos al preparar la solicitud y casi todo el trámite es telemático.",
       },
       {
         q: "¿Atendéis la Costa del Sol: Marbella, Fuengirola, Torremolinos, Vélez?",
@@ -209,7 +211,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Dónde se tramita la Ley de Segunda Oportunidad en Alicante?",
-        a: "En los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia. El procedimiento es mayoritariamente telemático.",
+        a: "Ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos; la competencia concursal alcanza también a particulares sin actividad empresarial. Lo confirmamos al preparar la solicitud y casi todo el trámite es telemático.",
       },
       {
         q: "¿Atendéis Elche, Torrevieja, Benidorm y la Vega Baja?",
@@ -281,7 +283,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Dónde se presenta mi concurso de segunda oportunidad si vivo en A Coruña?",
-        a: "Ante los Juzgados de lo Mercantil de A Coruña, que son los competentes también para las personas sin actividad empresarial. Casi todo el trámite se hace de forma telemática.",
+        a: "Ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos; la competencia concursal alcanza también a particulares sin actividad empresarial. Lo confirmamos al preparar la solicitud y casi todo el trámite es telemático.",
       },
       {
         q: "¿Atendéis municipios como Ferrol, Santiago o Arteixo?",
@@ -334,6 +336,10 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     geoAliases: ["Donostia", "San Sebastián", "Donostia-San Sebastián"],
     provinceAliases: ["Gipuzkoa", "Guipúzcoa"],
     communityAliases: ["País Vasco", "Euskadi"],
+    verifiedCourt: {
+      name: "Sección de lo Mercantil del Tribunal de Instancia de San Sebastián",
+      source: "https://www.justizia.eus/nuevas-denominaciones-juzgados/webjus00-contentgen/es/",
+    },
     nearbyMunicipalities: [
       "Irun", "Errenteria", "Hernani", "Lasarte-Oria", "Pasaia", "Eibar",
       "Tolosa", "Zarautz", "Arrasate", "Andoain",
@@ -362,7 +368,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Dónde se tramita mi caso de segunda oportunidad en Almería?",
-        a: "Ante los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia. Casi todo se gestiona de forma telemática.",
+        a: "Ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos; la competencia concursal alcanza también a particulares sin actividad empresarial. Lo confirmamos al preparar la solicitud y casi todo el trámite es telemático.",
       },
       {
         q: "¿Atendéis El Ejido, Roquetas, Níjar y el Poniente?",
@@ -417,7 +423,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Dónde se presenta el concurso si vivo en Tarragona o Salou?",
-        a: "Ante los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia. Se tramita casi todo de forma telemática, sin que tengas que desplazarte salvo excepciones.",
+        a: "Ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio y el reparto de asuntos; la competencia concursal alcanza también a particulares sin actividad empresarial. Lo confirmamos al preparar la solicitud y casi todo el trámite es telemático.",
       },
       {
         q: "¿Atendéis Reus, Valls, Tortosa y el resto de la provincia?",
