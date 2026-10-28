@@ -20,6 +20,8 @@ export type LocalResource = {
   name: string;
   /** para qué sirve, en lenguaje de calle */
   what: string;
+  /** fuente oficial: obligatoria para presentar un recurso concreto como verificado */
+  source?: { label: string; url: string };
 };
 
 export type LocalFaqData = { q: string; a: string };
@@ -40,9 +42,9 @@ export type LocalCityData = {
   communityAliases?: string[];
   /** municipios reales del área de influencia (no generan URL propia) */
   nearbyMunicipalities?: string[];
-  /** matiz real sobre el juzgado o la sede competente */
+  /** matiz sobre el juzgado o la sede competente. Sin fuente: no se publica. */
   courtInfo?: string;
-  /** particularidad real del tejido económico o del perfil de deuda local */
+  /** nota sobre el tejido económico local. Sin fuente: no se publica. */
   economyNote?: string;
   /** casos de éxito publicados de la zona (slug en /casos-de-exito) */
   caseLinks?: { slug: string; label: string }[];
@@ -121,7 +123,7 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
     localFaqs: [
       {
         q: "¿Cuánto tarda la segunda oportunidad en Zaragoza?",
-        a: "Depende de la carga del juzgado y de la complejidad del expediente; en general el procedimiento completo suele moverse entre 6 y 18 meses, y los embargos pueden suspenderse mucho antes de la exoneración.",
+        a: "Depende de la carga del juzgado, de la vía elegida y de la complejidad del expediente. Como orientación, entre 6 y 18 meses; con plan de pagos, la exoneración definitiva llega al terminar el plan.",
       },
       {
         q: "¿Atendéis el resto de Aragón: Huesca, Teruel, Calatayud?",
@@ -504,26 +506,29 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
   },
 };
 
-/** Recursos públicos genéricos, reales en toda España, adaptados a la ciudad. */
+/**
+ * Recursos públicos de orientación válidos en toda España. No se construyen
+ * nombres de oficinas a partir de la ciudad o la provincia (podrían no existir
+ * con ese nombre): se describen de forma genérica y solo se enlaza una fuente
+ * oficial cuando está verificada. Los parámetros se mantienen por
+ * compatibilidad con el builder.
+ */
 export const defaultLocalResources = (
-  city: string,
-  provincia: string,
+  _city?: string,
+  _provincia?: string,
 ): LocalResource[] => [
   {
-    name: `Servicio de Orientación Jurídica del Colegio de la Abogacía de ${provincia}`,
-    what: "Orientación jurídica gratuita y tramitación del turno de oficio y la justicia gratuita si tus ingresos están por debajo del umbral legal.",
+    name: "Servicio de Orientación Jurídica de tu Colegio de la Abogacía",
+    what: "Orientación jurídica gratuita y solicitud de asistencia jurídica gratuita si cumples los requisitos legales.",
   },
   {
-    name: `Oficina Municipal de Información al Consumidor (OMIC) de ${city}`,
-    what: "Reclamaciones frente a entidades financieras y de crédito, y mediación de consumo antes de acudir a la vía judicial.",
+    name: "Oficinas de información al consumidor",
+    what: "Las oficinas municipales o autonómicas de consumo atienden reclamaciones frente a empresas y entidades de crédito.",
   },
   {
     name: "Portal del Cliente Bancario del Banco de España",
-    what: "Reclamaciones contra bancos y financieras y consulta de la Central de Información de Riesgos (CIRBE) para saber qué deudas constan a tu nombre.",
-  },
-  {
-    name: "Sede Judicial Electrónica y Carpeta Justicia",
-    what: "Consulta telemática del estado de tu expediente sin desplazarte al juzgado.",
+    what: "Reclamaciones contra bancos y financieras y solicitud de tu informe de la Central de Información de Riesgos (CIRBE).",
+    source: { label: "Banco de España", url: "https://clientebancario.bde.es/pcb/es/" },
   },
 ];
 
