@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import SeoPageScaffold, { type RelatedLink } from "@/components/seo/SeoPageScaffold";
 import NotFound from "@/pages/NotFound";
 import { getLocalizacion, localizaciones } from "@/data/seo/localizaciones";
+import { LOCAL_HUB, territorialNeighbors } from "@/lib/seo/localLinks";
 import { getLocalizacionContent } from "@/data/seo/content/localizacionContent";
 import { buildBreadcrumb, buildLocalLegalService, buildFaq } from "@/lib/seo/structuredData";
 
@@ -54,21 +55,18 @@ const LocalizacionPage = () => {
     { name: city.name },
   ];
 
-  // Enlazado: hub local + cluster LSO + otras ciudades, sin priorización
-  // manual por ciudad (cada ciudad es intención local distinta y todas
-  // apuntan al hub maestro).
-  const otherCities = localizaciones.filter((l) => l.slug !== city.slug);
+  // Enlazado: hub territorial + subpilares LSO + ciudades con relación
+  // territorial real (misma provincia/comunidad, por proximidad).
+  const nearby = territorialNeighbors(city, localizaciones);
   const related: RelatedLink[] = [
-    { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
+    { label: LOCAL_HUB.label, to: LOCAL_HUB.to },
     { label: "Requisitos de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/requisitos" },
     { label: "Coste de la Ley de Segunda Oportunidad", to: "/ley-segunda-oportunidad/coste-precio" },
     { label: "Plazos y duración de la LSO", to: "/ley-segunda-oportunidad/plazos-duracion" },
     { label: "¿Pierdo mi casa con la LSO?", to: "/ley-segunda-oportunidad/pierdo-mi-casa" },
     { label: "LSO para autónomos", to: "/ley-segunda-oportunidad/perfiles/autonomos" },
     { label: "LSO para avalistas", to: "/ley-segunda-oportunidad/perfiles/avalistas" },
-    ...otherCities
-      .slice(0, 6)
-      .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path })),
+    ...nearby.map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path })),
   ];
 
 

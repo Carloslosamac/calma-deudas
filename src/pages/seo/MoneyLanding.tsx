@@ -6,7 +6,7 @@ import { moneyPagesByPath, moneyPagesByCluster } from "@/data/seo/moneyPages";
 import { getCluster } from "@/data/seo/architecture";
 import { getMoneyContent } from "@/data/seo/content";
 import { toolsForCluster } from "@/data/seo/tools";
-import { localizaciones } from "@/data/seo/localizaciones";
+import { LOCAL_HUB } from "@/lib/seo/localLinks";
 import {
   buildBreadcrumb,
   buildLegalService,
@@ -48,26 +48,10 @@ const MoneyLanding = () => {
     ...relatedClusters.map((c) => ({ label: c!.label, to: `/${c!.slug}` })),
   ];
 
-  // Bidireccional: en el cluster LSO añadimos un puñado de ciudades con tracción
-  // para que subpilares y perfiles enlacen hacia el hub local (y así distribuir
-  // autoridad interna hacia páginas locales que ya reciben impresiones).
-  if (page.cluster === "ley-segunda-oportunidad") {
-    const TRACTION_CITIES = [
-      "a-coruna",
-      "almeria",
-      "vigo",
-      "murcia",
-      "donostia",
-      "barcelona",
-    ];
-    const citiesRelated = TRACTION_CITIES
-      .map((slug) => localizaciones.find((l) => l.slug === slug))
-      .filter((l): l is (typeof localizaciones)[number] => Boolean(l))
-      .map((l) => ({ label: `Abogados LSO en ${l.name}`, to: l.path }));
-    related.push(
-      { label: "Abogados de la Ley de Segunda Oportunidad", to: "/abogados-ley-segunda-oportunidad" },
-      ...citiesRelated,
-    );
+  // Regla territorial común: las páginas nacionales del cluster LSO enlazan al
+  // hub territorial (que lista las 41 ciudades), sin selección manual.
+  if (page.cluster === "ley-segunda-oportunidad" && !related.some((r) => r.to === LOCAL_HUB.to)) {
+    related.push({ label: LOCAL_HUB.label, to: LOCAL_HUB.to });
   }
 
   // Herramientas relevantes para el bloque "Calcula tu caso".
