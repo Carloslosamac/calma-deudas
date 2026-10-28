@@ -19,6 +19,14 @@ describe("casos locales: solo expedientes documentados", () => {
     expect(localizaciones).toHaveLength(41);
   });
 
+  it.each(localizaciones.map((l) => [l.slug]))("%s no nombra juzgados mercantiles construidos", (slug) => {
+    const c = city(slug);
+    const content = getLocalizacionContent(c);
+    const text = [...content.sections.map((s) => html(s.body)), ...content.faq.map((f) => f.plain ?? "")].join(" ");
+    expect(text).not.toMatch(/Juzgados? de lo Mercantil de/);
+    if (slug === "donostia") expect(text).toContain("Sección de lo Mercantil del Tribunal de Instancia de San Sebastián");
+  });
+
   it("no queda generador ni bandera isReal", () => {
     const src = rf(path.resolve(__dirname, "../localCases.ts"), "utf8");
     expect(src).not.toMatch(/isReal|TEMPLATES|buildCase/);

@@ -37,6 +37,7 @@ export type Localizacion = LocalCityData & {
   /** comunidad autónoma */
   comunidad: string;
   /** tribunal competente de referencia en la ciudad */
+  /** referencia interna heredada, sin verificar: NO se publica (usar verifiedCourt) */
   tribunal: string;
   /** nota local interna. Afirmación sin fuente: NO se publica. */
   localNote: string;
