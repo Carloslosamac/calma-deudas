@@ -113,8 +113,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Utebo", "Cuarte de Huerva", "La Muela", "Calatayud", "Ejea de los Caballeros",
       "Tarazona", "Zuera", "Alagón",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de Zaragoza, referencia concursal en Aragón",
     economyNote:
       "Zaragoza concentra la mayor parte de los concursos de Aragón. El perfil habitual combina hipoteca con préstamos al consumo y deuda de autónomos de la logística y el comercio, sectores con mucho peso en la provincia.",
     caseLinks: [
@@ -139,8 +137,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Marbella", "Vélez-Málaga", "Mijas", "Fuengirola", "Torremolinos",
       "Benalmádena", "Estepona", "Rincón de la Victoria", "Antequera", "Ronda",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de Málaga, ubicados en la Ciudad de la Justicia",
     economyNote:
       "El sector turístico y de temporada genera en Málaga muchos expedientes de trabajadores con contratos discontinuos y de autónomos de hostelería con deuda acumulada en los meses flojos.",
     caseLinks: [
@@ -200,8 +196,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "San Vicente del Raspeig", "Sant Joan d'Alacant", "El Campello",
       "Elda", "Petrer", "Villena", "Benidorm", "Torrevieja", "Orihuela",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de Alicante, en la Ciudad de la Justicia",
     economyNote:
       "Turismo, construcción y comercio marcan el perfil de deuda de la provincia: muchos expedientes de particulares con préstamos al consumo y de autónomos con ingresos estacionales.",
     caseLinks: [
@@ -276,8 +270,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Ferrol", "Santiago de Compostela", "Arteixo", "Oleiros", "Culleredo",
       "Cambre", "Carballo", "Narón", "Betanzos", "Sada",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de A Coruña, en la Ciudad de la Justicia",
     economyNote:
       "En A Coruña son frecuentes los expedientes de autónomos del comercio y la hostelería y de familias con hipoteca más préstamos personales.",
     localFaqs: [
@@ -358,8 +350,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "El Ejido", "Roquetas de Mar", "Níjar", "Vícar", "Adra", "Huércal-Overa",
       "Berja", "Cuevas del Almanzora",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de Almería, en la Ciudad de la Justicia",
     economyNote:
       "Almería tiene un perfil de deuda muy marcado por la agricultura intensiva y la hostelería: autónomos con campañas irregulares y familias con varios préstamos al consumo.",
     caseLinks: [
@@ -413,8 +403,6 @@ export const LOCAL_CITY_DATA: Record<string, LocalCityData> = {
       "Reus", "Salou", "Cambrils", "Valls", "El Vendrell", "Tortosa",
       "Amposta", "Vila-seca", "Calafell",
     ],
-    courtInfo:
-      "los Juzgados de lo Mercantil de Tarragona, competentes para toda la provincia",
     economyNote:
       "En Tarragona conviven la deuda ligada al turismo de la Costa Daurada (Salou, Cambrils) con la del cinturón industrial y petroquímico: autónomos estacionales y trabajadores con préstamos acumulados.",
     caseLinks: [

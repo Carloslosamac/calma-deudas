@@ -306,8 +306,8 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     },
     {
       q: `¿Qué juzgado tramita la Ley de Segunda Oportunidad en ${name}?`,
-      a: <>{faqJuzgado}</>,
-      plain: faqJuzgado,
+      a: <>{faqJuzgadoFinal}</>,
+      plain: faqJuzgadoFinal,
     },
     {
       q: "¿Cuánto cuesta un abogado de la Ley de Segunda Oportunidad?",
