@@ -253,7 +253,7 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "💶 Coste de la LSO en 2026: precio real, sin trampas",
     metaDescription:
-      "Cuánto cuesta la Ley de Segunda Oportunidad de verdad: honorarios, tasas, plazos y por qué 'gratis' es un espejismo. Presupuesto cerrado.",
+      "Cuánto cuesta la Ley de Segunda Oportunidad: honorarios orientativos, gastos, exención de tasa judicial y asistencia jurídica gratuita.",
   },
   {
     path: "/ley-segunda-oportunidad/plazos-duracion",
