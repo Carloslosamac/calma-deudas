@@ -35,7 +35,9 @@ describe("casos locales: solo expedientes documentados", () => {
       expect(casosFaq).toBeUndefined();
     } else {
       expect(casosSection).toBeDefined();
-      expect(casosFaq?.plain).not.toMatch(/\b[2-9] expedientes/.source.includes("x") ? /$^/ : new RegExp(`${c.localCases.length} expedientes`) );
+      if (c.localCases.length !== real.length) {
+        expect(casosFaq?.plain).not.toContain(`${c.localCases.length} expedientes`);
+      }
       const n = (html(casosSection!.body).match(/Caso \d+ ·/g) ?? []).length;
       expect(n).toBe(real.length);
     }
