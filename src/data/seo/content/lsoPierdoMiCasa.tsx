@@ -70,7 +70,7 @@ export const lsoPierdoMiCasa: MoneyContent = {
         <CheckList
           variant="check"
           items={[
-            "La LSO puede paralizar la ejecución hipotecaria en curso.",
+            "En algunos casos, el concurso puede suspender la ejecución hipotecaria en curso, con las reglas propias de las garantías reales.",
             "Da margen para negociar con el banco una salida distinta (dación, alquiler social).",
             "Frena los embargos sobre otros bienes mientras se decide la vía.",
             "Cuanto antes se inicie, más margen de negociación queda.",

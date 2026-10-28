@@ -50,7 +50,7 @@ export const lsoPensionistas: MoneyContent = {
       title: "La pensión siempre tiene un tramo protegido",
       body: (
         <KeyCallout eyebrow="Sueldo/pensión inembargable" headline="Hasta el SMI la pensión es intocable, con o sin LSO.">
-          <p>La escala inembargable protege el <strong>primer tramo hasta el SMI</strong> (~1.184 €/mes en 2026). Por encima se aplica una escala progresiva. Con la LSO, además, los embargos activos se suspenden.</p>
+          <p>La escala inembargable protege el <strong>primer tramo hasta el SMI</strong> (~1.184 €/mes en 2026). Por encima se aplica una escala progresiva. Con la LSO, además, por regla general las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales.</p>
           <p>Puedes ver tu tramo real con nuestro <A to="/herramientas/calculadora-sueldo-inembargable">calculador de sueldo inembargable</A>, que también sirve para pensiones.</p>
         </KeyCallout>
       ),
