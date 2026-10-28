@@ -5,14 +5,14 @@ type Enrichment = Pick<NonNullable<MoneyContent["interactive"]>, "conceptGlossar
 export const enrichmentByPath: Record<string, Enrichment> = {
   "/ley-segunda-oportunidad": {
     faq: [
-      { q: "¿Qué requisitos de conducta debo cumplir para que se considere que actúo de buena fe?", a: "Básicamente, no haber sido condenado por delitos económicos en los últimos 10 años y no haber rechazado ofertas de empleo adecuadas a tu perfil en situaciones específicas antes del proceso.", plain: "Básicamente, no haber sido condenado por delitos económicos en los últimos 10 años y no haber rechazado ofertas de empleo adecuadas a tu perfil en situaciones específicas antes del proceso." },
+      { q: "¿Qué requisitos de conducta debo cumplir para que se considere que actúo de buena fe?", a: "El art. 487 TRLC enumera las causas que impiden la exoneración: entre otras, ciertas condenas firmes por delitos económicos o sanciones administrativas muy graves en los diez años anteriores, concurso culpable, o haber proporcionado información falsa o engañosa. Lo revisamos con tu historial.", plain: "El art. 487 TRLC enumera las causas que impiden la exoneración: entre otras, ciertas condenas firmes por delitos económicos o sanciones administrativas muy graves en los diez años anteriores, concurso culpable, o haber proporcionado información falsa o engañosa. Lo revisamos con tu historial." },
       { q: "¿Es obligatorio tener bienes para solicitar la Ley de Segunda Oportunidad?", a: "No, puedes acogerte aunque no tengas ninguna propiedad o nómina; es lo que se conoce técnicamente como concurso sin masa, simplificando mucho el trámite.", plain: "No, puedes acogerte aunque no tengas ninguna propiedad o nómina; es lo que se conoce técnicamente como concurso sin masa, simplificando mucho el trámite." },
-      { q: "¿Qué ocurre con las llamadas de acoso de los cobradores durante el proceso?", a: "Una vez presentada la solicitud en el juzgado, los acreedores tienen legalmente prohibido continuar con cualquier acción de reclamación o acoso telefónico hacia ti.", plain: "Una vez presentada la solicitud en el juzgado, los acreedores tienen legalmente prohibido continuar con cualquier acción de reclamación o acoso telefónico hacia ti." },
+      { q: "¿Qué ocurre con las llamadas de acoso de los cobradores durante el proceso?", a: "Con la declaración de concurso, los acreedores deben hacer valer sus créditos dentro del procedimiento y, por regla general, no pueden iniciar ejecuciones individuales. Si un cobrador te acosa, puedes reclamar por las vías de consumo y protección de datos; lo revisamos contigo.", plain: "Con la declaración de concurso, los acreedores deben hacer valer sus créditos dentro del procedimiento y, por regla general, no pueden iniciar ejecuciones individuales. Si un cobrador te acosa, puedes reclamar por las vías de consumo y protección de datos; lo revisamos contigo." },
       { q: "¿Puedo pedir tarjetas o préstamos después de obtener la cancelación de deudas?", a: "Sí, una vez que el juez dicta la resolución, tienes derecho a desaparecer de los ficheros de morosidad como ASNEF, lo que te permite recuperar tu solvencia ante los bancos.", plain: "Sí, una vez que el juez dicta la resolución, tienes derecho a desaparecer de los ficheros de morosidad como ASNEF, lo que te permite recuperar tu solvencia ante los bancos." },
       { q: "¿Necesito tener muchas deudas para poder empezar el trámite?", a: "No hay un mínimo legal, pero sí debes demostrar que te encuentras en estado de insolvencia y que tienes deudas con, al menos, dos acreedores distintos (bancos, proveedores, administración, etc.).", plain: "No hay un mínimo legal, pero sí debes demostrar que te encuentras en estado de insolvencia y que tienes deudas con, al menos, dos acreedores distintos (bancos, proveedores, administración, etc.)." },
-      { q: "¿Se detienen los embargos sobre mi nómina inmediatamente?", a: "Sí, uno de los mayores beneficios es que el juzgado ordena la paralización de las ejecuciones y embargos en curso mientras se resuelve tu caso.", plain: "Sí, uno de los mayores beneficios es que el juzgado ordena la paralización de las ejecuciones y embargos en curso mientras se resuelve tu caso." },
+      { q: "¿Se detienen los embargos sobre mi nómina?", a: "No siempre de forma inmediata ni en todos los casos. Con la declaración de concurso, por regla general se suspenden las ejecuciones en curso y no pueden iniciarse otras, pero hay excepciones legales (por ejemplo, ciertos apremios de Hacienda o Seguridad Social o algunas garantías reales).", plain: "No siempre de forma inmediata ni en todos los casos. Con la declaración de concurso, por regla general se suspenden las ejecuciones en curso y no pueden iniciarse otras, pero hay excepciones legales (por ejemplo, ciertos apremios de Hacienda o Seguridad Social o algunas garantías reales)." },
       { q: "¿Tengo que ir a juicio o declarar ante un juez?", a: "En la gran mayoría de los casos el proceso es estrictamente documental y por escrito; no suele ser necesaria una vista presencial ni interrogatorios.", plain: "En la gran mayoría de los casos el proceso es estrictamente documental y por escrito; no suele ser necesaria una vista presencial ni interrogatorios." },
-      { q: "¿Qué pasa si mis deudas con Hacienda o la Seguridad Social superan los 10.000 euros?", a: "La ley permite cancelar un máximo de 10.000 euros por cada organismo; el resto de la deuda pública deberá incluirse en un plan de pagos fraccionado según tu capacidad real.", plain: "La ley permite cancelar un máximo de 10.000 euros por cada organismo; el resto de la deuda pública deberá incluirse en un plan de pagos fraccionado según tu capacidad real." },
+      { q: "¿Qué pasa si mis deudas con Hacienda o la Seguridad Social superan los 10.000 euros?", a: "El art. 489.1.5.º TRLC permite exonerar la deuda con Hacienda (AEAT) hasta un máximo de 10.000 € por deudor —íntegra en los primeros 5.000 € y, a partir de esa cifra, el 50 % de la deuda hasta ese máximo— y la de Seguridad Social por el mismo importe y en las mismas condiciones. La parte no exonerada sigue siendo exigible; cuánto se exonera en tu caso depende del importe exacto.", plain: "El art. 489.1.5.º TRLC permite exonerar la deuda con Hacienda (AEAT) hasta un máximo de 10.000 € por deudor —íntegra en los primeros 5.000 € y, a partir de esa cifra, el 50 % de la deuda hasta ese máximo— y la de Seguridad Social por el mismo importe y en las mismas condiciones. La parte no exonerada sigue siendo exigible; cuánto se exonera en tu caso depende del importe exacto." },
     ],
     conceptGlossary: {
       title: "Diccionario básico para tu tranquilidad",
@@ -41,33 +41,13 @@ export const enrichmentByPath: Record<string, Enrichment> = {
             "blocks": [
                   {
                         "kind": "paragraph",
-                        "text": "Uno de los cambios más importantes es el tratamiento de las deudas públicas. A diferencia de las deudas bancarias, que pueden cancelarse al 100%, las contraídas con la **Agencia Tributaria** y la **Seguridad Social** tienen un límite legal."
+                        "text": "Las deudas con la **Agencia Tributaria** y la **Seguridad Social** no se exoneran como las bancarias: el crédito público solo es exonerable dentro de los límites del artículo 489.1.5.º del Texto Refundido de la Ley Concursal."
                   },
                   {
-                        "kind": "table",
-                        "headers": [
-                              "Tramo de Deuda",
-                              "Capacidad de Cancelación"
-                        ],
-                        "rows": [
-                              [
-                                    "Primeros 5.000 €",
-                                    "Cancelación del 100%"
-                              ],
-                              [
-                                    "Desde 5.001 € hasta 10.000 €",
-                                    "Cancelación del 50%"
-                              ],
-                              [
-                                    "Exceso sobre 10.000 €",
-                                    "No exonerable (se incluye en plan de pagos)"
-                              ]
-                        ]
-                  },
-                  {
-                        "kind": "keyCallout",
-                        "headline": "Hasta 20.000 € de ahorro",
-                        "body": "Sumando los límites de ambos organismos, puedes eliminar hasta 20.000 € de deuda pública mediante este procedimiento legal."
+                        "kind": "callout",
+                        "variant": "info",
+                        "title": "Qué dice la ley",
+                        "text": "La deuda gestionada por la AEAT puede exonerarse hasta un importe máximo de 10.000 € por deudor: los primeros 5.000 € de deuda, íntegramente, y a partir de esa cifra, el 50 % de la deuda hasta ese máximo. La deuda con la Seguridad Social puede exonerarse por el mismo importe y en las mismas condiciones. La parte no exonerada sigue siendo exigible. Cuánto se exonera en tu caso depende del importe y la composición de tu deuda: lo calculamos contigo."
                   },
                   {
                         "kind": "actionLink",
@@ -81,7 +61,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
             "blocks": [
                   {
                         "kind": "paragraph",
-                        "text": "Aunque la Ley de Segunda Oportunidad es muy potente, el legislador protege ciertos derechos que no pueden ser cancelados bajo ninguna circunstancia."
+                        "text": "El artículo 489 TRLC excluye de la exoneración varias deudas. Entre las más habituales:"
                   },
                   {
                         "kind": "checkList",
@@ -91,13 +71,13 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                               "Responsabilidad civil por delitos o daños personales (lesiones).",
                               "Multas en procesos penales o sanciones administrativas muy graves.",
                               "Deudas por accidentes de trabajo.",
-                              "Costas judiciales generadas por el propio proceso de segunda oportunidad."
+                              "Costas y gastos judiciales derivados de la tramitación de la propia solicitud de exoneración."
                         ]
                   },
                   {
                         "kind": "callout",
                         "variant": "warning",
-                        "text": "La parte de la hipoteca que no se cubra con el valor del inmueble sí puede llegar a cancelarse, pero el préstamo principal mientras mantengas la vivienda sigue vigente."
+                        "text": "Las deudas con garantía real, como la hipoteca, tienen reglas propias: la parte no cubierta por el valor de la garantía puede llegar a exonerarse, pero mientras conserves la vivienda el préstamo sigue vigente. Lo revisamos caso a caso."
                   }
             ]
       },
@@ -106,7 +86,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
             "blocks": [
                   {
                         "kind": "paragraph",
-                        "text": "La nueva normativa ha simplificado drásticamente el proceso eliminando costes y pasos que antes eran obligatorios, como el Acuerdo Extrajudicial de Pagos."
+                        "text": "La Ley 16/2022 suprimió el acuerdo extrajudicial de pagos como paso previo: hoy la persona física solicita directamente el concurso y la exoneración ante el juzgado."
                   },
                   {
                         "kind": "optionCards",
@@ -114,13 +94,13 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                         "items": [
                               {
                                     "icon": "ban",
-                                    "title": "Adiós a Notarios y Mediadores",
-                                    "text": "Ya no es necesario acudir a notaría ni contratar a un mediador concursal, lo que supone un ahorro directo de hasta 1.500 € en gastos de gestión."
+                                    "title": "Sin mediador concursal previo",
+                                    "text": "Ya no hay que tramitar antes un acuerdo extrajudicial ante notario o mediador concursal, lo que elimina ese paso y sus gastos."
                               },
                               {
                                     "icon": "sparkles",
                                     "title": "Trámite Directo",
-                                    "text": "El proceso es ahora 100% judicial desde el primer día, lo que permite acortar los plazos de resolución en casos sin bienes."
+                                    "text": "El procedimiento es judicial desde el inicio. La duración depende de la vía (plan de pagos o liquidación), de si hay bienes y del juzgado."
                               }
                         ]
                   }
@@ -146,8 +126,8 @@ export const enrichmentByPath: Record<string, Enrichment> = {
                   {
                         "kind": "callout",
                         "variant": "info",
-                        "title": "Vigilancia de 5 años",
-                        "text": "La cancelación es efectiva desde la sentencia, pero los acreedores pueden pedir su revocación si en los siguientes 5 años mejoras de fortuna notablemente (herencias o loterías) o si se demuestra que ocultaste bienes."
+                        "title": "La exoneración puede revocarse",
+                        "text": "El art. 493 TRLC permite a los acreedores pedir la revocación si se acredita que ocultaste bienes, derechos o ingresos, o si en los tres años siguientes a la exoneración (con liquidación) o a la exoneración provisional (con plan de pagos) tu situación mejora sustancialmente por herencia, legado, donación o juego. En el plan de pagos hay además causas propias, como su incumplimiento."
                   }
             ]
       },
@@ -188,7 +168,7 @@ export const enrichmentByPath: Record<string, Enrichment> = {
       { q: "¿Qué requisitos debo cumplir para ser considerado deudor de buena fe?", a: "Significa no haber sido condenado por delitos económicos en los últimos 10 años y no haber ocultado bienes ni aportado información falsa sobre tu situación financiera durante el proceso.", plain: "Significa no haber sido condenado por delitos económicos en los últimos 10 años y no haber ocultado bienes ni aportado información falsa sobre tu situación financiera durante el proceso." },
       { q: "¿Puedo paralizar los embargos de mi nómina antes de la sentencia final?", a: "Sí, una vez que el abogado presenta la demanda en el juzgado y se admite a trámite, los embargos en curso se detienen y no se pueden iniciar otros nuevos contra tu patrimonio.", plain: "Sí, una vez que el abogado presenta la demanda en el juzgado y se admite a trámite, los embargos en curso se detienen y no se pueden iniciar otros nuevos contra tu patrimonio." },
       { q: "¿Qué deudas no se pueden cancelar con esta ley?", a: "Quedan fuera de la exoneración las deudas por pensiones de alimentos a hijos, las multas por infracciones penales y las deudas derivadas de responsabilidad civil extracontractual.", plain: "Quedan fuera de la exoneración las deudas por pensiones de alimentos a hijos, las multas por infracciones penales y las deudas derivadas de responsabilidad civil extracontractual." },
-      { q: "¿Cómo funciona la cancelación de deudas con Hacienda y Seguridad Social?", a: "La ley permite cancelar un máximo de 10.000 € de deuda con la AEAT y otros 10.000 € con la Seguridad Social. Los primeros 5.000 € de cada una se perdonan íntegramente, y el resto hasta el límite al 50 %.", plain: "La ley permite cancelar un máximo de 10.000 € de deuda con la AEAT y otros 10.000 € con la Seguridad Social. Los primeros 5.000 € de cada una se perdonan íntegramente, y el resto hasta el límite al 50 %." },
+      { q: "¿Cómo funciona la cancelación de deudas con Hacienda y Seguridad Social?", a: "El art. 489.1.5.º TRLC permite exonerar la deuda con la AEAT hasta un máximo de 10.000 € por deudor —íntegra en los primeros 5.000 € y, a partir de esa cifra, el 50 % de la deuda hasta ese máximo— y la de Seguridad Social por el mismo importe y en las mismas condiciones. La parte no exonerada sigue siendo exigible.", plain: "El art. 489.1.5.º TRLC permite exonerar la deuda con la AEAT hasta un máximo de 10.000 € por deudor —íntegra en los primeros 5.000 € y, a partir de esa cifra, el 50 % de la deuda hasta ese máximo— y la de Seguridad Social por el mismo importe y en las mismas condiciones. La parte no exonerada sigue siendo exigible." },
       { q: "¿Tengo que ir a juicio o declarar ante un juez?", a: "En la mayoría de los casos actuales tras la reforma de 2022, el proceso es documental y no requiere que asistas a una vista presencial, gestionándose todo a través de tu abogado y procurador.", plain: "En la mayoría de los casos actuales tras la reforma de 2022, el proceso es documental y no requiere que asistas a una vista presencial, gestionándose todo a través de tu abogado y procurador." },
       { q: "¿Puedo pedir un préstamo después de acogerme a la Segunda Oportunidad?", a: "Legalmente sí, ya que una vez obtenida la sentencia, tienes derecho a desaparecer de los ficheros de morosidad, lo que recupera tu capacidad crediticia y solvencia ante los bancos.", plain: "Legalmente sí, ya que una vez obtenida la sentencia, tienes derecho a desaparecer de los ficheros de morosidad, lo que recupera tu capacidad crediticia y solvencia ante los bancos." },
       { q: "¿Qué ocurre si no tengo ningún bien a mi nombre?", a: "Se tramita mediante un concurso sin masa, la vía más rápida y económica. El juez dicta la cancelación de las deudas directamente al comprobar que no hay activos que liquidar.", plain: "Se tramita mediante un concurso sin masa, la vía más rápida y económica. El juez dicta la cancelación de las deudas directamente al comprobar que no hay activos que liquidar." },
