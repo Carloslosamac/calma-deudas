@@ -51,7 +51,7 @@ export const lsoComoFunciona: MoneyContent = {
     { title: "1. Diagnóstico gratis", text: "En 24h te decimos si calificas y qué vía encaja mejor." },
     { title: "2. Presupuesto cerrado", text: "Firmamos el presupuesto por escrito antes de empezar." },
     { title: "3. Preparación del expediente", text: "Recopilamos deudas, ingresos, patrimonio y acreedores con detalle." },
-    { title: "4. Solicitud al juzgado", text: "Presentamos la solicitud de concurso ante el Juzgado de lo Mercantil." },
+    { title: "4. Solicitud al juzgado", text: "Presentamos la solicitud de concurso ante la sección del Tribunal de Instancia con competencia mercantil que corresponda según tu domicilio." },
     { title: "5. Tramitación", text: "Instrucción judicial, administrador concursal y plan de pagos o liquidación." },
     { title: "6. Exoneración", text: "El juez cancela la deuda insatisfecha. Reconstruyes tu vida financiera.", highlight: true },
   ],
