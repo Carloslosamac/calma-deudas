@@ -3,16 +3,16 @@ import { A, KeyCallout, WarningCallout, FactGrid } from "@/components/seo/module
 
 /**
  * Sub-pillar "Coste de la Ley de Segunda Oportunidad". Ángulo: transparencia
- * de honorarios + desmontar el "gratis" del marketing agresivo.
+ * de honorarios + aclarar honorarios, tasas y asistencia jurídica gratuita.
  */
 export const lsoCoste: MoneyContent = {
   path: "/ley-segunda-oportunidad/coste-precio",
   directAnswer: {
     question: "¿Cuánto cuesta acogerse a la Ley de Segunda Oportunidad?",
     answer:
-      "El coste real oscila entre 2.000 € y 4.500 € en honorarios de abogado y procurador (según complejidad, número de acreedores y tribunal), más tasas judiciales moderadas. La 'LSO gratis' con la que anuncian algunas firmas es marketing: alguien paga el proceso, pero el trabajo jurídico no es gratis. En Calma damos presupuesto cerrado y pago fraccionable.",
+      "El coste real oscila entre 2.000 € y 4.500 € en honorarios de abogado y procurador (según complejidad, número de acreedores y tribunal), a lo que pueden sumarse gastos del procedimiento (por ejemplo, publicaciones o, si se nombra, la retribución del administrador concursal). Las personas físicas están exentas de la tasa judicial (Ley 10/2012, art. 4.2.a). Si cumples los requisitos legales, puedes solicitar asistencia jurídica gratuita. En Calma damos presupuesto cerrado y pago fraccionable.",
     plain:
-      "El coste real oscila entre 2.000 € y 4.500 € en honorarios de abogado y procurador (según complejidad, número de acreedores y tribunal), más tasas judiciales moderadas. La 'LSO gratis' con la que anuncian algunas firmas es marketing: alguien paga el proceso, pero el trabajo jurídico no es gratis. En Calma damos presupuesto cerrado y pago fraccionable.",
+      "El coste real oscila entre 2.000 € y 4.500 € en honorarios de abogado y procurador (según complejidad, número de acreedores y tribunal), a lo que pueden sumarse gastos del procedimiento (por ejemplo, publicaciones o, si se nombra, la retribución del administrador concursal). Las personas físicas están exentas de la tasa judicial (Ley 10/2012, art. 4.2.a). Si cumples los requisitos legales, puedes solicitar asistencia jurídica gratuita. En Calma damos presupuesto cerrado y pago fraccionable.",
   },
   reviewed: false,
   tone: "transactional",
@@ -20,8 +20,9 @@ export const lsoCoste: MoneyContent = {
   intro: (
     <>
       El <strong>coste de la Ley de Segunda Oportunidad</strong> no es un misterio: son
-      honorarios de abogado, procurador y tasas judiciales. Aquí te contamos el rango real y
-      por qué "gratis" casi nunca lo es. Presupuesto cerrado sin sorpresas.
+      sobre todo honorarios de abogado y procurador, más algunos gastos del procedimiento. Las
+      personas físicas no pagan tasa judicial. Aquí te contamos el rango orientativo y qué mirar
+      cuando un anuncio dice "gratis". Presupuesto cerrado sin sorpresas.
     </>
   ),
   hero: {
@@ -30,8 +31,8 @@ export const lsoCoste: MoneyContent = {
     titleAccent: "Ley de Segunda Oportunidad.",
     subtitle: (
       <>
-        Rango de honorarios, tasas y por qué la publicidad de <strong>"LSO 100% gratis"</strong> es
-        casi siempre un reclamo. Te damos el presupuesto cerrado antes de empezar.
+        Rango orientativo de honorarios, qué gastos pueden sumarse y qué preguntar cuando un anuncio
+        promete <strong>"LSO 100% gratis"</strong>. Te damos el presupuesto cerrado antes de empezar.
       </>
     ),
     trustNote: "Presupuesto cerrado · Pago fraccionable",
@@ -39,15 +40,15 @@ export const lsoCoste: MoneyContent = {
   benefitsTitle: "Qué compone el precio",
   benefits: [
     { icon: "scale", title: "Honorarios de abogado", text: "El grueso del coste: análisis, expediente y defensa." },
-    { icon: "gavel", title: "Procurador", text: "Obligatorio para representarte ante el juzgado en muchos trámites." },
-    { icon: "landmark", title: "Tasas judiciales", text: "Reducidas o exentas para personas físicas insolventes." },
+    { icon: "gavel", title: "Procurador", text: "Representa al deudor ante el juzgado en el procedimiento concursal." },
+    { icon: "landmark", title: "Sin tasa judicial", text: "Las personas físicas están exentas de la tasa judicial (Ley 10/2012, art. 4.2.a). Otros gastos del procedimiento pueden existir según el caso." },
     { icon: "clock", title: "Complejidad del caso", text: "Nº de acreedores, deuda pública, activos y tribunal condicionan el precio." },
     { icon: "wallet", title: "Pago fraccionable", text: "En Calma dividimos el presupuesto para que no sea un obstáculo." },
     { icon: "shield", title: "Sin costes ocultos", text: "Presupuesto cerrado por escrito antes de iniciar el expediente." },
   ],
   sections: [
     {
-      title: "Rangos reales del mercado en España",
+      title: "Rangos orientativos de honorarios",
       body: (
         <FactGrid
           columns={3}
@@ -60,10 +61,10 @@ export const lsoCoste: MoneyContent = {
       ),
     },
     {
-      title: "El mito de la 'LSO gratis'",
+      title: "Qué hay detrás de la 'LSO gratis'",
       body: (
         <WarningCallout title="Cuidado con la publicidad engañosa">
-          <p>Algunas firmas anuncian "cancelación de deudas gratis". La ley no permite trabajo jurídico sin remunerar, así que <strong>el coste está en algún lado</strong>: dilatado en el tiempo, condicionado a resultado o recuperado con comisiones.</p>
+          <p>Algunas firmas anuncian "cancelación de deudas gratis". Conviene distinguir: la <strong>asistencia jurídica gratuita</strong> existe y se reconoce a quien cumple los requisitos legales; en ese caso abogado y procurador se designan de oficio. Fuera de ese supuesto, si un despacho privado anuncia "gratis", pregunta cómo y cuándo cobra: a veces el coste se aplaza, se condiciona al resultado o se recupera con comisiones.</p>
           <p>Preguntas que debes exigir: <em>¿me firmas presupuesto cerrado por escrito?</em> · <em>¿qué pasa si el juzgado no exonera?</em> · <em>¿hay penalizaciones por pausar el caso?</em></p>
         </WarningCallout>
       ),
@@ -93,9 +94,9 @@ export const lsoCoste: MoneyContent = {
     text: "Te decimos exactamente cuánto costaría tu caso y cuánto deuda podrías cancelar. Análisis gratis en 24h.",
   },
   faq: [
-    { q: "¿Es cierto que la LSO puede ser gratis?", a: (<>La justicia gratuita puede cubrirla si cumples requisitos de renta muy exigentes. Fuera de ese supuesto, "gratis" suele ser marketing.</>), plain: "La justicia gratuita puede cubrirla si cumples requisitos de renta muy exigentes. Fuera de ese supuesto, gratis suele ser marketing." },
+    { q: "¿Es cierto que la LSO puede ser gratis?", a: (<>Puede serlo si te reconocen la asistencia jurídica gratuita, que exige cumplir los requisitos de su normativa y se resuelve caso a caso. Además, las personas físicas no pagan tasa judicial. Si un despacho privado anuncia "gratis", pide por escrito cómo y cuándo cobra.</>), plain: "Puede serlo si te reconocen la asistencia jurídica gratuita, que exige cumplir los requisitos de su normativa y se resuelve caso a caso. Además, las personas físicas no pagan tasa judicial. Si un despacho privado anuncia gratis, pide por escrito cómo y cuándo cobra." },
     { q: "¿Puedo pagar a plazos los honorarios?", a: (<>Sí. En Calma fraccionamos el presupuesto para que no sea un obstáculo mientras dura el proceso.</>), plain: "Sí. En Calma fraccionamos el presupuesto para que no sea un obstáculo mientras dura el proceso." },
     { q: "¿Qué pasa si el juzgado no exonera todo?", a: (<>El coste del procedimiento no cambia. Si el juez concede exoneración parcial o plan de pagos, te acompañamos en la ejecución.</>), plain: "El coste del procedimiento no cambia. Si el juez concede exoneración parcial o plan de pagos, te acompañamos en la ejecución." },
-    { q: "¿Cuánto cobra el procurador?", a: (<>Los aranceles del procurador están regulados y son moderados. Van incluidos en el presupuesto cerrado que firmamos.</>), plain: "Los aranceles del procurador están regulados y son moderados. Van incluidos en el presupuesto cerrado que firmamos." },
+    { q: "¿Cuánto cobra el procurador?", a: (<>Los derechos del procurador se rigen por su arancel. Van incluidos en el presupuesto cerrado que firmamos.</>), plain: "Los derechos del procurador se rigen por su arancel. Van incluidos en el presupuesto cerrado que firmamos." },
   ],
 };
