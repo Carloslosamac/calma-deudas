@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import type { Localizacion } from "@/data/seo/localizaciones";
 import CityLocationMap from "@/components/seo/CityLocationMap";
 import LocalCaseBlock from "@/components/seo/LocalCaseBlock";
-import { publicLocalCases } from "@/data/seo/localCases";
 
 /**
  * Generador de contenido localizado para las landings de abogados por ciudad.
@@ -55,9 +54,8 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     zonas,
     prefijo,
   } = city;
-  // Solo expedientes documentados (isReal) se publican como casos cerrados.
-  // Los borradores siguen en el dataset pero no se muestran ni se cuentan.
-  const realCases = publicLocalCases(city.localCases);
+  // Solo expedientes documentados del catálogo; sin ellos no hay bloque ni FAQ.
+  const realCases = city.localCases ?? [];
   const v = variantIndex(city.slug);
 
   const intro = pick(
