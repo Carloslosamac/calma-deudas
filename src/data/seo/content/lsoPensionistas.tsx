@@ -38,7 +38,7 @@ export const lsoPensionistas: MoneyContent = {
   },
   benefitsTitle: "Qué te aporta como pensionista",
   benefits: [
-    { icon: "shield", title: "Pensión inembargable hasta el SMI", text: "El primer tramo (~1.184 €/mes en 2026) está 100% protegido." },
+    { icon: "shield", title: "Pensión inembargable hasta el SMI", text: "El primer tramo, hasta el SMI vigente (con las reglas aplicables a las pagas extraordinarias), está protegido." },
     { icon: "gavel", title: "Frena embargos activos", text: "Por regla general, la declaración de concurso suspende las ejecuciones en curso, con excepciones legales." },
     { icon: "wallet", title: "Cancela deuda privada", text: "Bancos, tarjetas revolving, microcréditos, avales firmados a familiares." },
     { icon: "landmark", title: "Vivienda habitual protegible", text: "Si está hipotecada al día, muchos juzgados permiten conservarla." },
@@ -50,7 +50,7 @@ export const lsoPensionistas: MoneyContent = {
       title: "La pensión siempre tiene un tramo protegido",
       body: (
         <KeyCallout eyebrow="Sueldo/pensión inembargable" headline="Hasta el SMI la pensión es intocable, con o sin LSO.">
-          <p>La escala inembargable protege el <strong>primer tramo hasta el SMI</strong> (~1.184 €/mes en 2026). Por encima se aplica una escala progresiva. Con la LSO, además, por regla general las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales.</p>
+          <p>La escala inembargable protege el <strong>primer tramo hasta el SMI</strong> (<a href="https://www.boe.es/buscar/act.php?id=BOE-A-2026-3815" target="_blank" rel="noopener noreferrer">SMI vigente</a>, con las reglas aplicables a las pagas extraordinarias). Por encima se aplica una escala progresiva. Con la LSO, además, por regla general las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales.</p>
           <p>Puedes ver tu tramo real con nuestro <A to="/herramientas/calculadora-sueldo-inembargable">calculador de sueldo inembargable</A>, que también sirve para pensiones.</p>
         </KeyCallout>
       ),

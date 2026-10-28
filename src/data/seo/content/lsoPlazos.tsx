@@ -10,9 +10,9 @@ export const lsoPlazos: MoneyContent = {
   directAnswer: {
     question: "¿Cuánto dura la Ley de Segunda Oportunidad?",
     answer:
-      "Un expediente de Ley de Segunda Oportunidad suele durar entre 6 y 18 meses desde la presentación hasta la resolución. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales. La duración depende del juzgado, del número de acreedores y de si hay plan de pagos o liquidación. Te damos plazos realistas caso a caso.",
+      "Como orientación, el trámite inicial de un expediente de Ley de Segunda Oportunidad (de la presentación a la resolución sobre la exoneración) suele llevar entre 6 y 18 meses, según el juzgado y la complejidad. En la modalidad con plan de pagos esa resolución es provisional: la exoneración definitiva depende de cumplir el plan, que normalmente dura 3 años o 5 en los supuestos del art. 497 TRLC. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales. La duración depende del juzgado, del número de acreedores y de si hay plan de pagos o liquidación. Te damos plazos realistas caso a caso.",
     plain:
-      "Un expediente de Ley de Segunda Oportunidad suele durar entre 6 y 18 meses desde la presentación hasta la resolución. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales. La duración depende del juzgado, del número de acreedores y de si hay plan de pagos o liquidación.",
+      "Como orientación, el trámite inicial de un expediente de Ley de Segunda Oportunidad (de la presentación a la resolución sobre la exoneración) suele llevar entre 6 y 18 meses, según el juzgado y la complejidad. En la modalidad con plan de pagos esa resolución es provisional: la exoneración definitiva depende de cumplir el plan, que normalmente dura 3 años o 5 en los supuestos del art. 497 TRLC. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales. La duración depende del juzgado, del número de acreedores y de si hay plan de pagos o liquidación.",
   },
   reviewed: false,
   tone: "legal",
@@ -30,7 +30,7 @@ export const lsoPlazos: MoneyContent = {
     titleAccent: "Ley de Segunda Oportunidad.",
     subtitle: (
       <>
-        De <strong>6 a 18 meses</strong> en total, pero los embargos pueden frenarse en semanas.
+        Orientativamente, <strong>6 a 18 meses</strong> de trámite inicial (con plan de pagos, la exoneración definitiva llega al cumplirlo), y los embargos pueden frenarse en semanas.
         Te desglosamos la duración de cada fase con datos reales.
       </>
     ),
@@ -38,7 +38,7 @@ export const lsoPlazos: MoneyContent = {
   },
   benefitsTitle: "Puntos clave del calendario",
   benefits: [
-    { icon: "clock", title: "6–18 meses totales", text: "Rango realista según juzgado y complejidad." },
+    { icon: "clock", title: "6–18 meses de trámite inicial", text: "Orientación según juzgado y complejidad; con plan de pagos, la exoneración definitiva llega al cumplirlo." },
     { icon: "shield", title: "Suspensión de ejecuciones", text: "Por regla general, con la declaración de concurso, salvo las excepciones legales." },
     { icon: "gavel", title: "Fase judicial larga", text: "El grueso del tiempo es la instrucción y el turno del administrador concursal." },
     { icon: "wallet", title: "Plan de pagos: 3 años", text: "Si hay plan, dura 3 años de cumplimiento antes de la exoneración definitiva." },
@@ -62,8 +62,8 @@ export const lsoPlazos: MoneyContent = {
     {
       title: "El plazo real es un rango, no un número",
       body: (
-        <KeyCallout eyebrow="Realidad judicial" headline="6, 12 o 18 meses: depende del juzgado y de la complejidad.">
-          <p>Un caso limpio en un juzgado ágil puede resolverse en 6–8 meses. Uno con muchos acreedores, deuda pública elevada o litigios abiertos puede alargarse a 18. Antes de presentar te damos un plazo estimado real para tu caso.</p>
+        <KeyCallout eyebrow="Realidad judicial" headline="Trámite inicial de 6 a 18 meses, según juzgado y complejidad.">
+          <p>Un caso limpio en un juzgado ágil puede resolverse en 6–8 meses. Uno con muchos acreedores, deuda pública elevada o litigios abiertos puede alargarse a 18. Con plan de pagos, la exoneración definitiva depende de cumplir el plan (normalmente 3 años, o 5 en los supuestos del art. 497 TRLC). Antes de presentar te damos un plazo estimado real para tu caso.</p>
         </KeyCallout>
       ),
     },
@@ -97,7 +97,7 @@ export const lsoPlazos: MoneyContent = {
   faq: [
     { q: "¿Cuándo se paran los embargos exactamente?", a: (<>Por regla general, con la declaración de concurso: desde entonces no pueden iniciarse nuevas ejecuciones y las que están en curso se suspenden, con excepciones legales (por ejemplo, ciertos apremios públicos o garantías reales). El momento depende del juzgado.</>), plain: "Por regla general, con la declaración de concurso: desde entonces no pueden iniciarse nuevas ejecuciones y las que están en curso se suspenden, con excepciones legales (por ejemplo, ciertos apremios públicos o garantías reales). El momento depende del juzgado." },
     { q: "¿Puedo elegir plan de pagos o liquidación?", a: (<>Depende de tu patrimonio y capacidad de pago. Con vivienda que quieras conservar, el plan de pagos suele ser la vía.</>), plain: "Depende de tu patrimonio y capacidad de pago. Con vivienda que quieras conservar, el plan de pagos suele ser la vía." },
-    { q: "¿Qué pasa en el plan de pagos de 3 años?", a: (<>Pagas cuotas asumibles durante 3 años. Cumpliendo, la exoneración se vuelve definitiva y las deudas pendientes se cancelan.</>), plain: "Pagas cuotas asumibles durante 3 años. Cumpliendo, la exoneración se vuelve definitiva y las deudas pendientes se cancelan." },
+    { q: "¿Qué pasa en el plan de pagos de 3 años?", a: (<>El plan dura normalmente 3 años, o 5 en los supuestos del art. 497 TRLC. Si lo cumples, se solicita la exoneración definitiva de las deudas exonerables pendientes.</>), plain: "El plan dura normalmente 3 años, o 5 en los supuestos del art. 497 TRLC. Si lo cumples, se solicita la exoneración definitiva de las deudas exonerables pendientes." },
     { q: "¿Puedo trabajar durante el procedimiento?", a: (<>Sí. La LSO no restringe tu actividad laboral ni profesional; sigues cobrando tu sueldo o facturando como autónomo.</>), plain: "Sí. La LSO no restringe tu actividad laboral ni profesional; sigues cobrando tu sueldo o facturando como autónomo." },
   ],
 };
