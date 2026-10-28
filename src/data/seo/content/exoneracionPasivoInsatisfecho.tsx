@@ -185,29 +185,17 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
       ),
     },
     {
-      title: "Actualización 2026: el Supremo amplía la exoneración del crédito público",
+      title: "Actualización 2026: qué aclara el Supremo sobre el crédito público",
       body: (
         <div className="space-y-5 text-base leading-relaxed text-foreground/85">
-          <p>Las <strong>sentencias del Tribunal Supremo de 18 de febrero de 2026</strong> (SSTS 254/2026, 259/2026 y 260/2026) marcan un punto de inflexión: amplían de forma sustancial cuánta deuda pública puede cancelarse en la EPI. Tres claves:</p>
+          <p>La <a href="https://futurlegal.com/wp-content/uploads/2026/03/STS_260_2026.pdf" target="_blank" rel="noopener noreferrer"><strong>sentencia del Tribunal Supremo 260/2026, de 18 de febrero</strong></a> (ECLI:ES:TS:2026:436, recurso 10/2024) aclara cómo se aplica el límite del art. 489.1.5.º TRLC al crédito público en la EPI:</p>
           <CheckList
             items={[
-              <><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</>,
-              <><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (máximo de 10.000 € por organismo: íntegra en los primeros 5.000 € de deuda y, a partir de esa cifra, el 50 % hasta ese máximo).</>,
-              <><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</>,
+              <><strong>Crédito público subordinado:</strong> el límite de 10.000 € no se aplica al crédito público que merezca calificación concursal de subordinado. Esa calificación debe examinarse caso a caso: no todo recargo o interés se exonera automáticamente.</>,
+              <><strong>Resto del crédito público:</strong> mantiene el límite del art. 489 TRLC (íntegra en los primeros 5.000 € y, a partir de esa cifra, el 50 % hasta un máximo de 10.000 €).</>,
+              <><strong>Por cada acreedor público:</strong> la limitación se aplica a cada acreedor público, incluidas administraciones distintas de Hacienda y Seguridad Social.</>,
             ]}
           />
-          <KeyCallout
-            tone="neutral"
-            eyebrow="Ejemplo real"
-            headline={
-              <>
-                Con 44.000 € de deuda pública, podrías pagar solo{" "}
-                <span className="text-accent-deep">unos 7.500 €</span>.
-              </>
-            }
-          >
-            <p>24.000 € con Hacienda y 20.000 € con Seguridad Social (parte intereses, parte principal): aplicando esta doctrina, una exoneración cercana al 83 %.</p>
-          </KeyCallout>
           <p>Por eso ahora es clave <strong>analizar la naturaleza de cada deuda</strong> (principal ordinario vs. intereses/recargos subordinados) en cada caso. Lo hacemos en tu diagnóstico.</p>
         </div>
       ),
@@ -242,7 +230,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
   faq: [
     { q: "¿Qué es la exoneración del pasivo insatisfecho?", a: (<>Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe.</>), plain: "Es la resolución judicial que cancela las deudas pendientes dentro de la Ley de Segunda Oportunidad, una vez acreditada la insolvencia y la buena fe." },
     { q: "¿Incluye la deuda con Hacienda?", a: (<>Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos.</>), plain: "Sí, con límites legales. Parte de la deuda pública puede exonerarse; el resto se reorganiza en un plan de pagos." },
-    { q: "¿Qué cambia con las sentencias del Tribunal Supremo de 2026?", a: (<>Las sentencias de 18 de febrero de 2026 amplían la exoneración del crédito público: los intereses y recargos (crédito subordinado) se exoneran al 100 % sin el límite de 10.000 €, el principal mantiene ese tope, y el régimen se aplica también a administraciones autonómicas y locales.</>), plain: "Las sentencias de 18 de febrero de 2026 amplían la exoneración del crédito público: los intereses y recargos (crédito subordinado) se exoneran al 100 % sin el límite de 10.000 €, el principal mantiene ese tope, y el régimen se aplica también a administraciones autonómicas y locales." },
+    { q: "¿Qué cambia con la sentencia del Tribunal Supremo 260/2026?", a: (<>La <a href="https://futurlegal.com/wp-content/uploads/2026/03/STS_260_2026.pdf" target="_blank" rel="noopener noreferrer">sentencia del Tribunal Supremo 260/2026</a>, de 18 de febrero (ECLI:ES:TS:2026:436), aclara que el límite de 10.000 € no se aplica al crédito público que merezca calificación concursal de subordinado; esa calificación se examina caso a caso. Para el resto, el límite del art. 489 TRLC se aplica por cada acreedor público, incluidas otras administraciones.</>), plain: "La sentencia del Tribunal Supremo 260/2026, de 18 de febrero (ECLI:ES:TS:2026:436), aclara que el límite de 10.000 € no se aplica al crédito público que merezca calificación concursal de subordinado; esa calificación se examina caso a caso. Para el resto, el límite del art. 489 TRLC se aplica por cada acreedor público, incluidas otras administraciones." },
     { q: "¿La exoneración es definitiva?", a: (<>Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva.</>), plain: "Con liquidación es inmediata y definitiva. Con plan de pagos es provisional hasta que cumples el plan (hasta 3 años); entonces se vuelve definitiva." },
     { q: "¿Aparece la exoneración en algún registro público?", a: (<>Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda.</>), plain: "Sí, se publica en el Registro Público Concursal. Es un trámite del procedimiento y no impide rehacer tu vida financiera una vez cancelada la deuda." },
     { q: "¿Puede revocarse una vez concedida?", a: (<>Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos.</>), plain: "Sí, si se acredita mala fe (ocultar bienes) o una mejora sustancial de fortuna en los años siguientes, o si se incumple el plan de pagos." },
