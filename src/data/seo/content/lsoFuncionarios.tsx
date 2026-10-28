@@ -51,7 +51,7 @@ export const lsoFuncionarios: MoneyContent = {
       title: "La nómina siempre tiene una parte protegida",
       body: (
         <KeyCallout eyebrow="Sueldo inembargable" headline="Hasta el SMI (~1.184 €/mes en 2026), la nómina es 100% inembargable.">
-          <p>Por encima del SMI, se aplica una <strong>escala progresiva</strong>: cuanto más cobras, mayor porcentaje se puede embargar. Pero un tramo siempre queda protegido, y con la LSO los embargos se suspenden mientras dura el procedimiento.</p>
+          <p>Por encima del SMI, se aplica una <strong>escala progresiva</strong>: cuanto más cobras, mayor porcentaje se puede embargar. Pero un tramo siempre queda protegido, y con la LSO, por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, con excepciones legales.</p>
           <p>Calcula tu tramo con nuestro <A to="/herramientas/calculadora-sueldo-inembargable">calculador de sueldo inembargable</A>.</p>
         </KeyCallout>
       ),
@@ -101,7 +101,7 @@ export const lsoFuncionarios: MoneyContent = {
   faq: [
     { q: "¿Debo notificar la LSO a mi organismo?", a: (<>No. El procedimiento es judicial y no se notifica a tu Administración empleadora.</>), plain: "No. El procedimiento es judicial y no se notifica a tu Administración empleadora." },
     { q: "¿Afecta a mi complemento de destino o productividad?", a: (<>No. Ninguna partida de tu nómina cambia por acogerte a la LSO.</>), plain: "No. Ninguna partida de tu nómina cambia por acogerte a la LSO." },
-    { q: "¿Y si tengo embargo activo sobre la nómina?", a: (<>La LSO puede suspenderlo. Es una de las primeras medidas que se solicitan al juzgado.</>), plain: "La LSO puede suspenderlo. Es una de las primeras medidas que se solicitan al juzgado." },
+    { q: "¿Y si tengo embargo activo sobre la nómina?", a: (<>Por regla general, se suspende con la declaración de concurso, salvo las excepciones legales. Lo revisamos en tu caso.</>), plain: "Por regla general, se suspende con la declaración de concurso, salvo las excepciones legales. Lo revisamos en tu caso." },
     { q: "¿Es incompatible con la carrera profesional (concursos)?", a: (<>No. No aparece en tu expediente disciplinario ni penaliza en concursos ni oposiciones.</>), plain: "No. No aparece en tu expediente disciplinario ni penaliza en concursos ni oposiciones." },
   ],
 };

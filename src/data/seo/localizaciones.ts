@@ -26,7 +26,7 @@ export type Localizacion = LocalCityData & {
   slug: string;
   /** variantes de intención local que la página debe cubrir */
   intents: string[];
-  /** 3-5 casos resueltos de municipios distintos, integrados en la landing */
+  /** casos de la zona: documentados (isReal) y borradores. Publicar solo vía publicLocalCases() */
   localCases: LocalCase[];
   /** nombre de la ciudad */
   name: string;
@@ -38,22 +38,22 @@ export type Localizacion = LocalCityData & {
   comunidad: string;
   /** tribunal competente de referencia en la ciudad */
   tribunal: string;
-  /** nota local única para evitar contenido duplicado */
+  /** nota local interna. Afirmación sin fuente: NO se publica. */
   localNote: string;
   /** coordenadas para el mapa */
   lat: number;
   lng: number;
   /** barrios de la ciudad y municipios de la provincia que se atienden */
   zonas: string[];
-  /** sede judicial de referencia (dato público) donde se tramitan los expedientes */
+  /** sede judicial de referencia. Pendiente de verificar: NO se publica. */
   sedeJudicial: string;
-  /** perfil de deuda más frecuente en la zona */
+  /** perfil de deuda de la zona. Sin fuente: NO se publica. */
   perfilDeuda: string;
   /** prefijo telefónico provincial (referencia local) */
   prefijo: string;
-  /** Audiencia Provincial de referencia (dato público) */
+  /** Audiencia Provincial de referencia (interno; no se publica criterio judicial local) */
   audienciaProvincial: string;
-  /** caso típico anonimizado propio del tejido económico local */
+  /** caso típico construido (no es expediente real). NO se publica. */
   ejemploCaso: string;
   /** path absoluto sin trailing slash para el Router */
   path: string;

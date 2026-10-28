@@ -10,9 +10,9 @@ export const lsoAvalistas: MoneyContent = {
   directAnswer: {
     question: "¿La Ley de Segunda Oportunidad libera al avalista?",
     answer:
-      "Sí. El avalista es un deudor a efectos legales: si es insolvente y actúa de buena fe, la LSO cancela también la deuda que le reclaman por el aval. No hace falta que el deudor principal se acoja. Frena embargos y saca del ASNEF. Diagnóstico gratis en 24h.",
+      "Puede. El avalista al que le reclaman la deuda puede pedir su propia exoneración si es insolvente y cumple los requisitos de buena fe; si el juez la concede, alcanza a lo que le reclaman por el aval. Es un procedimiento propio: la exoneración del deudor principal no libera al avalista (art. 492 TRLC). Diagnóstico gratis en 24h.",
     plain:
-      "Sí. El avalista es un deudor a efectos legales: si es insolvente y actúa de buena fe, la LSO cancela también la deuda que le reclaman por el aval. No hace falta que el deudor principal se acoja.",
+      "Puede. El avalista al que le reclaman la deuda puede pedir su propia exoneración si es insolvente y cumple los requisitos de buena fe; si el juez la concede, alcanza a lo que le reclaman por el aval. Es un procedimiento propio: la exoneración del deudor principal no libera al avalista (art. 492 TRLC).",
   },
   reviewed: false,
   tone: "urgent",
@@ -20,7 +20,7 @@ export const lsoAvalistas: MoneyContent = {
   intro: (
     <>
       Firmaste un aval y ahora te lo reclaman a ti. La <strong>Ley de Segunda Oportunidad
-      libera al avalista</strong> cuando es insolvente, igual que a cualquier deudor. Aquí
+      también está abierta al avalista</strong> insolvente, que puede pedir su propia exoneración. Aquí
       te explicamos cómo, sin depender del deudor principal.
     </>
   ),
@@ -38,9 +38,9 @@ export const lsoAvalistas: MoneyContent = {
   },
   benefitsTitle: "Qué te aporta si eres avalista",
   benefits: [
-    { icon: "shield", title: "Cancela la deuda del aval", text: "Igual que la deuda propia: se exonera si eres insolvente." },
-    { icon: "gavel", title: "Independiente del deudor principal", text: "No hace falta que él se acoja para que tú te liberes." },
-    { icon: "wallet", title: "Frena embargos de nómina", text: "Suspende embargos derivados del aval en curso." },
+    { icon: "shield", title: "Puede alcanzar la deuda del aval", text: "Si obtienes la exoneración, se extiende a lo que te reclaman por el aval, con los límites legales." },
+    { icon: "gavel", title: "Procedimiento propio", text: "No depende de que el deudor principal se acoja; y su exoneración tampoco te libera a ti." },
+    { icon: "wallet", title: "Embargos en curso", text: "Con la declaración de concurso, las ejecuciones se suspenden por regla general, con excepciones legales." },
     { icon: "sparkles", title: "Sales de ASNEF", text: "Salen los ficheros de morosidad vinculados a la deuda exonerada." },
     { icon: "clock", title: "Actúa antes de la ejecución", text: "Cuanto antes, más margen para conservar bienes." },
     { icon: "scale", title: "Estudio jurídico riguroso", text: "Cada aval tiene matices que hay que valorar antes de decidir la vía." },
@@ -71,7 +71,7 @@ export const lsoAvalistas: MoneyContent = {
           <li><strong>Socios que avalaron</strong> préstamos de una SL que cerró.</li>
           <li><strong>Cónyuges o excónyuges</strong> que quedaron atados a préstamos comunes.</li>
           <li><strong>Familiares</strong> que firmaron por confianza y ya no pueden pagar.</li>
-          <li>En todos ellos, la LSO puede cancelar la parte que te reclaman.</li>
+          <li>En todos ellos, la LSO puede servir para pedir la exoneración de la parte que te reclaman.</li>
         </ul>
       ),
     },
@@ -93,8 +93,8 @@ export const lsoAvalistas: MoneyContent = {
     text: "Cuanto antes actúes, más rápido paran los embargos. Diagnóstico gratis en 24h para avalistas.",
   },
   faq: [
-    { q: "¿Me libero aunque el deudor principal no se acoja?", a: (<>Sí. Tu procedimiento es independiente.</>), plain: "Sí. Tu procedimiento es independiente." },
-    { q: "¿Qué pasa si el aval es solidario?", a: (<>Solidario o mancomunado, si te reclaman a ti y eres insolvente, la LSO te libera de esa deuda.</>), plain: "Solidario o mancomunado, si te reclaman a ti y eres insolvente, la LSO te libera de esa deuda." },
+    { q: "¿Puedo pedirlo aunque el deudor principal no se acoja?", a: (<>Sí. Tu procedimiento es independiente. Y al revés: si es él quien obtiene la exoneración, eso no te libera a ti como avalista (art. 492 TRLC).</>), plain: "Sí. Tu procedimiento es independiente. Y al revés: si es él quien obtiene la exoneración, eso no te libera a ti como avalista (art. 492 TRLC)." },
+    { q: "¿Qué pasa si el aval es solidario?", a: (<>En ambos casos puedes pedir tu propia exoneración si eres insolvente y cumples los requisitos; el tipo de aval influye en cuánto te pueden reclamar.</>), plain: "En ambos casos puedes pedir tu propia exoneración si eres insolvente y cumples los requisitos; el tipo de aval influye en cuánto te pueden reclamar." },
     { q: "¿Me quedo yo con la casa del deudor principal?", a: (<>No. Tu exoneración solo afecta a tu propia responsabilidad, no a la propiedad de otros.</>), plain: "No. Tu exoneración solo afecta a tu propia responsabilidad, no a la propiedad de otros." },
     { q: "¿Y si el deudor principal después paga?", a: (<>Tu exoneración se mantiene. Su pago cancela lo suyo con el banco; lo tuyo ya está resuelto.</>), plain: "Tu exoneración se mantiene. Su pago cancela lo suyo con el banco." },
   ],

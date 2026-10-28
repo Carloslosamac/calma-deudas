@@ -51,7 +51,7 @@ export const lsoComoFunciona: MoneyContent = {
     { title: "1. Diagnóstico gratis", text: "En 24h te decimos si calificas y qué vía encaja mejor." },
     { title: "2. Presupuesto cerrado", text: "Firmamos el presupuesto por escrito antes de empezar." },
     { title: "3. Preparación del expediente", text: "Recopilamos deudas, ingresos, patrimonio y acreedores con detalle." },
-    { title: "4. Solicitud al juzgado", text: "Presentamos la solicitud y pedimos la suspensión de embargos." },
+    { title: "4. Solicitud al juzgado", text: "Presentamos la solicitud de concurso ante el Juzgado de lo Mercantil." },
     { title: "5. Tramitación", text: "Instrucción judicial, administrador concursal y plan de pagos o liquidación." },
     { title: "6. Exoneración", text: "El juez cancela la deuda insatisfecha. Reconstruyes tu vida financiera.", highlight: true },
   ],
@@ -61,7 +61,7 @@ export const lsoComoFunciona: MoneyContent = {
       subtitle: "Cronograma orientativo.",
       phases: [
         { title: "Análisis previo", duration: "2–6 semanas", text: "Diagnóstico jurídico y preparación de la documentación completa." },
-        { title: "Solicitud y admisión", duration: "Inicio", text: "Presentación en el juzgado. Con la admisión pueden suspenderse los embargos." },
+        { title: "Solicitud y admisión", duration: "Inicio", text: "Presentación en el juzgado. Con la declaración de concurso, por regla general se suspenden las ejecuciones en curso, con excepciones legales." },
         { title: "Instrucción y administrador concursal", duration: "3–9 meses", text: "El juez y el administrador analizan el patrimonio y el pasivo." },
         { title: "Plan de pagos o liquidación", duration: "Variable", text: "Decisión sobre la vía según patrimonio y capacidad de pago." },
         { title: "Exoneración del pasivo", duration: "Resolución", text: "El juez cancela la deuda pendiente. Provisional si hay plan; definitiva al cumplirlo." },
@@ -116,6 +116,6 @@ export const lsoComoFunciona: MoneyContent = {
     { q: "¿Cuánto tarda todo el proceso?", a: (<>Entre 6 y 18 meses. Los embargos pueden pararse mucho antes. Detalle en la <A to="/ley-segunda-oportunidad/plazos-duracion">página de plazos</A>.</>), plain: "Entre 6 y 18 meses. Los embargos pueden pararse mucho antes." },
     { q: "¿Necesito abogado y procurador?", a: (<>Abogado siempre. Procurador es obligatorio en muchos trámites. Nosotros nos ocupamos de ambos.</>), plain: "Abogado siempre. Procurador es obligatorio en muchos trámites." },
     { q: "¿Puedo hacerlo yo mismo?", a: (<>Legalmente necesitas abogado. Además, un expediente mal preparado puede rechazarse y perder tiempo valioso.</>), plain: "Legalmente necesitas abogado. Un expediente mal preparado puede rechazarse." },
-    { q: "¿Se paran los embargos desde el primer día?", a: (<>La suspensión llega con la admisión de la solicitud, normalmente en las primeras semanas.</>), plain: "La suspensión llega con la admisión de la solicitud, normalmente en las primeras semanas." },
+    { q: "¿Se paran los embargos desde el primer día?", a: (<>No desde el primer día. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, y hay excepciones legales (por ejemplo, ciertos apremios públicos o garantías reales). El momento depende del juzgado.</>), plain: "No desde el primer día. Por regla general, las ejecuciones en curso se suspenden con la declaración de concurso, y hay excepciones legales (por ejemplo, ciertos apremios públicos o garantías reales). El momento depende del juzgado." },
   ],
 };

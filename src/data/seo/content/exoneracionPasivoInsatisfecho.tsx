@@ -109,12 +109,12 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
     exonerationLimits: {
       title: "Límites de la deuda pública",
       subtitle:
-        "Hacienda y Seguridad Social no se exoneran por completo. La ley concursal (art. 489 TRLC) fija un tope de 10.000 € por organismo.",
+        "Hacienda y Seguridad Social no se exoneran por completo: el art. 489.1.5.º TRLC fija un importe máximo exonerable por organismo.",
       items: [
-        { label: "Hacienda (AEAT): hasta 10.000 €", text: "Los primeros 5.000 € se exoneran al 100 %; del tramo de 5.000 € a 10.000 € se exonera el 50 %." },
-        { label: "Seguridad Social: hasta 10.000 €", text: "Mismo criterio e independiente del de Hacienda: hasta 10.000 € adicionales con la misma escala (100 % / 50 %)." },
+        { label: "Hacienda (AEAT): máximo 10.000 €", text: "Según el art. 489.1.5.º TRLC, los primeros 5.000 € de deuda se exoneran íntegramente y, a partir de esa cifra, el 50 % de la deuda hasta el máximo de 10.000 €." },
+        { label: "Seguridad Social: máximo 10.000 €", text: "La ley permite exonerarla por el mismo importe y en las mismas condiciones que la deuda con la AEAT." },
         { label: "Tope conjunto: 20.000 €", text: "Sumando ambos organismos, se puede exonerar un máximo de 20.000 € de deuda pública por deudor." },
-        { label: "El exceso, en plan de pagos", text: "Lo que supere esos límites no se cancela: se reorganiza y aplaza en un plan de pagos." },
+        { label: "Lo que no se exonera", text: "La parte de deuda pública que no se exonera sigue siendo exigible. Cuánto se exonera depende del importe exacto: lo calculamos contigo." },
         { label: "El resto de la deuda", text: "Préstamos, tarjetas y microcréditos no tienen este tope y pueden cancelarse íntegramente." },
       ],
       note: "Importes de la reforma concursal de 2022. Las sentencias del Tribunal Supremo de 18 de febrero de 2026 amplían su alcance (ver más abajo). Lo confirmamos en tu diagnóstico.",
@@ -192,7 +192,7 @@ export const exoneracionPasivoInsatisfecho: MoneyContent = {
           <CheckList
             items={[
               <><strong>Intereses y recargos al 100 %:</strong> los créditos públicos subordinados (intereses de demora y recargos de apremio) pasan a exonerarse <strong>íntegramente</strong>, sin el tope de 10.000 €. En muchas deudas esto es una parte enorme del total.</>,
-              <><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (hasta 10.000 € por organismo: 100 % los primeros 5.000 € y 50 % el tramo de 5.000 € a 10.000 €).</>,
+              <><strong>El principal mantiene el límite:</strong> la deuda principal sigue con el tope del art. 489 TRLC (máximo de 10.000 € por organismo: íntegra en los primeros 5.000 € de deuda y, a partir de esa cifra, el 50 % hasta ese máximo).</>,
               <><strong>Vale para todas las administraciones:</strong> el régimen ya no se limita a Hacienda y Seguridad Social; alcanza también a administraciones autonómicas y entidades locales (ayuntamientos, diputaciones…).</>,
             ]}
           />

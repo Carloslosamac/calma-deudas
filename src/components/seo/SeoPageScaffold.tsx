@@ -254,7 +254,7 @@ const SeoPageScaffold = ({
             ) : (
               <p className="mt-1 text-sm text-muted-foreground">
                 {needsLegalReview
-                  ? "Pendiente de revisión por abogado especialista. La información legal debe validarse antes de publicar."
+                  ? "Información general sobre la normativa vigente. No sustituye el análisis de tu caso concreto."
                   : "Revisado por abogado especialista en la Ley de Segunda Oportunidad."}
               </p>
             )}

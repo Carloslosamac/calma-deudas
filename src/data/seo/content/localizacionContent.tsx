@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { Localizacion } from "@/data/seo/localizaciones";
 import CityLocationMap from "@/components/seo/CityLocationMap";
 import LocalCaseBlock from "@/components/seo/LocalCaseBlock";
+import { publicLocalCases } from "@/data/seo/localCases";
 
 /**
  * Generador de contenido localizado para las landings de abogados por ciudad.
@@ -51,13 +52,12 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     provincia,
     comunidad,
     tribunal,
-    localNote,
     zonas,
-    sedeJudicial,
-    perfilDeuda,
     prefijo,
-    audienciaProvincial,
   } = city;
+  // Solo expedientes documentados (isReal) se publican como casos cerrados.
+  // Los borradores siguen en el dataset pero no se muestran ni se cuentan.
+  const realCases = publicLocalCases(city.localCases);
   const v = variantIndex(city.slug);
 
   const intro = pick(
@@ -111,7 +111,6 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
               v,
             )}
           </P>
-          <P>{localNote}</P>
           <P>
             Para entender el procedimiento completo, consulta el hub de la{" "}
             <A to="/ley-segunda-oportunidad">Ley de Segunda Oportunidad</A> o el detalle de la{" "}
@@ -134,18 +133,10 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             eres un particular sin actividad empresarial.
           </P>
           <P>
-            {city.courtInfo
-              ? `En la práctica, tu caso se gestiona ante ${city.courtInfo}.`
-              : `En la práctica, tu caso se gestiona en ${sedeJudicial}.`}{" "}
-            Aunque la mayor parte del procedimiento es telemático, conocer la sede y los plazos
-            de {name} nos permite coordinar cualquier comparecencia sin que tengas que
-            preocuparte.
-          </P>
-
-          <P>
-            Conocer el criterio de los juzgados de {provincia} nos permite preparar un
-            expediente sólido y anticipar lo que el juez espera, lo que aumenta las
-            probabilidades de que prospere la exoneración.
+            El juzgado concreto que lleva tu expediente depende de tu domicilio y del reparto de
+            asuntos; lo confirmamos al preparar la solicitud. Buena parte del procedimiento se
+            tramita de forma telemática, y si hace falta alguna comparecencia te avisamos con
+            antelación.
           </P>
         </div>
       ),
@@ -169,31 +160,19 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       ),
     },
     {
-      title: `La situación de la deuda en ${name}`,
-      body: (
-        <div className="space-y-4">
-          <P>{perfilDeuda}</P>
-          <P>{localNote}</P>
-          <P>
-            Sea cual sea el origen de tu deuda, estudiamos tu caso concreto en {name} y te decimos
-            con claridad si puedes acogerte a la Ley de Segunda Oportunidad.
-          </P>
-        </div>
-      ),
-    },
-    {
-      title: `Cómo se resuelven estos expedientes en ${provincia}`,
+      title: `Qué deudas revisamos en ${name}`,
       body: (
         <div className="space-y-4">
           <P>
-            El criterio de {audienciaProvincial} marca cómo se valoran estos expedientes en{" "}
-            {provincia}: qué se entiende por buena fe, cómo se acredita la insolvencia y qué
-            documentación se exige. Preparamos cada caso pensando en lo que el tribunal espera
-            encontrar.
+            Revisamos cualquier tipo de deuda de personas de {name} y su provincia: tarjetas y
+            préstamos al consumo, microcréditos, deudas bancarias, avales, deudas de la
+            actividad de autónomos y deuda con Hacienda o la Seguridad Social, que solo se
+            exonera dentro de los límites legales.
           </P>
           <P>
-            Más abajo tienes expedientes concretos de {name} y su provincia, con las cifras y la
-            solución aplicada en cada uno.
+            Sea cual sea el origen de tu deuda, estudiamos tu caso concreto y te decimos con
+            claridad si puedes acogerte a la Ley de Segunda Oportunidad, por qué vía (plan de
+            pagos o liquidación) o si te conviene más otra solución.
           </P>
         </div>
       ),
@@ -225,7 +204,7 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             <li>Diagnóstico gratuito: un abogado revisa tus deudas e ingresos y confirma si puedes acogerte.</li>
             <li>Preparación del expediente con toda la documentación y la mejor estrategia legal.</li>
             <li>Presentación y representación ante los juzgados de {name}.</li>
-            <li>Resolución del juez: cancelación con plan de pagos o con liquidación.</li>
+            <li>Resolución del juez sobre la exoneración, con plan de pagos o tras la liquidación.</li>
           </ul>
           <P>
             ¿Tu deuda viene de productos abusivos? Mira también cómo{" "}
@@ -263,8 +242,8 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             )}
           </P>
           <P>
-            El procedimiento suele durar entre 6 y 18 meses según la complejidad y el juzgado de{" "}
-            {name}, aunque los embargos pueden suspenderse mucho antes.
+            Como orientación, el procedimiento dura entre 6 y 18 meses según la complejidad y el
+            juzgado; con plan de pagos, la exoneración definitiva llega al terminar el plan.
           </P>
         </div>
       ),
@@ -300,9 +279,12 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     v,
   );
 
-  const casosFaq = `Sí. En esta misma página puedes ver ${
-    city.localCases?.length ?? 0
-  } expedientes cerrados de ${name} y de otros municipios de ${provincia}, con el perfil de cada cliente, la deuda de partida, los acreedores y la solución aplicada en cada caso.`;
+  const casosFaq =
+    realCases.length > 0
+      ? `Sí. En esta misma página puedes ver ${
+          realCases.length === 1 ? "un expediente cerrado" : `${realCases.length} expedientes cerrados`
+        } de la zona, anonimizado${realCases.length === 1 ? "" : "s"}, con la deuda de partida, los acreedores y la solución aplicada.`
+      : null;
 
   const faq: LocalFaq[] = [
     {
@@ -325,20 +307,17 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
       a: <>{faqPresencial}</>,
       plain: faqPresencial,
     },
-    {
-      q: `¿Tenéis casos resueltos en ${name}?`,
-      a: <>{casosFaq}</>,
-      plain: casosFaq,
-    },
+    ...(casosFaq
+      ? [{ q: `¿Tenéis casos resueltos en ${name}?`, a: <>{casosFaq}</>, plain: casosFaq }]
+      : []),
   ];
 
   const caseLinks = city.caseLinks ?? [];
-  if (city.economyNote || caseLinks.length > 0) {
+  if (caseLinks.length > 0) {
     sections.push({
-      title: `Tu caso de segunda oportunidad en ${name}, con datos locales`,
+      title: `Casos publicados de ${name}`,
       body: (
         <div className="space-y-4">
-          {city.economyNote && <P>{city.economyNote}</P>}
           {caseLinks.length > 0 && (
             <P>
               Casos publicados de la zona:{" "}
@@ -398,18 +377,20 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     });
   }
 
-  if (city.localCases?.length) {
-    const municipios = city.localCases.map((c) => c.city);
+  if (realCases.length > 0) {
+    const municipiosCasos = [...new Set(realCases.map((c) => c.city))];
     sections.push({
       title: `Casos resueltos en ${name} y provincia`,
       body: (
         <div className="space-y-4">
           <P>
-            Estos son expedientes cerrados de personas de {listado(municipios)}. Cada uno
-            responde a una situación distinta: no hay un perfil único de persona endeudada ni
-            una única salida.
+            {realCases.length === 1
+              ? `Este es un expediente cerrado de una persona de ${municipiosCasos[0]}.`
+              : `Estos son expedientes cerrados de personas de ${listado(municipiosCasos)}.`}{" "}
+            Cada situación es distinta: no hay un perfil único de persona endeudada ni una única
+            salida.
           </P>
-          <LocalCaseBlock casos={city.localCases} />
+          <LocalCaseBlock casos={realCases} />
         </div>
       ),
     });
@@ -433,7 +414,7 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
 
   if (city.localResources && city.localResources.length > 0) {
     sections.push({
-      title: `Recursos públicos útiles si tienes deudas en ${name}`,
+      title: "Recursos públicos de orientación",
       body: (
         <div className="space-y-4">
           <P>
@@ -444,6 +425,19 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
             {city.localResources.map((r) => (
               <li key={r.name}>
                 <strong>{r.name}:</strong> {r.what}
+                {r.source ? (
+                  <>
+                    {" "}
+                    <a
+                      href={r.source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground/60 underline-offset-4 hover:underline"
+                    >
+                      ({r.source.label})
+                    </a>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -460,7 +454,7 @@ export const getLocalizacionContent = (city: Localizacion): LocalContent => {
     },
     {
       q: `¿Puedo cancelar mis deudas en ${name} si no tengo vivienda ni bienes?`,
-      a: `Sí, y de hecho es el escenario más habitual: sin bienes que liquidar, el procedimiento va por la vía de exoneración sin masa y suele ser más rápido. No hace falta tener patrimonio para acogerse.`,
+      a: `Sí. No hace falta tener patrimonio para pedir la exoneración: si no hay bienes que liquidar, el concurso puede tramitarse como concurso sin masa. Y tener bienes tampoco te excluye, porque existe la exoneración con plan de pagos sin liquidación previa.`,
     },
   ];
   if (municipios.length > 0) {

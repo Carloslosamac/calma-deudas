@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calma — Cancela tus deudas con la Ley de Segunda Oportunidad</title>
-    <meta name="description" content="Calma es el servicio legal que te ayuda a cancelar tus deudas con la Ley de Segunda Oportunidad. Analizamos tu caso gratis y te acompañamos paso a paso." />
+    <meta data-rh="true" name="description" content="Calma es el servicio legal que te ayuda a cancelar tus deudas con la Ley de Segunda Oportunidad. Analizamos tu caso gratis y te acompañamos paso a paso." />
     <meta name="author" content="Calma" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="theme-color" content="#0a3a23" />
+    <meta data-rh="true" name="theme-color" content="#0a3a23" />
 
     <!-- Fuentes auto-hospedadas vía @font-face en index.css (sin round-trips a
          Google Fonts). Precargamos solo los dos pesos que pintan por encima
@@ -19,18 +19,19 @@
          conexión antes de que el chunk de la ruta las descubra. -->
     <link rel="preconnect" href="https://tjmaeeagoenecoiqwyld.supabase.co" crossorigin />
 
-    <!-- Open Graph (los pisará react-helmet-async por ruta) -->
-    <meta property="og:site_name" content="Calma" />
-    <meta property="og:locale" content="es_ES" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Calma — Cancela tus deudas con la Ley de Segunda Oportunidad" />
-    <meta property="og:description" content="Servicio legal especializado en la Ley de Segunda Oportunidad. Analizamos tu caso gratis." />
-    <meta property="og:url" content="https://mi-calma.es/" />
+    <!-- Fallback para crawlers sin JS. data-rh="true" hace que react-helmet-async
+         sustituya estas etiquetas (en vez de duplicarlas) al renderizar cada ruta. -->
+    <meta data-rh="true" property="og:site_name" content="Calma" />
+    <meta data-rh="true" property="og:locale" content="es_ES" />
+    <meta data-rh="true" property="og:type" content="website" />
+    <meta data-rh="true" property="og:title" content="Calma — Cancela tus deudas con la Ley de Segunda Oportunidad" />
+    <meta data-rh="true" property="og:description" content="Servicio legal especializado en la Ley de Segunda Oportunidad. Analizamos tu caso gratis." />
+    <meta data-rh="true" property="og:url" content="https://mi-calma.es/" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@calma_legal" />
-    <meta name="twitter:creator" content="@calma_legal" />
+    <meta data-rh="true" name="twitter:card" content="summary" />
+    <meta data-rh="true" name="twitter:site" content="@calma_legal" />
+    <meta data-rh="true" name="twitter:creator" content="@calma_legal" />
 
     <!-- Favicons / PWA -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
