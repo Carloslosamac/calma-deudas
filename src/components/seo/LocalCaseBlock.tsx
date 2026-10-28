@@ -45,11 +45,13 @@ const CaseCard = ({ caso, index }: { caso: LocalCase; index: number }) => (
 );
 
 const LocalCaseBlock = ({ casos }: { casos?: LocalCase[] }) => {
-  if (!casos?.length) return null;
+  // Solo expedientes documentados: los borradores (isReal:false) nunca se muestran.
+  const reales = (casos ?? []).filter((c) => c.isReal);
+  if (!reales.length) return null;
 
   return (
     <div className="space-y-4">
-      {casos.map((c, i) => (
+      {reales.map((c, i) => (
         <CaseCard key={`${c.city}-${i}`} caso={c} index={i + 1} />
       ))}
       <p className="text-sm leading-relaxed text-foreground/70">

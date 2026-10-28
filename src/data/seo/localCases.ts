@@ -6,9 +6,9 @@
  * sustituir un caso es editar sus datos, nada más.
  *
  * `isReal: true`  → caso documentado en expediente (los 12 verificados).
- * `isReal: false` → caso construido a partir de los patrones reales de la
- *                   firma, pendiente de sustituir por un expediente concreto
- *                   de esa localidad. Mismos campos, misma presentación.
+ * `isReal: false` → BORRADOR construido a partir de plantillas, pendiente de
+ *                   sustituir por un expediente concreto. No se publica:
+ *                   usa `publicLocalCases()` en cualquier superficie pública.
  */
 
 import { getLocalCityData } from "./localData";
@@ -483,3 +483,11 @@ export const getLocalCases = (
 
 /** Compatibilidad: primer caso de la ciudad. */
 export const getLocalCase = (slug: string): LocalCase | undefined => REAL_CASES[slug]?.[0];
+
+/**
+ * Casos publicables: solo expedientes documentados (`isReal: true`).
+ * Los borradores se conservan en datos pero nunca se muestran, cuentan ni
+ * describen como clientes o expedientes cerrados.
+ */
+export const publicLocalCases = (cases: LocalCase[] | undefined): LocalCase[] =>
+  (cases ?? []).filter((c) => c.isReal);
