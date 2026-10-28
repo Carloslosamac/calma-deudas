@@ -4,7 +4,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { MemoryRouter } from "react-router-dom";
 import { localizaciones } from "@/data/seo/localizaciones";
 import { getLocalizacionContent } from "@/data/seo/content/localizacionContent";
-import { publicLocalCases } from "@/data/seo/localCases";
+import { getLocalCases } from "@/data/seo/localCases";
+import { readFileSync as rf } from "fs";
 import { territorialNeighbors } from "@/lib/seo/localLinks";
 import { moneyPages } from "@/data/seo/moneyPages";
 
@@ -18,29 +19,30 @@ describe("casos locales: solo expedientes documentados", () => {
     expect(localizaciones).toHaveLength(41);
   });
 
-  it.each(localizaciones.map((l) => [l.slug]))("%s no publica borradores", (slug) => {
+  it("no queda generador ni bandera isReal", () => {
+    const src = rf(path.resolve(__dirname, "../localCases.ts"), "utf8");
+    expect(src).not.toMatch(/isReal|TEMPLATES|buildCase/);
+  });
+
+  it.each(localizaciones.map((l) => [l.slug]))("%s solo muestra su catálogo documentado", (slug) => {
     const c = city(slug);
+    const documented = getLocalCases(slug);
+    expect(c.localCases).toEqual(documented);
     const content = getLocalizacionContent(c);
-    const page = html(<>{content.sections.map((s) => s.body)}</>);
-    const real = publicLocalCases(c.localCases);
-    const drafts = c.localCases.filter((x) => !x.isReal);
-    // Cada borrador tiene una situación inicial única: no puede aparecer.
-    for (const d of drafts) {
-      if (d.initialSituation) expect(page).not.toContain(d.initialSituation);
-    }
     const casosSection = content.sections.find((s) => s.title.startsWith("Casos resueltos"));
     const casosFaq = content.faq.find((f) => f.q.startsWith("¿Tenéis casos resueltos"));
-    if (real.length === 0) {
+    if (documented.length === 0) {
       expect(casosSection).toBeUndefined();
       expect(casosFaq).toBeUndefined();
     } else {
-      expect(casosSection).toBeDefined();
-      if (c.localCases.length !== real.length) {
-        expect(casosFaq?.plain).not.toContain(`${c.localCases.length} expedientes`);
-      }
       const n = (html(casosSection!.body).match(/Caso \d+ ·/g) ?? []).length;
-      expect(n).toBe(real.length);
+      expect(n).toBe(documented.length);
+      expect(casosFaq).toBeDefined();
     }
+  });
+
+  it("solo 12 expedientes documentados en total", () => {
+    expect(localizaciones.reduce((n, l) => n + l.localCases.length, 0)).toBe(12);
   });
 
   it("Zaragoza muestra solo su caso documentado, no Utebo/Zuera/Alagón", () => {

@@ -26,7 +26,7 @@ export type Localizacion = LocalCityData & {
   slug: string;
   /** variantes de intención local que la página debe cubrir */
   intents: string[];
-  /** casos de la zona: documentados (isReal) y borradores. Publicar solo vía publicLocalCases() */
+  /** expedientes documentados de la zona (catálogo explícito; puede estar vacío) */
   localCases: LocalCase[];
   /** nombre de la ciudad */
   name: string;
@@ -1010,7 +1010,7 @@ export const localizaciones: Localizacion[] = cities.map((c) => {
     ...localData,
     localResources:
       localData.localResources ?? defaultLocalResources(c.name, c.provincia),
-    localCases: getLocalCases(c.slug, c.name, c.provincia),
+    localCases: getLocalCases(c.slug),
     intents: [
       ...localIntentVariants(c.name),
       ...(localData.geoAliases ?? []).flatMap((a) => localIntentVariants(a)),

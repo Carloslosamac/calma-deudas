@@ -45,8 +45,7 @@ const CaseCard = ({ caso, index }: { caso: LocalCase; index: number }) => (
 );
 
 const LocalCaseBlock = ({ casos }: { casos?: LocalCase[] }) => {
-  // Solo expedientes documentados: los borradores (isReal:false) nunca se muestran.
-  const reales = (casos ?? []).filter((c) => c.isReal);
+  const reales = casos ?? [];
   if (!reales.length) return null;
 
   return (
