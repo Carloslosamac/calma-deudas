@@ -17,8 +17,8 @@ export const leySegundaOportunidad: MoneyContent = {
   path: "/ley-segunda-oportunidad",
   directAnswer: {
     question: "¿Qué es la Ley de Segunda Oportunidad y a quién le sirve?",
-    answer: "La Ley de Segunda Oportunidad es un mecanismo legal en España que permite a particulares y autónomos de buena fe cancelar las deudas que no pueden pagar cuando son insolventes y no tienen bienes con los que afrontarlas. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
-    plain: "La Ley de Segunda Oportunidad es un mecanismo legal en España que permite a particulares y autónomos de buena fe cancelar las deudas que no pueden pagar cuando son insolventes y no tienen bienes con los que afrontarlas. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
+    answer: "La Ley de Segunda Oportunidad es el mecanismo legal que permite a una persona física insolvente y de buena fe, sea o no empresaria, pedir al juez la exoneración de las deudas que no puede pagar. Hay dos vías: con liquidación de bienes o con un plan de pagos sin liquidación previa, que permite conservar bienes como la vivienda. Si el juez concede la exoneración, se cancelan las deudas exonerables, con las excepciones y límites que fija la ley. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
+    plain: "La Ley de Segunda Oportunidad es el mecanismo legal que permite a una persona física insolvente y de buena fe, sea o no empresaria, pedir al juez la exoneración de las deudas que no puede pagar. Hay dos vías: con liquidación de bienes o con un plan de pagos sin liquidación previa, que permite conservar bienes como la vivienda. Si el juez concede la exoneración, se cancelan las deudas exonerables, con las excepciones y límites que fija la ley. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
   },
   reviewed: true,
   tone: "transactional",
@@ -68,33 +68,33 @@ export const leySegundaOportunidad: MoneyContent = {
   benefits: [
     {
       icon: "shield",
-      title: "Cancelación total de deudas",
-      text: "Borramos las deudas que no puedes pagar. Legal, definitivo y sin que vuelvan.",
+      title: "Exoneración de deudas",
+      text: "Si el juez la concede, se cancelan las deudas exonerables que no puedes pagar, con las excepciones legales.",
     },
     {
       icon: "users",
-      title: "Cancelación de los avalistas",
-      text: "Protegemos también a quienes te avalaron para que no respondan por ti.",
+      title: "Si alguien te avaló",
+      text: "Tu exoneración no libera a tus avalistas (art. 492 TRLC). Lo valoramos para buscar la mejor salida también para ellos.",
     },
     {
       icon: "landmark",
       title: "Hacienda y Seguridad Social",
-      text: "La deuda pública también se exonera, con límites. Te decimos cuánto en tu caso.",
+      text: "La deuda pública solo se exonera hasta los límites del art. 489 TRLC. Te decimos qué parte en tu caso.",
     },
     {
       icon: "phone-off",
-      title: "Paralización de llamadas",
-      text: "Se acaban las llamadas, las cartas y la presión de los acreedores.",
+      title: "Menos presión de acreedores",
+      text: "Con el concurso, las reclamaciones de los acreedores se canalizan en el procedimiento judicial.",
     },
     {
       icon: "gavel",
-      title: "Suspensión de embargos",
-      text: "Frenamos los embargos en curso, incluido el de la nómina, desde el primer paso.",
+      title: "Ejecuciones y embargos",
+      text: "Con la declaración de concurso, por regla general se suspenden las ejecuciones en curso, con excepciones legales.",
     },
     {
       icon: "ban",
-      title: "Salida del ASNEF",
-      text: "Limpiamos tus datos de los ficheros de morosos para que vuelvas a empezar.",
+      title: "Ficheros de morosos",
+      text: "Las deudas exoneradas dejan de ser exigibles, así que no deberían seguir constando como impagadas.",
     },
   ],
   testimonialsTitle: "Personas que ya empezaron de cero",
@@ -158,16 +158,16 @@ export const leySegundaOportunidad: MoneyContent = {
     },
     {
       title: "Presentación judicial",
-      text: "Iniciamos el proceso formal ante el juzgado correspondiente.",
+      text: "Solicitamos el concurso ante el Juzgado de lo Mercantil competente.",
     },
     {
-      title: "Exoneración total",
-      text: "El juez acuerda la cancelación de las deudas. Empiezas de cero.",
+      title: "Resolución de exoneración",
+      text: "El juez decide sobre la exoneración. Si la concede, quedas libre de las deudas exonerables.",
       highlight: true,
     },
   ],
   metrics: [
-    { value: "Hasta 100%", label: "De tus deudas, canceladas para siempre" },
+    { value: "Hasta 100%", label: "De la deuda exonerable, si el juez concede la exoneración" },
     { value: "+19.000", label: "Familias ya libres de deudas en España" },
     { value: "Gratis", label: "Sabes hoy mismo cuánto puedes dejar de pagar" },
   ],
@@ -184,10 +184,10 @@ export const leySegundaOportunidad: MoneyContent = {
       "Actúas de buena fe: no has ocultado bienes ni provocado tu insolvencia de forma fraudulenta.",
       "No has sido condenado por determinados delitos socioeconómicos en los últimos diez años.",
       "Tus deudas no provienen, en su mayoría, de sanciones o conductas dolosas.",
-      "No tienes vivienda, terreno u otros bienes de valor totalmente pagados que prefieras conservar: en la práctica la liquidación podría realizarlos. Si los tienes, valoramos reunificar para protegerlos.",
+      "Tener bienes no te excluye: existe la exoneración con plan de pagos sin liquidación previa. Pero si tienes vivienda, terreno u otros bienes de valor totalmente pagados, valoramos contigo si te protege más reunificar.",
     ],
-    trustTitle: "Contenido revisado por abogado",
-    trustText: "Actualizado según la última reforma concursal.",
+    trustTitle: "Contenido actualizado a la normativa vigente",
+    trustText: "Redactado sobre el texto consolidado de la Ley Concursal (TRLC) tras la reforma de la Ley 16/2022.",
   },
   closing: {
     title: "Cada mes que esperas, regalas tu nómina",
@@ -196,27 +196,27 @@ export const leySegundaOportunidad: MoneyContent = {
   interactive: {
     legalTimeline: {
       title: "Las fases de la Ley de Segunda Oportunidad",
-      subtitle: "Un procedimiento reglado. Nosotros lo llevamos por ti de principio a fin.",
+      subtitle: "Un procedimiento judicial reglado. Te acompañamos en cada fase.",
       phases: [
         {
           title: "Diagnóstico y preparación",
-          duration: "Semana 1",
-          text: "Estudiamos tus deudas e ingresos, confirmamos que cumples los requisitos y reunimos la documentación.",
+          duration: "Inicio",
+          text: "Estudiamos tus deudas, ingresos y bienes, comprobamos si cumples los requisitos y reunimos la documentación.",
         },
         {
-          title: "Acuerdo extrajudicial de pagos",
-          duration: "1-2 meses",
-          text: "Se intenta un acuerdo con tus acreedores a través de un mediador concursal. Si no prospera, se abre la vía judicial.",
+          title: "Solicitud de concurso",
+          duration: "Juzgado de lo Mercantil",
+          text: "Desde la reforma de 2022 ya no hay acuerdo extrajudicial previo con mediador: se solicita directamente el concurso. Con su declaración, por regla general se suspenden las ejecuciones en curso, con excepciones legales.",
         },
         {
-          title: "Procedimiento judicial",
+          title: "Plan de pagos o liquidación",
           duration: "Variable",
-          text: "Se solicita al juzgado el concurso y, según tu caso, un plan de pagos o la liquidación de bienes. Los embargos pueden suspenderse.",
+          text: "Según tu caso, se pide la exoneración con un plan de pagos sin liquidar bienes (normalmente 3 años, 5 en los supuestos del art. 497 TRLC) o tras la liquidación de la masa activa o en un concurso sin masa.",
         },
         {
-          title: "Exoneración del pasivo (BEPI)",
+          title: "Exoneración del pasivo (EPI)",
           duration: "Resolución",
-          text: "El juez dicta la cancelación de las deudas pendientes. Empiezas de cero, libre de la carga.",
+          text: "El juez resuelve sobre la exoneración. Si la concede, se cancelan las deudas exonerables; con plan de pagos, la exoneración definitiva llega al terminar el plan.",
         },
       ],
     },
@@ -321,8 +321,8 @@ export const leySegundaOportunidad: MoneyContent = {
       after: [
         "Se acaban las llamadas y la presión",
         "Recuperas tu nómina para vivir",
-        "Embargos suspendidos durante el proceso",
-        "Empiezas de cero, sin esas deudas",
+        "Ejecuciones suspendidas, por regla general, durante el concurso",
+        "Si se concede la exoneración, empiezas sin esas deudas",
         "Tranquilidad para volver a respirar",
       ],
     },
@@ -348,7 +348,7 @@ export const leySegundaOportunidad: MoneyContent = {
               {
                 icon: "lock",
                 title: "Con plan de pagos",
-                text: "Conservas tu vivienda habitual y pagas una parte adaptada a tus ingresos durante un tiempo, cancelando el resto.",
+                text: "Sin liquidar tus bienes: pagas una parte adaptada a tus ingresos durante el plan (por regla general 3 años, 5 si no se realiza la vivienda habitual) y el resto exonerable se cancela al obtener la exoneración definitiva.",
               },
             ]}
           />
@@ -375,15 +375,15 @@ export const leySegundaOportunidad: MoneyContent = {
       body: (
         <div className="space-y-5">
           <p className="text-base leading-relaxed text-foreground/85">
-            El cambio se nota desde las primeras semanas, mucho antes de la resolución
-            final del juez:
+            Algunos efectos llegan antes de la resolución final del juez, aunque dependen
+            de cada caso:
           </p>
           <CheckList
             items={[
-              "Las llamadas y cartas de los acreedores se detienen.",
-              "Los embargos en curso, incluido el de la nómina, pueden suspenderse.",
+              "Las reclamaciones de los acreedores pasan a canalizarse en el procedimiento.",
+              "Por regla general, las ejecuciones y embargos en curso se suspenden con la declaración de concurso, con excepciones legales.",
               "Recuperas el control de tu sueldo para llegar a fin de mes.",
-              "Sales del ASNEF y otros ficheros de morosos al cerrar el proceso.",
+              "Las deudas exoneradas no deberían seguir constando en ASNEF u otros ficheros de morosos.",
             ]}
           />
           <p className="text-base leading-relaxed text-foreground/85">
@@ -400,7 +400,7 @@ export const leySegundaOportunidad: MoneyContent = {
           <FactGrid
             items={[
               { value: "Gratis", label: "Diagnóstico inicial", detail: "Te decimos en 24h si encajas, sin compromiso." },
-              { value: "6–18 meses", label: "Duración", detail: "Según complejidad y juzgado. Los embargos se suspenden antes." },
+              { value: "6–18 meses", label: "Duración", detail: "Orientativo: depende de la complejidad, la vía elegida y el juzgado." },
               { value: "Cerrado", label: "Presupuesto", detail: "Precio fijo con opción de pago fraccionado." },
             ]}
           />
@@ -477,10 +477,10 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       q: "¿Qué deudas se pueden cancelar con la Ley de Segunda Oportunidad?",
       a: (
-        <>La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites de exoneración.</>
+        <>La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda con Hacienda y Seguridad Social solo se exonera hasta los límites del art. 489 TRLC, y hay deudas no exonerables como las de alimentos.</>
       ),
       plain:
-        "La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda pública con Hacienda y Seguridad Social se cancela con límites de exoneración.",
+        "La mayoría de deudas con bancos, financieras, tarjetas, microcréditos, proveedores y particulares. La deuda con Hacienda y Seguridad Social solo se exonera hasta los límites del art. 489 TRLC, y hay deudas no exonerables como las de alimentos.",
     },
     {
       q: "¿Cuánto cuesta acogerse?",
@@ -501,10 +501,10 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       q: "¿Cuánto tarda el procedimiento?",
       a: (
-        <>Entre 6 y 18 meses según la complejidad y el juzgado, aunque los embargos pueden suspenderse mucho antes de la resolución final.</>
+        <>Como orientación, entre 6 y 18 meses según la complejidad y el juzgado. Si eliges plan de pagos, la exoneración definitiva llega al terminar el plan (por regla general 3 años, 5 en los supuestos del art. 497 TRLC).</>
       ),
       plain:
-        "Entre 6 y 18 meses según la complejidad y el juzgado, aunque los embargos pueden suspenderse mucho antes de la resolución final.",
+        "Como orientación, entre 6 y 18 meses según la complejidad y el juzgado. Si eliges plan de pagos, la exoneración definitiva llega al terminar el plan (por regla general 3 años, 5 en los supuestos del art. 497 TRLC).",
     },
     {
       q: "¿Puedo acogerme si soy autónomo?",
@@ -517,18 +517,18 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       q: "¿Qué es exactamente la Ley de Segunda Oportunidad?",
       a: (
-        <>Es un mecanismo legal en España que permite a particulares y autónomos de buena fe e insolventes cancelar las deudas que no pueden pagar. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos.</>
+        <>Es el mecanismo legal que permite a una persona física insolvente y de buena fe pedir al juez la exoneración de las deudas que no puede pagar, con liquidación de bienes o con un plan de pagos. Si se concede, se cancelan las deudas exonerables, con las excepciones y límites legales.</>
       ),
       plain:
-        "Es un mecanismo legal en España que permite a particulares y autónomos de buena fe e insolventes cancelar las deudas que no pueden pagar. Si cumples los requisitos, puedes quedar libre de la mayoría de tus deudas y frenar los embargos.",
+        "Es el mecanismo legal que permite a una persona física insolvente y de buena fe pedir al juez la exoneración de las deudas que no puede pagar, con liquidación de bienes o con un plan de pagos. Si se concede, se cancelan las deudas exonerables, con las excepciones y límites legales.",
     },
     {
       q: "¿Qué requisitos hay que cumplir?",
       a: (
-        <>Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haberte beneficiado de la exoneración en los últimos años. En el diagnóstico gratuito confirmamos si cumples.</>
+        <>Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haber obtenido una exoneración dentro de los plazos del art. 488 TRLC. En el diagnóstico gratuito confirmamos si cumples.</>
       ),
       plain:
-        "Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haberte beneficiado de la exoneración en los últimos años. En el diagnóstico gratuito confirmamos si cumples.",
+        "Ser insolvente (no poder pagar tus deudas), actuar de buena fe, no haber sido condenado por ciertos delitos económicos en los 10 años previos y no haber obtenido una exoneración dentro de los plazos del art. 488 TRLC. En el diagnóstico gratuito confirmamos si cumples.",
     },
     {
       q: "¿Es fiable la Ley de Segunda Oportunidad?",
@@ -541,26 +541,26 @@ export const leySegundaOportunidad: MoneyContent = {
     {
       q: "¿Quién puede acogerse a la Ley de Segunda Oportunidad?",
       a: (
-        <>Cualquier persona física —particular o autónomo— que sea insolvente, actúe de buena fe y no tenga bienes suficientes con los que afrontar sus deudas. No es necesario ser empresario ni tener un tipo concreto de deuda.</>
+        <>Cualquier persona física —particular o autónomo— que sea insolvente y actúe de buena fe. No es necesario ser empresario ni carecer de bienes: quien tiene bienes puede pedir la exoneración con plan de pagos sin liquidación previa.</>
       ),
       plain:
-        "Cualquier persona física —particular o autónomo— que sea insolvente, actúe de buena fe y no tenga bienes suficientes con los que afrontar sus deudas. No es necesario ser empresario ni tener un tipo concreto de deuda.",
+        "Cualquier persona física —particular o autónomo— que sea insolvente y actúe de buena fe. No es necesario ser empresario ni carecer de bienes: quien tiene bienes puede pedir la exoneración con plan de pagos sin liquidación previa.",
     },
     {
       q: "¿Me pueden embargar el coche o la nómina durante el proceso?",
       a: (
-        <>Al iniciar el procedimiento se pueden suspender los embargos en curso, incluidos los de nómina y los bienes. Lo valoramos caso a caso para frenar la presión de los acreedores cuanto antes.</>
+        <>Con la declaración de concurso, por regla general no pueden iniciarse nuevas ejecuciones y las que están en curso se suspenden. Hay excepciones legales (por ejemplo, ciertos procedimientos de apremio de Hacienda o Seguridad Social o algunas garantías reales), así que lo revisamos caso a caso.</>
       ),
       plain:
-        "Al iniciar el procedimiento se pueden suspender los embargos en curso, incluidos los de nómina y los bienes. Lo valoramos caso a caso para frenar la presión de los acreedores cuanto antes.",
+        "Con la declaración de concurso, por regla general no pueden iniciarse nuevas ejecuciones y las que están en curso se suspenden. Hay excepciones legales (por ejemplo, ciertos procedimientos de apremio de Hacienda o Seguridad Social o algunas garantías reales), así que lo revisamos caso a caso.",
     },
     {
       q: "¿Puedo acogerme dos veces a la Ley de Segunda Oportunidad?",
       a: (
-        <>Sí. La ley no impide acogerse más de una vez, aunque deben respetarse los plazos legales entre una exoneración y la siguiente. Lo revisamos en el diagnóstico según tu historial.</>
+        <>Sí, respetando los plazos del art. 488 TRLC: dos años desde una exoneración definitiva con plan de pagos o cinco desde una exoneración con liquidación. Una nueva exoneración no alcanza al crédito público.</>
       ),
       plain:
-        "Sí. La ley no impide acogerse más de una vez, aunque deben respetarse los plazos legales entre una exoneración y la siguiente. Lo revisamos en el diagnóstico según tu historial.",
+        "Sí, respetando los plazos del art. 488 TRLC: dos años desde una exoneración definitiva con plan de pagos o cinco desde una exoneración con liquidación. Una nueva exoneración no alcanza al crédito público.",
     },
     {
       q: "¿Qué pasa después de la Ley de Segunda Oportunidad?",
