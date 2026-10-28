@@ -143,7 +143,7 @@ const MoneyLanding = () => {
       faq={content?.faq?.map((f) => ({ q: f.q, a: f.a }))}
       tools={tools}
       needsLegalReview={
-        content ? !content.reviewed : page.metaDescription.includes("revisión legal")
+        content ? !content.reviewed : Boolean(page.legalReviewPending)
       }
     />
   );

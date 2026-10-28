@@ -20,7 +20,9 @@ export const leySegundaOportunidad: MoneyContent = {
     answer: "La Ley de Segunda Oportunidad es el mecanismo legal que permite a una persona física insolvente y de buena fe, sea o no empresaria, pedir al juez la exoneración de las deudas que no puede pagar. Hay dos vías: con liquidación de bienes o con un plan de pagos sin liquidación previa, que permite conservar bienes como la vivienda. Si el juez concede la exoneración, se cancelan las deudas exonerables, con las excepciones y límites que fija la ley. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
     plain: "La Ley de Segunda Oportunidad es el mecanismo legal que permite a una persona física insolvente y de buena fe, sea o no empresaria, pedir al juez la exoneración de las deudas que no puede pagar. Hay dos vías: con liquidación de bienes o con un plan de pagos sin liquidación previa, que permite conservar bienes como la vivienda. Si el juez concede la exoneración, se cancelan las deudas exonerables, con las excepciones y límites que fija la ley. En Calma analizamos tu caso gratis para decirte si puedes acogerte.",
   },
-  reviewed: true,
+  // Estado editorial interno: textos jurídicos actualizados el 28/10/2026 sin
+  // revisión profesional registrada. No se muestra como "revisado".
+  reviewed: false,
   tone: "transactional",
   layout: [
     "simulator",

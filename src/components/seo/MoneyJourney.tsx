@@ -542,7 +542,7 @@ const MoneyJourney = ({
             <p className="mt-1 text-sm text-muted-foreground">
               {content.reviewed
                 ? "Revisado por abogado especialista en la Ley de Segunda Oportunidad."
-                : "Pendiente de revisión por abogado especialista."}
+                : "Información general sobre la normativa vigente. No sustituye el análisis de tu caso concreto."}
             </p>
           </div>
 

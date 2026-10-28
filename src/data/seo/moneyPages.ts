@@ -23,6 +23,8 @@ export type MoneyPage = {
   seoTitle: string;
   /** meta description placeholder (<160 car) */
   metaDescription: string;
+  /** Estado editorial interno (no se publica en metadatos). */
+  legalReviewPending?: boolean;
 };
 
 export const moneyPages: MoneyPage[] = [
@@ -37,7 +39,8 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "🕊️ Ley de Segunda Oportunidad: cancela tus deudas",
     metaDescription:
-      "Cancela tus deudas legalmente con la Ley de Segunda Oportunidad. Analizamos tu caso gratis y sin compromiso. [Pendiente revisión legal]",
+      "Qué es la Ley de Segunda Oportunidad, quién puede pedir la exoneración, plan de pagos o liquidación y sus límites. Analizamos tu caso gratis.",
+    legalReviewPending: true,
   },
   {
     path: "/abogados-ley-segunda-oportunidad",
@@ -167,7 +170,8 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "🧾 Exoneración del pasivo: qué borra y cómo",
     metaDescription:
-      "Qué es la exoneración del pasivo insatisfecho: deudas que cubre, modalidades, límites y revocación. Guía jurídica clara. [Pendiente revisión legal]",
+      "Qué es la exoneración del pasivo insatisfecho: deudas que cubre, modalidades con plan de pagos o liquidación, límites y revocación.",
+    legalReviewPending: true,
   },
   {
     path: "/autonomos-concurso-acreedores/concurso-persona-fisica",
@@ -180,7 +184,8 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "⚖️ Concurso de persona física: cuándo y cómo pedirlo",
     metaDescription:
-      "Concurso de acreedores de persona física tras la reforma concursal. [Pendiente revisión legal]",
+      "Concurso de acreedores de persona física tras la reforma de 2022: cuándo pedirlo, cómo se tramita y cómo enlaza con la exoneración.",
+    legalReviewPending: true,
   },
   {
     path: "/juicio-monitorio-recobro/juicio-monitorio-deuda",
@@ -206,7 +211,8 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "🏛️ Deudas con Hacienda: cómo aplazarlas o cancelarlas",
     metaDescription:
-      "Qué hacer si tienes deudas con Hacienda: aplazamientos, límites y LSO. [Pendiente revisión legal]",
+      "Qué hacer si tienes deudas con Hacienda: aplazamientos, embargos y cuánto puede exonerarse con la Ley de Segunda Oportunidad.",
+    legalReviewPending: true,
   },
   {
     path: "/deudas-hacienda-seguridad-social/deudas-seguridad-social",
@@ -219,7 +225,8 @@ export const moneyPages: MoneyPage[] = [
     template: "money",
     seoTitle: "🏛️ Deudas con la Seguridad Social: opciones reales",
     metaDescription:
-      "Soluciones para deudas con la Seguridad Social, especialmente autónomos. [Pendiente revisión legal]",
+      "Deudas con la Seguridad Social: aplazamientos, embargos y límites de exoneración con la Ley de Segunda Oportunidad, también para autónomos.",
+    legalReviewPending: true,
   },
   // ----- Sub-pillars de la Ley de Segunda Oportunidad (Fase 1 SEO) -----
   {

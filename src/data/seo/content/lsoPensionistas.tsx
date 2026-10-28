@@ -39,7 +39,7 @@ export const lsoPensionistas: MoneyContent = {
   benefitsTitle: "Qué te aporta como pensionista",
   benefits: [
     { icon: "shield", title: "Pensión inembargable hasta el SMI", text: "El primer tramo (~1.184 €/mes en 2026) está 100% protegido." },
-    { icon: "gavel", title: "Frena embargos activos", text: "Suspende embargos sobre pensión, cuentas y bienes desde el inicio." },
+    { icon: "gavel", title: "Frena embargos activos", text: "Por regla general, la declaración de concurso suspende las ejecuciones en curso, con excepciones legales." },
     { icon: "wallet", title: "Cancela deuda privada", text: "Bancos, tarjetas revolving, microcréditos, avales firmados a familiares." },
     { icon: "landmark", title: "Vivienda habitual protegible", text: "Si está hipotecada al día, muchos juzgados permiten conservarla." },
     { icon: "sparkles", title: "Sales de ASNEF", text: "Salen los ficheros de morosidad vinculados a la deuda exonerada." },
