@@ -6,6 +6,7 @@ import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import {
   ArrowLeft,
@@ -17,6 +18,8 @@ import {
   Mail,
   Ghost,
   Download,
+  ExternalLink,
+  Save,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
 import * as XLSX from "xlsx";
@@ -102,17 +105,25 @@ const StatusChip = ({ status }: { status: string }) => {
 };
 
 const AdminWebLeads = () => {
+  const exportParams = new URLSearchParams(window.location.search);
   const navigate = useNavigate();
   const { session, isAdmin, loading } = useAdminAuth();
-  const [filter, setFilter] = useState<"todos" | "error" | "pending" | "ok">("todos");
-  const [pageFilter, setPageFilter] = useState("todas");
-  const [sourceFilter, setSourceFilter] = useState("todas");
-  const [campaignFilter, setCampaignFilter] = useState("todas");
-  const [channelFilter, setChannelFilter] = useState("todas");
+  const initialStatus = exportParams.get("status");
+  const [filter, setFilter] = useState<"todos" | "error" | "pending" | "ok">(initialStatus === "error" || initialStatus === "pending" || initialStatus === "ok" ? initialStatus : "todos");
+  const [pageFilter, setPageFilter] = useState(exportParams.get("page") || "todas");
+  const [sourceFilter, setSourceFilter] = useState(exportParams.get("source") || "todas");
+  const [campaignFilter, setCampaignFilter] = useState(exportParams.get("campaign") || "todas");
+  const [channelFilter, setChannelFilter] = useState(exportParams.get("channel") || "todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState(exportParams.get("from") || "");
+  const [toDate, setToDate] = useState(exportParams.get("to") || "");
   const [exporting, setExporting] = useState(false);
+  const [preparedExcel, setPreparedExcel] = useState<{ blob: Blob; url: string; filename: string; count: number } | null>(null);
+  const [exportOpen, setExportOpen] = useState(false);
+
+  useEffect(() => {
+    return () => { if (preparedExcel) URL.revokeObjectURL(preparedExcel.url); };
+  }, [preparedExcel]);
 
   const setQuickRange = (days: number) => {
     const end = new Date();
@@ -242,7 +253,7 @@ const AdminWebLeads = () => {
 
   const chartData = dailyLeadSeries(filtered, fromDate, toDate);
 
-  const exportExcel = async () => {
+  const exportExcel = () => {
     if (filtered.length === 0) {
       toast.info("No hay envíos para exportar con estos filtros.");
       return;
@@ -276,25 +287,9 @@ const AdminWebLeads = () => {
       const blob = new Blob([out], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      const file = new File([blob], filename, { type: blob.type });
-      if (window.matchMedia("(pointer: coarse)").matches && navigator.canShare?.({ files: [file] })) {
-        try {
-          await navigator.share({ files: [file], title: filename });
-          return;
-        } catch (error) {
-          if (error instanceof DOMException && error.name === "AbortError") return;
-          // Unsupported/blocked sharing falls back to a same-frame download.
-        }
-      }
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.rel = "noopener";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 5 * 60 * 1000);
+      setPreparedExcel({ blob, url, filename, count: filtered.length });
+      setExportOpen(true);
     } catch (e) {
       toast.error(
         `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
@@ -303,6 +298,35 @@ const AdminWebLeads = () => {
       setExporting(false);
     }
   };
+
+  const saveExcel = async () => {
+    if (!preparedExcel) return;
+    const picker = (window as Window & {
+      showSaveFilePicker?: (options: { suggestedName: string }) => Promise<{
+        createWritable: () => Promise<{ write: (blob: Blob) => Promise<void>; close: () => Promise<void> }>;
+      }>;
+    }).showSaveFilePicker;
+    try {
+      const file = new File([preparedExcel.blob], preparedExcel.filename, { type: preparedExcel.blob.type });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: preparedExcel.filename });
+      } else if (picker) {
+        const handle = await picker.call(window, { suggestedName: preparedExcel.filename });
+        const writer = await handle.createWritable();
+        await writer.write(preparedExcel.blob);
+        await writer.close();
+        toast.success("Excel guardado.");
+      } else {
+        toast.info("Usa «Descargar archivo» o abre el panel fuera de la vista previa.");
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      toast.error("El navegador bloquea el guardado aquí. Abre el panel fuera de la vista previa y descarga allí.");
+    }
+  };
+
+  const standaloneUrl = new URL(window.location.href);
+  standaloneUrl.search = new URLSearchParams({ from: fromDate, to: toDate, page: pageFilter, source: sourceFilter, campaign: campaignFilter, channel: channelFilter, status: filter }).toString();
 
   const retry = async (id: string) => {
     setRetrying((p) => ({ ...p, [id]: true }));
@@ -345,6 +369,26 @@ const AdminWebLeads = () => {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8 sm:px-6">
+      <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+        <DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Excel listo</DialogTitle>
+            <DialogDescription>{preparedExcel?.count} envíos · {preparedExcel?.filename}</DialogDescription>
+          </DialogHeader>
+          {preparedExcel && (
+            <div className="flex flex-col gap-3">
+              <Button asChild>
+                <a href={preparedExcel.url} download={preparedExcel.filename}><Download className="mr-2 h-4 w-4" />Descargar archivo</a>
+              </Button>
+              <Button variant="outline" onClick={saveExcel}><Save className="mr-2 h-4 w-4" />Guardar como…</Button>
+              <p className="text-sm text-muted-foreground">Si la vista previa bloquea la descarga, abre el panel fuera de ella. Se conservarán tus filtros.</p>
+              <Button asChild variant="outline" className="h-auto min-h-10 whitespace-normal">
+                <a href={standaloneUrl.href} target="_top"><ExternalLink className="mr-2 h-4 w-4 shrink-0" />Abrir panel fuera de la vista previa</a>
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
       <Seo
         title="Leads web"
         description="Formularios enviados desde la web."
