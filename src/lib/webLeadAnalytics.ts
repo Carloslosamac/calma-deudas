@@ -28,7 +28,7 @@ export function leadChannel(row: Attribution): LeadChannel {
     if (typeof referrer === "string") {
       try {
         const host = new URL(referrer).hostname;
-        if (/^(www\.)?(google\.[a-z.]+|bing\.com|search\.yahoo\.com|duckduckgo\.com|ecosia\.org)$/.test(host)) return "organic";
+        if (/^(www\.)?(google\.(com|[a-z]{2}|co\.[a-z]{2}|com\.[a-z]{2})|bing\.com|search\.yahoo\.com|duckduckgo\.com|ecosia\.org)$/.test(host)) return "organic";
         if (host !== "mi-calma.es" && host !== "www.mi-calma.es" && host !== "calma-deudas.lovable.app") return "referral";
       } catch { /* Invalid referrers cannot establish attribution. */ }
     }
@@ -41,7 +41,8 @@ const dateKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() 
 export function dailyLeadSeries(rows: (Attribution & { created_at: string })[], from = "", to = "") {
   const dates = rows.map(row => new Date(row.created_at)).filter(date => !Number.isNaN(date.getTime())).sort((a, b) => a.getTime() - b.getTime());
   const first = from || (dates[0] ? dateKey(dates[0]) : to);
-  const last = to || (dates.at(-1) ? dateKey(dates.at(-1) as Date) : from);
+  const latest = dates[dates.length - 1];
+  const last = to || (latest ? dateKey(latest) : from);
   if (!first || !last || first > last) return [];
   const days = new Map<string, { date: string } & Record<LeadChannel, number>>();
   const end = new Date(`${last}T00:00:00`);

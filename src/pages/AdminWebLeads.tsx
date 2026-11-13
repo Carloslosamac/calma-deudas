@@ -556,6 +556,7 @@ const AdminWebLeads = () => {
                   {s.label}
                 </span>
                 <select
+                  aria-label={s.label}
                   value={s.value}
                   onChange={(e) => s.set(e.target.value)}
                   className="h-9 rounded-md border border-border bg-background px-2 text-sm text-foreground"
