@@ -19,6 +19,17 @@ import {
   Download,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
+import { dailyLeadSeries, leadChannel, leadChannels, type LeadChannel } from "@/lib/webLeadAnalytics";
+
+const channelChart = {
+  organic: { label: leadChannels.organic, color: "hsl(var(--ring))" },
+  direct: { label: leadChannels.direct, color: "hsl(var(--primary))" },
+  campaign: { label: leadChannels.campaign, color: "hsl(var(--orange))" },
+  referral: { label: leadChannels.referral, color: "hsl(var(--amber))" },
+  unknown: { label: leadChannels.unknown, color: "hsl(var(--muted-foreground))" },
+};
 
 type WebSubmission = {
   id: string;
@@ -32,6 +43,7 @@ type WebSubmission = {
   utm_source: string | null;
   utm_medium: string | null;
   utm_campaign: string | null;
+  payload?: unknown;
   zoho_lead_id: string | null;
   zoho_status: string;
   zoho_error: string | null;
@@ -95,6 +107,7 @@ const AdminWebLeads = () => {
   const [pageFilter, setPageFilter] = useState("todas");
   const [sourceFilter, setSourceFilter] = useState("todas");
   const [campaignFilter, setCampaignFilter] = useState("todas");
+  const [channelFilter, setChannelFilter] = useState("todas");
   const [retrying, setRetrying] = useState<Record<string, boolean>>({});
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -172,8 +185,7 @@ const AdminWebLeads = () => {
   };
 
   const canal = (r: WebSubmission) => {
-    if (r.utm_source) return r.utm_source;
-    return "orgánico / directo";
+    return leadChannels[leadChannel(r)];
   };
 
   const uniq = (vals: (string | null)[]) =>
@@ -186,6 +198,7 @@ const AdminWebLeads = () => {
   const campaignOptions = uniq(rows.map((r) => r.utm_campaign));
 
   const filtered = rows.filter((r) => {
+    if (channelFilter !== "todas" && leadChannel(r) !== channelFilter) return false;
     if (filter !== "todos" && r.zoho_status !== filter) return false;
     if (fromDate && new Date(r.created_at) < new Date(`${fromDate}T00:00:00`)) return false;
     if (toDate && new Date(r.created_at) > new Date(`${toDate}T23:59:59.999`)) return false;
@@ -211,7 +224,8 @@ const AdminWebLeads = () => {
     for (const r of filtered) {
       const c = canal(r);
       if (!map.has(c)) map.set(c, { total: 0, pages: new Map() });
-      const e = map.get(c)!;
+      const e = map.get(c);
+      if (!e) continue;
       e.total += 1;
       const p = r.page || "(sin página)";
       e.pages.set(p, (e.pages.get(p) ?? 0) + 1);
@@ -224,6 +238,8 @@ const AdminWebLeads = () => {
       }))
       .sort((a, b) => b.total - a.total);
   })();
+
+  const chartData = dailyLeadSeries(filtered, fromDate, toDate);
 
   const exportExcel = async () => {
     if (filtered.length === 0) {
@@ -376,7 +392,7 @@ const AdminWebLeads = () => {
       />
       <div className="mx-auto max-w-6xl">
         <div className="mb-4 flex items-center justify-end">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap justify-end gap-2">
             <Button
               variant="outline"
               size="sm"
@@ -511,6 +527,14 @@ const AdminWebLeads = () => {
                 none: null as string | null,
               },
               {
+                label: "Canal",
+                value: channelFilter,
+                set: setChannelFilter,
+                options: Object.keys(leadChannels),
+                all: "Todos los canales",
+                none: null as string | null,
+              },
+              {
                 label: "Fuente (utm_source)",
                 value: sourceFilter,
                 set: setSourceFilter,
@@ -540,13 +564,14 @@ const AdminWebLeads = () => {
                   {s.none && <option value={s.none}>{s.none}</option>}
                   {s.options.map((o) => (
                     <option key={o} value={o}>
-                      {o}
+                      {s.label === "Canal" ? leadChannels[o as LeadChannel] : o}
                     </option>
                   ))}
                 </select>
               </label>
             ))}
             {(pageFilter !== "todas" ||
+              channelFilter !== "todas" ||
               sourceFilter !== "todas" ||
               campaignFilter !== "todas") && (
               <Button
@@ -554,6 +579,7 @@ const AdminWebLeads = () => {
                 variant="ghost"
                 onClick={() => {
                   setPageFilter("todas");
+                  setChannelFilter("todas");
                   setSourceFilter("todas");
                   setCampaignFilter("todas");
                 }}
@@ -563,7 +589,38 @@ const AdminWebLeads = () => {
             )}
           </div>
 
-          <div className="mt-4 border-t border-border pt-3">
+        </Card>
+
+        <section aria-label="Evolución de leads por canal" className="mb-6 min-w-0 border-y border-border py-5">
+          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-base font-semibold">Evolución de leads por canal</h2>
+            <span className="text-sm text-muted-foreground">{filtered.length} envíos · últimos 500 registros</span>
+          </div>
+          {filtered.length === 0 ? (
+            <p className="py-10 text-center text-sm text-muted-foreground">Sin envíos para los filtros seleccionados.</p>
+          ) : (
+            <ChartContainer config={channelChart} className="h-72 w-full aspect-auto">
+              <BarChart data={chartData} accessibilityLayer>
+                <CartesianGrid vertical={false} stroke="hsl(var(--border))" />
+                <XAxis dataKey="date" tickLine={false} axisLine={false} minTickGap={28} tickFormatter={(date: string) => `${date.slice(8, 10)}/${date.slice(5, 7)}`} />
+                <YAxis allowDecimals={false} tickLine={false} axisLine={false} width={32} />
+                <ChartTooltip content={<ChartTooltipContent labelFormatter={(_, payload) => {
+                  const date = payload[0]?.payload?.date;
+                  return typeof date === "string" ? new Date(`${date}T00:00:00`).toLocaleDateString("es-ES") : "";
+                }} />} />
+                <ChartLegend content={<ChartLegendContent className="flex-wrap gap-x-4 gap-y-2" />} />
+                {(Object.keys(leadChannels) as LeadChannel[]).map(channel => (
+                  <Bar key={channel} dataKey={channel} stackId="leads" fill={`var(--color-${channel})`} isAnimationActive={false} />
+                ))}
+              </BarChart>
+            </ChartContainer>
+          )}
+          {rows.some(row => leadChannel(row) === "unknown") && (
+            <p className="mt-3 text-xs text-muted-foreground">Los envíos sin origen registrado figuran como «Sin atribución», no como directo.</p>
+          )}
+        </section>
+
+          <section className="mb-6">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Procedencia ({filtered.length} envíos)
             </p>
@@ -605,8 +662,7 @@ const AdminWebLeads = () => {
                 ))}
               </div>
             )}
-          </div>
-        </Card>
+          </section>
 
         <div className="mb-4 flex flex-wrap gap-2">
           {(["todos", "error", "pending", "ok"] as const).map((f) => (
@@ -674,6 +730,7 @@ const AdminWebLeads = () => {
                   </div>
 
                   <div className="mt-2 flex flex-wrap gap-x-3 text-[11px] text-muted-foreground/80">
+                    <span>Canal: {canal(r)}</span>
                     {r.page && <span>Página: {r.page}</span>}
                     {r.utm_source && <span>utm_source: {r.utm_source}</span>}
                     {r.utm_campaign && <span>utm_campaign: {r.utm_campaign}</span>}
