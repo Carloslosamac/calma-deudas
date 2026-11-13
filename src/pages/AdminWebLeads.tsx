@@ -19,6 +19,7 @@ import {
   Download,
 } from "lucide-react";
 import Seo from "@/components/seo/Seo";
+import * as XLSX from "xlsx";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart";
 import { dailyLeadSeries, leadChannel, leadChannels, type LeadChannel } from "@/lib/webLeadAnalytics";
@@ -246,54 +247,12 @@ const AdminWebLeads = () => {
       toast.info("No hay envíos para exportar con estos filtros.");
       return;
     }
-    const framed = window.self !== window.top;
-    if (framed) {
-      const standalone = window.open(window.location.href, "_blank", "noopener");
-      if (!standalone) {
-        toast.error("Permite ventanas emergentes para abrir el panel y descargar el Excel.");
-      } else {
-        toast.info("Panel abierto. Pulsa allí «Descargar Excel» una vez.");
-      }
-      return;
-    }
     const rango =
       fromDate || toDate ? `_${fromDate || "inicio"}_${toDate || "hoy"}` : "";
     const filename = `leads-web${rango}.xlsx`;
-    type SaveFilePickerWindow = Window & {
-      showSaveFilePicker?: (options: {
-        suggestedName: string;
-        types: Array<{ description: string; accept: Record<string, string[]> }>;
-      }) => Promise<{
-        createWritable: () => Promise<{
-          write: (data: Blob) => Promise<void>;
-          close: () => Promise<void>;
-        }>;
-      }>;
-    };
-    const savePicker = (window as SaveFilePickerWindow).showSaveFilePicker;
-    let fileHandle: Awaited<ReturnType<NonNullable<typeof savePicker>>> | null = null;
-    if (savePicker) {
-      try {
-        fileHandle = await savePicker({
-          suggestedName: filename,
-          types: [
-            {
-              description: "Archivo Excel",
-              accept: {
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
-              },
-            },
-          ],
-        });
-      } catch (e) {
-        if (e instanceof DOMException && e.name === "AbortError") return;
-        toast.error("No se pudo abrir el selector para guardar el Excel.");
-        return;
-      }
-    }
     setExporting(true);
     try {
-      const XLSX = await import("xlsx");
+      // Generate synchronously so download/share retains the original click activation.
       const data = filtered.map((r) => ({
         Fecha: new Date(r.created_at).toLocaleString("es-ES"),
         Nombre: r.name ?? "",
@@ -317,12 +276,15 @@ const AdminWebLeads = () => {
       const blob = new Blob([out], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      if (fileHandle) {
-        const writable = await fileHandle.createWritable();
-        await writable.write(blob);
-        await writable.close();
-        toast.success(`Excel guardado con ${filtered.length} envíos.`);
-        return;
+      const file = new File([blob], filename, { type: blob.type });
+      if (window.matchMedia("(pointer: coarse)").matches && navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: filename });
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          // Unsupported/blocked sharing falls back to a same-frame download.
+        }
       }
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -333,7 +295,6 @@ const AdminWebLeads = () => {
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 5 * 60 * 1000);
-      toast.success(`Excel preparado con ${filtered.length} envíos.`);
     } catch (e) {
       toast.error(
         `No se pudo descargar: ${e instanceof Error ? e.message : String(e)}.`,
